@@ -1,0 +1,236 @@
+/* =========================================
+   "TECHNICAL CLEAN" DESIGN SYSTEM
+   Purpose: High-density, purposeful, data-first layout.
+   ========================================= */
+
+/* 1. RESET & BASICS */
+:root {
+    --req-color: #00876c;
+    /* Deep Green */
+    --spec-color: #d43d51;
+    /* Deep Red/Orange */
+    --arch-color: #e67f0d;
+    /* Rust */
+    --impl-color: #4c6ef5;
+    /* Tech Blue */
+    --text-main: #1a1a1a;
+    --text-muted: #666666;
+    --border-light: #e0e0e0;
+    --bg-hover: #f8f9fa;
+    --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono-stack: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+}
+
+/* 1.1 RTD THEME OVERRIDES */
+.wy-nav-content {
+    max-width: 1200px !important;
+    /* Expand from default 800px */
+}
+
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+    white-space: normal !important;
+    /* Prevent RTD from forcing horizontal scroll on wide content */
+}
+
+/* Reset RTD's aggressive table styling for Needs */
+table.need {
+    border-collapse: collapse !important;
+    background-color: transparent !important;
+    width: 100% !important;
+}
+
+table.need th,
+table.need td {
+    border: none !important;
+    /* Handled by our card logic */
+    padding: 0 !important;
+    /* Handled by our card logic */
+    background-color: transparent !important;
+}
+
+div.need {
+    font-family: var(--font-stack) !important;
+    margin: 0 0 16px 0 !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 0 !important;
+    /* Sharp corners */
+    box-shadow: none !important;
+    /* No shadows -> Flat */
+    background: #fff !important;
+    overflow: visible !important;
+    /* Allow popouts if needed */
+}
+
+/* 2. PARENT ITEMS (The "Sections") */
+/* Identified by NOT having a dot in ID (e.g. BRD-1) */
+table.need:not([id*="."]) {
+    margin-top: 32px !important;
+    border: 1px solid #ccc !important;
+    border-left-width: 4px !important;
+}
+
+/* Header for Parents */
+table.need:not([id*="."]) .head {
+    background: #f1f3f5 !important;
+    padding: 8px 12px !important;
+    border-bottom: 1px solid var(--border-light) !important;
+}
+
+table.need:not([id*="."]) span.needs_title {
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    color: #000 !important;
+}
+
+/* 3. ATOMIC ITEMS ( The "List" ) */
+/* Target IDs with dots (e.g. NFR-1.1) */
+table.need[id*="."] {
+    width: 100% !important;
+    /* Full width */
+    margin: -1px 0 0 0 !important;
+    /* Collapse borders */
+    border: 1px solid var(--border-light) !important;
+    border-left: 4px solid #ddd !important;
+    /* Semantic line placeholder */
+    border-radius: 0 !important;
+}
+
+/* Semantic Colors (Left Border Only) */
+table.need.needs_type_req[id*="."] {
+    border-left-color: var(--req-color) !important;
+}
+
+table.need.needs_type_spec[id*="."] {
+    border-left-color: var(--spec-color) !important;
+}
+
+table.need.needs_type_constraint[id*="."] {
+    border-left-color: var(--spec-color) !important;
+}
+
+table.need.needs_type_arch[id*="."] {
+    border-left-color: var(--arch-color) !important;
+}
+
+table.need.needs_type_impl[id*="."] {
+    border-left-color: var(--impl-color) !important;
+}
+
+/* Atomic Layout - The "Row" Look */
+table.need[id*="."] .head {
+    background: #fff !important;
+    padding: 6px 12px !important;
+    /* Tight padding */
+    display: flex !important;
+    align-items: center !important;
+    min-height: 28px !important;
+}
+
+table.need[id*="."] .head:hover {
+    background-color: #fff !important;
+    /* Disable hover effect */
+}
+
+/* 6. GLOBAL OVERRIDES */
+/* Disable theme's default table hover for needs (The "Purple" Effect) */
+table.need tbody tr:hover {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Flexbox the content of the header */
+table.need[id*="."] .needs_head.line-block .line {
+    display: flex !important;
+    width: 100% !important;
+    align-items: center !important;
+}
+
+/* ID: Fixed width, Monospace, Left Aligned */
+table.need[id*="."] a.reference.internal {
+    font-family: var(--mono-stack) !important;
+    font-size: 0.8rem !important;
+    color: var(--text-muted) !important;
+    background: #f1f1f1 !important;
+    padding: 1px 6px !important;
+    border-radius: 3px !important;
+    margin-right: 12px !important;
+    min-width: 80px !important;
+    /* Align spacing */
+    text-align: center !important;
+    order: -1 !important;
+    /* Move ID to far left */
+    text-decoration: none !important;
+}
+
+/* Type Label: Tiny Pill */
+table.need[id*="."] span.needs_type_name {
+    font-size: 0.65rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #fff !important;
+    background: #666;
+    padding: 1px 4px !important;
+    border-radius: 2px !important;
+    margin-right: 10px !important;
+    display: inline-block !important;
+    min-width: 60px !important;
+    text-align: center !important;
+}
+
+/* Color code the pills */
+table.need.needs_type_req[id*="."] span.needs_type_name {
+    background: var(--req-color) !important;
+}
+
+table.need.needs_type_spec[id*="."] span.needs_type_name {
+    background: var(--spec-color) !important;
+}
+
+table.need.needs_type_arch[id*="."] span.needs_type_name {
+    background: var(--arch-color) !important;
+}
+
+table.need.needs_type_impl[id*="."] span.needs_type_name {
+    background: var(--impl-color) !important;
+}
+
+/* The Content Title */
+table.need[id*="."] span.needs_title {
+    font-family: var(--font-stack) !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    color: var(--text-main) !important;
+    flex-grow: 1 !important;
+    /* Fill space */
+}
+
+/* 4. METADATA DESTRUCTION (Hide unless vital) */
+table.need[id*="."] tr.meta {
+    display: none !important;
+    /* Hide links by default to save space. User wants clean. */
+}
+
+/* If content is needed (description), style it minimally */
+table.need[id*="."] tr.content td {
+    padding: 4px 12px 8px 105px !important;
+    /* Indent under title (skip ID/Type width) */
+    color: var(--text-muted) !important;
+    font-size: 0.85rem !important;
+    border-top: none !important;
+}
+
+table.need[id*="."] tr.content:empty {
+    display: none !important;
+}
+
+/* 5. SIDEBAR & TOC */
+.bd-sidebar-primary {
+    background: #fafafa;
+    border-right: 1px solid var(--border-light);
+}
+
+.bd-sidebar-primary .reference {
+    font-size: 0.85rem !important;
+    font-family: var(--font-stack) !important;
+}
