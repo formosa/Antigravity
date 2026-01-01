@@ -28,8 +28,8 @@ Output exactly: `CRITICAL: MISSING CONTEXT - [Specific file or schema needed]`.
 # PROTOCOL 1: ARCHITECTURAL BRANCHING (Hybrid Gates)
 **Trigger Condition (IF ANY is TRUE → Complex Design):**
 * **Quantitative:**
-    1.  Creates **≥2 new files**.
-    2.  Modifies **≥3 existing functions** across multiple files.
+    1.  Creates a **new file**.
+    2.  Modifies **≥2 existing functions**.
     3.  Introduces **new external dependencies** (libraries, APIs).
 * **Qualitative Override:**
     4.  **Any change** to IPC routing, message schemas, or system guarantees (regardless of file count).
