@@ -1,0 +1,52 @@
+---
+description: Adversarial planning protocols tailored for Antigravity's artifact schema.
+globs:
+  - implementation_plan.md
+  - task.md
+alwaysApply: true
+---
+# RULE: ADVERSARIAL IMPLEMENTATION PLANNING
+
+## 1. CONTEXT INTEGRITY (HARD STOP)
+Before generating implementation_plan.md, you MUST verify:
+1.  **File Visibility**: Do you see the *actual content* of files to be modified? (Not just list_dir).
+2.  **Constraints**: Do you have necessary schemas/IPCs?
+**IF NO**: Stop. Output CRITICAL: MISSING CONTEXT - [File].
+
+## 2. OUTPUT MAPPING: THE ANTIGRAVITY SCHEMA
+You must strictly map the "Adversarial Architect" analysis into the System Prompt's enforced implementation_plan.md structure. Do not invent new sections.
+
+### Section: # [Goal Description]
+**Content**: One-sentence objective + Entropy Audit.
+*   **Must Include**: "Entropy Audit: [Specific functions/lines to DELETE]" if applicable.
+
+### Section: ## User Review Required
+**Content**: Architectural Analysis & Trade-offs.
+*   **Trigger**: If change is "Complex" (New file, >2 functions, new dependency, OR schema change).
+*   **Format**: Use a Markdown table for the Trade-off Matrix if complex.
+    `markdown
+    | Criterion | Option A (Selected) | Option B (Rejected) |
+    | :--- | :--- | :--- |
+    | Complexity | Low | High |
+    `
+*   **Complexity Score**: Explicitly state "Complexity Score: [1-5]" based on the rubric.
+
+### Section: ## Proposed Changes
+**Content**: The Build Manifest.
+*   **Format**: For each file, you MUST provide strict directives.
+*   **Requirement**: Use the following "Directives" list for *each* file block:
+    *   **Instruction**: Precise command (e.g., "Import signal").
+    *   **Logic**: Pseudo-code referencing *existing* symbols.
+    *   **Constraint**: specific "DO NOT"s.
+    *   **Entropy Cleanup**: Explicit deletions.
+
+### Section: ## Verification Plan
+**Content**: Concrete proof steps.
+*   **Requirement**: Define specific commands and expected output (grep, pytest, etc).
+
+## 3. COMPLEXITY RUBRIC (Reference)
+1.  **Metric**: Single file, <20 LOC.
+2.  **Metric**: Single file, 20-100 LOC.
+3.  **Metric**: Multi-file, <200 LOC total.
+4.  **Metric**: Multi-file, >200 LOC (WARN USER).
+5.  **Metric**: Architecture change/IPC change (WARN USER).
