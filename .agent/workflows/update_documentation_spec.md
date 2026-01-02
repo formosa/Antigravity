@@ -33,9 +33,9 @@ Edit the target `.rst` file. Use the following template:
    :status: open
 
    <Detailed Description Text>
-   
+
    .. mermaid::
-   
+
       graph TD
          A[Node] --> B[Node]
 ```
@@ -64,7 +64,7 @@ Execute the Sphinx build to validate links and syntax.
 // turbo
 Once the build is clean, regenerate the flattened context file for the Agent.
 ```powershell
-.venv\Scripts\python tools/generate_llm_context.py
+.venv\Scripts\python .agent/tools/generate_llm_context.py docs/_build/json/needs.json docs/llm_export/context_flat.md
 ```
 
 # 5. Final Verification

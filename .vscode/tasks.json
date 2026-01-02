@@ -14,7 +14,7 @@
         {
             "label": "Generate Context",
             "type": "shell",
-            "command": "${workspaceFolder}/.venv/Scripts/python tools/generate_llm_context.py docs/_build/json/needs.json docs/llm_export/context_flat.md",
+            "command": "${workspaceFolder}/.venv/Scripts/python .agent/tools/generate_llm_context.py docs/_build/json/needs.json docs/llm_export/context_flat.md",
             "dependsOn": [
                 "Sphinx HTML"
             ],
