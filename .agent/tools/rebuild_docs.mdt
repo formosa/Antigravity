@@ -15,16 +15,16 @@ alias: /rebuild_docs
 
 ## Pre-Execution Steps
 1. **Directory Preparation**:
-   - **Command**: `mkdir -p .agents/tools/temp/`
+   - **Command**: `mkdir -p .agent/tools/temp/`
    - **Note**: Ensures the target log location exists to prevent Sphinx build errors.
 
 2. **Sphinx Build with Log Capture**:
-   - **Command**: `.venv/Scripts/python -m sphinx -b needs docs docs/_build/json -w .agents/tools/temp/refresh-context.log`
+   - **Command**: `.venv/Scripts/python -m sphinx -b needs docs docs/_build/json -w .agent/tools/temp/refresh-context.log`
    - **Effect**: Standard error output containing warnings is redirected into the specified `.log` file.
 
 ## Protocol & Validation
 1. **Warning Audit**:
-   - **Action**: The agent must read `.agents/tools/temp/refresh-context.log`.
+   - **Action**: The agent must read `.agent/tools/temp/refresh-context.log`.
    - **Instruction**: If the file contains any lines starting with `WARNING:`, a total count of these warnings must be reported in the final conversation summary.
 2. **Success Verification**:
    - **Action**: Check if `docs/llm_export/context_flat.md` header is intact.
