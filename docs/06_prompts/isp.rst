@@ -39,10 +39,6 @@ Python Implementation Stubs
    class CoreProcess:
        """
        Orchestrates IPC between services using ZeroMQ ROUTER pattern.
-
-.. spec:: Ref: |TDD-1|,
-   :id: FSD-1
-
        """
        def __init__(self, config_path: str):
            """
@@ -96,10 +92,6 @@ Python Implementation Stubs
        """
        Standard client for Service processes.
        Maintains DEALER (Command) and PUSH (Log) sockets.
-
-.. arch:: Ref: |TDD-2|,
-   :id: SAD-3
-
        """
        def __init__(self, service_name: str, config_path: str):
            """
@@ -150,10 +142,6 @@ Python Implementation Stubs
    class LogServerSink:
        """
        Aggregates logs from all services via PULL socket.
-
-.. spec:: Ref: |TDD-3|,
-   :id: FSD-6
-
        """
        def __init__(self, config_path: str):
            """
@@ -193,10 +181,6 @@ Python Implementation Stubs
    class AbstractTool(ABC):
        """
        Interface for modular functional assets.
-
-.. spec:: Ref: |TDD-4|,
-   :id: FSD-3
-
        """
        @abstractmethod
        def initialize(self, core_context) -> None:
@@ -233,13 +217,9 @@ Python Implementation Stubs
    def audio_worker_loop(client: ServiceClient):
        """
        Real-time audio processing loop.
-
-.. constraint:: Ref: |FSD-4|,
-   :id: NFR-3
-
        """
        # Setup pvporcupine (Wake Word) and webrtcvad (VAD)
-       
+
        while True:
            # 1. Read Audio Chunk
            # 2. Denoise

@@ -12,7 +12,7 @@ def generate_context(needs_json_path, output_md_path):
         sys.exit(1)
 
     needs = data.get('versions', {}).get('0.1', {}).get('needs', {})
-    
+
     # Sort by ID (Hierarchical sort: BRD < NFR < FSD etc)
     # Define Section Order
     section_order = {
@@ -24,7 +24,7 @@ def generate_context(needs_json_path, output_md_path):
         'TDD': 5, 'impl': 5,
         'ISP': 6, 'test': 6
     }
-    
+
     def sort_key(n_id):
         prefix = n_id.split('-')[0]
         # order index
@@ -38,41 +38,50 @@ def generate_context(needs_json_path, output_md_path):
             return [idx, 999]
 
     sorted_ids = sorted(needs.keys(), key=sort_key)
-    
+
     print(f'Processing {len(sorted_ids)} requirements...')
-    
+
     with open(output_md_path, 'w', encoding='utf-8') as out:
         out.write('# Maggie Application Framework - Context Dump\n')
         out.write('> **Format:** Flattened Hierarchy. Optimized for LLM Context.\n\n')
-        
+
         current_section_idx = -1
+        current_sub_section = ""
         section_names = ["1. REQUIREMENTS (BRD)", "2. CONSTRAINTS (NFR)", "3. SPECIFICATIONS (FSD)", "4. ARCHITECTURE (SAD)", "5. DATA CONTRACTS (ICD)", "6. DESIGN BLUEPRINTS (TDD)", "7. TEST PROMPTS (ISP)"]
-        
+
         for n_id in sorted_ids:
             item = needs[n_id]
             prefix = n_id.split('-')[0]
             s_idx = section_order.get(prefix, -1)
-            
+
+            # Top-level Section Header
             if s_idx != current_section_idx and s_idx < len(section_names):
                 if s_idx >= 0:
                     out.write(f'\n## {section_names[s_idx]}\n\n')
                 current_section_idx = s_idx
-            
+                current_sub_section = "" # Reset sub-section on new top-level section
+
+            # Sub-section Header (original RST sections)
+            sub_section = item.get('section_name', '')
+            if sub_section and sub_section != current_sub_section:
+                out.write(f'### {sub_section}\n\n')
+                current_sub_section = sub_section
+
             # Render Item
             # ID | Type | Title
             # Description
             # Links: ...
-            
+
             title = item.get('title', '')
             desc = item.get('content', '')
             links = item.get('links', [])
-            
+
             # Format:
             # **[ID] Title** (Links: ...)
             # Description
-            
+
             link_str = f" -> {', '.join(links)}" if links else ""
-            
+
             out.write(f'**[{n_id}] {title}**{link_str}\n')
             if desc:
                 out.write(f'{desc}\n')
@@ -84,5 +93,5 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Usage: generate_llm_context.py <json_path> <output_path>")
         sys.exit(1)
-    
+
     generate_context(sys.argv[1], sys.argv[2])

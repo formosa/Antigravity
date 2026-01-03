@@ -112,9 +112,6 @@ Component Blueprints
    :id: TDD-2.6
    :links: SAD-4.1,SAD-4
 
-.. impl:: Internal `queue.PriorityQueue` populated by a dedicated `_receiver_thread`.
-   :id: TDD-2.6
-   :links: SAD-4.1
 
 .. impl:: Ordering enforced via `(priority, itertools.count(), message)` tuple.
    :id: TDD-2.7

@@ -4,6 +4,8 @@
 
 ## 1. REQUIREMENTS (BRD)
 
+### BRD — Business Requirements (Context)
+
 **[BRD-1] Project Purpose**
 Develop a fully offline-capable, high-performance, real-time Python AI assistant framework (MAGGIE).
 It **must** integrate modular “Services” for local LLM inference, Text-to-Speech (TTS), Speech-to-Text (STT), and Wake Word Detection (WWD).
@@ -90,6 +92,8 @@ Future Work
 
 ## 2. CONSTRAINTS (NFR)
 
+### NFR — System Constraints (Boundaries)
+
 **[NFR-1] Target Environment** -> BRD-6
 
 **[NFR-1.1] **CPU:** AMD Ryzen 9 5900X (Audio/Core must run here).** -> NFR-1
@@ -172,6 +176,8 @@ Reliability Constraints
 
 
 ## 3. SPECIFICATIONS (FSD)
+
+### FSD — Feature Specifications (Behavior)
 
 **[FSD-1] Process Orchestration** -> BRD-5, NFR-5
 The system must maintain independent but interconnected processes utilizing a multi-process architecture:
@@ -270,6 +276,8 @@ Logging & Observability
 
 ## 4. ARCHITECTURE (SAD)
 
+### SAD — Architecture Definitions (Structure)
+
 **[SAD-1] Architectural Patterns** -> FSD-1.1
 
 **[SAD-1.1] **Hub-and-Spoke:** Core Process acts as the central `ROUTER` (Hub); Services are `DEALER` (Spokes).** -> SAD-1
@@ -364,6 +372,8 @@ Logging & Observability
 
 ## 5. DATA CONTRACTS (ICD)
 
+### ICD — Interface & Data Schemas (Contracts)
+
 **[ICD-1] IPC Configuration (ipc_config.yaml)** -> SAD-5.1, NFR-3.3, NFR-3.4, NFR-3.5, NFR-3.6, NFR-3
 .. code-block:: yaml
 
@@ -453,6 +463,8 @@ Every IPC message frame 0 (Metadata) must validate against:
 
 
 ## 6. DESIGN BLUEPRINTS (TDD)
+
+### TDD — Technical Design (Blueprints)
 
 **[TDD-1] Component: CoreProcess** -> SAD-2, FSD-1.1
 
@@ -554,6 +566,8 @@ Interface Contracts
 
 
 ## 7. TEST PROMPTS (ISP)
+
+### ISP — Implementation Stubs (Prompts)
 
 **[ISP-1] Stub: Core Process** -> TDD-1
 **Implementation Requirements:**

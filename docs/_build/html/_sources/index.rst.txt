@@ -5,6 +5,7 @@ Maggie Documentation
    :maxdepth: 2
    :caption: Contents:
 
+   00_glossary/index
    01_requirements/index
    02_specifications/index
    03_architecture/index

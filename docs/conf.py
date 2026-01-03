@@ -20,13 +20,14 @@ extensions = ['sphinx_needs', 'sphinxcontrib.mermaid']
 
 # -- Sphinx-Needs Configuration ----------------------------------------------
 needs_types = [
-    dict(directive="req", title="Requirement", prefix="R_", color="#BFD8D2", style="node"),
-    dict(directive="constraint", title="Constraint", prefix="C_", color="#ffcccc", style="node"),
-    dict(directive="spec", title="Specification", prefix="S_", color="#FEDCD2", style="node"),
-    dict(directive="arch", title="Architecture", prefix="A_", color="#DF744A", style="node"),
-    dict(directive="schema", title="Contract", prefix="D_", color="#DCB239", style="node"),
-    dict(directive="impl", title="Blueprint", prefix="I_", color="#8FBC8F", style="node"),
-    dict(directive="test", title="Prompt", prefix="T_", color="#E0E0E0", style="node"),
+    dict(directive="req", title="Requirement", prefix="", color="#BFDADC", style="node"),
+    dict(directive="constraint", title="Constraint", prefix="", color="#DF7E35", style="node"),
+    dict(directive="spec", title="Specification", prefix="", color="#F0D27F", style="node"),
+    dict(directive="arch", title="Architecture", prefix="", color="#A1D391", style="node"),
+    dict(directive="schema", title="Contract", prefix="", color="#D3A191", style="node"),
+    dict(directive="impl", title="Blueprint", prefix="", color="#A191D3", style="node"),
+    dict(directive="test", title="Prompt", prefix="", color="#D391A1", style="node"),
+    dict(directive="term", title="Term", prefix="", color="#E8E8E8", style="node"),
 ]
 
 needs_extra_options = [
@@ -35,8 +36,6 @@ needs_extra_options = [
     "layer",
     "latency"
 ]
-
-
 
 needs_id_regex = r"^[A-Z0-9\-\.]+$"
 

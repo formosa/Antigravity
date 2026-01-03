@@ -34,6 +34,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reconciliation Manifest: 06 Prompts" href="reconciliation_manifest.html" />
     <link rel="prev" title="06_prompts" href="index.html" /> 
 </head>
 
@@ -58,6 +59,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../00_glossary/index.html">Glossary of Controlled Terms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../01_requirements/index.html">01_requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../02_specifications/index.html">02_specifications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../03_architecture/index.html">03_architecture</a></li>
@@ -65,6 +67,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../05_design/index.html">05_design</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">06_prompts</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">ISP — Implementation Stubs (Prompts)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reconciliation_manifest.html">Reconciliation Manifest: 06 Prompts</a></li>
 </ul>
 </li>
 </ul>
@@ -97,7 +100,7 @@
   <section id="isp-implementation-stubs-prompts">
 <h1>ISP — Implementation Stubs (Prompts)<a class="headerlink" href="#isp-implementation-stubs-prompts" title="Link to this heading"></a></h1>
 <p>Python Implementation Stubs</p>
-<div class="need_container docutils container" id="SNCB-a6a00e05">
+<div class="need_container docutils container" id="SNCB-df9aaa4a">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-1">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -117,7 +120,7 @@
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-ed4d8387">
+<div class="need_container docutils container" id="SNCB-d7ad4948">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-1.1">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -137,7 +140,7 @@
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-d5dde4c9">
+<div class="need_container docutils container" id="SNCB-1dd959b5">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-1.2">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -157,7 +160,7 @@
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-25ed14ce">
+<div class="need_container docutils container" id="SNCB-56452a4b">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-1.3">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -177,7 +180,7 @@
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-2930a78f">
+<div class="need_container docutils container" id="SNCB-e965b184">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-1.4">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -201,9 +204,37 @@ import queue
 import itertools
 import threading
 from transitions import Machine</p>
-<dl class="simple">
+<dl>
 <dt>class CoreProcess:</dt><dd><p>“””
-Orchestrates IPC between services using ZeroMQ ROUTER pattern.</p>
+Orchestrates IPC between services using ZeroMQ ROUTER pattern.
+“””
+def __init__(self, config_path: str):</p>
+<blockquote>
+<div><p>“””
+Initialize ZMQ Context, Bind ROUTER.
+Init self.active_requests = {} (ID -&gt; Identity, Ts, Cmd).
+Init self.queue = PriorityQueue(maxsize).
+Init self.counter = itertools.count().
+“””
+pass</p>
+</div></blockquote>
+<dl class="simple">
+<dt>def _start_receiver_thread(self) -&gt; None:</dt><dd><p>“””
+Spawns a daemon thread running a ZMQ Poller.
+Parse: [client_identity, b’’, metadata, payload…]
+Put (priority, next(counter), (client_identity, frames)) into queue.
+“””
+pass</p>
+</dd>
+<dt>def run(self) -&gt; None:</dt><dd><p>“””
+Main Event Loop.
+1. Process self.queue (Priority).
+2. Check timeouts in self.active_requests (&gt;5.0s).
+3. Drive HSM transitions (enter_processing, enter_error).
+“””
+pass</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </td>
@@ -211,7 +242,7 @@ Orchestrates IPC between services using ZeroMQ ROUTER pattern.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-b757364e">
+<div class="need_container docutils container" id="SNCB-1d0b041e">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-2">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -231,7 +262,7 @@ Orchestrates IPC between services using ZeroMQ ROUTER pattern.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-26e753ec">
+<div class="need_container docutils container" id="SNCB-4cda438c">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-2.1">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -251,7 +282,7 @@ Orchestrates IPC between services using ZeroMQ ROUTER pattern.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-4acf1f88">
+<div class="need_container docutils container" id="SNCB-e389e0fd">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-2.2">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -271,7 +302,7 @@ Orchestrates IPC between services using ZeroMQ ROUTER pattern.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-e47d74f0">
+<div class="need_container docutils container" id="SNCB-3ff1d38b">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-2.3">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -289,10 +320,34 @@ Orchestrates IPC between services using ZeroMQ ROUTER pattern.</p>
 <tr class="need content row-odd"><td class="need content" colspan="1"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<dl class="simple">
+<dl>
 <dt>class ServiceClient:</dt><dd><p>“””
 Standard client for Service processes.
-Maintains DEALER (Command) and PUSH (Log) sockets.</p>
+Maintains DEALER (Command) and PUSH (Log) sockets.
+“””
+def __init__(self, service_name: str, config_path: str):</p>
+<blockquote>
+<div><p>“””
+Connects DEALER and PUSH sockets based on <a href="#id1"><span class="problematic" id="id2">|ICD-1|</span></a>.
+Sets PUSH socket to SNDHWM=1, LINGER=0 (Fire-and-Forget).
+Starts receiver thread.
+“””
+pass</p>
+</div></blockquote>
+<dl class="simple">
+<dt>def send_request(self, command: str, payload: dict, priority: int = 1) -&gt; None:</dt><dd><p>“””
+Constructs metadata <a href="#id3"><span class="problematic" id="id4">|ICD-3|</span></a> and sends via DEALER.
+“””
+pass</p>
+</dd>
+<dt>def send_log(self, level: str, message: str, request_id: str = None) -&gt; None:</dt><dd><p>“””
+Fire-and-forget log emission.
+Constructs frame: [Metadata(<a href="#id5"><span class="problematic" id="id6">|ICD-3|</span></a>), Message].
+Must swallow zmq.Again exceptions.
+“””
+pass</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </td>
@@ -300,7 +355,7 @@ Maintains DEALER (Command) and PUSH (Log) sockets.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-c37aea16">
+<div class="need_container docutils container" id="SNCB-2a3e1af3">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-3">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -320,7 +375,7 @@ Maintains DEALER (Command) and PUSH (Log) sockets.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-d838460b">
+<div class="need_container docutils container" id="SNCB-16c1efa7">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-3.1">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -340,7 +395,7 @@ Maintains DEALER (Command) and PUSH (Log) sockets.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-67bb8c1c">
+<div class="need_container docutils container" id="SNCB-a52cce57">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-3.2">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -360,7 +415,7 @@ Maintains DEALER (Command) and PUSH (Log) sockets.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-d0dcbeb0">
+<div class="need_container docutils container" id="SNCB-e532c23f">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-3.3">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -379,9 +434,26 @@ Maintains DEALER (Command) and PUSH (Log) sockets.</p>
 </pre></div>
 </div>
 <p>from loguru import logger</p>
-<dl class="simple">
+<dl>
 <dt>class LogServerSink:</dt><dd><p>“””
-Aggregates logs from all services via PULL socket.</p>
+Aggregates logs from all services via PULL socket.
+“””
+def __init__(self, config_path: str):</p>
+<blockquote>
+<div><p>“””
+Bind PULL socket.
+Configure Loguru (Rotation: 50MB, Retention: 30 Days).
+“””
+pass</p>
+</div></blockquote>
+<dl class="simple">
+<dt>def run(self) -&gt; None:</dt><dd><p>“””
+Tight Poll Loop (1ms).
+Parse [metadata, message] -&gt; logger.log().
+“””
+pass</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </td>
@@ -389,7 +461,7 @@ Aggregates logs from all services via PULL socket.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-63645f02">
+<div class="need_container docutils container" id="SNCB-bf87851e">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-4">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -409,7 +481,7 @@ Aggregates logs from all services via PULL socket.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-8b8d161b">
+<div class="need_container docutils container" id="SNCB-12242e17">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-4.1">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -429,7 +501,7 @@ Aggregates logs from all services via PULL socket.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-615cbfb1">
+<div class="need_container docutils container" id="SNCB-14505a38">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-4.2">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -449,9 +521,27 @@ Aggregates logs from all services via PULL socket.</p>
 </div>
 <p>from abc import ABC, abstractmethod
 from typing import List, Dict</p>
-<dl class="simple">
+<dl>
 <dt>class AbstractTool(ABC):</dt><dd><p>“””
-Interface for modular functional assets.</p>
+Interface for modular functional assets.
+“””
+&#64;abstractmethod
+def initialize(self, core_context) -&gt; None:</p>
+<blockquote>
+<div><p>pass</p>
+</div></blockquote>
+<p>&#64;abstractmethod
+def get_hsm_states(self) -&gt; List[Dict]:</p>
+<blockquote>
+<div><p>“””Return state definitions for dynamic compilation.”””
+pass</p>
+</div></blockquote>
+<p>&#64;abstractmethod
+def handle_event(self, event_data: Dict) -&gt; str:</p>
+<blockquote>
+<div><p>“””Process logic and return next trigger.”””
+pass</p>
+</div></blockquote>
 </dd>
 </dl>
 </td>
@@ -459,7 +549,7 @@ Interface for modular functional assets.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-ee1aa27a">
+<div class="need_container docutils container" id="SNCB-ae7bbd32">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-5">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -479,7 +569,7 @@ Interface for modular functional assets.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-055fcae3">
+<div class="need_container docutils container" id="SNCB-30dd63e5">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-5.1">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -499,7 +589,7 @@ Interface for modular functional assets.</p>
 </tbody>
 </table>
 </div>
-<div class="need_container docutils container" id="SNCB-754b4dcd">
+<div class="need_container docutils container" id="SNCB-db056e0e">
 <table class="need needs_grid_simple needs_layout_clean needs_style_none needs_type_test docutils align-default" id="ISP-5.2">
 <tbody>
 <tr class="need head row-odd"><td class="need head"><div class="needs_head line-block">
@@ -517,9 +607,20 @@ Interface for modular functional assets.</p>
 <tr class="need content row-odd"><td class="need content" colspan="1"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<dl class="simple">
+<dl>
 <dt>def audio_worker_loop(client: ServiceClient):</dt><dd><p>“””
-Real-time audio processing loop.</p>
+Real-time audio processing loop.
+“””
+# Setup pvporcupine (Wake Word) and webrtcvad (VAD)</p>
+<dl class="simple">
+<dt>while True:</dt><dd><p># 1. Read Audio Chunk
+# 2. Denoise
+# 3. Check Wake Word -&gt; client.send_request(“WAKE_WORD”) IF Core is IDLE
+# 4. Check VAD -&gt; Buffer for STT
+# 5. Handle inbound IPC messages (client.poll_queue)
+pass</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </td>
@@ -534,6 +635,7 @@ Real-time audio processing loop.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="06_prompts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reconciliation_manifest.html" class="btn btn-neutral float-right" title="Reconciliation Manifest: 06 Prompts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
