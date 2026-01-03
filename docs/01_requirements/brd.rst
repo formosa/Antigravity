@@ -22,6 +22,8 @@ Strategic Context
 .. req:: Business Rationale
    :id: BRD-3
 
+   Rationale for business decisions.
+
 .. req:: **Privacy & Offline:** Enable operation without internet dependency or data leakage.
    :id: BRD-3.1
    :links: BRD-3
@@ -55,6 +57,8 @@ Strategic Context
 
 .. req:: High-level Scope
    :id: BRD-5
+
+   Scope definition.
 
 .. req:: Offline, multi-process Python framework.
    :id: BRD-5.1
@@ -180,4 +184,4 @@ Strategic Context
    :roadmap_version: "5.0"
    :template_version: "1.0"
    :status: "Active"
-   
+

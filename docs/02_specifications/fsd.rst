@@ -56,9 +56,9 @@ System Core Capabilities
    :id: FSD-2.4
    :links: FSD-2
 
-  - `sleeping` (Start): Low power, UI Dark, Input Locked.
-  - `waking`: Triggered by `WAKE_WORD` or `GUI_INTERACTION`.
-  - `active`: Normal operation, UI Bright, Input Unlocked.
+   - `sleeping` (Start): Low power, UI Dark, Input Locked.
+   - `waking`: Triggered by `WAKE_WORD` or `GUI_INTERACTION`.
+   - `active`: Normal operation, UI Bright, Input Unlocked.
 
 
 .. spec:: Modular Extensions (Tools/Routines)
@@ -217,8 +217,8 @@ System Core Capabilities
    :id: FSD-9.4
    :links: FSD-9
 
-  - *Sleep -> Waking (Click):* Play "Yes? Just one moment, please."
-  - *Waking -> Active:* Play "How can I assist you."
+   - *Sleep -> Waking (Click):* Play "Yes? Just one moment, please."
+   - *Waking -> Active:* Play "How can I assist you."
 
 
 

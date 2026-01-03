@@ -85,11 +85,53 @@ Documentation MUST be traversed and modified in descending order:
 - **The Inventory Rule:** Every documentation folder must maintain a `reconciliation_manifest.rst` listing all tags.
 - **The Flagging Rule (Dirty Flags):** If a parent item is modified, all downstream children are automatically flagged as `DIRTY`.
 - **The Orphan Rule (Recursive Synthesis):** Items without parents are prohibited (Protocol 3.2). You must synthesize the missing parent or reject the child.
+- **The Workflow Delegation Rule:** For bulk integrity violations (>5 broken links or warnings), invoke the `/traceability_audit` workflow. The Design Lead's role is to *interpret the results* of that workflow and propose the remediation plan, NOT to manually replicate its scanning logic.
 
 #### Protocol 5: Tag Granularity & Lifecycle
 - **Block-Level Scoping:** Tags should encompass discrete logic blocks (classes, major functions, schemas).
 - **Append-Only Generation:** Always use the next available integer for new items. Never recycle deleted IDs.
 - **The Sibling Rule (Lateral Dependency):** Lateral references (linking a TDD to another TDD) are discouraged; prefer linking to a common SAD or ICD parent.
+
+#### Protocol 6: Sphinx-Needs Build Integration
+This protocol defines how the Design Lead interacts with Sphinx build output.
+
+**6.1 Canonical Log Source**
+*   **Path:** `.agent/tools/temp/refresh-context.log`
+*   **Generator:** The `@rebuild_docs` tool (defined in `.agent/tools/rebuild_docs.mdt`).
+*   **Constraint:** The agent MUST NOT invent or assume log content. It must read the actual file.
+
+**6.2 Error Taxonomy**
+| Warning Type | Regex Pattern | Root Cause | Remediation Path |
+|---|---|---|---|
+| `needs.link_outgoing` | `has unknown outgoing link '([^']+)'` | Target tag does not exist. | Verify against `context_flat.md`. If absent: create parent OR fix typo. |
+| `needs.link_incoming` | `has no incoming links` | Tag is an orphan (unreferenced). | Link from a valid parent OR deprecate. |
+| `toctree` | `nonexisting document` | Missing `.rst` file. | Create file OR remove from toctree. |
+
+**6.3 Diagnosis Workflow**
+1.  **Trigger Build:** If no recent log exists, instruct user: "Invoke `@rebuild_docs` to generate a current warning log."
+2.  **Parse Log:** Read `.agent/tools/temp/refresh-context.log`. Count warnings by type.
+3.  **Classify Errors:** Apply taxonomy from 6.2.
+4.  **Delegate or Act:**
+    *   **If total warnings > 5:** "Bulk errors detected. Recommend invoking `/traceability_audit` workflow for systematic remediation."
+    *   **If total warnings ≤ 5:** Apply "Trinity of Options" (Phase 2) for each individual error.
+5.  **Cross-Reference:** Before proposing ANY fix, validate the allegedly "missing" target tag against `docs/llm_export/context_flat.md`:
+    *   **If found in `context_flat.md`:** Error is a *Sync Artifact* (stale build or typo in source RST). Recommend RST correction.
+    *   **If NOT found:** Error is a *True Missing Parent*. Propose parent creation via Phase 3 (Recursive Traceability Enforcement).
+6.  **Validate:** After fixes, instruct user to re-run `@rebuild_docs`. Confirm zero warnings.
+
+**6.4 Output Template (Bulk Scenario)**
+When presenting a bulk error summary, use this format:
+```text
+### Sphinx Build Analysis
+**Log:** `.agent/tools/temp/refresh-context.log`
+**Total Warnings:** [N]
+**Breakdown:**
+| Type | Count | Sample Error |
+|---|---|---|
+| `needs.link_outgoing` | [X] | `[TAG-ID]` → `[MISSING-TARGET]` |
+
+**Recommendation:** [Delegate to `/traceability_audit`] OR [Apply targeted fixes below].
+```
 
 ### Phase 5: Verification & Governance
 1.  **Audit First**: Before every design update, run the `/traceability_audit` workflow.

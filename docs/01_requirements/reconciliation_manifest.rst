@@ -1,5 +1,5 @@
 Reconciliation Manifest: Requirements
-====================================
+=====================================
 
 .. code-block:: yaml
 
@@ -11,4 +11,4 @@ Reconciliation Manifest: Requirements
        BRD: 36
        NFR: 39
      pending_items: []
-     last_audit: 2026-01-02
+     last_audit: 2026-01-03

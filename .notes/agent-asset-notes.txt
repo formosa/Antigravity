@@ -1,0 +1,45 @@
+# REVIEW
+So, I want to review what we've covered to make sure I understand this correctly.
+
+
+## AGENT PERSONA: `.agents/personas/my-custom-agent.mdc`
+
+ - Can be invoked as the primary agent in a conversation using **Direct Activation** with the *default* trigger, "/my-custom-agent"
+
+ - Can be invoked as the primary agent in a conversation using **Direct Activation** with the *custom* trigger, "/awesome-agent" if the YAML frontmatter of the agent definition in, `.agents/personas/my-custom-agent.mdc` contains the property, "alias: /awesome-agent"
+
+ - Can be consulted for a specific task from within a conversation with a different agent persona by using **Contextual Switching** with the *default* trigger, "@my-custom-agent"
+
+ - Can be consulted for a specific task from within a conversation with a different agent persona by using **Contextual Switching** with the *custom* trigger, "@awesome-agent" if the YAML frontmatter of the agent definition in, `.agents/personas/my-custom-agent.mdc` contains the property, "alias: /awesome-agent"
+
+ - Can be invoked in a, "worker thread" capacity within a workflow file by using specifying call, such as, "- **Trigger**: `/my-custom-agent`" for the execution of subsequent process steps until another agent person is identified
+
+ - Can be invoked in a, "consultant" capacity within a workflow file by using a specifying instruction, such as, "Consult @my-custom-agent for a compliance check on the resulting directory structure"
+
+
+## AGENT RULE: `.agents/rules/move-to-trash.mdc`
+
+*note:* The agent rule described by `.agents/rules/move-to-trash.mdc` dictates that whenever a determination is made to delete an existing file, that file should be moved to the file location `.trash/` instead of being deleted.
+
+ - Can be invoked at all times by establishing the property, "alwaysApply: true" within the YAML frontmatter of the file, `.agents/rules/move-to-trash.mdc`
+
+ - If the property, "alwaysApply: false" is established within the YAML frontmatter of the file, `.agents/rules/move-to-trash.mdc` then that applies the implicit application of the property, "activationMode: model-decision"
+
+ - If the property, "activationMode: always" is established within the YAML frontmatter of the file, `.agents/rules/move-to-trash.mdc` then this is equivalent to the property, "alwaysApply: true"
+
+ - If the property, "activationMode: manual" is established within the YAML frontmatter of the file, `.agents/rules/move-to-trash.mdc` then the rule must be triggered by using **Contextual Switching** with, "@move-to-trash"
+
+ - If the YAML frontmatter of the file, `.agents/rules/move-to-trash.mdc` contains the property, "activationMode: manual" and the property, "alias: /use-trash" then the rule can be triggered using **Contextual Switching** with, "@use-trash"
+
+ - There is no **Direct Activation** calling syntax for agent rules; "/move-to-trash" and "/use-trash" are both *invalid* triggers
+
+
+ ## AGENT WORKFLOW: `.agents/workflows/special-process.mdc`
+
+  - Can be invoked at all times by using **Direct Activation** with the *default* trigger, "/special-process"
+
+  - Implicitly establishes the YAML frontmatter property, "activationMode: model-decision" by *default*
+
+  - Can be invoked at all times by using **Direct Activation** with the *custom* trigger, "/sprocess" if the YAML frontmatter of the workflow definition in, `.agents/workflows/special-process.mdc` contains the property, "alias: /sprocess"
+
+  - There is no **Contextual Switching** calling syntax for agent workflows; "@special-process" and "@sprocess" are both *invalid* triggers

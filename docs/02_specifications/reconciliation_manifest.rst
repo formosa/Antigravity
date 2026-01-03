@@ -1,5 +1,5 @@
 Reconciliation Manifest: 02 Specifications
-====================================
+===========================================
 
 .. code-block:: yaml
 
@@ -10,4 +10,4 @@ Reconciliation Manifest: 02 Specifications
      tag_inventory:
        FSD: 46
      pending_items: []
-     last_audit: 2026-01-02
+     last_audit: 2026-01-03

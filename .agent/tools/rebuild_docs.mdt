@@ -30,5 +30,5 @@ alias: /rebuild_docs
    - **Action**: Check if `docs/llm_export/context_flat.md` header is intact.
 
 ## Rules
-- **Artifact**: The log file `.agents/tools/temp/refresh-context.log` must be treated as a persistent artifact for this session.
+- **Artifact**: The log file `.agent/tools/temp/refresh-context.log` must be treated as a persistent artifact for this session.
 - **Reporting**: If more than 5 warnings are detected, the agent should suggest a "Documentation Cleanup" follow-up task.

@@ -16,6 +16,7 @@ Enable responsive, privacy-preserving AI assistant capabilities without dependen
 The system **must** ensure fault tolerance, maintainability, and deterministic state transitions via an HSM.
 
 **[BRD-3] Business Rationale**
+Rationale for business decisions.
 
 **[BRD-3.1] **Privacy & Offline:** Enable operation without internet dependency or data leakage.** -> BRD-3
 
@@ -34,6 +35,7 @@ The framework requires a high-performance, non-blocking, and fault-isolating Int
 System Scope
 
 **[BRD-5] High-level Scope**
+Scope definition.
 
 **[BRD-5.1] Offline, multi-process Python framework.** -> BRD-5
 
@@ -377,38 +379,38 @@ Logging & Observability
 **[ICD-1] IPC Configuration (ipc_config.yaml)** -> SAD-5.1, NFR-3.3, NFR-3.4, NFR-3.5, NFR-3.6, NFR-3
 .. code-block:: yaml
 
-core:
-  router_bind: "tcp://127.0.0.1:5555"
-  push_connect: "tcp://127.0.0.1:5556"    # Added for Core logging
-  router_hwm: 1000
-  queue_maxsize: 1000
-  poll_timeout_ms: 100
-  response_timeout_s: 5.0
-  extensions:
-    path: "./extensions"      # Root for tools/routines discovery
+   core:
+     router_bind: "tcp://127.0.0.1:5555"
+     push_connect: "tcp://127.0.0.1:5556"    # Added for Core logging
+     router_hwm: 1000
+     queue_maxsize: 1000
+     poll_timeout_ms: 100
+     response_timeout_s: 5.0
+     extensions:
+       path: "./extensions"      # Root for tools/routines discovery
 
-logserver:
-  pull_bind: "tcp://127.0.0.1:5556"
-  poll_timeout_ms: 1      # Tight loop for high throughput
-  log_rotation_mb: 50
-  log_retention_days: 30
+   logserver:
+     pull_bind: "tcp://127.0.0.1:5556"
+     poll_timeout_ms: 1      # Tight loop for high throughput
+     log_rotation_mb: 50
+     log_retention_days: 30
 
-services:
-  ui:
-    dealer_connect: "tcp://127.0.0.1:5555"
-    push_connect: "tcp://127.0.0.1:5556"
-    queue_maxsize: 100
-    poll_timeout_ms: 100
-  runtime:
-    dealer_connect: "tcp://127.0.0.1:5555"
-    push_connect: "tcp://127.0.0.1:5556"
-    queue_maxsize: 50
-    poll_timeout_ms: 100
-  audio:
-    dealer_connect: "tcp://127.0.0.1:5555"
-    push_connect: "tcp://127.0.0.1:5556"
-    queue_maxsize: 50
-    poll_timeout_ms: 10
+   services:
+     ui:
+       dealer_connect: "tcp://127.0.0.1:5555"
+       push_connect: "tcp://127.0.0.1:5556"
+       queue_maxsize: 100
+       poll_timeout_ms: 100
+     runtime:
+       dealer_connect: "tcp://127.0.0.1:5555"
+       push_connect: "tcp://127.0.0.1:5556"
+       queue_maxsize: 50
+       poll_timeout_ms: 100
+     audio:
+       dealer_connect: "tcp://127.0.0.1:5555"
+       push_connect: "tcp://127.0.0.1:5556"
+       queue_maxsize: 50
+       poll_timeout_ms: 10
 
 Message Protocols
 
@@ -437,29 +439,30 @@ Every IPC message frame 0 (Metadata) must validate against:
 
 .. code-block:: json
 
-{
-  "source": "UI | Audio | Runtime | Core",
-  "destination": "Target_Service_Name",
-  "command": "function_name_or_signal",
-  "request_id": "uuid-v4-string",
-  "timestamp": "ISO-8601-string",
-  "priority": 1,
-  "payload_type": "json | binary | text"
-}
-// Note: Priority 0 = High, 1 = Normal
+   {
+     "source": "UI | Audio | Runtime | Core",
+     "destination": "Target_Service_Name",
+     "command": "function_name_or_signal",
+     "request_id": "uuid-v4-string",
+     "timestamp": "ISO-8601-string",
+     "priority": 1,
+     "payload_type": "json | binary | text"
+   }
+
+Note: Priority 0 = High, 1 = Normal
 
 **[ICD-4] Response Payload Schema** -> ICD-3
 .. code-block:: json
 
-{
-  "source": "Runtime",
-  "destination": "UI",
-  "command": "llm_inference_response",
-  "request_id": "uuid-echoed",
-  "timestamp": "ISO-8601-string",
-  "status": "success | error",
-  "error_code": "optional_string_or_null"
-}
+   {
+     "source": "Runtime",
+     "destination": "UI",
+     "command": "llm_inference_response",
+     "request_id": "uuid-echoed",
+     "timestamp": "ISO-8601-string",
+     "status": "success | error",
+     "error_code": "optional_string_or_null"
+   }
 
 
 ## 6. DESIGN BLUEPRINTS (TDD)
@@ -581,42 +584,42 @@ Interface Contracts
 **[ISP-1.4] **HSM:** Setup `transitions.Machine` with states from `FSD-2`.** -> TDD-1.6, FSD-2.3, FSD-2
 .. code-block:: python
 
-import zmq
-import yaml
-import queue
-import itertools
-import threading
-from transitions import Machine
+   import zmq
+   import yaml
+   import queue
+   import itertools
+   import threading
+   from transitions import Machine
 
-class CoreProcess:
-    """
-    Orchestrates IPC between services using ZeroMQ ROUTER pattern.
-    """
-    def __init__(self, config_path: str):
-        """
-        Initialize ZMQ Context, Bind ROUTER.
-        Init self.active_requests = {} (ID -> Identity, Ts, Cmd).
-        Init self.queue = PriorityQueue(maxsize).
-        Init self.counter = itertools.count().
-        """
-        pass
+   class CoreProcess:
+       """
+       Orchestrates IPC between services using ZeroMQ ROUTER pattern.
+       """
+       def __init__(self, config_path: str):
+           """
+           Initialize ZMQ Context, Bind ROUTER.
+           Init self.active_requests = {} (ID -> Identity, Ts, Cmd).
+           Init self.queue = PriorityQueue(maxsize).
+           Init self.counter = itertools.count().
+           """
+           pass
 
-    def _start_receiver_thread(self) -> None:
-        """
-        Spawns a daemon thread running a ZMQ Poller.
-        Parse: [client_identity, b'', metadata, payload...]
-        Put (priority, next(counter), (client_identity, frames)) into queue.
-        """
-        pass
+       def _start_receiver_thread(self) -> None:
+           """
+           Spawns a daemon thread running a ZMQ Poller.
+           Parse: [client_identity, b'', metadata, payload...]
+           Put (priority, next(counter), (client_identity, frames)) into queue.
+           """
+           pass
 
-    def run(self) -> None:
-        """
-        Main Event Loop.
-        1. Process self.queue (Priority).
-        2. Check timeouts in self.active_requests (>5.0s).
-        3. Drive HSM transitions (enter_processing, enter_error).
-        """
-        pass
+       def run(self) -> None:
+           """
+           Main Event Loop.
+           1. Process self.queue (Priority).
+           2. Check timeouts in self.active_requests (>5.0s).
+           3. Drive HSM transitions (enter_processing, enter_error).
+           """
+           pass
 
 **[ISP-2] Stub: Service Client** -> TDD-2
 **Implementation Requirements:**
@@ -628,32 +631,32 @@ class CoreProcess:
 **[ISP-2.3] **Threading:** Implement `_receiver_thread` to populate internal `PriorityQueue`.** -> TDD-2.6, TDD-2
 .. code-block:: python
 
-class ServiceClient:
-    """
-    Standard client for Service processes.
-    Maintains DEALER (Command) and PUSH (Log) sockets.
-    """
-    def __init__(self, service_name: str, config_path: str):
-        """
-        Connects DEALER and PUSH sockets based on |ICD-1|.
-        Sets PUSH socket to SNDHWM=1, LINGER=0 (Fire-and-Forget).
-        Starts receiver thread.
-        """
-        pass
+   class ServiceClient:
+       """
+       Standard client for Service processes.
+       Maintains DEALER (Command) and PUSH (Log) sockets.
+       """
+       def __init__(self, service_name: str, config_path: str):
+           """
+           Connects DEALER and PUSH sockets based on ICD-1.
+           Sets PUSH socket to SNDHWM=1, LINGER=0 (Fire-and-Forget).
+           Starts receiver thread.
+           """
+           pass
 
-    def send_request(self, command: str, payload: dict, priority: int = 1) -> None:
-        """
-        Constructs metadata |ICD-3| and sends via DEALER.
-        """
-        pass
+       def send_request(self, command: str, payload: dict, priority: int = 1) -> None:
+           """
+           Constructs metadata (ICD-3) and sends via DEALER.
+           """
+           pass
 
-    def send_log(self, level: str, message: str, request_id: str = None) -> None:
-        """
-        Fire-and-forget log emission.
-        Constructs frame: [Metadata(|ICD-3|), Message].
-        Must swallow zmq.Again exceptions.
-        """
-        pass
+       def send_log(self, level: str, message: str, request_id: str = None) -> None:
+           """
+           Fire-and-forget log emission.
+           Constructs frame: [Metadata(ICD-3), Message].
+           Must swallow zmq.Again exceptions.
+           """
+           pass
 
 **[ISP-3] Stub: LogServer Sink** -> TDD-3
 **Implementation Requirements:**
@@ -665,25 +668,25 @@ class ServiceClient:
 **[ISP-3.3] **Storage:** Configure `loguru` rotation/retention policies.** -> TDD-3.6, TDD-3
 .. code-block:: python
 
-from loguru import logger
+   from loguru import logger
 
-class LogServerSink:
-    """
-    Aggregates logs from all services via PULL socket.
-    """
-    def __init__(self, config_path: str):
-        """
-        Bind PULL socket.
-        Configure Loguru (Rotation: 50MB, Retention: 30 Days).
-        """
-        pass
+   class LogServerSink:
+       """
+       Aggregates logs from all services via PULL socket.
+       """
+       def __init__(self, config_path: str):
+           """
+           Bind PULL socket.
+           Configure Loguru (Rotation: 50MB, Retention: 30 Days).
+           """
+           pass
 
-    def run(self) -> None:
-        """
-        Tight Poll Loop (1ms).
-        Parse [metadata, message] -> logger.log().
-        """
-        pass
+       def run(self) -> None:
+           """
+           Tight Poll Loop (1ms).
+           Parse [metadata, message] -> logger.log().
+           """
+           pass
 
 **[ISP-4] Stub: Tool/Routine Interface** -> TDD-4
 **Implementation Requirements:**
@@ -693,26 +696,26 @@ class LogServerSink:
 **[ISP-4.2] **Contract:** Enforce `initialize`, `get_hsm_states`, and `handle_event`.** -> TDD-4.2, TDD-4.3, TDD-4.4, TDD-4
 .. code-block:: python
 
-from abc import ABC, abstractmethod
-from typing import List, Dict
+   from abc import ABC, abstractmethod
+   from typing import List, Dict
 
-class AbstractTool(ABC):
-    """
-    Interface for modular functional assets.
-    """
-    @abstractmethod
-    def initialize(self, core_context) -> None:
-        pass
+   class AbstractTool(ABC):
+       """
+       Interface for modular functional assets.
+       """
+       @abstractmethod
+       def initialize(self, core_context) -> None:
+           pass
 
-    @abstractmethod
-    def get_hsm_states(self) -> List[Dict]:
-        """Return state definitions for dynamic compilation."""
-        pass
+       @abstractmethod
+       def get_hsm_states(self) -> List[Dict]:
+           """Return state definitions for dynamic compilation."""
+           pass
 
-    @abstractmethod
-    def handle_event(self, event_data: Dict) -> str:
-        """Process logic and return next trigger."""
-        pass
+       @abstractmethod
+       def handle_event(self, event_data: Dict) -> str:
+           """Process logic and return next trigger."""
+           pass
 
 **[ISP-5] Stub: Audio Worker Loop** -> FSD-4, NFR-3
 **Implementation Requirements:**
@@ -722,19 +725,34 @@ class AbstractTool(ABC):
 **[ISP-5.2] **Constraint:** Check Core State (`idle`) before sending Wake Word events.** -> FSD-4.2, FSD-4
 .. code-block:: python
 
-def audio_worker_loop(client: ServiceClient):
-    """
-    Real-time audio processing loop.
-    """
-    # Setup pvporcupine (Wake Word) and webrtcvad (VAD)
+   def audio_worker_loop(client: ServiceClient):
+       """
+       Real-time audio processing loop.
+       """
+       # Setup pvporcupine (Wake Word) and webrtcvad (VAD)
 
-    while True:
-        # 1. Read Audio Chunk
-        # 2. Denoise
-        # 3. Check Wake Word -> client.send_request("WAKE_WORD") IF Core is IDLE
-        # 4. Check VAD -> Buffer for STT
-        # 5. Handle inbound IPC messages (client.poll_queue)
-        pass
+       while True:
+           # 1. Read Audio Chunk
+           # 2. Denoise
+           # 3. Check Wake Word -> client.send_request("WAKE_WORD") IF Core is IDLE
+           # 4. Check VAD -> Buffer for STT
+           # 5. Handle inbound IPC messages (client.poll_queue)
+           pass
+
+### FSD — Feature Specifications (Behavior)
+
+**[7D2AF] **Audio Feedback:**
+ :id: FSD-9.4
+ :links: FSD-9**
+- *Sleep -> Waking (Click):* Play "Yes? Just one moment, please."
+- *Waking -> Active:* Play "How can I assist you."
+
+**[C6B06] **Transitions:**
+ :id: FSD-2.4
+ :links: FSD-2**
+- `sleeping` (Start): Low power, UI Dark, Input Locked.
+- `waking`: Triggered by `WAKE_WORD` or `GUI_INTERACTION`.
+- `active`: Normal operation, UI Bright, Input Unlocked.
 
 ### Controlled Terms
 

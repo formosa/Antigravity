@@ -1,5 +1,5 @@
 Reconciliation Manifest: 03 Architecture
-====================================
+=========================================
 
 .. code-block:: yaml
 

@@ -10,38 +10,38 @@ Configuration Schemas
 
    .. code-block:: yaml
 
-   core:
-     router_bind: "tcp://127.0.0.1:5555"
-     push_connect: "tcp://127.0.0.1:5556"    # Added for Core logging
-     router_hwm: 1000
-     queue_maxsize: 1000
-     poll_timeout_ms: 100
-     response_timeout_s: 5.0
-     extensions:
-       path: "./extensions"      # Root for tools/routines discovery
+      core:
+        router_bind: "tcp://127.0.0.1:5555"
+        push_connect: "tcp://127.0.0.1:5556"    # Added for Core logging
+        router_hwm: 1000
+        queue_maxsize: 1000
+        poll_timeout_ms: 100
+        response_timeout_s: 5.0
+        extensions:
+          path: "./extensions"      # Root for tools/routines discovery
 
-   logserver:
-     pull_bind: "tcp://127.0.0.1:5556"
-     poll_timeout_ms: 1      # Tight loop for high throughput
-     log_rotation_mb: 50
-     log_retention_days: 30
+      logserver:
+        pull_bind: "tcp://127.0.0.1:5556"
+        poll_timeout_ms: 1      # Tight loop for high throughput
+        log_rotation_mb: 50
+        log_retention_days: 30
 
-   services:
-     ui:
-       dealer_connect: "tcp://127.0.0.1:5555"
-       push_connect: "tcp://127.0.0.1:5556"
-       queue_maxsize: 100
-       poll_timeout_ms: 100
-     runtime:
-       dealer_connect: "tcp://127.0.0.1:5555"
-       push_connect: "tcp://127.0.0.1:5556"
-       queue_maxsize: 50
-       poll_timeout_ms: 100
-     audio:
-       dealer_connect: "tcp://127.0.0.1:5555"
-       push_connect: "tcp://127.0.0.1:5556"
-       queue_maxsize: 50
-       poll_timeout_ms: 10
+      services:
+        ui:
+          dealer_connect: "tcp://127.0.0.1:5555"
+          push_connect: "tcp://127.0.0.1:5556"
+          queue_maxsize: 100
+          poll_timeout_ms: 100
+        runtime:
+          dealer_connect: "tcp://127.0.0.1:5555"
+          push_connect: "tcp://127.0.0.1:5556"
+          queue_maxsize: 50
+          poll_timeout_ms: 100
+        audio:
+          dealer_connect: "tcp://127.0.0.1:5555"
+          push_connect: "tcp://127.0.0.1:5556"
+          queue_maxsize: 50
+          poll_timeout_ms: 10
 
    Message Protocols
 
@@ -96,16 +96,17 @@ Configuration Schemas
 
    .. code-block:: json
 
-   {
-     "source": "UI | Audio | Runtime | Core",
-     "destination": "Target_Service_Name",
-     "command": "function_name_or_signal",
-     "request_id": "uuid-v4-string",
-     "timestamp": "ISO-8601-string",
-     "priority": 1,
-     "payload_type": "json | binary | text"
-   }
-   // Note: Priority 0 = High, 1 = Normal
+      {
+        "source": "UI | Audio | Runtime | Core",
+        "destination": "Target_Service_Name",
+        "command": "function_name_or_signal",
+        "request_id": "uuid-v4-string",
+        "timestamp": "ISO-8601-string",
+        "priority": 1,
+        "payload_type": "json | binary | text"
+      }
+
+   Note: Priority 0 = High, 1 = Normal
 
 
 .. schema:: Response Payload Schema
@@ -114,15 +115,15 @@ Configuration Schemas
 
    .. code-block:: json
 
-   {
-     "source": "Runtime",
-     "destination": "UI",
-     "command": "llm_inference_response",
-     "request_id": "uuid-echoed",
-     "timestamp": "ISO-8601-string",
-     "status": "success | error",
-     "error_code": "optional_string_or_null"
-   }
+      {
+        "source": "Runtime",
+        "destination": "UI",
+        "command": "llm_inference_response",
+        "request_id": "uuid-echoed",
+        "timestamp": "ISO-8601-string",
+        "status": "success | error",
+        "error_code": "optional_string_or_null"
+      }
 
 
 

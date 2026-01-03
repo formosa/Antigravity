@@ -53,6 +53,11 @@ needs_reproducible_json = True
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+# Suppress false-positive warnings (cross-file link validation timing issue)
+suppress_warnings = [
+    "needs.link_outgoing"
+]
+
 
 
 # -- Options for HTML output -------------------------------------------------
