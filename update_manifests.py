@@ -1,3 +1,64 @@
+"""
+Reconciliation Manifest Bulk Generator.
+
+This script regenerates all `reconciliation_manifest.rst` files across the
+documentation structure with current tag inventory counts. It uses a
+standardized YAML template format for consistent manifest structure.
+
+Purpose
+-------
+Bulk update reconciliation manifests when tag counts change:
+
+- Writes to 6 manifest files (requirements, specs, arch, data, design, prompts)
+- Uses current date as `last_audit` timestamp
+- Maintains consistent YAML structure across all manifests
+
+Dependencies
+------------
+- Python 3.8+ (datetime module)
+- Write access to `docs/` directory structure
+
+Usage
+-----
+Execute from project root::
+
+    python update_manifests.py
+
+.. warning::
+
+    This script uses **hardcoded tag counts**. Before running:
+    1. Run a traceability audit to get current counts
+    2. Update the `COUNTS` dictionary with actual values
+    3. Execute the script
+
+Configuration
+-------------
+COUNTS : dict
+    Tag counts by prefix (BRD, NFR, FSD, SAD, ICD, TDD, ISP)
+MANIFESTS : list
+    Tuples of (file_path, section_name, inventory_dict)
+TEMPLATE : str
+    RST template with YAML code block for manifest content
+
+Output Files
+------------
+- docs/01_requirements/reconciliation_manifest.rst (BRD + NFR)
+- docs/02_specifications/reconciliation_manifest.rst (FSD)
+- docs/03_architecture/reconciliation_manifest.rst (SAD)
+- docs/04_data/reconciliation_manifest.rst (ICD)
+- docs/05_design/reconciliation_manifest.rst (TDD)
+- docs/06_prompts/reconciliation_manifest.rst (ISP)
+
+Notes
+-----
+- The title is auto-adjusted for non-requirements sections
+- Consider moving to dynamic count fetching from audit_traceability.py
+
+See Also
+--------
+- audit_traceability.py : Source for accurate tag counts
+- .agent/workflows/traceability_audit.md : Full audit workflow
+"""
 import datetime
 
 COUNTS = {

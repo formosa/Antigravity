@@ -1,3 +1,65 @@
+"""
+Sphinx Configuration for Maggie Documentation System.
+
+This module configures the Sphinx documentation builder for the Maggie AI
+assistant project. It defines traceability types, custom options, and build
+settings for the Sphinx-Needs requirements management extension.
+
+Purpose
+-------
+Provides centralized documentation build configuration including:
+
+- Project metadata (name, version, author)
+- Extension loading (sphinx_needs, sphinxcontrib.mermaid)
+- Custom Sphinx-Needs type definitions for hierarchical traceability
+- JSON output configuration for LLM context generation
+- HTML theme and styling options
+
+Dependencies
+------------
+- sphinx : Core documentation generator
+- sphinx_needs : Requirements traceability extension
+- sphinxcontrib.mermaid : Diagram rendering extension
+- sphinx_rtd_theme : Read the Docs HTML theme
+
+Traceability Schema (needs_types)
+---------------------------------
+The following directive types are configured for hierarchical documentation:
+
+====== =========== ======= ============================================
+Prefix Directive   Color   Purpose
+====== =========== ======= ============================================
+BRD    req         #BFDADC Business Requirements (root level)
+NFR    constraint  #DF7E35 Non-Functional Requirements/Constraints
+FSD    spec        #F0D27F Functional Specifications
+SAD    arch        #A1D391 System Architecture Definitions
+ICD    schema      #D3A191 Interface/Data Contracts
+TDD    impl        #A191D3 Technical Design Blueprints
+ISP    test        #D391A1 Integration/System Prompts (tests)
+TERM   term        #E8E8E8 Glossary Terms
+====== =========== ======= ============================================
+
+Usage
+-----
+This file is automatically read by Sphinx when building documentation::
+
+    sphinx-build -b html docs docs/_build
+
+To generate JSON output for LLM context::
+
+    sphinx-build -b needs docs docs/_build
+
+Notes
+-----
+- `needs_build_json = True` enables JSON export of all needs items
+- `suppress_warnings` silences false-positive cross-file link warnings
+- Custom CSS is loaded from `docs/_static/custom.css`
+
+See Also
+--------
+- Sphinx-Needs documentation: https://sphinx-needs.readthedocs.io/
+- Project workflow: `.agent/workflows/update_documentation_spec.md`
+"""
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
