@@ -20,6 +20,13 @@ to catalog every possible Sphinx extension or configuration option.
    napoleon_use_rtype = False
    autodoc_typehints = 'description'
 
+Attributes
+----------
+MODULE_CONSTANT : int
+   A module-level constant demonstrating attribute documentation.
+CONFIGURATION : dict
+   Module configuration dictionary with nested structure.
+
 See Also
 --------
 sphinx.ext.napoleon : Sphinx extension for Numpy-style docstrings.
@@ -28,17 +35,9 @@ numpydoc : Numpy documentation style guide.
 Notes
 -----
 This implementation follows PEP 257 conventions for docstring structure.
-This reference demonstrates two valid documentation approaches:
-
-* Type-omitted parameters (relying on signature type hints)
-* Explicit type specifications (for plain-text readability)
-
-Both are valid per numpydoc specification. The type-omitted approach
-is preferred when ``autodoc_typehints = 'description'`` is configured.
-
-Module-level constants are documented using inline ``#:`` comment syntax
-rather than an Attributes section, as the Attributes section is reserved
-for class docstrings per canonical numpydoc.
+Types are ALWAYS included in Parameters sections, regardless of whether
+function signatures have type hints, ensuring maximum plain-text readability
+and documentation consistency.
 
 All code examples are executable and validated through doctest.
 
@@ -55,7 +54,7 @@ Examples
 --------
 Import and use this module as a reference:
 
->>> from numpy_docstring_reference import DemoClass  # Adjust to actual module name
+>>> from numpy_docstring_gold import DemoClass
 >>> obj = DemoClass(name="example", value=42)
 >>> result = obj.compute_complex_operation(10, 20, mode='advanced')
 >>> result['sum']
@@ -97,20 +96,21 @@ class CustomException(Exception):
 
    Parameters
    ----------
-   message
+   message : str
        Error message describing the validation failure.
-   error_code
+   error_code : int, optional
        Numeric error code for programmatic error handling. Negative values
        indicate internal errors; positive values indicate user errors.
+       Default is -1.
 
    Attributes
    ----------
    message : str
-       Stored validation failure message.
+       The error message.
    error_code : int
-       Stored error code. Defaults to -1 if not specified.
+       The numeric error code.
    timestamp : float
-       Unix timestamp when exception was created (auto-generated).
+       Unix timestamp when exception was created.
 
    Examples
    --------
@@ -140,10 +140,10 @@ class ValidationError(CustomException):
 
    Parameters
    ----------
-   message
+   message : str
        Validation error description.
-   parameter_name
-       Name of the parameter that failed validation.
+   parameter_name : str, optional
+       Name of the parameter that failed validation. Default is None.
 
    See Also
    --------
@@ -186,7 +186,7 @@ class BaseInterface(ABC):
 
        Parameters
        ----------
-       data
+       data : numpy.ndarray
            Input data array. Dimensionality constraints depend on
            implementation.
 
@@ -253,16 +253,16 @@ class DemoClass(BaseInterface):
 
    Parameters
    ----------
-   name
+   name : str
        Identifier for this instance. Must be non-empty.
-   value
+   value : NumericType
        Numeric value used in processing operations. Must be non-negative.
-   config
+   config : dict, optional
        Configuration dictionary with custom settings. If None, defaults
        to empty configuration.
-   *args
+   *args : tuple
        Additional positional arguments stored for reference.
-   **kwargs
+   **kwargs : dict
        Additional keyword arguments stored in internal state.
 
    Attributes
@@ -389,29 +389,29 @@ class DemoClass(BaseInterface):
    ) -> Dict[str, Union[float, np.ndarray]]:
        """
        Compute arithmetic results using selectable algorithms.
-
        Performs basic arithmetic operations with optional scaling and
        post-processing. Operation behavior and computational complexity
        depend on the selected mode.
 
        Parameters
        ----------
-       x
+       x : NumericType
            First operand. Accepts scalars or arrays; shape determines
            output dimensionality via broadcasting.
-       y
+       y : NumericType
            Second operand. Must be broadcast-compatible with `x`.
-       mode
+       mode : str, optional
            Algorithm selector. Valid values: 'simple', 'advanced', 'experimental'.
            Simple mode performs basic arithmetic. Advanced mode includes
            magnitude computation. Experimental mode applies developmental
-           algorithms subject to change.
-       scale
+           algorithms subject to change. Default is 'simple'.
+       scale : float, optional
            Multiplicative scaling factor applied uniformly to all results.
-       callback
+           Default is 1.0.
+       callback : Callable[[float], float], optional
            Optional post-processing function applied element-wise to final
            results. Signature must be ``f(value: float) -> float``.
-       **options
+       **options : dict
            Additional configuration options:
 
            * ``tolerance`` (float) -- Convergence tolerance for iterative modes
@@ -548,7 +548,7 @@ class DemoClass(BaseInterface):
 
        Parameters
        ----------
-       data
+       data : numpy.ndarray
            Input array to process. Must be 1D or 2D. Empty arrays are rejected.
 
        Returns
@@ -628,12 +628,12 @@ class DemoClass(BaseInterface):
 
        Parameters
        ----------
-       start
+       start : int
            First value in the sequence (inclusive).
-       stop
+       stop : int
            Boundary value (exclusive for positive step, exclusive for negative).
-       step
-           Increment between consecutive values. Must be non-zero.
+       step : int, optional
+           Increment between consecutive values. Must be non-zero. Default is 1.
 
        Yields
        ------
@@ -713,14 +713,14 @@ class DemoClass(BaseInterface):
        Applies :meth:`process_data` to each array from the iterator,
        processing in batches for improved efficiency with large datasets.
 
-       Parameters
-       ----------
-       data_iterator
-           Iterable yielding arrays to process. Each array must satisfy
-           constraints of :meth:`process_data`.
-       batch_size
-           Number of arrays to process before yielding results. Larger
-           values improve throughput at cost of memory usage.
+        Parameters
+        ----------
+        data_iterator : Iterable[numpy.ndarray]
+            Iterable yielding arrays to process. Each array must satisfy
+            constraints of :meth:`process_data`.
+        batch_size : int, optional
+            Number of arrays to process before yielding results. Larger
+            values improve throughput at cost of memory usage. Default is 32.
 
        Returns
        -------
@@ -794,14 +794,14 @@ class DemoClass(BaseInterface):
        """
        Exit runtime context and clean up resources.
 
-       Parameters
-       ----------
-       exc_type
-           Exception type if exception occurred, None otherwise.
-       exc_val
-           Exception instance if exception occurred, None otherwise.
-       exc_tb
-           Traceback object if exception occurred, None otherwise.
+        Parameters
+        ----------
+        exc_type : type, optional
+            Exception type if exception occurred, None otherwise.
+        exc_val : Exception, optional
+            Exception instance if exception occurred, None otherwise.
+        exc_tb : traceback, optional
+            Traceback object if exception occurred, None otherwise.
 
        Returns
        -------
@@ -855,13 +855,13 @@ def helper_function(
 
    Parameters
    ----------
-   array
+   array : numpy.ndarray
        Input array for computation. Must contain numeric data.
-   axis
+   axis : int or tuple of int, optional
        Axis or axes along which to compute mean. None flattens array.
-   keepdims
-       If True, reduced axes remain in result with size one.
-   out
+   keepdims : bool, optional
+       If True, reduced axes remain in result with size one. Default is False.
+   out : numpy.ndarray, optional
        Alternative output array for result. Must have compatible shape.
 
    Returns
@@ -960,10 +960,10 @@ def variadic_function(
 
    Parameters
    ----------
-   *args
+   *args : int or float
        Variable number of numeric values to aggregate. At least one
        value required.
-   **kwargs
+   **kwargs : Any
        Configuration options controlling computation:
 
        * ``operation`` (str) -- Aggregation type: 'sum', 'product', or 'mean'
@@ -1072,23 +1072,17 @@ def function_with_conditional_returns(
 
    Parameters
    ----------
-   data
+   data : numpy.ndarray
        Input array for analysis. Must be non-empty and numeric.
-   return_stats
-       If True, include statistics dictionary in return value.
-   return_indices
-       If True, include array of maximum value indices in return value.
+   return_stats : bool, optional
+       If True, include statistics dictionary in return value. Default is True.
+   return_indices : bool, optional
+       If True, include array of maximum value indices in return value. Default is False.
 
    Returns
    -------
-   maximum : float
-       The maximum value in the input array.
-   stats : dict, optional
-       Statistics dictionary with keys ``mean``, ``std``, ``median``.
-       Returned only when ``return_stats=True``.
-   indices : ndarray, optional
-       Array of indices where maximum value occurs.
-       Returned only when ``return_indices=True``.
+   result
+       Return value structure depends on boolean flags as documented in Notes.
 
    Raises
    ------
@@ -1187,9 +1181,9 @@ def deprecated_function(x: float, y: float) -> float:
 
    Parameters
    ----------
-   x
+   x : float
        First value.
-   y
+   y : float
        Second value.
 
    Returns
@@ -1232,10 +1226,10 @@ def advanced_cross_reference_example(
 
    Parameters
    ----------
-   obj
+   obj : DemoClass
        Instance providing processing capabilities. See :class:`DemoClass`
        for initialization requirements.
-   config
+   config : ComputationConfig
        Configuration controlling computation behavior. See
        :class:`ComputationConfig` for parameter descriptions.
 
@@ -1387,10 +1381,10 @@ class AdvancedDocumentationFeatures:
 
        Parameters
        ----------
-       input_data
+       input_data : numpy.ndarray
            Data to transform. Must be 1D numeric array.
-       threshold
-           Warning threshold for detecting extreme values.
+       threshold : float, optional
+           Warning threshold for detecting extreme values. Default is 0.0.
 
        Returns
        -------
@@ -1520,9 +1514,9 @@ def function_with_multiple_examples(
 
    Parameters
    ----------
-   data
+   data : numpy.ndarray
        Input array to transform.
-   operation
+   operation : str
        Transformation type: 'normalize', 'standardize', or 'scale'.
 
    Returns
@@ -1622,218 +1616,6 @@ def function_with_multiple_examples(
        return data / norm
 
 
-def function_with_other_parameters(
-    data: np.ndarray,
-    operation: str = 'mean',
-    *,
-    rtol: float = 1e-5,
-    atol: float = 1e-8,
-    max_iter: int = 1000,
-    convergence_check: bool = True,
-    fallback_value: float = 0.0
-) -> float:
-    """
-    Compute aggregate with configurable precision parameters.
-
-    Demonstrates the Other Parameters section for infrequently used
-    keyword arguments that would clutter the main Parameters section.
-
-    Parameters
-    ----------
-    data
-        Input array for computation.
-    operation
-        Aggregation operation: 'mean', 'sum', or 'max'.
-
-    Other Parameters
-    ----------------
-    rtol
-        Relative tolerance for convergence. Default 1e-5.
-    atol
-        Absolute tolerance for convergence. Default 1e-8.
-    max_iter
-        Maximum iterations for iterative operations. Default 1000.
-    convergence_check
-        Enable convergence verification. Default True.
-    fallback_value
-        Value returned if computation fails. Default 0.0.
-
-    Returns
-    -------
-    float
-        Computed aggregate value.
-
-    See Also
-    --------
-    helper_function : Related statistical computation.
-
-    Notes
-    -----
-    The Other Parameters section is used when a function has many keyword
-    parameters and listing them all in Parameters would reduce readability.
-    Primary parameters belong in Parameters; secondary/advanced options
-    belong in Other Parameters.
-
-    Examples
-    --------
-    >>> data = np.array([1, 2, 3, 4, 5])
-    >>> function_with_other_parameters(data)
-    3.0
-
-    >>> function_with_other_parameters(data, rtol=1e-10, max_iter=5000)
-    3.0
-
-    """
-    if operation == 'mean':
-        return float(np.mean(data))
-    elif operation == 'sum':
-        return float(np.sum(data))
-    else:
-        return float(np.max(data))
-
-
-def function_with_explicit_type_formats(
-    filename: str,
-    data: np.ndarray,
-    copy: bool = True,
-    order: str = 'C',
-    count: int = -1
-) -> np.ndarray:
-    """
-    Demonstrate explicit parameter type specification formats.
-
-    Parameters
-    ----------
-    filename : str
-        Path to file. Shows explicit ``name : type`` format.
-    data : array_like
-        Input data. Shows ``array_like`` for flexible inputs.
-    copy : bool, optional
-        Copy the data if True. Shows ``optional`` keyword.
-    order : {'C', 'F', 'A'}
-        Memory layout. Shows braces enumeration for fixed values.
-    count : int, default -1
-        Items to read. Shows ``default`` notation.
-
-    Returns
-    -------
-    ndarray
-        Processed data.
-
-    Notes
-    -----
-    Valid numpydoc parameter formats:
-
-    * ``param`` -- type omitted (signature has hints)
-    * ``param : type`` -- explicit type
-    * ``param : type, optional`` -- optional keyword
-    * ``param : type, default value`` -- default notation
-    * ``param : {'a', 'b'}`` -- enumerated values
-
-    Examples
-    --------
-    >>> data = np.array([1, 2, 3])
-    >>> function_with_explicit_type_formats('f.npy', data)  # doctest: +SKIP
-
-    """
-    return data.copy() if copy else data
-
-
-def function_with_warnings_section(data: np.ndarray) -> np.ndarray:
-    """
-    Demonstrate the Warnings section for user cautions.
-
-    The Warnings section (section 11) provides free-text cautions,
-    distinct from Warns (section 10) which documents warnings.warn() calls.
-
-    Parameters
-    ----------
-    data : ndarray
-        Input array.
-
-    Returns
-    -------
-    ndarray
-        Transformed array.
-
-    Warnings
-    --------
-    This function modifies internal state. Repeated calls with identical
-    input may produce different results.
-
-    Memory scales O(n²). For arrays >10,000 elements, use alternatives.
-
-    Examples
-    --------
-    >>> function_with_warnings_section(np.array([1, 2, 3]))
-    array([2, 4, 6])
-
-    """
-    return data * 2
-
-
-def accumulating_generator(initial: float = 0.0) -> Iterator[float]:
-    """
-    Generate running total with external value injection.
-
-    Demonstrates the Receives section for documenting values passed
-    to a generator via the ``.send()`` method.
-
-    Parameters
-    ----------
-    initial
-        Starting value for accumulation. Default 0.0.
-
-    Yields
-    ------
-    float
-        Current accumulated total after each injection.
-
-    Receives
-    --------
-    value : float
-        Value to add to the running total. Passed via ``.send()``.
-        If None is sent, accumulator is reset to initial value.
-
-    See Also
-    --------
-    DemoClass.generate_sequence : Simple iterator without .send() support.
-
-    Notes
-    -----
-    This generator pattern enables bidirectional communication. The caller
-    can inject values via ``.send()`` which become the result of the
-    ``yield`` expression inside the generator.
-
-    A docstring that includes Receives must also include Yields.
-
-    Examples
-    --------
-    Basic accumulation:
-
-    >>> gen = accumulating_generator(10.0)
-    >>> next(gen)  # Prime the generator
-    10.0
-    >>> gen.send(5.0)
-    15.0
-    >>> gen.send(3.0)
-    18.0
-
-    Reset accumulator:
-
-    >>> gen.send(None)  # doctest: +SKIP
-    10.0
-
-    """
-    total = initial
-    while True:
-        received = yield total
-        if received is None:
-            total = initial
-        else:
-            total += received
-
-
 # Module-level constants with inline documentation
 
 #: Numerical tolerance for floating-point comparisons.
@@ -1874,7 +1656,7 @@ def _private_helper(x: float) -> float:
 
    Parameters
    ----------
-   x
+   x : float
        Input value.
 
    Returns

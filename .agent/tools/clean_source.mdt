@@ -1,0 +1,74 @@
+---
+description: DESTRUCTIVE TOOL. Surgically removes all docstrings and comments from a targeted Python file while preserving exact code formatting.
+activationMode: manual
+alias: /clean_source
+executionEnvironment: local
+---
+
+# Tool: Clean Source (Sanitizer)
+
+Modifies a Python script in-place by stripping out non-executable content (Docstrings and Comments).
+Uses a safe, interval-merging technique to ensure that executable code layout, indentation, and spacing remain **exactly** as they were in the original file.
+
+## Configuration
+- **Script Path**: `.agent/scripts/clean_source.py`
+- **Interpreter**: `${workspaceFolder}/.venv/Scripts/python.exe`
+- **Timeout**: 15s
+
+## Input Schema
+The Agent must provide:
+- `target_file` (string, required): Relative or absolute path to the Python file.
+- `--dry-run` (flag, optional): Append to command to preview output without modification.
+
+## Invocation
+
+// turbo
+```powershell
+& "${workspaceFolder}/.venv/Scripts/python.exe" "${workspaceFolder}/.agent/scripts/clean_source.py" "<target_file>"
+```
+
+## Exit Codes & Interpretation
+| Code | Status | Agent Interpretation |
+|:----:|:-------|:---------------------|
+| **0** | **SUCCESS** | File modified (or dry-run complete). Comments/docstrings removed. Syntax verified. |
+| **1** | **ERROR** | Operation aborted. File read/write failed, syntax check failed, or encoding error. |
+
+## Performance Profile
+- **Typical Files** (<5k LOC): <100ms
+- **Large Projects** (10k-50k LOC): <1s
+
+## Operational Protocol
+1.  **Destructive Action:** This tool overwrites the target file immediately (unless `--dry-run` is used).
+2.  **Mandatory Backup:** You **MUST** create a copy of the target file (e.g., to `.sandbox/`) *before* running this tool.
+3.  **Preservation Policy:**
+    * **Preserved:** Shebangs (`#!/...`) and Encoding Headers (`# -*-...`) on lines 1-2.
+    * **Removed:** All other comments, including `# type: ignore` hints.
+    * **Removed:** All docstrings (Module, Class, Function).
+4.  **Post-Processing (Automated):**
+    * ✅ Collapses consecutive blank lines (3+ → 2).
+    * ✅ Strips trailing whitespace from all lines.
+    * ✅ Validates syntax before writing (aborts if invalid).
+5.  **Semantic Impact Warning:**
+    * ⚠️ This tool removes all `__doc__` attributes. Any runtime logic that depends on inspecting docstrings (e.g., `help()`, `argparse` descriptions, or reflection) will cease to function.
+6.  **Explicit Non-Goals:**
+    * ❌ Does not preserve static-analysis comments (mypy/pyright).
+    * ❌ Does not preserve doctests.
+7.  **Guardrails (Do Not Touch):**
+    * ⚠️ **NEVER** run this tool on files inside `.venv/` or `site-packages/`.
+    * ⚠️ **NEVER** run this tool on the Agent's own script tools (`.agent/scripts/`).
+
+## Example Usage
+```powershell
+# Preview changes (Dry Run)
+.venv\Scripts\python .agent\scripts\clean_source.py "src/engine.py" --dry-run
+
+# Execute Destructive Clean
+Copy-Item "src/engine.py" ".sandbox/engine_clean.py"
+.venv\Scripts\python .agent\scripts\clean_source.py ".sandbox/engine_clean.py"
+```
+
+## Error Handling
+If syntax validation fails after cleaning, the script:
+1. Returns exit code `1`.
+2. Prints the corrupted output to `stderr` for debugging.
+3. **Does NOT write** the corrupted file to disk.

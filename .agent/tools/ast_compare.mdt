@@ -1,0 +1,46 @@
+---
+description: CRITICAL SAFETY TOOL. Verifies that no functional code logic has changed between two versions of a Python file. Must be used after any code modification task to prevent logic drift.
+activationMode: manual
+alias: /ast_compare
+executionEnvironment: local
+---
+
+# Tool: AST Compare
+
+Performs a semantic Abstract Syntax Tree (AST) comparison between an original source file and a modified candidate file.
+This tool is the **final gatekeeper** for code integrity. It ignores comments, docstrings, and formatting differences (whitespace), focusing exclusively on executable logic.
+
+## Configuration
+- **Script Path**: `.agent/scripts/ast_compare.py`
+- **Interpreter**: `${workspaceFolder}/.venv/Scripts/python.exe`
+- **Timeout**: 10s
+
+## Input Schema
+The Agent must provide two absolute or relative file paths:
+1. `original_file`: The trusted, uncorrupted source of truth.
+2. `modified_file`: The candidate file containing new docstrings/comments.
+
+## Invocation
+
+// turbo
+```powershell
+& "${workspaceFolder}/.venv/Scripts/python.exe" "${workspaceFolder}/.agent/scripts/ast_compare.py" "<original_file>" "<modified_file>"
+```
+
+## Exit Codes & Interpretation
+| Code | Status | Agent Interpretation |
+|:----:|:-------|:---------------------|
+| **0** | **VERIFIED** | **SUCCESS:** Logic is identical. The docstrings were added safely. You may proceed to commit/save. |
+| **1** | **VIOLATION** | **CRITICAL FAILURE:** Logic has been altered. The modification is DESTRUCTIVE. Discard the modified file immediately and analyze why logic was touched. |
+| **2** | **ERROR** | **SYSTEM ERROR:** One or both files could not be parsed (Syntax Error) or found. Check file paths and Python syntax validity. |
+
+## Operational Protocol
+1. **Mandatory Check:** This tool must be run *after* generating code but *before* committing changes.
+2. **Concurrency Safety:** Do not use the root `.sandbox/` folder. Ensure files are located in a unique UUID-based subfolder (e.g., `.agent/.sandbox/task-<uuid>/`) before comparing.
+3. **Zero Tolerance:** If Exit Code is 1, **DO NOT** attempt to "fix" the AST mismatch by guessing. Revert to the original file and attempt the docstring insertion again with stricter constraints.
+
+## Example Usage
+```powershell
+# Standard Verification Workflow using UUID sandbox
+.venv\Scripts\python .agent\scripts\ast_compare.py ".agent/.sandbox/task-a1b2/original.py" ".agent/.sandbox/task-a1b2/modified.py"
+```
