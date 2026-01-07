@@ -7,7 +7,7 @@ alias: /rebuild_docs
 # Tool: Refresh Context (with Warning Log)
 
 ## Configuration
-- **Entry Point**: `.agent/tools/scripts/generate_llm_context.py`
+- **Entry Point**: `.agent/scripts/generate_llm_context.py`
 - **Interpreter**: `.venv/Scripts/python`
 - **Arguments**:
     - "docs/_build/json/needs.json"

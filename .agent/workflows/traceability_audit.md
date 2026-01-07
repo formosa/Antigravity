@@ -52,5 +52,5 @@ This workflow defines the process for validating documentation integrity, tag in
     ```
 2.  Regenerate the LLM context.
     ```powershell
-    .venv\Scripts\python .agent/tools/generate_llm_context.py docs/_build/json/needs.json docs/llm_export/context_flat.md
+    .venv\Scripts\python .agent/scripts/generate_llm_context.py docs/_build/json/needs.json docs/llm_export/context_flat.md
     ```
