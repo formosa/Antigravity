@@ -1,2 +1,5 @@
+# removed from agent context
 docs/_build
+
+# agent may be permitted to read this file by the user
 .notes
