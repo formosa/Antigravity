@@ -2,8 +2,7 @@
 # Use this file to prevent agents from reading sensitive or irrelevant data
 # while keeping the files visible in the Antigravity Explorer.
 
-# Hide the private notes directory
-.notes/
+
 
 # Hide specific file types globally from agent context
 # *.log

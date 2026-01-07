@@ -1,0 +1,1667 @@
+================================================================================
+Development Documentation Roadmap (DDR) Meta-Standard
+================================================================================
+
+**Version:** 5.0  
+**Date:** 2025-01-07  
+**Author:** Anthony Formosa  
+**Purpose:** Authoritative meta-specification defining syntax, tagging rules, 
+traceability mandates, and hierarchical structure for all DDR-compliant project 
+documentation.
+
+.. metadata:
+   :file-id: ddr-meta-standard
+   :title: "DDR Meta-Standard v5.0"
+   :version: "5.0"
+   :date: "2025-01-07"
+   :author: "Anthony Formosa"
+   :template_version: "2.0"
+   :status: "Active"
+
+.. contents::
+   :local:
+   :depth: 3
+
+================================================================================
+1. FOUNDATIONAL PRINCIPLES
+================================================================================
+
+1.1 Documentation Philosophy
+--------------------------------------------------------------------------------
+The DDR establishes a **single source of truth** for software projects through 
+strict causal hierarchy and explicit traceability. Every design decision must 
+trace back to a business requirement; every implementation must reference its 
+design specification.
+
+**Core Tenets:**
+ - **Unidirectional Flow:** Requirements flow downward; traceability flows upward.
+ - **Immutable Identity:** Tag IDs are database keys, not ordinal positions.
+ - **Controlled Vocabulary:** All nouns must validate against the GLOSSARY.
+ - **Integrity by Design:** Reconciliation manifests track consistency state.
+
+1.2 Design Paradigm Spectrum
+--------------------------------------------------------------------------------
+
+**Context → Boundaries → Behavior → Structure → Contracts → Blueprints → Prompts**
+
++------------+------------------+--------------------+-------------------------+
+| Layer      | Question         | Persona            | Deliverable             |
++============+==================+====================+=========================+
+| BRD        | *Why build it?*  | Strategist         | Goals, Objectives       |
++------------+------------------+--------------------+-------------------------+
+| NFR        | *What limits?*   | SysAdmin           | Constraints, Targets    |
++------------+------------------+--------------------+-------------------------+
+| FSD        | *What does it?*  | Product Owner      | Features, Capabilities  |
++------------+------------------+--------------------+-------------------------+
+| SAD        | *How organize?*  | Architect          | Patterns, Topology      |
++------------+------------------+--------------------+-------------------------+
+| ICD        | *What shape?*    | Data Engineer      | Schemas, Contracts      |
++------------+------------------+--------------------+-------------------------+
+| TDD        | *What classes?*  | Lead Developer     | Class Structure         |
++------------+------------------+--------------------+-------------------------+
+| ISP        | *What stubs?*    | Code Generator     | Python Skeletons        |
++------------+------------------+--------------------+-------------------------+
+
+**Critical Rule:** Each layer MUST cite its authority from layers above. 
+Cross-layer citations (e.g., TDD → BRD) are prohibited unless mediated through 
+intermediate layers.
+
+================================================================================
+2. DOCUMENT HIERARCHY & TAG TOPOLOGY
+================================================================================
+
+2.1 Business Requirements Document (BRD)
+--------------------------------------------------------------------------------
+:Layer: Context  
+:Purpose: Establish strategic justification  
+:Answers: *"Why are we building this system?"*
+
+**Key Content:**
+ - Project purpose and identity
+ - Strategic objectives
+ - Problem statement
+ - High-level scope
+ - Success criteria
+
+**Tagging Convention:** ``|BRD-N|`` (Block), ``|BRD-N.M|`` (Atomic)
+
+**Template:**
+ .. code-block:: restructuredtext
+
+    .. _BRD-1:
+
+    Project Purpose |BRD-1|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    Enable real-time, offline AI assistant capabilities without cloud dependency.
+
+    .. _BRD-2:
+
+    Strategic Objective |BRD-2|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    - Privacy-preserving operation. |BRD-2.1|
+    - Sub-second response latency. |BRD-2.2|
+    - 99.9% uptime reliability. |BRD-2.3|
+
+**Downstream Authority:** All NFR, FSD tags must cite specific BRD tags.
+
+2.2 Non-Functional Requirements (NFR)
+--------------------------------------------------------------------------------
+:Layer: Boundaries  
+:Purpose: Define hard constraints and performance targets  
+:Answers: *"What are the system limits?"*
+
+**Key Content:**
+ - Hardware environment specifications
+ - Security and network constraints
+ - Resource isolation requirements
+ - Performance targets (latency, throughput)
+ - Reliability and fault tolerance constraints
+
+**Tagging Convention:** ``|NFR-N|`` (Block), ``|NFR-N.M|`` (Atomic)
+
+**Modality (RFC 2119):**
+ - **must** → Mandatory requirement
+ - **should** → Recommended practice
+ - **may** → Optional feature
+
+**Template:**
+ .. code-block:: restructuredtext
+
+    .. _NFR-1:
+
+    Target Environment |NFR-1| ← |BRD-6|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    - **CPU:** AMD Ryzen 9 5900X (Audio/Core affinity). |NFR-1.1|
+    - **GPU:** RTX 3080 10GB VRAM (Runtime only). |NFR-1.2|
+    - **RAM:** 32GB System Memory. |NFR-1.3|
+    - **OS:** Windows 11 Pro x64. |NFR-1.4|
+
+    .. _NFR-4:
+
+    Latency & Throughput |NFR-4| ← |BRD-5.2|, |BRD-8|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    - **IPC Dispatch:** Sub-millisecond (<1ms) for metadata. |NFR-4.1|
+    - **LLM Inference:** <1s average response time. |NFR-4.3|
+    - **UI Responsiveness:** No blocking >100ms. |NFR-4.5|
+
+**Upstream Citations:** Must cite BRD tags justifying each constraint.
+
+2.3 Feature Specifications Document (FSD)
+--------------------------------------------------------------------------------
+:Layer: Behavior  
+:Purpose: Define system capabilities and user-facing behavior  
+:Answers: *"What does the system do?"*
+
+**Key Content:**
+ - System capabilities
+ - Process orchestration
+ - State machine definitions
+ - Voice interaction pipelines
+ - Error handling strategies
+ - User experience requirements
+
+**Tagging Convention:** ``|FSD-N|`` (Block), ``|FSD-N.M|`` (Atomic)
+
+**Template:**
+ .. code-block:: restructuredtext
+
+    .. _FSD-1:
+
+    Process Orchestration |FSD-1| ← |BRD-5|, |NFR-5|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    The system must maintain independent but interconnected processes:
+    - **Core (Hub):** Routes messages via request_id tracking. |FSD-1.1|
+    - **UI Process:** Handles user interaction (PySide6). |FSD-1.2|
+    - **Runtime Process:** GPU-optimized inference. |FSD-1.3|
+    - **Audio Process:** Real-time audio I/O, WWD, VAD. |FSD-1.4|
+
+    .. _FSD-2:
+
+    Hierarchical State Machine (HSM) |FSD-2| ← |BRD-2|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    - Core must maintain HSM using `transitions` library. |FSD-2.1|
+    - **Dynamic Compilation:** HSM compiled from Tool/Routine definitions. |FSD-2.2|
+    - **Required States:** `sleeping`, `waking`, `active`, `busy`, `error`. |FSD-2.3|
+
+**Upstream Citations:** Must cite BRD and/or NFR tags that establish the need.
+
+2.4 System Architecture Document (SAD)
+--------------------------------------------------------------------------------
+:Layer: Structure  
+:Purpose: Define high-level organization and patterns  
+:Answers: *"How is the system structured?"*
+
+**Key Content:**
+ - Architectural patterns
+ - Process topology
+ - Integration strategies
+ - Concurrency model
+ - Configuration strategy
+
+**Tagging Convention:** ``|SAD-N|`` (Block), ``|SAD-N.M|`` (Atomic)
+
+**Template:**
+ .. code-block:: restructuredtext
+
+    .. _SAD-1:
+
+    Architectural Patterns |SAD-1| ← |FSD-1.1|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    - **Hub-and-Spoke:** Core (ROUTER) ↔ Services (DEALER). |SAD-1.1|
+    - **Decoupled Sink:** LogServer (PULL) ← All (PUSH). |SAD-1.2|
+    - **No Shared Abstraction:** ROUTER-DEALER and PUSH-PULL separate. |SAD-1.3|
+    - **Context Propagation:** request_id in every frame. |SAD-1.4|
+
+    .. _SAD-4:
+
+    Concurrency Model |SAD-4| ← |NFR-5.1|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    - **Receiver Threads:** Dedicated polling thread per process. |SAD-4.1|
+    - **Main Loop:** Processes PriorityQueue non-blocking. |SAD-4.2|
+    - **Queueing:** (priority, counter, message) tuples. |SAD-4.5|
+
+**Diagram Requirement:** ASCII topology diagrams are mandatory for SAD sections.
+
+**Example:**
+ .. code-block:: text
+
+    +---------------+          +------------------+          +-----------------+
+    |  UI (DEALER)  | <------> |   Core (ROUTER)  | <------> | Runtime (DEALER)|
+    +---------------+          +------------------+          +-----------------+
+
+**Upstream Citations:** Must cite FSD tags defining the behaviors being structured.
+
+2.5 Interface & Data Schemas (ICD)
+--------------------------------------------------------------------------------
+:Layer: Contracts  
+:Purpose: Define data shapes and communication contracts  
+:Answers: *"What are the message/data formats?"*
+
+**Key Content:**
+ - Configuration file schemas (YAML)
+ - Message frame structures
+ - Metadata schemas (JSON)
+ - Request/response payload formats
+
+**Tagging Convention:** ``|ICD-N|`` (Block), ``|ICD-N.M|`` (Atomic)
+
+**Template:**
+ .. code-block:: restructuredtext
+
+    .. _ICD-1:
+
+    IPC Configuration (ipc_config.yaml) |ICD-1| ← |SAD-5.1|, |NFR-3.3|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    .. code-block:: yaml
+
+       core:
+         router_bind: "tcp://127.0.0.1:5555"
+         push_connect: "tcp://127.0.0.1:5556"
+         router_hwm: 1000
+         queue_maxsize: 1000
+
+    .. _ICD-3:
+
+    Metadata Schema (JSON) |ICD-3| ← |FSD-6.3|, |SAD-4.7|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    .. code-block:: json
+
+       {
+         "source": "UI | Audio | Runtime | Core",
+         "destination": "Target_Service_Name",
+         "command": "function_name_or_signal",
+         "request_id": "uuid-v4-string",
+         "timestamp": "ISO-8601-string",
+         "priority": 1,
+         "payload_type": "json | binary | text"
+       }
+
+**Format Requirements:**
+ - YAML for configuration
+ - JSON for metadata
+ - Language-specific code blocks with syntax highlighting
+
+**Upstream Citations:** Must cite SAD (topology) and NFR (constraints) tags.
+
+2.6 Technical Design Document (TDD)
+--------------------------------------------------------------------------------
+:Layer: Blueprints  
+:Purpose: Define component structure without implementation logic  
+:Answers: *"What classes/modules exist and what are their responsibilities?"*
+
+**Key Content:**
+ - Component class names
+ - Dependencies (imports)
+ - Socket configurations
+ - State management structures
+ - Concurrency strategies
+ - Interface contracts (abstract methods)
+
+**Tagging Convention:** ``|TDD-N|`` (Block), ``|TDD-N.M|`` (Atomic)
+
+**Template:**
+ .. code-block:: restructuredtext
+
+    .. _TDD-1:
+
+    Component: CoreProcess |TDD-1| ← |SAD-2|, |FSD-1.1|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    - **Class Name:** `CoreProcess` |TDD-1.1|
+    - **Dependencies:** `zmq`, `queue`, `itertools`, `transitions`, `yaml`. |TDD-1.2|
+    - **Socket Configuration:**
+      - Bind `ROUTER` to `core.router_bind`. |TDD-1.3| ← |ICD-1|
+      - Connect `PUSH` to `core.push_connect`. |TDD-1.10| ← |FSD-6.1|
+    - **State Management:**
+      - `active_requests`: Dict[str, Tuple[bytes, float, str]]. |TDD-1.5|
+      - HSM via `transitions.Machine`. |TDD-1.6| ← |FSD-2.2|
+    - **Concurrency:**
+      - Receiver thread polls ROUTER socket. |TDD-1.7| ← |SAD-4.1|
+      - Main loop processes PriorityQueue. |TDD-1.8| ← |SAD-4.2|
+
+**Critical Rule:** TDD defines WHAT exists and HOW it's wired, NOT the logic.
+
+**Upstream Citations:** Must cite SAD (structure) and ICD (contracts) tags.
+
+2.7 Implementation Stubs & Prompts (ISP)
+--------------------------------------------------------------------------------
+:Layer: Prompts  
+:Purpose: Provide executable code skeletons for implementation  
+:Answers: *"What is the starting point for coding this?"*
+
+**Key Content:**
+ - Python class stubs with Numpy-style docstrings
+ - Method signatures with type hints
+ - Inline citation comments referencing TDD/ICD tags
+ - Pass statements for logic placeholders
+
+**Tagging Convention:** ``|ISP-N|`` (Block), ``|ISP-N.M|`` (Atomic)
+
+**Template:**
+ .. code-block:: restructuredtext
+
+    .. _ISP-1:
+
+    Stub: Core Process |ISP-1| ← |TDD-1|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    **Implementation Requirements:**
+    - **Class Structure:** Inherit from `CoreProcess` blueprint. |ISP-1.1| ← |TDD-1.1|
+    - **Socket:** Bind ROUTER using config from ICD-1. |ISP-1.2| ← |TDD-1.3|
+    - **HSM:** Setup transitions.Machine with FSD-2 states. |ISP-1.4| ← |TDD-1.6|
+
+    .. code-block:: python
+
+       import zmq
+       import yaml
+       from transitions import Machine
+
+       class CoreProcess:
+           """
+           Orchestrates IPC between services using ZeroMQ ROUTER pattern.
+           
+           Ref: |TDD-1|, |FSD-1|
+           
+           Parameters
+           ----------
+           config_path : str
+               Path to ipc_config.yaml file.
+           
+           Attributes
+           ----------
+           active_requests : Dict[str, Tuple[bytes, float, str]]
+               Tracks in-flight requests by request_id.
+           queue : queue.PriorityQueue
+               Internal message queue for non-blocking dispatch.
+           """
+           def __init__(self, config_path: str):
+               """
+               Initialize ZMQ Context, Bind ROUTER socket.
+               
+               Implements: |TDD-1.3|, |TDD-1.5|
+               """
+               pass
+
+           def run(self) -> None:
+               """
+               Main event loop processing queue and monitoring timeouts.
+               
+               Implements: |TDD-1.8|, |TDD-1.9|
+               Requirements: |FSD-7.3|
+               """
+               pass
+
+**Docstring Requirements:**
+ - **Numpy-style format** (Parameters, Returns, Attributes sections)
+ - **Implements:** Citation to TDD tags
+ - **Requirements:** Citation to FSD/NFR tags
+ - **Ref:** High-level citations for context
+
+**Upstream Citations:** Must cite TDD tags for every structural element.
+
+================================================================================
+3. TAGGING SYNTAX & LIFECYCLE RULES
+================================================================================
+
+3.1 Tag Format Specification
+--------------------------------------------------------------------------------
+
+**General Structure:** ``|DOC_TYPE-N|`` or ``|DOC_TYPE-N.M|``
+
+**Valid Prefixes:**
+ - ``|BRD-*|`` → Business Requirements
+ - ``|NFR-*|`` → Non-Functional Requirements
+ - ``|FSD-*|`` → Feature Specifications
+ - ``|SAD-*|`` → System Architecture
+ - ``|ICD-*|`` → Interface Contracts & Data
+ - ``|TDD-*|`` → Technical Design
+ - ``|ISP-*|`` → Implementation Stubs
+
+**Rules:**
+ - Use pipe delimiters: ``|TAG|``, not ``[TAG]`` or ``{TAG}``
+ - Uppercase prefix, hyphen separator
+ - Sequential integers only (no letters, no zero-padding)
+ - Sub-atomic tags use dot notation: ``|BRD-5.3|``
+
+**Examples:**
+ - ✓ ``|BRD-1|`` (Block-level)
+ - ✓ ``|NFR-4.2|`` (Atomic line item)
+ - ✗ ``|BRD-01|`` (No zero-padding)
+ - ✗ ``|BRD_1|`` (Wrong separator)
+ - ✗ ``[BRD-1]`` (Wrong delimiters)
+
+3.2 Block vs. Atomic Scope
+--------------------------------------------------------------------------------
+
+**Block-Level Tags** (Narrative scope):
+ - **Trigger:** Headers, summary paragraphs, problem statements.
+ - **Format:** ``|TAG-ID|`` (e.g., ``|BRD-5|``).
+ - **Placement:** Inside the header line or at end of narrative block.
+
+**Atomic-Level Tags** (Line-item scope):
+ - **Trigger:** **MANDATORY** for itemized lists of requirements, constraints, 
+   specifications, or data fields.
+ - **Format:** ``|TAG-ID.x|`` (e.g., ``|BRD-5.1|``).
+ - **Placement:** Append to the end of the specific line item.
+
+**Example:**
+ .. code-block:: restructuredtext
+
+    .. _BRD-5:
+
+    High-level Scope |BRD-5|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    - Offline, multi-process Python framework. |BRD-5.1|
+    - Local LLM, TTS, and STT inference. |BRD-5.2|
+    - Modular "Tool" and "Routine" expansion. |BRD-5.3|
+    - Centralized, correlated logging. |BRD-5.4|
+
+3.3 Tag Lifecycle & Stability Rules (Anti-Drift)
+--------------------------------------------------------------------------------
+
+**Immutable Identity Principle:**
+Tag IDs are **database keys**, not ordinal positions. Once assigned, they are 
+permanent identifiers for that specific requirement/design element.
+
+**Rules:**
+ 1. **No Re-sequencing:** If ``.2`` is deleted, ``.3`` remains ``.3``.
+ 2. **Append-Only Generation:** New items receive the next highest integer 
+    (e.g., ``.12``), regardless of visual position.
+ 3. **No ID Recycling:** Never reuse a deleted tag ID. Always mint new.
+
+**Example (Correct Behavior):**
+ .. code-block:: restructuredtext
+
+    Initial State:
+    - Item A |BRD-5.1|
+    - Item B |BRD-5.2|
+    - Item C |BRD-5.3|
+
+    After Deleting Item B:
+    - Item A |BRD-5.1|
+    - Item C |BRD-5.3|
+
+    After Inserting New Item Between A and C:
+    - Item A |BRD-5.1|
+    - New Item |BRD-5.4|  ← Next available integer
+    - Item C |BRD-5.3|
+
+**Rationale:** This prevents cascading reference updates across the entire 
+document hierarchy when items are added/removed.
+
+3.4 Citation Specificity (Leaf-Node Targeting)
+--------------------------------------------------------------------------------
+
+**Principle:** When citing parent tags with sub-atomic children, cite the 
+**specific child** that justifies the requirement, not the generic block parent.
+
+**Rule:**
+IF Parent Tag (e.g., ``|BRD-5|``) has atomic children (``|BRD-5.1|`` through 
+``|BRD-5.6|``), THEN downstream tags MUST cite the specific child ID 
+(e.g., ``← |BRD-5.4|``), NOT the block ID (``← |BRD-5|``).
+
+**Exception:** Cite the block ID only if the requirement applies universally 
+to the entire set.
+
+**Examples:**
+ .. code-block:: restructuredtext
+
+    ✓ |NFR-4.1| ← |BRD-5.2|  (Specific: LLM inference speed)
+    ✗ |NFR-4.1| ← |BRD-5|    (Too generic: entire scope block)
+    ✓ |SAD-3| ← |FSD-6.1|    (Universal: entire logging strategy)
+
+3.5 Atomic Inheritance (The List Rule)
+--------------------------------------------------------------------------------
+
+**Context:** Atomic tags (e.g., ``|NFR-4.1|``) residing within their defined 
+block (e.g., ``|NFR-4|``) implicitly inherit the block's context.
+
+**Rule:** DO NOT trace an atomic tag to its own block parent. This is redundant.
+
+**Prohibited:**
+ .. code-block:: restructuredtext
+
+    |NFR-4.1| ← |NFR-4|  ✗ (Redundant self-reference)
+
+**Allowed:**
+ .. code-block:: restructuredtext
+
+    |NFR-4.1| ← |BRD-5.2|  ✓ (External authority)
+
+**Exception:** If an atomic tag is defined in a different section/file and needs 
+to establish block membership, the citation is allowed.
+
+3.6 Lateral Dependency Prohibition (The Sibling Rule)
+--------------------------------------------------------------------------------
+
+**Context:** Sub-atomic tags within the same block-level parent are peers, not 
+hierarchical dependencies.
+
+**Rule:** DO NOT cite peer tags as parents. Sequential relationships must be 
+encoded in prose, not citations.
+
+**Prohibited:**
+ .. code-block:: restructuredtext
+
+    |FSD-4.4| ← |FSD-4.3|  ✗ (Sibling reference)
+
+**Allowed:**
+ .. code-block:: restructuredtext
+
+    |FSD-4.4| ← |BRD-5.2|  ✓ (Cross-layer authority)
+
+**Prose Alternative:**
+ .. code-block:: restructuredtext
+
+    **VAD (Stage 2):** Neural VAD (Silero) refines Stage 1 output. |FSD-4.4|
+
+**Rationale:** Citations are strictly for vertical (cross-layer) justification. 
+Block membership already establishes grouping.
+
+================================================================================
+4. TRACEABILITY & RECONCILIATION SYSTEM
+================================================================================
+
+4.1 Upstream Citation Mandates
+--------------------------------------------------------------------------------
+
+**Core Principle:** Every design artifact must cite the requirement(s) that 
+justify its existence. Downstream artifacts inherit authority from upstream.
+
+**Citation Syntax:** ``← |PARENT_TAG|`` or ``← |PARENT_A|, |PARENT_B|``
+
+**Rules:**
+ 1. Every tagged item (except BRD root) MUST have at least one parent citation.
+ 2. Multiple parents are allowed for synthesis points.
+ 3. Citations must point to **existing tags** in upstream layers.
+ 4. No forward references (TDD cannot cite ISP).
+
+**Validation Hierarchy:**
+ .. code-block:: text
+
+    BRD (Root Authority)
+     ↓
+    NFR ← BRD
+     ↓
+    FSD ← BRD, NFR
+     ↓
+    SAD ← FSD
+     ↓
+    ICD ← SAD, NFR
+     ↓
+    TDD ← SAD, ICD
+     ↓
+    ISP ← TDD
+
+**Example:**
+ .. code-block:: restructuredtext
+
+    .. _TDD-1:
+
+    Component: CoreProcess |TDD-1| ← |SAD-2|, |FSD-1.1|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    - Bind `ROUTER` to `core.router_bind`. |TDD-1.3| ← |ICD-1|, |SAD-3.2|
+
+4.2 Reconciliation Manifest System
+--------------------------------------------------------------------------------
+
+**Purpose:** Track document integrity state and flag inconsistencies for 
+deferred resolution.
+
+**Placement:** Every major section MUST include a reconciliation manifest block 
+at the end.
+
+**Schema:**
+ .. code-block:: restructuredtext
+
+    .. reconciliation_manifest:
+       :section_id: "section_name"
+       :integrity_status: "CLEAN" | "DIRTY"
+       :timestamp: "YYYY-MM-DD"
+       :tag_count: <integer>
+       :tag_inventory: [<list of all tags in section>]
+       :pending_items: [<list of issue objects>]
+
+**Issue Object Schema:**
+ .. code-block:: json
+
+    {
+      "target_tag": "Child Tag ID",
+      "source_trigger": "Modified Parent ID",
+      "issue_type": "CONSTRAINT_VIOLATION" | "MISSING_PARENT" | "ORPHAN",
+      "description": "Human-readable explanation"
+    }
+
+**Example:**
+ .. code-block:: restructuredtext
+
+    .. reconciliation_manifest:
+       :section_id: fsd-root
+       :integrity_status: "DIRTY"
+       :timestamp: "2025-01-07"
+       :tag_count: 46
+       :tag_inventory: ["FSD-1", "FSD-1.1", "FSD-1.2", ..., "FSD-9.4"]
+       :pending_items: [
+         {
+           "target_tag": "FSD-4.2",
+           "source_trigger": "BRD-5.2 modified",
+           "issue_type": "CONSTRAINT_VIOLATION",
+           "description": "Latency target changed from <1s to <500ms"
+         }
+       ]
+
+4.3 Integrity Maintenance Rules
+--------------------------------------------------------------------------------
+
+**Rule 1: Inventory Maintenance (The Census Rule)**
+IF you add or remove a tag in the text,
+THEN you MUST update the ``:tag_inventory:`` list and ``:tag_count:`` integer 
+to match.
+
+**Bulk Deletion:** IF a Block Tag (e.g., ``|FSD-1|``) is deleted, ALL 
+sub-atomic tags (e.g., ``|FSD-1.1|`` through ``|FSD-1.9|``) MUST be removed 
+from the inventory.
+
+**Rule 2: Downstream Invalidation (The Flagging Rule)**
+IF a parent tag is modified,
+THEN you MUST append an entry to the ``pending_items`` of affected child 
+sections and set ``:integrity_status:`` to "DIRTY".
+
+**Rule 3: Upstream Synthesis (The Orphan Rule)**
+IF a new child tag is created without a parent,
+THEN you MUST flag the missing parent requirement in the parent section's 
+manifest using ``issue_type: "MISSING_PARENT"``.
+
+**Rule 4: Resolution Protocol**
+Do NOT clear ``pending_items`` or reset ``integrity_status`` to "CLEAN" until a 
+dedicated "Reconciliation Prompt" has successfully validated and aligned the 
+conflicting content.
+
+================================================================================
+5. CONTROLLED VOCABULARY & GLOSSARY
+================================================================================
+
+5.1 Purpose & Enforcement
+--------------------------------------------------------------------------------
+
+**Rationale:** LLMs are prone to synonym hallucination (e.g., "Manager" vs. 
+"Orchestrator" vs. "Controller"). A controlled glossary prevents semantic drift.
+
+**Placement:** The GLOSSARY OF CONTROLLED TERMS section MUST appear immediately 
+after the LLM Operating Manual and before the first content section (typically BRD).
+
+**Enforcement:** All nouns in the documentation must validate against glossary 
+entries. Use of non-glossary terms is a validation error.
+
+5.2 Glossary Format
+--------------------------------------------------------------------------------
+
+**Structure:**
+ .. code-block:: restructuredtext
+
+    .. _TERM-IDENTIFIER:
+    Term Name
+      :: Definition with context. Usage constraints.
+
+**Example:**
+ .. code-block:: restructuredtext
+
+    .. _TERM-CORE-PROCESS:
+    Core Process
+      :: The central orchestrator (never called "manager" or "controller").
+
+    .. _TERM-TOOL:
+    Tool
+      :: A modular capability extending Core Process (not a process itself).
+
+**Mandatory Glossary Entries:**
+ - All process/component names (Core Process, UI Process, Runtime Process)
+ - All architectural concepts (HSM, Service, Tool, Routine)
+ - All specialized subsystems (LogServer, Audio Process)
+
+5.3 Validation Rules
+--------------------------------------------------------------------------------
+
+**LLM Validation Checklist:**
+ 1. Scan all documentation text for nouns.
+ 2. For each noun related to architecture/components, verify glossary entry exists.
+ 3. If non-compliant term found (e.g., "Manager"), flag as error and suggest 
+    correct term from glossary.
+ 4. Before generating new content, review glossary to ensure consistent terminology.
+
+**Example Error:**
+ .. code-block:: text
+
+    ✗ ERROR: Term "Model Server" not in glossary.
+      → Did you mean "Runtime Process" (TERM-RUNTIME-PROCESS)?
+
+================================================================================
+6. LLM OPERATING MANUAL & PROTOCOLS
+================================================================================
+
+6.1 Protocol 1: Tag Topology & Persona
+--------------------------------------------------------------------------------
+
+When generating content for a tag layer, adopt the corresponding persona:
+
++-------------+------------------+-------------------+------------------------+
+| Tag Prefix  | Context          | Persona           | Mindset                |
++=============+==================+===================+========================+
+| ``|BRD-*|`` | Intent → Goals   | Strategist        | "Why does this matter?"|
++-------------+------------------+-------------------+------------------------+
+| ``|NFR-*|`` | Hardware → Limits| SysAdmin          | "What can't we do?"    |
++-------------+------------------+-------------------+------------------------+
+| ``|FSD-*|`` | Needs → Features | Product Owner     | "What should it do?"   |
++-------------+------------------+-------------------+------------------------+
+| ``|SAD-*|`` | Features → Design| Architect         | "How do we organize?"  |
++-------------+------------------+-------------------+------------------------+
+| ``|ICD-*|`` | Topology → Schema| Data Engineer     | "What's the contract?" |
++-------------+------------------+-------------------+------------------------+
+| ``|TDD-*|`` | Contracts → Class| Lead Developer    | "What objects exist?"  |
++-------------+------------------+-------------------+------------------------+
+| ``|ISP-*|`` | Blueprints → Code| Code Generator    | "What's the skeleton?" |
++-------------+------------------+-------------------+------------------------+
+
+**Usage:** When asked to "write FSD-3", think as a Product Owner translating 
+user needs into system capabilities.
+
+6.2 Protocol 2: Causal Hierarchy Order
+--------------------------------------------------------------------------------
+
+**Immutable Flow:**
+ .. code-block:: text
+
+    BRD → NFR → FSD → SAD → ICD → TDD → ISP
+
+**Rules:**
+ 1. You cannot create TDD without ICD.
+ 2. You cannot create ICD without SAD.
+ 3. You cannot create SAD without FSD.
+ 4. You cannot modify upstream layers without invalidating downstream.
+
+**Exception:** When reconciling, you may need to "backfill" missing upstream 
+tags to justify orphaned downstream content.
+
+6.3 Protocol 3: Integrity Directives
+--------------------------------------------------------------------------------
+
+**Mandatory Validation Steps:**
+
+1. **Glossary Compliance:** Validate all nouns against the GLOSSARY section. 
+   Flag non-compliant terms (e.g., "Manager" → "Core Process").
+
+2. **Traceability:** Every child tag MUST explicitly cite parent tag(s). 
+   No orphaned tags allowed (except BRD root).
+
+3. **Metadata Persistence:** Never remove ``.. metadata:`` blocks. 
+   Increment ``version`` field on edit.
+
+4. **Marker Invariance:** Never modify structural delimiters:
+   - ``.. <<<BEGIN-SECTION>>>``
+   - ``.. <<<END-SECTION>>>``
+
+5. **Atomicity:** Updates to ``|ICD-*|`` schemas trigger immediate verification 
+   of dependent ``|TDD-*|`` and ``|ISP-*|`` tags.
+
+6.4 Protocol 4: Vertical Consistency (Deferred Reconciliation)
+--------------------------------------------------------------------------------
+
+See Section 4.2 for complete reconciliation manifest system.
+
+**Quick Reference:**
+ - **Inventory Rule:** Add/remove tags → Update ``:tag_inventory:`` and ``:tag_count:``
+ - **Flagging Rule:** Modify parent → Set child section to "DIRTY" + append issue
+ - **Orphan Rule:** Create child without parent → Flag missing parent requirement
+ - **Resolution:** Only clear on dedicated reconciliation prompt
+
+6.5 Protocol 5: Tag Granularity & Lifecycle Standards
+--------------------------------------------------------------------------------
+
+**Block-Level Scope:**
+ - **Trigger:** Headers, summaries, narrative paragraphs
+ - **Format:** ``|TAG-ID|``
+ - **Placement:** In header or at end of paragraph
+
+**Line-Level Scope (Atomic):**
+ - **Trigger:** MANDATORY for itemized lists
+ - **Format:** ``|TAG-ID.x|``
+ - **Placement:** End of line item
+
+**Anti-Drift Rules:**
+ - **Immutable IDs:** Never re-sequence to fill gaps
+ - **Append-Only:** New items get next highest integer
+ - **No Recycling:** Never reuse deleted IDs
+
+**Citation Specificity:**
+ - Cite specific atomic children, not generic block parents (unless universal)
+ - No self-referencing (atomic to its own block)
+ - No sibling citations (lateral dependencies prohibited)
+
+================================================================================
+7. FORMATTING STANDARDS
+================================================================================
+
+7.1 ReStructuredText Headers
+--------------------------------------------------------------------------------
+
+**Hierarchy:**
+ .. code-block:: restructuredtext
+
+    Level 1: Top-Level Sections
+    ================================================================================
+
+    Level 2: Major Subsections
+    --------------------------------------------------------------------------------
+
+    Level 3: Component Headers
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    Level 4: Detail Headers
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Rule:** Header underline must be exactly as long as the header text.
+
+7.2 Tag Markup
+--------------------------------------------------------------------------------
+
+**Inline Tags:**
+ .. code-block:: restructuredtext
+
+    The system must use |NFR-4.1| for latency targets.
+
+**Header Tags:**
+ .. code-block:: restructuredtext
+
+    Component: CoreProcess |TDD-1| ← |SAD-2|, |FSD-1.1|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**List Item Tags:**
+ .. code-block:: restructuredtext
+
+    - **CPU:** AMD Ryzen 9 5900X (Audio/Core affinity). |NFR-1.1|
+    - **GPU:** RTX 3080 10GB VRAM (Runtime only). |NFR-1.2|
+
+7.3 Citation Syntax
+--------------------------------------------------------------------------------
+
+**Format:** ``← |PARENT_TAG|`` or ``← |PARENT_A|, |PARENT_B|``
+
+**Placement:** Immediately after the tag being defined, before any descriptive text.
+
+**Examples:**
+ .. code-block:: restructuredtext
+
+    ✓ |FSD-4| ← |BRD-5|, |NFR-3|
+    ✓ |TDD-1.3| ← |ICD-1|, |SAD-3.2|
+    ✗ |FSD-4| (missing citation)
+    ✗ ← |BRD-5| |FSD-4| (wrong order)
+
+7.4 Emphasis & Inline Markup
+--------------------------------------------------------------------------------
+
+**Bold:** Keywords, modality (must/should/may), component names
+ .. code-block:: restructuredtext
+
+    The system **must** implement fault isolation.
+    **Core Process** orchestrates all services.
+
+**Italic:** Placeholders, questions, emphasis
+ .. code-block:: restructuredtext
+
+    *"Why are we building this?"*
+    Configure *N* worker threads.
+
+**Inline Code:** Tag references, types, methods, config keys
+ .. code-block:: restructuredtext
+
+    The `request_id` field must be a UUID.
+    Use `transitions.Machine` for HSM.
+    Configure via `ipc_config.yaml`.
+
+7.5 Lists
+--------------------------------------------------------------------------------
+
+**Unordered:**
+ .. code-block:: restructuredtext
+
+    - Top-level item
+      - Nested item
+        - Deep nested item
+
+**Ordered:**
+ .. code-block:: restructuredtext
+
+    1. First step
+    2. Second step
+       a. Sub-step
+       b. Sub-step
+    3. Third step
+
+**Mixed (Common Pattern):**
+ .. code-block:: restructuredtext
+
+    - **Category:** Description. |TAG-1|
+      1. Ordered requirement. |TAG-1.1|
+      2. Ordered requirement. |TAG-1.2|
+
+7.6 Code Blocks
+--------------------------------------------------------------------------------
+
+**Python with Citations:**
+ .. code-block:: restructuredtext
+
+    .. code-block:: python
+
+       class CoreProcess:
+           """
+           Orchestrates IPC between services.
+           
+           Implements: |TDD-1|
+           Requirements: |FSD-1.1|, |NFR-5.1|
+           
+           Parameters
+           ----------
+           config_path : str
+               Path to ipc_config.yaml.
+           
+           Attributes
+           ----------
+           active_requests : Dict[str, Tuple[bytes, float, str]]
+               Tracks in-flight requests by request_id.
+           """
+           def __init__(self, config_path: str):
+               """
+               Initialize ZMQ sockets and state tracking.
+               
+               Implements: |TDD-1.3|, |TDD-1.5|
+               """
+               pass
+
+**YAML Configuration:**
+ .. code-block:: restructuredtext
+
+    .. code-block:: yaml
+
+       core:
+         router_bind: "tcp://127.0.0.1:5555"
+         queue_maxsize: 1000
+         response_timeout_s: 5.0
+
+**JSON Schema:**
+ .. code-block:: restructuredtext
+
+    .. code-block:: json
+
+       {
+         "source": "UI",
+         "command": "llm_inference",
+         "request_id": "uuid-v4-string",
+         "priority": 1
+       }
+
+**ASCII Diagrams:**
+ .. code-block:: restructuredtext
+
+    .. code-block:: text
+
+       ┌───────────────┐          ┌──────────────────┐
+       │  UI (DEALER)  │ <------> │   Core (ROUTER)  │
+       └───────────────┘          └──────────────────┘
+               │                            │
+               └─────────► PUSH ────────────┘
+                      (Fire-and-Forget)
+
+7.7 Docstring Requirements (Python)
+--------------------------------------------------------------------------------
+
+**Mandatory Format:** Numpy-style docstrings for all functions, methods, classes.
+
+**Required Sections:**
+ - **Short Description:** One-line summary
+ - **Parameters:** Type-annotated with descriptions
+ - **Returns:** Type and description
+ - **Attributes:** (For classes) Instance variables
+ - **Implements:** Citation to TDD tags
+ - **Requirements:** Citation to FSD/NFR tags
+ - **Ref:** (Optional) High-level context citations
+
+**Example:**
+ .. code-block:: python
+
+    def send_request(self, command: str, payload: dict, priority: int = 1) -> None:
+        """
+        Send request to Core via DEALER socket.
+        
+        Constructs metadata frame per |ICD-3| and transmits multi-part message.
+        
+        Parameters
+        ----------
+        command : str
+            Command identifier (e.g., "llm_inference").
+        payload : dict
+            JSON-serializable data payload.
+        priority : int, optional
+            Message priority (0=High, 1=Normal), by default 1.
+        
+        Implements: |TDD-2.4|
+        Requirements: |FSD-1.1|, |ICD-3|
+        
+        Raises
+        ------
+        zmq.ZMQError
+            If socket is disconnected.
+        """
+        pass
+
+7.8 Structural Delimiters
+--------------------------------------------------------------------------------
+
+**Purpose:** Enable safe LLM parsing and partial document updates.
+
+**Format:**
+ .. code-block:: restructuredtext
+
+    .. <<<BEGIN-SECTION_ID>>>
+
+    [Section Content]
+
+    .. <<<END-SECTION_ID>>>
+
+**Standard Section IDs:**
+ - ``GLOSSARY``
+ - ``DOC-MAP``
+ - ``BRD``
+ - ``NFR``
+ - ``FSD``
+ - ``SAD``
+ - ``ICD``
+ - ``TDD``
+ - ``ISP``
+
+**Example:**
+ .. code-block:: restructuredtext
+
+    .. _nfr-section:
+    .. <<<BEGIN-NFR>>>
+
+    ================================================================================
+    NFR — System Constraints (Boundaries)
+    ================================================================================
+
+    [Content...]
+
+    .. reconciliation_manifest:
+       :section_id: nfr-root
+       :integrity_status: "CLEAN"
+       [...]
+
+    .. <<<END-NFR>>>
+
+**Rules:**
+ - Delimiters MUST appear exactly as shown (no whitespace variations)
+ - Never modify or remove existing delimiters
+ - Section ID must match the ``:section_id:`` in reconciliation manifest
+
+7.9 Anchor References
+--------------------------------------------------------------------------------
+
+**Purpose:** Enable internal cross-referencing and glossary lookups.
+
+**Format:**
+ .. code-block:: restructuredtext
+
+    .. _reference-id:
+
+    Content Title
+    -------------
+
+**Usage in Glossary:**
+ .. code-block:: restructuredtext
+
+    .. _TERM-CORE-PROCESS:
+    Core Process
+      :: The central orchestrator.
+
+**Usage in Sections:**
+ .. code-block:: restructuredtext
+
+    .. _BRD-1:
+
+    Project Purpose |BRD-1|
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Reference Pattern:** Anchor IDs should match tag structure where possible:
+ - ``.. _BRD-1:`` for ``|BRD-1|``
+ - ``.. _TERM-TOOL:`` for glossary terms
+ - ``.. _sad-section:`` for section headers
+
+================================================================================
+8. ASCII DIAGRAM SPECIFICATIONS
+================================================================================
+
+8.1 Component Topology Diagrams
+--------------------------------------------------------------------------------
+
+**Requirements:**
+ - Use box-drawing characters (Unicode)
+ - Label sockets/patterns explicitly (ROUTER, DEALER, PUSH, PULL)
+ - Show directionality with arrows
+ - Include legends for non-obvious symbols
+
+**Standard Pattern (Hub-and-Spoke):**
+ .. code-block:: text
+
+    ┌───────────────┐          ┌──────────────────┐          ┌─────────────────┐
+    │  UI (DEALER)  │ <------> │   Core (ROUTER)  │ <------> │ Runtime (DEALER)│
+    └───────────────┘          └──────────────────┘          └─────────────────┘
+            │                     ▲             │                     │
+            │                     │             │                     │
+            │            ┌──────────────────┐   │                     │
+            │            │  Audio (DEALER)  │   │                     │
+            │            └──────────────────┘   │                     │
+            │                     │             │                     │
+            ▼                     ▼             ▼                     ▼
+    ┌─────────────────────────────────────────────────────────────────────────┐
+    │                            LogServer (PULL)                             │
+    └─────────────────────────────────────────────────────────────────────────┘
+                                       ▲
+                                       │
+                   (All "Push" connections are Fire-and-Forget)
+
+    Legend:
+    <--->  : Bidirectional Request-Response (ROUTER-DEALER)
+    ---->  : Unidirectional Fire-and-Forget (PUSH-PULL)
+
+**Mandatory Elements:**
+ - Border boxes for all components
+ - Socket type labels in parentheses
+ - Directional indicators
+ - Legend explaining line types
+
+8.2 State Machine Diagrams
+--------------------------------------------------------------------------------
+
+**Format:**
+ .. code-block:: text
+
+    ┌──────────┐
+    │ sleeping │ ◄─── (DEFAULT)
+    └────┬─────┘
+         │ WAKE_WORD / GUI_CLICK
+         ▼
+    ┌──────────┐
+    │  waking  │
+    └────┬─────┘
+         │ READY
+         ▼
+    ┌──────────┐     ┌───────────┐
+    │  active  │ ───►│   busy    │
+    └──────────┘     │ (llm/tts) │
+         ▲           └─────┬─────┘
+         │                 │
+         └─────────────────┘
+              COMPLETE
+
+**Requirements:**
+ - State names in boxes
+ - Transition triggers on arrows
+ - Default state marked with annotation
+ - Clear entry/exit points
+
+8.3 Data Flow Diagrams
+--------------------------------------------------------------------------------
+
+**Format:**
+ .. code-block:: text
+
+    [Audio In] ──► [WWD] ──► [VAD Stage 1] ──► [VAD Stage 2] ──► [STT] ──► [Core]
+                     │                                               │
+                     └─── WAKE_WORD ──────────────────────────────►─┘
+
+**Requirements:**
+ - Left-to-right flow (primary path)
+ - Labels on all nodes and edges
+ - Branch points clearly marked
+ - Optional: Processing time annotations
+
+8.4 Message Sequence Diagrams
+--------------------------------------------------------------------------------
+
+**Format:**
+ .. code-block:: text
+
+    UI                Core              Runtime
+    │                  │                  │
+    ├─ REQUEST ───────►│                  │
+    │  (llm_inference) │                  │
+    │                  ├─ FORWARD ───────►│
+    │                  │  (+ request_id)  │
+    │                  │                  │
+    │                  │◄─ RESPONSE ──────┤
+    │                  │  (+ request_id)  │
+    │◄─ RESPONSE ──────┤                  │
+    │  (text output)   │                  │
+
+**Requirements:**
+ - Vertical lifelines for each component
+ - Horizontal arrows for messages
+ - Message labels above/below arrows
+ - Time flows top-to-bottom
+ - Include key metadata (request_id) when relevant
+
+================================================================================
+9. VALIDATION RULES & ERROR DETECTION
+================================================================================
+
+9.1 LLM Pre-Generation Checklist
+--------------------------------------------------------------------------------
+
+Before generating ANY new content, validate:
+
+1. **Glossary Review:** Read GLOSSARY section to ensure consistent terminology.
+2. **Parent Tag Verification:** Confirm cited parent tags exist in upstream layers.
+3. **Layer Constraint Check:** Verify you're not creating cross-layer violations 
+   (e.g., TDD citing FSD directly without SAD).
+4. **Tag ID Sequence:** Check section's ``:tag_inventory:`` to determine next 
+   available tag number.
+5. **Persona Alignment:** Adopt the correct mindset for the target layer.
+
+9.2 Post-Generation Validation
+--------------------------------------------------------------------------------
+
+After generating content, validate:
+
+1. **Tag Syntax:** All tags use ``|PREFIX-N|`` or ``|PREFIX-N.M|`` format.
+2. **Citation Completeness:** Every tag (except BRD root) has ``← |PARENT|``.
+3. **Glossary Compliance:** All component/architectural nouns match glossary.
+4. **Code Block Attribution:** All code blocks have language specifier and 
+   citation comments.
+5. **Inventory Update:** ``:tag_count:`` and ``:tag_inventory:`` reflect 
+   actual content.
+
+9.3 Common Error Patterns
+--------------------------------------------------------------------------------
+
+**Error Type 1: Orphaned Tags**
+ .. code-block:: restructuredtext
+
+    ✗ |FSD-8| 
+    Intent Resolution (The "Brain")
+
+    ✓ |FSD-8| ← |BRD-5.6|, |FSD-1|
+    Intent Resolution (The "Brain")
+
+**Error Type 2: Wrong Delimiter**
+ .. code-block:: restructuredtext
+
+    ✗ [BRD-1]
+    ✗ {BRD-1}
+    ✗ <BRD-1>
+    ✓ |BRD-1|
+
+**Error Type 3: Non-Glossary Term**
+ .. code-block:: restructuredtext
+
+    ✗ The Manager coordinates all services.
+    ✓ The Core Process coordinates all services.
+
+**Error Type 4: Missing Docstring Citations**
+ .. code-block:: python
+
+    # ✗ Missing implementation tags
+    def process(self, data):
+        """Process incoming data."""
+        pass
+
+    # ✓ Complete documentation
+    def process(self, data: bytes) -> Packet:
+        """
+        Process incoming data packet.
+        
+        Implements: |TDD-1.8|
+        Requirements: |FSD-4.5|
+        """
+        pass
+
+**Error Type 5: Sibling Citation**
+ .. code-block:: restructuredtext
+
+    ✗ |FSD-4.2| ← |FSD-4.1|  (lateral dependency)
+    ✓ |FSD-4.2| ← |BRD-5.2|  (vertical authority)
+
+**Error Type 6: Generic Block Citation**
+ .. code-block:: restructuredtext
+
+    Given: |BRD-5| has children |BRD-5.1| through |BRD-5.6|
+
+    ✗ |NFR-4.1| ← |BRD-5|  (too generic)
+    ✓ |NFR-4.1| ← |BRD-5.2|  (specific child)
+
+**Error Type 7: Inventory Mismatch**
+ .. code-block:: restructuredtext
+
+    Content has: |FSD-1|, |FSD-1.1|, |FSD-1.2|, |FSD-2|
+    
+    ✗ :tag_count: 3  (wrong count)
+    ✗ :tag_inventory: ["FSD-1", "FSD-2"]  (missing atomics)
+    
+    ✓ :tag_count: 4
+    ✓ :tag_inventory: ["FSD-1", "FSD-1.1", "FSD-1.2", "FSD-2"]
+
+9.4 Validation Algorithm (Pseudocode)
+--------------------------------------------------------------------------------
+
+.. code-block:: python
+
+   def validate_ddr_document(doc):
+       """
+       Validate DDR document integrity.
+       
+       Returns
+       -------
+       List[ValidationError]
+           Collection of detected issues.
+       """
+       errors = []
+       
+       # Extract all tags
+       all_tags = extract_tags(doc)
+       
+       # Check glossary compliance
+       for noun in extract_nouns(doc):
+           if noun.is_architectural() and not in_glossary(noun):
+               errors.append(f"Non-glossary term: {noun}")
+       
+       # Check traceability
+       for tag in all_tags:
+           if not tag.is_brd_root():
+               if not tag.has_citation():
+                   errors.append(f"Orphaned tag: {tag}")
+               else:
+                   for parent in tag.citations:
+                       if not parent.exists():
+                           errors.append(f"Invalid parent: {parent} cited by {tag}")
+                       if not parent.is_upstream_layer(tag):
+                           errors.append(f"Layer violation: {tag} → {parent}")
+       
+       # Check inventory integrity
+       for section in doc.sections:
+           manifest_tags = set(section.manifest.tag_inventory)
+           actual_tags = set(extract_tags(section.content))
+           if manifest_tags != actual_tags:
+               errors.append(f"Inventory mismatch in {section.id}")
+       
+       return errors
+
+================================================================================
+10. TAG REFERENCE QUICK LOOKUP
+================================================================================
+
++------------------+----------------------------------+---------------------------+
+| Tag Prefix       | Layer / Purpose                  | Citation Authority        |
++==================+==================================+===========================+
+| ``|BRD-*|``      | Business Requirements (Why)      | Root (no citations)       |
++------------------+----------------------------------+---------------------------+
+| ``|NFR-*|``      | Non-Functional Constraints       | ← |BRD-*|                 |
++------------------+----------------------------------+---------------------------+
+| ``|FSD-*|``      | Feature Specifications (What)    | ← |BRD-*|, |NFR-*|        |
++------------------+----------------------------------+---------------------------+
+| ``|SAD-*|``      | System Architecture (How)        | ← |FSD-*|                 |
++------------------+----------------------------------+---------------------------+
+| ``|ICD-*|``      | Interface Contracts & Data       | ← |SAD-*|, |NFR-*|        |
++------------------+----------------------------------+---------------------------+
+| ``|TDD-*|``      | Technical Design (Components)    | ← |SAD-*|, |ICD-*|        |
++------------------+----------------------------------+---------------------------+
+| ``|ISP-*|``      | Implementation Stubs (Code)      | ← |TDD-*|                 |
++------------------+----------------------------------+---------------------------+
+
+**Sub-atomic Notation:**
+ - ``|TAG-N.M|`` → Atomic line item within block ``|TAG-N|``
+ - ``|TAG-N.M.RN|`` → (Deprecated in v5.0, use atomic tags instead)
+
+**Special Glossary Tags:**
+ - ``|TERM-IDENTIFIER|`` → Controlled vocabulary entry
+
+================================================================================
+11. METADATA BLOCK SPECIFICATION
+================================================================================
+
+11.1 Document-Level Metadata
+--------------------------------------------------------------------------------
+
+**Placement:** Immediately after main title, before table of contents.
+
+**Schema:**
+ .. code-block:: restructuredtext
+
+    .. metadata:
+       :file-id: <unique_identifier>
+       :title: "<Human-readable title>"
+       :version: "<semantic_version>"
+       :date: "YYYY-MM-DD"
+       :author: "<Name>"
+       :roadmap_version: "<DDR_version>"
+       :template_version: "<template_version>"
+       :status: "Active" | "Deprecated" | "Draft"
+
+**Example:**
+ .. code-block:: restructuredtext
+
+    .. metadata:
+       :file-id: ddr-root
+       :title: "MAGGIE — Development Documentation Roadmap"
+       :version: "5.0"
+       :date: "2025-01-07"
+       :author: "Anthony Formosa"
+       :roadmap_version: "5.0"
+       :template_version: "2.0"
+       :status: "Active"
+
+11.2 Section-Level Metadata
+--------------------------------------------------------------------------------
+
+**Placement:** Immediately after section structural delimiter (BEGIN marker).
+
+**Schema:**
+ .. code-block:: restructuredtext
+
+    .. metadata:
+       :file-id: <section_id>
+       :title: "<Section title>"
+       :version: "<section_version>"
+       :date: "YYYY-MM-DD"
+       :author: "<Name>"
+       :roadmap_version: "<DDR_version>"
+       :template_version: "<template_version>"
+       :status: "Active"
+       :llm-permissions: "read-only" | "read-write"
+       :purpose: "<Brief description>"
+
+**Example:**
+ .. code-block:: restructuredtext
+
+    .. <<<BEGIN-NFR>>>
+
+    .. metadata:
+       :file-id: nfr-root
+       :title: "System Constraints"
+       :version: "5.0"
+       :date: "2025-01-07"
+       :author: "Anthony Formosa"
+       :roadmap_version: "5.0"
+       :template_version: "2.0"
+       :status: "Active"
+       :llm-permissions: read-only
+       :purpose: "Define Hard Limits & Constraints"
+
+**Field Definitions:**
+ - ``:file-id:`` → Unique identifier for referencing (kebab-case)
+ - ``:llm-permissions:`` → Whether LLM can modify (read-only for finalized sections)
+ - ``:purpose:`` → One-line explanation of section intent
+
+================================================================================
+12. DOCUMENT LIFECYCLE & VERSION CONTROL
+================================================================================
+
+12.1 Version Numbering Scheme
+--------------------------------------------------------------------------------
+
+**Format:** ``MAJOR.MINOR`` (e.g., "5.0")
+
+**Increment Rules:**
+ - **MAJOR:** Breaking changes to tag syntax, hierarchy restructuring, 
+   new mandatory sections
+ - **MINOR:** New optional sections, clarifications, formatting improvements
+
+**Example Progression:**
+ - ``4.0`` → Used `[TAG]` syntax, SRS/FRD/SDD hierarchy
+ - ``5.0`` → Switched to `|TAG|` syntax, BRD/NFR/FSD/SAD/ICD/TDD/ISP hierarchy
+
+12.2 Section Version Management
+--------------------------------------------------------------------------------
+
+Each section maintains independent version tracking via its metadata block.
+
+**Update Policy:**
+ 1. Increment section ``:version:`` on any content change
+ 2. Update ``:date:`` to current date
+ 3. Update ``:integrity_status:`` to "DIRTY" if downstream impacts exist
+ 4. Append to ``pending_items`` list in reconciliation manifest
+
+**Example:**
+ .. code-block:: restructuredtext
+
+    # Before Update
+    .. metadata:
+       :version: "5.0"
+       :date: "2025-01-07"
+    
+    .. reconciliation_manifest:
+       :integrity_status: "CLEAN"
+
+    # After Update
+    .. metadata:
+       :version: "5.1"
+       :date: "2025-01-10"
+    
+    .. reconciliation_manifest:
+       :integrity_status: "DIRTY"
+       :pending_items: [
+         {
+           "target_tag": "TDD-1.3",
+           "source_trigger": "ICD-1 modified",
+           "issue_type": "CONSTRAINT_VIOLATION",
+           "description": "Socket configuration schema changed"
+         }
+       ]
+
+12.3 Reconciliation Workflow
+--------------------------------------------------------------------------------
+
+**Phase 1: Modification**
+ 1. User/LLM modifies parent tag content (e.g., ``|ICD-1|``)
+ 2. System flags all dependent child sections as "DIRTY"
+ 3. System appends issue objects to affected sections' pending_items
+
+**Phase 2: Review**
+ 1. User reviews pending_items across all sections
+ 2. User prioritizes which conflicts to address
+ 3. User issues "Reconciliation Prompt" for specific section
+
+**Phase 3: Reconciliation**
+ 1. LLM reviews parent tag changes
+ 2. LLM updates child tags to maintain consistency
+ 3. LLM updates tag_inventory and tag_count
+ 4. LLM clears resolved issues from pending_items
+ 5. LLM sets integrity_status to "CLEAN"
+
+**Phase 4: Verification**
+ 1. Run validation algorithm (Section 9.4)
+ 2. Confirm no orphaned tags
+ 3. Confirm inventory matches content
+ 4. Commit changes
+
+================================================================================
+13. APPENDIX: MIGRATION GUIDE (v4.0 → v5.0)
+================================================================================
+
+13.1 Syntax Migrations
+--------------------------------------------------------------------------------
+
+| v4.0 Element          | v5.0 Equivalent       | Notes                        |
+|-----------------------|-----------------------|------------------------------|
+| `[BRD-N]`             | `\|BRD-N\|`           | Square → Pipe delimiters     |
+| `[SRS-FR-N]`          | `\|FSD-N\|`           | SRS merged into FSD          |
+| `[SRS-NFR-N]`         | `\|NFR-N\|`           | NFR promoted to layer        |
+| `[FRD-N.M.RN]`        | `\|FSD-N.M\|`         | Simplified atomic tags       |
+| `[SAD-N]`             | `\|SAD-N\|`           | Delimiter change only        |
+| `[SDD-N]`             | `\|TDD-N\|` + `\|ICD-N\|` | Split design/contracts   |
+| `[DDS-N]`             | `\|ISP-N\|`           | Renamed to "Stubs/Prompts"   |
+
+13.2 Structural Migrations
+--------------------------------------------------------------------------------
+
+**Old Hierarchy (v4.0):**
+ .. code-block:: text
+
+    BRD → SRS ┬→ FRD
+              └→ SAD → SDD → DDS
+
+**New Hierarchy (v5.0):**
+ .. code-block:: text
+
+    BRD → NFR → FSD → SAD → ICD → TDD → ISP
+
+**Key Changes:**
+ 1. **NFR Elevation:** Non-functional requirements now a top-level layer
+ 2. **FSD Consolidation:** FR and FRD merged into unified Feature Specifications
+ 3. **ICD Extraction:** Data contracts separated from technical design
+ 4. **ISP Rename:** DDS renamed to Implementation Stubs & Prompts
+
+13.3 Migration Procedure
+--------------------------------------------------------------------------------
+
+**For Existing Projects:**
+
+1. **Backup:** Create full backup of v4.0 documentation
+2. **Glossary First:** Create GLOSSARY section with controlled terms
+3. **Layer-by-Layer:**
+   a. Convert BRD tags (minimal changes, just delimiter syntax)
+   b. Extract NFR content from old SRS-NFR tags
+   c. Merge SRS-FR + FRD into new FSD structure
+   d. Update SAD tags (delimiter syntax only)
+   e. Split SDD into ICD (data) + TDD (components)
+   f. Rename DDS to ISP, update citations
+4. **Reconciliation Manifests:** Add to each section
+5. **Validation:** Run validation algorithm
+6. **Metadata Update:** Update all version fields to "5.0"
+
+**Estimated Effort:** 4-8 hours for medium-sized project (100-200 tags)
+
+================================================================================
+14. CONCLUSION & MAINTENANCE
+================================================================================
+
+This meta-standard defines the authoritative specification for DDR-compliant 
+documentation. All project documentation MUST adhere to these rules to ensure:
+
+ - **Traceability:** Every design decision traces to business justification
+ - **Consistency:** Controlled vocabulary prevents semantic drift
+ - **Maintainability:** Reconciliation system tracks integrity
+ - **LLM-Optimized:** Explicit structure enables reliable AI-assisted workflows
+
+**Document Maintenance:**
+ - Review meta-standard every 6 months
+ - Update based on lessons learned from active projects
+ - Maintain backward compatibility within major versions
+ - Publish migration guides for breaking changes
+
+**Questions or Issues:**
+Contact the DDR steward (author field in metadata) for clarifications or 
+change requests.
+
+---
+
+**End of DDR Meta-Standard v5.0**
+
+*This document is the authoritative specification for generating, validating, 
+and maintaining DDR-compliant software design documentation in LLM-assisted 
+development workflows.*
