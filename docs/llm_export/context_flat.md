@@ -205,6 +205,11 @@ Routes request-response messages between services and tracks in-flight requests 
 
 **[FSD-2.3] **Required States:** `Root(DEFAULT)`, `initializing`, `sleeping`, `waking`, `active`, `busy` (`llm`, `tts`, `stt`), `error`, `shutting_down`.** -> FSD-2
 
+**[FSD-2.4] **Transitions:**** -> FSD-2
+- `sleeping` (Start): Low power, UI Dark, Input Locked.
+- `waking`: Triggered by `WAKE_WORD` or `GUI_INTERACTION`.
+- `active`: Normal operation, UI Bright, Input Unlocked.
+
 **[FSD-3] Modular Extensions (Tools/Routines)** -> BRD-5
 
 **[FSD-3.1] **Tools:** Modular functional assets with specific HSM states (e.g., File Export).** -> FSD-3
@@ -274,6 +279,10 @@ Logging & Observability
 **[FSD-9.2] **Input Locking:** Text input disabled in Sleep; Blinking cursor only in Active.** -> FSD-9
 
 **[FSD-9.3] **Wake Triggers:** System wakes on Voice ("Hey Maggie") OR Click-to-Wake on input box.** -> FSD-9
+
+**[FSD-9.4] **Audio Feedback:**** -> FSD-9
+- *Sleep -> Waking (Click):* Play "Yes? Just one moment, please."
+- *Waking -> Active:* Play "How can I assist you."
 
 
 ## 4. ARCHITECTURE (SAD)
@@ -738,21 +747,6 @@ Interface Contracts
            # 4. Check VAD -> Buffer for STT
            # 5. Handle inbound IPC messages (client.poll_queue)
            pass
-
-### FSD — Feature Specifications (Behavior)
-
-**[7D2AF] **Audio Feedback:**
- :id: FSD-9.4
- :links: FSD-9**
-- *Sleep -> Waking (Click):* Play "Yes? Just one moment, please."
-- *Waking -> Active:* Play "How can I assist you."
-
-**[C6B06] **Transitions:**
- :id: FSD-2.4
- :links: FSD-2**
-- `sleeping` (Start): Low power, UI Dark, Input Locked.
-- `waking`: Triggered by `WAKE_WORD` or `GUI_INTERACTION`.
-- `active`: Normal operation, UI Bright, Input Unlocked.
 
 ### Controlled Terms
 
