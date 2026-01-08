@@ -1,9 +1,14 @@
----
-description: Adversarial planning protocols tailored for Antigravity's artifact schema.
+﻿---
+name: "Adversarial Planning"
 globs:
-  - implementation_plan.md
-  - task.md
-alwaysApply: true
+  - "implementation_plan.md"
+  - "task.md"
+priority: 50
+trigger:
+  - "plan"
+  - "task"
+severity: mandatory
+description: "Enforce adversarial planning protocols and Antigravity artifact schema adherence."
 ---
 # RULE: ADVERSARIAL IMPLEMENTATION PLANNING
 

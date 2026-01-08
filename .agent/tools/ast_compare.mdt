@@ -1,8 +1,18 @@
 ---
-description: CRITICAL SAFETY TOOL. Verifies that no functional code logic has changed between two versions of a Python file. Must be used after any code modification task to prevent logic drift.
-activationMode: manual
-alias: /ast_compare
-executionEnvironment: local
+name: "ast_compare"
+description: "CRITICAL SAFETY TOOL. Verifies that no functional code logic has changed between two versions of a Python file."
+command: "& \"${workspaceFolder}/.venv/Scripts/python.exe\" \"${workspaceFolder}/.agent/scripts/ast_compare.py\" \"{{args.original_file}}\" \"{{args.modified_file}}\""
+runtime: system
+confirmation: always
+args:
+  original_file:
+    type: string
+    description: "Absolute path to the trusted source file."
+    required: true
+  modified_file:
+    type: string
+    description: "Absolute path to the candidate file to verify."
+    required: true
 ---
 
 # Tool: AST Compare

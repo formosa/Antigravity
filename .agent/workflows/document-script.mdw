@@ -20,7 +20,7 @@ context:
 1.  **Sandboxing**:
     * Run tool: `/generate_uuid`
     * Set variable `SANDBOX_ID` from output.
-    * Set variable `SANDBOX_DIR` to `.agent/.sandbox/task-{{SANDBOX_ID}}`.
+    * Set variable `SANDBOX_DIR` to `.agent/.sandbox/document-script-{{SANDBOX_ID}}`.
 
 2.  **Pre-Flight Syntax Check**:
     * Execute command:

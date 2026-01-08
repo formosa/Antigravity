@@ -1,8 +1,19 @@
 ---
-description: DESTRUCTIVE TOOL. Surgically removes all docstrings and comments from a targeted Python file while preserving exact code formatting.
-activationMode: manual
-alias: /clean_source
-executionEnvironment: local
+name: "clean_source"
+description: "DESTRUCTIVE TOOL. Surgically removes all docstrings and comments from a targeted Python file."
+command: "& \"${workspaceFolder}/.venv/Scripts/python.exe\" \"${workspaceFolder}/.agent/scripts/clean_source.py\" \"{{args.target_file}}\" {{args.flags}}"
+runtime: system
+confirmation: always
+args:
+  target_file:
+    type: string
+    description: "Path to the Python file to clean."
+    required: true
+  flags:
+    type: string
+    description: "Optional flags (e.g. '--dry-run')."
+    required: false
+    default: ""
 ---
 
 # Tool: Clean Source (Sanitizer)

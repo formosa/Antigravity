@@ -1,5 +1,13 @@
 ---
-description: Process for updating the Maggie Design Specifications (Sphinx-Needs)
+name: "Update Documentation Spec"
+slug: /update_documentation_spec
+description: "Process for updating the Maggie Design Specifications (Sphinx-Needs)."
+mode: interactive
+inputs: []
+context:
+  - "docs/llm_export/context_flat.md"
+  - "@design_lead"
+on_finish: "suggest_followup: /rebuild_docs"
 ---
 
 This workflow defines the strict protocol for adding or modifying design specifications (Requirements, Specs, Architecture, etc.) in the Sphinx-Needs system. Adherence ensures data integrity, traceability, and valid build outputs.

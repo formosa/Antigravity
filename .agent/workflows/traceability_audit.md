@@ -1,5 +1,13 @@
 ---
-description: Detailed routine for conducting a precise and accurate internal traceability tag audit
+name: "Traceability Audit"
+slug: /traceability_audit
+description: "Detailed routine for conducting a precise internal traceability tag audit."
+mode: autonomous
+inputs: []
+context:
+  - "docs/llm_export/context_flat.md"
+  - "@design_lead"
+on_finish: "suggest_task: Remediation Plan"
 ---
 
 This workflow defines the process for validating documentation integrity, tag inventory accuracy, and design logic consistency.

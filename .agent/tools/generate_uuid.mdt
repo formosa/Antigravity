@@ -1,8 +1,10 @@
 ---
-description: Infrastructure Utility. Generates a Version 4 Universally Unique Identifier (UUID) string. Essential for establishing unique, non-colliding workspace paths in multi-step workflows.
-activationMode: manual
-alias: /generate_uuid
-executionEnvironment: local
+name: "generate_uuid"
+description: "Generates a Version 4 Universally Unique Identifier (UUID) string."
+command: "& \"${workspaceFolder}/.venv/Scripts/python.exe\" \"${workspaceFolder}/.agent/scripts/generate_uuid.py\""
+runtime: system
+confirmation: never
+args: {}
 ---
 
 # Tool: Generate UUID
