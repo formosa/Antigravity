@@ -10,7 +10,7 @@ context_globs:
   - ".agent/rules/*"
   - ".agent/tools/*"
   - ".agent/workflows/*"
-  - ".notes/agent-asset-definition-schema.md"
+  - ".agent/assets/agent-asset-definition-schema.md"
 ---
 # PERSONA: Adversarial Technology Lead (IDE Enhancement)
 

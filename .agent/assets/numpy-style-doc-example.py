@@ -1,3 +1,8 @@
+# @meta-instruction: SYSTEM_ROLE: STYLE_GUIDE_ONLY
+# @meta-instruction: CONSTRAINT: DO NOT import 'numpy' or 'typing' dependencies from this file into the target file unless already present.
+# @meta-instruction: CONSTRAINT: Use the types actually present in the target file's signature (e.g., if target uses 'List', do not change to 'typing.List').
+# @meta-instruction: GOAL: Replicate the *structure* and *verbosity* of these docstrings, not the code logic.
+
 """
 Comprehensive Numpy-Style Docstring Reference.
 

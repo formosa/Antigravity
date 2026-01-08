@@ -29,15 +29,15 @@
     // 1. CRITICAL: Force the IDE to use the standard text editor ("default")
     // instead of the proprietary "Antigravity Form View" for these files.
     "workbench.editorAssociations": {
-        ".agent/rules/**/*.md": "default",
-        ".agent/tools/**/*.md": "default",
-        ".agent/workflows/**/*.md": "default",
-        ".agent/personas/**/*.mdc": "default"
+        "**/.agent/rules/**/*.md": "default",
+        "**/.agent/tools/**/*.md": "default",
+        "**/.agent/workflows/**/*.md": "default",
+        "**/.agent/personas/**/*.mdc": "default"
     },
     // 2. Ensure they are treated as standard Markdown for syntax highlighting
     // (Do NOT use 'antigravity-markdown' here, as that may re-trigger the GUI)
     "files.associations": {
-        ".agent/**/*.md": "markdown",
-        ".agent/**/*.mdc": "markdown"
+        "**/.agent/**/*.md": "markdown",
+        "**/.agent/**/*.mdc": "markdown"
     }
 }
