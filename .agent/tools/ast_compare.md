@@ -1,4 +1,5 @@
 ---
+type: tool
 name: "ast_compare"
 description: "CRITICAL SAFETY TOOL. Verifies that no functional code logic has changed between two versions of a Python file."
 command: "& \"${workspaceFolder}/.venv/Scripts/python.exe\" \"${workspaceFolder}/.agent/scripts/ast_compare.py\" \"{{args.original_file}}\" \"{{args.modified_file}}\""

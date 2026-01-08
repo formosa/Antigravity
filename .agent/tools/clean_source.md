@@ -1,4 +1,5 @@
 ---
+type: tool
 name: "clean_source"
 description: "DESTRUCTIVE TOOL. Surgically removes all docstrings and comments from a targeted Python file."
 command: "& \"${workspaceFolder}/.venv/Scripts/python.exe\" \"${workspaceFolder}/.agent/scripts/clean_source.py\" \"{{args.target_file}}\" {{args.flags}}"

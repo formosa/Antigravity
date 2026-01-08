@@ -1,4 +1,5 @@
 ---
+type: tool
 name: "generate_uuid"
 description: "Generates a Version 4 Universally Unique Identifier (UUID) string."
 command: "& \"${workspaceFolder}/.venv/Scripts/python.exe\" \"${workspaceFolder}/.agent/scripts/generate_uuid.py\""

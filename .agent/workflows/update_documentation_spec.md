@@ -1,4 +1,5 @@
 ---
+type: workflow
 name: "Update Documentation Spec"
 slug: /update_documentation_spec
 description: "Process for updating the Maggie Design Specifications (Sphinx-Needs)."

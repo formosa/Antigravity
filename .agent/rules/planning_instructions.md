@@ -1,4 +1,6 @@
 ﻿---
+type: rule
+
 name: "Adversarial Planning"
 globs:
   - "implementation_plan.md"

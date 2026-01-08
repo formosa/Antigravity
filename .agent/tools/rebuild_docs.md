@@ -1,4 +1,5 @@
 ---
+type: tool
 name: "rebuild_docs"
 description: "Rebuilds Sphinx documentation (HTML and Markdown) and logs all warnings."
 command: "mkdir -p .agent/tools/temp/ ; .venv\\Scripts\\python -m sphinx -b needs docs docs/_build/json -w .agent/tools/temp/refresh-context.log"

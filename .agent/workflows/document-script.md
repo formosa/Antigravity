@@ -1,4 +1,5 @@
 ---
+type: workflow
 name: "Document Script (Numpy-style)"
 slug: /document-script
 description: "Orchestrator. Applies comprehensive Numpy-style docstrings to a targeted Python file. Enforces strict AST verification to ensure zero logic alteration."

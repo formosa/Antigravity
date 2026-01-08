@@ -84,12 +84,18 @@ context_globs:
 
 ---
 
-## 2. Rule Definition (`.mdr`)
+## 2. Rule Definition (`.md`)
 **Purpose:** Defines context-aware constraints or guidelines active during editing.
 **Location:** `.agent/rules/`
 
 ### Properties Schema
-1.  **name**
+1.  **type**
+    *   **Purpose:** Distinguishes between asset types sharing the `.md` extension.
+    *   **Value:** `Enum` [`rule`].
+    *   **Example:** `"rule"`
+    *   **Note:** MUST be the first property in the frontmatter.
+
+2.  **name**
     * **Purpose:** Display name in the "Active Rules" status bar.
     * **Value:** `String`.
     * **Example:** `"TypeScript Strict Mode"`
@@ -125,9 +131,10 @@ context_globs:
     * **Example:** `"Enforce explicit return types on all exported functions."`
     * **Note:** Be precise; this is the actual "rule" text the LLM reads.
 
-### Implementation Example (`.mdr`)
+### Implementation Example (`.md`)
 ```yaml
 ---
+type: rule
 name: "TypeScript Strict Mode"
 globs:
   - "**/*.ts"
@@ -142,12 +149,18 @@ description: "All functions must have explicit return type annotations. usage of
 
 ---
 
-## 3. Tool Definition (`.mdt`)
+## 3. Tool Definition (`.md`)
 **Purpose:** Defines custom executable scripts or workflows exposed as functions to agents.
 **Location:** `.agent/tools/`
 
 ### Properties Schema
-1.  **name**
+1.  **type**
+    *   **Purpose:** Distinguishes between asset types sharing the `.md` extension.
+    *   **Value:** `Enum` [`tool`].
+    *   **Example:** `"tool"`
+    *   **Note:** MUST be the first property in the frontmatter.
+
+2.  **name**
     * **Purpose:** The function identifier used by the LLM to call the tool.
     * **Value:** `String` (snake_case).
     * **Example:** `"run_db_migration"`
@@ -183,9 +196,10 @@ description: "All functions must have explicit return type annotations. usage of
     * **Example:** `{ app: { type: string, required: true } }`
     * **Note:** Define clear descriptions for each argument to prevent hallucinated parameters.
 
-### Implementation Example (`.mdt`)
+### Implementation Example (`.md`)
 ```yaml
 ---
+type: tool
 name: "generate_migration"
 description: "Creates a new Django database migration file. Use when the user requests schema updates."
 command: "python manage.py makemigrations {{args.app_label}} --name {{args.migration_name}}"
@@ -205,12 +219,18 @@ args:
 
 ---
 
-## 4. Workflow Definition (`.mdw`)
+## 4. Workflow Definition (`.md`)
 **Purpose:** Defines multi-step Standard Operating Procedures (SOPs) orchestrating multiple agents.
 **Location:** `.agent/workflows/`
 
 ### Properties Schema
-1.  **name**
+1.  **type**
+    *   **Purpose:** Distinguishes between asset types sharing the `.md` extension.
+    *   **Value:** `Enum` [`workflow`].
+    *   **Example:** `"workflow"`
+    *   **Note:** MUST be the first property in the frontmatter.
+
+2.  **name**
     * **Purpose:** Display title in Command Palette.
     * **Value:** `String`.
     * **Example:** `"Generate Feature Spec"`
@@ -258,9 +278,10 @@ args:
     * **Example:** `"suggest_followup: /scaffold_code"`
     * **Note:** Chains workflows together.
 
-### Implementation Example (`.mdw`)
+### Implementation Example (`.md`)
 ```yaml
 ---
+type: workflow
 name: "Generate Feature Spec"
 slug: /spec
 description: "Converts a vague user idea into a formal technical specification document."
@@ -398,8 +419,8 @@ rubric:
 | Extension | Name | Core Function | Primary YAML Focus |
 | :--- | :--- | :--- | :--- |
 | **`.mdc`** | Agent Definition | **Identity** | `handle`, `model`, `tools` |
-| **`.mdr`** | Rule Definition | **Constraints** | `globs`, `trigger`, `severity` |
-| **`.mdt`** | Tool Definition | **Actions** | `command`, `args`, `runtime` |
-| **`.mdw`** | Workflow Definition | **Orchestration** | `slug`, `mode`, `inputs` |
+| **`.md`** | Rule Definition | **Constraints** | `type`, `globs`, `trigger` |
+| **`.md`** | Tool Definition | **Actions** | `type`, `command`, `args` |
+| **`.md`** | Workflow Definition | **Orchestration** | `type`, `slug`, `mode` |
 | **`.mdk`** | Knowledge Definition | **Memory (RAG)** | `sources`, `strategy`, `access` |
 | **`.mde`** | Evaluation Definition | **Quality (QA)** | `target_agent`, `rubric`, `judge_model` |
