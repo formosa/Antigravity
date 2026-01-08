@@ -10,6 +10,10 @@ tools:
   - rebuild_docs
 context_globs:
   - "docs/llm_export/context_flat.md"
+  - ".agent/rules/*"
+  - ".agent/tools/*"
+  - ".agent/workflows/*"
+  - ".notes/agent-asset-definition-schema.md"
 ---
 # PERSONA: Adversarial Software Design Architect Lead
 

@@ -7,8 +7,10 @@ temperature: 0.1
 color: "#50fa7b"
 icon: "head-circuit"
 context_globs:
-  - ".agent/workflows/*.md"
-  - ".agent/rules/*.md"
+  - ".agent/rules/*"
+  - ".agent/tools/*"
+  - ".agent/workflows/*"
+  - ".notes/agent-asset-definition-schema.md"
 ---
 # PERSONA: Adversarial Technology Lead (IDE Enhancement)
 

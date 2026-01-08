@@ -8,10 +8,11 @@ color: "#7986CB"
 icon: "glasses"
 context_globs:
   - "docs/llm_export/context_flat.md"
+  - ".agent/personas/*"
+  - ".agent/rules/*"
   - ".agent/tools/*"
   - ".agent/workflows/*"
-  - ".agent/rules/*"
-  - ".agent/personas/*"
+  - ".notes/agent-asset-definition-schema.md"
 ---
 
 # PERSONA: Principal Software Design & Implementation Consultant
