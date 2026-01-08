@@ -29,8 +29,8 @@ This document defines the schema for YAML frontmatter across all Antigravity con
 
 4.  **model**
     * **Purpose:** The specific LLM backend powering this agent.
-    * **Value:** `Enum` [`gemini-3-pro`, `gemini-3-deep-think`, `claude-3-opus`, `claude-3.7-sonnet`, `gpt-5`].
-    * **Example:** `"gemini-3-deep-think"`
+    * **Value:** `Enum` [`gemini-3-pro-high`, `gemini-3-pro-low`, `gemini-3-flash`, `claude-sonnet-4.5`, `claude-sonnet-4.5-thinking`, `claude-opus-4.5-thinking`, `gpt-oss-120b-medium`].
+    * **Example:** `"gemini-3-pro-high"`
     * **Note:** Overrides global IDE model settings. Use high-reasoning models for Architects/QAs.
 
 5.  **temperature**
@@ -69,7 +69,7 @@ This document defines the schema for YAML frontmatter across all Antigravity con
 name: "Senior Architect"
 handle: "@architect"
 description: "Expert in system design, scalable patterns, and cloud infrastructure."
-model: gemini-3-deep-think
+model: gemini-3-pro-high
 temperature: 0.7
 color: #6A5ACD
 icon: strategy
@@ -353,8 +353,8 @@ access:
 
 3.  **judge_model**
     * **Purpose:** The LLM used to score the output.
-    * **Value:** `Enum` [`claude-3-opus`, `gemini-3-deep-think`].
-    * **Example:** `"claude-3-opus"`
+    * **Value:** `Enum` [`claude-opus-4.5-thinking`, `gemini-3-pro-high`].
+    * **Example:** `"claude-opus-4.5-thinking"`
     * **Note:** Should generally be a stronger model than the target agent.
 
 4.  **pass_threshold**
@@ -380,7 +380,7 @@ access:
 ---
 name: "Tech Lead Persona Check"
 target_agent: "@techlead"
-judge_model: claude-3-opus
+judge_model: claude-opus-4.5-thinking
 pass_threshold: 90
 scenarios:
   - "Here is a function with no error handling: def run(): pass"

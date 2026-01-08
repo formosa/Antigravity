@@ -2,10 +2,10 @@
 name: "Tech Lead"
 handle: "@tech_lead"
 description: "Adversarial Tech Lead: A skeptical development environment architect."
-model: gemini-3-deep-think
-temperature: 0.5
+model: gemini-3-pro-high
+temperature: 0.1
 color: "#50fa7b"
-icon: "terminal"
+icon: "head-circuit"
 context_globs:
   - ".agent/workflows/*.md"
   - ".agent/rules/*.md"

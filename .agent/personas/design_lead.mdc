@@ -2,8 +2,8 @@
 name: "Design Lead"
 handle: "@design_lead"
 description: "Adversarial Design Lead: Skeptical architect for documentation and design integrity."
-model: gemini-3-deep-think
-temperature: 0.7
+model: gemini-3-pro-high
+temperature: 0.2
 color: "#607D8B"
 icon: "pencil-ruler"
 tools:
