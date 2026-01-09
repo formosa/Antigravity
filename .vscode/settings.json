@@ -26,6 +26,10 @@
         "editor.wordWrap": "wordWrapColumn",
         "editor.wordWrapColumn": 80
     },
+    // ## Antigravity ########################################################
+    // # Prevent Antigravity from opening files in its proprietary form view #
+    // #######################################################################
+    //
     // 1. CRITICAL: Force the IDE to use the standard text editor ("default")
     // instead of the proprietary "Antigravity Form View" for these files.
     "workbench.editorAssociations": {

@@ -1,0 +1,6 @@
+.notes
+.agent/.sandbox
+.agent/.shadow
+.git
+.venv
+docs/_build
