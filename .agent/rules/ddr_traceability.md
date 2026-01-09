@@ -1,9 +1,13 @@
 ﻿---
 type: rule
 name: "DDR Traceability Rules"
-globs: ["docs/**/*.rst"]
+globs:
+  - "docs/**/*.rst"
 priority: 50
-trigger: ["traceability", "audit", "validation"]
+trigger:
+  - "traceability"
+  - "audit"
+  - "validation"
 severity: mandatory
 description: "Enforces DDR hierarchy, citation, and anti-drift rules on Sphinx-Needs documentation."
 ---

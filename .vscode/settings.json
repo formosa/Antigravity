@@ -43,5 +43,6 @@
     "files.associations": {
         "**/.agent/**/*.md": "markdown",
         "**/.agent/**/*.mdc": "markdown"
-    }
+    },
+    "markdown.validate.enabled": true
 }

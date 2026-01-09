@@ -2,11 +2,9 @@
 # Use this file to prevent agents from reading sensitive or irrelevant data
 # while keeping the files visible in the Antigravity Explorer.
 
-
-
 # Hide specific file types globally from agent context
-# *.log
-# *.tmp
+.log
+.tmp
 
 # Hide specific secret files
 # secrets.env
