@@ -69,12 +69,13 @@ COUNTS = {
 }
 
 MANIFESTS = [
-    ("docs/01_requirements/reconciliation_manifest.rst", "01_requirements", {"BRD": 36, "NFR": 39}),
-    ("docs/02_specifications/reconciliation_manifest.rst", "02_specifications", {"FSD": 46}),
-    ("docs/03_architecture/reconciliation_manifest.rst", "03_architecture", {"SAD": 27}),
-    ("docs/04_data/reconciliation_manifest.rst", "04_data", {"ICD": 13}),
-    ("docs/05_design/reconciliation_manifest.rst", "05_design", {"TDD": 40}),
-    ("docs/06_prompts/reconciliation_manifest.rst", "06_prompts", {"ISP": 19}),
+    ("docs/01_brd/reconciliation_manifest.rst", "01_brd", {"BRD": 36}),
+    ("docs/02_nfr/reconciliation_manifest.rst", "02_nfr", {"NFR": 39}),
+    ("docs/03_fsd/reconciliation_manifest.rst", "03_fsd", {"FSD": 46}),
+    ("docs/04_sad/reconciliation_manifest.rst", "04_sad", {"SAD": 27}),
+    ("docs/05_icd/reconciliation_manifest.rst", "05_icd", {"ICD": 13}),
+    ("docs/06_tdd/reconciliation_manifest.rst", "06_tdd", {"TDD": 40}),
+    ("docs/07_isp/reconciliation_manifest.rst", "07_isp", {"ISP": 19}),
 ]
 
 TEMPLATE = """Reconciliation Manifest: Requirements

@@ -1,13 +1,13 @@
-Reconciliation Manifest: 05 Design
+Reconciliation Manifest: 01 Brd
 ====================================
 
 .. code-block:: yaml
 
    reconciliation_manifest:
-     section: 05_design
+     section: 01_brd
      integrity_status: CLEAN
-     tag_count: 40
+     tag_count: 36
      tag_inventory:
-       TDD: 40
+       BRD: 36
      pending_items: []
-     last_audit: 2026-01-02
+     last_audit: 2026-01-12

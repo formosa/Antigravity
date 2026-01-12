@@ -1,9 +1,8 @@
-01_requirements
-===============
+BRD — Business Requirements
+===========================
 
 .. toctree::
    :maxdepth: 1
 
    brd
-   nfr
    reconciliation_manifest

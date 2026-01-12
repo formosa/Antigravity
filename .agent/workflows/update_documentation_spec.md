@@ -19,13 +19,13 @@ This workflow defines the strict protocol for adding or modifying design specifi
     *   Do **NOT** attempt to edit the `.html` or `.md` files directly. These are build artifacts.
 2.  **Edit Targets (WRITE):**
     *   Updates must ONLY be made to the `docs/**/*.rst` source files:
-        *   `01_requirements/brd.rst` (Business Goals)
-        *   `01_requirements/nfr.rst` (Constraints)
-        *   `02_specifications/fsd.rst` (Features/Behavior)
-        *   `03_architecture/sad.rst` (Structure/Patterns)
-        *   `04_data/icd.rst` (Data/Schemas)
-        *   `05_design/tdd.rst` (Classes/Functions)
-        *   `06_prompts/isp.rst` (Implementation Prompts)
+        *   `01_brd/brd.rst` (Business Goals)
+        *   `02_nfr/nfr.rst` (Constraints)
+        *   `03_fsd/fsd.rst` (Features/Behavior)
+        *   `04_sad/sad.rst` (Structure/Patterns)
+        *   `05_icd/icd.rst` (Data/Schemas)
+        *   `06_tdd/tdd.rst` (Classes/Functions)
+        *   `07_isp/isp.rst` (Implementation Prompts)
 2.  **Determine IDs:**
     *   Find the next available ID in the sequence (e.g., if `FSD-10.2` exists, use `FSD-10.3`).
     *   **Atomic Convention:** If refining an existing item, use dot-notation (e.g., child of `SAD-1` is `SAD-1.1`).
@@ -49,7 +49,7 @@ Edit the target `.rst` file. Use the following template:
          A[Node] --> B[Node]
 ```
 
-*   **Valid Types:** `req`, `spec`, `impl`, `test`, `constraint`, `arch`.
+*   **Valid Types:** `brd`, `nfr`, `fsd`, `sad`, `icd`, `tdd`, `isp`.
 *   **Visualization:** Prefer `.. mermaid::` blocks over ASCII art for complex relationships (Architecture/Flows).
     *   **Strict Syntax:** ALWAYS quote node labels (e.g., `Node["Node Label"]`).
     *   **Layout:** Use `graph LR` for process flows to maximize readability.

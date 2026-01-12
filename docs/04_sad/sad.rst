@@ -1,29 +1,29 @@
 SAD — Architecture Definitions (Structure)
 ====================================================================================================
 
-.. arch:: Architectural Patterns
+.. sad:: Architectural Patterns
    :id: SAD-1
    :links: FSD-1.1
 
-.. arch:: **Hub-and-Spoke:** Core Process acts as the central `ROUTER` (Hub); Services are `DEALER` (Spokes).
+.. sad:: **Hub-and-Spoke:** Core Process acts as the central `ROUTER` (Hub); Services are `DEALER` (Spokes).
    :id: SAD-1.1
    :links: SAD-1
 
-.. arch:: **Decoupled Sink:** Dedicated LogServer acts as `PULL` sink for `PUSH` sources.
+.. sad:: **Decoupled Sink:** Dedicated LogServer acts as `PULL` sink for `PUSH` sources.
    :id: SAD-1.2
    :links: SAD-1
 
-.. arch:: **No Shared Abstraction:** `ROUTER-DEALER` and `PUSH-PULL` patterns are implemented separately to avoid artificial coupling.
+.. sad:: **No Shared Abstraction:** `ROUTER-DEALER` and `PUSH-PULL` patterns are implemented separately to avoid artificial coupling.
    :id: SAD-1.3
    :links: SAD-1
 
-.. arch:: **Context Propagation:** `request_id` must be passed in every frame.
+.. sad:: **Context Propagation:** `request_id` must be passed in every frame.
    :id: SAD-1.4
    :links: SAD-1
 
 
 
-.. arch:: Process Topology
+.. sad:: Process Topology
    :id: SAD-2
    :links: FSD-1.1
 
@@ -67,91 +67,91 @@ SAD — Architecture Definitions (Structure)
 
 
 
-.. arch:: Integration Strategy
+.. sad:: Integration Strategy
    :id: SAD-3
    :links: FSD-6.1,NFR-2.1,NFR-2
 
-.. arch:: **Core ↔ Services (Request-Response):**
+.. sad:: **Core ↔ Services (Request-Response):**
    :id: SAD-3.1
    :links: SAD-3
 
-.. arch:: **Pattern:** ZeroMQ `ROUTER` (Core) ↔ `DEALER` (Service).
+.. sad:: **Pattern:** ZeroMQ `ROUTER` (Core) ↔ `DEALER` (Service).
    :id: SAD-3.2
    :links: SAD-3
 
-.. arch:: **Type:** Bidirectional.
+.. sad:: **Type:** Bidirectional.
    :id: SAD-3.3
    :links: SAD-3
 
-.. arch:: **Requirement:** Core maintains routing table (client identity → socket identity).
+.. sad:: **Requirement:** Core maintains routing table (client identity → socket identity).
    :id: SAD-3.4
    :links: SAD-3
 
-.. arch:: **All Processes → LogServer (Logging):**
+.. sad:: **All Processes → LogServer (Logging):**
    :id: SAD-3.5
    :links: SAD-3
 
-.. arch:: **Pattern:** ZeroMQ `PUSH` (Client) → `PULL` (LogServer).
+.. sad:: **Pattern:** ZeroMQ `PUSH` (Client) → `PULL` (LogServer).
    :id: SAD-3.6
    :links: SAD-3
 
-.. arch:: **Type:** Unidirectional, Fire-and-Forget.
+.. sad:: **Type:** Unidirectional, Fire-and-Forget.
    :id: SAD-3.7
    :links: SAD-3
 
-.. arch:: **Requirement:** Senders must set `SNDHWM=100` and `LINGER=0` to buffer micro-bursts without blocking.
+.. sad:: **Requirement:** Senders must set `SNDHWM=100` and `LINGER=0` to buffer micro-bursts without blocking.
    :id: SAD-3.8
    :links: SAD-3
 
 
 
-.. arch:: Concurrency Model
+.. sad:: Concurrency Model
    :id: SAD-4
    :links: NFR-5.1
 
-.. arch:: **Receiver Threads:** Each process uses a dedicated thread to poll ZMQ sockets and push to an internal `queue.PriorityQueue`.
+.. sad:: **Receiver Threads:** Each process uses a dedicated thread to poll ZMQ sockets and push to an internal `queue.PriorityQueue`.
    :id: SAD-4.1
    :links: SAD-4
 
-.. arch:: **Main Loop:** The main application loop processes the `PriorityQueue` to remain non-blocking.
+.. sad:: **Main Loop:** The main application loop processes the `PriorityQueue` to remain non-blocking.
    :id: SAD-4.2
    :links: SAD-4
 
-.. arch:: **Queueing:**
+.. sad:: **Queueing:**
    :id: SAD-4.3
    :links: SAD-4
 
-.. arch:: Must use `queue.PriorityQueue`.
+.. sad:: Must use `queue.PriorityQueue`.
    :id: SAD-4.4
    :links: SAD-4
 
-.. arch:: **Structure:** `(priority, counter, message)`.
+.. sad:: **Structure:** `(priority, counter, message)`.
    :id: SAD-4.5
    :links: SAD-4
 
-.. arch:: **Ordering:** Monotonic counter (`itertools.count`) ensures FIFO within priority levels.
+.. sad:: **Ordering:** Monotonic counter (`itertools.count`) ensures FIFO within priority levels.
    :id: SAD-4.6
    :links: SAD-4
 
-.. arch:: **Priority Levels:**
+.. sad:: **Priority Levels:**
    :id: SAD-4.7
    :links: SAD-4
 
-.. arch:: **High (0):** `shutdown`, `error_notification`, `state_change`.
+.. sad:: **High (0):** `shutdown`, `error_notification`, `state_change`.
    :id: SAD-4.8
    :links: SAD-4
 
-.. arch:: **Normal (1):** Inference requests, status updates.
+.. sad:: **Normal (1):** Inference requests, status updates.
    :id: SAD-4.9
    :links: SAD-4
 
 
 
-.. arch:: Configuration Driven
+.. sad:: Configuration Driven
    :id: SAD-5
    :links: BRD-3.2
 
-.. arch:: All IPC endpoints (addresses, ports) and parameters (queue sizes, timeouts) must be loaded from `ipc_config.yaml`.
+.. sad:: All IPC endpoints (addresses, ports) and parameters (queue sizes, timeouts) must be loaded from `ipc_config.yaml`.
    :id: SAD-5.1
    :links: SAD-5
 

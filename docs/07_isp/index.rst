@@ -1,5 +1,5 @@
-06_prompts
-==========
+ISP — Integration Prompts
+=========================
 
 .. toctree::
    :maxdepth: 1

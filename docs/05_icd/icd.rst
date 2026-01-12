@@ -4,7 +4,7 @@ ICD — Interface & Data Schemas (Contracts)
 Configuration Schemas
 
 
-.. schema:: IPC Configuration (ipc_config.yaml)
+.. icd:: IPC Configuration (ipc_config.yaml)
    :id: ICD-1
    :links: SAD-5.1,NFR-3.3,NFR-3.4,NFR-3.5,NFR-3.6,NFR-3
 
@@ -46,49 +46,49 @@ Configuration Schemas
    Message Protocols
 
 
-.. schema:: Frame Structure
+.. icd:: Frame Structure
    :id: ICD-2
    :links: SAD-3.2,SAD-3.6,SAD-1.4,SAD-1
 
-.. schema:: **Core ↔ Services (ROUTER-DEALER):**
+.. icd:: **Core ↔ Services (ROUTER-DEALER):**
    :id: ICD-2.1
    :links: ICD-2
 
-.. schema:: **Outbound (DEALER):** `[metadata_json, payload_bytes...]`
+.. icd:: **Outbound (DEALER):** `[metadata_json, payload_bytes...]`
    :id: ICD-2.2
    :links: ICD-2
 
-.. schema:: **Inbound (ROUTER):** `[service_identity, b'', metadata_json, payload_bytes...]`
+.. icd:: **Inbound (ROUTER):** `[service_identity, b'', metadata_json, payload_bytes...]`
    :id: ICD-2.3
    :links: ICD-2
 
-.. schema:: **All → LogServer (PUSH-PULL):**
+.. icd:: **All → LogServer (PUSH-PULL):**
    :id: ICD-2.4
    :links: ICD-2
 
-.. schema:: **Frame:** `[metadata_json, message_string]`
+.. icd:: **Frame:** `[metadata_json, message_string]`
    :id: ICD-2.5
    :links: ICD-2
 
-.. schema:: **Payloads:**
+.. icd:: **Payloads:**
    :id: ICD-2.6
    :links: ICD-2
 
-.. schema:: Text: JSON-encoded UTF-8 bytes.
+.. icd:: Text: JSON-encoded UTF-8 bytes.
    :id: ICD-2.7
    :links: ICD-2
 
-.. schema:: Binary: Raw bytes (PCM, tensors).
+.. icd:: Binary: Raw bytes (PCM, tensors).
    :id: ICD-2.8
    :links: ICD-2
 
-.. schema:: Multi-part: Supported for zero-copy efficiency.
+.. icd:: Multi-part: Supported for zero-copy efficiency.
    :id: ICD-2.9
    :links: ICD-2
 
 
 
-.. schema:: Metadata Schema (JSON)
+.. icd:: Metadata Schema (JSON)
    :id: ICD-3
    :links: FSD-6.3,SAD-4.7,SAD-4
 
@@ -109,7 +109,7 @@ Configuration Schemas
    Note: Priority 0 = High, 1 = Normal
 
 
-.. schema:: Response Payload Schema
+.. icd:: Response Payload Schema
    :id: ICD-4
    :links: ICD-3
 

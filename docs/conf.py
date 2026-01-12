@@ -82,14 +82,14 @@ extensions = ['sphinx_needs', 'sphinxcontrib.mermaid']
 
 # -- Sphinx-Needs Configuration ----------------------------------------------
 needs_types = [
-    dict(directive="req", title="Requirement", prefix="", color="#BFDADC", style="node"),
-    dict(directive="constraint", title="Constraint", prefix="", color="#DF7E35", style="node"),
-    dict(directive="spec", title="Specification", prefix="", color="#F0D27F", style="node"),
-    dict(directive="arch", title="Architecture", prefix="", color="#A1D391", style="node"),
-    dict(directive="schema", title="Contract", prefix="", color="#D3A191", style="node"),
-    dict(directive="impl", title="Blueprint", prefix="", color="#A191D3", style="node"),
-    dict(directive="test", title="Prompt", prefix="", color="#D391A1", style="node"),
-    dict(directive="term", title="Term", prefix="", color="#E8E8E8", style="node"),
+    dict(directive="brd", title="Business Requirements Document", prefix="BRD_", color="#BFDADC", style="artifact"),
+    dict(directive="nfr", title="Non-Functional Requirements", prefix="NFR_", color="#DF7E35", style="artifact"),
+    dict(directive="fsd", title="Functional Specification Document", prefix="FSD_", color="#F0D27F", style="artifact"),
+    dict(directive="sad", title="System Architecture Document", prefix="SAD_", color="#A1D391", style="artifact"),
+    dict(directive="icd", title="Interface Control Document", prefix="ICD_", color="#D3A191", style="artifact"),
+    dict(directive="tdd", title="Technical Design Document", prefix="TDD_", color="#A191D3", style="artifact"),
+    dict(directive="isp", title="Integration System Prompts", prefix="ISP_", color="#D391A1", style="artifact"),
+    dict(directive="term", title="Glossary Term", prefix="TERM_", color="#E8E8E8", style="artifact"),
 ]
 
 needs_extra_options = [

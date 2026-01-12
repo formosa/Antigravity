@@ -1,5 +1,5 @@
-03_architecture
-===============
+SAD — System Architecture
+=========================
 
 .. toctree::
    :maxdepth: 1

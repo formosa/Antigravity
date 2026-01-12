@@ -6,9 +6,10 @@ Maggie Documentation
    :caption: Contents:
 
    00_glossary/index
-   01_requirements/index
-   02_specifications/index
-   03_architecture/index
-   04_data/index
-   05_design/index
-   06_prompts/index
+   01_brd/index
+   02_nfr/index
+   03_fsd/index
+   04_sad/index
+   05_icd/index
+   06_tdd/index
+   07_isp/index

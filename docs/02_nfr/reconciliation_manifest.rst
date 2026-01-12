@@ -1,13 +1,13 @@
-Reconciliation Manifest: 04 Data
+Reconciliation Manifest: 02 Nfr
 ====================================
 
 .. code-block:: yaml
 
    reconciliation_manifest:
-     section: 04_data
+     section: 02_nfr
      integrity_status: CLEAN
-     tag_count: 13
+     tag_count: 39
      tag_inventory:
-       ICD: 13
+       NFR: 39
      pending_items: []
-     last_audit: 2026-01-02
+     last_audit: 2026-01-12

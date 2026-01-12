@@ -4,25 +4,25 @@ ISP — Implementation Stubs (Prompts)
 Python Implementation Stubs
 
 
-.. test:: Stub: Core Process
+.. isp:: Stub: Core Process
    :id: ISP-1
    :links: TDD-1
 
    **Implementation Requirements:**
 
-.. test:: **Class Structure:** Inherit structure from `CoreProcess` blueprint.
+.. isp:: **Class Structure:** Inherit structure from `CoreProcess` blueprint.
    :id: ISP-1.1
    :links: TDD-1.1,TDD-1
 
-.. test:: **Socket:** Bind `ROUTER` using config from `ICD-1`.
+.. isp:: **Socket:** Bind `ROUTER` using config from `ICD-1`.
    :id: ISP-1.2
    :links: TDD-1.3,ICD-1,TDD-1
 
-.. test:: **Orchestration:** Initialize `active_requests` dict and `PriorityQueue`.
+.. isp:: **Orchestration:** Initialize `active_requests` dict and `PriorityQueue`.
    :id: ISP-1.3
    :links: TDD-1.5,TDD-1
 
-.. test:: **HSM:** Setup `transitions.Machine` with states from `FSD-2`.
+.. isp:: **HSM:** Setup `transitions.Machine` with states from `FSD-2`.
    :id: ISP-1.4
    :links: TDD-1.6,FSD-2.3,FSD-2
 
@@ -66,21 +66,21 @@ Python Implementation Stubs
               pass
 
 
-.. test:: Stub: Service Client
+.. isp:: Stub: Service Client
    :id: ISP-2
    :links: TDD-2
 
    **Implementation Requirements:**
 
-.. test:: **Base Class:** Define `ServiceClient` for UI/Runtime/Audio.
+.. isp:: **Base Class:** Define `ServiceClient` for UI/Runtime/Audio.
    :id: ISP-2.1
    :links: TDD-2.1,TDD-2
 
-.. test:: **Connectivity:** Setup `DEALER` (Command) and `PUSH` (Log) sockets.
+.. isp:: **Connectivity:** Setup `DEALER` (Command) and `PUSH` (Log) sockets.
    :id: ISP-2.2
    :links: TDD-2.4,TDD-2.5,TDD-2
 
-.. test:: **Threading:** Implement `_receiver_thread` to populate internal `PriorityQueue`.
+.. isp:: **Threading:** Implement `_receiver_thread` to populate internal `PriorityQueue`.
    :id: ISP-2.3
    :links: TDD-2.6,TDD-2
 
@@ -114,21 +114,21 @@ Python Implementation Stubs
               pass
 
 
-.. test:: Stub: LogServer Sink
+.. isp:: Stub: LogServer Sink
    :id: ISP-3
    :links: TDD-3
 
    **Implementation Requirements:**
 
-.. test:: **Socket:** Bind `PULL` socket for aggregation.
+.. isp:: **Socket:** Bind `PULL` socket for aggregation.
    :id: ISP-3.1
    :links: TDD-3.3,TDD-3
 
-.. test:: **Performance:** Use 1ms poll timeout for high throughput.
+.. isp:: **Performance:** Use 1ms poll timeout for high throughput.
    :id: ISP-3.2
    :links: TDD-3.4,TDD-3
 
-.. test:: **Storage:** Configure `loguru` rotation/retention policies.
+.. isp:: **Storage:** Configure `loguru` rotation/retention policies.
    :id: ISP-3.3
    :links: TDD-3.6,TDD-3
 
@@ -155,17 +155,17 @@ Python Implementation Stubs
               pass
 
 
-.. test:: Stub: Tool/Routine Interface
+.. isp:: Stub: Tool/Routine Interface
    :id: ISP-4
    :links: TDD-4
 
    **Implementation Requirements:**
 
-.. test:: **Extensibility:** Define `AbstractTool` and `AbstractRoutine` using `ABC`.
+.. isp:: **Extensibility:** Define `AbstractTool` and `AbstractRoutine` using `ABC`.
    :id: ISP-4.1
    :links: TDD-4.1,TDD-4
 
-.. test:: **Contract:** Enforce `initialize`, `get_hsm_states`, and `handle_event`.
+.. isp:: **Contract:** Enforce `initialize`, `get_hsm_states`, and `handle_event`.
    :id: ISP-4.2
    :links: TDD-4.2,TDD-4.3,TDD-4.4,TDD-4
 
@@ -193,17 +193,17 @@ Python Implementation Stubs
               pass
 
 
-.. test:: Stub: Audio Worker Loop
+.. isp:: Stub: Audio Worker Loop
    :id: ISP-5
    :links: FSD-4,NFR-3
 
    **Implementation Requirements:**
 
-.. test:: **Logic:** Implement Wake Word -> VAD -> STT pipeline.
+.. isp:: **Logic:** Implement Wake Word -> VAD -> STT pipeline.
    :id: ISP-5.1
    :links: FSD-4
 
-.. test:: **Constraint:** Check Core State (`idle`) before sending Wake Word events.
+.. isp:: **Constraint:** Check Core State (`idle`) before sending Wake Word events.
    :id: ISP-5.2
    :links: FSD-4.2,FSD-4
 

@@ -1,5 +1,5 @@
-05_design
-=========
+TDD — Technical Design
+======================
 
 .. toctree::
    :maxdepth: 1
