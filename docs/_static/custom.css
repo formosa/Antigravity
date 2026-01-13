@@ -241,44 +241,118 @@ table.need[id*="."] tr.content:empty {
    ========================================= */
 
 
-/* Target links inside a 'needs-id' span, ONLY if the title starts with "BRD" */
-span.needs-id a.reference.internal[title^="BRD"] {
-    /* --- The Badge/Icon Look --- */
-    display: inline-block;
-    background-color: #FF9800;
-    /* Orange */
-    color: white !important;
-    /* Force white text over default link blue */
+/* _static/custom.css */
+
+/* --- 1. BASE BADGE STYLE (Shared Geometry) --- */
+/* Targets any link containing one of your ID prefixes */
+a.reference.internal[href*="BRD-"],
+a.reference.internal[href*="NFR-"],
+a.reference.internal[href*="FSD-"],
+a.reference.internal[href*="SAD-"],
+a.reference.internal[href*="ICD-"],
+a.reference.internal[href*="TDD-"],
+a.reference.internal[href*="ISP-"] {
+    /* Layout & Box Model */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    /* Slightly wider for a 'chip' feel */
+    margin: 0 2px;
+    border-radius: 4px;
+    /* Modern, slight rounding (not full pill) */
+    line-height: 1.3;
+    vertical-align: text-bottom;
+    /* Aligns perfectly with prose text */
 
     /* Typography */
-    font-family: system-ui, -apple-system, sans-serif;
+    color: white !important;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.75rem;
+    /* Technical and precise */
     font-weight: 700;
-    font-size: 0.85em;
     text-decoration: none;
-    /* Remove default underline */
-    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+    /* Improves legibility */
 
-    /* Sizing & Shape */
-    padding: 0.2em 0.5em;
-    margin: 0 0.15em;
-    border-radius: 0.3em;
+    /* Base Visuals */
     white-space: nowrap;
-
-    /* The 3D Pop Effect */
-    border: 1px solid #E68A00;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* Subtle definition */
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        /* Top highlight */
         0 1px 2px rgba(0, 0, 0, 0.15);
+    /* Drop shadow */
 
-    /* Vertical Alignment fix for inline text */
-    vertical-align: baseline;
-    transition: all 0.1s ease;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Optional: Add a hover effect since these are clickable links */
-span.needs-id a.reference.internal[title^="BRD"]:hover {
-    background-color: #FB8C00;
+/* --- 2. SEMANTIC COLOR MAPPING --- */
+
+/* BRD: Strategy/Context -> Royal Purple (Wisdom, High-Level) */
+a.reference.internal[href*="BRD-"] {
+    background: linear-gradient(180deg, #7E57C2 0%, #673AB7 100%);
+    border-color: #5E35B1;
+}
+
+/* NFR: Constraints/Limits -> Burnt Orange (Warning, Heat, Limits) */
+a.reference.internal[href*="NFR-"] {
+    background: linear-gradient(180deg, #FF7043 0%, #E64A19 100%);
+    border-color: #D84315;
+}
+
+/* FSD: Behavior/Features -> Teal (Green light, Action, User Flow) */
+a.reference.internal[href*="FSD-"] {
+    background: linear-gradient(180deg, #26A69A 0%, #00897B 100%);
+    border-color: #00695C;
+}
+
+/* SAD: Architecture/Structure -> Slate Blue (Concrete, Steel, Foundation) */
+a.reference.internal[href*="SAD-"] {
+    background: linear-gradient(180deg, #78909C 0%, #546E7A 100%);
+    border-color: #455A64;
+}
+
+/* ICD: Contracts/Data -> Dark Goldenrod (Gold standard, Wiring) */
+a.reference.internal[href*="ICD-"] {
+    background: linear-gradient(180deg, #FFA726 0%, #F57C00 100%);
+    border-color: #EF6C00;
+}
+
+/* TDD: Design/Blueprints -> Ocean Blue (Technical, Blueprint) */
+a.reference.internal[href*="TDD-"] {
+    background: linear-gradient(180deg, #42A5F5 0%, #1E88E5 100%);
+    border-color: #1565C0;
+}
+
+/* ISP: Implementation/Code -> Terminal Grey (Code, Console, Metal) */
+a.reference.internal[href*="ISP-"] {
+    background: linear-gradient(180deg, #546E7A 0%, #37474F 100%);
+    border-color: #263238;
+}
+
+/* --- 3. INTERACTIVE STATES --- */
+/* Hover: Brighten, Lift, and stronger shadow */
+a.reference.internal[href*="BRD-"]:hover,
+a.reference.internal[href*="NFR-"]:hover,
+a.reference.internal[href*="FSD-"]:hover,
+a.reference.internal[href*="SAD-"]:hover,
+a.reference.internal[href*="ICD-"]:hover,
+a.reference.internal[href*="TDD-"]:hover,
+a.reference.internal[href*="ISP-"]:hover {
+    filter: brightness(115%);
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+/* Active/Click: Press down effect */
+a.reference.internal[href*="-"]:active {
     transform: translateY(1px);
-    /* Little 'press' effect */
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 0 1px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
