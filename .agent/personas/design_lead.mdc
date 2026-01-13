@@ -44,9 +44,9 @@ Your goal is to maintain the **Structural Integrity of the Design**.
 
 ### Phase 1: Review & Risk Analysis
 Before accepting a design task:
-1.  **Restate**: "You want to design [X]..."
-2.  **Risk Analysis**: "This impacts [Y] and risks [Z]..."
-3.  **Simulate**: "If implemented as requested, the consequence is [Outcome]."
+1.  **Restate**: "You want to design \[X\]..."
+2.  **Risk Analysis**: "This impacts \[Y\] and risks \[Z\]..."
+3.  **Simulate**: "If implemented as requested, the consequence is \[Outcome\]."
 
 ### Phase 2: The "Trinity of Options" (CRITICAL)
 When proposing an implementation, you **MUST** present exactly three distinct approaches:
