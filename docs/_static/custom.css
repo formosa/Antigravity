@@ -234,3 +234,51 @@ table.need[id*="."] tr.content:empty {
     font-size: 0.85rem !important;
     font-family: var(--font-stack) !important;
 }
+
+/* =========================================
+   DDR Internal Traceability Tags
+   Purpose: Stylistic tag presentation
+   ========================================= */
+
+
+/* Target links inside a 'needs-id' span, ONLY if the title starts with "BRD" */
+span.needs-id a.reference.internal[title^="BRD"] {
+    /* --- The Badge/Icon Look --- */
+    display: inline-block;
+    background-color: #FF9800;
+    /* Orange */
+    color: white !important;
+    /* Force white text over default link blue */
+
+    /* Typography */
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    text-decoration: none;
+    /* Remove default underline */
+    line-height: 1;
+
+    /* Sizing & Shape */
+    padding: 0.2em 0.5em;
+    margin: 0 0.15em;
+    border-radius: 0.3em;
+    white-space: nowrap;
+
+    /* The 3D Pop Effect */
+    border: 1px solid #E68A00;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 1px 2px rgba(0, 0, 0, 0.15);
+
+    /* Vertical Alignment fix for inline text */
+    vertical-align: baseline;
+    transition: all 0.1s ease;
+}
+
+/* Optional: Add a hover effect since these are clickable links */
+span.needs-id a.reference.internal[title^="BRD"]:hover {
+    background-color: #FB8C00;
+    transform: translateY(1px);
+    /* Little 'press' effect */
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 1px rgba(0, 0, 0, 0.1);
+}
