@@ -1,7 +1,7 @@
 ---
 type: workflow
 name: "Document Script (Numpy-style)"
-slug: /document-script
+slug: /document_script
 description: "Orchestrator. Applies comprehensive Numpy-style docstrings. Features: Shadow Volume, Knowledge Recall, and Artifact Reporting."
 mode: autonomous
 inputs:
@@ -10,7 +10,7 @@ inputs:
     description: "Path to the Python script (e.g., src/utils/audit.py)"
     required: true
 context:
-  - ".agent/assets/numpy-style-doc-example.py"
+  - ".agent/assets/numpy_style_doc_example.py"
   - "{{inputs.target_file}}"
 ---
 
@@ -39,7 +39,7 @@ context:
 ## Phase 2: Generative Intelligence (Attempt 1)
 **@coder**: You are the Fiduciary of Code Integrity.
 **Context**:
-* Reference Style: `.agent/assets/numpy-style-doc-example.py`
+* Reference Style: `.agent/assets/numpy_style_doc_example.py`
 * Legacy Notes: `{{TEMP}}/legacy_notes.md`
 
 **Task**: Generate `${workspaceFolder}/{{TEMP}}/modified.py` based on `original.py`.

@@ -1,11 +1,11 @@
 // Antigravity Agent Asset Configuration Schema (v1.13+)
 // AUTHORITATIVE REFERENCE for LLM Context
-// NOTE: Use YAML frontmatter for all Markdown file definitions matching these interfaces.
+// NOTE: Use YAML frontmatter for all agent asset definition Markdown files matching these interfaces.
 
-/** * 1. AGENT DEFINITION
+/** * 1. PERSONA DEFINITION
  * File Pattern: .agent/personas/*.mdc
  */
-interface AgentDefinition {
+interface PersonaDefinition {
     // Human-readable display name (Max ~25 chars).
     name: string;
     // Unique identifier for summoning/delegation.
