@@ -1,16 +1,16 @@
-# DDR Hierarchy Document Formatting Specification
+# Documentation System Proposal Formatting Specification
 
 **Version:** 1.1
 **Last Updated:** 2026-01-15
 **Reference Documents:**
-- `27. Antigravity Agent Asset Definition Files.md` (Formatting)
-- `antigravity_types.d.ts` (Schema)
+- `.agent\assets\proposals\future\documentation_system\27. Antigravity Agent Asset Definition Files.md` (Formatting)
+- `.agent\assets\antigravity_types.d.ts` (Schema)
 
 ---
 
 ## 1. Purpose
 
-This specification defines the formatting rules for DDR hierarchy documentation files. It serves as an authoritative ruleset for AI agents to:
+This specification defines the formatting rules for the Documentation System Proposal files. It serves as an authoritative ruleset for AI agents to:
 
 1. **Validate** existing file formatting compliance
 2. **Transform** files from previous formatting structures to the current standard
@@ -26,35 +26,42 @@ This specification defines the formatting rules for DDR hierarchy documentation 
 
 **Syntax:**
 ~~~plaintext
-~~~<content_type>
 <content>
-~~~
 ~~~
 
 **Supported Content Types:**
 
 | Content Type | Purpose |
 |:--|:--|
-| `markdown` | Rule definitions, tool definitions, workflow definitions |
-| `mdc` | Persona definition files (`.mdc` format) |
+| `markdown` | Rule, Tool, Workflow, Knowledge, and Evaluation definitions |
+| `mdc` | Persona definition files (`.mdc` format)
 | `yaml` | YAML configuration files (when content is pure YAML) |
+| `rst` | reStructuredText documentation examples |
 | `plaintext` | Conversational transcripts, terminal output, reports |
 
 **Example — Rule Definition:**
-~~~markdown
-~~~markdown
----
-type: rule
-name: "Example Rule"
-globs:
-  - "docs/**/*.rst"
----
-# Rule: Example Rule
+```
 
-## Enforcement Protocol
-Content here...
-~~~
-~~~
+  ~~~markdown
+  ---
+  type: rule
+  name: "Example Rule"
+  globs:
+    - "docs/**/*.rst"
+  priority: 50
+  trigger:
+    - "trigger1"
+    - "trigger2"
+  severity: mandatory
+  description: "Example Rule description."
+  ---
+  # Rule: Example Rule
+
+  ## Enforcement Protocol
+  Content here...
+  ~~~
+
+```
 
 ----------
 
@@ -63,11 +70,14 @@ Content here...
 **Rule:** Code blocks nested WITHIN a parent (tilde-fenced) block MUST use **triple backticks** (` ``` `) with a specified content type.
 
 **Syntax:**
-~~~plaintext
-```<content_type>
-<embedded_content>
 ```
-~~~
+  ~~~markdown
+    ```plaintext
+      <embedded_content>
+    ```
+  ~~~
+
+```
 
 **Common Child Content Types:**
 
@@ -88,7 +98,7 @@ Content here...
 
 **Format:**
 ~~~plaintext
-> **Embedded Example Type:** <contextual description>
+> **Embedded Example <type>:** <contextual description>
 ~~~
 
 **Placement:** Immediately before the child code block (no blank lines between notation and code block).
@@ -97,8 +107,8 @@ Content here...
 
 | Context Notation | Appropriate For |
 |:--|:--|
-| `> **Embedded Example Type:** reStructuredText BRD directive` | RST directive examples |
-| `> **Embedded Example Code:** Python function to validate complete citation chain` | Algorithm implementations |
+| `> **Embedded Example reStructuredText:** BRD directive` | RST directive examples |
+| `> **Embedded Example Python:** Function to validate complete citation chain` | Algorithm implementations |
 | `> **Embedded Example JSON:** Output of the tool` | JSON output/schema examples |
 | `> **Embedded Example Mermaid Syntax:** Tool output` | Mermaid diagrams |
 | `> **Embedded Example Type:** plaintext DDR Audit Report template` | Report templates |

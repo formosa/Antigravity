@@ -66,13 +66,13 @@
     * **Industry Role:** Serves as the immediate precursor to coding, giving developers a clear plan of attack for internal class structure and logic encapsulation.
     * **Distinction:** Granular and code-centric. Unlike the SAD (which connects processes), the TDD defines the internal organs of the process itself, but stops short of writing the actual code.
 
-## 7. Implementation Stubs (Prompts)
+## 7. Implementation Stubs (Scaffolding)
 * **Abbreviation:** ISP
-* **Type:** Code Scaffolding & Prompts
+* **Type:** Interfaces, Signatures, and Stubs
 * **Assigned Persona:** Code Generator
 * **Data Flow:** Blueprints → Python Stubs
-* **Purpose:** To provide the "Starter Code," offering executable scaffolds and docstrings to accelerate implementation.
+* **Purpose:** To provide the "Starter Code," offering scaffolds and docstrings to accelerate implementation.
 * **Explanation:**
-    * **Content:** Contains actual Python code blocks, import statements, class skeletons, and docstrings that explicitly reference upstream requirements.
+    * **Content:** Contains actual Python code blocks, import statements, class skeletons, method/function signatures, and docstrings that explicitly reference upstream requirements.
     * **Industry Role:** Facilitates Test-Driven Development (TDD) or AI-assisted coding by providing context-aware starting points that are already aligned with the architecture.
-    * **Distinction:** The only document type containing executable programming language syntax. It is the realization of the TDD blueprints into actual code artifacts.
+    * **Distinction:** The only document type containing strict programming language syntax. It is the realization of the TDD blueprints into actual code artifacts.
