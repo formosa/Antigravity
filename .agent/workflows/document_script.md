@@ -17,7 +17,7 @@ context:
 # Workflow: Document Script (Numpy-style)
 
 ## Phase 1: Infrastructure & Knowledge Retrieval
-**@system**: Initialize Shadow Volume and Recall Context.
+**@tech_lead**: Initialize Shadow Volume and Recall Context.
 1.  **Shadow Volume Initialization**:
     * **Execute**:
         ```bash
@@ -37,7 +37,7 @@ context:
     * **Execute**: `python -c "import shutil; shutil.copy('${workspaceFolder}/{{inputs.target_file}}', '${workspaceFolder}/{{TEMP}}/original.py')"`
 
 ## Phase 2: Generative Intelligence (Attempt 1)
-**@coder**: You are the Fiduciary of Code Integrity.
+**@tech_lead**: You are the Fiduciary of Code Integrity.
 **Context**:
 * Reference Style: `.agent/assets/numpy_style_doc_example.py`
 * Legacy Notes: `{{TEMP}}/legacy_notes.md`
@@ -48,7 +48,7 @@ context:
 2.  **Artifact Generation**: Create `{{ARTIFACTS}}/plan_summary.md` listing functions to document.
 
 ## Phase 3: The "Fail-Fast" Verification Chain (Attempt 1)
-**@system**: Execute serial verification.
+**@tech_lead**: Execute serial verification.
 1.  **Check 1: Syntax**:
     * `python -m py_compile {{TEMP}}/modified.py` (Stop if fail)
 
@@ -65,7 +65,7 @@ context:
         ```
 
 ## Phase 4: Recovery Controller (Retry Logic)
-**@system**: Evaluate Phase 3 results.
+**@tech_lead**: Evaluate Phase 3 results.
 
 **IF Phase 3 Success:**
 * **Action**: Proceed to "Deployment" block below.
@@ -76,7 +76,7 @@ context:
         * Respond: "⚠️ Attempt 1 Failed. Resetting Shadow Volume for Retry 1/1."
         * `python -c "import shutil; shutil.copy('${workspaceFolder}/{{TEMP}}/original.py', '${workspaceFolder}/{{TEMP}}/modified.py')"` (Revert to clean slate)
     2.  **Regenerate (Attempt 2)**:
-        * **@coder**: Read `{{ARTIFACTS}}/coverage.json` (if available) or AST logs. Re-apply docstrings to `{{TEMP}}/modified.py`, fixing the previous error.
+        * **@tech_lead**: Read `{{ARTIFACTS}}/coverage.json` (if available) or AST logs. Re-apply docstrings to `{{TEMP}}/modified.py`, fixing the previous error.
     3.  **Verify (Attempt 2)**:
         * Run **Check 1** (Syntax).
         * Run **Check 2** (`/ast_compare`).
@@ -88,7 +88,7 @@ context:
             * **ABORT WORKFLOW**.
 
 ## Deployment (Success State)
-**@system**: Only executed if Verification passes (Attempt 1 or 2).
+**@tech_lead**: Only executed if Verification passes (Attempt 1 or 2).
 1.  **Atomic Swap**:
     * `python -c "import shutil; shutil.move('${workspaceFolder}/{{TEMP}}/modified.py', '${workspaceFolder}/{{inputs.target_file}}');"`
 2.  **Knowledge Crystallization**:
