@@ -2,7 +2,11 @@
 
 > Master lookup table for topic-based navigation of DDR knowledge sources.
 >
-> **Total Files**: 34 (1 index + 33 content files)
+> **Total Files**: 35 (1 index + 34 content files)
+>
+> **Layer**: Static DDR Framework Knowledge (reusable across projects)
+>
+> For project-specific terminology, see: `../context/_index.md`
 
 ## Quick Lookup
 
@@ -39,6 +43,7 @@
 | ISP Numpy Docstrings | constraint | `constraints/isp_numpy_docstrings.md` |
 | Tag Syntax | pattern | `patterns/tag_syntax.md` |
 | Manifest Structure | pattern | `patterns/manifest_structure.md` |
+| Knowledge Source Template | pattern | `patterns/knowledge_source_template.md` |
 | Worked Example: Classification | pattern | `patterns/worked_example_classification.md` |
 | Worked Example: Feature | pattern | `patterns/worked_example_feature.md` |
 
@@ -80,7 +85,8 @@
 - [ISP Stub Only](constraints/isp_stub_only.md) — Pass statements only
 - [ISP Numpy Docstrings](constraints/isp_numpy_docstrings.md) — Required format
 
-### Patterns (4) ✅
+### Patterns (5) ✅
+- [Knowledge Source Template](patterns/knowledge_source_template.md) — Authoring specification
 - [Tag Syntax](patterns/tag_syntax.md) — ID format and RST directives
 - [Manifest Structure](patterns/manifest_structure.md) — Reconciliation format
 - [Worked Example: Classification](patterns/worked_example_classification.md) — Tier assignment demo
@@ -98,6 +104,6 @@
 | Concepts | 10 | 10 | ✅ Complete |
 | Protocols | 9 | 9 | ✅ Complete |
 | Constraints | 9 | 9 | ✅ Complete |
-| Patterns | 4 | 4 | ✅ Complete |
+| Patterns | 5 | 5 | ✅ Complete |
 | Vocabulary | 1 | 1 | ✅ Complete |
-| **Total** | **34** | **34** | **100%** |
+| **Total** | **35** | **35** | **100%** |

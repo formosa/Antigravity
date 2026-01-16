@@ -1,41 +1,41 @@
 ---
 archetype: vocabulary
-status: draft
-version: 1.0.0
+status: validated
+version: 2.0.0
 created: 2026-01-16
 updated: 2026-01-16
 requires: []
-related: []
+related:
+  - ../context/glossary.md
 ---
 
-# Glossary
+# DDR Glossary
 
-> **Scope**: Normative terminology for all DDR documentation and agent operations.
+> **Scope**: Terminology for the DDR framework and agent operations.
 >
-> **Excludes**: Implementation-specific technical terms not used across tiers.
+> **Excludes**: Project-specific terms (see `context/glossary.md`).
 
 ## Summary
 
-The DDR controlled vocabulary prevents semantic drift and synonym hallucination by LLMs. All nouns in documentation must validate against this glossary. Non-compliant terms are validation errors.
+DDR controlled vocabulary prevents semantic drift by LLMs. Universal to all DDR projects. Project terminology maintained separately in context layer.
 
 ## Terms
 
-| Term | Definition | Usage | Avoid |
-|:-----|:-----------|:------|:------|
-| **Core Process** | The central orchestrator using ZeroMQ ROUTER pattern | "Core Process routes messages" | "manager", "controller", "hub" |
-| **UI Process** | PySide6-based user interaction handler | "UI Process renders interface" | "frontend", "GUI service" |
-| **Runtime Process** | GPU-optimized inference engine | "Runtime Process executes model" | "model server", "inference server" |
-| **Audio Process** | Real-time audio I/O with WWD and VAD | "Audio Process captures wake word" | "voice handler", "audio service" |
-| **LogServer** | Centralized logging using PULL socket | "LogServer aggregates logs" | "log manager", "log collector" |
-| **Tool** | Modular capability extending Core Process | "Tool provides weather lookup" | "plugin", "extension", "module" |
-| **Routine** | Multi-step Tool sequence with context | "Routine executes morning briefing" | "workflow", "script", "procedure" |
-| **HSM** | Hierarchical State Machine via transitions library | "HSM transitions to active state" | "state machine", "FSM" |
-| **Service** | Any process communicating via ZeroMQ sockets | "Service binds to endpoint" | "server", "daemon", "worker" |
+| Term | Definition |
+|:-----|:-----------|
+| **Tag** | Traceable documentation element with unique ID (e.g., `BRD-1.2`) |
+| **Citation** | Parent reference via `:links:` directive |
+| **Tier** | One of seven DDR abstraction levels (BRD through ISP) |
+| **Traceability** | Complete chain of citations from any tag to BRD root |
+| **Orphan** | Tag without required parent citation |
+| **Manifest** | Reconciliation status block tracking section integrity |
+| **Archetype** | Knowledge source type (concept, protocol, constraint, pattern, vocabulary) |
 
 ## Abbreviations
 
-| Abbrev | Expansion | Context |
-|:-------|:----------|:--------|
+| Abbrev | Expansion | Description |
+|:-------|:----------|:------------|
+| DDR | Development Documentation Roadmap | The documentation framework |
 | BRD | Business Requirements Document | Tier 1: Strategic justification |
 | NFR | Non-Functional Requirements | Tier 2: Constraints and targets |
 | FSD | Feature Specifications Document | Tier 3: System capabilities |
@@ -43,27 +43,16 @@ The DDR controlled vocabulary prevents semantic drift and synonym hallucination 
 | ICD | Interface & Contract Definitions | Tier 5: Data schemas |
 | TDD | Technical Design Document | Tier 6: Component blueprints |
 | ISP | Implementation Stubs & Prompts | Tier 7: Code skeletons |
-| DDR | Development Documentation Roadmap | The complete documentation system |
-| WWD | Wake Word Detection | Audio trigger system |
-| VAD | Voice Activity Detection | Speech boundary detection |
-| IPC | Inter-Process Communication | ZeroMQ messaging |
-| HSM | Hierarchical State Machine | State management pattern |
 
 ## Enforcement
 
-When validating documentation:
-1. Scan all nouns related to architecture/components
-2. Verify each term exists in this glossary
-3. Flag non-compliant terms as errors with suggested corrections
-
-**Example Error:**
-```
-✗ ERROR: Term "Model Server" not in glossary.
-  → Did you mean "Runtime Process"?
-```
+1. Scan nouns related to DDR operations
+2. Verify against this glossary for framework terms
+3. Verify against `context/glossary.md` for project terms
+4. Flag unknown terms as errors
 
 ---
 
 ## References
 
-- Source: `ddr_meta_standard.txt` §5. Controlled Vocabulary & Glossary
+- Project glossary: `../context/glossary.md`
