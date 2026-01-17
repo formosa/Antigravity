@@ -3,7 +3,7 @@
 > **Proposal Source**: `.agent/assets/proposals/future/documentation_system/`
 > **Target Project**: Antigravity (MAGGIE Framework)
 > **Created**: 2026-01-16
-> **Last Updated**: 2026-01-16T18:12:00
+> **Last Updated**: 2026-01-17T01:35:39-05:00
 
 ---
 
@@ -23,6 +23,53 @@ This tracking sheet catalogs all components required for successful integration 
 | Blocked | 🔴 | Awaiting dependency or decision |
 | Deferred | ⏸️ | Intentionally postponed |
 | Existing | 🔵 | Already exists in project |
+
+---
+
+## Legacy Assets (Excluded from Audits)
+
+> **Purpose**: The following files are pre-existing infrastructure that predates this proposal. They are excluded from integration tracking audits and should not be evaluated as part of documentation system progress.
+
+### Personas (`.agent/personas/`)
+| File | Notes |
+|:-----|:------|
+| `consultant.mdc` | Legacy persona |
+| `design_lead.mdc` | Legacy persona |
+| `tech_lead.mdc` | Legacy persona |
+
+### Workflows (`.agent/workflows/`)
+| File | Notes |
+|:-----|:------|
+| `document_script.md` | Legacy workflow |
+| `update_documentation_spec.md` | Legacy workflow |
+| `validate_ddr.md` | Legacy workflow |
+
+### Scripts (`.agent/scripts/`)
+| File | Notes |
+|:-----|:------|
+| `__init__.py` | Package marker |
+| `ast_compare.py` | Legacy utility |
+| `clean_source.py` | Legacy utility |
+| `directory_tree.py` | Legacy utility |
+| `generate_llm_context.py` | Legacy utility |
+| `generate_uuid.py` | Legacy utility |
+| `validate_ddr.py` | Legacy utility |
+
+### Tools (`.agent/tools/`)
+| File | Notes |
+|:-----|:------|
+| `ast_compare.md` | Legacy tool |
+| `clean_source.md` | Legacy tool |
+| `generate_uuid.md` | Legacy tool |
+| `rebuild_docs.md` | Legacy tool |
+| `validate_ddr.md` | Legacy tool |
+
+### System Rules (`.agent/rules/`)
+| File | Notes |
+|:-----|:------|
+| `planning_instructions.md` | Agent planning guidance |
+| `sys_antigravity_types.md` | Project-specific Sphinx-Needs types |
+| `sys_protected_files.md` | Protected file definitions |
 
 ---
 
@@ -89,34 +136,34 @@ This tracking sheet catalogs all components required for successful integration 
 
 | Status | File Path | Knowledge Source | Priority |
 |:------:|:----------|:-----------------|:--------:|
+| ✅ | `.agent/rules/ddr_id_immutability.md` | `constraints/tag_immutability.md` | 100 |
+| ✅ | `.agent/rules/ddr_manifest_integrity.md` | `protocols/reconciliation_*.md` | 40 |
+| ✅ | `.agent/rules/ddr_tier_classification.md` | `protocols/classification_decision_tree.md` | 50 |
 | 🔵 | `.agent/rules/ddr_traceability.md` | (existing) | - |
-| ⬜ | `.agent/rules/ddr_tier_classification.md` | `protocols/classification_decision_tree.md` | 50 |
-| ⬜ | `.agent/rules/ddr_traceability_mandate.md` | `constraints/tag_citation_required.md` | 60 |
-| ⬜ | `.agent/rules/ddr_id_immutability.md` | `constraints/tag_immutability.md` | 100 |
-| ⬜ | `.agent/rules/ddr_manifest_integrity.md` | `protocols/reconciliation_*.md` | 40 |
+| ✅ | `.agent/rules/ddr_traceability_mandate.md` | `constraints/tag_citation_required.md` | 60 |
 
 ### 1.4 Tier-Specific Rule Implementations
 
 #### BRD Rules
 | Status | File Path | Knowledge Source | Priority |
 |:------:|:----------|:-----------------|:--------:|
-| ⬜ | `.agent/rules/brd_technology_agnostic.md` | `constraints/brd_technology_agnostic.md` | 80 |
-| ⬜ | `.agent/rules/brd_measurable_metrics.md` | `constraints/brd_measurable_metrics.md` | 70 |
-| ⬜ | `.agent/rules/brd_stakeholder_focus.md` | `concepts/tier_brd.md` | 50 |
+| ✅ | `.agent/rules/brd_technology_agnostic.md` | `constraints/brd_technology_agnostic.md` | 80 |
+| ✅ | `.agent/rules/brd_measurable_metrics.md` | `constraints/brd_measurable_metrics.md` | 70 |
+| ✅ | `.agent/rules/brd_stakeholder_focus.md` | `concepts/tier_brd.md` | 50 |
 
 #### Traceability Rules
 | Status | File Path | Knowledge Source | Priority |
 |:------:|:----------|:-----------------|:--------:|
-| ⬜ | `.agent/rules/trace_complete_chain.md` | `protocols/traceability_chain.md` | 90 |
-| ⬜ | `.agent/rules/trace_no_forward_references.md` | `protocols/traceability_chain.md` | 85 |
-| ⬜ | `.agent/rules/trace_no_sibling_citations.md` | `constraints/sibling_prohibition.md` | 80 |
+| ✅ | `.agent/rules/trace_complete_chain.md` | `protocols/traceability_chain.md` | 90 |
+| ✅ | `.agent/rules/trace_no_forward_references.md` | `protocols/traceability_chain.md` | 85 |
+| ✅ | `.agent/rules/trace_no_sibling_citations.md` | `constraints/sibling_prohibition.md` | 80 |
 
 #### ISP Rules
 | Status | File Path | Knowledge Source | Priority |
 |:------:|:----------|:-----------------|:--------:|
-| ⬜ | `.agent/rules/isp_stub_only.md` | `constraints/isp_stub_only.md` | 90 |
-| ⬜ | `.agent/rules/isp_traceability_required.md` | `constraints/isp_numpy_docstrings.md` | 85 |
-| ⬜ | `.agent/rules/isp_numpy_docstring.md` | `constraints/isp_numpy_docstrings.md` | 80 |
+| ✅ | `.agent/rules/isp_stub_only.md` | `constraints/isp_stub_only.md` | 90 |
+| ✅ | `.agent/rules/isp_traceability_required.md` | `constraints/isp_numpy_docstrings.md` | 85 |
+| ✅ | `.agent/rules/isp_numpy_docstring.md` | `constraints/isp_numpy_docstrings.md` | 80 |
 
 ---
 
@@ -474,4 +521,9 @@ This tracking sheet catalogs all components required for successful integration 
 | 2026-01-16 | Updated Phase 1 to reference knowledge sources; added source mappings | Agent |
 | 2026-01-16 | Added Phase 0.3: Project Context Layer (static/dynamic separation) | Agent |
 | 2026-01-16 | Added knowledge_source_template.md to patterns (35 total files) | Agent |
+| 2026-01-17 | Implemented Phase 1.3 core rules (4 files) | Agent |
+| 2026-01-17 | Audit corrections: added __init__.py and system rules to legacy; reordered Phase 1.3 table alphabetically | Agent |
+| 2026-01-17 | Audit: added legacy tools section (ast_compare.md, clean_source.md, generate_uuid.md, rebuild_docs.md, validate_ddr.md) | Agent |
+| 2026-01-17 | Implemented Phase 1.4 tier-specific rules (9 files: BRD×3, Traceability×3, ISP×3) | Agent |
+| 2026-01-17 | Enhanced 8 rule files with Enforcement Protocol, Forbidden Terms, and validation algorithms per §27 | Agent |
 
