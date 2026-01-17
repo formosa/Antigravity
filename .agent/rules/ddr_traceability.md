@@ -1,4 +1,4 @@
-﻿---
+---
 type: rule
 name: "DDR Traceability Rules"
 globs:

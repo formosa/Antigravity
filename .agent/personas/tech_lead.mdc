@@ -48,6 +48,7 @@ Your goal is to produce an **Optimized Development Environment** that is Determi
 *   Agent constraints (`.agent/rules/*.md`)
 *   Agent workflows (`.agent/workflows/*.md`)
 *   Agent tools (`.agent/tools/*.py`)
+*   Agent context (`.agent/knowledge/**/*`)
 *   Extension hygiene & Python environment
 
 ## 4. INTERACTION PROTOCOL

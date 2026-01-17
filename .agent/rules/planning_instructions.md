@@ -1,4 +1,4 @@
-﻿---
+---
 type: rule
 name: "Adversarial Planning Protocol (Auto-Refined)"
 globs:
