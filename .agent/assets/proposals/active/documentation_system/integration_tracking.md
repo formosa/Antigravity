@@ -3,7 +3,7 @@
 > **Proposal Source**: `.agent/assets/proposals/future/documentation_system/`
 > **Target Project**: Antigravity (MAGGIE Framework)
 > **Created**: 2026-01-16
-> **Last Updated**: 2026-01-17T01:35:39-05:00
+> **Last Updated**: 2026-01-17T01:53:40-05:00
 
 ---
 
@@ -173,25 +173,25 @@ This tracking sheet catalogs all components required for successful integration 
 
 | Status | File Path | Description |
 |:------:|:----------|:------------|
-| ⬜ | `.agent/personas/ddr_orchestrator.mdc` | Master agent for DDR system; routes tasks to tier specialists |
+| ✅ | `.agent/personas/ddr_orchestrator.mdc` | Master agent for DDR system; routes tasks to tier specialists |
 
 ### 2.2 Tier Specialist Agents
 
 | Status | File Path | Handle | Tier Focus |
 |:------:|:----------|:-------|:-----------|
-| ⬜ | `.agent/personas/brd_strategist.mdc` | `@brd_strategist` | Business Requirements |
+| ✅ | `.agent/personas/brd_strategist.mdc` | `@brd_strategist` | Business Requirements |
 | ⬜ | `.agent/personas/nfr_enforcer.mdc` | `@nfr_enforcer` | Non-Functional Requirements |
 | ⬜ | `.agent/personas/fsd_analyst.mdc` | `@fsd_analyst` | Feature Specifications |
 | ⬜ | `.agent/personas/sad_architect.mdc` | `@sad_architect` | System Architecture |
 | ⬜ | `.agent/personas/icd_dataengineer.mdc` | `@icd_dataengineer` | Interface Contracts |
 | ⬜ | `.agent/personas/tdd_designer.mdc` | `@tdd_designer` | Technical Design |
-| ⬜ | `.agent/personas/isp_codegenerator.mdc` | `@isp_codegenerator` | Implementation Stubs |
+| ✅ | `.agent/personas/isp_codegenerator.mdc` | `@isp_codegenerator` | Implementation Stubs |
 
 ### 2.3 Cross-Tier Validator Agents
 
 | Status | File Path | Handle | Purpose |
 |:------:|:----------|:-------|:--------|
-| ⬜ | `.agent/personas/traceability_auditor.mdc` | `@traceability_auditor` | Citation chain validation |
+| ✅ | `.agent/personas/traceability_auditor.mdc` | `@traceability_auditor` | Citation chain validation |
 | ⬜ | `.agent/personas/orphan_detective.mdc` | `@orphan_detective` | Orphan detection and resolution |
 | ⬜ | `.agent/personas/antipattern_scanner.mdc` | `@antipattern_scanner` | Documentation anti-pattern detection |
 
@@ -526,4 +526,5 @@ This tracking sheet catalogs all components required for successful integration 
 | 2026-01-17 | Audit: added legacy tools section (ast_compare.md, clean_source.md, generate_uuid.md, rebuild_docs.md, validate_ddr.md) | Agent |
 | 2026-01-17 | Implemented Phase 1.4 tier-specific rules (9 files: BRD×3, Traceability×3, ISP×3) | Agent |
 | 2026-01-17 | Enhanced 8 rule files with Enforcement Protocol, Forbidden Terms, and validation algorithms per §27 | Agent |
+| 2026-01-17 | Implemented Phase 2 core personas: ddr_orchestrator, brd_strategist, traceability_auditor, isp_codegenerator | Agent |
 
