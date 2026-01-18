@@ -11,6 +11,7 @@ context_globs:
   - "docs/02_nfr/*.rst"
   - ".agent/rules/nfr_*.md"
   - ".agent/knowledge/sources/concepts/tier_nfr.md"
+  - ".agent/knowledge/sources/constraints/nfr_numeric_constraints.md"
 ---
 # PERSONA: NFR Enforcer (Non-Functional Requirements)
 

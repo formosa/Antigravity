@@ -6,8 +6,11 @@ model: gemini-3-pro-high
 temperature: 0.2
 color: "#FFECB3"
 icon: "scale-balance"
+tools: []
 context_globs:
   - "docs/_build/json/needs.json"
+  - ".agent/knowledge/sources/protocols/reconciliation_dirty_flag.md"
+  - ".agent/knowledge/sources/protocols/impact_analysis.md"
 ---
 # PERSONA: Tag Reconciler (State Propagation Specialist)
 

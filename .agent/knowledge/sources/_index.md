@@ -2,7 +2,7 @@
 
 > Master lookup table for topic-based navigation of DDR knowledge sources.
 >
-> **Total Files**: 35 (1 index + 34 content files)
+> **Total Files**: 36 (1 index + 35 content files)
 >
 > **Layer**: Static DDR Framework Knowledge (reusable across projects)
 >
@@ -46,6 +46,7 @@
 | Knowledge Source Template | pattern | `patterns/knowledge_source_template.md` |
 | Worked Example: Classification | pattern | `patterns/worked_example_classification.md` |
 | Worked Example: Feature | pattern | `patterns/worked_example_feature.md` |
+| Persona Content Strategy | pattern | `patterns/persona_content_strategy.md` |
 
 ---
 
@@ -85,12 +86,13 @@
 - [ISP Stub Only](constraints/isp_stub_only.md) — Pass statements only
 - [ISP Numpy Docstrings](constraints/isp_numpy_docstrings.md) — Required format
 
-### Patterns (5) ✅
+### Patterns (6) ✅
 - [Knowledge Source Template](patterns/knowledge_source_template.md) — Authoring specification
 - [Tag Syntax](patterns/tag_syntax.md) — ID format and RST directives
 - [Manifest Structure](patterns/manifest_structure.md) — Reconciliation format
 - [Worked Example: Classification](patterns/worked_example_classification.md) — Tier assignment demo
 - [Worked Example: Feature](patterns/worked_example_feature.md) — End-to-end demo
+- [Persona Content Strategy](patterns/persona_content_strategy.md) — Inline vs. refs decision
 
 ### Vocabulary (1) ✅
 - [Glossary](vocabulary/glossary.md) — Normative terminology
@@ -104,6 +106,6 @@
 | Concepts | 10 | 10 | ✅ Complete |
 | Protocols | 9 | 9 | ✅ Complete |
 | Constraints | 9 | 9 | ✅ Complete |
-| Patterns | 5 | 5 | ✅ Complete |
+| Patterns | 6 | 6 | ✅ Complete |
 | Vocabulary | 1 | 1 | ✅ Complete |
-| **Total** | **35** | **35** | **100%** |
+| **Total** | **36** | **36** | **100%** |

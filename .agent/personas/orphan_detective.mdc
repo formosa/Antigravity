@@ -6,9 +6,11 @@ model: gemini-3-pro-high
 temperature: 0.1
 color: "#FFF9C4"
 icon: "graph-broken"
+tools: []
 context_globs:
   - "docs/**/*.rst"
   - "docs/_build/json/needs.json"
+  - ".agent/knowledge/sources/protocols/traceability_chain.md"
 ---
 # PERSONA: Orphan Detective (Topology Expert)
 

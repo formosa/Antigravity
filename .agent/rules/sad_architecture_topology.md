@@ -1,5 +1,8 @@
 ---
 type: rule
+name: "SAD Architecture Topology"
+globs:
+  - "docs/04_sad/*.rst"
 priority: 80
 trigger:
   - "structure"
@@ -58,3 +61,8 @@ description: "SAD sections must define the architectural pattern and include at 
 .. sad:: The components communicate via ZeroMQ sockets in a circular pattern.
 ```
 **Why**: Missing mandatory ASCII topology diagram.
+
+## References
+
+- Knowledge: `concepts/tier_sad.md`
+- Source: DDR Meta-Standard §2.4

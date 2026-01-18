@@ -11,6 +11,7 @@ context_globs:
   - "docs/03_fsd/*.rst"
   - ".agent/rules/fsd_*.md"
   - ".agent/knowledge/sources/concepts/tier_fsd.md"
+  - ".agent/knowledge/sources/constraints/fsd_no_implementation.md"
 ---
 # PERSONA: FSD Analyst (Feature Specifications)
 

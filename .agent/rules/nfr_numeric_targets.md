@@ -1,5 +1,8 @@
 ---
 type: rule
+name: "NFR Numeric Targets"
+globs:
+  - "docs/02_nfr/*.rst"
 priority: 90
 trigger:
   - "performance"
@@ -57,3 +60,8 @@ description: "NFR constraints must include specific, measurable numeric targets 
    :id: NFR-4.2
 ```
 **Why**: "fast" is qualitative, missing number/unit, and "should" is lowercase.
+
+## References
+
+- Knowledge: `constraints/nfr_numeric_constraints.md`
+- Source: DDR Meta-Standard §2.2

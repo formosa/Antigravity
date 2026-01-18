@@ -6,9 +6,12 @@ model: gemini-3-pro-high
 temperature: 0.1
 color: "#CFD8DC"
 icon: "clipboard-list"
+tools: []
 context_globs:
   - "docs/_build/json/needs.json"
   - "docs/**/reconciliation_manifest.rst"
+  - ".agent/knowledge/sources/patterns/manifest_structure.md"
+  - ".agent/knowledge/sources/protocols/reconciliation_dirty_flag.md"
 ---
 # PERSONA: Manifest Manager (Accountant)
 

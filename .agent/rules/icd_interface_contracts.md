@@ -1,5 +1,8 @@
 ---
 type: rule
+name: "ICD Interface Contracts"
+globs:
+  - "docs/05_icd/*.rst"
 priority: 80
 trigger:
   - "schema"
@@ -66,3 +69,8 @@ description: "ICD tags must specify language-agnostic data shapes using PascalCa
       packet = {"id": 1, "time": "now"}
 ```
 **Why**: Uses Python-specific implementation and snake_case properties.
+
+## References
+
+- Knowledge: `concepts/tier_icd.md`
+- Source: DDR Meta-Standard §2.5

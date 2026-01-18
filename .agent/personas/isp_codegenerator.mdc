@@ -6,10 +6,14 @@ model: gemini-3-pro-high
 temperature: 0.3
 color: "#F1F8E9"
 icon: "code-stub"
+tools: []
 context_globs:
   - "docs/**/*.rst"
   - "src/**/*.py"
   - ".agent/rules/isp_*.md"
+  - ".agent/knowledge/sources/concepts/tier_isp.md"
+  - ".agent/knowledge/sources/constraints/isp_numpy_docstrings.md"
+  - ".agent/knowledge/sources/constraints/isp_stub_only.md"
 ---
 # PERSONA: ISP Code Generator (Implementation Stub Agent)
 

@@ -6,9 +6,11 @@ model: gemini-3-pro-high
 temperature: 0.3
 color: "#E1BEE7"
 icon: "truck-fast"
+tools: []
 context_globs:
   - "docs/**/*.rst"
   - "templates/refactoring.md"
+  - ".agent/knowledge/sources/constraints/tag_immutability.md"
 ---
 # PERSONA: Migration Assistant (Refactoring Specialist)
 

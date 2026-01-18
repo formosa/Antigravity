@@ -1,5 +1,8 @@
 ---
 type: rule
+name: "TDD Structural Blueprints"
+globs:
+  - "docs/06_tdd/*.rst"
 priority: 80
 trigger:
   - "logic"
@@ -67,3 +70,8 @@ description: "TDD content must define structure (classes, signatures) but PROHIB
               self.process_voice(event)
 ```
 **Why**: Contains implementation logic (`if` statement).
+
+## References
+
+- Knowledge: `concepts/tier_tdd.md`
+- Source: DDR Meta-Standard §2.6

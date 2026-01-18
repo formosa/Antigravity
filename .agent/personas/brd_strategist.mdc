@@ -6,9 +6,12 @@ model: gemini-3-pro-high
 temperature: 0.4
 color: "#E1F5FF"
 icon: "chart-line-up"
+tools: []
 context_globs:
   - "docs/01_brd/*.rst"
   - ".agent/rules/brd_*.md"
+  - ".agent/knowledge/sources/concepts/tier_brd.md"
+  - ".agent/knowledge/sources/constraints/brd_technology_agnostic.md"
 ---
 # PERSONA: BRD Strategist (Business Requirements)
 

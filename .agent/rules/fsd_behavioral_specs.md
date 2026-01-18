@@ -1,5 +1,8 @@
 ---
 type: rule
+name: "FSD Behavioral Specs"
+globs:
+  - "docs/03_fsd/*.rst"
 priority: 80
 trigger:
   - "algorithm"
@@ -58,3 +61,8 @@ description: "FSD tags must describe WHAT the system does from a user perspectiv
    :id: FSD-1.4
 ```
 **Why**: References internal class names and functions.
+
+## References
+
+- Knowledge: `constraints/fsd_no_implementation.md`
+- Source: DDR Meta-Standard §2.3

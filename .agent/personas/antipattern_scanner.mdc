@@ -6,6 +6,7 @@ model: gemini-3-pro-high
 temperature: 0.1
 color: "#FFCCBC"
 icon: "shield-alert"
+tools: []
 context_globs:
   - "docs/**/*.rst"
   - ".agent/knowledge/sources/constraints/*.md"
