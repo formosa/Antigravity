@@ -205,6 +205,43 @@ Component Blueprints
     - `entry_point`: Relative path to python module definition (e.g., "src.plugin").
 
 
+   Audio Processing Blueprint
+
+
+.. tdd:: Component: AudioWorkerLoop
+   :id: TDD-5
+   :links: FSD-4,NFR-3
+
+   Real-time audio processing loop for Wake Word Detection (WWD) and
+   Voice Activity Detection (VAD) pipeline.
+
+.. tdd:: **Function Name:** `audio_worker_loop(client: ServiceClient)`
+   :id: TDD-5.1
+   :links: TDD-5
+
+.. tdd:: **Dependencies:** `pvporcupine`, `webrtcvad`, `numpy`, `threading`.
+   :id: TDD-5.2
+   :links: TDD-5
+
+   **Pipeline Stages:**
+
+.. tdd:: **Stage 1 (WWD):** Process audio chunks through pvporcupine. On detection, check Core state before emitting event.
+   :id: TDD-5.3
+   :links: FSD-4.1,FSD-4.2,TDD-5
+
+.. tdd:: **Stage 2 (VAD):** Apply webrtcvad (CPU) for initial speech detection, buffer frames for STT handoff.
+   :id: TDD-5.4
+   :links: FSD-4.3,TDD-5
+
+.. tdd:: **State Check:** Query Core HSM state via `client.get_state()`. Only emit `WAKE_WORD_DETECTED` if state is `idle`.
+   :id: TDD-5.5
+   :links: FSD-4.2,SAD-4,TDD-5
+
+.. tdd:: **Denoising:** Apply RNNoise or equivalent before WWD/VAD stages. Must operate within NFR-3 latency budget.
+   :id: TDD-5.6
+   :links: NFR-3,TDD-5
+
+
 
 .. metadata:
    :file-id: tdd-root

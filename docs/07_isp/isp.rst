@@ -195,17 +195,17 @@ Python Implementation Stubs
 
 .. isp:: Stub: Audio Worker Loop
    :id: ISP-5
-   :links: FSD-4,NFR-3
+   :links: TDD-5
 
    **Implementation Requirements:**
 
 .. isp:: **Logic:** Implement Wake Word -> VAD -> STT pipeline.
    :id: ISP-5.1
-   :links: FSD-4
+   :links: TDD-5.3,TDD-5.4,TDD-5
 
 .. isp:: **Constraint:** Check Core State (`idle`) before sending Wake Word events.
    :id: ISP-5.2
-   :links: FSD-4.2,FSD-4
+   :links: TDD-5.5,TDD-5
 
    .. code-block:: python
 

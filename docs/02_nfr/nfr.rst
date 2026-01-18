@@ -8,6 +8,8 @@ Hardware & Environment Limits
    :id: NFR-1
    :links: BRD-6
 
+   Hardware and software specifications for the target deployment environment.
+
 .. nfr:: **CPU:** AMD Ryzen 9 5900X (Audio/Core must run here).
    :id: NFR-1.1
    :links: NFR-1
@@ -38,6 +40,8 @@ Hardware & Environment Limits
    :id: NFR-2
    :links: BRD-3,BRD-6
 
+   Network isolation and security boundary constraints.
+
 .. nfr:: All communication limited to local TCP sockets (`127.0.0.1`) via ZeroMQ.
    :id: NFR-2.1
    :links: NFR-2
@@ -51,6 +55,8 @@ Hardware & Environment Limits
 .. nfr:: Resource Isolation
    :id: NFR-3
    :links: BRD-3,BRD-6
+
+   CPU, memory, and queue size constraints for system processes.
 
 .. nfr:: **CPU Idle:** Processes polling for IPC messages must consume <5% CPU when idle.
    :id: NFR-3.1
@@ -124,6 +130,8 @@ Hardware & Environment Limits
    :id: NFR-5
    :links: BRD-2
 
+   Reliability and failure handling requirements.
+
 .. nfr:: **Non-blocking:** No process shall block waiting for another during standard IPC.
    :id: NFR-5.1
    :links: NFR-5
@@ -153,6 +161,8 @@ Hardware & Environment Limits
 .. nfr:: Key Dependencies
    :id: NFR-6
    :links: BRD-6
+
+   Required third-party libraries and frameworks.
 
 .. nfr:: `PySide6`: Default GUI framework.
    :id: NFR-6.1

@@ -50,6 +50,8 @@ Configuration Schemas
    :id: ICD-2
    :links: SAD-3.2,SAD-3.6,SAD-1.4,SAD-1
 
+   ZeroMQ message frame structure for IPC communication.
+
 .. icd:: **Core ↔ Services (ROUTER-DEALER):**
    :id: ICD-2.1
    :links: ICD-2
@@ -73,6 +75,8 @@ Configuration Schemas
 .. icd:: **Payloads:**
    :id: ICD-2.6
    :links: ICD-2
+
+   Supported payload encoding formats.
 
 .. icd:: Text: JSON-encoded UTF-8 bytes.
    :id: ICD-2.7

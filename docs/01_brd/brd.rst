@@ -7,7 +7,7 @@ Strategic Context
 .. brd:: Project Purpose
    :id: BRD-1
 
-   Develop a fully offline-capable, high-performance, real-time Python AI assistant framework (MAGGIE).
+   Develop a fully offline-capable, high-performance, real-time AI assistant framework (MAGGIE).
    It **must** integrate modular “Services” for local LLM inference, Text-to-Speech (TTS), Speech-to-Text (STT), and Wake Word Detection (WWD).
    It **must** implement a modular event loop, “Routines” for task-specific application functionality, and provide extension via “Services”, “Tools”, and “Routines”.
 
@@ -32,7 +32,7 @@ Strategic Context
    :id: BRD-3.2
    :links: BRD-3
 
-.. brd:: **Performance:** Leverage local GPU resources for low-latency performance.
+.. brd:: **Performance:** Leverage local processing resources for low-latency performance.
    :id: BRD-3.3
    :links: BRD-3
 
@@ -60,7 +60,7 @@ Strategic Context
 
    Scope definition.
 
-.. brd:: Offline, multi-process Python framework.
+.. brd:: Offline, multi-process application framework.
    :id: BRD-5.1
    :links: BRD-5
 

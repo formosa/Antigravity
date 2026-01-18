@@ -1,13 +1,12 @@
-Reconciliation Manifest: 05 Icd
-====================================
+Reconciliation Manifest: ICD
+============================
 
-.. code-block:: yaml
-
-   reconciliation_manifest:
-     section: 05_icd
-     integrity_status: CLEAN
-     tag_count: 13
-     tag_inventory:
-       ICD: 13
-     pending_items: []
-     last_audit: 2026-01-12
+.. reconciliation_manifest::
+   :section_id: "icd-root"
+   :integrity_status: "CLEAN"
+   :timestamp: "2026-01-18"
+   :tag_count: 13
+   :tag_inventory: ["ICD-1", "ICD-2", "ICD-2.1", "ICD-2.2", "ICD-2.3", "ICD-2.4",
+                    "ICD-2.5", "ICD-2.6", "ICD-2.7", "ICD-2.8", "ICD-2.9", "ICD-3",
+                    "ICD-4"]
+   :pending_items: []

@@ -109,6 +109,8 @@ SAD — Architecture Definitions (Structure)
    :id: SAD-4
    :links: NFR-5.1
 
+   Thread and queue architecture for non-blocking message processing.
+
 .. sad:: **Receiver Threads:** Each process uses a dedicated thread to poll ZMQ sockets and push to an internal `queue.PriorityQueue`.
    :id: SAD-4.1
    :links: SAD-4
@@ -120,6 +122,8 @@ SAD — Architecture Definitions (Structure)
 .. sad:: **Queueing:**
    :id: SAD-4.3
    :links: SAD-4
+
+   Internal message queue implementation requirements.
 
 .. sad:: Must use `queue.PriorityQueue`.
    :id: SAD-4.4

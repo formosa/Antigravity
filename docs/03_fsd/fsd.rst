@@ -135,6 +135,8 @@ System Core Capabilities
    :id: FSD-6
    :links: BRD-3,NFR-5
 
+   Centralized log aggregation across all system processes.
+
 .. fsd:: All processes must emit logs to the central LogServer.
    :id: FSD-6.1
    :links: FSD-6

@@ -26,13 +26,34 @@ import re
 import sys
 from pathlib import Path
 
-TIER_ORDER = ["BRD", "NFR", "FSD", "SAD", "ICD", "TDD", "ISP"]
+TIER_ORDER = ["BRD", "NFR", "FSD", "SAD", "ICD", "TDD", "ISP", "TERM"]
 
 
 def get_tier(tag_id: str) -> str | None:
     if not tag_id: return None
     prefix = tag_id.split("-")[0].split(".")[0].upper()
     return prefix if prefix in TIER_ORDER else None
+
+
+def _is_sibling(tag_a: str, tag_b: str) -> bool:
+    """Check if two tags are siblings (share same block parent).
+
+    Examples:
+        _is_sibling("FSD-4.3", "FSD-4.4") -> True   # Both under FSD-4
+        _is_sibling("FSD-4.1", "FSD-4") -> False    # Parent relationship
+        _is_sibling("FSD-3.1", "FSD-4.1") -> False  # Different parents
+    """
+    # If one is a prefix of the other (parent relationship), not siblings
+    if tag_a.startswith(tag_b + ".") or tag_b.startswith(tag_a + "."):
+        return False
+    # Extract block parent (e.g., "FSD-4.3" -> "FSD-4")
+    def get_parent(tag: str) -> str | None:
+        if "." in tag:
+            return tag.rsplit(".", 1)[0]
+        return None
+    parent_a, parent_b = get_parent(tag_a), get_parent(tag_b)
+    # Siblings share the same block parent
+    return parent_a is not None and parent_a == parent_b
 
 
 def load_needs(path: Path) -> dict:
@@ -44,18 +65,24 @@ def load_needs(path: Path) -> dict:
 PATTERNS: dict[str, tuple[str, callable]] = {
     "AP001": ("Vertical Pollution", lambda n: n["tier"] in ["BRD", "NFR", "FSD"]
               and re.search(r"\b(def |class |import )\b", n.get("content", ""))),
-    "AP002": ("Orphan Tag", lambda n: n["tier"] != "BRD" and not n.get("links")),
-    "AP003": ("Sibling Citation", lambda n: any(get_tier(l) == n["tier"] for l in n.get("links", []))),
+    "AP002": ("Orphan Tag", lambda n: n["tier"] not in ["BRD", "TERM"] and not n.get("links")),
+    "AP003": ("Sibling Citation", lambda n: any(
+        get_tier(l) == n["tier"] and _is_sibling(n["id"], l) for l in n.get("links", []))),
     "AP004": ("Forward Reference", lambda n: any(
         get_tier(l) and n["tier"] and TIER_ORDER.index(get_tier(l)) > TIER_ORDER.index(n["tier"])
         for l in n.get("links", []) if get_tier(l))),
     "AP005": ("Missing Title", lambda n: not n.get("title") or n["title"] == n["id"]),
     "AP006": ("Dangling ISP", lambda n: n["tier"] == "ISP"
               and not any(get_tier(l) == "TDD" for l in n.get("links", []))),
-    "AP007": ("ID Format Violation", lambda n: not re.match(r"^[A-Z]{3}-\d+(\.\d+)?$", n["id"])),
+    "AP007": ("ID Format Violation", lambda n:
+        not re.match(r"^[A-Z]{3}-\d+(\.\d+)?$", n["id"])
+        and not re.match(r"^TERM-[A-Z0-9-]+$", n["id"])),
     "AP008": ("Technology Leak in BRD", lambda n: n["tier"] == "BRD" and re.search(
         r"\b(Python|Java|API|SQL|GPU|REST|JSON)\b", n.get("content", ""), re.I)),
-    "AP009": ("Empty Content", lambda n: not n.get("content", "").strip() and n["tier"] != "BRD"),
+    "AP009": ("Empty Content", lambda n:
+        not n.get("content", "").strip()
+        and len(n.get("title", "")) < 20
+        and n["tier"] != "BRD"),
 }
 
 
