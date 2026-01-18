@@ -4,7 +4,15 @@ name: DDR Validation
 slug: /validate_ddr
 description: "Comprehensive DDR meta-standard validation workflow. Builds needs.json and runs DDR validation."
 mode: autonomous
-context: [".agent/rules/ddr_traceability.md"]
+context:
+  - ".agent/rules/ddr_traceability.md"
+  - ".agent/knowledge/sources/protocols/traceability_chain.md"
+  - ".agent/knowledge/sources/constraints/tag_citation_required.md"
+outputs:
+  - name: validation_result
+    type: string
+  - name: report_path
+    type: string
 on_finish: "suggest_followup: /rebuild_docs"
 ---
 

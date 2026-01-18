@@ -8,6 +8,13 @@ inputs: []
 context:
   - "docs/llm_export/context_flat.md"
   - "@design_lead"
+  - ".agent/knowledge/sources/patterns/tag_syntax.md"
+  - ".agent/knowledge/sources/patterns/manifest_structure.md"
+outputs:
+  - name: updated_ids
+    type: array
+  - name: build_status
+    type: string
 on_finish: "suggest_followup: /rebuild_docs"
 ---
 

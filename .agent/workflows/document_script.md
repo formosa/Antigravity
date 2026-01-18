@@ -12,6 +12,13 @@ inputs:
 context:
   - ".agent/assets/numpy_style_doc_example.py"
   - "{{inputs.target_file}}"
+  - ".agent/knowledge/sources/constraints/isp_numpy_docstrings.md"
+outputs:
+  - name: documented_file
+    type: string
+  - name: coverage_report
+    type: string
+on_finish: "suggest_followup: /rebuild_docs"
 ---
 
 # Workflow: Document Script (Numpy-style)
