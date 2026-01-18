@@ -3,7 +3,7 @@
 > **Proposal Source**: `.agent/assets/proposals/future/documentation_system/`
 > **Target Project**: Antigravity (MAGGIE Framework)
 > **Created**: 2026-01-16
-> **Last Updated**: 2026-01-17T03:10:00-05:00
+> **Last Updated**: 2026-01-17T20:35:00-05:00
 
 ---
 
@@ -53,7 +53,6 @@ This tracking sheet catalogs all components required for successful integration 
 | `directory_tree.py` | Legacy utility |
 | `generate_llm_context.py` | Legacy utility |
 | `generate_uuid.py` | Legacy utility |
-| `validate_ddr.py` | Legacy utility |
 
 ### Tools (`.agent/tools/`)
 | File | Notes |
@@ -62,7 +61,6 @@ This tracking sheet catalogs all components required for successful integration 
 | `clean_source.md` | Legacy tool |
 | `generate_uuid.md` | Legacy tool |
 | `rebuild_docs.md` | Legacy tool |
-| `validate_ddr.md` | Legacy tool |
 
 ### System Rules (`.agent/rules/`)
 | File | Notes |
@@ -77,7 +75,7 @@ This tracking sheet catalogs all components required for successful integration 
 
 > **Location**: `.agent/knowledge/sources/`
 > **Index**: `.agent/knowledge/sources/_index.md`
-> **Total Files**: 35 (1 index + 34 content files)
+> **Total Files**: 38 (1 index + 37 content files)
 
 ### 0.1 Knowledge Sources by Archetype
 
@@ -86,7 +84,7 @@ This tracking sheet catalogs all components required for successful integration 
 | ✅ | Concepts | 10 | DDR overview, tier hierarchy, information flow, tier definitions (BRD-ISP) |
 | ✅ | Protocols | 9 | Classification, abstraction (up/down/lateral), traceability, reconciliation |
 | ✅ | Constraints | 9 | Tag rules, tier-specific content rules |
-| ✅ | Patterns | 5 | Tag syntax, manifest structure, worked examples, authoring template |
+| ✅ | Patterns | 6 | Tag syntax, manifest structure, worked examples, authoring template |
 | ✅ | Vocabulary | 1 | Glossary of controlled terms |
 
 ### 0.2 Key Knowledge Sources
@@ -236,75 +234,75 @@ This tracking sheet catalogs all components required for successful integration 
 
 | Status | Tool Name | Script Path | Description |
 |:------:|:----------|:------------|:------------|
-| ⬜ | `classify_information` | `.agent/scripts/classify_information.py` | Decision tree tier classification |
-| ⬜ | `scoring_matrix` | `.agent/scripts/scoring_matrix.py` | Multi-factor scoring for ambiguous cases |
-| ⬜ | `route_to_specialist` | `.agent/scripts/route_to_specialist.py` | Delegate to tier-specific agent |
+| ✅ | `classify_information` | `.agent/scripts/classify_information.py` | Decision tree tier classification |
+| ✅ | `scoring_matrix` | `.agent/scripts/scoring_matrix.py` | Multi-factor scoring for ambiguous cases |
+| ✅ | `route_to_specialist` | `.agent/scripts/route_to_specialist.py` | Delegate to tier-specific agent |
 
 ### 3.2 Tag Management Tools
 
 | Status | Tool Name | Script Path | Description |
 |:------:|:----------|:------------|:------------|
-| ⬜ | `create_tag` | `.agent/scripts/create_tag.py` | Generate new DDR tag with proper ID |
-| ⬜ | `update_tag` | `.agent/scripts/update_tag.py` | Update with semantic diff analysis |
-| ⬜ | `deprecate_tag` | `.agent/scripts/deprecate_tag.py` | Mark deprecated with replacement |
-| ⬜ | `extract_citations` | `.agent/scripts/extract_citations.py` | Parse `:links:` directive |
-| ⬜ | `find_tags_citing` | `.agent/scripts/find_tags_citing.py` | Downstream impact analysis |
+| ✅ | `create_tag` | `.agent/scripts/create_tag.py` | Generate new DDR tag with proper ID |
+| ✅ | `update_tag` | `.agent/scripts/update_tag.py` | Update with semantic diff analysis |
+| ✅ | `deprecate_tag` | `.agent/scripts/deprecate_tag.py` | Mark deprecated with replacement |
+| ✅ | `extract_citations` | `.agent/scripts/extract_citations.py` | Parse `:links:` directive |
+| ✅ | `find_tags_citing` | `.agent/scripts/find_tags_citing.py` | Downstream impact analysis |
 
 ### 3.3 Traceability Tools
 
 | Status | Tool Name | Script Path | Description |
 |:------:|:----------|:------------|:------------|
-| ⬜ | `build_dependency_graph` | `.agent/scripts/build_dependency_graph.py` | Construct complete citation graph |
-| ⬜ | `generate_traceability_report` | `.agent/scripts/generate_traceability_report.py` | Comprehensive validation report |
-| ⬜ | `visualize_traceability` | `.agent/scripts/visualize_traceability.py` | Mermaid diagram generation |
+| ✅ | `build_dependency_graph` | `.agent/scripts/build_dependency_graph.py` | Construct complete citation graph |
+| ✅ | `generate_traceability_report` | `.agent/scripts/generate_traceability_report.py` | Comprehensive validation report |
+| ✅ | `visualize_traceability` | `.agent/scripts/visualize_traceability.py` | Mermaid diagram generation |
 
 ### 3.4 Validation Tools
 
 | Status | Tool Name | Script Path | Description |
 |:------:|:----------|:------------|:------------|
 | 🔵 | `validate_ddr` | `.agent/tools/validate_ddr.md` | Existing DDR validation tool |
-| ⬜ | `validate_tier_compliance` | `.agent/scripts/validate_tier_compliance.py` | Tier-specific rule enforcement |
-| ⬜ | `check_manifest_integrity` | `.agent/scripts/check_manifest_integrity.py` | Manifest accuracy verification |
-| ⬜ | `detect_anti_patterns` | `.agent/scripts/detect_anti_patterns.py` | Common mistake detection |
+| ✅ | `validate_tier_compliance` | `.agent/scripts/validate_tier_compliance.py` | Tier-specific rule enforcement |
+| ✅ | `check_manifest_integrity` | `.agent/scripts/check_manifest_integrity.py` | Manifest accuracy verification |
+| ✅ | `detect_anti_patterns` | `.agent/scripts/detect_anti_patterns.py` | Common mistake detection |
 
 ### 3.5 BRD-Specific Tools
 
 | Status | Tool Name | Script Path | Description |
 |:------:|:----------|:------------|:------------|
-| ⬜ | `abstract_to_business_value` | `.agent/scripts/abstract_to_business.py` | Convert technical to business language |
-| ⬜ | `derive_success_metrics` | `.agent/scripts/derive_success_metrics.py` | Generate KPIs from objectives |
+| ✅ | `abstract_to_business_value` | `.agent/scripts/abstract_to_business.py` | Convert technical to business language |
+| ✅ | `derive_success_metrics` | `.agent/scripts/derive_success_metrics.py` | Generate KPIs from objectives |
 
 ### 3.6 ISP-Specific Tools
 
 | Status | Tool Name | Script Path | Description |
 |:------:|:----------|:------------|:------------|
-| ⬜ | `generate_class_stub` | `.agent/scripts/generate_class_stub.py` | Python class stub from TDD |
-| ⬜ | `generate_method_stub` | `.agent/scripts/generate_method_stub.py` | Method stub with docstrings |
-| ⬜ | `add_implementation_hints` | `.agent/scripts/add_implementation_hints.py` | Implementation guidance from TDD/ICD |
+| ✅ | `generate_class_stub` | `.agent/scripts/generate_class_stub.py` | Python class stub from TDD |
+| ✅ | `generate_method_stub` | `.agent/scripts/generate_method_stub.py` | Method stub with docstrings |
+| ✅ | `add_implementation_hints` | `.agent/scripts/add_implementation_hints.py` | Implementation guidance from TDD/ICD |
 
 ### 3.7 Tool Definition Files
 
 | Status | File Path | Tool Name |
 |:------:|:----------|:----------|
-| ⬜ | `.agent/tools/ddr_classify_information.md` | `classify_information` |
-| ⬜ | `.agent/tools/ddr_scoring_matrix.md` | `scoring_matrix` |
-| ⬜ | `.agent/tools/ddr_route_to_specialist.md` | `route_to_specialist` |
-| ⬜ | `.agent/tools/tag_create.md` | `create_tag` |
-| ⬜ | `.agent/tools/tag_update.md` | `update_tag` |
-| ⬜ | `.agent/tools/tag_deprecate.md` | `deprecate_tag` |
-| ⬜ | `.agent/tools/tag_extract_citations.md` | `extract_citations` |
-| ⬜ | `.agent/tools/tag_find_citing.md` | `find_tags_citing` |
-| ⬜ | `.agent/tools/trace_build_dependency_graph.md` | `build_dependency_graph` |
-| ⬜ | `.agent/tools/trace_generate_report.md` | `generate_traceability_report` |
-| ⬜ | `.agent/tools/trace_visualize.md` | `visualize_traceability` |
-| ⬜ | `.agent/tools/validate_tier_compliance.md` | `validate_tier_compliance` |
-| ⬜ | `.agent/tools/check_manifest_integrity.md` | `check_manifest_integrity` |
-| ⬜ | `.agent/tools/detect_anti_patterns.md` | `detect_anti_patterns` |
-| ⬜ | `.agent/tools/brd_abstract_to_business_value.md` | `abstract_to_business_value` |
-| ⬜ | `.agent/tools/brd_derive_success_metrics.md` | `derive_success_metrics` |
-| ⬜ | `.agent/tools/isp_generate_class_stub.md` | `generate_class_stub` |
-| ⬜ | `.agent/tools/isp_generate_method_stub.md` | `generate_method_stub` |
-| ⬜ | `.agent/tools/isp_add_implementation_hints.md` | `add_implementation_hints` |
+| ✅ | `.agent/tools/ddr_classify_information.md` | `classify_information` |
+| ✅ | `.agent/tools/ddr_scoring_matrix.md` | `scoring_matrix` |
+| ✅ | `.agent/tools/ddr_route_to_specialist.md` | `route_to_specialist` |
+| ✅ | `.agent/tools/tag_create.md` | `create_tag` |
+| ✅ | `.agent/tools/tag_update.md` | `update_tag` |
+| ✅ | `.agent/tools/tag_deprecate.md` | `deprecate_tag` |
+| ✅ | `.agent/tools/tag_extract_citations.md` | `extract_citations` |
+| ✅ | `.agent/tools/tag_find_citing.md` | `find_tags_citing` |
+| ✅ | `.agent/tools/trace_build_dependency_graph.md` | `build_dependency_graph` |
+| ✅ | `.agent/tools/trace_generate_report.md` | `generate_traceability_report` |
+| ✅ | `.agent/tools/trace_visualize.md` | `visualize_traceability` |
+| ✅ | `.agent/tools/validate_tier_compliance.md` | `validate_tier_compliance` |
+| ✅ | `.agent/tools/check_manifest_integrity.md` | `check_manifest_integrity` |
+| ✅ | `.agent/tools/detect_anti_patterns.md` | `detect_anti_patterns` |
+| ✅ | `.agent/tools/brd_abstract_to_business_value.md` | `abstract_to_business_value` |
+| ✅ | `.agent/tools/brd_derive_success_metrics.md` | `derive_success_metrics` |
+| ✅ | `.agent/tools/isp_generate_class_stub.md` | `generate_class_stub` |
+| ✅ | `.agent/tools/isp_generate_method_stub.md` | `generate_method_stub` |
+| ✅ | `.agent/tools/isp_add_implementation_hints.md` | `add_implementation_hints` |
 
 ---
 
@@ -557,3 +555,6 @@ This tracking sheet catalogs all components required for successful integration 
 | 2026-01-17 | Implemented Phase 1.4 rules and Phase 2.2 personas for NFR, FSD, SAD, ICD, and TDD tiers. | Antigravity |
 | 2026-01-17 | Audit: Verified statuses of Phases 0-4. Updated dependency 505 to complete. | Antigravity |
 | 2026-01-17 | Implemented Phase 2.3 and 2.4 personas: antipattern_scanner, orphan_detective, manifest_manager, migration_assistant, tag_reconciler. | Antigravity |
+| 2026-01-17 | Implemented Phase 3 Batch 1: Classification Tools (3) and Tag Management Tools (5). Full implementations with needs.json parsing. | Antigravity |
+| 2026-01-18 | Implemented Phase 3 Batch 2: Traceability Tools (3), Validation Tools (3), BRD Tools (2), ISP Tools (3). 11 scripts + 11 definitions. | Antigravity |
+| 2026-01-18 | Optimized 18 tool scripts for DDR alignment: added Meta headers, knowledge source refs, expanded constants per knowledge sources, fixed TIER_HIERARCHY for ICD/TDD. | Antigravity |
