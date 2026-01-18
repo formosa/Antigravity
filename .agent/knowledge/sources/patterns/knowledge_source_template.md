@@ -3,7 +3,7 @@ archetype: pattern
 status: validated
 version: 1.0.0
 created: 2026-01-16
-updated: 2026-01-16
+updated: 2026-01-18
 requires:
   - vocabulary/glossary.md
 related:
@@ -28,7 +28,7 @@ All knowledge source files follow a standardized template with minimal YAML fron
 ```markdown
 ---
 archetype: concept | protocol | constraint | pattern | vocabulary
-status: draft | review | validated
+status: active | review | validated
 version: 1.0.0
 created: YYYY-MM-DD
 updated: YYYY-MM-DD

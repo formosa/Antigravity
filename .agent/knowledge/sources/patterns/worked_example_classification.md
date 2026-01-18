@@ -1,9 +1,9 @@
 ---
 archetype: pattern
-status: draft
+status: active
 version: 1.0.0
 created: 2026-01-16
-updated: 2026-01-16
+updated: 2026-01-18
 requires:
   - vocabulary/glossary.md
   - protocols/classification_decision_tree.md

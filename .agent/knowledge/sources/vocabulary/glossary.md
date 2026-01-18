@@ -3,7 +3,7 @@ archetype: vocabulary
 status: validated
 version: 2.0.0
 created: 2026-01-16
-updated: 2026-01-16
+updated: 2026-01-18
 requires: []
 related:
   - ../context/glossary.md
