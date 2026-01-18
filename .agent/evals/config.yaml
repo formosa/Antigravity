@@ -1,0 +1,46 @@
+version: "1.0"
+
+schedule:
+  on_demand:
+    description: "Run manually"
+    trigger: "manual"
+  nightly:
+    description: "Scheduled nightly"
+    cron: "0 2 * * *"
+    enabled: false
+  pre-release:
+    description: "Before version release"
+    trigger: "tag:v*"
+
+reporting:
+  format: "markdown"
+  output_dir: ".agent/evals/reports/"
+  include_passed: true
+  include_failed: true
+
+thresholds:
+  classification_accuracy: 95
+  detection_rate: 100
+  stub_purity: 100
+  citation_coverage: 100
+
+test_data:
+  base_path: "test_cases/"
+  needs_json: "docs/_build/json/needs.json"
+
+evaluations:
+  classification:
+    - ddr_classification_accuracy
+    - ddr_anti_pattern_detection
+    - brd_technology_leak_detection
+  traceability:
+    - trace_orphan_detection
+    - trace_cycle_detection
+    - traceability_completeness
+  isp:
+    - isp_stub_purity
+    - isp_docstring_completeness
+  system:
+    - anti_pattern_detection
+    - manifest_accuracy
+    - workflow_success
