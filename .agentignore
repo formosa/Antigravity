@@ -12,3 +12,5 @@
 
 # Exclude large binary data that confuses agent indexing
 # data/raw_exports/
+
+.agent/assets/proposals/.processed/

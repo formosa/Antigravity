@@ -4,3 +4,5 @@
 .git
 .venv
 docs/_build
+
+.agent/assets/proposals/.processed/

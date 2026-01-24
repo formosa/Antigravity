@@ -4,3 +4,5 @@
 # Exclude specific folders from agent context
 .git
 .venv
+
+.agent/assets/proposals/.processed/
