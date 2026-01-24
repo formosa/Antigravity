@@ -1,0 +1,385 @@
+{
+    "tiers": {
+        "BRD": {
+            "name": "Business Requirements Document",
+            "layer": "Context",
+            "question": "Why are we building this?",
+            "persona": "Strategist",
+            "audience": [
+                "stakeholders",
+                "executives",
+                "product_leadership"
+            ],
+            "tag_format": {
+                "block": "BRD-N",
+                "atomic": "BRD-N.M"
+            },
+            "key_content": [
+                "Project purpose and identity",
+                "Strategic objectives",
+                "Problem statement",
+                "High-level scope",
+                "Success criteria (measurable)",
+                "Target stakeholders"
+            ],
+            "constraints": {
+                "technology_agnostic": {
+                    "rule": "MUST NOT contain technology-specific terms",
+                    "forbidden_terms": [
+                        "Python",
+                        "ZeroMQ",
+                        "GPU",
+                        "CUDA",
+                        "JSON",
+                        "REST",
+                        "TCP"
+                    ],
+                    "severity": "ERROR"
+                },
+                "measurable_metrics": {
+                    "rule": "Success criteria MUST be quantifiable",
+                    "forbidden_patterns": [
+                        "fast",
+                        "reliable",
+                        "scalable",
+                        "user-friendly"
+                    ],
+                    "required_patterns": [
+                        "<\\d+",
+                        "\\d+%",
+                        "< \\d+ (second|ms|MB)"
+                    ],
+                    "severity": "ERROR"
+                }
+            },
+            "citation_rules": {
+                "may_cite": [],
+                "cited_by": [
+                    "NFR",
+                    "FSD"
+                ]
+            },
+            "examples": {
+                "correct": [
+                    "Enable hands-free voice interaction for accessibility (< 1 second response)",
+                    "Achieve 99.9% operational uptime",
+                    "Reduce voice latency by 50% vs cloud alternatives"
+                ],
+                "incorrect": [
+                    "Use pvporcupine for wake word detection",
+                    "System must be fast and reliable",
+                    "Deploy on RTX 3080 GPU"
+                ]
+            }
+        },
+        "NFR": {
+            "name": "Non-Functional Requirements",
+            "layer": "Boundaries",
+            "question": "What are the system limits?",
+            "persona": "SysAdmin",
+            "audience": [
+                "architects",
+                "operations",
+                "qa"
+            ],
+            "tag_format": {
+                "block": "NFR-N",
+                "atomic": "NFR-N.M"
+            },
+            "key_content": [
+                "Hardware environment specifications",
+                "Security and network constraints",
+                "Resource isolation requirements",
+                "Performance targets (latency, throughput)",
+                "Reliability and fault tolerance",
+                "RFC 2119 modality (MUST/SHOULD/MAY)"
+            ],
+            "constraints": {
+                "numeric_values": {
+                    "rule": "All constraints MUST include specific numeric values with units",
+                    "required_patterns": [
+                        "\\d+\\s*(ms|MB|GB|cores|%|seconds?)"
+                    ],
+                    "forbidden_patterns": [
+                        "low latency",
+                        "high throughput",
+                        "reasonable"
+                    ],
+                    "severity": "ERROR"
+                }
+            },
+            "citation_rules": {
+                "may_cite": [
+                    "BRD"
+                ],
+                "cited_by": [
+                    "FSD",
+                    "ICD"
+                ]
+            },
+            "examples": {
+                "correct": [
+                    "IPC Dispatch: Sub-millisecond (< 1ms) for metadata-only",
+                    "GPU VRAM: 10GB dedicated for model inference",
+                    "Log rotation: Automatic every 50MB, 30-day retention"
+                ],
+                "incorrect": [
+                    "System must have low latency",
+                    "Memory usage must be reasonable",
+                    "Latency under 100 (missing units)"
+                ]
+            }
+        },
+        "FSD": {
+            "name": "Feature Specifications Document",
+            "layer": "Behavior",
+            "question": "What does the system do?",
+            "persona": "Product Owner",
+            "audience": [
+                "product_managers",
+                "ux_designers",
+                "architects"
+            ],
+            "tag_format": {
+                "block": "FSD-N",
+                "atomic": "FSD-N.M"
+            },
+            "key_content": [
+                "System capabilities",
+                "Process orchestration",
+                "State machine definitions",
+                "Voice/user interaction pipelines",
+                "Error handling strategies",
+                "User experience requirements"
+            ],
+            "constraints": {
+                "no_implementation": {
+                    "rule": "MUST describe WHAT happens, NOT HOW",
+                    "forbidden_patterns": [
+                        "class \\w+",
+                        "def \\w+\\(",
+                        "\\.\\w+\\(\\)",
+                        "import ",
+                        "pvporcupine",
+                        "transitions\\.Machine"
+                    ],
+                    "severity": "ERROR"
+                }
+            },
+            "citation_rules": {
+                "may_cite": [
+                    "BRD",
+                    "NFR"
+                ],
+                "cited_by": [
+                    "SAD"
+                ]
+            },
+            "examples": {
+                "correct": [
+                    "Voice pipeline: wake word → VAD → speech recognition → LLM",
+                    "System maintains states: sleeping, waking, active, busy, error",
+                    "User receives visual feedback within 100ms of voice input"
+                ],
+                "incorrect": [
+                    "Use pvporcupine.create() for wake word detection",
+                    "Implement using transitions.Machine for state management",
+                    "Store requests in Dict[str, Tuple[bytes, float]]"
+                ]
+            }
+        },
+        "SAD": {
+            "name": "System Architecture Document",
+            "layer": "Structure",
+            "question": "How is the system organized?",
+            "persona": "Architect",
+            "audience": [
+                "technical_leads",
+                "senior_developers"
+            ],
+            "tag_format": {
+                "block": "SAD-N",
+                "atomic": "SAD-N.M"
+            },
+            "key_content": [
+                "Architectural patterns",
+                "Process topology",
+                "Integration strategies",
+                "Concurrency model",
+                "Configuration strategy",
+                "ASCII topology diagrams (mandatory)"
+            ],
+            "constraints": {
+                "ascii_diagram_required": {
+                    "rule": "SAD sections MUST include ASCII topology diagrams",
+                    "severity": "WARNING"
+                }
+            },
+            "citation_rules": {
+                "may_cite": [
+                    "FSD",
+                    "NFR"
+                ],
+                "cited_by": [
+                    "ICD",
+                    "TDD"
+                ]
+            },
+            "examples": {
+                "correct": [
+                    "Hub-and-Spoke: Core (ROUTER) with UI/Audio/Runtime (DEALER) spokes",
+                    "Decoupled Sink: LogServer (PULL) receives from all (PUSH)",
+                    "Non-Blocking: PUSH socket with HWM prevents sender blocking"
+                ],
+                "incorrect": []
+            }
+        },
+        "ICD": {
+            "name": "Interface & Contract Definitions",
+            "layer": "Contracts",
+            "question": "What are the data shapes?",
+            "persona": "Data Engineer",
+            "audience": [
+                "developers",
+                "integrators"
+            ],
+            "tag_format": {
+                "block": "ICD-N",
+                "atomic": "ICD-N.M"
+            },
+            "key_content": [
+                "Configuration file schemas (YAML)",
+                "Message frame structures",
+                "Metadata schemas (JSON)",
+                "Request/response payload formats",
+                "API contracts"
+            ],
+            "constraints": {},
+            "citation_rules": {
+                "may_cite": [
+                    "SAD",
+                    "NFR"
+                ],
+                "cited_by": [
+                    "TDD"
+                ]
+            },
+            "examples": {
+                "correct": [
+                    "{\"source\": \"UI\", \"destination\": \"Core\", \"command\": \"...\"}",
+                    "rotation_mb: 50 in ipc_config.yaml"
+                ],
+                "incorrect": []
+            }
+        },
+        "TDD": {
+            "name": "Technical Design Document",
+            "layer": "Blueprints",
+            "question": "What classes/modules exist?",
+            "persona": "Lead Developer",
+            "audience": [
+                "developers",
+                "code_reviewers"
+            ],
+            "tag_format": {
+                "block": "TDD-N",
+                "atomic": "TDD-N.M"
+            },
+            "key_content": [
+                "Component class names",
+                "Dependencies (imports)",
+                "Socket configurations",
+                "State management structures",
+                "Concurrency strategies",
+                "Interface contracts (abstract methods)"
+            ],
+            "constraints": {
+                "no_logic": {
+                    "rule": "Defines WHAT exists and HOW wired, NOT the logic",
+                    "forbidden_patterns": [
+                        "if ",
+                        "for ",
+                        "while ",
+                        "try:",
+                        "except:"
+                    ],
+                    "severity": "ERROR"
+                }
+            },
+            "citation_rules": {
+                "may_cite": [
+                    "SAD",
+                    "ICD"
+                ],
+                "cited_by": [
+                    "ISP"
+                ]
+            },
+            "examples": {
+                "correct": [
+                    "CoreProcess class: __init__(config_path), run(), route_message(frame)",
+                    "Dependencies: zmq, loguru, yaml",
+                    "Socket: Bind ROUTER to ipc_config.router_bind"
+                ],
+                "incorrect": [
+                    "def run(self): while True: msg = self.socket.recv()"
+                ]
+            }
+        },
+        "ISP": {
+            "name": "Implementation Stubs & Prompts",
+            "layer": "Prompts",
+            "question": "What is the code skeleton?",
+            "persona": "Code Generator",
+            "audience": [
+                "developers",
+                "ai_assistants"
+            ],
+            "tag_format": {
+                "block": "ISP-N",
+                "atomic": "ISP-N.M"
+            },
+            "key_content": [
+                "Python class stubs",
+                "Method signatures with type hints",
+                "Numpy-style docstrings",
+                "Inline citation comments",
+                "pass statements for logic"
+            ],
+            "constraints": {
+                "stub_only": {
+                    "rule": "Method bodies MUST contain only pass",
+                    "forbidden_patterns": [
+                        "return (?!None)",
+                        "self\\.\\w+ =",
+                        "zmq\\.Context"
+                    ],
+                    "severity": "ERROR"
+                },
+                "numpy_docstrings": {
+                    "rule": "All methods MUST have Numpy-style docstrings with Implements/Requirements",
+                    "required_sections": [
+                        "Parameters",
+                        "Returns",
+                        "Implements"
+                    ],
+                    "severity": "ERROR"
+                }
+            },
+            "citation_rules": {
+                "may_cite": [
+                    "TDD"
+                ],
+                "cited_by": []
+            },
+            "examples": {
+                "correct": [
+                    "def run(self) -> None:\n    \"\"\"Main loop. Implements: |TDD-1.8|\"\"\"\n    pass"
+                ],
+                "incorrect": [
+                    "def run(self):\n    self.context = zmq.Context()\n    while True: pass"
+                ]
+            }
+        }
+    }
+}
