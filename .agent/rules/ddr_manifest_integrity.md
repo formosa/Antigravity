@@ -1,10 +1,11 @@
 ---
 type: rule
 name: "DDR Manifest Integrity"
+activation: model_decision
 globs:
   - "docs/**/*.rst"
   - "docs/**/reconciliation_manifest.rst"
-priority: 40
+priority: 50
 trigger:
   - "manifest"
   - "inventory"

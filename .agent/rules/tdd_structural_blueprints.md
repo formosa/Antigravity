@@ -1,16 +1,13 @@
 ---
 type: rule
 name: "TDD Structural Blueprints"
+activation: glob
 globs:
   - "docs/06_tdd/*.rst"
 priority: 80
 trigger:
-  - "logic"
   - "flow"
-  - "if"
-  - "loop"
   - "calculation"
-  - "implementation"
 severity: mandatory
 description: "TDD content must define structure (classes, signatures) but PROHIBIT implementation logic."
 ---

@@ -1,6 +1,7 @@
 ---
 type: rule
 name: "ICD Interface Contracts"
+activation: glob
 globs:
   - "docs/05_icd/*.rst"
 priority: 80
@@ -8,7 +9,6 @@ trigger:
   - "schema"
   - "payload"
   - "contract"
-  - "type"
 severity: mandatory
 description: "ICD tags must specify language-agnostic data shapes using PascalCase for schemas and camelCase for properties."
 ---

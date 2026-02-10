@@ -1,4 +1,4 @@
-// Antigravity Agent Asset Configuration Schema (v1.13+)
+// Antigravity Agent Asset Configuration Schema (v1.16.5)
 // AUTHORITATIVE REFERENCE for LLM Context
 // NOTE: Use YAML frontmatter for all agent asset definition Markdown files matching these interfaces.
 
@@ -13,7 +13,7 @@ interface PersonaDefinition {
     // One sentence summary of role for Router/User.
     description: string;
     // Specific backend. Use high-reasoning models for Architects/QAs.
-    model: 'gemini-3-pro-high' | 'gemini-3-pro-low' | 'gemini-3-flash' | 'claude-sonnet-4.5' | 'claude-sonnet-4.5-thinking' | 'claude-opus-4.5-thinking' | 'gpt-oss-120b-medium';
+    model: 'gemini-3-pro-high' | 'gemini-3-pro-low' | 'gemini-3-flash' | 'claude-sonnet-4.5' | 'claude-sonnet-4.5-thinking' | 'claude-opus-4.6-thinking' | 'gpt-oss-120b-medium';
     // 0.0 (code/linting) to 1.0 (creative/design).
     temperature: number;
     // UI visual accent (Hex Code or Color Name).
@@ -34,6 +34,12 @@ interface RuleDefinition {
     type: 'rule';
     // Display name for "Active Rules" status.
     name: string;
+    // Activation mode. Determines when this rule is loaded into agent context.
+    // 'always_on': injected into every prompt regardless of file context.
+    // 'glob': fires only when working on files matching globs patterns.
+    // 'model_decision': agent decides based on conversation context and triggers.
+    // 'manual': only loaded when explicitly invoked by user via @mention.
+    activation?: 'always_on' | 'model_decision' | 'glob' | 'manual';
     // File patterns triggering this rule. If omitted, rule is global.
     globs?: string[];
     // Conflict resolution rank (High > Low). Default: 1. Critical Safety: >50.
@@ -124,11 +130,38 @@ interface EvaluationDefinition {
     // The agent handle being tested.
     target_agent: `@${string}`;
     // Judge LLM. Should be stronger than target.
-    judge_model: 'claude-opus-4.5-thinking' | 'gemini-3-pro-high';
+    judge_model: 'claude-opus-4.6-thinking' | 'gemini-3-pro-high';
     // Minimum pass score (0-100). Strict: 90+.
     pass_threshold: number;
     // Input prompts/scenarios to feed the agent.
     scenarios: string[];
     // Grading criteria for the Judge.
     rubric: string[];
+}
+
+
+/** * 7. SKILL DEFINITION (v1.14.2+)
+ * File Pattern: .agent/skills/<skill-name>/SKILL.md
+ * Purpose: On-demand capability extension via progressive disclosure.
+ *
+ * Skills are directory-based packages containing:
+ *   - SKILL.md (this definition + instructions)
+ *   - scripts/ (optional: executable automation)
+ *   - references/ (optional: static reference materials)
+ *   - examples/ (optional: few-shot learning examples)
+ *
+ * Loading Behavior:
+ *   - Level 1 (Router): name + description always indexed at session start
+ *   - Level 2 (Context): Full SKILL.md instructions loaded on semantic match
+ *   - Level 3 (Assets): scripts/references/examples loaded on-demand
+ */
+interface SkillDefinition {
+    type: 'skill';
+    // Unique identifier (kebab-case). Matches directory name.
+    name: string;
+    // CRITICAL: Router matching trigger. Must be descriptive for semantic matching.
+    // Example: "Execute read-only SQL queries against local PostgreSQL for debugging"
+    description: string;
+    // Installation scope. 'workspace' = .agent/skills/, 'global' = ~/.gemini/antigravity/skills/
+    scope: 'workspace' | 'global';
 }

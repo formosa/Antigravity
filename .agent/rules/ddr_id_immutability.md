@@ -1,13 +1,10 @@
 ---
 type: rule
 name: "DDR ID Immutability"
+activation: always_on
 globs:
   - "docs/**/*.rst"
 priority: 100
-trigger:
-  - "rename"
-  - "renumber"
-  - "id"
 severity: mandatory
 description: "Tag IDs are immutable database keys. Never allow renumbering or reuse of deleted IDs."
 ---

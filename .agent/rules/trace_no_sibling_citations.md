@@ -1,9 +1,10 @@
 ---
 type: rule
 name: "Trace No Sibling Citations"
+activation: glob
 globs:
   - "docs/**/*.rst"
-priority: 80
+priority: 85
 trigger:
   - "sibling"
   - "peer"
@@ -62,6 +63,12 @@ Cites block parent, not siblings.
       :links: FSD-4.3
 
 **Why**: FSD-4.3 and FSD-4.4 are peers under FSD-4.
+
+## Related Rules
+
+- [trace_complete_chain.md](trace_complete_chain.md) — Complete chain to BRD root
+- [ddr_traceability_mandate.md](ddr_traceability_mandate.md) — Parent citation required
+- [trace_no_forward_references.md](trace_no_forward_references.md) — No downward citations
 
 ## References
 

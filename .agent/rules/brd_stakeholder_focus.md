@@ -1,13 +1,10 @@
 ---
 type: rule
 name: "BRD Stakeholder Focus"
+activation: glob
 globs:
   - "docs/01_brd/*.rst"
-priority: 50
-trigger:
-  - "stakeholder"
-  - "user"
-  - "beneficiary"
+priority: 70
 severity: guideline
 description: "BRD requirements should identify which stakeholders benefit."
 ---
@@ -57,6 +54,11 @@ description: "BRD requirements should identify which stakeholders benefit."
       :id: BRD-5.7
 
 **Why**: Who benefits? Add stakeholder context.
+
+## Related Rules
+
+- [brd_technology_agnostic.md](brd_technology_agnostic.md) — No tech terms in BRD
+- [brd_measurable_metrics.md](brd_measurable_metrics.md) — Quantifiable success criteria
 
 ## References
 

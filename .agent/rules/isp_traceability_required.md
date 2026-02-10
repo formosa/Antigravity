@@ -1,9 +1,10 @@
 ---
 type: rule
 name: "ISP Traceability Required"
+activation: glob
 globs:
   - "docs/07_isp/*.rst"
-priority: 85
+priority: 80
 trigger:
   - "implements"
   - "requirements"
@@ -56,6 +57,11 @@ def route_message(self, frame: list) -> bool:
 ```
 
 **Why**: No `Implements:` or `Requirements:` lines.
+
+## Related Rules
+
+- [isp_stub_only.md](isp_stub_only.md) — Pass-only method bodies
+- [isp_numpy_docstring.md](isp_numpy_docstring.md) — Numpy-style docstring format
 
 ## References
 

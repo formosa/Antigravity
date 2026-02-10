@@ -1,6 +1,7 @@
 ---
 type: rule
 name: "Antigravity Asset Schema Enforcement"
+activation: always_on
 globs:
   - ".agent/personas/**/*"
   - ".agent/rules/**/*"
@@ -9,9 +10,6 @@ globs:
   - ".agent/knowledge/**/*"
   - ".agent/evals/**/*"
 priority: 100
-trigger:
-  - "@agent_asset"
-  - "@agent_assets"
 severity: mandatory
 description: "Enforces strict schema compliance for all Antigravity agent asset definition files based on the interfaces in `.agent/assets/antigravity_types.d.ts`. Agent must consult user if uncertain about any value."
 ---

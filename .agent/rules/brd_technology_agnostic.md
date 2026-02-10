@@ -1,13 +1,10 @@
 ---
 type: rule
 name: "BRD Technology Agnostic"
+activation: glob
 globs:
   - "docs/01_brd/*.rst"
 priority: 80
-trigger:
-  - "technology"
-  - "implementation"
-  - "library"
 severity: mandatory
 description: "BRD content must not contain technology-specific terms or implementation details."
 ---
@@ -68,6 +65,11 @@ description: "BRD content must not contain technology-specific terms or implemen
       :id: BRD-5.7
 
 **Why**: "pvporcupine" is a specific library.
+
+## Related Rules
+
+- [brd_measurable_metrics.md](brd_measurable_metrics.md) — Quantifiable success criteria
+- [brd_stakeholder_focus.md](brd_stakeholder_focus.md) — Stakeholder identification
 
 ## References
 

@@ -1,6 +1,7 @@
 ---
 type: rule
 name: "Trace Complete Chain"
+activation: glob
 globs:
   - "docs/**/*.rst"
 priority: 90
@@ -62,6 +63,12 @@ def validate_complete_chain(tag_id, documentation):
 
     return {"valid": True, "chain": chain}
 ```
+
+## Related Rules
+
+- [ddr_traceability_mandate.md](ddr_traceability_mandate.md) — Parent citation required
+- [trace_no_forward_references.md](trace_no_forward_references.md) — No downward citations
+- [trace_no_sibling_citations.md](trace_no_sibling_citations.md) — No peer citations
 
 ## References
 

@@ -1,14 +1,10 @@
 ---
 type: rule
 name: "BRD Measurable Metrics"
+activation: glob
 globs:
   - "docs/01_brd/*.rst"
-priority: 70
-trigger:
-  - "fast"
-  - "reliable"
-  - "scalable"
-  - "intuitive"
+priority: 80
 severity: mandatory
 description: "BRD success criteria must include measurable, quantifiable metrics."
 ---
@@ -61,6 +57,11 @@ description: "BRD success criteria must include measurable, quantifiable metrics
       :id: BRD-8
 
 **Why**: "Fast" is subjective.
+
+## Related Rules
+
+- [brd_technology_agnostic.md](brd_technology_agnostic.md) — No tech terms in BRD
+- [brd_stakeholder_focus.md](brd_stakeholder_focus.md) — Stakeholder identification
 
 ## References
 

@@ -1,14 +1,10 @@
 ---
 type: rule
 name: "NFR Numeric Targets"
+activation: glob
 globs:
   - "docs/02_nfr/*.rst"
-priority: 90
-trigger:
-  - "performance"
-  - "latency"
-  - "throughput"
-  - "constraint"
+priority: 80
 severity: mandatory
 description: "NFR constraints must include specific, measurable numeric targets (<Number> <Unit>) and use RFC 2119."
 ---

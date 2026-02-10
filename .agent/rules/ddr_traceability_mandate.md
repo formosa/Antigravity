@@ -1,9 +1,10 @@
 ---
 type: rule
 name: "DDR Traceability Mandate"
+activation: glob
 globs:
   - "docs/**/*.rst"
-priority: 60
+priority: 85
 trigger:
   - "tag"
   - "citation"
@@ -69,6 +70,12 @@ Parent citations ensure every documentation element has explicit justification:
    :id: FSD-4
    (no :links:)
 ```
+
+## Related Rules
+
+- [trace_complete_chain.md](trace_complete_chain.md) — Validates complete chain to BRD root
+- [trace_no_forward_references.md](trace_no_forward_references.md) — Prohibits downward citations
+- [trace_no_sibling_citations.md](trace_no_sibling_citations.md) — Prohibits peer citations
 
 ## References
 

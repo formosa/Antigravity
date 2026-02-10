@@ -1,6 +1,7 @@
 ---
 type: rule
 name: "ISP Numpy Docstring"
+activation: glob
 globs:
   - "docs/07_isp/*.rst"
 priority: 80
@@ -68,6 +69,11 @@ def run(self):
 ```
 
 **Why**: Uses `Args:` instead of `Parameters`.
+
+## Related Rules
+
+- [isp_stub_only.md](isp_stub_only.md) — Pass-only method bodies
+- [isp_traceability_required.md](isp_traceability_required.md) — Implements/Requirements citations
 
 ## References
 

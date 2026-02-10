@@ -1,6 +1,7 @@
 ---
 type: rule
 name: "DDR Tier Classification"
+activation: model_decision
 globs:
   - "docs/**/*.rst"
 priority: 50

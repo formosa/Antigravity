@@ -6,3 +6,4 @@
 .venv
 
 .agent/assets/proposals/.processed/
+.notes

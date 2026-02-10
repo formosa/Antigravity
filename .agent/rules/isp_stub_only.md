@@ -1,13 +1,10 @@
 ---
 type: rule
 name: "ISP Stub Only"
+activation: glob
 globs:
   - "docs/07_isp/*.rst"
-priority: 90
-trigger:
-  - "implementation"
-  - "code"
-  - "logic"
+priority: 80
 severity: mandatory
 description: "ISP method bodies must contain only pass statements—no implementation logic."
 ---
@@ -53,6 +50,11 @@ def __init__(self, config_path: str):
 ```
 
 **Why**: Contains implementation. Replace with `pass`.
+
+## Related Rules
+
+- [isp_numpy_docstring.md](isp_numpy_docstring.md) — Numpy-style docstring format
+- [isp_traceability_required.md](isp_traceability_required.md) — Implements/Requirements citations
 
 ## References
 

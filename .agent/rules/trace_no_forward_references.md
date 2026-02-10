@@ -1,6 +1,7 @@
 ---
 type: rule
 name: "Trace No Forward References"
+activation: glob
 globs:
   - "docs/**/*.rst"
 priority: 85
@@ -68,6 +69,12 @@ description: "Tags cannot cite tags in lower (more concrete) tiers."
       :links: TDD-1
 
 **Why**: SAD cannot cite TDD (lower tier).
+
+## Related Rules
+
+- [trace_complete_chain.md](trace_complete_chain.md) — Complete chain to BRD root
+- [ddr_traceability_mandate.md](ddr_traceability_mandate.md) — Parent citation required
+- [trace_no_sibling_citations.md](trace_no_sibling_citations.md) — No peer citations
 
 ## References
 

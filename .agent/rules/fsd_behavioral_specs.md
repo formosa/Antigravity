@@ -1,15 +1,12 @@
 ---
 type: rule
 name: "FSD Behavioral Specs"
+activation: glob
 globs:
   - "docs/03_fsd/*.rst"
 priority: 80
 trigger:
   - "algorithm"
-  - "code"
-  - "class"
-  - "function"
-  - "variable"
 severity: mandatory
 description: "FSD tags must describe WHAT the system does from a user perspective and prohibit implementation details."
 ---

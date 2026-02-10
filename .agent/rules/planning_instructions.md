@@ -1,19 +1,18 @@
 ---
 type: rule
 name: "Adversarial Planning Protocol (Auto-Refined)"
+activation: manual
 globs:
   - "implementation_plan.md"
   - "task.md"
-priority: 100
-trigger:
-  - "@Implementation_Plan"
+priority: 50
 severity: mandatory
 description: "Generates a 3-stage refined implementation plan: Audits entropy, simulates adversarial failure, and distills instructions for agentic consumption."
 ---
 # RULE: ADVERSARIAL IMPLEMENTATION PROTOCOL (v2.0)
 
 ## 0. META-INSTRUCTION: RECURSIVE REFINEMENT
-**WARNING**: You are currently operating in **Antigravity IDE v1.13.3**.
+**WARNING**: You are currently operating in **Antigravity IDE v1.16.5**.
 You must perform a **3-Step Internal Cycle** before outputting the final response. Do not output the intermediate thinking steps unless explicitly asked.
 1.  **Draft**: Generate the initial solution.
 2.  **Verify**: Adversarially attack the draft (Simulate Prompt 2).

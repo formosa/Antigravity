@@ -6,7 +6,9 @@
 >
 > **Layer**: Static DDR Framework Knowledge (reusable across projects)
 >
-> For project-specific terminology, see: `../context/_index.md`
+> For project-specific terminology, see: [`context/_index.md`](../context/_index.md)
+>
+> **Parent index**: [`knowledge/_index.md`](../_index.md)
 
 ## Quick Lookup
 
