@@ -38,7 +38,7 @@ and exact error descriptions. Provide actionable fix suggestions.
 |:-----------|:---------|
 | NFR | BRD |
 | FSD | BRD, NFR |
-| SAD | FSD |
+| SAD | FSD, NFR |
 | ICD | SAD, NFR |
 | TDD | SAD, ICD |
 | ISP | TDD |

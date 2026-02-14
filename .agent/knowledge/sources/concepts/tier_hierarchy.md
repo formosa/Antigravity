@@ -57,7 +57,7 @@ NFR ← BRD
  ↓
 FSD ← BRD, NFR
  ↓
-SAD ← FSD
+SAD ← FSD, NFR
  ↓
 ICD ← SAD, NFR
  ↓
@@ -69,7 +69,7 @@ ISP ← TDD
 ### Critical Rules
 
 1. **No forward references**: A tier cannot cite a lower tier (TDD cannot cite ISP)
-2. **No skipping**: SAD cannot cite BRD directly; it must cite via FSD
+2. **No skipping**: SAD cannot cite BRD directly; it must cite via FSD or NFR
 3. **Root exception**: Only BRD tags have no parent citations
 4. **Cross-layer only**: Citations connect tiers, not siblings within a tier
 

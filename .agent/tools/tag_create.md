@@ -1,7 +1,7 @@
 ---
 type: tool
 name: "create_tag"
-description: "Generates a new DDR tag with UUID, validates tier, and enforces parent citation."
+description: "Generates a new DDR tag with Sequential ID, validates tier, and enforces parent citation."
 command: ".venv\\Scripts\\python .agent/scripts/create_tag.py --tier \"${tier}\" --title \"${title}\" --parent \"${parent}\""
 runtime: system
 confirmation: ask
@@ -21,8 +21,7 @@ args:
 
 ## Overview
 
-Generates a new DDR tag with a unique ID, proper tier prefix, and validated
-parent citation. Outputs an RST directive ready for insertion into documentation.
+Generates a new DDR tag with a **Sequential Integer ID** (e.g., `FSD-12`), proper tier prefix, and validated parent citation. Outputs an RST directive ready for insertion into documentation.
 
 ## Knowledge Sources
 
@@ -39,7 +38,7 @@ parent citation. Outputs an RST directive ready for insertion into documentation
     - `--title`: Required. Human-readable title.
     - `--parent`: Optional for BRD, required for other tiers.
     - `--description`: Optional. Tag content.
-    - `--needs-json`: Optional. Path to needs.json for ID collision check.
+    - `--needs-json`: Optional. Path to needs.json for ID logic.
     - `--json-only`: Optional. Output JSON instead of RST.
 
 ## Execution Steps
@@ -52,21 +51,21 @@ parent citation. Outputs an RST directive ready for insertion into documentation
 - BRD: No parent required
 - NFR: Parent must be BRD
 - FSD: Parent must be BRD or NFR
-- SAD: Parent must be FSD
+- SAD: Parent must be FSD or NFR
 - ICD: Parent must be SAD
 - TDD: Parent must be ICD
 - ISP: Parent must be TDD
 
-### 3. Generate Unique ID
-- Create 8-character UUID hex
-- Format: `{TIER}-{uuid8}` (e.g., `FSD-a1b2c3d4`)
-- Check for collision with existing needs
+### 3. Generate Sequential ID
+- **Scan** `needs.json` for highest ID in tier (e.g., `max=10`).
+- **Generate** next integer ID (e.g., `FSD-11`).
+- **Fail Check**: If `needs.json` is missing/corrupt, exit with error.
 
 ### 4. Build RST Directive
 ```rst
 .. fsd:: User Login Feature
-   :id: FSD-a1b2c3d4
-   :links: BRD-001
+   :id: FSD-11
+   :links: BRD-1
 
    Description content here.
 ```
@@ -79,34 +78,23 @@ parent citation. Outputs an RST directive ready for insertion into documentation
 
 ### Success Verification
 1. Confirm output contains valid RST directive
-2. Confirm ID format matches `{TIER}-{8chars}`
+2. Confirm ID format matches `{TIER}-{Number}` (Regex: `^[A-Z]{3}-\d+$`)
 3. Confirm parent citation follows hierarchy rules
 
 ### Example Output
 ```rst
 .. fsd:: User Login Feature
-   :id: FSD-a1b2c3d4
-   :links: BRD-001
+   :id: FSD-12
+   :links: BRD-1
 
 ---
-# Tag ID: FSD-a1b2c3d4
+# Tag ID: FSD-12
 # Tier: Feature Specification Document
-# Parent: BRD-001
-```
-
-## Tier Hierarchy
-
-```
-BRD (root)
- └── NFR
- └── FSD
-      └── SAD
-           └── ICD
-                └── TDD
-                     └── ISP
+# Reminder: Rebuild docs (make json) to update the index before generating the next tag.
+# Parent: BRD-1
 ```
 
 ## Rules
 - **ID Immutability**: Once generated, IDs must never change.
 - **Parent Citation**: All non-BRD tiers require parent links.
-- **Collision Detection**: IDs are checked against needs.json.
+- **Collision Detection**: Enforced via scan of `needs.json`. **Rebuild index between tag generations.**
