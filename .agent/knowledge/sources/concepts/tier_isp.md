@@ -110,4 +110,4 @@ ISP is the terminal tier—everything traces back:
 - `concepts/tier_tdd.md` — Parent tier (blueprints)
 - `constraints/isp_stub_only.md` — Pass-only rule
 - `constraints/isp_numpy_docstrings.md` — Docstring format
-- Source: `ddr_meta_standard.txt` §2.7 Implementation Stubs & Prompts
+- Source: `documentation_system.md` §2.7 Implementation Stubs & Prompts

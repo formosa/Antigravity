@@ -94,4 +94,4 @@ After inserting new item:
 ## References
 
 - `patterns/tag_syntax.md` — ID format specification
-- Source: `ddr_meta_standard.txt` §3.3 Tag Lifecycle & Stability Rules
+- Source: `documentation_system.md` §3.3 Tag Lifecycle & Stability Rules

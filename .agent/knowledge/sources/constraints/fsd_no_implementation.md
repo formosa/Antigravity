@@ -103,4 +103,4 @@ How to identify violations:
 ## References
 
 - `concepts/tier_fsd.md` — FSD tier definition
-- Source: `ddr_meta_standard.txt` §2.3 Feature Specifications Document
+- Source: `documentation_system.md` §2.3 Feature Specifications Document

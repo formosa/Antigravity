@@ -58,8 +58,8 @@ For each cited tag:
 |:-----------|:---------|
 | NFR | BRD |
 | FSD | BRD, NFR |
-| SAD | FSD |
-| ICD | SAD, NFR |
+| SAD | FSD, NFR |
+| ICD | SAD |
 | TDD | SAD, ICD |
 | ISP | TDD |
 
@@ -104,4 +104,4 @@ For each cited parent, repeat Steps 1-2 until reaching BRD.
 - `concepts/information_flow.md` — Traceability principles
 - `constraints/tag_citation_required.md` — Citation mandate
 - `protocols/impact_analysis.md` — Downstream effects
-- Source: `ddr_meta_standard.txt` §4.1 Upstream Citation Mandates
+- Source: `documentation_system.md` §4.1 Upstream Citation Mandates

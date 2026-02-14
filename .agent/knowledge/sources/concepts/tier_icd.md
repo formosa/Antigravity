@@ -88,4 +88,4 @@ ICD bridges architecture to implementation:
 
 - `concepts/tier_sad.md` — Parent tier (structure)
 - `concepts/tier_tdd.md` — Next tier (blueprints)
-- Source: `ddr_meta_standard.txt` §2.5 Interface & Data Schemas
+- Source: `documentation_system.md` §2.5 Interface & Data Schemas

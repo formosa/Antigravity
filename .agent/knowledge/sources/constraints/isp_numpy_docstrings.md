@@ -154,4 +154,4 @@ def run(self):
 
 - `concepts/tier_isp.md` — ISP tier definition
 - `constraints/isp_stub_only.md` — Pass-only requirement
-- Source: `ddr_meta_standard.txt` §2.7 Docstring Requirements
+- Source: `documentation_system.md` §2.7 Docstring Requirements

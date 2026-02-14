@@ -30,6 +30,14 @@ DDR controlled vocabulary prevents semantic drift by LLMs. Universal to all DDR 
 | **Orphan** | Tag without required parent citation |
 | **Manifest** | Reconciliation status block tracking section integrity |
 | **Archetype** | Knowledge source type (concept, protocol, constraint, pattern, vocabulary) |
+| **Anti-Pattern** | Structural violation of DDR tier rules (e.g., technology in BRD) |
+| **Dirty Flag** | Manifest status indicating a section requires re-verification |
+| **Leaf Node** | ISP tag with no children — terminal node in the documentation graph |
+| **Root Node** | BRD tag with no parents — entry point of every traceability chain |
+| **Stub Purity** | Constraint requiring ISP code to contain only `pass` statements |
+| **Forward Reference** | Invalid citation where a lower tier cites a higher tier |
+| **Sibling Citation** | Invalid citation where a tag cites a peer at the same tier level |
+| **Deprecation** | Marking a tag as superseded while preserving its ID and citation validity |
 
 ## Abbreviations
 

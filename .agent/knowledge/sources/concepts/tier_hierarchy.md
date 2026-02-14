@@ -88,4 +88,4 @@ The tier hierarchy is the organizing principle for:
 
 - `concepts/ddr_overview.md` — DDR foundational principles
 - `concepts/information_flow.md` — Citation and cascade mechanics
-- Source: `ddr_meta_standard.txt` §2. Document Hierarchy & Tag Topology
+- Source: `documentation_system.md` §2. Document Hierarchy & Tag Topology

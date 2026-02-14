@@ -78,4 +78,4 @@ FSD is the pivotal tier between business and technical:
 - `concepts/tier_nfr.md` — Parent tier (boundaries)
 - `concepts/tier_sad.md` — Next tier (structure)
 - `constraints/fsd_no_implementation.md` — No code rule
-- Source: `ddr_meta_standard.txt` §2.3 Feature Specifications Document
+- Source: `documentation_system.md` §2.3 Feature Specifications Document

@@ -2,7 +2,7 @@
 
 > Master lookup table for topic-based navigation of DDR knowledge sources.
 >
-> **Total Files**: 36 (1 index + 35 content files)
+> **Total Files**: 46 (1 index + 45 content files)
 >
 > **Layer**: Static DDR Framework Knowledge (reusable across projects)
 >
@@ -49,12 +49,22 @@
 | Worked Example: Classification | pattern | `patterns/worked_example_classification.md` |
 | Worked Example: Feature | pattern | `patterns/worked_example_feature.md` |
 | Persona Content Strategy | pattern | `patterns/persona_content_strategy.md` |
+| Agent Registry | concept | `concepts/agent_registry.md` |
+| Evaluation Framework | pattern | `patterns/evaluation_framework.md` |
+| Contextual Chunking | pattern | `patterns/llm_contextual_chunking.md` |
+| Validation Prompts | pattern | `patterns/llm_validation_prompts.md` |
+| Template: New Feature | pattern | `patterns/template_new_feature.md` |
+| Template: Bug Fix | pattern | `patterns/template_bug_fix.md` |
+| Workflow: Document Feature | protocol | `protocols/workflow_document_feature.md` |
+| Workflow: Orphan Resolution | protocol | `protocols/workflow_orphan_resolution.md` |
+| Trace Complete Chain | protocol | `protocols/trace_complete_chain.md` |
+| Tag Deprecation Lifecycle | constraint | `constraints/tag_deprecation_lifecycle.md` |
 
 ---
 
 ## By Archetype
 
-### Concepts (10) ✅
+### Concepts (11) ✅
 - [DDR Overview](concepts/ddr_overview.md) — Purpose and principles
 - [Tier Hierarchy](concepts/tier_hierarchy.md) — Seven-tier structure
 - [Information Flow](concepts/information_flow.md) — Cascade and citation
@@ -65,8 +75,9 @@
 - [Tier: ICD](concepts/tier_icd.md) — Interface Contracts
 - [Tier: TDD](concepts/tier_tdd.md) — Technical Design
 - [Tier: ISP](concepts/tier_isp.md) — Implementation Stubs
+- [Agent Registry](concepts/agent_registry.md) — DDR agent handles and roles
 
-### Protocols (9) ✅
+### Protocols (12) ✅
 - [Classification Decision Tree](protocols/classification_decision_tree.md) — Primary tier assignment
 - [Classification Scoring](protocols/classification_scoring.md) — Ambiguity resolution
 - [Abstraction Upward](protocols/abstraction_upward.md) — Parent synthesis
@@ -76,8 +87,11 @@
 - [Impact Analysis](protocols/impact_analysis.md) — Downstream effects
 - [Reconciliation Dirty Flag](protocols/reconciliation_dirty_flag.md) — Integrity status
 - [Reconciliation Inventory](protocols/reconciliation_inventory.md) — Tag count sync
+- [Workflow: Document Feature](protocols/workflow_document_feature.md) — End-to-end feature documentation
+- [Workflow: Orphan Resolution](protocols/workflow_orphan_resolution.md) — Orphan tag resolution
+- [Trace Complete Chain](protocols/trace_complete_chain.md) — ISP-to-BRD chain rule
 
-### Constraints (9) ✅
+### Constraints (10) ✅
 - [Tag Immutability](constraints/tag_immutability.md) — IDs never change
 - [Tag Citation Required](constraints/tag_citation_required.md) — Parent links mandatory
 - [Sibling Prohibition](constraints/sibling_prohibition.md) — No peer citations
@@ -87,14 +101,20 @@
 - [FSD No Implementation](constraints/fsd_no_implementation.md) — No code
 - [ISP Stub Only](constraints/isp_stub_only.md) — Pass statements only
 - [ISP Numpy Docstrings](constraints/isp_numpy_docstrings.md) — Required format
+- [Tag Deprecation Lifecycle](constraints/tag_deprecation_lifecycle.md) — Deprecation rules
 
-### Patterns (6) ✅
+### Patterns (11) ✅
 - [Knowledge Source Template](patterns/knowledge_source_template.md) — Authoring specification
 - [Tag Syntax](patterns/tag_syntax.md) — ID format and RST directives
 - [Manifest Structure](patterns/manifest_structure.md) — Reconciliation format
 - [Worked Example: Classification](patterns/worked_example_classification.md) — Tier assignment demo
 - [Worked Example: Feature](patterns/worked_example_feature.md) — End-to-end demo
 - [Persona Content Strategy](patterns/persona_content_strategy.md) — Inline vs. refs decision
+- [Evaluation Framework](patterns/evaluation_framework.md) — Agent evaluation metrics
+- [Contextual Chunking](patterns/llm_contextual_chunking.md) — LLM context retrieval
+- [Validation Prompts](patterns/llm_validation_prompts.md) — LLM prompt templates
+- [Template: New Feature](patterns/template_new_feature.md) — 7-tier starter template
+- [Template: Bug Fix](patterns/template_bug_fix.md) — Bug fix documentation
 
 ### Vocabulary (1) ✅
 - [Glossary](vocabulary/glossary.md) — Normative terminology
@@ -105,9 +125,9 @@
 
 | Archetype | Created | Planned | Status |
 |:----------|--------:|--------:|:-------|
-| Concepts | 10 | 10 | ✅ Complete |
-| Protocols | 9 | 9 | ✅ Complete |
-| Constraints | 9 | 9 | ✅ Complete |
-| Patterns | 6 | 6 | ✅ Complete |
+| Concepts | 11 | 11 | ✅ Complete |
+| Protocols | 12 | 12 | ✅ Complete |
+| Constraints | 10 | 10 | ✅ Complete |
+| Patterns | 11 | 11 | ✅ Complete |
 | Vocabulary | 1 | 1 | ✅ Complete |
-| **Total** | **36** | **36** | **100%** |
+| **Total** | **46** | **46** | **100%** |

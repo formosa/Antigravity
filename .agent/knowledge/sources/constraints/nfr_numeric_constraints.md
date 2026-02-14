@@ -107,4 +107,4 @@ How to identify violations:
 ## References
 
 - `concepts/tier_nfr.md` — NFR tier definition
-- Source: `ddr_meta_standard.txt` §2.2 Non-Functional Requirements
+- Source: `documentation_system.md` §2.2 Non-Functional Requirements

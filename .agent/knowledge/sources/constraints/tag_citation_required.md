@@ -98,4 +98,4 @@ How to identify violations:
 
 - `concepts/tier_hierarchy.md` — Valid citation hierarchy
 - `protocols/traceability_chain.md` — Chain validation
-- Source: `ddr_meta_standard.txt` §4.1 Upstream Citation Mandates
+- Source: `documentation_system.md` §4.1 Upstream Citation Mandates

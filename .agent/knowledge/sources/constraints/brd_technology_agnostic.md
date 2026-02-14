@@ -102,4 +102,4 @@ How to identify violations:
 
 - `concepts/tier_brd.md` — BRD tier definition
 - `constraints/brd_measurable_metrics.md` — Related BRD constraint
-- Source: `ddr_meta_standard.txt` §2.1 Business Requirements Document
+- Source: `documentation_system.md` §2.1 Business Requirements Document

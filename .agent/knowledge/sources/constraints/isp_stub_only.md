@@ -122,4 +122,4 @@ def get_status(self) -> str:
 
 - `concepts/tier_isp.md` — ISP tier definition
 - `constraints/isp_numpy_docstrings.md` — Docstring requirement
-- Source: `ddr_meta_standard.txt` §2.7 Implementation Stubs & Prompts
+- Source: `documentation_system.md` §2.7 Implementation Stubs & Prompts

@@ -106,4 +106,4 @@ Final validation checks:
 ## References
 
 - `protocols/reconciliation_dirty_flag.md` — When to flag changes
-- Source: `ddr_meta_standard.txt` §4.3 Rule 1: Inventory Maintenance
+- Source: `documentation_system.md` §4.3 Rule 1: Inventory Maintenance
