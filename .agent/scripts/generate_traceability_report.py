@@ -25,6 +25,16 @@ from pathlib import Path
 
 TIER_ORDER = ["BRD", "NFR", "FSD", "SAD", "ICD", "TDD", "ISP"]
 
+# Strict Parent-Child Hierarchy (Protocol: traceability_chain.md)
+VALID_PARENTS = {
+    "NFR": ["BRD"],
+    "FSD": ["BRD", "NFR"],
+    "SAD": ["FSD", "NFR"],
+    "ICD": ["SAD"],
+    "TDD": ["SAD", "ICD"],
+    "ISP": ["TDD"]
+}
+
 
 def get_tier(tag_id: str) -> str | None:
     if not tag_id: return None
@@ -52,11 +62,13 @@ def analyze(needs: dict, severity: str = "ALL") -> dict:
 
     for nid, ndata in needs.items():
         tier = get_tier(nid)
-        links = ndata.get("links", [])
+        # BRD is Root; no parents required
         if tier == "BRD": continue
 
-        nviol = []
+        links = ndata.get("links", [])
         ntitle = ndata.get("title", "No Title")
+        nviol = []
+
         if not links:
             nviol.append({"id": nid, "title": ntitle, "type": "ORPHAN", "severity": "ERROR",
                           "message": "No parent citations", "cited": "None"})
@@ -65,19 +77,33 @@ def analyze(needs: dict, severity: str = "ALL") -> dict:
             ptier = get_tier(pid)
             ptitle = needs.get(pid, {}).get("title", "Unknown") if pid in needs else "Unknown"
 
+            # 1. Existential Check
             if pid not in needs_set:
                 nviol.append({"id": nid, "title": ntitle, "type": "MISSING_PARENT", "severity": "ERROR",
                               "message": f"Parent '{pid}' not found", "cited": pid})
-            elif ptier == tier:
-                # Allow Atomic -> Block Decomposition (e.g., FSD-1.1 -> FSD-1)
-                if pid == get_block_id(nid) and nid != pid:
-                    pass
-                else:
-                    nviol.append({"id": nid, "title": ntitle, "type": "SIBLING_CITATION", "severity": "WARNING",
+                continue
+
+            # 2. Atomic -> Block Exception (Allow FSD-1.1 -> FSD-1)
+            # Must be strictly same-prefix block parent
+            if pid == get_block_id(nid) and nid != pid:
+                continue
+
+            # 3. Valid Citation Matrix Check (Strict Layering)
+            # If tier is unknown or not in matrix (e.g., unexpected prefix), default to strict error
+            allowed_parents = VALID_PARENTS.get(tier, [])
+            if ptier not in allowed_parents:
+                # Determine specific violation type for clarity
+                if ptier == tier:
+                     # Sibling Prohibition (Protocol: sibling_prohibition.md)
+                     # Treat as ERROR per strict enforcement
+                     nviol.append({"id": nid, "title": ntitle, "type": "SIBLING_CITATION", "severity": "ERROR",
                                   "message": f"Cites sibling '{pid}'", "cited": f"{pid} ({ptitle})"})
-            elif ptier and tier and get_tier_idx(ptier) > get_tier_idx(tier):
-                nviol.append({"id": nid, "title": ntitle, "type": "FORWARD_REFERENCE", "severity": "ERROR",
-                              "message": f"References lower-tier '{pid}'", "cited": f"{pid} ({ptitle})"})
+                else:
+                    # Forward Ref OR Skip-Level
+                    # We use 'INVALID_PARENT_TIER' to cover both cases under the strict matrix
+                    nviol.append({"id": nid, "title": ntitle, "type": "INVALID_PARENT_TIER", "severity": "ERROR",
+                                  "message": f"Invalid parent tier '{ptier}' for '{tier}'. Allowed: {allowed_parents}",
+                                  "cited": f"{pid} ({ptitle})"})
 
         if nviol: violations.extend(nviol)
         else: valid.append(nid)
