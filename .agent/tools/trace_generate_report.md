@@ -2,7 +2,7 @@
 type: tool
 name: "generate_traceability_report"
 description: "Analyzes DDR citation chains and generates violation reports with configurable format and severity filtering."
-command: ".venv\\Scripts\\python .agent/scripts/generate_traceability_report.py --format \"${format}\""
+command: ".venv\\Scripts\\python .agent/scripts/generate_traceability_report.py --format \"${format}\" --output \"${output}\""
 runtime: system
 confirmation: never
 args:
@@ -14,6 +14,9 @@ args:
     required: false
   severity:
     description: "Filter: ERROR, WARNING, ALL"
+    required: false
+  output:
+    description: "Path to output file (resolves encoding issues)"
     required: false
 ---
 
@@ -35,6 +38,7 @@ Analyzes citation chains and generates violation reports with format/severity op
     - `--format`: Required. json/markdown/summary.
     - `--needs-json`: Optional. Path to needs.json.
     - `--severity`: Optional. ERROR/WARNING/ALL.
+    - `--output`: Optional. Writes to file with UTF-8 encoding.
 
 ## Violation Types
 

@@ -11,7 +11,7 @@ Architect       : Antigravity IDE
 
 Usage
 -----
-    python generate_traceability_report.py --needs-json docs/_build/json/needs.json
+    python generate_traceability_report.py --needs-json docs/_build/json/needs.json --output report.md
 
 Exit Codes
 ----------
@@ -30,6 +30,10 @@ def get_tier(tag_id: str) -> str | None:
     if not tag_id: return None
     prefix = tag_id.split("-")[0].split(".")[0].upper()
     return prefix if prefix in TIER_ORDER else None
+
+
+def get_block_id(tag_id: str) -> str:
+    return tag_id.split(".")[0]
 
 
 def get_tier_idx(tier: str | None) -> int:
@@ -52,21 +56,28 @@ def analyze(needs: dict, severity: str = "ALL") -> dict:
         if tier == "BRD": continue
 
         nviol = []
+        ntitle = ndata.get("title", "No Title")
         if not links:
-            nviol.append({"id": nid, "type": "ORPHAN", "severity": "ERROR",
-                          "message": "No parent citations"})
+            nviol.append({"id": nid, "title": ntitle, "type": "ORPHAN", "severity": "ERROR",
+                          "message": "No parent citations", "cited": "None"})
 
         for pid in links:
             ptier = get_tier(pid)
+            ptitle = needs.get(pid, {}).get("title", "Unknown") if pid in needs else "Unknown"
+
             if pid not in needs_set:
-                nviol.append({"id": nid, "type": "MISSING_PARENT", "severity": "ERROR",
-                              "message": f"Parent '{pid}' not found"})
+                nviol.append({"id": nid, "title": ntitle, "type": "MISSING_PARENT", "severity": "ERROR",
+                              "message": f"Parent '{pid}' not found", "cited": pid})
             elif ptier == tier:
-                nviol.append({"id": nid, "type": "SIBLING_CITATION", "severity": "WARNING",
-                              "message": f"Same-tier citation to '{pid}'"})
+                # Allow Atomic -> Block Decomposition (e.g., FSD-1.1 -> FSD-1)
+                if pid == get_block_id(nid) and nid != pid:
+                    pass
+                else:
+                    nviol.append({"id": nid, "title": ntitle, "type": "SIBLING_CITATION", "severity": "WARNING",
+                                  "message": f"Cites sibling '{pid}'", "cited": f"{pid} ({ptitle})"})
             elif ptier and tier and get_tier_idx(ptier) > get_tier_idx(tier):
-                nviol.append({"id": nid, "type": "FORWARD_REFERENCE", "severity": "ERROR",
-                              "message": f"References lower-tier '{pid}'"})
+                nviol.append({"id": nid, "title": ntitle, "type": "FORWARD_REFERENCE", "severity": "ERROR",
+                              "message": f"References lower-tier '{pid}'", "cited": f"{pid} ({ptitle})"})
 
         if nviol: violations.extend(nviol)
         else: valid.append(nid)
@@ -89,9 +100,24 @@ def format_out(result: dict, fmt: str) -> str:
         lines = [f"Analyzed: {result['summary']['total']}", f"Violations: {result['summary']['violations']}"]
         for t, c in result["summary"]["by_type"].items(): lines.append(f"  {t}: {c}")
         return "\n".join(lines)
-    lines = [f"# Traceability Report", f"- Violations: {result['summary']['violations']}"]
-    for v in result["violations"][:20]:
-        lines.append(f"- `{v['id']}` [{v['severity']}] {v['type']}")
+
+    lines = [f"# Traceability Report",
+             f"**Analyzed:** {result['summary']['total']} tags | **Violations:** {result['summary']['violations']}",
+             ""]
+
+    # Group by Type for better readability
+    by_type = result["summary"]["by_type"]
+    violations = result["violations"]
+
+    for v_type in by_type.keys():
+        type_violations = [v for v in violations if v['type'] == v_type]
+        lines.append(f"## {v_type} ({len(type_violations)})")
+        lines.append("| ID | Title | Severity | Cited Tag | Message |")
+        lines.append("|:---|:------|:---------|:----------|:--------|")
+        for v in type_violations:
+            lines.append(f"| `{v['id']}` | {v['title']} | **{v['severity']}** | {v['cited']} | {v['message']} |")
+        lines.append("")
+
     return "\n".join(lines)
 
 
@@ -100,6 +126,7 @@ def main() -> int:
     parser.add_argument("--needs-json", default="docs/_build/json/needs.json")
     parser.add_argument("--format", choices=["json", "markdown", "summary"], default="summary")
     parser.add_argument("--severity", choices=["ERROR", "WARNING", "ALL"], default="ALL")
+    parser.add_argument("--output", help="Path to output file (default: stdout)")
     args = parser.parse_args()
 
     path = Path(args.needs_json)
@@ -107,7 +134,12 @@ def main() -> int:
         print(f"Error: {path} not found", file=sys.stderr); return 1
 
     try:
-        print(format_out(analyze(load_needs(path), args.severity), args.format))
+        content = format_out(analyze(load_needs(path), args.severity), args.format)
+        if args.output:
+            with open(args.output, "w", encoding="utf-8") as f:
+                f.write(content)
+        else:
+            print(content)
         return 0
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr); return 1

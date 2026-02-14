@@ -63,6 +63,8 @@ For each cited tag:
 | TDD | SAD, ICD |
 | ISP | TDD |
 
+> **Exception (Decomposition):** An Atomic tag (`TIER-N.M`) MAY cite its direct Block header (`TIER-N`) as defined in `constraints/sibling_prohibition.md`.
+
 ### Step 3: Recurse Upward
 
 For each cited parent, repeat Steps 1-2 until reaching BRD.
@@ -76,7 +78,7 @@ For each cited parent, repeat Steps 1-2 until reaching BRD.
 | **Orphan** | Tag has empty `:links:` (non-BRD) | ERROR |
 | **Missing parent** | Cited tag doesn't exist | ERROR |
 | **Forward reference** | TDD cites ISP | ERROR |
-| **Sibling citation** | FSD-1.2 cites FSD-1.1 | ERROR |
+| **Invalid Sibling citation** | FSD-1.2 cites FSD-1.1 | ERROR |
 | **Broken chain** | Parent is orphan | WARNING |
 | **Cycle** | A → B → C → A | ERROR |
 

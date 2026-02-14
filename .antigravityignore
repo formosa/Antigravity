@@ -5,5 +5,5 @@
 .git
 .venv
 
-# .agent/assets/proposals/.processed/
+.agent/assets/proposals/.processed/
 .notes
