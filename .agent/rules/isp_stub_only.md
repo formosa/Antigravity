@@ -17,7 +17,7 @@ description: "ISP method bodies must contain only pass statements—no implement
 ## Detection
 
 | Pattern | Examples |
-|:--------|:---------|
+| :-------- | :--------- |
 | Actual code | `self.socket = zmq.Context()` |
 | Control flow | `if condition:`, `for item in:` |
 | Return values | `return result` |
@@ -26,7 +26,7 @@ description: "ISP method bodies must contain only pass statements—no implement
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Any code beyond `pass` | ERROR | Replace with `pass` |
 | Return statement | ERROR | Remove; use `pass` |
 | Logic in body | ERROR | Move to implementation |

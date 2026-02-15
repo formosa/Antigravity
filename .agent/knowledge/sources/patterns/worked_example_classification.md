@@ -37,6 +37,7 @@ This worked example demonstrates the complete classification process for an ambi
 ### Q2: Does it define LIMITS?
 
 **Analysis**: YES—contains specific limits:
+
 - 50MB rotation threshold
 - 30-day retention period
 
@@ -49,7 +50,7 @@ However, there's ambiguity—this could also be ICD (configuration schema). Appl
 ## Step 2: Scoring Matrix Application
 
 | Factor | Present? | Scores Applied |
-|:-------|:--------:|:---------------|
+| :------- | :--------: | :--------------- |
 | Contains numeric metrics | YES | NFR=3, ICD=2, BRD=1 |
 | References hardware | NO | — |
 | Describes user behavior | NO | — |
@@ -64,7 +65,7 @@ However, there's ambiguity—this could also be ICD (configuration schema). Appl
 ## Step 3: Calculate Tier Scores
 
 | Tier | Calculation | Total |
-|:-----|:------------|:-----:|
+| :----- | :------------ | :-----: |
 | BRD | 1 + 2 + 3 | 6 |
 | NFR | 3 + 3 + 1 | **7** ← Winner |
 | FSD | 2 + 2 | 4 |
@@ -76,7 +77,7 @@ However, there's ambiguity—this could also be ICD (configuration schema). Appl
 ## Step 4: Contextual Validation
 
 | Check | Result |
-|:------|:-------|
+| :------ | :------- |
 | Does NFR make sense? | YES—operational limits (size, time) |
 | Can it cite BRD? | YES—traces to observability objective |
 | Does it enable downstream? | YES—SAD chooses logging pattern, ICD defines config |
@@ -104,7 +105,7 @@ However, there's ambiguity—this could also be ICD (configuration schema). Appl
 ## Key Decisions
 
 | Decision Point | Choice | Rationale |
-|:---------------|:-------|:----------|
+| :--------------- | :------- | :---------- |
 | NFR vs ICD | NFR | Constraint > Schema (ICD is downstream) |
 | Block + Atomics | Yes | Multiple related constraints warrant grouping |
 | Parent citation | BRD-3.5 | "Observability/debugging" business objective |

@@ -60,7 +60,7 @@ One paragraph for agent context injection.
 ### Frontmatter (Required)
 
 | Field | Type | Description |
-|:------|:-----|:------------|
+| :------ | :----- | :------------ |
 | `archetype` | enum | One of: concept, protocol, constraint, pattern, vocabulary, context |
 | `status` | enum | One of: draft, review, validated |
 | `version` | semver | Semantic version (MAJOR.MINOR.PATCH) |
@@ -72,14 +72,14 @@ One paragraph for agent context injection.
 ### Frontmatter (Optional)
 
 | Field | Type | Description | Default |
-|:------|:-----|:------------|:--------|
+| :------ | :----- | :------------ | :-------- |
 | `tiers` | array | Applicable DDR tiers | all |
 | `agents` | array | Relevant agent handles | all |
 
 ### Body (Required)
 
 | Section | Description |
-|:--------|:------------|
+| :-------- | :------------ |
 | `# [Title]` | H1 header matching filename |
 | `> Scope/Excludes` | Blockquote defining boundaries |
 | `## Summary` | Agent-injectable context paragraph |
@@ -92,7 +92,7 @@ One paragraph for agent context injection.
 ### Concept
 
 | Section | Purpose |
-|:--------|:--------|
+| :-------- | :-------- |
 | `## Definition` | Precise, authoritative statement |
 | `## Characteristics` | Key properties or attributes |
 | `## Context` | When/where this applies |
@@ -100,7 +100,7 @@ One paragraph for agent context injection.
 ### Protocol
 
 | Section | Purpose |
-|:--------|:--------|
+| :-------- | :-------- |
 | `## Prerequisites` | What must be true before executing |
 | `## Procedure` | Numbered steps with decision points |
 | `## Outcomes` | Result table (Success/Failure conditions) |
@@ -108,7 +108,7 @@ One paragraph for agent context injection.
 ### Constraint
 
 | Section | Purpose |
-|:--------|:--------|
+| :-------- | :-------- |
 | `## Rule Statement` | Bold MUST/MUST NOT directive |
 | `## Rationale` | Why this exists |
 | `## Detection` | How to identify violations |
@@ -118,7 +118,7 @@ One paragraph for agent context injection.
 ### Pattern
 
 | Section | Purpose |
-|:--------|:--------|
+| :-------- | :-------- |
 | `## Structure` | Template with placeholders |
 | `## Fields` | Field descriptions table |
 | `## Usage Examples` | Basic and complete examples |
@@ -127,7 +127,7 @@ One paragraph for agent context injection.
 ### Vocabulary
 
 | Section | Purpose |
-|:--------|:--------|
+| :-------- | :-------- |
 | `## Terms` | Term/Definition/Usage/Avoid table |
 | `## Abbreviations` | Abbrev/Expansion/Context table |
 | `## Enforcement` | Validation procedure |

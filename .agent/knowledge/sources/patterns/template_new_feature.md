@@ -63,7 +63,7 @@ This template provides the minimal scaffolding for a complete 7-tier feature doc
 ## Fields
 
 | Placeholder | Description | Constraint |
-|:------------|:------------|:-----------|
+| :------------ | :------------ | :----------- |
 | `[Feature Name]` | Business-facing feature title | No technology terms |
 | `BRD-X` | Unique BRD tag ID | Immutable once assigned |
 | `[Business Value]` | ROI, strategic justification | Measurable metrics required |

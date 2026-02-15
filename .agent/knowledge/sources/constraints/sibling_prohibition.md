@@ -38,7 +38,7 @@ Sub-atomic tags within the same block-level parent are peers, not hierarchical d
 How to identify violations:
 
 | Pattern | Example |
-|:--------|:--------|
+| :-------- | :-------- |
 | Same prefix in `:links:` | FSD-4.4 links to FSD-4.3 |
 | Same block parent | Both tags under FSD-4 |
 | Sequential dependency | "This follows from..." sibling |
@@ -46,7 +46,7 @@ How to identify violations:
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Sibling citation | ERROR | Remove sibling link |
 | Sequential dependency | WARNING | Express in prose, not citation |
 
@@ -69,6 +69,7 @@ How to identify violations:
 ```
 
 Express sequential relationships in prose:
+
 ```rst
 .. fsd:: VAD (Stage 2): Neural VAD refines Stage 1 output.
    :id: FSD-4.4
@@ -82,6 +83,7 @@ Express sequential relationships in prose:
    :id: FSD-4.4
    :links: FSD-4.3           ← WRONG: Sibling citation
 ```
+
 **Why**: FSD-4.3 and FSD-4.4 are peers under FSD-4. Sequential relationship should be expressed in text content, not citation.
 
 ```rst
@@ -89,6 +91,7 @@ Express sequential relationships in prose:
    :id: NFR-1.3
    :links: NFR-1.2           ← WRONG: Sibling citation
 ```
+
 **Why**: NFR-1.2 and NFR-1.3 are both atomic items under NFR-1.
 
 ---

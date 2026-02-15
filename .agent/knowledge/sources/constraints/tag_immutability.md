@@ -34,7 +34,7 @@ Immutable IDs prevent cascading reference updates across the entire document hie
 How to identify violations:
 
 | Pattern | Violation Type |
-|:--------|:---------------|
+| :-------- | :--------------- |
 | ID renumbered after deletion | Re-sequencing |
 | Deleted ID assigned to new tag | Recycling |
 | ID format changed (BRD-1 → BRD-001) | Format mutation |
@@ -43,7 +43,7 @@ How to identify violations:
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Re-sequenced IDs | ERROR | Restore original IDs |
 | Recycled deleted ID | ERROR | Mint new ID |
 | Format mutation | WARNING | Standardize format |
@@ -53,6 +53,7 @@ How to identify violations:
 ### ✅ Correct
 
 Initial state:
+
 ```
 - Item A |BRD-5.1|
 - Item B |BRD-5.2|
@@ -60,12 +61,14 @@ Initial state:
 ```
 
 After deleting Item B:
+
 ```
 - Item A |BRD-5.1|
 - Item C |BRD-5.3|         ← ID preserved
 ```
 
 After inserting new item:
+
 ```
 - Item A |BRD-5.1|
 - New Item |BRD-5.4|       ← Next available ID
@@ -75,12 +78,14 @@ After inserting new item:
 ### ❌ Incorrect
 
 After deleting Item B:
+
 ```
 - Item A |BRD-5.1|
 - Item C |BRD-5.2|         ← WRONG: ID changed from 5.3
 ```
 
 After inserting new item:
+
 ```
 - Item A |BRD-5.1|
 - New Item |BRD-5.2|       ← WRONG: Reused deleted ID

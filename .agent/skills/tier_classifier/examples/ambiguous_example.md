@@ -22,7 +22,7 @@
 ### Scoring Matrix
 
 | Factor | Present? | BRD | NFR | FSD | ICD | Total |
-|:-------|:--------:|:---:|:---:|:---:|:---:|:-----:|
+| :------- | :--------: | :---: | :---: | :---: | :---: | :-----: |
 | Numeric metrics | ✅ | +1 | +3 | +1 | +2 | — |
 | Modality (must) | ✅ | +2 | +3 | +2 | +1 | — |
 | Schema definition | 🟡 | 0 | 0 | 0 | +3 | — |
@@ -38,6 +38,7 @@
 - Enables downstream: SAD chooses logging pattern, ICD defines config schema
 
 ### Output (RST)
+
 ```rst
 .. nfr:: Log Management Constraints
    :id: NFR-7
@@ -64,6 +65,7 @@
 ### Alternative Interpretation
 
 If fragment focused more on config structure, could be ICD:
+
 ```rst
 .. icd:: Log Configuration Schema
    :id: ICD-6.2

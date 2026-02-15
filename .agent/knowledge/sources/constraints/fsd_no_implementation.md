@@ -40,17 +40,17 @@ FSD (Feature Specifications Document) describes WHAT the system does from a user
 How to identify violations:
 
 | Pattern | Examples |
-|:--------|:---------|
+| :-------- | :--------- |
 | Code snippets | Python/JSON in FSD content |
 | Class/method names | "CoreProcess.run()" |
 | Algorithm descriptions | "Uses binary search to..." |
 | Library references | "via PySide6 widget" |
-| Data structure specifics | "stored in Dict[str, Tuple]" |
+| Data structure specifics | `dict[str, Tuple]` |
 
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Code in FSD | ERROR | Remove; move to TDD/ISP |
 | Algorithm detail | ERROR | Abstract to behavior |
 | Class reference | WARNING | Describe capability instead |
@@ -84,18 +84,21 @@ How to identify violations:
 .. fsd:: Use pvporcupine.create() for wake word detection.
    :id: FSD-4.1
 ```
+
 **Why**: Library-specific API. Correct: "Detect wake word with < 200ms latency"
 
 ```rst
 .. fsd:: Implement using transitions.Machine for state management.
    :id: FSD-2.3
 ```
+
 **Why**: Implementation detail. Correct: "Maintain hierarchical state machine"
 
 ```rst
 .. fsd:: Store active requests in Dict[str, Tuple[bytes, float]].
    :id: FSD-1.5
 ```
+
 **Why**: Data structure belongs in TDD. Correct: "Track pending requests"
 
 ---

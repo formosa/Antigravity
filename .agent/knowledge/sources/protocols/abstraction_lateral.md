@@ -36,6 +36,7 @@ Lateral expansion identifies when an isolated tag implies peer requirements at t
 ### Step 1: Identify Isolation Pattern
 
 A tag is a candidate for lateral expansion when:
+
 - It addresses one instance of a pattern (e.g., one fault type)
 - Similar concerns exist at the same level (e.g., other faults)
 - The concern is not exhaustively covered
@@ -47,7 +48,7 @@ List all peer-level concerns the isolated tag implies:
 **Example**: FSD-7.1 "LogServer Fault: Senders continue, drop logs silently."
 
 | Implied Parallel Concern |
-|:-------------------------|
+| :------------------------- |
 | What about Service faults? |
 | What about Core faults? |
 | What about timeout scenarios? |
@@ -88,6 +89,7 @@ Create atomic tags for each parallel concern:
 ### Step 5: Validate Coverage
 
 Check that siblings:
+
 - Address the same abstraction level
 - Provide comprehensive coverage of the concern
 - Cite the same parent (block or upstream tier)
@@ -96,7 +98,7 @@ Check that siblings:
 ## Outcomes
 
 | Result | Condition | Next Action |
-|:-------|:----------|:------------|
+| :------- | :---------- | :------------ |
 | Complete set | All parallel concerns covered | Update reconciliation manifest |
 | Partial set | Some concerns remain | Continue sibling generation |
 | Over-expansion | Too granular for tier | Merge or demote to lower tier |

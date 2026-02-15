@@ -9,7 +9,7 @@
 ## Quick Lookup
 
 | File | Slug | Name | Mode | Description |
-|:-----|:-----|:-----|:-----|:------------|
+| :----- | :----- | :----- | :----- | :------------ |
 | [brd_create_tag.md](brd_create_tag.md) | `/create_brd` | Create BRD Tag | `autonomous` | Author BRD tag with validation |
 | [ddr_new_feature_documentation.md](ddr_new_feature_documentation.md) | `/document_feature` | Document Feature (BRD→ISP) | `autonomous` | Complete seven-tier documentation workflow from Business Requirements to Implementation Stubs |
 | [ddr_orphan_resolution.md](ddr_orphan_resolution.md) | `/resolve_orphan` | Resolve Orphan Tag | `autonomous` | Synthesize missing parent or child tags to complete traceability chains |
@@ -33,7 +33,7 @@
 ### End-to-End Documentation Flows (3)
 
 | File | Slug | Mode | Purpose |
-|:-----|:-----|:-----|:--------|
+| :----- | :----- | :----- | :-------- |
 | [feature_documentation.md](feature_documentation.md) | `/complete_feature` | `autonomous` | Full 9-stage DDR cascade |
 | [ddr_new_feature_documentation.md](ddr_new_feature_documentation.md) | `/document_feature` | `autonomous` | 7-tier BRD→ISP documentation |
 | [update_documentation_spec.md](update_documentation_spec.md) | `/update_documentation_spec` | `interactive` | Sphinx-Needs specification updates |
@@ -43,7 +43,7 @@
 ### Tag Authorship (6)
 
 | File | Slug | Tier | Purpose |
-|:-----|:-----|:-----|:--------|
+| :----- | :----- | :----- | :-------- |
 | [brd_create_tag.md](brd_create_tag.md) | `/create_brd` | BRD | Business Requirements |
 | [nfr_create_tag.md](nfr_create_tag.md) | `/create_nfr` | NFR | Non-Functional Requirements |
 | [fsd_create_tag.md](fsd_create_tag.md) | `/create_fsd` | FSD | Functional Specifications |
@@ -56,7 +56,7 @@
 ### Code Generation & Documentation (2)
 
 | File | Slug | Purpose |
-|:-----|:-----|:--------|
+| :----- | :----- | :-------- |
 | [isp_create_from_tdd.md](isp_create_from_tdd.md) | `/create_isp` | Python stub generation from TDD |
 | [document_script.md](document_script.md) | `/document_script` | Numpy-style docstring application |
 
@@ -65,7 +65,7 @@
 ### Traceability & Validation (4)
 
 | File | Slug | Purpose |
-|:-----|:-----|:--------|
+| :----- | :----- | :-------- |
 | [validate_ddr.md](validate_ddr.md) | `/validate_ddr` | DDR meta-standard validation |
 | [trace_comprehensive_audit.md](trace_comprehensive_audit.md) | `/audit_traceability` | Full chain audit with anti-pattern detection |
 | [trace_tag_to_root.md](trace_tag_to_root.md) | `/trace_tag` | Upstream citation lineage |
@@ -76,7 +76,7 @@
 ## Summary
 
 | Category | Count |
-|:---------|------:|
+| :--------- | ------: |
 | End-to-End Documentation Flows | 3 |
 | Tag Authorship | 6 |
 | Code Generation & Documentation | 2 |

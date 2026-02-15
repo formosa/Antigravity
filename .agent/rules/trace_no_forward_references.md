@@ -21,7 +21,7 @@ description: "Tags cannot cite tags in lower (more concrete) tiers."
 ## Valid Citation Matrix
 
 | Child Tier | May Cite |
-|:-----------|:---------|
+| :----------- | :--------- |
 | NFR | BRD |
 | FSD | BRD, NFR |
 | SAD | FSD |
@@ -32,14 +32,14 @@ description: "Tags cannot cite tags in lower (more concrete) tiers."
 ## Detection
 
 | Pattern | Example |
-|:--------|:--------|
+| :-------- | :--------- |
 | Lower cites higher | TDD-1 links to ISP-3 |
 | Downward reference | FSD-4 links to SAD-1 |
 
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Forward reference | ERROR | Remove invalid citation |
 | Downward citation | ERROR | Reverse or restructure |
 

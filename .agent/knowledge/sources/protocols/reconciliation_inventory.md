@@ -57,7 +57,7 @@ Parse the section content to find all tag definitions:
 Compare scanned tags against inventory:
 
 | Situation | Action |
-|:----------|:-------|
+| :---------- | :------- |
 | Tag in text, not in inventory | Add to `tag_inventory` |
 | Tag in inventory, not in text | Remove from `tag_inventory` |
 | Counts match | No action |
@@ -69,6 +69,7 @@ If a block tag is deleted, ALL its atomic children must also be removed:
 **Deleted**: FSD-1
 
 **Remove**:
+
 - FSD-1
 - FSD-1.1
 - FSD-1.2
@@ -88,6 +89,7 @@ Recalculate count and update inventory:
 ### Step 6: Verify Accuracy
 
 Final validation checks:
+
 - `tag_count` equals length of `tag_inventory`
 - All inventory items exist in section text
 - No duplicate entries in inventory
@@ -96,7 +98,7 @@ Final validation checks:
 ## Outcomes
 
 | Result | Condition | Next Action |
-|:-------|:----------|:------------|
+| :------- | :---------- | :------------ |
 | Synchronized | Inventory matches text | Set timestamp |
 | Discrepancy found | Mismatch detected | Apply corrections |
 | Bulk change | Many adds/removes | Run full reconciliation |

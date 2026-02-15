@@ -41,7 +41,7 @@ All ISP classes, methods, and functions must include comprehensive Numpy-style d
 How to identify violations:
 
 | Pattern | Examples |
-|:--------|:---------|
+| :-------- | :--------- |
 | Missing docstring | Method without `"""..."""` |
 | Wrong format | Google-style, reST-style docstrings |
 | Missing sections | No Parameters, Returns, or Attributes |
@@ -51,17 +51,18 @@ How to identify violations:
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Missing docstring | ERROR | Add Numpy-style docstring |
 | Wrong format | WARNING | Convert to Numpy style |
 | Missing `Implements:` | ERROR | Add TDD citation |
-| Invalid citation format | WARNING | Use `|TAG-X|` format |
+| Invalid citation format | WARNING | Use `\|TAG-X\|` format |
 
 ## Examples
 
 ### ✅ Correct
 
 **Class docstring**:
+
 ```python
 class CoreProcess:
     """
@@ -84,6 +85,7 @@ class CoreProcess:
 ```
 
 **Method docstring**:
+
 ```python
 def route_message(self, frame: list) -> bool:
     """
@@ -113,13 +115,16 @@ def route_message(self, frame: list) -> bool:
 ### ❌ Incorrect
 
 **Missing docstring**:
+
 ```python
 def run(self):
     pass
 ```
+
 **Why**: No docstring at all.
 
 **Wrong format (Google-style)**:
+
 ```python
 def run(self):
     """Run the main loop.
@@ -132,9 +137,11 @@ def run(self):
     """
     pass
 ```
+
 **Why**: Uses Google-style `Args:` instead of Numpy-style `Parameters`.
 
 **Missing citations**:
+
 ```python
 def run(self):
     """
@@ -146,6 +153,7 @@ def run(self):
     """
     pass
 ```
+
 **Why**: No `Implements:` or `Requirements:` lines.
 
 ---

@@ -31,7 +31,7 @@ DDR tags use a consistent format: tier prefix, hyphen, sequential integer, optio
 ```
 
 | Component | Format | Examples |
-|:----------|:-------|:---------|
+| :---------- | :------- | :--------- |
 | Tier prefix | Uppercase 3-letter abbreviation | BRD, NFR, FSD, SAD, ICD, TDD, ISP |
 | Separator | Hyphen | `-` |
 | Block number | Sequential integer (no padding) | 1, 2, 10, 99 |
@@ -48,7 +48,7 @@ DDR tags use a consistent format: tier prefix, hyphen, sequential integer, optio
 ## Fields
 
 | Field | Required | Type | Description |
-|:------|:--------:|:-----|:------------|
+| :------ | :--------: | :----- | :------------ |
 | Directive | Yes | `.. tier::` | Tier name lowercase (brd, nfr, fsd, etc.) |
 | Title | Yes | string | Human-readable description |
 | `:id:` | Yes | TAG-ID | Unique identifier in correct format |
@@ -95,6 +95,7 @@ DDR tags use a consistent format: tier prefix, hyphen, sequential integer, optio
 [BRD-1]   ← WRONG: Square brackets
 {BRD-1}   ← WRONG: Curly braces
 ```
+
 **Problem**: Only pipe delimiters (`|BRD-1|`) are valid for inline references.
 
 ### ❌ Zero Padding
@@ -103,6 +104,7 @@ DDR tags use a consistent format: tier prefix, hyphen, sequential integer, optio
 :id: BRD-01
 :id: NFR-001
 ```
+
 **Problem**: IDs must be plain integers without leading zeros.
 
 ### ❌ Wrong Separator
@@ -111,6 +113,7 @@ DDR tags use a consistent format: tier prefix, hyphen, sequential integer, optio
 :id: BRD_1   ← WRONG: Underscore
 :id: BRD.1   ← WRONG: Dot (that's atomic format)
 ```
+
 **Problem**: Tier and number separated by hyphen only.
 
 ### ❌ Lowercase Prefix
@@ -119,6 +122,7 @@ DDR tags use a consistent format: tier prefix, hyphen, sequential integer, optio
 :id: brd-1
 :id: Brd-1
 ```
+
 **Problem**: Tier prefix must be UPPERCASE.
 
 ---

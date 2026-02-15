@@ -17,7 +17,7 @@ description: "BRD requirements should identify which stakeholders benefit."
 ## Detection
 
 | Pattern | Indication |
-|:--------|:-----------|
+| :-------- | :----------- |
 | No stakeholder mention | Requirement lacks "who benefits" |
 | Generic "users" | Could be more specific |
 | Missing persona context | No role identification |
@@ -25,7 +25,7 @@ description: "BRD requirements should identify which stakeholders benefit."
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | No stakeholder identified | WARNING | Add beneficiary context |
 | Vague stakeholder | INFO | Specify role or persona |
 

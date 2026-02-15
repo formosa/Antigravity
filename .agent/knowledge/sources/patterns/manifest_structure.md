@@ -36,7 +36,7 @@ Reconciliation manifests track document integrity state at the section level. Ev
 ## Fields
 
 | Field | Required | Type | Description |
-|:------|:--------:|:-----|:------------|
+| :------ | :--------: | :----- | :------------ |
 | `:section_id:` | Yes | string | Unique identifier for section (e.g., "fsd-root") |
 | `:integrity_status:` | Yes | enum | "CLEAN" or "DIRTY" |
 | `:timestamp:` | Yes | date | Last update date (YYYY-MM-DD) |
@@ -56,7 +56,7 @@ Reconciliation manifests track document integrity state at the section level. Ev
 ```
 
 | Field | Type | Description |
-|:------|:-----|:------------|
+| :------ | :----- | :------------ |
 | `target_tag` | string | Tag affected by the issue |
 | `source_trigger` | string | What caused the issue |
 | `issue_type` | enum | Category of problem |

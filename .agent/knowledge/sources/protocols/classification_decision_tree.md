@@ -113,7 +113,7 @@ INPUT: Unclassified Information Fragment
 ## Outcomes
 
 | Result | Next Action |
-|:-------|:------------|
+| :------- | :------------ |
 | Clear tier match | Create tag in appropriate tier |
 | Ambiguous (multiple partial matches) | Use `classification_scoring.md` |
 | No match | Re-examine fragment; may need decomposition |

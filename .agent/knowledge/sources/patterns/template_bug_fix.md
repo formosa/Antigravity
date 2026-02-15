@@ -58,7 +58,7 @@ def test_bug_[TAG-ID]_regression():
 ## Fields
 
 | Placeholder | Description |
-|:------------|:------------|
+| :------------ | :------------ |
 | `[Tier]` | One of: BRD, NFR, FSD, SAD, ICD, TDD, ISP |
 | `[TAG-ID]` | Existing tag being corrected |
 | `[Old Content]` | Verbatim content before fix |

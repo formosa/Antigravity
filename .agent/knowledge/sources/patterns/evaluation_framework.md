@@ -28,7 +28,7 @@ The Evaluation Framework defines quantitative pass/fail metrics for each DDR cor
 ### Classification Accuracy
 
 | Field | Value |
-|:------|:------|
+| :------ | :------ |
 | **Target** | `@ddr_orchestrator` |
 | **Metric** | Correct tier assignment vs Ground Truth |
 | **Pass** | >95% accuracy |
@@ -36,7 +36,7 @@ The Evaluation Framework defines quantitative pass/fail metrics for each DDR cor
 ### Traceability Completeness
 
 | Field | Value |
-|:------|:------|
+| :------ | :------ |
 | **Target** | `@traceability_auditor` |
 | **Metric** | All ISP tags trace to BRD root |
 | **Pass** | 100% (No orphans allowed) |
@@ -44,7 +44,7 @@ The Evaluation Framework defines quantitative pass/fail metrics for each DDR cor
 ### Anti-Pattern Detection
 
 | Field | Value |
-|:------|:------|
+| :------ | :------ |
 | **Target** | `@antipattern_scanner` |
 | **Metric** | Zero violations of "Technology in BRD" rules |
 | **Pass** | 0 False Negatives |
@@ -52,7 +52,7 @@ The Evaluation Framework defines quantitative pass/fail metrics for each DDR cor
 ### Stub Purity
 
 | Field | Value |
-|:------|:------|
+| :------ | :------ |
 | **Target** | `@isp_codegenerator` |
 | **Metric** | `violations_per_stub` (Logic > `pass`) |
 | **Pass** | 0 (Zero tolerance for logic in stubs) |
@@ -60,7 +60,7 @@ The Evaluation Framework defines quantitative pass/fail metrics for each DDR cor
 ### Docstring Completeness
 
 | Field | Value |
-|:------|:------|
+| :------ | :------ |
 | **Target** | `@isp_codegenerator` |
 | **Metric** | Presence of Implements/References sections |
 | **Pass** | 100% compliance |

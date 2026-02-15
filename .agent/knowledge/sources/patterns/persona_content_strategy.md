@@ -25,7 +25,7 @@ Persona files use a hybrid content strategy: validation/enforcement personas inl
 ### Decision Matrix
 
 | Persona Type | Strategy | Rationale |
-|:-------------|:---------|:----------|
+| :------------- | :--------- | :---------- |
 | Cross-tier validators | **Inline** | Determinism critical for validation |
 | Tier specialists | **Refs only** | Authoring tolerates retrieval latency |
 | Utility agents | **Refs only** | Maintenance simplicity preferred |
@@ -34,7 +34,7 @@ Persona files use a hybrid content strategy: validation/enforcement personas inl
 ## Fields
 
 | Criterion | Inline | Refs Only |
-|:----------|:-------|:----------|
+| :---------- | :------- | :---------- |
 | Latency tolerance | Low (validation) | High (authoring) |
 | Maintenance priority | Lower | Higher |
 | Self-containment | Required | Optional |

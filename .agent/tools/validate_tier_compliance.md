@@ -38,15 +38,15 @@ Validates tag content against tier-specific constraints (technology leaks, numer
 - **Entry Point**: `.agent/scripts/validate_tier_compliance.py`
 - **Interpreter**: `.venv/Scripts/python`
 - **Arguments**:
-    - `--needs-json`: Optional. Path to needs.json.
-    - `--id`: Optional. Single tag.
-    - `--tier`: Optional. All in tier.
-    - `--all`: Optional flag. All tags.
+  - `--needs-json`: Optional. Path to needs.json.
+  - `--id`: Optional. Single tag.
+  - `--tier`: Optional. All in tier.
+  - `--all`: Optional flag. All tags.
 
 ## Tier Rules
 
 | Tier | Rules |
-|:-----|:------|
+| :----- | :------ |
 | BRD | tech_agnostic, measurable, stakeholder_focus |
 | NFR | numeric_targets, constraint_language |
 | FSD | no_impl, behavioral_language |
@@ -58,9 +58,11 @@ Validates tag content against tier-specific constraints (technology leaks, numer
 ## Protocol & Validation
 
 ### Success Verification
+
 1. Output contains `checked`, `violations`, `details`
 
 ### Example Output
+
 ```json
 {
   "checked": 10,
@@ -70,5 +72,6 @@ Validates tag content against tier-specific constraints (technology leaks, numer
 ```
 
 ## Rules
+
 - **Read-Only**: Analysis only
 - **Requires needs.json**: Run `rebuild_docs` first

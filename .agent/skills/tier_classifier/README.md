@@ -22,7 +22,7 @@ The Tier Classifier skill analyzes unstructured information fragments and assign
 ## Tier Hierarchy
 
 | Tier | Layer | Question | Output |
-|:-----|:------|:---------|:-------|
+| :----- | :------ | :--------- | :------- |
 | **BRD** | Context | Why build? | Business value, stakeholders |
 | **NFR** | Boundaries | What limits? | Numeric constraints, SLAs |
 | **FSD** | Behavior | What does it? | User-facing capabilities |
@@ -34,6 +34,7 @@ The Tier Classifier skill analyzes unstructured information fragments and assign
 ## Usage
 
 ### Basic Classification
+
 ```json
 {
   "fragment": "Enable hands-free voice interaction with response times under 1 second",
@@ -42,6 +43,7 @@ The Tier Classifier skill analyzes unstructured information fragments and assign
 ```
 
 ### With Context
+
 ```json
 {
   "fragment": "Log rotation every 50MB with 30-day retention",
@@ -54,6 +56,7 @@ The Tier Classifier skill analyzes unstructured information fragments and assign
 ```
 
 ## Output Schema
+
 ```json
 {
   "tier": "NFR",
@@ -72,6 +75,7 @@ The Tier Classifier skill analyzes unstructured information fragments and assign
 ## Classification Algorithm
 
 ### Phase 1: Decision Tree
+
 1. Q1: Business justification? → BRD
 2. Q2: Constraints/limits? → NFR
 3. Q3: System behavior? → FSD
@@ -81,11 +85,13 @@ The Tier Classifier skill analyzes unstructured information fragments and assign
 7. Q7: Code stubs? → ISP
 
 ### Phase 2: Scoring Matrix (if ambiguous)
+
 - 10 classification factors with tier-specific weights
 - Sum scores per tier, highest wins
 - Tie-breaker: favor higher abstraction
 
 ### Phase 3: Validation
+
 - Tier-specific constraint checks
 - Citation requirement validation
 - Format/syntax verification
@@ -93,6 +99,7 @@ The Tier Classifier skill analyzes unstructured information fragments and assign
 ## Examples
 
 See `examples/` directory:
+
 - `brd_example.md` - Business requirements
 - `nfr_example.md` - Performance constraints
 - `ambiguous_example.md` - Scoring matrix demonstration
@@ -113,10 +120,12 @@ See `examples/` directory:
 ## Integration Points
 
 ### Upstream Skills
+
 - `glossary_enforcer` - Validates controlled vocabulary
 - `legacy_doc_classifier` - Bulk classification of existing docs
 
 ### Downstream Skills
+
 - `parent_synthesizer` - Creates missing parent tags
 - `rst_directive_formatter` - Enhanced RST generation
 - `chain_validator` - Traceability verification
@@ -131,6 +140,7 @@ See `examples/` directory:
 ## Testing
 
 Run test suites:
+
 ```bash
 python -m pytest tests/test_decision_tree.json
 python -m pytest tests/test_scoring.json

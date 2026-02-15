@@ -35,15 +35,15 @@ Analyzes citation chains and generates violation reports with format/severity op
 - **Entry Point**: `.agent/scripts/generate_traceability_report.py`
 - **Interpreter**: `.venv/Scripts/python`
 - **Arguments**:
-    - `--format`: Required. json/markdown/summary.
-    - `--needs-json`: Optional. Path to needs.json.
-    - `--severity`: Optional. ERROR/WARNING/ALL.
-    - `--output`: Optional. Writes to file with UTF-8 encoding.
+  - `--format`: Required. json/markdown/summary.
+  - `--needs-json`: Optional. Path to needs.json.
+  - `--severity`: Optional. ERROR/WARNING/ALL.
+  - `--output`: Optional. Writes to file with UTF-8 encoding.
 
 ## Violation Types
 
 | Type | Severity |
-|:-----|:---------|
+| :----- | :--------- |
 | ORPHAN | ERROR |
 | MISSING_PARENT | ERROR |
 | SIBLING_CITATION | WARNING |
@@ -52,9 +52,11 @@ Analyzes citation chains and generates violation reports with format/severity op
 ## Protocol & Validation
 
 ### Success Verification
+
 1. Output matches requested format
 
 ### Example Output (summary)
+
 ```
 Analyzed: 45
 Violations: 2
@@ -62,5 +64,6 @@ Violations: 2
 ```
 
 ## Rules
+
 - **Read-Only**: Analysis only
 - **Requires needs.json**: Run `rebuild_docs` first

@@ -34,30 +34,35 @@ identifying downstream dependents that may require reconciliation.
 - **Entry Point**: `.agent/scripts/update_tag.py`
 - **Interpreter**: `.venv/Scripts/python`
 - **Arguments**:
-    - `--id`: Required. Tag ID to update.
-    - `--field`: Required. Field to update.
-    - `--value`: Required. New value.
-    - `--needs-json`: Optional. Path to needs.json.
+  - `--id`: Required. Tag ID to update.
+  - `--field`: Required. Field to update.
+  - `--value`: Required. New value.
+  - `--needs-json`: Optional. Path to needs.json.
 
 ## Execution Steps
 
 ### 1. Validate Input
+
 - Check tag exists in needs.json
 - Validate field is updateable
 
 ### 2. Load Current State
+
 - Read current field value
 - Locate source file and line number
 
 ### 3. Find Downstream Dependents
+
 - Search for tags that cite this tag
 - These may need reconciliation review
 
 ### 4. Generate Update Diff
+
 - Compare old and new values
 - Flag if reconciliation is triggered
 
 ### 5. Output Instructions
+
 - Source file location
 - Specific edit instructions
 - Reconciliation requirements
@@ -65,18 +70,21 @@ identifying downstream dependents that may require reconciliation.
 ## Protocol & Validation
 
 ### Updateable Fields
+
 | Field | Triggers Reconciliation |
-|:------|:-----------------------:|
+| :------ | :-----------------------: |
 | title | ✅ Yes |
 | description | ✅ Yes |
 | content | ✅ Yes |
 | status | ❌ No |
 
 ### Immutable Fields
+
 - `id` - Never changes after creation
 - `links` - Use separate link management tools
 
 ### Example Output
+
 ```json
 {
   "success": true,
@@ -109,6 +117,7 @@ identifying downstream dependents that may require reconciliation.
 ```
 
 ## Rules
+
 - **ID Immutability**: The `id` field cannot be changed.
 - **Reconciliation**: Content changes trigger child review.
 - **Read-then-Modify**: Tool reads but agent must apply edits.

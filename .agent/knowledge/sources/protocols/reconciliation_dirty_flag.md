@@ -38,7 +38,7 @@ The dirty flag (`integrity_status: "DIRTY"`) signals that a documentation sectio
 Events that trigger DIRTY status:
 
 | Event | Affected Section(s) |
-|:------|:--------------------|
+| :------ | :-------------------- |
 | Tag content modified | Section containing tag + all citing sections |
 | Tag added | Section containing tag |
 | Tag deleted | Section containing tag + all citing sections |
@@ -90,6 +90,7 @@ Each affected tag gets a pending item entry:
 ```
 
 **Issue Types**:
+
 - `CONSTRAINT_VIOLATION`: Parent constraint changed
 - `MISSING_PARENT`: Cited tag not found
 - `ORPHAN`: No parent citation
@@ -97,11 +98,13 @@ Each affected tag gets a pending item entry:
 ### Step 5: Clear Flag (Resolution)
 
 DIRTY status may ONLY be cleared when:
+
 1. All `pending_items` have been resolved
 2. A dedicated reconciliation pass has validated consistency
 3. Human or agent has confirmed alignment
 
 **Clear procedure**:
+
 ```rst
 .. reconciliation_manifest:
    :section_id: fsd-root
@@ -113,7 +116,7 @@ DIRTY status may ONLY be cleared when:
 ## Outcomes
 
 | Result | Condition | Next Action |
-|:-------|:----------|:------------|
+| :------- | :---------- | :------------ |
 | Flag set | Trigger event occurred | Begin reconciliation |
 | Flag propagated | Downstream sections flagged | Schedule cascade review |
 | Flag cleared | All items resolved | Document resolution |

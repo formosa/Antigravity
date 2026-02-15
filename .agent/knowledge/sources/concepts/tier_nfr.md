@@ -34,7 +34,7 @@ The **NFR tier** captures measurable constraints, performance targets, and envir
 ## Characteristics
 
 | Attribute | Value |
-|:----------|:------|
+| :---------- | :------ |
 | **Layer** | Boundaries |
 | **Question** | "What are the system limits?" |
 | **Persona** | SysAdmin |
@@ -58,7 +58,7 @@ The **NFR tier** captures measurable constraints, performance targets, and envir
 ### Modality (RFC 2119)
 
 | Keyword | Meaning |
-|:--------|:--------|
+| :-------- | :-------- |
 | **MUST** | Mandatory requirement |
 | **SHOULD** | Recommended practice |
 | **MAY** | Optional feature |
@@ -66,7 +66,7 @@ The **NFR tier** captures measurable constraints, performance targets, and envir
 ### Constraints
 
 | Constraint | Rule |
-|:-----------|:-----|
+| :----------- | :----- |
 | Numeric Values | All targets must include specific numbers |
 | Measurable | Constraints must be testable |
 | Justified | Each constraint traces to BRD objective |
@@ -74,6 +74,7 @@ The **NFR tier** captures measurable constraints, performance targets, and envir
 ## Context
 
 NFR bridges business intent to technical constraints:
+
 - **Cites**: BRD tags
 - **Cited by**: FSD, ICD tags
 - **File location**: `docs/02_nfr/`

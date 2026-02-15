@@ -21,7 +21,7 @@ Immutable IDs prevent cascading reference updates across the entire document hie
 ## Detection
 
 | Pattern | Violation Type |
-|:--------|:---------------|
+| :-------- | :--------------- |
 | ID renumbered after deletion | Re-sequencing |
 | Deleted ID assigned to new tag | Recycling |
 | ID format changed (BRD-1 → BRD-001) | Format mutation |
@@ -30,7 +30,7 @@ Immutable IDs prevent cascading reference updates across the entire document hie
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Re-sequenced IDs | ERROR | Restore original IDs |
 | Recycled deleted ID | ERROR | Mint new ID |
 | Format mutation | WARNING | Standardize format |
@@ -47,12 +47,14 @@ Immutable IDs prevent cascading reference updates across the entire document hie
 ### ✅ Correct
 
 After deleting Item B:
+
 ```
 - Item A |BRD-5.1|
 - Item C |BRD-5.3|         ← ID preserved
 ```
 
 After inserting new item:
+
 ```
 - Item A |BRD-5.1|
 - New Item |BRD-5.4|       ← Next available ID

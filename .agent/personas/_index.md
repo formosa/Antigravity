@@ -11,7 +11,7 @@
 ## Quick Lookup
 
 | File | Handle | Purpose |
-|:-----|:-------|:--------|
+| :----- | :------- | :-------- |
 | [consultant.mdc](consultant.mdc) | `@consultant` | Optimization-focused design & implementation advisor |
 | [design_lead.mdc](design_lead.mdc) | `@design_lead` | Adversarial design architect for documentation integrity |
 | [tech_lead.mdc](tech_lead.mdc) | `@tech_lead` | Skeptical development environment architect |
@@ -37,7 +37,7 @@
 ### Leadership & Advisory (3)
 
 | File | Handle | Content Strategy | Purpose |
-|:-----|:-------|:-----------------|:--------|
+| :----- | :------- | :----------------- | :-------- |
 | [consultant.mdc](consultant.mdc) | `@consultant` | Refs-only | Optimization-focused design & implementation advisor |
 | [design_lead.mdc](design_lead.mdc) | `@design_lead` | Refs-only | Adversarial design architect for documentation integrity |
 | [tech_lead.mdc](tech_lead.mdc) | `@tech_lead` | Refs-only | Skeptical development environment architect |
@@ -47,7 +47,7 @@
 ### Orchestration (1)
 
 | File | Handle | Content Strategy | Purpose |
-|:-----|:-------|:-----------------|:--------|
+| :----- | :------- | :----------------- | :-------- |
 | [ddr_orchestrator.mdc](ddr_orchestrator.mdc) | `@ddr_orchestrator` | Refs-only | Master DDR orchestrator; routes tasks to tier specialists |
 
 ---
@@ -55,7 +55,7 @@
 ### Tier Specialists (7)
 
 | File | Handle | Tier | Content Strategy | Purpose |
-|:-----|:-------|:-----|:-----------------|:--------|
+| :----- | :------- | :----- | :----------------- | :-------- |
 | [brd_strategist.mdc](brd_strategist.mdc) | `@brd_strategist` | BRD | Refs-only | Strategic business analyst for BRD tier content |
 | [nfr_enforcer.mdc](nfr_enforcer.mdc) | `@nfr_enforcer` | NFR | Refs-only | Non-functional requirements specialist; enforces numeric constraints |
 | [fsd_analyst.mdc](fsd_analyst.mdc) | `@fsd_analyst` | FSD | Refs-only | Feature specification analyst; translates business intent to behavior |
@@ -69,7 +69,7 @@
 ### Cross-Tier Validators (3)
 
 | File | Handle | Content Strategy | Purpose |
-|:-----|:-------|:-----------------|:--------|
+| :----- | :------- | :----------------- | :-------- |
 | [antipattern_scanner.mdc](antipattern_scanner.mdc) | `@antipattern_scanner` | Inline | Enforces DDR architectural boundaries via pattern matching |
 | [orphan_detective.mdc](orphan_detective.mdc) | `@orphan_detective` | Inline | Graph topology validation via strict citation matrices |
 | [traceability_auditor.mdc](traceability_auditor.mdc) | `@traceability_auditor` | Inline | Cross-tier chain validation; detects orphans, cycles, and broken links |
@@ -79,7 +79,7 @@
 ### Utility Agents (3)
 
 | File | Handle | Content Strategy | Purpose |
-|:-----|:-------|:-----------------|:--------|
+| :----- | :------- | :----------------- | :-------- |
 | [manifest_manager.mdc](manifest_manager.mdc) | `@manifest_manager` | Refs-only | Reconciliation manifest and inventory synchronization |
 | [migration_assistant.mdc](migration_assistant.mdc) | `@migration_assistant` | Refs-only | Safe deprecation, versioning, and refactoring workflows |
 | [tag_reconciler.mdc](tag_reconciler.mdc) | `@tag_reconciler` | Refs-only | Dirty-flag propagation and conflict resolution |
@@ -89,7 +89,7 @@
 ## Summary
 
 | Category | Count | Content Strategy |
-|:---------|------:|:-----------------|
+| :--------- | ------: | :----------------- |
 | Leadership & Advisory | 3 | Refs-only |
 | Orchestration | 1 | Refs-only |
 | Tier Specialists | 7 | Refs-only |

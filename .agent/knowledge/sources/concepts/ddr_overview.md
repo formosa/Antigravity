@@ -30,7 +30,7 @@ The DDR is a **meta-standard** defining syntax, tagging rules, traceability mand
 ### Core Tenets
 
 | Tenet | Description |
-|:------|:------------|
+| :------ | :------------ |
 | **Unidirectional Flow** | Requirements flow downward; traceability flows upward |
 | **Immutable Identity** | Tag IDs are database keys, not ordinal positions |
 | **Controlled Vocabulary** | All nouns must validate against the glossary |

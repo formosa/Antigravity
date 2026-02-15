@@ -21,7 +21,7 @@ Project-specific controlled vocabulary for Maggie AI Assistant. Supplements DDR 
 ## Terms
 
 | Term | Definition | Usage | Avoid |
-|:-----|:-----------|:------|:------|
+| :----- | :----------- | :------ | :------ |
 | **Core Process** | Central orchestrator using ZeroMQ ROUTER pattern | "Core Process routes messages" | "manager", "controller", "hub" |
 | **UI Process** | PySide6-based user interaction handler | "UI Process renders interface" | "frontend", "GUI service" |
 | **Runtime Process** | GPU-optimized inference engine | "Runtime Process executes model" | "model server", "inference server" |
@@ -34,7 +34,7 @@ Project-specific controlled vocabulary for Maggie AI Assistant. Supplements DDR 
 ## Abbreviations
 
 | Abbrev | Expansion | Context |
-|:-------|:----------|:--------|
+| :------- | :---------- | :-------- |
 | WWD | Wake Word Detection | Audio trigger system |
 | VAD | Voice Activity Detection | Speech boundary detection |
 | IPC | Inter-Process Communication | ZeroMQ messaging |

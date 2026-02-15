@@ -13,7 +13,7 @@
 ## Quick Lookup
 
 | Topic | Type | Path |
-|:------|:-----|:-----|
+| :------ | :----- | :----- |
 | Glossary | vocabulary | `vocabulary/glossary.md` |
 | DDR Overview | concept | `concepts/ddr_overview.md` |
 | Tier Hierarchy | concept | `concepts/tier_hierarchy.md` |
@@ -65,6 +65,7 @@
 ## By Archetype
 
 ### Concepts (11) ✅
+
 - [DDR Overview](concepts/ddr_overview.md) — Purpose and principles
 - [Tier Hierarchy](concepts/tier_hierarchy.md) — Seven-tier structure
 - [Information Flow](concepts/information_flow.md) — Cascade and citation
@@ -78,6 +79,7 @@
 - [Agent Registry](concepts/agent_registry.md) — DDR agent handles and roles
 
 ### Protocols (12) ✅
+
 - [Classification Decision Tree](protocols/classification_decision_tree.md) — Primary tier assignment
 - [Classification Scoring](protocols/classification_scoring.md) — Ambiguity resolution
 - [Abstraction Upward](protocols/abstraction_upward.md) — Parent synthesis
@@ -92,6 +94,7 @@
 - [Trace Complete Chain](protocols/trace_complete_chain.md) — ISP-to-BRD chain rule
 
 ### Constraints (10) ✅
+
 - [Tag Immutability](constraints/tag_immutability.md) — IDs never change
 - [Tag Citation Required](constraints/tag_citation_required.md) — Parent links mandatory
 - [Sibling Prohibition](constraints/sibling_prohibition.md) — No peer citations
@@ -104,6 +107,7 @@
 - [Tag Deprecation Lifecycle](constraints/tag_deprecation_lifecycle.md) — Deprecation rules
 
 ### Patterns (11) ✅
+
 - [Knowledge Source Template](patterns/knowledge_source_template.md) — Authoring specification
 - [Tag Syntax](patterns/tag_syntax.md) — ID format and RST directives
 - [Manifest Structure](patterns/manifest_structure.md) — Reconciliation format
@@ -117,6 +121,7 @@
 - [Template: Bug Fix](patterns/template_bug_fix.md) — Bug fix documentation
 
 ### Vocabulary (1) ✅
+
 - [Glossary](vocabulary/glossary.md) — Normative terminology
 
 ---
@@ -124,7 +129,7 @@
 ## Progress Summary
 
 | Archetype | Created | Planned | Status |
-|:----------|--------:|--------:|:-------|
+| :---------- | --------: | --------: | :------- |
 | Concepts | 11 | 11 | ✅ Complete |
 | Protocols | 12 | 12 | ✅ Complete |
 | Constraints | 10 | 10 | ✅ Complete |

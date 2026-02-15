@@ -34,7 +34,7 @@ The **FSD tier** captures what the system does from a user/stakeholder perspecti
 ## Characteristics
 
 | Attribute | Value |
-|:----------|:------|
+| :---------- | :------ |
 | **Layer** | Behavior |
 | **Question** | "What does the system do?" |
 | **Persona** | Product Owner |
@@ -58,7 +58,7 @@ The **FSD tier** captures what the system does from a user/stakeholder perspecti
 ### Constraints
 
 | Constraint | Rule |
-|:-----------|:-----|
+| :----------- | :----- |
 | No Implementation | No code, algorithms, or class structures |
 | Behavior Focus | Describe WHAT happens, not HOW |
 | User Perspective | Frame from user/stakeholder viewpoint |
@@ -67,6 +67,7 @@ The **FSD tier** captures what the system does from a user/stakeholder perspecti
 ## Context
 
 FSD is the pivotal tier between business and technical:
+
 - **Cites**: BRD, NFR tags
 - **Cited by**: SAD tags
 - **File location**: `docs/03_fsd/`

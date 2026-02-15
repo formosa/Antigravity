@@ -34,7 +34,7 @@ The **BRD tier** captures business context, strategic objectives, and success cr
 ## Characteristics
 
 | Attribute | Value |
-|:----------|:------|
+| :---------- | :------ |
 | **Layer** | Context |
 | **Question** | "Why are we building this?" |
 | **Persona** | Strategist |
@@ -57,7 +57,7 @@ All NFR and FSD tags MUST cite specific BRD tags as their ultimate justification
 ### Constraints
 
 | Constraint | Rule |
-|:-----------|:-----|
+| :----------- | :----- |
 | Technology Agnostic | No technology terms (ZeroMQ, Python, GPU) |
 | Measurable Metrics | Success criteria must be quantifiable |
 | Stakeholder Focus | Identify benefiting stakeholders |
@@ -66,6 +66,7 @@ All NFR and FSD tags MUST cite specific BRD tags as their ultimate justification
 ## Context
 
 BRD is the foundation of all documentation:
+
 - **Citing BRD**: NFR and FSD tiers cite BRD directly
 - **No citations**: BRD tags have no parent (root authority)
 - **File location**: `docs/01_brd/`

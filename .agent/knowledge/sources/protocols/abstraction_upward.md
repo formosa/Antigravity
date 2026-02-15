@@ -39,7 +39,7 @@ Upward abstraction synthesizes parent tags when orphaned specifications exist wi
 Strip implementation details; preserve the "why" or "what limit":
 
 | Child Tier | Extract | Discard |
-|:-----------|:--------|:--------|
+| :----------- | :-------- | :-------- |
 | ISP → TDD | Class responsibility | Code syntax |
 | TDD → SAD | Pattern rationale | Method signatures |
 | SAD → FSD | User capability | Topology details |
@@ -51,16 +51,17 @@ Strip implementation details; preserve the "why" or "what limit":
 Transform technical specifics into parent tier language:
 
 | Original (TDD) | Abstracted (SAD) |
-|:---------------|:-----------------|
+| :------------- | :--------------- |
 | "Spawns receiver thread to poll ROUTER socket" | "Non-blocking I/O via dedicated polling threads" |
 
 | Original (FSD) | Abstracted (BRD) |
-|:---------------|:-----------------|
+| :------------- | :--------------- |
 | "Wake word detection using pvporcupine" | "Hands-free voice activation for accessibility" |
 
 ### Step 3: Validate Scope
 
 Ensure synthesized parent:
+
 - Encompasses multiple potential child implementations
 - Uses tier-appropriate language
 - Doesn't duplicate existing tags
@@ -71,6 +72,7 @@ Ensure synthesized parent:
 Apply appropriate tier template and establish bidirectional link:
 
 **Before** (orphan):
+
 ```rst
 .. tdd:: Spawns receiver thread to poll ROUTER socket.
    :id: TDD-1.7
@@ -78,6 +80,7 @@ Apply appropriate tier template and establish bidirectional link:
 ```
 
 **After** (linked):
+
 ```rst
 .. sad:: Receiver Threads: Dedicated thread per process to poll ZMQ sockets.
    :id: SAD-4.1
@@ -91,7 +94,7 @@ Apply appropriate tier template and establish bidirectional link:
 ## Outcomes
 
 | Result | Condition | Next Action |
-|:-------|:----------|:------------|
+| :------- | :---------- | :------------ |
 | Success | Parent created, orphan linked | Validate chain to BRD |
 | Duplicate found | Existing parent covers this | Link orphan to existing tag |
 | Chain incomplete | New parent also orphaned | Recurse upward abstraction |

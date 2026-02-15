@@ -29,16 +29,18 @@ by the orchestrator to route new documentation content.
 - **Entry Point**: `.agent/scripts/classify_information.py`
 - **Interpreter**: `.venv/Scripts/python`
 - **Arguments**:
-    - `--input`: Required. The information fragment text to classify.
-    - `--verbose`: Optional. Include detailed scoring breakdown.
+  - `--input`: Required. The information fragment text to classify.
+  - `--verbose`: Optional. Include detailed scoring breakdown.
 
 ## Execution Steps
 
 ### 1. Parse Input
+
 - Accept unstructured text fragment
 - Validate non-empty input
 
 ### 2. Apply Decision Tree (Q1 → Q6)
+
 ```
 Q1: WHY? (Business value, ROI, market) → BRD
 Q2: LIMITS? (Performance, SLAs, constraints) → NFR
@@ -50,15 +52,18 @@ Default: → ISP
 ```
 
 ### 3. Calculate Confidence
+
 - Score based on keyword matches and pattern detection
 - Identify ambiguity when multiple tiers have similar scores
 
 ### 4. Output Result
+
 - JSON object with tier, confidence, rationale
 
 ## Protocol & Validation
 
 ### Success Verification
+
 1. Confirm output contains `tier`, `confidence`, `rationale` fields
 2. Confirm `tier` is valid (BRD, NFR, FSD, SAD, ICD, TDD, ISP)
 3. If `ambiguous: true`, confirm `candidates` array is present
@@ -66,6 +71,7 @@ Default: → ISP
 ### Example Outputs
 
 **Clear Classification:**
+
 ```json
 {
   "tier": "NFR",
@@ -76,6 +82,7 @@ Default: → ISP
 ```
 
 **Ambiguous Classification:**
+
 ```json
 {
   "tier": "FSD",
@@ -90,7 +97,7 @@ Default: → ISP
 ## Classification Criteria
 
 | Question | Tier | Key Indicators |
-|:---------|:-----|:---------------|
+| :--------- | :----- | :--------------- |
 | Q1: WHY? | BRD | business value, ROI, stakeholder, strategic |
 | Q2: LIMITS? | NFR | latency, SLA, performance, constraint, threshold |
 | Q3: WHAT? | FSD | user shall, feature, capability, use case |
@@ -99,6 +106,7 @@ Default: → ISP
 | Q6: CLASS? | TDD | class, method, signature, inheritance |
 
 ## Rules
+
 - **Threshold**: Minimum 0.3 score to accept a tier match
 - **Ambiguity**: Detected when top two scores differ by < 0.1
 - **Tie-Breaking**: Higher abstraction tier wins (favor BRD over ISP)

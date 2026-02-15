@@ -29,6 +29,7 @@ Every design artifact must cite the requirement(s) that justify its existence. T
 ## Rationale
 
 Parent citations ensure every documentation element has explicit justification. This enables:
+
 - Audit trails from code to business value
 - Impact analysis when requirements change
 - Orphan detection for unjustified content
@@ -38,7 +39,7 @@ Parent citations ensure every documentation element has explicit justification. 
 How to identify violations:
 
 | Pattern | Location |
-|:--------|:---------|
+| :-------- | :--------- |
 | Missing `:links:` directive | Any non-BRD tag |
 | Empty `:links:` value | `:links:` with no content |
 | Invalid parent reference | `:links:` pointing to non-existent tag |
@@ -52,7 +53,7 @@ How to identify violations:
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Missing `:links:` | ERROR | Add parent citation |
 | Empty `:links:` | ERROR | Specify parent tag(s) |
 | Invalid parent | ERROR | Fix reference or create parent |
@@ -83,6 +84,7 @@ How to identify violations:
    :id: FSD-4
    (no :links:)
 ```
+
 **Why**: No justification for why this feature exists.
 
 ```rst
@@ -90,6 +92,7 @@ How to identify violations:
    :id: TDD-3
    :links:
 ```
+
 **Why**: Empty links directive provides no traceability.
 
 ---

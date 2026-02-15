@@ -11,7 +11,7 @@ Google Antigravity implements an **agent-first development platform** where conf
 ### 1.1 Asset Taxonomy
 
 | Asset Type | Scope | Activation | Purpose | Format |
-|:-----------|:------|:-----------|:--------|:-------|
+| :----------- | :------ | :----------- | :-------- | :------- |
 | **Personas** | Implicit/Defined | System instruction | Define agent behavioral identity | Markdown (system_instruction) |
 | **Rules** | Global/Workspace | Always-on | Passive behavioral constraints | Markdown (`.md`) |
 | **Workflows** | Global/Workspace | User-triggered | On-demand prompt templates | Markdown (`.md`) |
@@ -172,7 +172,7 @@ trigger: /review
 ### 3.1 Characteristics
 
 | Property | Value |
-|:---------|:------|
+| :--------- | :------ |
 | **Activation** | Always-on (loaded into every agent context) |
 | **Scope** | Global (`~/.gemini/GEMINI.md`) or Workspace (`<workspace>/.agent/rules/*.md`) |
 | **Precedence** | Workspace rules override global rules |
@@ -225,14 +225,16 @@ trigger: /review
 
 ## Project Structure
 ```
+
 project/
 ├── src/
-│   ├── __init__.py
+│   ├── **init**.py
 │   ├── core/           # Business logic
 │   ├── api/            # External interfaces
 │   └── utils/          # Helpers
 ├── tests/
 └── docs/
+
 ```
 ```
 
@@ -262,7 +264,7 @@ trigger: /deploy-prod
 ### 4.1 Characteristics
 
 | Property | Value |
-|:---------|:------|
+| :--------- | :------ |
 | **Activation** | User-triggered via `/workflow-name` |
 | **Scope** | Global (`~/.gemini/antigravity/global_workflows/`) or Workspace (`<workspace>/.agent/workflows/`) |
 | **Analogy** | Saved prompts / Task templates |
@@ -442,7 +444,7 @@ Format: `<type>(<scope>): <subject>`
 
 ### Example Transformations
 | User Input | Formatted Output |
-|:-----------|:-----------------|
+| :----------- | :----------------- |
 | "fixed the login bug" | `fix(auth): resolve login validation error` |
 | "Added new API endpoint" | `feat(api): add user profile endpoint` |
 | "updated docs" | `docs: update API documentation` |
@@ -454,18 +456,20 @@ def format_commit(user_message):
     commit_type = detect_type(user_message)
     scope = extract_scope(user_message) or None
     subject = clean_subject(user_message)
-    
+
     formatted = f"{commit_type}"
     if scope:
         formatted += f"({scope})"
     formatted += f": {subject}"
-    
+
     return formatted
 ```
 
 ## Deliverables
+
 - Artifact: `formatted_commit.txt` with proposed message
 - Prompt user for approval before executing `git commit`
+
 ```
 
 ### 5.4 Skill Patterns
@@ -493,6 +497,7 @@ Formats and validates JSON documents
 **Use Case**: Incorporating large static documents without bloating context
 
 **Structure**:
+
 ```
 license-header-skill/
 ├── SKILL.md
@@ -501,6 +506,7 @@ license-header-skill/
 ```
 
 **SKILL.md**:
+
 ```markdown
 # Skill: Apache License Header
 
@@ -516,6 +522,7 @@ license-header-skill/
 **Use Case**: Teaching complex transformations through examples
 
 **Structure**:
+
 ```
 pydantic-generator/
 ├── SKILL.md
@@ -527,6 +534,7 @@ pydantic-generator/
 ```
 
 **SKILL.md**:
+
 ```markdown
 # Skill: JSON to Pydantic Model
 
@@ -546,6 +554,7 @@ pydantic-generator/
 **Use Case**: Delegating execution to deterministic scripts
 
 **Structure**:
+
 ```
 database-migration/
 ├── SKILL.md
@@ -555,6 +564,7 @@ database-migration/
 ```
 
 **SKILL.md**:
+
 ```markdown
 # Skill: Database Migration
 
@@ -575,8 +585,10 @@ bash scripts/rollback.sh --env staging --version <previous>
 ```
 
 ## Safety Constraints
+
 - **Production**: Always require explicit approval before execution
 - **Dry Run**: Default to `--dry-run` flag, remove only on confirmation
+
 ```
 
 ### 5.5 Skills → Workflow Composition
@@ -703,7 +715,7 @@ Agent Context (Automatic Tool Injection):
 ### 6.4 Skills vs. MCP Tools: Design Decision Matrix
 
 | Factor | Use Skill | Use MCP Tool |
-|:-------|:----------|:-------------|
+| :------- | :---------- | :------------- |
 | **Context Sensitivity** | High (load only when relevant) | Low (always available) |
 | **Execution Complexity** | Multi-step procedures | Single function calls |
 | **State Management** | May require ephemeral state | Stateless preferred |
@@ -737,6 +749,7 @@ slack_send_message(
     text=f"Released {release.tag}"
 )
 ```
+
 ```
 
 ### 6.6 MCP Router Pattern (Advanced)
@@ -824,6 +837,7 @@ data-validation-skill/
 ```
 
 **SKILL.md**:
+
 ```markdown
 # Skill: Data Validation
 
@@ -869,7 +883,7 @@ Lowest Priority
 ### 8.2 Conflict Resolution Rules
 
 | Scenario | Resolution |
-|:---------|:-----------|
+| :--------- | :----------- |
 | **Workspace Rule ≠ Global Rule** | Workspace rule overrides |
 | **Workflow invokes restricted operation** | Rule blocks execution (rules are immutable) |
 | **Skill A and Skill B both match** | Agent chooses based on description relevance score |
@@ -882,6 +896,7 @@ Lowest Priority
 **Workflow**: "Deploy to Production" attempts auto-deployment
 
 **Resolution**:
+
 ```
 Agent Execution Flow:
 1. Workflow `/deploy-prod` triggered
@@ -1023,6 +1038,7 @@ Terminal Command Auto Execution Policies:
 ### 10.2 Allow/Deny Lists
 
 **Allow List** (in `OFF` mode):
+
 ```
 ~/.gemini/antigravity/terminalAllowlist.txt
 ────────────────────────────────────────
@@ -1036,6 +1052,7 @@ pytest
 ```
 
 **Deny List** (in `TURBO`/`AUTO` mode):
+
 ```
 ~/.gemini/antigravity/terminalDenylist.txt
 ────────────────────────────────────────
@@ -1050,6 +1067,7 @@ dd if=
 ### 10.3 Browser Security
 
 **Allowlist Configuration**:
+
 ```
 ~/.gemini/antigravity/browserAllowlist.txt
 ────────────────────────────────────────
@@ -1062,6 +1080,7 @@ github.com
 ```
 
 **Rule Integration**:
+
 ```markdown
 # Global Rule (~/.gemini/GEMINI.md)
 
@@ -1079,7 +1098,7 @@ github.com
 ### 11.1 Naming Conventions
 
 | Asset Type | Convention | Examples |
-|:-----------|:-----------|:---------|
+| :----------- | :----------- | :--------- |
 | **Rules** | `kebab-case.md` | `python-standards.md`, `security-policy.md` |
 | **Workflows** | `kebab-case.md` | `deploy-production.md`, `generate-tests.md` |
 | **Skills** | `kebab-case/` | `git-commit-formatter/`, `pydantic-generator/` |
@@ -1125,6 +1144,7 @@ Recommended Structure:
 Every asset should include:
 
 **Rules**:
+
 ```markdown
 # Rule Name
 
@@ -1143,6 +1163,7 @@ How violations are detected and resolved.
 ```
 
 **Workflows**:
+
 ```markdown
 ---
 name: Workflow Name
@@ -1166,6 +1187,7 @@ How to undo if needed.
 ```
 
 **Skills**:
+
 ```markdown
 # Skill: Skill Name
 
@@ -1190,6 +1212,7 @@ Required tools, libraries, or other skills.
 #### Testing Workflows
 
 **Manual Testing**:
+
 ```bash
 # In workspace with test workflow
 gemini /test-workflow
@@ -1202,6 +1225,7 @@ cat ~/.gemini/logs/agent.log
 ```
 
 **Automated Testing** (via CI):
+
 ```yaml
 # .github/workflows/validate-workflows.yml
 name: Validate Antigravity Workflows
@@ -1223,6 +1247,7 @@ jobs:
 #### Testing Skills
 
 **Skill Test Template** (`skill-name/tests/test_skill.md`):
+
 ```markdown
 # Skill Test: <Skill Name>
 
@@ -1249,6 +1274,7 @@ jobs:
 ### 12.1 Version Control Strategy
 
 **Recommended `.gitignore`**:
+
 ```gitignore
 # Antigravity logs
 .gemini/logs/
@@ -1271,6 +1297,7 @@ mcp_secrets.json
 ```
 
 **Shared Team Configuration**:
+
 ```
 Repository Structure for Team:
 project/
@@ -1289,12 +1316,14 @@ project/
 When updating Antigravity versions:
 
 **Pre-Upgrade Checklist**:
+
 1. Backup `~/.gemini/` directory
 2. Export current `mcp_config.json`
 3. Document active workflows and skills
 4. Test in isolated workspace first
 
 **Post-Upgrade Validation**:
+
 ```bash
 # Verify MCP tools still connect
 gemini --mcp-status
@@ -1334,7 +1363,7 @@ tail -f ~/.gemini/logs/agent.log
 ### 13.1 Common Issues
 
 | Problem | Diagnosis | Solution |
-|:--------|:----------|:---------|
+| :-------- | :---------- | :--------- |
 | **Workflow not triggering** | Check trigger syntax in frontmatter | Ensure `trigger: /exact-command` format |
 | **Skill not loading** | Manifest description too vague | Improve `## Description` to match user intent patterns |
 | **MCP tool unavailable** | Server failed to start | Check `mcp_config.json` for correct paths/env vars |
@@ -1344,6 +1373,7 @@ tail -f ~/.gemini/logs/agent.log
 ### 13.2 Debugging Techniques
 
 **Enable Verbose Logging**:
+
 ```bash
 # In ~/.gemini/GEMINI.md
 ## Debug Settings
@@ -1354,6 +1384,7 @@ tail -f ~/.gemini/logs/agent.log
 ```
 
 **Inspect Agent Context**:
+
 ```
 User Prompt:
 "Debug: Show me all currently loaded skills, rules, and available MCP tools in your context."
@@ -1380,6 +1411,7 @@ Agent Response:
 ```
 
 **Test Skill Isolation**:
+
 ```bash
 # Create test workspace
 mkdir /tmp/skill-test
@@ -1395,6 +1427,7 @@ gemini "Test the test-skill functionality"
 ### 13.3 Performance Optimization
 
 **Reduce Context Size**:
+
 ```markdown
 # Skill Optimization
 
@@ -1409,6 +1442,7 @@ SKILL.md (2KB):
 ```
 
 **Parallel Execution**:
+
 ```markdown
 ---
 name: Optimized Test Suite
@@ -1437,6 +1471,7 @@ Wait for all parallel tasks to complete, then merge reports.
 **Scenario**: Coordinate changes across microservices
 
 **Implementation**:
+
 ```markdown
 ---
 name: Multi-Repo Feature Deploy
@@ -1508,6 +1543,7 @@ Monthly task:
   "notes": "Zero downtime achieved"
 }
 ```
+
 ```
 
 ### 14.3 Compliance & Audit Trails
@@ -1552,7 +1588,7 @@ Slack MCP: Send summary to #compliance channel
 ### 15.1 Asset Interaction Table
 
 | From → To | Personas | Rules | Workflows | Skills | MCP Tools | Knowledge |
-|:----------|:---------|:------|:----------|:-------|:----------|:----------|
+| :---------- | :--------- | :------ | :---------- | :------- | :---------- | :---------- |
 | **Personas** | N/A | Embedded in Rules | Can define workflow-specific persona | Guides skill execution behavior | N/A | Shapes knowledge interpretation |
 | **Rules** | Defines global persona | Can reference other rules | **CONSTRAINS** workflow execution | **CONSTRAINS** skill execution | Restricts tool usage | N/A |
 | **Workflows** | Invokes personas for phases | **OBEYS** rules | Can chain workflows | **COMPOSES** multiple skills | Orchestrates tool calls | References knowledge files |
@@ -1562,7 +1598,7 @@ Slack MCP: Send summary to #compliance channel
 
 ### 15.2 Activation Flow
 
-```
+```text
 User Request
     │
     ▼
@@ -1619,7 +1655,7 @@ User Request
 ### 16.1 When to Use Each Asset
 
 | Use Case | Asset Type | Rationale |
-|:---------|:-----------|:----------|
+| :--------- | :----------- | :---------- |
 | Define coding standards | **Rule** | Always-on constraint |
 | Save complex prompt template | **Workflow** | Reusable, triggered procedure |
 | Add domain-specific capability | **Skill** | Progressive disclosure (only loads when relevant) |
@@ -1652,6 +1688,7 @@ Security:
 ### 16.3 Syntax Quick Reference
 
 **Rule Syntax**:
+
 ```markdown
 # Rule Title
 
@@ -1667,6 +1704,7 @@ What it applies to
 ```
 
 **Workflow Syntax**:
+
 ```markdown
 ---
 name: Display Name
@@ -1682,6 +1720,7 @@ description: One-liner
 ```
 
 **Skill Manifest**:
+
 ```markdown
 # Skill: Name
 
@@ -1696,6 +1735,7 @@ How to execute
 ```
 
 **MCP Config**:
+
 ```json
 {
   "mcpServers": {
@@ -1722,6 +1762,7 @@ Google Antigravity's agent configuration system implements a **hierarchical, com
 6. **Knowledge** provides domain-specific context
 
 The system prioritizes:
+
 - **Workspace > Global** for precedence
 - **Progressive disclosure** for context management
 - **Constraint immutability** for safety
@@ -1743,7 +1784,7 @@ Proper implementation requires understanding the **activation hierarchy**, **rel
 ## Appendix B: Migration from Traditional IDEs
 
 | Traditional IDE Feature | Antigravity Equivalent |
-|:------------------------|:-----------------------|
+| :------------------------ | :----------------------- |
 | Code snippets | Workflows (with `/trigger`) |
 | Linter configurations | Rules (e.g., `eslint-rules.md`) |
 | IDE plugins | Skills (progressive loading) |
@@ -1753,6 +1794,7 @@ Proper implementation requires understanding the **activation hierarchy**, **rel
 | Code templates | Skill examples (`/examples`) |
 
 **Migration Strategy**:
+
 1. Convert linter configs → Rules
 2. Export code snippets → Workflows
 3. Identify external tools → Configure MCP
@@ -1761,7 +1803,7 @@ Proper implementation requires understanding the **activation hierarchy**, **rel
 
 ---
 
-**Document Version**: 1.0.0  
-**Last Updated**: 2026-01-18  
-**Target Platform**: Google Antigravity IDE v1.14.2+  
+**Document Version**: 1.0.0
+**Last Updated**: 2026-01-18
+**Target Platform**: Google Antigravity IDE v1.14.2+
 **Author**: Technical Reference for DDR-Compliant Development

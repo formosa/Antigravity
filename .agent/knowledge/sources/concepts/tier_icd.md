@@ -33,7 +33,7 @@ The **ICD tier** captures configuration schemas, message formats, payload struct
 ## Characteristics
 
 | Attribute | Value |
-|:----------|:------|
+| :---------- | :------ |
 | **Layer** | Contracts |
 | **Question** | "What are the data shapes?" |
 | **Persona** | Data Engineer |
@@ -56,7 +56,7 @@ The **ICD tier** captures configuration schemas, message formats, payload struct
 ### Format Requirements
 
 | Format | Usage |
-|:-------|:------|
+| :------- | :------ |
 | YAML | Configuration files |
 | JSON | Metadata and payloads |
 | Code blocks | Language-specific with syntax highlighting |
@@ -78,6 +78,7 @@ The **ICD tier** captures configuration schemas, message formats, payload struct
 ## Context
 
 ICD bridges architecture to implementation:
+
 - **Cites**: SAD tags, NFR tags
 - **Cited by**: TDD tags
 - **File location**: `docs/05_icd/`

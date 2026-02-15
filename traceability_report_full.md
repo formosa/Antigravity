@@ -1,16 +1,19 @@
 # Traceability Report
+
 **Analyzed:** 236 tags | **Violations:** 51
 
 ## SIBLING_CITATION (3)
+
 | ID | Title | Severity | Cited Tag | Message |
-|:---|:------|:---------|:----------|:--------|
+| :--- | :------ | :--------- | :---------- | :-------- |
 | `FSD-8` | Intent Resolution (The "Brain") | **ERROR** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
 | `FSD-9` | User Experience (UX) | **ERROR** | FSD-1.2 (**UI Process:** Handles user interaction (PySide6).) | Cites sibling 'FSD-1.2' |
 | `ICD-4` | Response Payload Schema | **ERROR** | ICD-3 (Metadata Schema (JSON)) | Cites sibling 'ICD-3' |
 
 ## INVALID_PARENT_TIER (39)
+
 | ID | Title | Severity | Cited Tag | Message |
-|:---|:------|:---------|:----------|:--------|
+| :--- | :------ | :--------- | :---------- | :-------- |
 | `ICD-1` | IPC Configuration (ipc_config.yaml) | **ERROR** | NFR-3.3 (**Memory Footprint (Core Queue):** 1000 cap, ~10-50 MB.) | Invalid parent tier 'NFR' for 'ICD'. Allowed: ['SAD'] |
 | `ICD-1` | IPC Configuration (ipc_config.yaml) | **ERROR** | NFR-3.4 (**Memory Footprint (UI Queue):** 100 cap, ~1-5 MB.) | Invalid parent tier 'NFR' for 'ICD'. Allowed: ['SAD'] |
 | `ICD-1` | IPC Configuration (ipc_config.yaml) | **ERROR** | NFR-3.5 (**Memory Footprint (Runtime Queue):** 50 cap, ~5-25 MB.) | Invalid parent tier 'NFR' for 'ICD'. Allowed: ['SAD'] |
@@ -52,8 +55,9 @@
 | `TDD-5.6` | **Denoising:** Apply RNNoise or equivalent before WWD/VAD stages. Must operate within NFR-3 latency budget. | **ERROR** | NFR-3 (Resource Isolation) | Invalid parent tier 'NFR' for 'TDD'. Allowed: ['SAD', 'ICD'] |
 
 ## ORPHAN (9)
+
 | ID | Title | Severity | Cited Tag | Message |
-|:---|:------|:---------|:----------|:--------|
+| :--- | :------ | :--------- | :---------- | :-------- |
 | `TERM-AUDIO-PROCESS` | Audio Process | **ERROR** | None | No parent citations |
 | `TERM-CORE-PROCESS` | Core Process | **ERROR** | None | No parent citations |
 | `TERM-HSM` | HSM | **ERROR** | None | No parent citations |

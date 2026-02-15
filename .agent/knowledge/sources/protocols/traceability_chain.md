@@ -48,6 +48,7 @@ Citations: `[SAD-2, FSD-1.1]`
 ### Step 2: Validate Citation Targets
 
 For each cited tag:
+
 1. Verify tag exists in documentation
 2. Verify tag is in valid parent tier
 3. Verify no forward references (lower tier cannot cite higher)
@@ -55,7 +56,7 @@ For each cited tag:
 **Valid Citation Matrix**:
 
 | Child Tier | May Cite |
-|:-----------|:---------|
+| :----------- | :--------- |
 | NFR | BRD |
 | FSD | BRD, NFR |
 | SAD | FSD, NFR |
@@ -74,7 +75,7 @@ For each cited parent, repeat Steps 1-2 until reaching BRD.
 ### Step 4: Detect Violations
 
 | Violation | Detection | Severity |
-|:----------|:----------|:---------|
+| :---------- | :---------- | :--------- |
 | **Orphan** | Tag has empty `:links:` (non-BRD) | ERROR |
 | **Missing parent** | Cited tag doesn't exist | ERROR |
 | **Forward reference** | TDD cites ISP | ERROR |
@@ -85,7 +86,7 @@ For each cited parent, repeat Steps 1-2 until reaching BRD.
 ### Step 5: Generate Report
 
 | Tag | Status | Chain | Issue |
-|:----|:-------|:------|:------|
+| :---- | :------- | :------ | :------ |
 | TDD-1.7 | ✅ VALID | TDD-1.7 → SAD-4.1 → NFR-5.1 → BRD-2 | — |
 | ICD-5 | ❌ ORPHAN | ICD-5 → (none) | Missing parent citation |
 | FSD-4.3 | ❌ BROKEN | FSD-4.3 → NFR-99 (missing) | Parent not found |
@@ -93,7 +94,7 @@ For each cited parent, repeat Steps 1-2 until reaching BRD.
 ## Outcomes
 
 | Result | Condition | Next Action |
-|:-------|:----------|:------------|
+| :------- | :---------- | :------------ |
 | Valid chain | Complete path to BRD | Document in audit report |
 | Orphan | No parent citation | Use `abstraction_upward.md` |
 | Missing parent | Cited tag not found | Locate or create parent |

@@ -1,16 +1,19 @@
 # Traceability Report
+
 **Analyzed:** 236 tags | **Violations:** 46
 
 ## SIBLING_CITATION (3)
+
 | ID | Title | Severity | Cited Tag | Message |
-|:---|:------|:---------|:----------|:--------|
+| :--- | :------ | :--------- | :---------- | :-------- |
 | `FSD-8` | Intent Resolution (The "Brain") | **ERROR** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
 | `FSD-9` | User Experience (UX) | **ERROR** | FSD-1.2 (**UI Process:** Handles user interaction (PySide6).) | Cites sibling 'FSD-1.2' |
 | `ICD-4` | Response Payload Schema | **ERROR** | ICD-3 (Metadata Schema (JSON)) | Cites sibling 'ICD-3' |
 
 ## INVALID_PARENT_TIER (34)
+
 | ID | Title | Severity | Cited Tag | Message |
-|:---|:------|:---------|:----------|:--------|
+| :--- | :------ | :--------- | :---------- | :-------- |
 | `ICD-3` | Metadata Schema (JSON) | **ERROR** | FSD-6.3 (**Correlation:** All logs must include `request_id` for correlation across processes.) | Invalid parent tier 'FSD' for 'ICD'. Allowed: ['SAD', 'NFR'] |
 | `ISP-1.2` | **Socket:** Bind `ROUTER` using config from `ICD-1`. | **ERROR** | ICD-1 (IPC Configuration (ipc_config.yaml)) | Invalid parent tier 'ICD' for 'ISP'. Allowed: ['TDD'] |
 | `ISP-1.4` | **HSM:** Setup `transitions.Machine` with states from `FSD-2`. | **ERROR** | FSD-2.3 (**Required States:** `Root(DEFAULT)`, `initializing`, `sleeping`, `waking`, `active`, `busy` (`llm`, `tts`, `stt`), `error`, `shutting_down`.) | Invalid parent tier 'FSD' for 'ISP'. Allowed: ['TDD'] |
@@ -47,8 +50,9 @@
 | `TDD-5.6` | **Denoising:** Apply RNNoise or equivalent before WWD/VAD stages. Must operate within NFR-3 latency budget. | **ERROR** | NFR-3 (Resource Isolation) | Invalid parent tier 'NFR' for 'TDD'. Allowed: ['SAD', 'ICD'] |
 
 ## ORPHAN (9)
+
 | ID | Title | Severity | Cited Tag | Message |
-|:---|:------|:---------|:----------|:--------|
+| :--- | :------ | :--------- | :---------- | :-------- |
 | `TERM-AUDIO-PROCESS` | Audio Process | **ERROR** | None | No parent citations |
 | `TERM-CORE-PROCESS` | Core Process | **ERROR** | None | No parent citations |
 | `TERM-HSM` | HSM | **ERROR** | None | No parent citations |

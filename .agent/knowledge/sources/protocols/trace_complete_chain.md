@@ -40,7 +40,7 @@ Starting from the target tag, read its `:links:` directive to identify parent ci
 Traverse citations upward until one of these conditions is reached:
 
 | Condition | Result | Severity |
-|:----------|:-------|:---------|
+| :---------- | :------- | :--------- |
 | BRD Root Reached | VALID | — |
 | Cycle Detected (A→B→A) | ERROR | Circular Dependency |
 | Missing Parent | ERROR | Broken Chain / Orphan |
@@ -53,7 +53,7 @@ Document chain status for each traced tag using the standard report format from 
 ## Outcomes
 
 | Result | Condition | Next Action |
-|:-------|:----------|:------------|
+| :------- | :---------- | :------------ |
 | Valid | BRD root reached | Document in audit report |
 | Error | Any non-BRD terminal | Invoke orphan resolution |
 

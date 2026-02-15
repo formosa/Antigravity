@@ -16,7 +16,7 @@
 ### Factor Detection
 
 | Factor | Present? | Evidence |
-|:-------|:--------:|:---------|
+| :------- | :--------: | :--------- |
 | Numeric metrics | ✅ | "under 1 second" |
 | Technology-agnostic | ✅ | No specific tech mentioned |
 | User behavior | ✅ | "hands-free interaction" |
@@ -28,6 +28,7 @@
 ✅ **PASS** - Measurable metric included ("< 1 second")
 
 ### Output (RST)
+
 ```rst
 .. brd:: Accessibility: Hands-free voice interaction
    :id: BRD-5

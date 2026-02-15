@@ -40,7 +40,7 @@ NFR (Non-Functional Requirements) define measurable system limits. Every constra
 How to identify violations:
 
 | Pattern | Examples |
-|:--------|:---------|
+| :-------- | :--------- |
 | Missing numbers | "low latency", "high throughput" |
 | Missing units | "latency < 100" (100 what?) |
 | Vague bounds | "reasonable", "acceptable" |
@@ -49,7 +49,7 @@ How to identify violations:
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | No numeric value | ERROR | Add specific number |
 | Missing units | ERROR | Specify units (ms, MB, etc.) |
 | Vague bound | ERROR | Quantify limit |
@@ -88,18 +88,21 @@ How to identify violations:
 .. nfr:: System must have low latency.
    :id: NFR-4
 ```
+
 **Why**: "Low" is subjective. Correct: "< 1 second latency"
 
 ```rst
 .. nfr:: Memory usage must be reasonable.
    :id: NFR-2
 ```
+
 **Why**: "Reasonable" is unmeasurable. Correct: "< 4GB RAM usage"
 
 ```rst
 .. nfr:: Latency must be under 100.
    :id: NFR-4.1
 ```
+
 **Why**: Missing units. Correct: "< 100ms"
 
 ---

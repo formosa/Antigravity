@@ -22,7 +22,7 @@ DDR controlled vocabulary prevents semantic drift by LLMs. Universal to all DDR 
 ## Terms
 
 | Term | Definition |
-|:-----|:-----------|
+| :----- | :----------- |
 | **Tag** | Traceable documentation element with unique ID (e.g., `BRD-1.2`) |
 | **Citation** | Parent reference via `:links:` directive |
 | **Tier** | One of seven DDR abstraction levels (BRD through ISP) |
@@ -42,7 +42,7 @@ DDR controlled vocabulary prevents semantic drift by LLMs. Universal to all DDR 
 ## Abbreviations
 
 | Abbrev | Expansion | Description |
-|:-------|:----------|:------------|
+| :------- | :---------- | :------------ |
 | DDR | Development Documentation Roadmap | The documentation framework |
 | BRD | Business Requirements Document | Tier 1: Strategic justification |
 | NFR | Non-Functional Requirements | Tier 2: Constraints and targets |

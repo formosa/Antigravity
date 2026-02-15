@@ -22,7 +22,7 @@ description: "Reconciliation manifests must stay synchronized with tag inventory
 ## Trigger Events
 
 | Event | Affected Section(s) |
-|:------|:--------------------|
+| :------ | :-------------------- |
 | Tag content modified | Section + all citing sections |
 | Tag added | Section containing tag |
 | Tag deleted | Section + all citing sections |
@@ -39,7 +39,7 @@ description: "Reconciliation manifests must stay synchronized with tag inventory
 ## Issue Types
 
 | Type | Meaning |
-|:-----|:--------|
+| :----- | :-------- |
 | `CONSTRAINT_VIOLATION` | Parent constraint changed |
 | `MISSING_PARENT` | Cited tag not found |
 | `ORPHAN` | No parent citation |
@@ -47,6 +47,7 @@ description: "Reconciliation manifests must stay synchronized with tag inventory
 ## Clear Conditions
 
 DIRTY status may ONLY be cleared when:
+
 1. All `pending_items` resolved
 2. Reconciliation pass validated consistency
 3. Human or agent confirmed alignment

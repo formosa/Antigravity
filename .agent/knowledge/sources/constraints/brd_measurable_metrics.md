@@ -41,7 +41,7 @@ BRD success criteria must be measurable to enable objective validation. Vague or
 How to identify violations:
 
 | Pattern | Examples |
-|:--------|:---------|
+| :-------- | :--------- |
 | Subjective adjectives | "fast", "reliable", "scalable" |
 | Vague comparatives | "better", "improved", "enhanced" |
 | Unmeasurable goals | "user-friendly", "intuitive" |
@@ -50,7 +50,7 @@ How to identify violations:
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Subjective criterion | ERROR | Add specific metric |
 | Missing target value | ERROR | Specify numeric target |
 | Unmeasurable goal | WARNING | Reframe or move to FSD |
@@ -85,18 +85,21 @@ How to identify violations:
 .. brd:: System must be fast.
    :id: BRD-8
 ```
+
 **Why**: "Fast" is subjective. Correct: "Response time < 1 second"
 
 ```rst
 .. brd:: Provide reliable operation.
    :id: BRD-2
 ```
+
 **Why**: "Reliable" is vague. Correct: "99.9% uptime, < 5 second recovery"
 
 ```rst
 .. brd:: Create an intuitive user experience.
    :id: BRD-9
 ```
+
 **Why**: "Intuitive" is unmeasurable. Correct: Move UX requirements to FSD, or specify "< 3 steps to complete core task"
 
 ---

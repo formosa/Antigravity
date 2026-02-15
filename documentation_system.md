@@ -14,6 +14,7 @@ This report provides a complete analysis of the Development Documentation Roadma
 The DDR implements a **waterfall-traceable, LLM-optimized documentation architecture** where each tier answers a specific question and enforces parent-child citation relationships:
 
 > **Embedded Example Type:** plaintext DDR tier hierarchy
+
 ~~~plaintext
 BRD (Why?)
   ↓ cites
@@ -32,16 +33,17 @@ ISP (What code?)
 
 **Key Principles:**
 
--   **Unidirectional Authority:** Child tiers cite parent tiers using `:links: PARENT-TAG` option
--   **Atomic Traceability:** Every requirement/specification has a unique, immutable ID (e.g., `:id: BRD-5.2`)
--   **Persona-Driven:** Each tier assumes a distinct stakeholder perspective
--   **LLM-Parseable:** Strict formatting enables automated validation and consistency checking
+- **Unidirectional Authority:** Child tiers cite parent tiers using `:links: PARENT-TAG` option
+- **Atomic Traceability:** Every requirement/specification has a unique, immutable ID (e.g., `:id: BRD-5.2`)
+- **Persona-Driven:** Each tier assumes a distinct stakeholder perspective
+- **LLM-Parseable:** Strict formatting enables automated validation and consistency checking
 
 ### 1.2 Deployment Structure
 
 The DDR system utilizes a directory structure accommodating the Sphinx Python documentation generator for reStructuredText:
 
 > **Embedded Example Type:** plaintext directory structure
+
 ~~~plaintext
 docs/
 ├── _build/
@@ -102,24 +104,25 @@ docs/
 
 **INCLUDE if information:**
 
-1.  Describes the fundamental **business problem** being solved
-2.  Defines **strategic objectives** independent of technical implementation
-3.  Articulates **stakeholder value propositions**
-4.  Establishes **success metrics** at the organizational level (uptime SLAs, user satisfaction)
-5.  States **high-level scope** boundaries (what's in/out of MVP)
-6.  Identifies **environmental/operational constraints** (offline requirement, privacy mandates)
+1. Describes the fundamental **business problem** being solved
+2. Defines **strategic objectives** independent of technical implementation
+3. Articulates **stakeholder value propositions**
+4. Establishes **success metrics** at the organizational level (uptime SLAs, user satisfaction)
+5. States **high-level scope** boundaries (what's in/out of MVP)
+6. Identifies **environmental/operational constraints** (offline requirement, privacy mandates)
 
 **EXCLUDE if information:**
 
-1.  Specifies technical architectures, patterns, or technologies
-2.  Defines data structures, APIs, or protocols
-3.  Describes implementation details or algorithms
-4.  Contains hardware specifications beyond environmental context
-5.  Provides numeric performance targets more granular than SLAs
+1. Specifies technical architectures, patterns, or technologies
+2. Defines data structures, APIs, or protocols
+3. Describes implementation details or algorithms
+4. Contains hardware specifications beyond environmental context
+5. Provides numeric performance targets more granular than SLAs
 
 #### Qualification Rubric
+
 | Criterion | BRD-Appropriate | Not BRD-Appropriate |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | **Abstraction Level** | "Enable privacy-preserving AI" | "Use local TCP sockets" |
 | **Stakeholder Focus** | "End users require offline capability" | "Runtime process uses ONNX" |
 | **Temporal Scope** | "Strategic objective for 2025-2026" | "Queue timeout = 100ms" |
@@ -131,6 +134,7 @@ docs/
 **Example 1: Strategic Objective (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Strategic Objective
    :id: BRD-2
@@ -139,12 +143,13 @@ docs/
    without dependency on cloud infrastructure.
 ~~~
 
--   **Why BRD:** States a business-driven technology mandate (privacy, offline)
--   **Not Lower Tier:** Doesn't specify _how_ (multi-process, ZeroMQ)
+- **Why BRD:** States a business-driven technology mandate (privacy, offline)
+- **Not Lower Tier:** Doesn't specify _how_ (multi-process, ZeroMQ)
 
 **Example 2: Stakeholder Problem (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Problem Statement
    :id: BRD-4
@@ -154,12 +159,13 @@ docs/
 
 ~~~
 
--   **Why BRD:** Describes the market/user pain point, not the solution
--   **Not Lower Tier:** Doesn't prescribe architecture
+- **Why BRD:** Describes the market/user pain point, not the solution
+- **Not Lower Tier:** Doesn't prescribe architecture
 
 **Example 3: Incorrectly Classified (EXCLUDE)**
 
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: [BAD EXAMPLE]
    :id: BRD-X
@@ -168,12 +174,13 @@ docs/
 
 ~~~
 
--   **Why Not BRD:** This is a technical architecture decision (belongs in SAD)
--   **Correct Classification:** `SAD-1.1` :links: `BRD-5` (traces to "offline framework" scope)
+- **Why Not BRD:** This is a technical architecture decision (belongs in SAD)
+- **Correct Classification:** `SAD-1.1` :links: `BRD-5` (traces to "offline framework" scope)
 
 **Example 4: Scope Boundary (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Local LLM, TTS, and STT inference.
    :id: BRD-5.2
@@ -181,8 +188,8 @@ docs/
 
 ~~~
 
--   **Why BRD:** Defines functional scope at the capability level
--   **Not Lower Tier:** Doesn't specify models, frameworks, or APIs
+- **Why BRD:** Defines functional scope at the capability level
+- **Not Lower Tier:** Doesn't specify models, frameworks, or APIs
 
 ----------
 
@@ -197,26 +204,25 @@ docs/
 
 **INCLUDE if information:**
 
-1.  Specifies **hardware resource limits** (CPU model, VRAM capacity, RAM allocation)
-2.  Defines **quantitative performance targets** (latency thresholds, throughput minimums)
-3.  Establishes **reliability/availability requirements** (fault tolerance, uptime)
-4.  States **security constraints** (network isolation, encryption requirements)
-5.  Mandates **technology dependencies** (Python 3.11+, CUDA toolkit)
-6.  Prescribes **resource utilization bounds** (max CPU %, memory footprints)
+1. Specifies **hardware resource limits** (CPU model, VRAM capacity, RAM allocation)
+2. Defines **quantitative performance targets** (latency thresholds, throughput minimums)
+3. Establishes **reliability/availability requirements** (fault tolerance, uptime)
+4. States **security constraints** (network isolation, encryption requirements)
+5. Mandates **technology dependencies** (Python 3.11+, CUDA toolkit)
+6. Prescribes **resource utilization bounds** (max CPU %, memory footprints)
 
 **EXCLUDE if information:**
 
-1.  Describes business objectives or user value propositions
-2.  Defines functional behavior or capabilities
-3.  Specifies implementation details (class names, method signatures)
-4.  Describes data schemas or message formats
-5.  Provides architectural patterns (unless as constraints)
+1. Describes business objectives or user value propositions
+2. Defines functional behavior or capabilities
+3. Specifies implementation details (class names, method signatures)
+4. Describes data schemas or message formats
+5. Provides architectural patterns (unless as constraints)
 
 #### Qualification Rubric
 
-
 | Criterion | NFR-Appropriate | Not NFR-Appropriate |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | **Measurability** | "<1ms dispatch latency" | "Fast IPC communication" |
 | **Constraint Type** | "RTX 3080 10GB VRAM limit" | "Use GPU for inference" |
 | **Enforcement** | "No process shall block >5s" | "Core routes messages" |
@@ -228,6 +234,7 @@ docs/
 **Example 1: Hardware Constraint (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: **GPU:** RTX 3080 10GB VRAM (Runtime/Inference only).
    :id: NFR-1.2
@@ -235,13 +242,14 @@ docs/
 
 ~~~
 
--   **Why NFR:** Specifies non-negotiable hardware boundary
--   **Traces To:** `BRD-6.1` ("High-end consumer workstation")
--   **Downstream Impact:** TDD must design around 10GB VRAM limit
+- **Why NFR:** Specifies non-negotiable hardware boundary
+- **Traces To:** `BRD-6.1` ("High-end consumer workstation")
+- **Downstream Impact:** TDD must design around 10GB VRAM limit
 
 **Example 2: Performance Target (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: **IPC Dispatch:** Sub-millisecond (<1ms) for metadata-only messages.
    :id: NFR-4.1
@@ -249,13 +257,14 @@ docs/
 
 ~~~
 
--   **Why NFR:** Quantifiable performance requirement
--   **Traces To:** `BRD-8.1` ("Sub-250ms IPC dispatch")
--   **Downstream Impact:** SAD must choose non-blocking I/O patterns
+- **Why NFR:** Quantifiable performance requirement
+- **Traces To:** `BRD-8.1` ("Sub-250ms IPC dispatch")
+- **Downstream Impact:** SAD must choose non-blocking I/O patterns
 
 **Example 3: Reliability Constraint (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: **Non-blocking:** No process shall block waiting for another during standard IPC.
    :id: NFR-5.1
@@ -263,13 +272,14 @@ docs/
 
 ~~~
 
--   **Why NFR:** Non-functional reliability requirement
--   **Traces To:** `BRD-3.4` ("Reduce downtime through multi-process isolation")
--   **Downstream Impact:** SAD mandates receiver threads + queues
+- **Why NFR:** Non-functional reliability requirement
+- **Traces To:** `BRD-3.4` ("Reduce downtime through multi-process isolation")
+- **Downstream Impact:** SAD mandates receiver threads + queues
 
 **Example 4: Incorrectly Classified (EXCLUDE)**
 
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: [BAD EXAMPLE]
    :id: NFR-X
@@ -278,8 +288,8 @@ docs/
 
 ~~~
 
--   **Why Not NFR:** This describes functional behavior, not constraints
--   **Correct Classification:** `FSD-1.1` :links: `NFR-5.1` (constraint on blocking)
+- **Why Not NFR:** This describes functional behavior, not constraints
+- **Correct Classification:** `FSD-1.1` :links: `NFR-5.1` (constraint on blocking)
 
 ----------
 
@@ -294,26 +304,25 @@ docs/
 
 **INCLUDE if information:**
 
-1.  Describes **user-observable capabilities** (voice interaction, wake word detection)
-2.  Defines **system behaviors** in response to events (state transitions, error handling)
-3.  Specifies **feature workflows** (audio pipeline stages, intent resolution)
-4.  Articulates **functional responsibilities** per component (Core routes, Runtime infers)
-5.  States **business logic rules** (only send wake word if Core is idle)
-6.  Describes **data flows** at the conceptual level (Audio → Core → Runtime)
+1. Describes **user-observable capabilities** (voice interaction, wake word detection)
+2. Defines **system behaviors** in response to events (state transitions, error handling)
+3. Specifies **feature workflows** (audio pipeline stages, intent resolution)
+4. Articulates **functional responsibilities** per component (Core routes, Runtime infers)
+5. States **business logic rules** (only send wake word if Core is idle)
+6. Describes **data flows** at the conceptual level (Audio → Core → Runtime)
 
 **EXCLUDE if information:**
 
-1.  Specifies technical implementations (socket types, thread models)
-2.  Defines data schemas, protocols, or message formats
-3.  Describes class structures or method signatures
-4.  Provides performance metrics or resource limits
-5.  States business objectives without functional specifications
+1. Specifies technical implementations (socket types, thread models)
+2. Defines data schemas, protocols, or message formats
+3. Describes class structures or method signatures
+4. Provides performance metrics or resource limits
+5. States business objectives without functional specifications
 
 #### Qualification Rubric
 
-
 | Criterion | FSD-Appropriate | Not FSD-Appropriate |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | **Observability** | "UI reflects HSM state visually" | "UI uses PySide6 framework" |
 | **Action Trigger** | "Wake word detection transitions to Active" | "Porcupine engine runs on CPU" |
 | **Capability** | "System supports STT, TTS, LLM inference" | "Runtime uses ONNX Runtime GPU" |
@@ -325,6 +334,7 @@ docs/
 **Example 1: Functional Capability (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: **STT:** Execute transcription using faster-whisper (ONNX) on audio buffers routed from Audio Service.
    :id: FSD-5.1
@@ -332,13 +342,14 @@ docs/
 
 ~~~
 
--   **Why FSD:** Describes what the system does (STT capability)
--   **Traces To:** `BRD-5.2` (Local STT inference), `NFR-1.2` (GPU constraint)
--   **Downstream:** SAD defines routing topology, ICD defines message schema
+- **Why FSD:** Describes what the system does (STT capability)
+- **Traces To:** `BRD-5.2` (Local STT inference), `NFR-1.2` (GPU constraint)
+- **Downstream:** SAD defines routing topology, ICD defines message schema
 
 **Example 2: Behavioral Rule (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: **Constraint:** Must only send WAKE_WORD_DETECTED if Core is in idle state.
    :id: FSD-4.2
@@ -346,13 +357,14 @@ docs/
 
 ~~~
 
--   **Why FSD:** Specifies conditional functional behavior
--   **Traces To:** `BRD-5.6` (HSM orchestration)
--   **Downstream:** TDD implements state query mechanism
+- **Why FSD:** Specifies conditional functional behavior
+- **Traces To:** `BRD-5.6` (HSM orchestration)
+- **Downstream:** TDD implements state query mechanism
 
 **Example 3: Workflow Definition (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Intent Resolution (The "Brain")
    :id: FSD-8
@@ -372,13 +384,14 @@ docs/
 
 ~~~
 
--   **Why FSD:** Describes the decision-making workflow
--   **Traces To:** `BRD-5.6` (HSM orchestration)
--   **Downstream:** TDD defines `command_registry` structure
+- **Why FSD:** Describes the decision-making workflow
+- **Traces To:** `BRD-5.6` (HSM orchestration)
+- **Downstream:** TDD defines `command_registry` structure
 
 **Example 4: Incorrectly Classified (EXCLUDE)**
 
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: [BAD EXAMPLE]
    :id: FSD-X
@@ -387,8 +400,8 @@ docs/
 
 ~~~
 
--   **Why Not FSD:** This is implementation detail (architecture/protocol)
--   **Correct Classification:** `SAD-3.2` (Integration Strategy) :links: `FSD-1.1` (routing capability)
+- **Why Not FSD:** This is implementation detail (architecture/protocol)
+- **Correct Classification:** `SAD-3.2` (Integration Strategy) :links: `FSD-1.1` (routing capability)
 
 ----------
 
@@ -403,26 +416,25 @@ docs/
 
 **INCLUDE if information:**
 
-1.  Defines **architectural patterns** (Hub-and-Spoke, Pub-Sub, Event-Driven)
-2.  Specifies **component topology** (process diagrams, socket relationships)
-3.  Describes **integration strategies** (Request-Response, Fire-and-Forget)
-4.  Establishes **technology choices** for architectural concerns (ZeroMQ for IPC)
-5.  Articulates **design principles** (no shared abstraction, configuration-driven)
-6.  Defines **concurrency models** (receiver threads, priority queues)
+1. Defines **architectural patterns** (Hub-and-Spoke, Pub-Sub, Event-Driven)
+2. Specifies **component topology** (process diagrams, socket relationships)
+3. Describes **integration strategies** (Request-Response, Fire-and-Forget)
+4. Establishes **technology choices** for architectural concerns (ZeroMQ for IPC)
+5. Articulates **design principles** (no shared abstraction, configuration-driven)
+6. Defines **concurrency models** (receiver threads, priority queues)
 
 **EXCLUDE if information:**
 
-1.  Specifies exact data formats or schemas
-2.  Provides class/method implementation details
-3.  Defines business logic or functional workflows
-4.  States performance targets (unless as design justification)
-5.  Describes user-facing features
+1. Specifies exact data formats or schemas
+2. Provides class/method implementation details
+3. Defines business logic or functional workflows
+4. States performance targets (unless as design justification)
+5. Describes user-facing features
 
 #### Qualification Rubric
 
-
 | Criterion | SAD-Appropriate | Not SAD-Appropriate |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | **Abstraction** | "Hub-and-Spoke topology" | "Core binds port 5555" | | **Pattern** | "ROUTER-DEALER for request-response" | "Metadata frame is JSON" |
 | **Principle** | "No shared base class for patterns" | "Class ServiceClient extends ABC" |
 | **Technology** | "ZeroMQ for non-blocking IPC" | "import zmq; ctx = zmq.Context()" |
@@ -433,6 +445,7 @@ docs/
 **Example 1: Architectural Pattern (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: **Hub-and-Spoke:** Core Process acts as central ROUTER (Hub); Services are DEALER (Spokes).
    :id: SAD-1.1
@@ -440,13 +453,14 @@ docs/
 
 ~~~
 
--   **Why SAD:** Defines the structural pattern
--   **Traces To:** `FSD-1.1` (Core routes messages)
--   **Downstream:** ICD defines frame structure, TDD implements sockets
+- **Why SAD:** Defines the structural pattern
+- **Traces To:** `FSD-1.1` (Core routes messages)
+- **Downstream:** ICD defines frame structure, TDD implements sockets
 
 **Example 2: Integration Strategy (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Integration Strategy
    :id: SAD-3
@@ -470,13 +484,14 @@ docs/
 
 ~~~
 
--   **Why SAD:** Describes how components integrate
--   **Traces To:** `FSD-6.1` (distributed logging), `NFR-2.1` (local TCP only)
--   **Downstream:** ICD defines message frames, TDD configures sockets
+- **Why SAD:** Describes how components integrate
+- **Traces To:** `FSD-6.1` (distributed logging), `NFR-2.1` (local TCP only)
+- **Downstream:** ICD defines message frames, TDD configures sockets
 
 **Example 3: Design Principle (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: **No Shared Abstraction:** ROUTER-DEALER and PUSH-PULL patterns are implemented separately to avoid artificial coupling.
    :id: SAD-1.3
@@ -484,13 +499,14 @@ docs/
 
 ~~~
 
--   **Why SAD:** Articulates architectural decision rationale
--   **Traces To:** `NFR-5.1` (non-blocking requirement)
--   **Downstream:** TDD creates separate CoreProcess and ServiceClient classes
+- **Why SAD:** Articulates architectural decision rationale
+- **Traces To:** `NFR-5.1` (non-blocking requirement)
+- **Downstream:** TDD creates separate CoreProcess and ServiceClient classes
 
 **Example 4: Concurrency Model (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Concurrency Model
    :id: SAD-4
@@ -506,13 +522,14 @@ docs/
 
 ~~~
 
--   **Why SAD:** Defines how concurrency is achieved architecturally
--   **Traces To:** `NFR-5.1` (no blocking on IPC)
--   **Downstream:** TDD specifies `_start_receiver_thread()` method
+- **Why SAD:** Defines how concurrency is achieved architecturally
+- **Traces To:** `NFR-5.1` (no blocking on IPC)
+- **Downstream:** TDD specifies `_start_receiver_thread()` method
 
 **Example 5: Topology Diagram (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Process Topology
    :id: SAD-2
@@ -528,8 +545,8 @@ docs/
 
 ~~~
 
--   **Why SAD:** Visual representation of architectural structure
--   **Downstream:** TDD uses this to determine socket bindings per component
+- **Why SAD:** Visual representation of architectural structure
+- **Downstream:** TDD uses this to determine socket bindings per component
 
 ----------
 
@@ -544,26 +561,25 @@ docs/
 
 **INCLUDE if information:**
 
-1.  Defines **message schemas** (JSON structures, field types, validation rules)
-2.  Specifies **configuration file formats** (YAML structure, required keys)
-3.  Documents **protocol specifications** (frame ordering, header formats)
-4.  Establishes **data validation rules** (mandatory fields, enum values)
-5.  Describes **payload encoding** (UTF-8 text, binary PCM, multipart)
-6.  Defines **API contracts** (request/response pairs, error codes)
+1. Defines **message schemas** (JSON structures, field types, validation rules)
+2. Specifies **configuration file formats** (YAML structure, required keys)
+3. Documents **protocol specifications** (frame ordering, header formats)
+4. Establishes **data validation rules** (mandatory fields, enum values)
+5. Describes **payload encoding** (UTF-8 text, binary PCM, multipart)
+6. Defines **API contracts** (request/response pairs, error codes)
 
 **EXCLUDE if information:**
 
-1.  Describes business logic or functional behavior
-2.  Specifies class structures or implementation details
-3.  Defines architectural patterns or topologies
-4.  States performance requirements
-5.  Provides code implementations
-
+1. Describes business logic or functional behavior
+2. Specifies class structures or implementation details
+3. Defines architectural patterns or topologies
+4. States performance requirements
+5. Provides code implementations
 
 ### Qualification Rubric
 
 | Criterion | ICD-Appropriate | Not ICD-Appropriate |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | **Data Shape** | `{"command": "string", "priority": 0\|1}` | "Messages are prioritized" |
 | **Validation** | "request_id: UUID v4 format required" | "Generate UUID on send" |
 | **Encoding** | "Payload: UTF-8 JSON or raw bytes" | "Parse JSON with json.loads()" |
@@ -575,6 +591,7 @@ docs/
 **Example 1: Message Schema (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Metadata Schema (JSON)
    :id: ICD-3
@@ -596,13 +613,14 @@ docs/
 
 ~~~
 
--   **Why ICD:** Defines exact data structure and types
--   **Traces To:** `SAD-1.4` (context propagation), `SAD-4.7` (priority levels)
--   **Downstream:** TDD uses this schema for validation logic
+- **Why ICD:** Defines exact data structure and types
+- **Traces To:** `SAD-1.4` (context propagation), `SAD-4.7` (priority levels)
+- **Downstream:** TDD uses this schema for validation logic
 
 **Example 2: Configuration Format (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: IPC Configuration (ipc_config.yaml)
    :id: ICD-1
@@ -617,13 +635,14 @@ docs/
 
 ~~~
 
--   **Why ICD:** Specifies exact YAML structure and key names
--   **Traces To:** `SAD-5.1` (configuration-driven design), `NFR-3.3` (memory footprint)
--   **Downstream:** TDD implements `yaml.safe_load()` parsing
+- **Why ICD:** Specifies exact YAML structure and key names
+- **Traces To:** `SAD-5.1` (configuration-driven design), `NFR-3.3` (memory footprint)
+- **Downstream:** TDD implements `yaml.safe_load()` parsing
 
 **Example 3: Frame Protocol (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Frame Structure
    :id: ICD-2
@@ -639,13 +658,14 @@ docs/
 
 ~~~
 
--   **Why ICD:** Defines wire-level protocol format
--   **Traces To:** `SAD-3.2` (ROUTER-DEALER pattern)
--   **Downstream:** TDD implements frame parsing logic
+- **Why ICD:** Defines wire-level protocol format
+- **Traces To:** `SAD-3.2` (ROUTER-DEALER pattern)
+- **Downstream:** TDD implements frame parsing logic
 
 **Example 4: Response Contract (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Response Payload Schema
    :id: ICD-4
@@ -662,9 +682,9 @@ docs/
 
 ~~~
 
--   **Why ICD:** Defines API contract for error handling
--   **Traces To:** `FSD-5.4` (error reporting), `FSD-7` (error handling)
--   **Downstream:** TDD implements response validation
+- **Why ICD:** Defines API contract for error handling
+- **Traces To:** `FSD-5.4` (error reporting), `FSD-7` (error handling)
+- **Downstream:** TDD implements response validation
 
 ----------
 
@@ -679,26 +699,25 @@ docs/
 
 **INCLUDE if information:**
 
-1.  Defines **class names and purposes** (`CoreProcess`, `ServiceClient`)
-2.  Specifies **method signatures** (parameters, return types)
-3.  Lists **component dependencies** (imported modules, libraries)
-4.  Describes **internal data structures** (dicts, queues, state machines)
-5.  Articulates **component responsibilities** (what each class must do)
-6.  Maps **architectural patterns to implementation units** (receiver thread per process)
+1. Defines **class names and purposes** (`CoreProcess`, `ServiceClient`)
+2. Specifies **method signatures** (parameters, return types)
+3. Lists **component dependencies** (imported modules, libraries)
+4. Describes **internal data structures** (dicts, queues, state machines)
+5. Articulates **component responsibilities** (what each class must do)
+6. Maps **architectural patterns to implementation units** (receiver thread per process)
 
 **EXCLUDE if information:**
 
-1.  Provides actual implementation code (function bodies)
-2.  Defines business logic workflows
-3.  Specifies data schemas or message formats
-4.  States performance targets or constraints
-5.  Describes user-facing features
+1. Provides actual implementation code (function bodies)
+2. Defines business logic workflows
+3. Specifies data schemas or message formats
+4. States performance targets or constraints
+5. Describes user-facing features
 
 #### Qualification Rubric
 
-
 | Criterion | TDD-Appropriate | Not TDD-Appropriate |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | **Component** | "Class: CoreProcess" | "Core routes messages" |
 | **Structure** | "active_requests: Dict\[str, Tuple\[bytes, float, str\]\]" | `{"req-123": (b'\x00\x01', 1234.56, "llm")}` |
 | **Signature** | `send_request(cmd: str, payload: dict, priority: int)` | `self.dealer.send_multipart([meta, data])` |
@@ -710,6 +729,7 @@ docs/
 **Example 1: Component Blueprint (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Component: CoreProcess
    :id: TDD-1
@@ -737,13 +757,14 @@ docs/
 
 ~~~
 
--   **Why TDD:** Defines the class structure without implementation
--   **Traces To:** `SAD-2` (topology), `ICD-1` (config schema), `SAD-4.1` (receiver thread)
--   **Downstream:** ISP provides code stubs with `pass` statements
+- **Why TDD:** Defines the class structure without implementation
+- **Traces To:** `SAD-2` (topology), `ICD-1` (config schema), `SAD-4.1` (receiver thread)
+- **Downstream:** ISP provides code stubs with `pass` statements
 
 **Example 2: Method Signature (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Method: send_to_service
    :id: TDD-1.M2
@@ -759,13 +780,14 @@ docs/
 
 ~~~
 
--   **Why TDD:** Defines interface without logic
--   **Traces To:** `ICD-2.3` (frame structure), `SAD-3.4` (routing table)
--   **Downstream:** ISP implements with actual ZMQ calls
+- **Why TDD:** Defines interface without logic
+- **Traces To:** `ICD-2.3` (frame structure), `SAD-3.4` (routing table)
+- **Downstream:** ISP implements with actual ZMQ calls
 
 **Example 3: Internal Structure (INCLUDE)**
 
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Internal `queue.PriorityQueue` populated by `_receiver_thread`.
    :id: TDD-2.6
@@ -777,13 +799,14 @@ docs/
 
 ~~~
 
--   **Why TDD:** Specifies internal data structure design
--   **Traces To:** `SAD-4.5` (queue structure), `SAD-4.6` (FIFO ordering)
--   **Downstream:** ISP initializes queue in `__init__`
+- **Why TDD:** Specifies internal data structure design
+- **Traces To:** `SAD-4.5` (queue structure), `SAD-4.6` (FIFO ordering)
+- **Downstream:** ISP initializes queue in `__init__`
 
 **Example 4: Incorrectly Classified (EXCLUDE)**
 
 > **Embedded Example Code:** Python anti-pattern example
+
 ~~~python
 # BAD: This is implementation code (belongs in ISP)
 def send_log(self, level, message):
@@ -792,8 +815,8 @@ def send_log(self, level, message):
 
 ~~~
 
--   **Why Not TDD:** This is implementation code (belongs in ISP)
--   **Correct Classification:** `ISP-2` :links: `TDD-2` (stub with signature only)
+- **Why Not TDD:** This is implementation code (belongs in ISP)
+- **Correct Classification:** `ISP-2` :links: `TDD-2` (stub with signature only)
 
 ----------
 
@@ -808,24 +831,24 @@ def send_log(self, level, message):
 
 **INCLUDE if information:**
 
-1.  Provides **executable Python stubs** (class/method definitions with `pass`)
-2.  Includes **Numpy-style docstrings** (parameters, returns, references)
-3.  Contains **structural scaffolding** (imports, class hierarchy)
-4.  Embeds **traceability markers** (`Ref: |TAG|` in docstrings)
-5.  Specifies **implementation hints** (comments on next steps)
-6.  Demonstrates **correct usage patterns** (example instantiation)
+1. Provides **executable Python stubs** (class/method definitions with `pass`)
+2. Includes **Numpy-style docstrings** (parameters, returns, references)
+3. Contains **structural scaffolding** (imports, class hierarchy)
+4. Embeds **traceability markers** (`Ref: |TAG|` in docstrings)
+5. Specifies **implementation hints** (comments on next steps)
+6. Demonstrates **correct usage patterns** (example instantiation)
 
 **EXCLUDE if information:**
 
-1.  Provides complete, production-ready implementations
-2.  Includes complex business logic (beyond stubs)
-3.  Defines data schemas or architectural patterns
-4.  States requirements or specifications
+1. Provides complete, production-ready implementations
+2. Includes complex business logic (beyond stubs)
+3. Defines data schemas or architectural patterns
+4. States requirements or specifications
 
 #### Qualification Rubric
 
 | Criterion | ISP-Appropriate | Not ISP-Appropriate |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | **Code State** | `def run(self): pass` | `def run(self): while True: ...` |
 | **Documentation** | Numpy docstring with `Ref: |TAG|` | Inline comments only |
 | **Completeness** | Structural skeleton | Fully implemented logic |
@@ -837,6 +860,7 @@ def send_log(self, level, message):
 **Example 1: Class Stub (INCLUDE)**
 
 > **Embedded Example Code:** Python class stub
+
 ~~~python
 # |ISP-1|: "Stub: Core Process"
 
@@ -888,13 +912,14 @@ class CoreProcess:
 
 ~~~
 
--   **Why ISP:** Provides executable scaffold with traceability
--   **Traces To:** All parent tiers via embedded tags
--   **Usage:** Developer runs, fills `pass` statements with logic
+- **Why ISP:** Provides executable scaffold with traceability
+- **Traces To:** All parent tiers via embedded tags
+- **Usage:** Developer runs, fills `pass` statements with logic
 
 **Example 2: Method Stub with Implementation Hints (INCLUDE)**
 
 > **Embedded Example Code:** Python method stub
+
 ~~~python
 |ISP-2.3|:
 
@@ -926,12 +951,13 @@ def send_log(self, level: str, message: str, request_id: str = None) -> None:
 
 ~~~
 
--   **Why ISP:** Provides clear implementation guidance
--   **Traces To:** TDD (signature), ICD (schema), SAD (HWM config)
+- **Why ISP:** Provides clear implementation guidance
+- **Traces To:** TDD (signature), ICD (schema), SAD (HWM config)
 
 **Example 3: Configuration-Driven Initialization (INCLUDE)**
 
 > **Embedded Example Code:** Python class stub
+
 ~~~python
 |ISP-3.1|:
 
@@ -964,8 +990,8 @@ class ServiceClient:
 
 ~~~
 
--   **Why ISP:** Step-by-step implementation roadmap
--   **Traces To:** Configuration schema, architectural constraints
+- **Why ISP:** Step-by-step implementation roadmap
+- **Traces To:** Configuration schema, architectural constraints
 
 ----------
 
@@ -976,6 +1002,7 @@ class ServiceClient:
 **BRD Perspective (Why):**
 
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Offline strategically focused framework.
    :id: BRD-5.1
@@ -984,22 +1011,24 @@ class ServiceClient:
 
 ~~~
 
--   **Focus:** Business justification for voice interaction without internet
+- **Focus:** Business justification for voice interaction without internet
 
 **NFR Perspective (Constraints):**
 
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Audio Priority: CPU-bound services must prioritize low-latency.
    :id: NFR-3.2
 
 ~~~
 
--   **Focus:** Performance constraint on wake word detection
+- **Focus:** Performance constraint on wake word detection
 
 **FSD Perspective (What):**
 
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Wake Word: Always-on detection using pvporcupine.
    :id: FSD-4.1
@@ -1009,22 +1038,24 @@ class ServiceClient:
 
 ~~~
 
--   **Focus:** Functional behavior and business rule
+- **Focus:** Functional behavior and business rule
 
 **SAD Perspective (How Structured):**
 
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Receiver thread polls ZMQ socket, pushes to PriorityQueue.
    :id: SAD-4.1
 
 ~~~
 
--   **Focus:** Concurrency architecture for non-blocking wake word handling
+- **Focus:** Concurrency architecture for non-blocking wake word handling
 
 **ICD Perspective (Contracts):**
 
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Message Format: Wake Word Detection
    :id: ICD-3
@@ -1038,22 +1069,24 @@ class ServiceClient:
 
 ~~~
 
--   **Focus:** Exact message format sent by Audio Service
+- **Focus:** Exact message format sent by Audio Service
 
 **TDD Perspective (Components):**
 
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: UI: installEventFilter to catch Click-to-Wake events.
    :id: TDD-2.9
 
 ~~~
 
--   **Focus:** Component-level implementation requirement
+- **Focus:** Component-level implementation requirement
 
 **ISP Perspective (Code):**
 
 > **Embedded Example Code:** Python ISP stub
+
 ~~~python
 # |ISP-4|: "Audio Worker Loop Skeleton"
 
@@ -1071,12 +1104,12 @@ def audio_worker_loop(client: ServiceClient):
 
 ~~~
 
--   **Focus:** Executable scaffold
+- **Focus:** Executable scaffold
 
 ### 3.2 Error Handling (Cross-Cutting Concern)
 
 | Tier | Content | Distinction |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | **BRD** | `.. brd:: Reduce downtime` (ID: BRD-3.4) | Strategic goal |
 | **NFR** | `.. nfr:: Service heartbeat 1s` (ID: NFR-5.2) | Operational constraint |
 | **FSD** | `.. fsd:: Centralized error codes` (ID: FSD-7.2) | Feature requirement |
@@ -1090,7 +1123,9 @@ def audio_worker_loop(client: ServiceClient):
 ## 4. Information Assessment & Classification Framework
 
 ### 4.1 Decision Tree for Tier Assignment
+>
 > **Embedded Example Type:** plaintext decision tree diagram
+
 ~~~plaintext
 ┌─────────────────────────────────────────────────────────────┐
 │ INPUT: Unclassified Information Fragment                   │
@@ -1150,9 +1185,8 @@ def audio_worker_loop(client: ServiceClient):
 
 For ambiguous cases, score the information against these criteria (0-3 scale, 3 = strong match):
 
-
 |Factor | BRD | NFR | FSD | SAD | ICD | TDD | ISP |
-|:--|:--|:--|:--|:--|:--|:--|:--|
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
 | Contains numeric metrics | 1 | 3 | 1 | 0 | 2 | 0 | 0 |
 | References hardware | 1 | 3 | 0 | 1 | 0 | 0 | 0 |
 | Describes user behavior | 2 | 0 | 3 | 0 | 0 | 0 | 0 |
@@ -1174,17 +1208,16 @@ For ambiguous cases, score the information against these criteria (0-3 scale, 3 
 
 **Step 1: Initial Assessment**
 
--   Contains numeric metrics? **YES** (50MB, 30 days) → NFR or ICD candidate
--   Describes hardware? **NO**
--   Describes user behavior? **NO**
--   Defines structure? **NO**
--   Defines schema? **PARTIAL** (file format unspecified)
+- Contains numeric metrics? **YES** (50MB, 30 days) → NFR or ICD candidate
+- Describes hardware? **NO**
+- Describes user behavior? **NO**
+- Defines structure? **NO**
+- Defines schema? **PARTIAL** (file format unspecified)
 
 **Step 2: Matrix Scoring**
 
-
 | Factor | Score | Reasoning |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | Numeric metrics | NFR=3, ICD=2 | Performance/config values |
 | Hardware reference | All=0 | No hardware mentioned |
 | User behavior | All=0 | Internal system behavior |
@@ -1198,20 +1231,21 @@ For ambiguous cases, score the information against these criteria (0-3 scale, 3 
 
 **Step 3: Tier Scores**
 
--   BRD: 3 (agnostic) = **3**
--   NFR: 3 (metrics) + 3 (modality) + 1 (agnostic) = **7** \[WINNER\]
--   FSD: 2 (modality) = **2**
--   ICD: 2 (metrics) + 3 (schema) = **5**
--   All others: **0**
+- BRD: 3 (agnostic) = **3**
+- NFR: 3 (metrics) + 3 (modality) + 1 (agnostic) = **7** \[WINNER\]
+- FSD: 2 (modality) = **2**
+- ICD: 2 (metrics) + 3 (schema) = **5**
+- All others: **0**
 
 **Step 4: Contextual Validation**
 
--   Does NFR make sense? **YES** - This is a **non-functional requirement** about operational limits (rotation size, retention period)
--   Does it trace to BRD? **YES** - Could trace to BRD-3.5 ("Observability: Enhanced debugging")
--   Does it enable downstream design? **YES** - SAD chooses LogServer pattern, ICD defines config schema, TDD implements loguru
+- Does NFR make sense? **YES** - This is a **non-functional requirement** about operational limits (rotation size, retention period)
+- Does it trace to BRD? **YES** - Could trace to BRD-3.5 ("Observability: Enhanced debugging")
+- Does it enable downstream design? **YES** - SAD chooses LogServer pattern, ICD defines config schema, TDD implements loguru
 
 **Final Classification:**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Log Management Constraints
    :id: NFR-7
@@ -1241,15 +1275,16 @@ When an orphaned specification exists without a parent requirement, synthesize t
 
 #### Protocol Steps
 
-1.  **Identify the Essence:** Strip implementation details, preserve the "why" or "what limit"
-2.  **Elevate Abstraction:** Transform technical specifics into business/constraint language
-3.  **Validate Scope:** Ensure parent tier encompasses multiple potential child implementations
-4.  **Check Redundancy:** Verify parent doesn't duplicate existing tags
+1. **Identify the Essence:** Strip implementation details, preserve the "why" or "what limit"
+2. **Elevate Abstraction:** Transform technical specifics into business/constraint language
+3. **Validate Scope:** Ensure parent tier encompasses multiple potential child implementations
+4. **Check Redundancy:** Verify parent doesn't duplicate existing tags
 
 #### Example 1: TDD → SAD Abstraction
 
 **Orphaned Child (TDD):**
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Concurrency: Spawns receiver thread to poll ROUTER socket.
    :id: TDD-1.7
@@ -1257,12 +1292,13 @@ When an orphaned specification exists without a parent requirement, synthesize t
 
 **Abstraction Process:**
 
--   **Technical Detail:** "Spawns receiver thread"
--   **Architectural Pattern:** "Non-blocking I/O via background polling"
--   **Constraint Context:** Must avoid blocking main loop (traces to NFR-5.1)
+- **Technical Detail:** "Spawns receiver thread"
+- **Architectural Pattern:** "Non-blocking I/O via background polling"
+- **Constraint Context:** Must avoid blocking main loop (traces to NFR-5.1)
 
 **Synthesized Parent (SAD):**
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Receiver Threads: Each process uses dedicated thread to poll ZMQ sockets and push to internal PriorityQueue.
    :id: SAD-4.1
@@ -1271,14 +1307,15 @@ When an orphaned specification exists without a parent requirement, synthesize t
 
 **Validation:**
 
--   ✅ Covers multiple implementations (Core, UI, Runtime, Audio)
--   ✅ Describes architectural mechanism, not specific code
--   ✅ Cites constraint that mandates the pattern
+- ✅ Covers multiple implementations (Core, UI, Runtime, Audio)
+- ✅ Describes architectural mechanism, not specific code
+- ✅ Cites constraint that mandates the pattern
 
 #### Example 2: FSD → BRD Abstraction
 
 **Orphaned Child (FSD):**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Wake Word: Always-on detection using pvporcupine.
    :id: FSD-4.1
@@ -1286,12 +1323,13 @@ When an orphaned specification exists without a parent requirement, synthesize t
 
 **Abstraction Process:**
 
--   **Functional Spec:** "Wake word detection"
--   **User Value:** "Hands-free voice activation"
--   **Business Objective:** "Enable natural voice interaction"
+- **Functional Spec:** "Wake word detection"
+- **User Value:** "Hands-free voice activation"
+- **Business Objective:** "Enable natural voice interaction"
 
 **Synthesized Parent (BRD):**
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Voice Activation: Enable hands-free voice interaction for accessibility and user convenience.
    :id: BRD-5.7
@@ -1299,14 +1337,15 @@ When an orphaned specification exists without a parent requirement, synthesize t
 
 **Validation:**
 
--   ✅ Technology-agnostic (doesn't specify pvporcupine)
--   ✅ Focuses on business value, not implementation
--   ✅ Supports multiple potential wake word technologies
+- ✅ Technology-agnostic (doesn't specify pvporcupine)
+- ✅ Focuses on business value, not implementation
+- ✅ Supports multiple potential wake word technologies
 
 #### Example 3: ICD → SAD Abstraction
 
 **Orphaned Child (ICD):**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Frame Structure: Outbound
    :id: ICD-2.2
@@ -1319,12 +1358,13 @@ When an orphaned specification exists without a parent requirement, synthesize t
 
 **Abstraction Process:**
 
--   **Protocol Detail:** "Metadata + payload frame structure"
--   **Integration Pattern:** "Request-response messaging"
--   **Architectural Choice:** "ZeroMQ DEALER socket pattern"
+- **Protocol Detail:** "Metadata + payload frame structure"
+- **Integration Pattern:** "Request-response messaging"
+- **Architectural Choice:** "ZeroMQ DEALER socket pattern"
 
 **Synthesized Parent (SAD):**
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Pattern: ZeroMQ ROUTER (Core) ↔ DEALER (Service) for bidirectional request-response messaging.
    :id: SAD-3.2
@@ -1334,9 +1374,9 @@ When an orphaned specification exists without a parent requirement, synthesize t
 
 **Validation:**
 
--   ✅ Defines the architectural pattern enabling the protocol
--   ✅ Justifies why frame structure exists (DEALER requirements)
--   ✅ Traces to functional requirement (Core routing)
+- ✅ Defines the architectural pattern enabling the protocol
+- ✅ Justifies why frame structure exists (DEALER requirements)
+- ✅ Traces to functional requirement (Core routing)
 
 ### 5.2 Downward Specification (Parent → Child)
 
@@ -1344,15 +1384,16 @@ When a high-level requirement lacks implementation details, decompose it by extr
 
 #### Protocol Steps
 
-1.  **Identify Implementation Vectors:** What specific technologies/patterns enable this?
-2.  **Extract Measurables:** Convert qualitative goals to quantitative specs
-3.  **Partition by Concern:** Separate architecture, data, and code aspects
-4.  **Maintain Traceability:** Cite parent tag in all derived children
+1. **Identify Implementation Vectors:** What specific technologies/patterns enable this?
+2. **Extract Measurables:** Convert qualitative goals to quantitative specs
+3. **Partition by Concern:** Separate architecture, data, and code aspects
+4. **Maintain Traceability:** Cite parent tag in all derived children
 
 #### Example 1: BRD → NFR Specification
 
 **Orphaned Parent (BRD):**
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Latency Targets
    :id: BRD-8.1
@@ -1363,12 +1404,13 @@ When a high-level requirement lacks implementation details, decompose it by extr
 
 **Specification Process:**
 
--   **Implied Constraints:** System must use non-blocking I/O
--   **Hardware Requirements:** Need fast CPU for IPC, GPU for LLM
--   **Measurable Targets:** Break down into component-level latencies
+- **Implied Constraints:** System must use non-blocking I/O
+- **Hardware Requirements:** Need fast CPU for IPC, GPU for LLM
+- **Measurable Targets:** Break down into component-level latencies
 
 **Synthesized Children (NFR):**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Latency & Throughput
    :id: NFR-4
@@ -1390,9 +1432,9 @@ When a high-level requirement lacks implementation details, decompose it by extr
 
 **Validation:**
 
--   ✅ All children trace to parent
--   ✅ Quantifies ambiguous "sub-250ms" into specific component budgets
--   ✅ Adds granularity (metadata vs payload latency)
+- ✅ All children trace to parent
+- ✅ Quantifies ambiguous "sub-250ms" into specific component budgets
+- ✅ Adds granularity (metadata vs payload latency)
 
 #### Example 2: NFR → SAD Specification
 
@@ -1406,12 +1448,13 @@ When a high-level requirement lacks implementation details, decompose it by extr
 
 **Specification Process:**
 
--   **Architectural Implication:** Need asynchronous messaging
--   **Pattern Selection:** ZeroMQ with dedicated receiver threads
--   **Data Structure:** Internal queues to decouple I/O from logic
+- **Architectural Implication:** Need asynchronous messaging
+- **Pattern Selection:** ZeroMQ with dedicated receiver threads
+- **Data Structure:** Internal queues to decouple I/O from logic
 
 **Synthesized Children (SAD):**
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Concurrency Model
    :id: SAD-4
@@ -1433,9 +1476,9 @@ When a high-level requirement lacks implementation details, decompose it by extr
 
 **Validation:**
 
--   ✅ Translates constraint into concrete architectural decisions
--   ✅ Specifies mechanism that enforces parent requirement
--   ✅ Enables multiple implementations (Core, Services)
+- ✅ Translates constraint into concrete architectural decisions
+- ✅ Specifies mechanism that enforces parent requirement
+- ✅ Enables multiple implementations (Core, Services)
 
 #### Example 3: FSD → ICD Specification
 
@@ -1448,12 +1491,13 @@ When a high-level requirement lacks implementation details, decompose it by extr
 
 **Specification Process:**
 
--   **Data Requirement:** request_id field in log metadata
--   **Format Constraint:** Must be UUID v4 format
--   **Protocol Rule:** Must be propagated in every IPC frame
+- **Data Requirement:** request_id field in log metadata
+- **Format Constraint:** Must be UUID v4 format
+- **Protocol Rule:** Must be propagated in every IPC frame
 
 **Synthesized Children (ICD):**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Metadata Schema (JSON)
    :id: ICD-3
@@ -1475,9 +1519,9 @@ When a high-level requirement lacks implementation details, decompose it by extr
 
 **Validation:**
 
--   ✅ Defines exact data structure to implement feature
--   ✅ Specifies format constraint (UUID v4)
--   ✅ Covers all message types (IPC and logging)
+- ✅ Defines exact data structure to implement feature
+- ✅ Specifies format constraint (UUID v4)
+- ✅ Covers all message types (IPC and logging)
 
 ### 5.3 Lateral Expansion (Sibling Generation)
 
@@ -1487,6 +1531,7 @@ When a tag exists in isolation but implies peer requirements, generate siblings 
 
 **Existing Singleton:**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: LogServer Fault: Senders continue, drop logs silently.
    :id: FSD-7.1
@@ -1495,12 +1540,13 @@ When a tag exists in isolation but implies peer requirements, generate siblings 
 
 **Implied Parallel Concerns:**
 
--   What about UI/Runtime/Audio faults?
--   What about Core faults?
--   What about timeout scenarios?
+- What about UI/Runtime/Audio faults?
+- What about Core faults?
+- What about timeout scenarios?
 
 **Generated Siblings:**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Error Handling Strategy
    :id: FSD-7
@@ -1526,9 +1572,9 @@ When a tag exists in isolation but implies peer requirements, generate siblings 
 
 **Validation:**
 
--   ✅ All siblings address fault tolerance at same abstraction (behavior)
--   ✅ Comprehensive coverage of failure modes
--   ✅ Uniform citation of parent requirements
+- ✅ All siblings address fault tolerance at same abstraction (behavior)
+- ✅ Comprehensive coverage of failure modes
+- ✅ Uniform citation of parent requirements
 
 ----------
 
@@ -1546,16 +1592,20 @@ Some statements contain information spanning multiple tiers. Apply **decompositi
 
 **Decomposition:**
 
-1.  **Business Requirement (BRD):**
+1. **Business Requirement (BRD):**
+
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: System must ensure fault tolerance and maintainability.
    :id: BRD-2
 
 ~~~
 
-2.  **Constraint (NFR):**
+1. **Constraint (NFR):**
+
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: No process shall block waiting for another.
    :id: NFR-5.1
@@ -1563,8 +1613,10 @@ Some statements contain information spanning multiple tiers. Apply **decompositi
 
 ~~~
 
-3.  **Architecture (SAD):**
+1. **Architecture (SAD):**
+
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Pattern: ZeroMQ ROUTER-DEALER for non-blocking IPC.
    :id: SAD-3.2
@@ -1572,8 +1624,10 @@ Some statements contain information spanning multiple tiers. Apply **decompositi
 
 ~~~
 
-4.  **Rationale (SAD):**
+1. **Rationale (SAD):**
+
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: ROUTER-DEALER chosen over REQ-REP
    :id: SAD-3.2.R1
@@ -1592,8 +1646,10 @@ Some statements contain information spanning multiple tiers. Apply **decompositi
 
 **Decomposition:**
 
-1.  **Feature (FSD):**
+1. **Feature (FSD):**
+
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Traceability: 100% request coverage in logs.
    :id: FSD-6.4
@@ -1601,8 +1657,10 @@ Some statements contain information spanning multiple tiers. Apply **decompositi
 
 ~~~
 
-2.  **Data Contract (ICD):**
+1. **Data Contract (ICD):**
+
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Inference Log Schema
    :id: ICD-5
@@ -1619,8 +1677,10 @@ Some statements contain information spanning multiple tiers. Apply **decompositi
 
 ~~~
 
-3.  **Implementation (TDD):**
+1. **Implementation (TDD):**
+
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Log Parsing Requirement
    :id: TDD-3.5
@@ -1638,16 +1698,18 @@ Information may move between tiers as the project evolves. Recognize these trans
 
 **Phase 1 (MVP - BRD):**
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Future: Multi-GPU ONNX worker pool.
    :id: BRD-9.2
 
 ~~~
 
--   **Status:** Out of scope, strategic placeholder
+- **Status:** Out of scope, strategic placeholder
 
 **Phase 2 (Enhancement - NFR):**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: GPU Scalability
    :id: NFR-8
@@ -1663,10 +1725,11 @@ Information may move between tiers as the project evolves. Recognize these trans
 
 ~~~
 
--   **Status:** Now a constraint for upcoming release
+- **Status:** Now a constraint for upcoming release
 
 **Phase 3 (Implementation - SAD):**
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Multi-GPU Topology
    :id: SAD-6
@@ -1682,7 +1745,7 @@ Information may move between tiers as the project evolves. Recognize these trans
 
 ~~~
 
--   **Status:** Architectural design in progress
+- **Status:** Architectural design in progress
 
 ### 6.3 Cross-Document References
 
@@ -1692,6 +1755,7 @@ Some information exists at intersections. Use **composite tags** to maintain tra
 
 **Business Context (BRD):**
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Security: All communication limited to local sockets.
    :id: BRD-6.3
@@ -1700,6 +1764,7 @@ Some information exists at intersections. Use **composite tags** to maintain tra
 
 **Technical Constraint (NFR):**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Security & Network
    :id: NFR-2
@@ -1717,6 +1782,7 @@ Some information exists at intersections. Use **composite tags** to maintain tra
 
 **Architecture (SAD):**
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: ZeroMQ binds to tcp://127.0.0.1:* exclusively.
    :id: SAD-3.2
@@ -1726,6 +1792,7 @@ Some information exists at intersections. Use **composite tags** to maintain tra
 
 **Configuration (ICD):**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Localhost Bind Configuration
    :id: ICD-1
@@ -1740,6 +1807,7 @@ Some information exists at intersections. Use **composite tags** to maintain tra
 
 **Composite Traceability:**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: local_bind
    :id: ICD-1
@@ -1763,6 +1831,7 @@ Some information exists at intersections. Use **composite tags** to maintain tra
 
 Each document section includes a `reconciliation_manifest` tracking:
 > **Embedded Example Type:** reStructuredText reconciliation_manifest directive
+
 ~~~rst
 .. reconciliation_manifest:
    :section_id: "fsd-root"
@@ -1778,16 +1847,17 @@ Each document section includes a `reconciliation_manifest` tracking:
 
 **Automatic DIRTY Status When:**
 
-1.  **Tag Modified:** Any edit to a tag's content
-2.  **Tag Deleted:** Removal of a tag and its downstream citations
-3.  **Tag Added:** New tag without parent validation
-4.  **Child Orphaned:** Parent deleted but children remain
-5.  **Inventory Mismatch:** Tag count ≠ actual tags in section
+1. **Tag Modified:** Any edit to a tag's content
+2. **Tag Deleted:** Removal of a tag and its downstream citations
+3. **Tag Added:** New tag without parent validation
+4. **Child Orphaned:** Parent deleted but children remain
+5. **Inventory Mismatch:** Tag count ≠ actual tags in section
 
 ### 7.3 Pending Items Schema
 
 When inconsistencies detected, append to `pending_items`:
 > **Embedded Example Type:** reStructuredText reconciliation_pending_item directive
+
 ~~~rst
 .. reconciliation_pending_item:: FSD-4.4
    :source: NFR-1.1
@@ -1803,13 +1873,15 @@ When inconsistencies detected, append to `pending_items`:
 
 **Issue Types:**
 
--   `CONSTRAINT_VIOLATION`: Child violates modified parent constraint
--   `MISSING_PARENT`: Orphaned child needs upstream justification
--   `BROKEN_CITATION`: Tagged parent doesn't exist
--   `DUPLICATE_SPEC`: Multiple children specify same implementation
+- `CONSTRAINT_VIOLATION`: Child violates modified parent constraint
+- `MISSING_PARENT`: Orphaned child needs upstream justification
+- `BROKEN_CITATION`: Tagged parent doesn't exist
+- `DUPLICATE_SPEC`: Multiple children specify same implementation
 
 ### 7.4 Reconciliation Workflow
+>
 > **Embedded Example Type:** reStructuredText documentation
+
 ~~~rst
 **Workflow:**
 
@@ -1827,6 +1899,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Initial State:**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Memory (Core Queue): 1000 cap, ~10-50 MB.
    :id: NFR-3.3
@@ -1844,6 +1917,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Change Event:**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Memory (Core Queue): 2000 cap, ~20-100 MB.
    :id: NFR-3.3 (MODIFIED)
@@ -1852,6 +1926,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Manifest Update:**
 > **Embedded Example Type:** reStructuredText reconciliation_manifest directive
+
 ~~~rst
 .. reconciliation_manifest:
    :integrity_status: "DIRTY"
@@ -1865,6 +1940,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Resolution:**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: local_bind
    :id: ICD-1
@@ -1890,6 +1966,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Step 1: BRD (Business Justification)**
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Sentiment-Aware Responses
    :id: BRD-10
@@ -1900,6 +1977,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Step 2: NFR (Constraints)**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Sentiment Analysis Constraints
    :id: NFR-9
@@ -1921,6 +1999,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Step 3: FSD (Behavior)**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Sentiment Detection Pipeline
    :id: FSD-10
@@ -1946,6 +2025,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Step 4: SAD (Architecture)**
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Asynchronous Sentiment Processing
    :id: SAD-7
@@ -1963,6 +2043,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Step 5: ICD (Contracts)**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Sentiment Metadata Schema
    :id: ICD-6
@@ -1984,6 +2065,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Step 6: TDD (Component Design)**
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Component: SentimentClassifier
    :id: TDD-5
@@ -2009,6 +2091,7 @@ When inconsistencies detected, append to `pending_items`:
 
 **Step 7: ISP (Code Stub)**
 > **Embedded Example Code:** Python class stub
+
 ~~~python
 # |ISP-6|: "Sentiment Classifier Implementation Stub"
 
@@ -2072,6 +2155,7 @@ class SentimentClassifier:
 
 **Step 1: Identify Conflict**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: CPU: AMD Ryzen 9 5900X (Audio/Core must run here).
    :id: NFR-1.1
@@ -2084,6 +2168,7 @@ class SentimentClassifier:
 
 **Step 2: Mark Dirty**
 > **Embedded Example Type:** reStructuredText reconciliation_manifest directive
+
 ~~~rst
 .. reconciliation_manifest (FSD):
    :integrity_status: "DIRTY"
@@ -2099,6 +2184,7 @@ class SentimentClassifier:
 
 **Option A: Move to Runtime Process (Architecture Change)**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: VAD (Stage 2): Silero via ONNX Runtime GPU in Runtime Process. Audio sends raw buffer to Core for routing.
    :id: FSD-4.4 (REVISED)
@@ -2119,6 +2205,7 @@ class SentimentClassifier:
 
 **Option B: Use CPU-based Silero (Simpler)**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: VAD (Stage 2): Silero via ONNX Runtime CPU. Runs locally in Audio Process.
    :id: FSD-4.4 (REVISED)
@@ -2131,6 +2218,7 @@ class SentimentClassifier:
 
 **Step 4: Cascade Updates**
 > **Embedded Example Type:** reStructuredText TDD/ICD update example
+
 ~~~rst
 .. tdd:: Audio Process: ONNX Runtime CPU session for Silero.
    :id: TDD-2.X (UPDATE)
@@ -2150,6 +2238,7 @@ class SentimentClassifier:
 
 **WRONG:**
 > **Embedded Example Type:** reStructuredText BRD directive (Anti-pattern)
+
 ~~~rst
 .. brd:: IPC Technology Mandate
    :id: BRD-X (WRONG)
@@ -2161,6 +2250,7 @@ class SentimentClassifier:
 
 **CORRECT:**
 > **Embedded Example Type:** reStructuredText BRD/NFR/SAD cascade
+
 ~~~rst
 .. brd:: Offline, multi-process framework with low-latency IPC.
    :id: BRD-5.1
@@ -2178,6 +2268,7 @@ class SentimentClassifier:
 
 **WRONG:**
 > **Embedded Example Type:** reStructuredText TDD directive (Anti-pattern)
+
 ~~~rst
 .. tdd:: Wake Word Handler (WRONG)
    :id: TDD-X
@@ -2194,6 +2285,7 @@ class SentimentClassifier:
 
 **CORRECT:**
 > **Embedded Example Type:** reStructuredText FSD/TDD cascade
+
 ~~~rst
 .. fsd:: Must only send WAKE_WORD_DETECTED if Core is in idle state.
    :id: FSD-4.2
@@ -2211,6 +2303,7 @@ class SentimentClassifier:
 
 **WRONG:**
 > **Embedded Example Type:** reStructuredText SAD directive (Anti-pattern)
+
 ~~~rst
 .. sad:: Metadata Format (WRONG)
    :id: SAD-X
@@ -2224,6 +2317,7 @@ class SentimentClassifier:
 
 **CORRECT:**
 > **Embedded Example Type:** reStructuredText SAD/ICD cascade
+
 ~~~rst
 .. sad:: Requirement: Core maintains routing table (identity → socket).
    :id: SAD-3.4
@@ -2237,6 +2331,7 @@ class SentimentClassifier:
 
 **WRONG:**
 > **Embedded Example Type:** reStructuredText ISP directive (Anti-pattern)
+
 ~~~rst
 .. isp:: Implementation Code (WRONG)
    :id: ISP-X
@@ -2252,6 +2347,7 @@ class SentimentClassifier:
 
 **CORRECT:**
 > **Embedded Example Code:** Python method stub
+
 ~~~python
 # |ISP-X|: "Log Emission Stub"
 
@@ -2277,6 +2373,7 @@ def send_log(self, level: str, msg: str) -> None:
 
 **WRONG:**
 > **Embedded Example Type:** reStructuredText NFR/SAD circular citation (Anti-pattern)
+
 ~~~rst
 .. nfr:: No blocking on IPC. (WRONG CITATION)
    :id: NFR-5.1
@@ -2291,6 +2388,7 @@ def send_log(self, level: str, msg: str) -> None:
 
 **CORRECT:**
 > **Embedded Example Type:** reStructuredText NFR/SAD cascade
+
 ~~~rst
 .. nfr:: No blocking on IPC.
    :id: NFR-5.1
@@ -2311,6 +2409,7 @@ def send_log(self, level: str, msg: str) -> None:
 
 **Solution:** Hierarchical retrieval with tag-based indexing.
 > **Embedded Example Code:** Python function
+
 ~~~python
 # Pseudo-code for LLM retrieval system
 def get_context_for_tag(tag_id: str, depth: int = 2) -> str:
@@ -2335,6 +2434,7 @@ def get_context_for_tag(tag_id: str, depth: int = 2) -> str:
 
 **Integrity Check Prompt:**
 > **Embedded Example Type:** plaintext validation prompt
+
 ~~~plaintext
 You are validating DDR integrity. Check:
 1. Does every :links: TAG citation reference an existing tag?
@@ -2353,6 +2453,7 @@ Report violations as JSON:
 
 **Classification Prompt:**
 > **Embedded Example Type:** plaintext classification prompt
+
 ~~~plaintext
 Given: "The system must rotate logs every 50MB."
 
@@ -2376,6 +2477,7 @@ Output:
 
 **Dirty Flag Resolution:**
 > **Embedded Example Type:** plaintext reconciliation prompt
+
 ~~~plaintext
 Context:
   |NFR-3.3| changed: queue_maxsize 1000 → 2000
@@ -2402,7 +2504,7 @@ core:
 ### 11.1 Quick Classification Guide
 
 | Information Type | Primary Tier | Secondary Tier (if hybrid) |
-|-------------------------|--------------|----------------------------|
+| :------------------------ | :------------ | :-------------------------- |
 | Business goal | BRD | - |
 | Market problem | BRD | - |
 | SLA target | BRD | NFR (if quantified) |
@@ -2426,22 +2528,21 @@ core:
 
 ### 11.2 Traceability Validation Checklist
 
--   [ ] Every tag has format `TIER-N` or `TIER-N.M`
--   [ ] Every child cites parent(s) using `:links: PARENT`
--   [ ] No forward references (child cited before parent defined)
--   [ ] No sibling citations (FSD-X.1 :links: FSD-X.2)
--   [ ] No circular chains (A :links: B :links: A)
--   [ ] Reconciliation manifest matches actual tag count
--   [ ] No orphaned tags (except BRD root level)
--   [ ] All ISP stubs reference TDD components
--   [ ] All TDD components cite ICD schemas (where applicable)
--   [ ] All SAD patterns trace to NFR constraints or FSD features
+- [ ] Every tag has format `TIER-N` or `TIER-N.M`
+- [ ] Every child cites parent(s) using `:links: PARENT`
+- [ ] No forward references (child cited before parent defined)
+- [ ] No sibling citations (FSD-X.1 :links: FSD-X.2)
+- [ ] No circular chains (A :links: B :links: A)
+- [ ] Reconciliation manifest matches actual tag count
+- [ ] No orphaned tags (except BRD root level)
+- [ ] All ISP stubs reference TDD components
+- [ ] All TDD components cite ICD schemas (where applicable)
+- [ ] All SAD patterns trace to NFR constraints or FSD features
 
 ### 11.3 Persona-Question-Output Map
 
-
 | Tier | Persona | Core Question | Typical Output |
-|:--|:--|:--|:--|
+| :-- | :-- | :-- | :-- |
 | BRD | Executive | "Why invest?" | ROI justification, strategic objectives |
 | NFR | SysAdmin | "What limits?" | Performance SLAs, hardware specs |
 | Product Manager | "What features?" | Use cases, workflows, acceptance criteria |
@@ -2456,19 +2557,19 @@ core:
 
 The MAGGIE DDR implements a **seven-tier, vertically-traceable documentation architecture** optimized for both human comprehension and LLM-assisted development. Key takeaways:
 
-1.  **Strict Hierarchy:** Each tier answers one question, cites parents, enables children
-2.  **Immutable IDs:** Tags are database keys, never resequenced
-3.  **Reconciliation:** Dirty flags track cascading impacts of changes
-4.  **Abstraction/Specification:** Orphans resolved by synthesizing parents or decomposing children
-5.  **LLM Optimization:** Tag-based retrieval, validation prompts, and structured formats enable AI collaboration
+1. **Strict Hierarchy:** Each tier answers one question, cites parents, enables children
+2. **Immutable IDs:** Tags are database keys, never resequenced
+3. **Reconciliation:** Dirty flags track cascading impacts of changes
+4. **Abstraction/Specification:** Orphans resolved by synthesizing parents or decomposing children
+5. **LLM Optimization:** Tag-based retrieval, validation prompts, and structured formats enable AI collaboration
 
 **Next Actions:**
 
--   Use decision tree (Section 4.1) for real-time classification
--   Apply matrix scoring (Section 4.2) for ambiguous cases
--   Follow upward/downward protocols (Section 5) for orphan resolution
--   Reference anti-patterns (Section 9) to avoid common mistakes
--   Deploy LLM prompts (Section 10.2) for automated validation
+- Use decision tree (Section 4.1) for real-time classification
+- Apply matrix scoring (Section 4.2) for ambiguous cases
+- Follow upward/downward protocols (Section 5) for orphan resolution
+- Reference anti-patterns (Section 9) to avoid common mistakes
+- Deploy LLM prompts (Section 10.2) for automated validation
 
 This framework ensures every piece of information—from strategic intent through executable code—maintains precise traceability, enabling confident modification, extension, and AI-assisted generation across the entire MAGGIE application lifecycle.
 
@@ -2482,6 +2583,7 @@ This framework ensures every piece of information—from strategic intent throug
 
 **Business Driver (BRD):**
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Data Sovereignty Compliance
    :id: BRD-11
@@ -2489,11 +2591,12 @@ This framework ensures every piece of information—from strategic intent throug
    Ensure all user data remains within jurisdictional boundaries to comply with GDPR, CCPA, and healthcare data protection regulations. This enables deployment in regulated industries (healthcare, finance, government).
 ~~~
 
--   **Abstraction:** Regulatory compliance as competitive advantage
--   **Stakeholder:** Legal/Compliance teams, Enterprise customers
+- **Abstraction:** Regulatory compliance as competitive advantage
+- **Stakeholder:** Legal/Compliance teams, Enterprise customers
 
 **System Constraint (NFR):**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Data Locality Enforcement
    :id: NFR-10
@@ -2516,11 +2619,12 @@ This framework ensures every piece of information—from strategic intent throug
    :links: NFR-10
 ~~~
 
--   **Abstraction:** Technical boundaries enforcing business requirement
--   **Measurable:** File paths, encryption standards, size limits
+- **Abstraction:** Technical boundaries enforcing business requirement
+- **Measurable:** File paths, encryption standards, size limits
 
 **Functional Specification (FSD):**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Secure Data Handling
    :id: FSD-11
@@ -2543,11 +2647,12 @@ This framework ensures every piece of information—from strategic intent throug
    :links: FSD-11
 ~~~
 
--   **Abstraction:** Observable system behaviors enforcing constraints
--   **User-Facing:** Status indicators, error messages
+- **Abstraction:** Observable system behaviors enforcing constraints
+- **User-Facing:** Status indicators, error messages
 
 **Architecture (SAD):**
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Path Validation Strategy
    :id: SAD-9
@@ -2566,11 +2671,12 @@ This framework ensures every piece of information—from strategic intent throug
    :links: SAD-9
 ~~~
 
--   **Abstraction:** Architectural mechanism implementing validation
--   **Technology-Neutral:** Doesn't specify validation library
+- **Abstraction:** Architectural mechanism implementing validation
+- **Technology-Neutral:** Doesn't specify validation library
 
 **Data Contract (ICD):**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Security Configuration Schema
    :id: ICD-7
@@ -2589,11 +2695,12 @@ This framework ensures every piece of information—from strategic intent throug
           iterations: 100000
 ~~~
 
--   **Abstraction:** Exact configuration structure
--   **Validation:** YAML schema with required fields
+- **Abstraction:** Exact configuration structure
+- **Validation:** YAML schema with required fields
 
 **Component Design (TDD):**
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Component: PathValidator
    :id: TDD-6
@@ -2620,11 +2727,12 @@ This framework ensures every piece of information—from strategic intent throug
    :links: TDD-6
 ~~~
 
--   **Abstraction:** Class structure without implementation logic
--   **Contract:** Method signatures, exceptions
+- **Abstraction:** Class structure without implementation logic
+- **Contract:** Method signatures, exceptions
 
 **Code Stub (ISP):**
 > **Embedded Example Code:** Python class stub
+
 ~~~python
 # |ISP-7|: "Path Validator Implementation Stub"
 
@@ -2704,6 +2812,7 @@ class PathValidator:
 
 **Traceability Chain:**
 > **Embedded Example Type:** reStructuredText ISP/TDD traceability chain
+
 ~~~rst
 .. isp:: Data Locality Path Validator
    :id: ISP-7
@@ -2736,6 +2845,7 @@ class PathValidator:
 
 **Business Goal (BRD):**
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Real-Time Conversational Experience
    :id: BRD-12
@@ -2745,6 +2855,7 @@ class PathValidator:
 
 **Performance Constraint (NFR):**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: End-to-End Latency Budget
    :id: NFR-11
@@ -2769,6 +2880,7 @@ class PathValidator:
 
 **Feature Specification (FSD):**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Progressive Response Rendering
    :id: FSD-12
@@ -2793,6 +2905,7 @@ class PathValidator:
 
 **Architecture (SAD):**
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Streaming Architecture
    :id: SAD-10
@@ -2817,6 +2930,7 @@ class PathValidator:
 
 **Data Contract (ICD):**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Streaming Token Schema
    :id: ICD-8
@@ -2835,6 +2949,7 @@ class PathValidator:
 
 **Component Design (TDD):**
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Component: LLMStreamer
    :id: TDD-7
@@ -2863,6 +2978,7 @@ class PathValidator:
 
 **Code Stub (ISP):**
 > **Embedded Example Code:** Python class stub
+
 ~~~python
 # |ISP-8|: "LLM Streaming Implementation Stub"
 
@@ -2955,6 +3071,7 @@ class LLMStreamer:
 
 **Conflict:**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: LLM Inference: <1s average response time.
    :id: NFR-4.3
@@ -2967,9 +3084,8 @@ CONFLICT: Quantized models <5GB achieve only ~1.5s inference time on RTX 3080.
 
 **Resolution Framework:**
 
-
 | Option | BRD Impact | NFR Changes | FSD Changes | SAD Changes | Risk |
-|:--|:--|:--|:--|:--|:--|
+| :-- | :-- | :-- | :-- | :-- | :-- |
 | **A: Relax Latency** | Acceptable if <2s | Update NFR-4.3 → <2s | No change | No change | Low user satisfaction |
 | **B: Increase Model Size** | Violates BRD-11 | Update NFR-10.3 → <8GB | No change | No change | Regulatory risk |
 | **C: Upgrade Hardware** | Cost increase | Update NFR-1.2 → RTX 4090 | No change | No change | Budget impact |
@@ -2979,6 +3095,7 @@ CONFLICT: Quantized models <5GB achieve only ~1.5s inference time on RTX 3080.
 
 **Updated Documentation:**
 > **Embedded Example Type:** reStructuredText documentation
+
 ~~~rst
 .. brd:: Flexible Compliance Modes
    :id: BRD-11.1
@@ -3031,6 +3148,7 @@ This feature spans all processes and tiers. Map it comprehensively:
 
 **BRD (Business Value):**
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Contextual Memory
    :id: BRD-13
@@ -3040,6 +3158,7 @@ This feature spans all processes and tiers. Map it comprehensively:
 
 **NFR (Constraints):**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Memory Subsystem Constraints
    :id: NFR-12
@@ -3064,6 +3183,7 @@ This feature spans all processes and tiers. Map it comprehensively:
 
 **FSD (Capabilities):**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Conversation Indexing
    :id: FSD-14
@@ -3093,6 +3213,7 @@ This feature spans all processes and tiers. Map it comprehensively:
 **SAD (Architecture):**
 
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst_
 .. sad:: Memory Architecture
    :id: SAD-12
@@ -3124,6 +3245,7 @@ This feature spans all processes and tiers. Map it comprehensively:
 
 **ICD (Contracts):**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Memory Index Request
    :id: ICD-9
@@ -3182,6 +3304,7 @@ This feature spans all processes and tiers. Map it comprehensively:
 
 **TDD (Components):**
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Component: MemoryService
    :id: TDD-8
@@ -3238,6 +3361,7 @@ This feature spans all processes and tiers. Map it comprehensively:
 
 **ISP (Stubs):**
 > **Embedded Example Code:** Python class stub
+
 ~~~python
 # |ISP-9|: "Memory Service Implementation Stub"
 
@@ -3370,6 +3494,7 @@ When modifying a tag, determine downstream effects:
 
 **Query Template:**
 > **Embedded Example Type:** SQL impact analysis query
+
 ~~~sql
 -- Impact Analysis Query Template
 SELECT tag_id, content, type
@@ -3380,6 +3505,7 @@ ORDER BY tier_depth DESC;
 
 **Example: Changing NFR-4.3**
 > **Embedded Example Type:** reStructuredText impact analysis example
+
 ~~~rst
 **Example: Changing NFR-4.3**
 
@@ -3409,6 +3535,7 @@ ACTION ITEMS:
 
 Visualize tag relationships for complex features:
 > **Embedded Example Type:** Mermaid traceability graph
+
 ~~~mermaid
 graph TD
     BRD13[".. brd:: Contextual Memory<br/>:id: BRD-13"]
@@ -3443,6 +3570,7 @@ graph TD
 
 **Upward Orphan (Missing Parent):**
 > **Embedded Example Code:** Python orphan detection algorithm
+
 ~~~python
 # Orphan Detection Algorithms (Updated for NEW RST Directives)
 
@@ -3490,6 +3618,7 @@ def detect_downward_orphans(documentation: dict, tier: str) -> List[str]:
 
 **Example Output:**
 > **Embedded Example Type:** reStructuredText orphan detection output
+
 ~~~rst
 UPWARD ORPHANS (Broken Citations):
 - FSD-14.2 → :links: NFR-999 (MISSING) → CREATE NFR-999 or FIX LINK
@@ -3507,6 +3636,7 @@ DOWNWARD ORPHANS (Incomplete Specs):
 
 **Tag Stability Across Versions:**
 > **Embedded Example Type:** reStructuredText versioning example
+
 ~~~rst
 VERSION 1.0:
 .. fsd:: Wake Word: Always-on detection using pvporcupine.
@@ -3522,12 +3652,13 @@ VERSION 2.0:
 
 **Rules:**
 
-1.  **Never Delete Tags:** Mark as DEPRECATED instead
-2.  **Never Renumber:** Add new sequential IDs (e.g., .6, .7)
-3.  **Maintain Citations:** Old tags remain valid parents
+1. **Never Delete Tags:** Mark as DEPRECATED instead
+2. **Never Renumber:** Add new sequential IDs (e.g., .6, .7)
+3. **Maintain Citations:** Old tags remain valid parents
 
 **Deprecation Pattern:**
 > **Embedded Example Type:** reStructuredText deprecation pattern
+
 ~~~rst
 .. nfr:: Memory (Core Queue): 1000 cap. [DEPRECATED v2.0 → See NFR-13.1]
    :id: NFR-3.3
@@ -3541,6 +3672,7 @@ VERSION 2.0:
 
 For gradual rollouts, extend tags with feature flag markers:
 > **Embedded Example Type:** reStructuredText FSD/SAD feature flag documentation
+
 ~~~rst
 .. fsd:: Streaming TTS Synthesis [FEATURE_FLAG: streaming_tts]
    :id: FSD-15
@@ -3568,6 +3700,7 @@ For gradual rollouts, extend tags with feature flag markers:
 
 **Configuration Hook:**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Streaming TTS Configuration
    :id: ICD-12
@@ -3587,6 +3720,7 @@ When refactoring requires tag restructuring:
 
 **Before (V1):**
 > **Embedded Example Type:** reStructuredText before-refactor example
+
 ~~~rst
 .. fsd:: Audio Acquisition
    :id: FSD-4
@@ -3606,6 +3740,7 @@ When refactoring requires tag restructuring:
 
 **After (V2 - Reorganized):**
 > **Embedded Example Type:** reStructuredText after-refactor example
+
 ~~~rst
 .. fsd:: Audio Acquisition [RESTRUCTURED v2.0]
    :id: FSD-4
@@ -3638,6 +3773,7 @@ When refactoring requires tag restructuring:
 
 **Migration Manifest:**
 > **Embedded Example Type:** reStructuredText migration_manifest directive
+
 ~~~rst
 .. migration_manifest:: v2.0
    :date: "2026-03-15"
@@ -3662,6 +3798,7 @@ When refactoring requires tag restructuring:
 
 **Prompt Template for New Feature:**
 > **Embedded Example Type:** plaintext new feature prompt template
+
 ~~~
 CONTEXT:
 You are generating DDR documentation for a new feature.
@@ -3708,6 +3845,7 @@ OUTPUT FORMAT:
 
 **Automated Integrity Check:**
 > **Embedded Example Type:** plaintext citation validation prompt
+
 ~~~plaintext
 
 TASK: Validate traceability for |FSD-14| subtree
@@ -3731,6 +3869,7 @@ ACTION REQUIRED:
 ### 16.3 Reconciliation Automation
 
 **Dirty Flag Resolution Workflow:**> **Embedded Example Code:** Python reconciliation utility
+
 ~~~python
 # Automated Reconciliation Utility
 
@@ -3801,6 +3940,7 @@ def auto_reconcile(modified_tag: str, new_content: str) -> dict:
 
 **Step 1: BRD Analysis (Strategist Persona)**
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Multi-User Personalization
    :id: BRD-15
@@ -3815,6 +3955,7 @@ def auto_reconcile(modified_tag: str, new_content: str) -> dict:
 
 **Step 2: NFR Analysis (SysAdmin Persona)**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Multi-User Constraints
    :id: NFR-15
@@ -3843,6 +3984,7 @@ def auto_reconcile(modified_tag: str, new_content: str) -> dict:
 
 **Step 3: FSD Analysis (Product Manager Persona)**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Multi-User Experience
    :id: FSD-16
@@ -3875,6 +4017,7 @@ def auto_reconcile(modified_tag: str, new_content: str) -> dict:
 
 **Step 4: SAD Analysis (Architect Persona)**
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Multi-User Architecture
    :id: SAD-14
@@ -3903,6 +4046,7 @@ def auto_reconcile(modified_tag: str, new_content: str) -> dict:
 
 **Step 5: ICD Analysis (Data Engineer Persona)**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: User Profile Schema (SQLite)
    :id: ICD-13
@@ -3952,6 +4096,7 @@ def auto_reconcile(modified_tag: str, new_content: str) -> dict:
 
 **Step 6: TDD Analysis (Lead Developer Persona)**
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Component: UserManager
    :id: TDD-10
@@ -4008,6 +4153,7 @@ def auto_reconcile(modified_tag: str, new_content: str) -> dict:
 
 **Step 7: ISP Analysis (Code Generator Persona)**
 > **Embedded Example Code:** Python class stub
+
 ~~~python
 # |ISP-10|: "User Manager Implementation Stub"
 
@@ -4192,9 +4338,8 @@ class UserManager:
 
 ### 18.1 Documentation Maintenance Schedule
 
-
 | Activity | Frequency | Responsible Persona |
-|----------|-----------|---------------------|
+| :--------- | :---------- | :-------------------- |
 | **Tag Inventory Audit** | Weekly | Any developer |
 | **Broken Citation Check** | On every commit | Automated CI/CD |
 | **Orphan Detection** | Sprint planning | Tech Lead |
@@ -4206,20 +4351,21 @@ class UserManager:
 
 **DO:**
 
--   Use semantic numbering: `FSD-14` for "Multi-User", `FSD-15` for "Streaming"
--   Group related features in consecutive blocks
--   Add descriptive comments: `NFR-15 :links: BRD-15: "Multi-User Constraints"`
+- Use semantic numbering: `FSD-14` for "Multi-User", `FSD-15` for "Streaming"
+- Group related features in consecutive blocks
+- Add descriptive comments: `NFR-15 :links: BRD-15: "Multi-User Constraints"`
 
 **DON'T:**
 
--   Use arbitrary jumps: `|FSD-5|` then `|FSD-100|`
--   Reuse deleted tag IDs
--   Create non-sequential sub-tags: `|FSD-10.1|`, `|FSD-10.5|` (missing .2-.4)
+- Use arbitrary jumps: `|FSD-5|` then `|FSD-100|`
+- Reuse deleted tag IDs
+- Create non-sequential sub-tags: `|FSD-10.1|`, `|FSD-10.5|` (missing .2-.4)
 
 ### 18.3 Citation Patterns
 
 **Preferred (Specific):**
 > **Embedded Example Type:** reStructuredText specific citation example
+
 ~~~rst
 .. tdd:: load_user method
    :id: TDD-8.3
@@ -4230,6 +4376,7 @@ class UserManager:
 
 **Acceptable (Block-Level):**
 > **Embedded Example Type:** reStructuredText block-level citation example
+
 ~~~rst
 .. sad:: Memory Architecture
    :id: SAD-12
@@ -4240,6 +4387,7 @@ class UserManager:
 
 **Avoid (Ambiguous):**
 > **Embedded Example Type:** reStructuredText ambiguous citation example
+
 ~~~rst
 .. isp:: Memory Service Stub
    :id: ISP-9
@@ -4254,15 +4402,15 @@ The seven-tier structure is **fixed**. Never add custom intermediate tiers like 
 
 **If you need more granularity:**
 
--   Use sub-atomic tags: `|FSD-14.2.1|`, `|FSD-14.2.2|`
--   Add sections within tiers: "Core Capabilities", "Extended Features"
--   Create appendices: "Performance Tuning Guide" (references tags, not new tier)
+- Use sub-atomic tags: `|FSD-14.2.1|`, `|FSD-14.2.2|`
+- Add sections within tiers: "Core Capabilities", "Extended Features"
+- Create appendices: "Performance Tuning Guide" (references tags, not new tier)
 
 **If information doesn't fit:**
 
--   Re-evaluate classification using decision tree (Section 4.1)
--   Check for hybrid content requiring decomposition (Section 13.1)
--   Consult persona-question map (Section 11.3)
+- Re-evaluate classification using decision tree (Section 4.1)
+- Check for hybrid content requiring decomposition (Section 13.1)
+- Consult persona-question map (Section 11.3)
 
 ----------
 
@@ -4270,27 +4418,27 @@ The seven-tier structure is **fixed**. Never add custom intermediate tiers like 
 
 The MAGGIE DDR establishes a **rigorous, LLM-optimized framework** for managing software design documentation across seven distinct abstraction tiers. This report has provided:
 
-1.  **Precise Boundary Definitions:** Each tier has clear inclusion/exclusion criteria (Section 2)
-2.  **Classification Rubrics:** Decision trees and scoring matrices for ambiguous information (Section 4)
-3.  **Real-World Examples:** Industry-grade demonstrations of correct vs. incorrect classification (Sections 2-3, 6, 13, 17)
-4.  **Abstraction/Specification Protocols:** Systematic methods for generating parent/child tags (Section 5)
-5.  **Integrity Mechanisms:** Reconciliation manifests, dirty flags, and automated validation (Sections 7, 14, 16)
-6.  **Practical Workflows:** Complete feature lifecycle from business need to code stub (Section 17)
+1. **Precise Boundary Definitions:** Each tier has clear inclusion/exclusion criteria (Section 2)
+2. **Classification Rubrics:** Decision trees and scoring matrices for ambiguous information (Section 4)
+3. **Real-World Examples:** Industry-grade demonstrations of correct vs. incorrect classification (Sections 2-3, 6, 13, 17)
+4. **Abstraction/Specification Protocols:** Systematic methods for generating parent/child tags (Section 5)
+5. **Integrity Mechanisms:** Reconciliation manifests, dirty flags, and automated validation (Sections 7, 14, 16)
+6. **Practical Workflows:** Complete feature lifecycle from business need to code stub (Section 17)
 
 **Key Principles to Remember:**
 
--   **Unidirectional Flow:** Information cascades downward (BRD → ISP), citations flow upward
--   **Immutable IDs:** Tags are permanent database keys
--   **Persona-Driven:** Each tier assumes a distinct stakeholder viewpoint
--   **LLM-Parseable:** Strict formatting enables automated tooling
+- **Unidirectional Flow:** Information cascades downward (BRD → ISP), citations flow upward
+- **Immutable IDs:** Tags are permanent database keys
+- **Persona-Driven:** Each tier assumes a distinct stakeholder viewpoint
+- **LLM-Parseable:** Strict formatting enables automated tooling
 
 **Application Guidance:**
 
--   Start classification with decision tree (Section 4.1)
--   Validate with scoring matrix (Section 4.2) for ambiguous cases
--   Use worked examples (Sections 13, 17) as templates
--   Apply anti-pattern checklist (Section 9) before committing
--   Run integrity checks (Section 14.3) in CI/CD pipeline
+- Start classification with decision tree (Section 4.1)
+- Validate with scoring matrix (Section 4.2) for ambiguous cases
+- Use worked examples (Sections 13, 17) as templates
+- Apply anti-pattern checklist (Section 9) before committing
+- Run integrity checks (Section 14.3) in CI/CD pipeline
 
 This framework transforms documentation from a static artifact into a **living, traceable knowledge graph** that scales with project complexity while maintaining precision for both human developers and AI assistants.
 
@@ -4306,6 +4454,7 @@ When MAGGIE integrates with external systems (APIs, databases, hardware), docume
 
 **Business Requirement (BRD):**
 > **Embedded Example Type:** reStructuredText BRD directive
+
 ~~~rst
 .. brd:: Smart Home Control
    :id: BRD-16
@@ -4320,6 +4469,7 @@ When MAGGIE integrates with external systems (APIs, databases, hardware), docume
 
 **Constraints (NFR):**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Home Automation Constraints
    :id: NFR-16
@@ -4352,6 +4502,7 @@ When MAGGIE integrates with external systems (APIs, databases, hardware), docume
 
 **Feature Specification (FSD):**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Device Control Workflow
    :id: FSD-17
@@ -4392,6 +4543,7 @@ When MAGGIE integrates with external systems (APIs, databases, hardware), docume
 
 **Architecture (SAD):**
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Home Automation Architecture
    :id: SAD-15
@@ -4430,6 +4582,7 @@ When MAGGIE integrates with external systems (APIs, databases, hardware), docume
 
 **Data Contracts (ICD):**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Device Registry Schema (SQLite)
    :id: ICD-16
@@ -4491,6 +4644,7 @@ When MAGGIE integrates with external systems (APIs, databases, hardware), docume
 
 **Component Design (TDD):**
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Component: DeviceService
    :id: TDD-12
@@ -4555,6 +4709,7 @@ When MAGGIE integrates with external systems (APIs, databases, hardware), docume
 
 **Implementation Stubs (ISP):**
 > **Embedded Example Code:** Python class/stub
+
 ~~~python
 # |ISP-11|: "Device Service Implementation Stubs"
 
@@ -4774,6 +4929,7 @@ For extensible systems like MAGGIE's Tool/Routine framework, document the plugin
 
 **Plugin Lifecycle Specification:**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Extension Lifecycle Management
    :id: FSD-18
@@ -4810,6 +4966,7 @@ For extensible systems like MAGGIE's Tool/Routine framework, document the plugin
 
 **Plugin Contract (ICD):**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Extension Manifest Schema
    :id: ICD-19
@@ -4836,6 +4993,7 @@ For extensible systems like MAGGIE's Tool/Routine framework, document the plugin
 
 **Plugin Base Class (TDD):**
 > **Embedded Example Code:** Python class
+
 ~~~python
 # |TDD-14|: "Extension Base Class Design"
 
@@ -4958,6 +5116,7 @@ When optimizing performance, document both targets and measurement methodology.
 
 **Performance Requirements (NFR):**
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Performance Profiling & Optimization
    :id: NFR-17
@@ -4986,6 +5145,7 @@ When optimizing performance, document both targets and measurement methodology.
 
 **Profiling Features (FSD):**
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Performance Monitoring
    :id: FSD-19
@@ -5014,6 +5174,7 @@ When optimizing performance, document both targets and measurement methodology.
 
 **Metrics Schema (ICD):**
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Performance Metrics Schema
    :id: ICD-20
@@ -5054,6 +5215,7 @@ When optimizing performance, document both targets and measurement methodology.
 
 **Example (WRONG):**
 > **Embedded Example Type:** reStructuredText FSD directive (Anti-pattern)
+
 ~~~rst
 .. fsd:: implementation_detail
    :id: FSD-X
@@ -5063,12 +5225,13 @@ When optimizing performance, document both targets and measurement methodology.
 
 **Why Wrong:**
 
--   **FSD Violation:** Mentions specific technologies (ZeroMQ, PySide6)
--   **Mixed Abstraction:** Combines behavior (receive requests) with implementation (socket binding)
--   **Maintenance Burden:** Technology changes require FSD updates (should be isolated to SAD/TDD)
+- **FSD Violation:** Mentions specific technologies (ZeroMQ, PySide6)
+- **Mixed Abstraction:** Combines behavior (receive requests) with implementation (socket binding)
+- **Maintenance Burden:** Technology changes require FSD updates (should be isolated to SAD/TDD)
 
 **Correct Decomposition:**
 > **Embedded Example Type:** reStructuredText multi-tier decomposition example
+
 ~~~rst
 .. fsd:: Request Routing
    :id: FSD-1.1
@@ -5116,6 +5279,7 @@ When optimizing performance, document both targets and measurement methodology.
 
 **Example (WRONG):**
 > **Embedded Example Type:** reStructuredText SAD directive (Anti-pattern)
+
 ~~~rst
 .. sad:: Message Ordering
    :id: SAD-X
@@ -5125,12 +5289,13 @@ When optimizing performance, document both targets and measurement methodology.
 
 **Why Wrong:**
 
--   **No Justification:** Doesn't explain WHY priority matters
--   **No Traceability:** Missing citation to parent requirement
--   **Incomplete:** Doesn't specify priority levels or ordering rules
+- **No Justification:** Doesn't explain WHY priority matters
+- **No Traceability:** Missing citation to parent requirement
+- **Incomplete:** Doesn't specify priority levels or ordering rules
 
 **Correct Pattern:**
 > **Embedded Example Type:** reStructuredText multi-tier cascade example
+
 ~~~rst
 .. nfr:: Non-Blocking Execution
    :id: NFR-5.1
@@ -5177,6 +5342,7 @@ When optimizing performance, document both targets and measurement methodology.
 
 **Example (WRONG):**
 > **Embedded Example Type:** reStructuredText NFR directive (Anti-pattern)
+
 ~~~rst
 .. nfr:: overhead_optimization
    :id: NFR-X
@@ -5186,12 +5352,13 @@ When optimizing performance, document both targets and measurement methodology.
 
 **Why Wrong:**
 
--   **No Business Context:** Why does 100μs matter to users/business?
--   **Over-Specification:** May be orders of magnitude tighter than needed
--   **Implementation Constraint:** Forces expensive optimizations without ROI
+- **No Business Context:** Why does 100μs matter to users/business?
+- **Over-Specification:** May be orders of magnitude tighter than needed
+- **Implementation Constraint:** Forces expensive optimizations without ROI
 
 **Correct Pattern:**
 > **Embedded Example Type:** reStructuredText multi-tier rationale example
+
 ~~~rst
 .. brd:: Real-Time Conversational Experience
    :id: BRD-12
@@ -5232,6 +5399,7 @@ When optimizing performance, document both targets and measurement methodology.
 
 Use this template when documenting a new feature from scratch:
 > **Embedded Example Type:** Markdown template for new feature
+
 ~~~markdown
 ## Feature: [Feature Name]
 
@@ -5248,6 +5416,7 @@ Use this template when documenting a new feature from scratch:
 ~~~
 
 ### NFR: Constraints & Limits
+
 ~~~rst
 .. nfr:: [Feature Name] Constraints
    :id: NFR-X
@@ -5263,6 +5432,7 @@ Use this template when documenting a new feature from scratch:
 ~~~
 
 ### FSD: User-Facing Behavior
+
 ~~~rst
 .. fsd:: [Feature Name] Workflow
    :id: FSD-X
@@ -5274,6 +5444,7 @@ Use this template when documenting a new feature from scratch:
 ~~~
 
 ### SAD: Architecture
+
 ~~~rst
 .. sad:: [Feature Name] Architecture
    :id: SAD-X
@@ -5285,6 +5456,7 @@ Use this template when documenting a new feature from scratch:
 ~~~
 
 ### ICD: Data Contracts
+
 ~~~rst
 .. icd:: [Feature Name] Schemas
    :id: ICD-X
@@ -5299,6 +5471,7 @@ Use this template when documenting a new feature from scratch:
 ~~~
 
 ### TDD: Component Design
+
 ~~~rst
 .. tdd:: Component: [ClassName]
    :id: TDD-X
@@ -5310,6 +5483,7 @@ Use this template when documenting a new feature from scratch:
 ~~~
 
 ### ISP: Implementation Stub
+
 ~~~python
 # |ISP-X|: "[Description]"
 
@@ -5324,6 +5498,7 @@ class [ClassName]:
     def __init__(self, ...):
         pass
 ~~~
+
 ~~~
 
 ---
@@ -5348,6 +5523,7 @@ When fixing bugs, update documentation to prevent recurrence:
 ~~~
 
 **AFTER (Corrected):**
+
 ~~~rst
 .. [tier]:: [New content fixing bug]
    :id: [TAG]
@@ -5359,12 +5535,14 @@ When fixing bugs, update documentation to prevent recurrence:
 ~~~
 
 ### Test Coverage Addition
+
 ~~~python
 # :links: TAG
 def test_[bug_scenario]():
     """Regression test for Bug [ID]."""
     # Test that previously failing scenario now passes
 ~~~
+
 ~~~
 
 ---
@@ -5378,7 +5556,7 @@ When refactoring requires tag restructuring:
 
 ### Migration Map
 | Old Tag | New Tag | Status | Notes |
-|---------|---------|--------|-------|
+| :-------- | :-------- | :------- | :------ |
 | OLD-1   | NEW-1   | MOVED  | ...   |
 
 ### Backward Compatibility
@@ -5386,6 +5564,7 @@ When refactoring requires tag restructuring:
 .. [tier]:: [DEPRECATED v2.5 → See NEW-1]
    :id: OLD-1
 ~~~
+
 ~~~
 
 ----------
@@ -5418,7 +5597,7 @@ When refactoring requires tag restructuring:
 
 
 | Mistake | Problem | Solution |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | Technology in BRD | "Use PostgreSQL" | Abstract to "Persistent storage" in BRD, specify PostgreSQL in SAD |
 | Missing citations | Orphaned tags | Add `:links: PARENT` option |
 | Implementation in FSD | "Uses zmq_ROUTER socket" | Move to SAD/TDD, keep FSD focused on behavior |
@@ -5464,7 +5643,9 @@ This extended example demonstrates complete documentation from business case thr
 ~~~
 
 #### Tier 2: Non-Functional Requirements (NFR)
+>
 > **Embedded Example Type:** reStructuredText NFR directive
+
 ~~~rst
 .. nfr:: Translation System Constraints
    :id: NFR-18
@@ -5506,7 +5687,9 @@ This extended example demonstrates complete documentation from business case thr
 ~~~
 
 #### Tier 3: Feature Specification Document (FSD)
+>
 > **Embedded Example Type:** reStructuredText FSD directive
+
 ~~~rst
 .. fsd:: Speech Translation Workflow
    :id: FSD-20
@@ -5570,7 +5753,9 @@ This extended example demonstrates complete documentation from business case thr
 ~~~
 
 #### Tier 4: System Architecture Document (SAD)
+>
 > **Embedded Example Type:** reStructuredText SAD directive
+
 ~~~rst
 .. sad:: Translation Pipeline Architecture
    :id: SAD-16
@@ -5616,7 +5801,9 @@ This extended example demonstrates complete documentation from business case thr
 ~~~
 
 #### Tier 5: Interface Control Document (ICD)
+>
 > **Embedded Example Type:** reStructuredText ICD directive
+
 ~~~rst
 .. icd:: Language Identification Request
    :id: ICD-21
@@ -5704,7 +5891,9 @@ This extended example demonstrates complete documentation from business case thr
 ~~~
 
 #### Tier 6: Technical Design Document (TDD)
+>
 > **Embedded Example Type:** reStructuredText TDD directive
+
 ~~~rst
 .. tdd:: Component: LanguageIdentifier
    :id: TDD-15
@@ -5792,7 +5981,9 @@ This extended example demonstrates complete documentation from business case thr
 ~~~
 
 #### Tier 7: Implementation Stub Prompts (ISP)
+>
 > **Embedded Example Code:** Python class/stub
+
 ~~~python
 # |ISP-12|: "Language Identifier Implementation Stub"
 
@@ -6071,32 +6262,33 @@ class TranslationService:
 
 **Phase 1: Initial Development (Greenfield)**
 
--   Create tags sequentially from BRD → ISP
--   Maintain clean reconciliation manifests
--   All tags cite parents immediately upon creation
+- Create tags sequentially from BRD → ISP
+- Maintain clean reconciliation manifests
+- All tags cite parents immediately upon creation
 
 **Phase 2: Feature Addition (Incremental)**
 
--   Append new tags to existing blocks (e.g., FSD-21 after FSD-20)
--   Cite existing tags where appropriate
--   Update reconciliation manifests with new tag counts
+- Append new tags to existing blocks (e.g., FSD-21 after FSD-20)
+- Cite existing tags where appropriate
+- Update reconciliation manifests with new tag counts
 
 **Phase 3: Refactoring (Restructuring)**
 
--   Mark old tags as DEPRECATED, create new tags
--   Maintain migration map (Section 22.3)
--   Update all downstream citations in single commit
+- Mark old tags as DEPRECATED, create new tags
+- Maintain migration map (Section 22.3)
+- Update all downstream citations in single commit
 
 **Phase 4: Sunsetting (Feature Removal)**
 
--   Never delete tags, mark as `[REMOVED vX.Y]`
--   Document replacement feature (if any)
--   Orphan check: Ensure no active tags cite removed ones
+- Never delete tags, mark as `[REMOVED vX.Y]`
+- Document replacement feature (if any)
+- Orphan check: Ensure no active tags cite removed ones
 
 ### 25.2 Version Control Best Practices
 
 **Commit Message Format:**
 > **Embedded Example Type:** plaintext commit message format
+
 ~~~plaintext
 [DDR] <Tier>: <Summary>
 
@@ -6111,13 +6303,14 @@ Reconciliation: fsd-root manifest updated (+2 tags)
 
 **Branch Strategy:**
 
--   `main`: Stable, reconciled documentation
--   `feature/<name>`: New feature documentation (BRD → ISP)
--   `refactor/<name>`: Tag restructuring
--   `bugfix/<id>`: Documentation corrections
+- `main`: Stable, reconciled documentation
+- `feature/<name>`: New feature documentation (BRD → ISP)
+- `refactor/<name>`: Tag restructuring
+- `bugfix/<id>`: Documentation corrections
 
 **Pull Request Checklist:**
 > **Embedded Example Type:** Markdown pull request checklist
+
 ~~~markdown
 - [ ] All new tags have parent citations
 - [ ] Reconciliation manifests updated
@@ -6132,6 +6325,7 @@ Reconciliation: fsd-root manifest updated (+2 tags)
 
 **Pseudocode for CI/CD Integration:**
 > **Embedded Example Code:** Python CI/CD validation script
+
 ~~~python
 # DDR Validation Utility for CI/CD
 
@@ -6200,42 +6394,43 @@ This comprehensive technical report has established a complete framework for cla
 
 ### 26.1 Core Deliverables
 
-1.  **Precise Classification Criteria** (Section 2)
+1. **Precise Classification Criteria** (Section 2)
 
-    -   Inclusion/exclusion rules for each tier
-    -   Qualification rubrics with measurable attributes
-    -   Real-world examples demonstrating boundaries
-2.  **Decision Support Tools** (Section 4)
+    - Inclusion/exclusion rules for each tier
+    - Qualification rubrics with measurable attributes
+    - Real-world examples demonstrating boundaries
+2. **Decision Support Tools** (Section 4)
 
-    -   Decision tree for tier assignment
-    -   Multi-factor scoring matrix for ambiguous cases
-    -   Worked examples with step-by-step classification
-3.  **Abstraction/Specification Protocols** (Section 5)
+    - Decision tree for tier assignment
+    - Multi-factor scoring matrix for ambiguous cases
+    - Worked examples with step-by-step classification
+3. **Abstraction/Specification Protocols** (Section 5)
 
-    -   Upward abstraction (synthesizing parents from orphaned children)
-    -   Downward specification (decomposing high-level requirements)
-    -   Lateral expansion (generating sibling tags)
-4.  **Integrity Mechanisms** (Sections 7, 14)
+    - Upward abstraction (synthesizing parents from orphaned children)
+    - Downward specification (decomposing high-level requirements)
+    - Lateral expansion (generating sibling tags)
+4. **Integrity Mechanisms** (Sections 7, 14)
 
-    -   Reconciliation manifest system
-    -   Dirty flag tracking for cascading updates
-    -   Automated validation algorithms
-5.  **Practical Templates** (Section 22)
+    - Reconciliation manifest system
+    - Dirty flag tracking for cascading updates
+    - Automated validation algorithms
+5. **Practical Templates** (Section 22)
 
-    -   New feature documentation template
-    -   Bug fix documentation template
-    -   Refactoring migration template
-6.  **Complete Examples** (Sections 13, 17, 24)
+    - New feature documentation template
+    - Bug fix documentation template
+    - Refactoring migration template
+6. **Complete Examples** (Sections 13, 17, 24)
 
-    -   Multi-user support (end-to-end)
-    -   Home automation integration (external systems)
-    -   Offline speech translation (complex pipeline)
+    - Multi-user support (end-to-end)
+    - Home automation integration (external systems)
+    - Offline speech translation (complex pipeline)
 
 ### 26.2 Application Workflow
 
 **For New Information:**
 
 > **Embedded Example Type:** plaintext new information workflow
+
 ~~~plaintext
 1. Run decision tree (Section 4.1) → Candidate tier
 2. Apply scoring matrix (Section 4.2) → Validate tier
@@ -6250,6 +6445,7 @@ This comprehensive technical report has established a complete framework for cla
 **For Existing Documentation:**
 
 > **Embedded Example Type:** plaintext existing documentation workflow
+
 ~~~plaintext
 1. Detect change → Set integrity_status = DIRTY
 2. Run impact analysis (Section 14.1)
@@ -6264,49 +6460,49 @@ This comprehensive technical report has established a complete framework for cla
 
 Before finalizing any documentation update:
 
--   [ ] **Traceability:** Every tag cites parent(s) except BRD root
--   [ ] **Immutability:** No tags renumbered or IDs reused
--   [ ] **Abstraction:** Technology details only in SAD/TDD/ISP tiers
--   [ ] **Rationale:** Design decisions include justification blocks
--   [ ] **Precision:** NFR contains measurable targets, not vague terms
--   [ ] **Completeness:** All tiers represented for new features
--   [ ] **Inventory:** Reconciliation manifests accurate
--   [ ] **Anti-patterns:** No violations from Section 9 detected
--   [ ] **Glossary:** All nouns comply with controlled terminology
--   [ ] **Format:** Tags use correct syntax `:id: TIER-N` or `:id: TIER-N.M`
+- [ ] **Traceability:** Every tag cites parent(s) except BRD root
+- [ ] **Immutability:** No tags renumbered or IDs reused
+- [ ] **Abstraction:** Technology details only in SAD/TDD/ISP tiers
+- [ ] **Rationale:** Design decisions include justification blocks
+- [ ] **Precision:** NFR contains measurable targets, not vague terms
+- [ ] **Completeness:** All tiers represented for new features
+- [ ] **Inventory:** Reconciliation manifests accurate
+- [ ] **Anti-patterns:** No violations from Section 9 detected
+- [ ] **Glossary:** All nouns comply with controlled terminology
+- [ ] **Format:** Tags use correct syntax `:id: TIER-N` or `:id: TIER-N.M`
 
 ### 26.4 Success Indicators
 
 Your documentation is well-structured when:
 
-1.  **New developers** can locate relevant information in <5 minutes using tag search
-2.  **LLM assistants** can generate accurate stubs by querying tag hierarchies
-3.  **Refactoring** impact is predictable via automated citation analysis
-4.  **Business stakeholders** understand BRD tier without technical jargon
-5.  **Implementation teams** can work from ISP stubs without clarification
-6.  **Auditors** can trace any implementation back to business justification
-7.  **AI tools** can validate integrity automatically in CI/CD pipelines
+1. **New developers** can locate relevant information in <5 minutes using tag search
+2. **LLM assistants** can generate accurate stubs by querying tag hierarchies
+3. **Refactoring** impact is predictable via automated citation analysis
+4. **Business stakeholders** understand BRD tier without technical jargon
+5. **Implementation teams** can work from ISP stubs without clarification
+6. **Auditors** can trace any implementation back to business justification
+7. **AI tools** can validate integrity automatically in CI/CD pipelines
 
 ### 26.5 Recommended Next Steps
 
-1.  **Immediate:**
+1. **Immediate:**
 
-    -   Apply templates (Section 22) to document one new feature end-to-end
-    -   Run orphan detection (Section 14.3) on existing documentation
-    -   Create validation script (Section 25.3) for CI/CD integration
-2.  **Short-term (1-2 weeks):**
+    - Apply templates (Section 22) to document one new feature end-to-end
+    - Run orphan detection (Section 14.3) on existing documentation
+    - Create validation script (Section 25.3) for CI/CD integration
+2. **Short-term (1-2 weeks):**
 
-    -   Reconcile all DIRTY manifests using resolution framework
-    -   Document top 3 anti-patterns found in existing code
-    -   Train team on tier classification using decision tree
-3.  **Long-term (1-3 months):**
+    - Reconcile all DIRTY manifests using resolution framework
+    - Document top 3 anti-patterns found in existing code
+    - Train team on tier classification using decision tree
+3. **Long-term (1-3 months):**
 
-    -   Build LLM-powered documentation assistant using tag-based retrieval
-    -   Implement automated traceability dashboard
-    -   Create interactive tier explorer for stakeholder reviews
+    - Build LLM-powered documentation assistant using tag-based retrieval
+    - Implement automated traceability dashboard
+    - Create interactive tier explorer for stakeholder reviews
 
 ----------
-﻿
+
 ## 27. Antigravity: Agent Asset Definition Files
 
 ### 27.1 Overview of Antigravity Integration
@@ -6315,10 +6511,10 @@ Google's Antigravity IDE provides a framework for defining custom AI agents thro
 
 **Integration Philosophy:**
 
--   **Agents as Documentation Stewards:** Each agent specializes in one tier or cross-tier validation
--   **Human-Agent Collaboration:** Agents enforce constraints while humans provide creative direction
--   **Continuous Validation:** Real-time integrity checking during documentation authoring
--   **Context-Aware Assistance:** Agents retrieve relevant parent/child tags automatically
+- **Agents as Documentation Stewards:** Each agent specializes in one tier or cross-tier validation
+- **Human-Agent Collaboration:** Agents enforce constraints while humans provide creative direction
+- **Continuous Validation:** Real-time integrity checking during documentation authoring
+- **Context-Aware Assistance:** Agents retrieve relevant parent/child tags automatically
 
 ### 27.2 Core Agent Architecture
 
@@ -6612,7 +6808,7 @@ Delegates documentation tasks to the appropriate tier-specific agent.
 
 ## Agent Mapping
 | Tier | Agent |
-|:--|:--|
+| :-- | :-- |
 | BRD | `@brd_strategist` |
 | NFR | `@nfr_enforcer` |
 | FSD | `@fsd_analyst` |
@@ -6758,7 +6954,7 @@ naming across all documentation tiers.
 
 ## Key Terms
 | Term | Definition | Enforcement |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | Core Process | Central orchestrator (never "manager" or "controller") | Strict |
 | Runtime Process | GPU inference engine (never "model server") | Strict |
 | Tool | Modular capability extending Core (not a process) | Strict |
@@ -6797,7 +6993,7 @@ Measures accuracy of tier classification against ground truth examples.
 
 ## Expected Classifications
 | Input | Expected Tier | Rationale |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | "Enable voice control of smart home devices" | BRD | Business value proposition |
 | "Device discovery must complete in <5s" | NFR | Quantified performance constraint |
 | "User says 'Turn on lights' → System extracts intent" | FSD | User-observable behavior |
@@ -6834,7 +7030,7 @@ Identifies common documentation anti-patterns that violate DDR tier boundaries.
 
 ## Patterns Tested
 | Pattern | Severity | Detection Regex |
-|:--|:--|:--|
+| :-- | :-- | :-- |
 | `technology_in_brd` | Error | `\.\. brd::.*(?:ZeroMQ\|PostgreSQL\|React\|ONNX)` |
 | `implementation_in_fsd` | Error | `\.\. fsd::.*(?:socket\|thread\|class\|import)` |
 | `schema_in_sad` | Warning | `\.\. sad::.*.. code-block::` |
@@ -7018,7 +7214,7 @@ value propositions suitable for BRD tier.
 
 ## Examples
 | Technical Detail | Business Value |
-|:--|:--|
+| :-- | :-- |
 | "Use ZeroMQ ROUTER-DEALER for IPC" | "Enable fault-tolerant, scalable communication" |
 | "ONNX Runtime GPU inference" | "Preserve user privacy, eliminate internet dependency" |
 | "Pvporcupine wake word detection" | "Enable hands-free voice interaction" |
@@ -8584,7 +8780,7 @@ Checks content against tier-specific validation rules:
 
 ## Tier Rules
 | Tier | Forbidden Terms | Required Elements |
-|------|-----------------|-------------------|
+| :----- | :---------------- | :------------------ |
 | BRD | ZeroMQ, ONNX, API, socket, thread, class, GPU | business value, stakeholder, metric |
 | NFR | - | metric, constraint, limit (+ numbers) |
 | FSD | zmq.ROUTER, onnxruntime, class, def | behavior description |
@@ -8658,7 +8854,7 @@ args:
 Scans documentation for common mistakes:
 
 | Pattern | Severity | Description |
-|---------|----------|-------------|
+| :-------- | :--------- | :------------ |
 | `technology_in_brd` | ERROR | Technology terms in BRD tier |
 | `implementation_in_fsd` | ERROR | Code/implementation in FSD tier |
 | `schema_in_sad` | WARNING | Code blocks in SAD tier |
@@ -9076,7 +9272,7 @@ threshold: 0.95
 
 ## Required Sections
 | Entity | Required Sections |
-|--------|-------------------|
+| :------- | :------------------ |
 | Classes | Attributes, Implements/References |
 | Functions | Parameters, Returns, References |
 | Methods | Parameters, Implementation Notes (stubs), References |
@@ -9914,16 +10110,16 @@ Suggestion: Consider adding context
 
 The Antigravity agent asset definitions transform the DDR from a static documentation framework into a **dynamic, AI-assisted knowledge management system**. By encoding the rules, workflows, and validation logic into agent personas and tools, we enable:
 
-1.  **Automated Classification:** Unstructured information instantly routed to appropriate tier
-2.  **Real-Time Validation:** Mistakes caught during authoring, not in review
-3.  **Intelligent Assistance:** Context-aware suggestions based on current tier and content
-4.  **Complete Traceability:** Automated chain validation from ISP code stubs to BRD business cases
-5.  **Scalable Workflows:** End-to-end feature documentation in minutes, not hours
+1. **Automated Classification:** Unstructured information instantly routed to appropriate tier
+2. **Real-Time Validation:** Mistakes caught during authoring, not in review
+3. **Intelligent Assistance:** Context-aware suggestions based on current tier and content
+4. **Complete Traceability:** Automated chain validation from ISP code stubs to BRD business cases
+5. **Scalable Workflows:** End-to-end feature documentation in minutes, not hours
 
 This integration creates a **human-AI collaborative development environment** where:
 
--  **Humans** provide creative direction, domain expertise, and strategic decisions
--  **AI Agents** enforce constraints, maintain consistency, and automate tedious tasks
--  **The DDR** serves as the shared knowledge graph connecting both
+- **Humans** provide creative direction, domain expertise, and strategic decisions
+- **AI Agents** enforce constraints, maintain consistency, and automate tedious tasks
+- **The DDR** serves as the shared knowledge graph connecting both
 
 The result is documentation that is not merely comprehensive, but **actively maintained, continuously validated, and genuinely useful** as both a human reference and a machine-parseable specification for LLM-assisted development.

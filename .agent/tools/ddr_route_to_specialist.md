@@ -24,31 +24,36 @@ tasks to the appropriate specialist agent.
 - **Entry Point**: `.agent/scripts/route_to_specialist.py`
 - **Interpreter**: `.venv/Scripts/python`
 - **Arguments**:
-    - `--tier`: Required. The DDR tier code (case-insensitive).
-    - `--list`: Optional. List all tier-to-specialist mappings.
+  - `--tier`: Required. The DDR tier code (case-insensitive).
+  - `--list`: Optional. List all tier-to-specialist mappings.
 
 ## Execution Steps
 
 ### 1. Validate Tier Input
+
 - Accept tier code (BRD, NFR, FSD, SAD, ICD, TDD, ISP)
 - Normalize to uppercase
 - Return error if tier is invalid
 
 ### 2. Lookup Specialist
+
 - Query internal mapping table
 - Return specialist handle, persona path, and description
 
 ### 3. Output Result
+
 - JSON object with routing information
 
 ## Protocol & Validation
 
 ### Success Verification
+
 1. Confirm output contains `tier`, `handle`, `persona_path` fields
 2. Confirm `handle` starts with `@`
 3. Confirm `persona_path` points to existing `.mdc` file
 
 ### Example Output
+
 ```json
 {
   "tier": "FSD",
@@ -61,7 +66,7 @@ tasks to the appropriate specialist agent.
 ## Tier-Specialist Mapping
 
 | Tier | Handle | Persona |
-|:-----|:-------|:--------|
+| :----- | :------- | :-------- |
 | BRD | `@brd_strategist` | Business Requirements Specialist |
 | NFR | `@nfr_enforcer` | Non-Functional Requirements Enforcer |
 | FSD | `@fsd_analyst` | Feature Specification Analyst |
@@ -71,6 +76,7 @@ tasks to the appropriate specialist agent.
 | ISP | `@isp_codegenerator` | Implementation Stub Producer |
 
 ## Rules
+
 - **No External Dependencies**: Uses only Python standard library.
 - **Deterministic Output**: Same tier always returns same specialist.
 - **Case Insensitive**: Tier input is normalized to uppercase.

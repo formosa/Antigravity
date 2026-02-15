@@ -41,7 +41,7 @@ The BRD tier captures business intent in language accessible to all stakeholders
 How to identify violations:
 
 | Pattern | Examples |
-|:--------|:---------|
+| :-------- | :--------- |
 | Programming languages | Python, JavaScript, React |
 | Libraries/frameworks | ZeroMQ, PySide6, pvporcupine |
 | Hardware specifics | RTX 3080, AMD Ryzen, CUDA |
@@ -52,7 +52,7 @@ How to identify violations:
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Technology term in BRD | ERROR | Abstract to business language |
 | Implementation detail | ERROR | Move to appropriate tier |
 | Solution prescription | WARNING | Reframe as objective |
@@ -82,18 +82,21 @@ How to identify violations:
 .. brd:: Wake word detection using pvporcupine.
    :id: BRD-5.7
 ```
+
 **Why**: "pvporcupine" is a specific library. Correct: "Hands-free voice activation"
 
 ```rst
 .. brd:: Use ZeroMQ for inter-process communication.
    :id: BRD-4.1
 ```
+
 **Why**: "ZeroMQ" prescribes implementation. Correct: "Enable reliable message passing between components"
 
 ```rst
 .. brd:: Deploy on RTX 3080 GPU.
    :id: BRD-6.1
 ```
+
 **Why**: Hardware specifics belong in NFR. Correct: "Support GPU-accelerated inference"
 
 ---

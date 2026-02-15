@@ -1,9 +1,11 @@
 # Traceability Report
+
 **Analyzed:** 236 tags | **Violations:** 133
 
 ## SIBLING_CITATION (124)
+
 | ID | Title | Severity | Cited Tag | Message |
-|:---|:------|:---------|:----------|:--------|
+| :--- | :------ | :--------- | :---------- | :-------- |
 | `FSD-1.1` | Core Hub | **WARNING** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
 | `FSD-1.2` | **UI Process:** Handles user interaction (PySide6). | **WARNING** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
 | `FSD-1.3` | **Runtime Process:** GPU-optimized environment for model inference. | **WARNING** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
@@ -130,8 +132,9 @@
 | `TDD-5.6` | **Denoising:** Apply RNNoise or equivalent before WWD/VAD stages. Must operate within NFR-3 latency budget. | **WARNING** | TDD-5 (Component: AudioWorkerLoop) | Cites sibling 'TDD-5' |
 
 ## ORPHAN (9)
+
 | ID | Title | Severity | Cited Tag | Message |
-|:---|:------|:---------|:----------|:--------|
+| :--- | :------ | :--------- | :---------- | :-------- |
 | `TERM-AUDIO-PROCESS` | Audio Process | **ERROR** | None | No parent citations |
 | `TERM-CORE-PROCESS` | Core Process | **ERROR** | None | No parent citations |
 | `TERM-HSM` | HSM | **ERROR** | None | No parent citations |

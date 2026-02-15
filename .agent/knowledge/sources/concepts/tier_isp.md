@@ -34,7 +34,7 @@ The **ISP tier** captures Python class stubs with comprehensive Numpy-style docs
 ## Characteristics
 
 | Attribute | Value |
-|:----------|:------|
+| :---------- | :------ |
 | **Layer** | Prompts |
 | **Question** | "What is the code skeleton?" |
 | **Persona** | Code Generator |
@@ -57,7 +57,7 @@ The **ISP tier** captures Python class stubs with comprehensive Numpy-style docs
 ### Docstring Requirements
 
 | Section | Content |
-|:--------|:--------|
+| :-------- | :-------- |
 | Description | One-line summary |
 | Parameters | All arguments with types |
 | Returns | Return type and description |
@@ -67,7 +67,7 @@ The **ISP tier** captures Python class stubs with comprehensive Numpy-style docs
 ### Critical Constraints
 
 | Constraint | Rule |
-|:-----------|:-----|
+| :----------- | :----- |
 | Stub Only | Method bodies contain only `pass` |
 | No Logic | No algorithms, control flow, or business logic |
 | Numpy Format | Docstrings follow Numpy style |
@@ -99,6 +99,7 @@ class CoreProcess:
 ## Context
 
 ISP is the terminal tier—everything traces back:
+
 - **Cites**: TDD tags
 - **Cited by**: (none—terminal tier)
 - **File location**: `docs/07_isp/`

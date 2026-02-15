@@ -21,7 +21,7 @@ description: "All ISP code must use Numpy-style docstrings with proper sections.
 ## Detection
 
 | Pattern | Indication |
-|:--------|:-----------|
+| :-------- | :----------- |
 | Missing docstring | Method without `"""..."""` |
 | Wrong format | Google-style (`Args:`), reST-style |
 | Missing sections | No Parameters, Returns, or Attributes |
@@ -29,7 +29,7 @@ description: "All ISP code must use Numpy-style docstrings with proper sections.
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Missing docstring | ERROR | Add Numpy-style docstring |
 | Wrong format | WARNING | Convert to Numpy style |
 | Missing sections | WARNING | Add required sections |

@@ -33,7 +33,7 @@ The **SAD tier** captures architectural patterns, process topology, integration 
 ## Characteristics
 
 | Attribute | Value |
-|:----------|:------|
+| :---------- | :------ |
 | **Layer** | Structure |
 | **Question** | "How is the system organized?" |
 | **Persona** | Architect |
@@ -67,6 +67,7 @@ ASCII topology diagrams are **mandatory** for SAD sections:
 ## Context
 
 SAD bridges behavioral requirements to technical design:
+
 - **Cites**: FSD tags (primarily), NFR tags (for constraints)
 - **Cited by**: ICD, TDD tags
 - **File location**: `docs/04_sad/`

@@ -41,7 +41,7 @@ ISP (Implementation Stubs & Prompts) provides code skeletons, not implementation
 How to identify violations:
 
 | Pattern | Examples |
-|:--------|:---------|
+| :-------- | :--------- |
 | Actual code | `self.socket = zmq.Context()` |
 | Control flow | `if condition:`, `for item in:` |
 | Return values | `return result` |
@@ -52,7 +52,7 @@ How to identify violations:
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Any code beyond `pass` | ERROR | Replace with `pass` |
 | Return statement | ERROR | Remove; use `pass` |
 | Logic in body | ERROR | Move to implementation |
@@ -98,6 +98,7 @@ def __init__(self, config_path: str):
     self.context = zmq.Context()        # WRONG: Actual code
     self.socket = self.context.socket(zmq.ROUTER)
 ```
+
 **Why**: Contains implementation. Replace entire body with `pass`.
 
 ```python
@@ -107,6 +108,7 @@ def run(self) -> None:
         msg = self.socket.recv()
         self.handle(msg)
 ```
+
 **Why**: Contains logic. Replace entire body with `pass`.
 
 ```python
@@ -114,6 +116,7 @@ def get_status(self) -> str:
     """Return current status."""
     return self.status                   # WRONG: Return statement
 ```
+
 **Why**: Returns value. Replace with `pass`.
 
 ---

@@ -17,7 +17,7 @@ description: "BRD content must not contain technology-specific terms or implemen
 ## Detection
 
 | Pattern | Examples |
-|:--------|:---------|
+| :-------- | :--------- |
 | Programming languages | Python, JavaScript, React |
 | Libraries/frameworks | ZeroMQ, PySide6, pvporcupine |
 | Hardware specifics | RTX 3080, AMD Ryzen, CUDA |
@@ -27,7 +27,7 @@ description: "BRD content must not contain technology-specific terms or implemen
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Technology term in BRD | ERROR | Abstract to business language |
 | Implementation detail | ERROR | Move to appropriate tier |
 | Solution prescription | WARNING | Reframe as objective |
@@ -35,7 +35,7 @@ description: "BRD content must not contain technology-specific terms or implemen
 ## Forbidden Terms
 
 | Category | Terms |
-|:---------|:------|
+| :--------- | :------ |
 | Languages | Python, JavaScript, React, Go |
 | Libraries | ZeroMQ, ONNX, PySide6, pvporcupine |
 | Infrastructure | Docker, PostgreSQL, Redis, SQLite |

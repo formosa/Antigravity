@@ -33,7 +33,7 @@ When the full DDR exceeds LLM context windows, hierarchical retrieval with tag-b
 ### Parameters
 
 | Parameter | Default | Description |
-|:----------|:--------|:------------|
+| :---------- | :-------- | :------------ |
 | `ancestor_depth` | 2 | Levels to traverse upward |
 | `child_depth` | 2 | Levels to traverse downward |
 | `include_siblings` | false | Include peer tags at same level |

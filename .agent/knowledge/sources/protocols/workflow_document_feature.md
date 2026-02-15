@@ -33,45 +33,57 @@ This workflow guides the complete documentation of a new feature from business r
 ## Procedure
 
 ### Step 1: Gather Requirements
+
 Interview user for business context. Identify ROI, strategic objectives, and success metrics.
 
 ### Step 2: Create BRD
+
 Generate Business Requirement Tags with measurable metrics. No technology references.
 
 ### Step 3: Derive Constraints
+
 Define NFRs — performance targets, resource limits, SLAs. All values must be numeric.
 
 ### Step 4: Create NFR
+
 Generate Non-Functional Requirement Tags citing BRD parents.
 
 ### Step 5: Specify Behavior
+
 Define user-facing FSD Tags describing system capabilities. No implementation details.
 
 ### Step 6: Design Architecture
+
 Select SAD Patterns & Components. Cite FSD and/or NFR parents.
 
 ### Step 7: Define Contracts
+
 Create ICD Schemas (JSON/YAML). Cite SAD parents.
 
 ### Step 8: Blueprint Components
+
 Design TDD Classes & Methods. Cite SAD and ICD parents.
 
 ### Step 9: Generate Stubs
+
 Create ISP Traceable Code Stubs with NumPy docstrings. Cite TDD parents.
 
 ### Step 10: Validate Traceability
+
 Run full chain audit via `@traceability_auditor`. All ISP tags must trace to BRD root.
 
 ### Step 11: Update Manifests
+
 Invoke `@manifest_manager` to synchronize reconciliation data.
 
 ### Step 12: Present Summary
+
 Report all created artifacts with traceability status.
 
 ## Outcomes
 
 | Result | Condition | Next Action |
-|:-------|:----------|:------------|
+| :------- | :---------- | :------------ |
 | Complete | All 12 steps pass | Feature documented |
 | Blocked | Traceability audit fails | Fix orphans, re-validate |
 | Incomplete | Missing tier artifacts | Return to relevant step |

@@ -37,7 +37,7 @@ The **tier hierarchy** is the seven-layer structure that organizes all DDR docum
 ### The Seven Tiers
 
 | Tier | Name | Layer | Question Answered | Persona |
-|:----:|:-----|:------|:------------------|:--------|
+| :----: | :----- | :------ | :------------------ | :-------- |
 | 1 | BRD | Context | "Why build it?" | Strategist |
 | 2 | NFR | Boundaries | "What limits?" | SysAdmin |
 | 3 | FSD | Behavior | "What does it?" | Product Owner |

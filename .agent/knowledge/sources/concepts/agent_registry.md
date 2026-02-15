@@ -36,7 +36,7 @@ The **Agent Registry** is the authoritative lookup for all DDR agent handles, th
 ### Core Agents
 
 | Handle | Role | Context |
-|:---|:---|:---|
+| :--- | :--- | :--- |
 | `@ddr_orchestrator` | System coordinator, tier classification, and routing. | Docs Context, Rules |
 | `@traceability_auditor` | Cross-tier validation, orphan detection, cycle detection. | Full Graph, Validation Rules |
 | `@manifest_manager` | Managing reconciliation manifests and integrity status. | Manifests, File System |
@@ -45,7 +45,7 @@ The **Agent Registry** is the authoritative lookup for all DDR agent handles, th
 ### Tier Specialists
 
 | Handle | Tier | Focus |
-|:---|:---|:---|
+| :--- | :--- | :--- |
 | `@brd_strategist` | BRD | Business alignment, ROI, strategic objectives (No tech details). |
 | `@nfr_enforcer` | NFR | Quantifiable constraints, SLAs, hardware limits. |
 | `@fsd_analyst` | FSD | User flows, behavior specifications, feature definitions. |

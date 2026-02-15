@@ -33,7 +33,7 @@ The **TDD tier** captures component class names, dependencies, socket configurat
 ## Characteristics
 
 | Attribute | Value |
-|:----------|:------|
+| :---------- | :------ |
 | **Layer** | Blueprints |
 | **Question** | "What classes/modules exist?" |
 | **Persona** | Lead Developer |
@@ -59,7 +59,7 @@ The **TDD tier** captures component class names, dependencies, socket configurat
 TDD defines **WHAT exists** and **HOW it's wired**, NOT the logic:
 
 | ✅ TDD Content | ❌ Not TDD Content |
-|:---------------|:-------------------|
+| :--------------- | :------------------- |
 | Class names | Algorithm implementations |
 | Method signatures | Business logic |
 | Dependencies | Control flow |
@@ -68,6 +68,7 @@ TDD defines **WHAT exists** and **HOW it's wired**, NOT the logic:
 ## Context
 
 TDD is the final design layer before code:
+
 - **Cites**: SAD tags, ICD tags
 - **Cited by**: ISP tags
 - **File location**: `docs/06_tdd/`

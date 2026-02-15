@@ -31,13 +31,13 @@ Used by antipattern_scanner for documentation quality validation.
 - **Entry Point**: `.agent/scripts/detect_anti_patterns.py`
 - **Interpreter**: `.venv/Scripts/python`
 - **Arguments**:
-    - `--needs-json`: Optional. Path to needs.json.
-    - `--patterns`: Optional. Pattern IDs to filter.
+  - `--needs-json`: Optional. Path to needs.json.
+  - `--patterns`: Optional. Pattern IDs to filter.
 
 ## Anti-Pattern Definitions
 
 | ID | Name |
-|:---|:-----|
+| :--- | :----- |
 | AP001 | Vertical Pollution (code in upper tiers) |
 | AP002 | Orphan Tag (no parent) |
 | AP003 | Sibling Citation (same-tier link) |
@@ -51,9 +51,11 @@ Used by antipattern_scanner for documentation quality validation.
 ## Protocol & Validation
 
 ### Success Verification
+
 1. Output contains `scanned`, `violations`, `by_pattern`, `details`
 
 ### Example Output
+
 ```json
 {
   "scanned": 45,
@@ -64,5 +66,6 @@ Used by antipattern_scanner for documentation quality validation.
 ```
 
 ## Rules
+
 - **Read-Only**: Analysis only
 - **Requires needs.json**: Run `rebuild_docs` first

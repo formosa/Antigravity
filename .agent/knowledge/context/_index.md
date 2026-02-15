@@ -11,7 +11,7 @@
 ## Files
 
 | File | Purpose |
-|:-----|:--------|
+| :----- | :-------- |
 | [glossary.md](glossary.md) | Project terms and abbreviations |
 
 ## Precedence

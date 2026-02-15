@@ -21,7 +21,7 @@ description: "ISP docstrings must include Implements: and Requirements: citation
 ## Detection
 
 | Pattern | Indication |
-|:--------|:-----------|
+| :-------- | :----------- |
 | Missing `Implements:` | No TDD citation in docstring |
 | Missing `Requirements:` | No FSD/NFR citation |
 | Invalid tag format | `TDD-1` without pipe delimiters |
@@ -29,9 +29,9 @@ description: "ISP docstrings must include Implements: and Requirements: citation
 ## Enforcement
 
 | Violation | Severity | Resolution |
-|:----------|:--------:|:-----------|
+| :---------- | :--------: | :----------- |
 | Missing `Implements:` | ERROR | Add TDD citation |
-| Invalid citation format | WARNING | Use `|TAG-X|` format |
+| Invalid citation format | WARNING | Use `\|TAG-X\|` format |
 
 ## Examples
 
