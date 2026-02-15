@@ -127,4 +127,4 @@ DIRTY status may ONLY be cleared when:
 
 - `protocols/reconciliation_inventory.md` — Tag count maintenance
 - `protocols/impact_analysis.md` — Finding affected sections
-- Source: `documentation_system.md` §4.2, §4.3
+- Source: `.agent/assets/documentation_system.md` §4.2, §4.3

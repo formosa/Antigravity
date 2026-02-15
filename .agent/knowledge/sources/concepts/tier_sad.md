@@ -78,4 +78,4 @@ SAD bridges behavioral requirements to technical design:
 
 - `concepts/tier_fsd.md` — Parent tier (behavior)
 - `concepts/tier_icd.md` — Next tier (contracts)
-- Source: `documentation_system.md` §2.4 System Architecture Document
+- Source: `.agent/assets/documentation_system.md` §2.4 System Architecture Document

@@ -108,4 +108,4 @@ How to identify violations:
 
 - `concepts/tier_brd.md` — BRD tier definition
 - `constraints/brd_technology_agnostic.md` — Related BRD constraint
-- Source: `documentation_system.md` §2.1 Business Requirements Document
+- Source: `.agent/assets/documentation_system.md` §2.1 Business Requirements Document

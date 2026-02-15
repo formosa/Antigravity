@@ -78,4 +78,4 @@ BRD is the foundation of all documentation:
 - `concepts/tier_hierarchy.md` — Position in seven-tier structure
 - `concepts/tier_nfr.md` — Next tier (boundaries)
 - `constraints/brd_technology_agnostic.md` — No tech terms rule
-- Source: `documentation_system.md` §2.1 Business Requirements Document
+- Source: `.agent/assets/documentation_system.md` §2.1 Business Requirements Document

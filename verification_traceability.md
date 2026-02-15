@@ -1,5 +1,0 @@
-Analyzed: 236
-Violations: 46
-  SIBLING_CITATION: 3
-  INVALID_PARENT_TIER: 34
-  ORPHAN: 9

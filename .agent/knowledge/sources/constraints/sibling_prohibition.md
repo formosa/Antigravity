@@ -100,4 +100,4 @@ Express sequential relationships in prose:
 
 - `concepts/tier_hierarchy.md` — Vertical structure
 - `protocols/abstraction_lateral.md` — Proper sibling generation
-- Source: `documentation_system.md` §3.6 Lateral Dependency Prohibition
+- Source: `.agent/assets/documentation_system.md` §3.6 Lateral Dependency Prohibition

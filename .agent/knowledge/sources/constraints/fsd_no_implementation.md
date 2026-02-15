@@ -106,4 +106,4 @@ How to identify violations:
 ## References
 
 - `concepts/tier_fsd.md` — FSD tier definition
-- Source: `documentation_system.md` §2.3 Feature Specifications Document
+- Source: `.agent/assets/documentation_system.md` §2.3 Feature Specifications Document

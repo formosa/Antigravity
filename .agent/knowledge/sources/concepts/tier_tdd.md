@@ -79,4 +79,4 @@ TDD is the final design layer before code:
 
 - `concepts/tier_icd.md` — Parent tier (contracts)
 - `concepts/tier_isp.md` — Next tier (prompts)
-- Source: `documentation_system.md` §2.6 Technical Design Document
+- Source: `.agent/assets/documentation_system.md` §2.6 Technical Design Document

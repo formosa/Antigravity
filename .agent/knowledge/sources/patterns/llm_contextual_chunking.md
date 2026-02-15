@@ -50,4 +50,4 @@ When the full DDR exceeds LLM context windows, hierarchical retrieval with tag-b
 
 - `concepts/information_flow.md` — Citation and cascade principles
 - `patterns/llm_validation_prompts.md` — Prompt templates for LLM validation
-- Source: `documentation_system.md` §10.1 Contextual Chunking
+- Source: `.agent/assets/documentation_system.md` §10.1 Contextual Chunking

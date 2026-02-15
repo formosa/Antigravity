@@ -131,4 +131,4 @@ DDR tags use a consistent format: tier prefix, hyphen, sequential integer, optio
 
 - `constraints/tag_immutability.md` — ID permanence
 - `constraints/tag_citation_required.md` — Links requirement
-- Source: `documentation_system.md` §3.1 Tag Format Specification
+- Source: `.agent/assets/documentation_system.md` §3.1 Tag Format Specification

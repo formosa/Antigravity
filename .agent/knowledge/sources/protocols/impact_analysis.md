@@ -112,4 +112,4 @@ For each affected tier, set dirty flag in reconciliation manifest:
 
 - `concepts/information_flow.md` — Cascade principles
 - `protocols/reconciliation_dirty_flag.md` — Flagging mechanism
-- Source: `documentation_system.md` §4.3 Integrity Maintenance Rules
+- Source: `.agent/assets/documentation_system.md` §4.3 Integrity Maintenance Rules

@@ -67,4 +67,4 @@ The DDR is consumed by both human developers and AI agents, with formats optimiz
 
 - `vocabulary/glossary.md` — Controlled terminology
 - `concepts/tier_hierarchy.md` — Seven-tier structure details
-- Source: `documentation_system.md` §1. Foundational Principles
+- Source: `.agent/assets/documentation_system.md` §1. Foundational Principles

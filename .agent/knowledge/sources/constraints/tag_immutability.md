@@ -99,4 +99,4 @@ After inserting new item:
 ## References
 
 - `patterns/tag_syntax.md` — ID format specification
-- Source: `documentation_system.md` §3.3 Tag Lifecycle & Stability Rules
+- Source: `.agent/assets/documentation_system.md` §3.3 Tag Lifecycle & Stability Rules

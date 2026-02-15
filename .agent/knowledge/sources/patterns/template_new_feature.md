@@ -83,4 +83,4 @@ This template provides the minimal scaffolding for a complete 7-tier feature doc
 - `patterns/tag_syntax.md` — Tag ID format
 - `patterns/worked_example_feature.md` — Complete worked example
 - `protocols/workflow_document_feature.md` — Step-by-step workflow
-- Source: `documentation_system.md` §22.1 Template: New Feature
+- Source: `.agent/assets/documentation_system.md` §22.1 Template: New Feature

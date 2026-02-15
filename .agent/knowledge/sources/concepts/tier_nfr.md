@@ -86,4 +86,4 @@ NFR bridges business intent to technical constraints:
 - `concepts/tier_brd.md` — Parent tier (context)
 - `concepts/tier_fsd.md` — Next tier (behavior)
 - `constraints/nfr_numeric_constraints.md` — Numeric values rule
-- Source: `documentation_system.md` §2.2 Non-Functional Requirements
+- Source: `.agent/assets/documentation_system.md` §2.2 Non-Functional Requirements

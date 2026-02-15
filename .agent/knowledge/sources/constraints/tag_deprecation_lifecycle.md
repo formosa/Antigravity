@@ -73,4 +73,4 @@ Deleting or renumbering tags would break all downstream citations, causing casca
 
 - `constraints/tag_immutability.md` — ID immutability rule
 - `constraints/tag_citation_required.md` — Citation mandate
-- Source: `documentation_system.md` §15.1 Tag Deprecation
+- Source: `.agent/assets/documentation_system.md` §15.1 Tag Deprecation

@@ -101,4 +101,4 @@ How to identify violations:
 
 - `concepts/tier_hierarchy.md` — Valid citation hierarchy
 - `protocols/traceability_chain.md` — Chain validation
-- Source: `documentation_system.md` §4.1 Upstream Citation Mandates
+- Source: `.agent/assets/documentation_system.md` §4.1 Upstream Citation Mandates

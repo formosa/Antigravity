@@ -78,4 +78,4 @@ Invoke `@manifest_manager` to update reconciliation manifests.
 - `protocols/abstraction_upward.md` — Parent synthesis protocol
 - `protocols/abstraction_downward.md` — Child decomposition protocol
 - `protocols/traceability_chain.md` — Orphan detection
-- Source: `documentation_system.md` §27.3.1.4, §27.5.2 Orphan Resolution
+- Source: `.agent/assets/documentation_system.md` §27.3.1.4, §27.5.2 Orphan Resolution

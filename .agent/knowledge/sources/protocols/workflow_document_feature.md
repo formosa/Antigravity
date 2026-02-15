@@ -95,4 +95,4 @@ Report all created artifacts with traceability status.
 - `concepts/tier_hierarchy.md` — Tier structure
 - `patterns/worked_example_feature.md` — Complete worked example
 - `protocols/traceability_chain.md` — Chain validation
-- Source: `documentation_system.md` §27.5.1 Workflow: Document New Feature
+- Source: `.agent/assets/documentation_system.md` §27.5.1 Workflow: Document New Feature

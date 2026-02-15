@@ -78,4 +78,4 @@ The Evaluation Framework defines quantitative pass/fail metrics for each DDR cor
 - `concepts/agent_registry.md` — Agent definitions
 - `constraints/isp_stub_only.md` — Stub purity constraint
 - `constraints/isp_numpy_docstrings.md` — Docstring format
-- Source: `documentation_system.md` §27.6 Evaluation Framework
+- Source: `.agent/assets/documentation_system.md` §27.6 Evaluation Framework

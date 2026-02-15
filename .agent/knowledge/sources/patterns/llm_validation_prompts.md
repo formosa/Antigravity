@@ -66,4 +66,4 @@ Inject the Classification Prompt with the input text. The LLM response indicates
 - `protocols/traceability_chain.md` — What integrity checks validate
 - `protocols/classification_decision_tree.md` — Deterministic classification
 - `patterns/llm_contextual_chunking.md` — Context retrieval for prompts
-- Source: `documentation_system.md` §10.2 Validation Prompts
+- Source: `.agent/assets/documentation_system.md` §10.2 Validation Prompts

@@ -102,4 +102,4 @@ Information flow principles govern:
 - `concepts/tier_hierarchy.md` — The seven-tier structure
 - `protocols/abstraction_upward.md` — Synthesizing missing parents
 - `protocols/abstraction_downward.md` — Decomposing requirements
-- Source: `documentation_system.md` §4. Traceability & Reconciliation System
+- Source: `.agent/assets/documentation_system.md` §4. Traceability & Reconciliation System

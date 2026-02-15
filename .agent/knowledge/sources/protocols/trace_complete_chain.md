@@ -64,4 +64,4 @@ Document chain status for each traced tag using the standard report format from 
 - `protocols/traceability_chain.md` — Full validation protocol
 - `constraints/tag_citation_required.md` — Citation mandate
 - `constraints/sibling_prohibition.md` — Sibling citation prohibition
-- Source: `documentation_system.md` §27.3.3.2 Trace Complete Chain
+- Source: `.agent/assets/documentation_system.md` §27.3.3.2 Trace Complete Chain

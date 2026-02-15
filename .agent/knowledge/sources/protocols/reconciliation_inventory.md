@@ -108,4 +108,4 @@ Final validation checks:
 ## References
 
 - `protocols/reconciliation_dirty_flag.md` — When to flag changes
-- Source: `documentation_system.md` §4.3 Rule 1: Inventory Maintenance
+- Source: `.agent/assets/documentation_system.md` §4.3 Rule 1: Inventory Maintenance

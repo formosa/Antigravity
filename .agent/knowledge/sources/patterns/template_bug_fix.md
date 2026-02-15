@@ -78,4 +78,4 @@ def test_bug_[TAG-ID]_regression():
 - `patterns/template_new_feature.md` — New feature template
 - `constraints/tag_deprecation_lifecycle.md` — Tag preservation rules
 - `patterns/tag_syntax.md` — Tag format
-- Source: `documentation_system.md` §22.2 Template: Bug Fix
+- Source: `.agent/assets/documentation_system.md` §22.2 Template: Bug Fix

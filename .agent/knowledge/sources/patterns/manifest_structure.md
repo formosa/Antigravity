@@ -135,4 +135,4 @@ Inventory lists tags that no longer exist in section text.
 
 - `protocols/reconciliation_dirty_flag.md` — When to set DIRTY
 - `protocols/reconciliation_inventory.md` — Inventory maintenance
-- Source: `documentation_system.md` §4.2 Reconciliation Manifest System
+- Source: `.agent/assets/documentation_system.md` §4.2 Reconciliation Manifest System

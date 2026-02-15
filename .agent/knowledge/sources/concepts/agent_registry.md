@@ -67,4 +67,4 @@ The **Agent Registry** is the authoritative lookup for all DDR agent handles, th
 - `concepts/tier_hierarchy.md` — Tier structure
 - `patterns/evaluation_framework.md` — Agent evaluation metrics
 - `protocols/traceability_chain.md` — Chain validation
-- Source: `documentation_system.md` §27.3.1–27.3.4 Route to Specialist
+- Source: `.agent/assets/documentation_system.md` §27.3.1–27.3.4 Route to Specialist

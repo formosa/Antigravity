@@ -107,4 +107,4 @@ For each cited parent, repeat Steps 1-2 until reaching BRD.
 - `concepts/information_flow.md` — Traceability principles
 - `constraints/tag_citation_required.md` — Citation mandate
 - `protocols/impact_analysis.md` — Downstream effects
-- Source: `documentation_system.md` §4.1 Upstream Citation Mandates
+- Source: `.agent/assets/documentation_system.md` §4.1 Upstream Citation Mandates

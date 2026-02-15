@@ -110,4 +110,4 @@ How to identify violations:
 ## References
 
 - `concepts/tier_nfr.md` — NFR tier definition
-- Source: `documentation_system.md` §2.2 Non-Functional Requirements
+- Source: `.agent/assets/documentation_system.md` §2.2 Non-Functional Requirements
