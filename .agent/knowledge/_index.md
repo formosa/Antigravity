@@ -1,3 +1,14 @@
+---
+archetype: index
+status: active
+version: 1.1.0
+created: 2026-01-16
+updated: 2026-02-15
+scope: knowledge-root
+index_policy: in_scope_requires_frontmatter
+path_convention: knowledge-root-relative
+---
+
 # Knowledge Base Index
 
 > Root index for all agent knowledge layers.

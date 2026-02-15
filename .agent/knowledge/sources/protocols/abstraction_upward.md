@@ -105,4 +105,4 @@ Apply appropriate tier template and establish bidirectional link:
 
 - `concepts/information_flow.md` — Traceability principles
 - `protocols/abstraction_downward.md` — Reverse protocol
-- Source: `5. Vertical Abstraction & Specification Protocols.md` §5.1
+- Source: `.agent/assets/documentation_system.md` §5 (Vertical Abstraction & Specification Protocols), §5.1

@@ -1,6 +1,6 @@
 ---
 archetype: pattern
-status: validated
+status: active
 version: 1.0.0
 created: 2026-01-16
 updated: 2026-01-18
@@ -27,8 +27,9 @@ All knowledge source files follow a standardized template with minimal YAML fron
 
 ```markdown
 ---
-archetype: concept | protocol | constraint | pattern | vocabulary
-status: active | review | validated
+archetype: concept | protocol | constraint | pattern | vocabulary | context | index
+status: draft | review | active | deprecated
+schema_version: 1
 version: 1.0.0
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
@@ -61,8 +62,8 @@ One paragraph for agent context injection.
 
 | Field | Type | Description |
 | :------ | :----- | :------------ |
-| `archetype` | enum | One of: concept, protocol, constraint, pattern, vocabulary, context |
-| `status` | enum | One of: draft, review, validated |
+| `archetype` | enum | One of: concept, protocol, constraint, pattern, vocabulary, context, index |
+| `status` | enum | One of: draft, review, active, deprecated |
 | `version` | semver | Semantic version (MAJOR.MINOR.PATCH) |
 | `created` | date | Creation date (YYYY-MM-DD) |
 | `updated` | date | Last modification date |

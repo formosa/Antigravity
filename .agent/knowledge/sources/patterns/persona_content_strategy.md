@@ -1,6 +1,6 @@
 ---
 archetype: pattern
-status: validated
+status: active
 version: 1.0.0
 created: 2026-01-17
 updated: 2026-01-17

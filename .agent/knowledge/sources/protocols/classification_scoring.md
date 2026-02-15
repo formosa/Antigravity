@@ -108,4 +108,4 @@ Before finalizing:
 ## References
 
 - `protocols/classification_decision_tree.md` — Primary classification
-- Source: `4. Information Assessment & Classification Framework.md` §4.2, §4.3
+- Source: `.agent/assets/documentation_system.md` §4 (Information Assessment & Classification Framework), §4.2, §4.3

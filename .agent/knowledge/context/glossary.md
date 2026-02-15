@@ -44,4 +44,4 @@ Project-specific controlled vocabulary for Maggie AI Assistant. Supplements DDR 
 
 ## References
 
-- DDR glossary: `../sources/vocabulary/glossary.md`
+- DDR glossary: `sources/vocabulary/glossary.md`

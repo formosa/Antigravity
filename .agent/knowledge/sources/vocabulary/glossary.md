@@ -1,12 +1,12 @@
 ---
 archetype: vocabulary
-status: validated
+status: active
 version: 2.0.0
 created: 2026-01-16
 updated: 2026-01-18
 requires: []
 related:
-  - ../context/glossary.md
+  - context/glossary.md
 ---
 
 # DDR Glossary
@@ -35,7 +35,7 @@ DDR controlled vocabulary prevents semantic drift by LLMs. Universal to all DDR 
 | **Leaf Node** | ISP tag with no children — terminal node in the documentation graph |
 | **Root Node** | BRD tag with no parents — entry point of every traceability chain |
 | **Stub Purity** | Constraint requiring ISP code to contain only `pass` statements |
-| **Forward Reference** | Invalid citation where a lower tier cites a higher tier |
+| **Forward Reference** | Invalid citation where a higher abstraction tier cites a lower abstraction tier (e.g., BRD citing SAD) |
 | **Sibling Citation** | Invalid citation where a tag cites a peer at the same tier level |
 | **Deprecation** | Marking a tag as superseded while preserving its ID and citation validity |
 
@@ -63,4 +63,4 @@ DDR controlled vocabulary prevents semantic drift by LLMs. Universal to all DDR 
 
 ## References
 
-- Project glossary: `../context/glossary.md`
+- Project glossary: `context/glossary.md`

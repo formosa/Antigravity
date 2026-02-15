@@ -165,3 +165,35 @@ interface SkillDefinition {
     // Installation scope. 'workspace' = .agent/skills/, 'global' = ~/.gemini/antigravity/skills/
     scope: 'workspace' | 'global';
 }
+
+/**
+ * 8. KNOWLEDGE SOURCE DEFINITION
+ * File Pattern: .agent/knowledge/sources/ ** / *.md
+ */
+interface KnowledgeSourceDefinition {
+    archetype: 'concept' | 'protocol' | 'constraint' | 'pattern' | 'vocabulary' | 'context';
+    status: 'draft' | 'review' | 'active' | 'deprecated';
+    version: string; // semver
+    created: string; // YYYY-MM-DD
+    updated: string; // YYYY-MM-DD
+    requires?: string[]; // paths relative to knowledge root
+    related?: string[]; // paths relative to knowledge root
+    tags?: string[];
+}
+
+/**
+ * 9. INDEX DEFINITION
+ * File Pattern: .agent/knowledge/ ** /_index.md
+ */
+interface IndexDefinition {
+    archetype: 'index';
+    status: 'draft' | 'review' | 'active' | 'deprecated';
+    version: string; // semver
+    created: string; // YYYY-MM-DD
+    updated: string; // YYYY-MM-DD
+    scope: string;
+    index_policy?: string;
+    path_convention?: string;
+    project?: string;
+    context_mode?: string;
+}

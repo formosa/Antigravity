@@ -83,6 +83,8 @@ For each cited parent, repeat Steps 1-2 until reaching BRD.
 | **Broken chain** | Parent is orphan | WARNING |
 | **Cycle** | A → B → C → A | ERROR |
 
+Forward-reference rule: `:links:` MUST point upward in justification authority (toward BRD), never downward.
+
 ### Step 5: Generate Report
 
 | Tag | Status | Chain | Issue |

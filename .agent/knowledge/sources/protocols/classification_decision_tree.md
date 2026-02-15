@@ -124,4 +124,4 @@ INPUT: Unclassified Information Fragment
 
 - `protocols/classification_scoring.md` — Ambiguity resolution
 - `concepts/tier_hierarchy.md` — Tier definitions
-- Source: `4. Information Assessment & Classification Framework.md` §4.1
+- Source: `.agent/assets/documentation_system.md` §4 (Information Assessment & Classification Framework), §4.1

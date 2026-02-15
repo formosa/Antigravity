@@ -38,6 +38,7 @@ A complete correlated logging system for debugging multi-process applications.
 ```
 
 **Key characteristics**:
+
 - Technology-agnostic (no mention of loguru, files, etc.)
 - Business value focused (debugging capability)
 - Measurable impact (debugging efficiency)
@@ -71,6 +72,7 @@ A complete correlated logging system for debugging multi-process applications.
 ```
 
 **Key characteristics**:
+
 - Numeric constraints (50MB, 30 days)
 - Cites BRD justification
 - Defines measurable requirements
@@ -100,6 +102,7 @@ A complete correlated logging system for debugging multi-process applications.
 ```
 
 **Key characteristics**:
+
 - Describes behavior without implementation
 - Cites BRD and NFR
 - User/operator focused
@@ -125,6 +128,7 @@ A complete correlated logging system for debugging multi-process applications.
 ```
 
 **ASCII Diagram** (required for SAD):
+
 ```
 +-------------+     +-------------+     +---------------+
 | Core (PUSH) |---->|             |<----| Runtime (PUSH)|
@@ -279,4 +283,4 @@ Every implementation decision traces back to business value.
 - `concepts/tier_hierarchy.md` — Tier structure
 - `concepts/information_flow.md` — Citation flow
 - `patterns/worked_example_classification.md` — Classification process
-- Source: `20. Advanced Integration Patterns.md`
+- Source: `.agent/assets/documentation_system.md` §20 (Advanced Integration Patterns)

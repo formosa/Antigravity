@@ -110,4 +110,4 @@ Check that siblings:
 - `protocols/abstraction_upward.md` — Creating missing parents
 - `protocols/abstraction_downward.md` — Decomposing parents
 - `constraints/sibling_prohibition.md` — No peer citations
-- Source: `5. Vertical Abstraction & Specification Protocols.md` §5.3
+- Source: `.agent/assets/documentation_system.md` §5 (Vertical Abstraction & Specification Protocols), §5.3

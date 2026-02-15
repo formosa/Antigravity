@@ -100,4 +100,4 @@ Check that children collectively cover parent scope:
 
 - `concepts/information_flow.md` — Cascade principles
 - `protocols/abstraction_upward.md` — Reverse protocol
-- Source: `5. Vertical Abstraction & Specification Protocols.md` §5.2
+- Source: `.agent/assets/documentation_system.md` §5 (Vertical Abstraction & Specification Protocols), §5.2

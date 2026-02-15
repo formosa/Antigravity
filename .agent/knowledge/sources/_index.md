@@ -1,3 +1,13 @@
+---
+archetype: index
+status: active
+version: 1.1.0
+created: 2026-01-16
+updated: 2026-02-15
+scope: sources-index
+path_convention: knowledge-root-relative
+---
+
 # Knowledge Source Index
 
 > Master lookup table for topic-based navigation of DDR knowledge sources.
@@ -49,6 +59,8 @@
 | Worked Example: Classification | pattern | `patterns/worked_example_classification.md` |
 | Worked Example: Feature | pattern | `patterns/worked_example_feature.md` |
 | Persona Content Strategy | pattern | `patterns/persona_content_strategy.md` |
+| Metadata Schema | pattern | `patterns/metadata_schema.md` |
+| Source Citation Style | pattern | `patterns/source_citation_style.md` |
 | Agent Registry | concept | `concepts/agent_registry.md` |
 | Evaluation Framework | pattern | `patterns/evaluation_framework.md` |
 | Contextual Chunking | pattern | `patterns/llm_contextual_chunking.md` |
@@ -114,6 +126,8 @@
 - [Worked Example: Classification](patterns/worked_example_classification.md) — Tier assignment demo
 - [Worked Example: Feature](patterns/worked_example_feature.md) — End-to-end demo
 - [Persona Content Strategy](patterns/persona_content_strategy.md) — Inline vs. refs decision
+- [Metadata Schema](patterns/metadata_schema.md) — Canonical validation fields and enums
+- [Source Citation Style](patterns/source_citation_style.md) — Provenance citation standard
 - [Evaluation Framework](patterns/evaluation_framework.md) — Agent evaluation metrics
 - [Contextual Chunking](patterns/llm_contextual_chunking.md) — LLM context retrieval
 - [Validation Prompts](patterns/llm_validation_prompts.md) — LLM prompt templates

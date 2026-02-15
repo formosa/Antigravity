@@ -116,4 +116,4 @@ However, there's ambiguity—this could also be ICD (configuration schema). Appl
 
 - `protocols/classification_decision_tree.md` — Primary algorithm
 - `protocols/classification_scoring.md` — Ambiguity resolution
-- Source: `4. Information Assessment & Classification Framework.md` §4.3
+- Source: `.agent/assets/documentation_system.md` §4 (Information Assessment & Classification Framework), §4.3
