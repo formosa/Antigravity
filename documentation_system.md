@@ -713,7 +713,7 @@ docs/
 ~~~rst
 .. tdd:: Component: CoreProcess
    :id: TDD-1
-   :links: SAD-2,FSD-1.1
+   :links: SAD-2
 
 .. tdd:: **Class Name:** `CoreProcess`
    :id: TDD-1.1
@@ -725,7 +725,7 @@ docs/
 
 .. tdd:: Bind `ROUTER` socket to address defined in `ipc_config.yaml`.
    :id: TDD-1.3
-   :links: ICD-1,SAD-3.2,SAD-3
+   :links: ICD-1,SAD-3.2
 
 .. tdd:: Initialize `active_requests` dictionary: `Dict[str, Tuple[bytes, float, str]]`.
    :id: TDD-1.5
@@ -851,7 +851,7 @@ class CoreProcess:
 
     Implements
     ----------
-    |TDD-1|, |FSD-1|
+    |TDD-1|
 
     Attributes
     ----------
@@ -872,7 +872,7 @@ class CoreProcess:
 
         References
         ----------
-        |TDD-1.3|, |SAD-5.1|
+        |TDD-1.3|
         """
         pass
 
@@ -882,7 +882,7 @@ class CoreProcess:
 
         References
         ----------
-        |TDD-1.8|, |FSD-2|
+        |TDD-1.8|
         """
         pass
 
@@ -920,7 +920,7 @@ def send_log(self, level: str, message: str, request_id: str = None) -> None:
 
     References
     ----------
-    |TDD-2.5|, |SAD-3.8|, |FSD-6.2|
+    |TDD-2.5|
     """
     pass
 
@@ -958,7 +958,7 @@ class ServiceClient:
 
         References
         ----------
-        |TDD-2.2|, |ICD-1|, |NFR-5.3|
+        |TDD-2.2|
         """
         pass
 
@@ -1063,7 +1063,7 @@ def audio_worker_loop(client: ServiceClient):
 
     References
     ----------
-    |FSD-4.1|, |ICD-3|
+    |TDD-5|
     """
     # Setup pvporcupine
     if is_wake_word(audio_chunk):
@@ -6089,7 +6089,7 @@ class TranslationService:
 
 **Phase 4: Sunsetting (Feature Removal)**
 
--   Never delete tags, mark as [REMOVED vX.Y]
+-   Never delete tags, mark as `[REMOVED vX.Y]`
 -   Document replacement feature (if any)
 -   Orphan check: Ensure no active tags cite removed ones
 

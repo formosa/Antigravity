@@ -30,7 +30,7 @@ VALID_PARENTS = {
     "NFR": ["BRD"],
     "FSD": ["BRD", "NFR"],
     "SAD": ["FSD", "NFR"],
-    "ICD": ["SAD"],
+    "ICD": ["SAD", "NFR"],
     "TDD": ["SAD", "ICD"],
     "ISP": ["TDD"]
 }
