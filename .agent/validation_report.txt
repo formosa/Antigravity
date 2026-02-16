@@ -1,0 +1,5 @@
+Scanning knowledge repository: c:\AI\10162025\maggie\Antigravity\.agent\knowledge
+
+Scanned 53 files.
+
+[SUCCESS] All files conform to governance schema.

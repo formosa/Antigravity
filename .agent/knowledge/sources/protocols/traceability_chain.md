@@ -51,7 +51,7 @@ For each cited tag:
 
 1. Verify tag exists in documentation
 2. Verify tag is in valid parent tier
-3. Verify no forward references (lower tier cannot cite higher)
+3. Verify no forward references (higher tier cannot cite lower)
 
 **Valid Citation Matrix**:
 
