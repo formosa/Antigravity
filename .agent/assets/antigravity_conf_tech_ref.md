@@ -9,6 +9,7 @@
 Google Antigravity implements an **agent-first development platform** where configuration assets (Personas, Rules, Tools, Workflows, Skills, Knowledge) operate through a hierarchical, progressive disclosure architecture. This document provides implementation standards for configuring agent relationships and asset interactions, updated and verified against the v1.16.5 release.
 
 **What's changed in v1.16.5:**
+
 - "Secure Mode" renamed to **Strict Mode**
 - `@`-mention search speed improvements
 - Skill `SKILL.md` now supports a YAML frontmatter block (`name:`, `description:`)
@@ -34,7 +35,7 @@ Google Antigravity implements an **agent-first development platform** where conf
 
 ### 1.2 Scope Hierarchy
 
-```
+```plaintext
 Global Scope (~/.gemini/)
 ├── GEMINI.md                           # Global Rules (system instructions)
 ├── antigravity/
@@ -292,7 +293,7 @@ description: Multi-phase code review with specialist personas
 ## Project Structure
 ```
 
-```
+```plaintext
 project/
 ├── src/
 │   ├── __init__.py
@@ -413,7 +414,7 @@ description: End-to-end deployment pipeline
 
 **Skills solve context saturation.** Instead of loading all capabilities into every agent context, skills are dynamically loaded only when the agent matches user intent to a skill description.
 
-```
+```plaintext
 Agent Request (User Prompt)
           │
           ▼
@@ -435,7 +436,7 @@ Skill Execution
 
 ### 6.2 Skill Directory Structure
 
-```
+```plaintext
 skill-name/
 ├── SKILL.md              # Required: Skill definition and instructions
 ├── scripts/              # Optional: Executable automation
@@ -535,7 +536,7 @@ description: Formats and validates JSON documents with sorted keys and 2-space i
 
 Use when incorporating large static documents to avoid bloating context. The agent reads from `resources/` on-demand rather than loading everything upfront.
 
-```
+```plaintext
 license-header-skill/
 ├── SKILL.md
 └── resources/
@@ -561,7 +562,7 @@ description: Adds the standard Apache 2.0 license header to new source files.
 
 Use to teach complex transformations through concrete input/output pairs.
 
-```
+```plaintext
 pydantic-generator/
 ├── SKILL.md
 └── examples/
@@ -594,7 +595,7 @@ description: Converts JSON schemas into typed Pydantic BaseModel classes.
 
 Use when execution should be delegated to deterministic scripts.
 
-```
+```plaintext
 database-migration/
 ├── SKILL.md
 └── scripts/
@@ -632,7 +633,7 @@ description: Executes versioned database migrations with automatic rollback on f
 
 MCP servers expose **deterministic tools** to agents. Tools are always available once configured — they do not use progressive loading like Skills.
 
-```
+```plaintext
 Antigravity Agent
       │
       ▼
@@ -714,7 +715,7 @@ For complex tool ecosystems, implement a **single router MCP** that proxies to m
 
 ### 8.1 Knowledge Base Structure
 
-```
+```plaintext
 <workspace>/
 ├── .context/                    # Knowledge base directory
 │   ├── architecture.md          # System architecture docs
@@ -729,7 +730,7 @@ For complex tool ecosystems, implement a **single router MCP** that proxies to m
 
 #### Method 1: Direct `@`-mention in Prompt
 
-```
+```plaintext
 "Review the authentication flow for security issues.
  Reference @.context/architecture.md for the current design."
 ```
@@ -761,7 +762,7 @@ For complex tool ecosystems, implement a **single router MCP** that proxies to m
 
 #### Method 4: Resource-Bundled Knowledge (within Skills)
 
-```
+```plaintext
 data-validation-skill/
 ├── SKILL.md
 └── resources/
@@ -775,7 +776,7 @@ data-validation-skill/
 
 ### 9.1 Precedence Hierarchy
 
-```
+```plaintext
 Highest Priority
     ↓
 ┌─────────────────────────────────────┐
@@ -915,7 +916,7 @@ Set via **Settings → Agent Manager → Execution Policies** or via the initial
 
 **Denylist** — always enforced across all profiles:
 
-```
+```plaintext
 ~/.gemini/antigravity/terminalDenylist.txt
 ────────────────────────────────────────
 rm -rf
@@ -928,7 +929,7 @@ dd if=
 
 **Allowlist** — honored only under Request Review policy:
 
-```
+```plaintext
 ~/.gemini/antigravity/terminalAllowlist.txt
 ────────────────────────────────────────
 ls
@@ -944,7 +945,7 @@ pytest
 
 **Allowlist Configuration**:
 
-```
+```plaintext
 ~/.gemini/antigravity/browserAllowlist.txt
 ────────────────────────────────────────
 localhost
@@ -981,7 +982,7 @@ github.com
 
 ### 13.2 Recommended File Organization
 
-```
+```plaintext
 ~/.gemini/
 ├── GEMINI.md                           # Core global rules + persona
 ├── antigravity/
@@ -1145,7 +1146,7 @@ jobs:
 
 **Inspect active context** by asking the agent directly:
 
-```
+```plaintext
 "Debug: List all currently loaded skills, active rules, and available MCP tools."
 ```
 
@@ -1176,7 +1177,7 @@ agy "Test the my-skill functionality with sample input"
 
 **Reduce context size using the Resource pattern**:
 
-```
+```plaintext
 # Before: Heavy Context
 Loads entire 50 KB API documentation into context on every activation.
 
@@ -1234,6 +1235,7 @@ mcp_secrets.json
 ### 16.2 Upgrade Path
 
 **Pre-upgrade checklist**:
+
 1. Back up `~/.gemini/` directory
 2. Export `mcp_config.json`
 3. Document active workflows and skills
@@ -1287,7 +1289,7 @@ description: DEPRECATED — Use new-skill-name instead.
 
 ### 17.2 Activation Flow
 
-```
+```plaintext
 User Request
     │
     ▼
@@ -1352,7 +1354,7 @@ User Request
 
 ### 18.2 File Location Cheat Sheet
 
-```
+```plaintext
 Global Configuration:
 ~/.gemini/GEMINI.md                              → Global Rules + Persona
 ~/.gemini/antigravity/mcp_config.json            → MCP Tool Registry
@@ -1373,12 +1375,14 @@ Workspace Configuration:
 ### 18.3 Syntax Quick Reference
 
 **Rule**:
+
 ```markdown
 # Rule Title
 ## Purpose | ## Scope | ## Enforcement | ## Examples (✅/❌)
 ```
 
 **Workflow**:
+
 ```markdown
 ---
 name: Display Name
@@ -1388,6 +1392,7 @@ description: One-liner
 ```
 
 **SKILL.md** (v1.16.5):
+
 ```markdown
 ---
 name: skill-name
@@ -1398,6 +1403,7 @@ description: Intent-rich description for discovery
 ```
 
 **MCP Config**:
+
 ```json
 {
   "mcpServers": {
@@ -1425,6 +1431,7 @@ description: Intent-rich description for discovery
 | Code templates | Skill examples (`/examples`) |
 
 **Migration Strategy**:
+
 1. Convert linter configs → Rules
 2. Export code snippets → Workflows
 3. Identify external tools → Configure MCP

@@ -44,5 +44,8 @@
         "**/.agent/**/*.md": "markdown",
         "**/.agent/**/*.mdc": "markdown"
     },
-    "markdown.validate.enabled": true
+    "markdown.validate.enabled": true,
+    "cSpell.words": [
+        "frontmatter"
+    ]
 }
