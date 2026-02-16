@@ -1,0 +1,90 @@
+[MASTER]
+# Antigravity Skill v1.15.6 — Enterprise Pylint Configuration
+# Optimized for Gemini 3 Pro code quality enforcement
+# Python 3.8+ target
+
+jobs=4
+suggestion-mode=yes
+unsafe-load-any-extension=no
+extension-pkg-whitelist=
+
+[MESSAGES CONTROL]
+# Enable all checks; explicitly disable only well-justified exceptions
+disable=
+    C0111,  # missing-docstring  (handled by our DocstringInjector)
+    W0511,  # fixme              (TODOs are acceptable in development)
+    R0903,  # too-few-methods    (data containers legitimately have few methods)
+    W0212,  # protected-access   (sometimes necessary in tests)
+
+enable=all
+
+[REPORTS]
+output-format=colorized
+reports=yes
+evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)
+score=yes
+
+[LOGGING]
+logging-format-style=new
+logging-modules=logging
+
+[VARIABLES]
+init-import=no
+dummy-variables-rgx=_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+$)|dummy|^ignored_|^unused_
+callbacks=cb_,_cb
+redefining-builtins-modules=six.moves,past.builtins,future.builtins,builtins,io
+
+[FORMAT]
+max-line-length=88
+indent-string='    '
+indent-after-paren=4
+expected-line-ending-format=LF
+max-module-lines=1000
+single-line-if-stmt=no
+single-line-class-stmt=no
+
+[DESIGN]
+max-args=7
+max-attributes=10
+max-bool-expr=5
+max-branches=12
+max-locals=15
+max-parents=7
+max-public-methods=20
+max-returns=6
+max-statements=50
+min-public-methods=1
+
+[IMPORTS]
+allow-wildcard-with-all=no
+analyse-fallback-blocks=no
+deprecated-modules=optparse,tkinter.tix
+
+[CLASSES]
+defining-attr-methods=__init__,__new__,setUp,__post_init__
+exclude-protected=_asdict,_fields,_replace,_source,_make
+valid-classmethod-first-arg=cls
+valid-metaclass-classmethod-first-arg=cls
+
+[EXCEPTIONS]
+overgeneral-exceptions=BaseException,Exception
+
+[BASIC]
+# PEP 8 naming conventions enforced by this skill
+argument-naming-style=snake_case
+attr-naming-style=snake_case
+class-attribute-naming-style=any
+class-naming-style=PascalCase
+const-naming-style=UPPER_CASE
+function-naming-style=snake_case
+inlinevar-naming-style=any
+method-naming-style=snake_case
+module-naming-style=snake_case
+variable-naming-style=snake_case
+
+good-names=i,j,k,n,x,y,z,f,e,dt,ax,df,ex,ok,id,ip,db,ok,_
+bad-names=l,O,I
+name-group=
+include-naming-hint=yes
+property-classes=abc.abstractproperty
+docstring-min-length=10

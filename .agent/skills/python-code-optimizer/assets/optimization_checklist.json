@@ -1,0 +1,370 @@
+{
+    "schema_version": "1.15.6",
+    "skill": "python-code-optimizer",
+    "target_model": "gemini-3-pro",
+    "optimization_checklist": {
+        "pre_optimization": {
+            "description": "Checks to complete before starting optimization",
+            "items": [
+                {
+                    "id": "PRE-001",
+                    "priority": "critical",
+                    "check": "Backup original file",
+                    "rationale": "Preserve original before any modifications",
+                    "automated": false
+                },
+                {
+                    "id": "PRE-002",
+                    "priority": "critical",
+                    "check": "Validate input file syntax",
+                    "rationale": "Cannot optimize syntactically invalid code",
+                    "automated": true,
+                    "tool": "ast.parse"
+                },
+                {
+                    "id": "PRE-003",
+                    "priority": "major",
+                    "check": "Record baseline metrics",
+                    "rationale": "Needed for before/after comparison",
+                    "automated": true,
+                    "tool": "analyze_complexity.py"
+                },
+                {
+                    "id": "PRE-004",
+                    "priority": "major",
+                    "check": "Identify existing test suite",
+                    "rationale": "Tests will validate functional equivalence",
+                    "automated": false
+                },
+                {
+                    "id": "PRE-005",
+                    "priority": "minor",
+                    "check": "Review dependencies and Python version constraints",
+                    "rationale": "Optimizations must remain compatible with runtime",
+                    "automated": false
+                }
+            ]
+        },
+        "structural": {
+            "description": "Code structure and architectural improvements",
+            "items": [
+                {
+                    "id": "STR-001",
+                    "priority": "critical",
+                    "check": "Cyclomatic complexity <= 10 per function",
+                    "target_metric": 10,
+                    "automated": true,
+                    "tool": "radon cc"
+                },
+                {
+                    "id": "STR-002",
+                    "priority": "critical",
+                    "check": "Maintainability index >= 70",
+                    "target_metric": 70,
+                    "automated": true,
+                    "tool": "radon mi"
+                },
+                {
+                    "id": "STR-003",
+                    "priority": "major",
+                    "check": "No function exceeds 50 lines of code",
+                    "target_metric": 50,
+                    "automated": true,
+                    "tool": "ast analysis"
+                },
+                {
+                    "id": "STR-004",
+                    "priority": "major",
+                    "check": "Maximum nesting depth <= 4",
+                    "target_metric": 4,
+                    "automated": true,
+                    "tool": "analyze_complexity.py"
+                },
+                {
+                    "id": "STR-005",
+                    "priority": "major",
+                    "check": "No duplicated code blocks (> 3 lines)",
+                    "automated": true,
+                    "tool": "refactor_engine.py"
+                },
+                {
+                    "id": "STR-006",
+                    "priority": "minor",
+                    "check": "Max function parameters <= 7",
+                    "target_metric": 7,
+                    "automated": true,
+                    "tool": "pylint"
+                }
+            ]
+        },
+        "documentation": {
+            "description": "Documentation coverage and quality requirements",
+            "items": [
+                {
+                    "id": "DOC-001",
+                    "priority": "critical",
+                    "check": "Module-level docstring present",
+                    "automated": true,
+                    "tool": "ast.get_docstring"
+                },
+                {
+                    "id": "DOC-002",
+                    "priority": "critical",
+                    "check": "All public functions have Numpy-style docstrings",
+                    "target_metric": 100,
+                    "automated": true,
+                    "tool": "validation_suite.py"
+                },
+                {
+                    "id": "DOC-003",
+                    "priority": "critical",
+                    "check": "All classes have comprehensive docstrings",
+                    "target_metric": 100,
+                    "automated": true,
+                    "tool": "validation_suite.py"
+                },
+                {
+                    "id": "DOC-004",
+                    "priority": "major",
+                    "check": "Docstrings include Parameters section where applicable",
+                    "automated": false,
+                    "review": "manual"
+                },
+                {
+                    "id": "DOC-005",
+                    "priority": "major",
+                    "check": "Docstrings include Returns section where applicable",
+                    "automated": false,
+                    "review": "manual"
+                },
+                {
+                    "id": "DOC-006",
+                    "priority": "major",
+                    "check": "Docstrings include Raises section for functions that raise exceptions",
+                    "automated": false,
+                    "review": "manual"
+                },
+                {
+                    "id": "DOC-007",
+                    "priority": "minor",
+                    "check": "Docstrings include Examples section",
+                    "automated": false,
+                    "review": "manual"
+                },
+                {
+                    "id": "DOC-008",
+                    "priority": "minor",
+                    "check": "Inline comments explain non-obvious logic",
+                    "automated": false,
+                    "review": "manual"
+                }
+            ]
+        },
+        "style": {
+            "description": "PEP 8 and coding style requirements",
+            "items": [
+                {
+                    "id": "STY-001",
+                    "priority": "critical",
+                    "check": "Zero PEP 8 violations",
+                    "target_metric": 0,
+                    "automated": true,
+                    "tool": "pycodestyle / black"
+                },
+                {
+                    "id": "STY-002",
+                    "priority": "major",
+                    "check": "Imports organized: stdlib → third-party → local",
+                    "automated": true,
+                    "tool": "isort"
+                },
+                {
+                    "id": "STY-003",
+                    "priority": "major",
+                    "check": "No unused imports",
+                    "automated": true,
+                    "tool": "pylint / autoflake"
+                },
+                {
+                    "id": "STY-004",
+                    "priority": "major",
+                    "check": "All identifiers follow PEP 8 naming conventions",
+                    "automated": true,
+                    "tool": "pylint naming checks"
+                },
+                {
+                    "id": "STY-005",
+                    "priority": "minor",
+                    "check": "Lines <= 88 characters (Black default)",
+                    "target_metric": 88,
+                    "automated": true,
+                    "tool": "black"
+                },
+                {
+                    "id": "STY-006",
+                    "priority": "minor",
+                    "check": "No magic numbers — use named constants",
+                    "automated": false,
+                    "review": "manual"
+                }
+            ]
+        },
+        "type_safety": {
+            "description": "Type annotation and runtime safety requirements",
+            "items": [
+                {
+                    "id": "TYP-001",
+                    "priority": "major",
+                    "check": "All public functions have complete type annotations",
+                    "target_metric": 90,
+                    "automated": true,
+                    "tool": "mypy / validation_suite.py"
+                },
+                {
+                    "id": "TYP-002",
+                    "priority": "major",
+                    "check": "No mutable default arguments (list, dict, set)",
+                    "automated": true,
+                    "tool": "validation_suite.py"
+                },
+                {
+                    "id": "TYP-003",
+                    "priority": "major",
+                    "check": "No bare except: clauses",
+                    "automated": true,
+                    "tool": "validation_suite.py"
+                },
+                {
+                    "id": "TYP-004",
+                    "priority": "minor",
+                    "check": "Input validation for public API functions",
+                    "automated": false,
+                    "review": "manual"
+                }
+            ]
+        },
+        "performance": {
+            "description": "Performance and resource efficiency requirements",
+            "items": [
+                {
+                    "id": "PER-001",
+                    "priority": "major",
+                    "check": "No O(n²) or worse algorithms where O(n log n) is achievable",
+                    "automated": false,
+                    "review": "manual"
+                },
+                {
+                    "id": "PER-002",
+                    "priority": "major",
+                    "check": "List comprehensions preferred over loop+append patterns",
+                    "automated": true,
+                    "tool": "AST pattern matching"
+                },
+                {
+                    "id": "PER-003",
+                    "priority": "minor",
+                    "check": "lru_cache applied to pure functions called repeatedly",
+                    "automated": false,
+                    "review": "manual"
+                },
+                {
+                    "id": "PER-004",
+                    "priority": "minor",
+                    "check": "Context managers used for all file/network/DB resources",
+                    "automated": false,
+                    "review": "manual"
+                },
+                {
+                    "id": "PER-005",
+                    "priority": "minor",
+                    "check": "String join used instead of loop concatenation",
+                    "automated": true,
+                    "tool": "AST pattern matching"
+                }
+            ]
+        },
+        "post_optimization": {
+            "description": "Final checks after optimization is complete",
+            "items": [
+                {
+                    "id": "POST-001",
+                    "priority": "critical",
+                    "check": "Optimized file passes syntax validation",
+                    "automated": true,
+                    "tool": "validation_suite.py"
+                },
+                {
+                    "id": "POST-002",
+                    "priority": "critical",
+                    "check": "All original public API symbols preserved",
+                    "automated": true,
+                    "tool": "validation_suite.py"
+                },
+                {
+                    "id": "POST-003",
+                    "priority": "critical",
+                    "check": "All imports from original are present",
+                    "automated": true,
+                    "tool": "validation_suite.py"
+                },
+                {
+                    "id": "POST-004",
+                    "priority": "major",
+                    "check": "Quality score >= 75.0 / 100.0",
+                    "target_metric": 75.0,
+                    "automated": true,
+                    "tool": "validation_suite.py"
+                },
+                {
+                    "id": "POST-005",
+                    "priority": "major",
+                    "check": "Optimization report generated and reviewed",
+                    "automated": true,
+                    "tool": "optimize_python.py --report"
+                },
+                {
+                    "id": "POST-006",
+                    "priority": "minor",
+                    "check": "Optimization log reviewed for warnings",
+                    "automated": false,
+                    "review": "manual"
+                }
+            ]
+        }
+    },
+    "quality_thresholds": {
+        "minimum_quality_score": 75.0,
+        "target_quality_score": 90.0,
+        "academic_grade_score": 95.0,
+        "max_cyclomatic_complexity": 10,
+        "min_maintainability_index": 70.0,
+        "min_documentation_coverage": 80.0,
+        "target_documentation_coverage": 100.0,
+        "min_type_hint_coverage": 70.0,
+        "target_type_hint_coverage": 90.0,
+        "max_pep8_violations": 0,
+        "max_line_length": 88,
+        "max_function_lines": 50,
+        "max_nesting_depth": 4,
+        "max_function_parameters": 7
+    },
+    "tool_requirements": {
+        "required": [
+            "python>=3.8",
+            "ast"
+        ],
+        "recommended": [
+            "black",
+            "isort",
+            "pylint",
+            "pycodestyle",
+            "radon",
+            "mypy"
+        ],
+        "optional": [
+            "memory_profiler",
+            "line_profiler",
+            "bandit"
+        ]
+    }
+}
