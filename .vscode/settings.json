@@ -47,6 +47,7 @@
     "markdown.validate.enabled": true,
     "cSpell.words": [
         "abstractproperty",
+        "agentic",
         "asdict",
         "autoflake",
         "classmethod",
