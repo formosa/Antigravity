@@ -1,7 +1,7 @@
 # Python Code Optimization Guide
 
-> Comprehensive reference for the `python-code-optimizer` Antigravity Skill v1.15.6.
-> Optimized for Gemini 3 Pro agent workflows.
+> Comprehensive reference for the `python-code-optimizer` Antigravity Skill v3.0.0.
+> Optimized for Gemini 3 Flash agent workflows (Fast mode, Antigravity IDE v1.16.5).
 
 ---
 

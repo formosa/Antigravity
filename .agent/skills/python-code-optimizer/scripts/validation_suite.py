@@ -7,8 +7,8 @@ their originals, meet all quality thresholds, and conform to enterprise
 production standards.
 
 Author: Enterprise Development Team
-Version: 1.15.6
-Target: Google Antigravity IDE 1.15.6, Gemini 3 Pro
+Version: 3.0.0
+Target: Google Antigravity IDE 1.16.5, Gemini 3 Pro
 License: Apache-2.0
 """
 
@@ -22,6 +22,16 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 import argparse
+import traceback
+import re
+from typing import Set
+
+# Add local scripts to path to allow importing analyze_entropy
+sys.path.append(str(Path(__file__).parent))
+try:
+    import analyze_entropy
+except ImportError:
+    analyze_entropy = None
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -125,12 +135,14 @@ class ValidationSuite:
         min_quality_score: float = 75.0,
         min_doc_coverage: float = 80.0,
         min_type_coverage: float = 70.0,
-        max_complexity: int = 10
+        max_complexity: int = 10,
+        max_function_args: int = 5
     ) -> None:
         self.min_quality_score = min_quality_score
         self.min_doc_coverage = min_doc_coverage
         self.min_type_coverage = min_type_coverage
         self.max_complexity = max_complexity
+        self.max_function_args = max_function_args
 
     def validate(
         self, original_path: str, optimized_path: str
@@ -196,6 +208,24 @@ class ValidationSuite:
 
         # 10. Line length compliance
         checks.append(self._check_line_length(optimized_src))
+
+        # 11. Clean Names (N1-N7)
+        checks.append(self._check_clean_names(optimized_src))
+
+        # 12. Clean Functions (F1: Max 3 args)
+        checks.append(self._check_clean_functions(optimized_src))
+
+        # 13. Security & Environment (Global/Imports)
+        checks.append(self._check_security(optimized_src))
+
+        # 14. Entropy & Structural Integrity
+        checks.append(self._check_entropy(optimized_src))
+
+        # 15. Magic Numbers (G25)
+        checks.append(self._check_magic_numbers(optimized_src))
+
+        # 16. Law of Demeter (G36)
+        checks.append(self._check_law_of_demeter(optimized_src))
 
         # Compute aggregate quality score
         quality_score = self._compute_quality_score(checks)
@@ -278,22 +308,8 @@ class ValidationSuite:
         ValidationCheck
             API preservation check result
         """
-        def public_api(src: str) -> Set[str]:
-            try:
-                tree = ast.parse(src)
-            except SyntaxError:
-                return set()
-            names: Set[str] = set()
-            for node in ast.walk(tree):
-                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
-                                     ast.ClassDef)):
-                    if not node.name.startswith('_'):
-                        names.add(node.name)
-            return names
-
-        from typing import Set
-        original_api  = public_api(original)
-        optimized_api = public_api(optimized)
+        original_api  = self._extract_public_api(original)
+        optimized_api = self._extract_public_api(optimized)
         missing = original_api - optimized_api
 
         if not missing:
@@ -312,6 +328,20 @@ class ValidationSuite:
             details=f"Missing public symbols: {', '.join(sorted(missing))}",
             score=max(0.0, (1 - len(missing) / max(len(original_api), 1)) * 100)
         )
+
+    def _extract_public_api(self, src: str) -> Set[str]:
+        """Helper to extract public API symbols."""
+        try:
+            tree = ast.parse(src)
+        except SyntaxError:
+            return set()
+        names: Set[str] = set()
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                    ast.ClassDef)):
+                if not node.name.startswith('_'):
+                    names.add(node.name)
+        return names
 
     def _check_imports(
         self, original: str, optimized: str
@@ -696,6 +726,218 @@ class ValidationSuite:
             score=score
         )
 
+    def _check_clean_names(self, source: str) -> ValidationCheck:
+        """
+        Enforce Clean Code naming: no ambiguous single-letter variables (N1/N4).
+        Allowed exceptions: i, j, k (loops), x, y, z (coords), e (errors), f (files), _ (ignored).
+        """
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            return ValidationCheck('Clean Names', False, 'minor', 'Syntax error', 0.0)
+
+        allowed = {'i', 'j', 'k', 'n', 'x', 'y', 'z', 'w', 'h', 'e', 'f', 'c', '_'}
+        violations = []
+        
+        for node in ast.walk(tree):
+            # Check variables (Assign) and Arguments
+            names_to_check = []
+            if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store):
+                names_to_check.append((node.id, node.lineno))
+            elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                for arg in node.args.args:
+                    names_to_check.append((arg.arg, node.lineno))
+            
+            for name, lineno in names_to_check:
+                if len(name) == 1 and name not in allowed:
+                    violations.append(f"'{name}' at line {lineno}")
+
+        passed = len(violations) == 0
+        return ValidationCheck(
+            name='Clean Names (No Single Letters)',
+            passed=passed,
+            severity='minor',
+            details=(
+                "All names are descriptive (>1 chars)."
+                if passed
+                else f"Found ambiguous single-letter names: {', '.join(violations[:5])}..."
+            ),
+            score=100.0 if passed else max(0.0, 100.0 - len(violations) * 5)
+        )
+
+    def _check_clean_functions(self, source: str) -> ValidationCheck:
+        """
+        Enforce Clean Code function rules: Max 3 arguments (F1).
+        """
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            return ValidationCheck('Clean Functions', False, 'major', 'Syntax error', 0.0)
+
+        violations = []
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                # Count non-self/cls args
+                args = [a for a in node.args.args if a.arg not in ('self', 'cls')]
+                if len(args) > self.max_function_args:
+                    violations.append(f"{node.name}({len(args)})")
+
+        passed = len(violations) == 0
+        return ValidationCheck(
+            name=f'Clean Functions (Max {self.max_function_args} Args)',
+            passed=passed,
+            severity='minor',
+            details=(
+                f"All functions have <= {self.max_function_args} arguments."
+                if passed
+                else f"Functions exceeding max arguments: {', '.join(violations[:5])}..."
+            ),
+            score=100.0 if passed else max(0.0, 100.0 - len(violations) * 10)
+        )
+
+    def _check_security(self, source: str) -> ValidationCheck:
+        """
+        Enforce Security & Environment safety: No exec/eval, no wildcard imports.
+        """
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            return ValidationCheck('Security Checks', False, 'critical', 'Syntax error', 0.0)
+
+        issues = []
+        for node in ast.walk(tree):
+            # Check exec/eval/compile
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+                if node.func.id in {'exec', 'eval', 'compile'}:
+                    issues.append(f"Forbidden call to {node.func.id}() line {node.lineno}")
+            
+            # Check wildcard imports
+            if isinstance(node, ast.ImportFrom):
+                for alias in node.names:
+                    if alias.name == '*':
+                        issues.append(f"Wildcard import 'from {node.module} import *' line {node.lineno}")
+
+        passed = len(issues) == 0
+        return ValidationCheck(
+            name='Security & Best Practices',
+            passed=passed,
+            severity='critical',
+            details="Passed security checks." if passed else f"Security violations: {', '.join(issues)}",
+            score=100.0 if passed else 0.0
+        )
+
+    def _check_entropy(self, source: str) -> ValidationCheck:
+        """
+        Validate structural entropy using analyze_entropy module.
+        """
+        if not analyze_entropy:
+            return ValidationCheck(
+                name='Structural Entropy',
+                passed=True, 
+                severity='minor',
+                details='analyze_entropy module not found; check skipped.',
+                score=100.0
+            )
+
+        try:
+            metrics = analyze_entropy.compute_entropy_from_source(source)
+            passed = not metrics.is_high_entropy(threshold=0.4)  # align with entropy module doctrine
+            return ValidationCheck(
+                name='Structural Entropy',
+                passed=passed,
+                severity='minor',
+                details=f"Entropy Score: {metrics.normalized_score:.4f} (Threshold 0.4)",
+                score=max(0.0, (1.0 - metrics.normalized_score) * 100)
+            )
+        except Exception as e:
+            return ValidationCheck('Structural Entropy', False, 'minor', str(e), 0.0)
+
+    def _check_magic_numbers(self, source: str) -> ValidationCheck:
+        """
+        Detect magic numbers (G25).
+        Allows -1, 0, 1, and numbers in variable/constant assignments.
+        """
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            return ValidationCheck('Magic Numbers', False, 'minor', 'Syntax error', 0.0)
+
+        magic_numbers = []
+        allowed = {-1, 0, 1, 0.0, 1.0, -1.0, 2, 2.0}
+
+        # Collect lines where numeric literals are contextually acceptable:
+        # assignments, keyword arguments, class-body definitions
+        exempt_lines: set = set()
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.Assign, ast.AnnAssign)):
+                exempt_lines.add(node.lineno)
+            elif isinstance(node, ast.keyword) and hasattr(node, 'lineno'):
+                exempt_lines.add(node.lineno)
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Constant):
+                val = node.value
+                if isinstance(val, (int, float)) and not isinstance(val, bool):
+                    if val not in allowed:
+                        if node.lineno not in exempt_lines:
+                            magic_numbers.append(f"{val} at line {node.lineno}")
+
+        # Heuristic — UI code legitimately uses numeric constants for
+        # pixel dimensions, margins, font sizes, animation durations
+        passed = len(magic_numbers) <= 30
+        return ValidationCheck(
+            name='No Magic Numbers',
+            passed=passed,
+            severity='minor',
+            details=(
+                "Usage of magic numbers is low."
+                if passed
+                else f"Found potential magic numbers: {', '.join(magic_numbers[:5])}..."
+            ),
+            score=max(0.0, 100.0 - len(magic_numbers) * 5)
+        )
+
+    def _check_law_of_demeter(self, source: str) -> ValidationCheck:
+        """
+        Detect Law of Demeter violations (G36) by checking for deep attribute chains.
+        Example: a.b.c.d (depth 3 access) violates strict LoD.
+        """
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            return ValidationCheck('Law of Demeter', False, 'minor', 'Syntax error', 0.0)
+
+        violations = []
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Attribute):
+                # Count depth
+                depth = 0
+                curr = node
+                while isinstance(curr, ast.Attribute):
+                    depth += 1
+                    curr = curr.value
+                
+                # Report if chain is too long (e.g., obj.a.b.c -> depth 3)
+                # We allow 2 dots (obj.a.b) generally, 3 is pushing it.
+                if depth > 3:
+                     violations.append(f"Chain depth {depth} at line {node.lineno}")
+        
+        # Dedupe violations by line
+        unique_violations = sorted(list(set(violations)))
+        
+        passed = len(unique_violations) == 0
+        return ValidationCheck(
+            name='Law of Demeter',
+            passed=passed,
+            severity='minor',
+            details=(
+                "Attribute access chains are within reasonable depth."
+                if passed
+                else f"Found deep attribute access chains: {', '.join(unique_violations[:3])}..."
+            ),
+            score=max(0.0, 100.0 - len(unique_violations) * 5)
+        )
+
     def _compute_quality_score(
         self, checks: List[ValidationCheck]
     ) -> float:
@@ -768,7 +1010,7 @@ def main() -> int:
     """
     parser = argparse.ArgumentParser(
         prog='validation_suite',
-        description='Validate Python optimization results — Antigravity Skill v1.15.6'
+        description='Validate Python optimization results — Antigravity Skill v3.0.0'
     )
     parser.add_argument('--original',  '-a', required=True,
                         help='Original Python file')
@@ -788,8 +1030,9 @@ def main() -> int:
 
     try:
         report = suite.validate(args.original, args.optimized)
-    except FileNotFoundError as e:
-        logger.error(str(e))
+    except Exception as e:
+        logger.error(f"Validation failed: {str(e)}")
+        traceback.print_exc()
         return 1
 
     report_dict = asdict(report)

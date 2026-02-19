@@ -1,6 +1,6 @@
 # Numpy-Style Docstring Templates
 
-> Reference templates for the `python-code-optimizer` Antigravity Skill v1.15.6.
+> Reference templates for the `python-code-optimizer` Antigravity Skill v3.0.0.
 
 ---
 

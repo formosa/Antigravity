@@ -7,8 +7,8 @@ implementing a multi-stage optimization pipeline that enhances code quality,
 documentation, performance, and maintainability to academic-professional standards.
 
 Author: Enterprise Development Team
-Version: 1.15.6
-Target: Google Antigravity IDE 1.15.6, Gemini 3 Pro
+Version: 3.0.0
+Target: Google Antigravity IDE 1.16.5, Gemini 3 Flash
 License: Apache-2.0
 """
 
@@ -16,6 +16,7 @@ import argparse
 import ast
 import json
 import logging
+import filecmp
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
@@ -25,14 +26,39 @@ import tempfile
 from dataclasses import dataclass, asdict
 from datetime import datetime
 
+
+# Local imports
+sys.path.append(str(Path(__file__).parent))
+try:
+    import analyze_entropy
+except ImportError:
+    analyze_entropy = None
+
+try:
+    from refactor_engine import RefactorEngine
+except ImportError:
+    RefactorEngine = None
+
+try:
+    from validation_suite import ValidationSuite
+except ImportError:
+    ValidationSuite = None
+
+import io
+import tokenize as tokenize_mod
+
 # Configure logging for enterprise production environment
+_log_handlers = [logging.StreamHandler(sys.stdout)]
+try:
+    import os
+    if os.environ.get('PY_OPTIMIZER_LOG_FILE'):
+        _log_handlers.append(logging.FileHandler(os.environ['PY_OPTIMIZER_LOG_FILE']))
+except Exception:
+    pass
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('optimization.log'),
-        logging.StreamHandler(sys.stdout)
-    ]
+    handlers=_log_handlers
 )
 logger = logging.getLogger(__name__)
 
@@ -77,7 +103,9 @@ class OptimizationMetrics:
     lines_of_code: int
     documentation_coverage: float
     pep8_violations: int
+
     type_hint_coverage: float
+    entropy_score: float = 0.0
     execution_time: Optional[float] = None
     memory_usage: Optional[float] = None
 
@@ -105,12 +133,182 @@ class OptimizationResult:
         Total optimization time in seconds
     """
     success: bool
-    original_metrics: OptimizationMetrics
+    original_metrics: Optional[OptimizationMetrics]
     optimized_metrics: OptimizationMetrics
     changes_applied: List[str]
     warnings: List[str]
     errors: List[str]
     optimization_duration: float
+
+
+class _CommentPreserver:
+    """
+    Extract and re-inject comments across AST round-trips.
+
+    Uses Python's tokenize module to capture all comments before
+    ast.unparse() strips them, then re-injects them into the
+    refactored source using anchor-line matching.
+
+    Parameters
+    ----------
+    source : str
+        Original Python source code containing comments to preserve
+    """
+
+    def __init__(self, source: str) -> None:
+        self._groups = self._extract_groups(source)
+
+    @staticmethod
+    def _normalize(line: str) -> str:
+        """Normalize a code line for fuzzy anchor matching."""
+        return ' '.join(line.split()).strip().rstrip(':,')
+
+    @staticmethod
+    def _extract_groups(source: str) -> List[dict]:
+        """
+        Extract comment groups from source.
+
+        Groups consecutive comment-only lines into blocks.
+        Inline comments (sharing a line with code) are
+        individual groups.
+
+        Returns
+        -------
+        List[dict]
+            Each dict has keys: 'lines' (list of comment
+            strings), 'inline' (bool), 'anchor' (normalized
+            code string to match against refactored output)
+        """
+        comments_by_line: Dict[int, str] = {}
+        try:
+            tokens = tokenize_mod.generate_tokens(
+                io.StringIO(source).readline
+            )
+            for tok_type, tok_string, start, _end, _line in tokens:
+                if tok_type == tokenize_mod.COMMENT:
+                    comments_by_line[start[0]] = tok_string
+        except tokenize_mod.TokenError:
+            return []
+
+        if not comments_by_line:
+            return []
+
+        source_lines = source.splitlines()
+        groups: List[dict] = []
+        sorted_line_nums = sorted(comments_by_line.keys())
+
+        i = 0
+        while i < len(sorted_line_nums):
+            line_num = sorted_line_nums[i]
+            code_before = (
+                source_lines[line_num - 1].split('#')[0].strip()
+            )
+            is_inline = len(code_before) > 0
+
+            if is_inline:
+                groups.append({
+                    'lines': [comments_by_line[line_num]],
+                    'inline': True,
+                    'anchor': _CommentPreserver._normalize(
+                        code_before
+                    ),
+                })
+                i += 1
+            else:
+                block = [comments_by_line[line_num]]
+                j = i + 1
+                while j < len(sorted_line_nums):
+                    next_num = sorted_line_nums[j]
+                    if next_num != sorted_line_nums[j - 1] + 1:
+                        break
+                    next_code = (
+                        source_lines[next_num - 1]
+                        .split('#')[0]
+                        .strip()
+                    )
+                    if len(next_code) > 0:
+                        break
+                    block.append(comments_by_line[next_num])
+                    j += 1
+
+                anchor = None
+                last_comment_line = sorted_line_nums[j - 1]
+                for k in range(last_comment_line, len(source_lines)):
+                    candidate = source_lines[k].split('#')[0].strip()
+                    if candidate and not candidate.startswith('#'):
+                        anchor = _CommentPreserver._normalize(
+                            candidate
+                        )
+                        break
+
+                groups.append({
+                    'lines': block,
+                    'inline': False,
+                    'anchor': anchor,
+                })
+                i = j
+
+        return groups
+
+    def reinsert(self, refactored: str) -> str:
+        """
+        Re-inject extracted comments into refactored source.
+
+        Parameters
+        ----------
+        refactored : str
+            Source after AST transformation (comments stripped)
+
+        Returns
+        -------
+        str
+            Source with comments re-injected at anchor positions
+        """
+        if not self._groups:
+            return refactored
+
+        lines = refactored.splitlines()
+        norm = _CommentPreserver._normalize
+
+        anchor_map: Dict[str, int] = {}
+        for idx, line in enumerate(lines):
+            n = norm(line)
+            if n and n not in anchor_map:
+                anchor_map[n] = idx
+
+        insertions: List[Tuple[int, List[str], bool]] = []
+        for group in self._groups:
+            if not group['anchor']:
+                continue
+            target_idx = anchor_map.get(group['anchor'])
+            if target_idx is not None:
+                insertions.append(
+                    (target_idx, group['lines'], group['inline'])
+                )
+
+        insertions.sort(key=lambda x: x[0])
+        offset = 0
+        used_inline: set = set()
+
+        for target_idx, comment_lines, is_inline in insertions:
+            actual_idx = target_idx + offset
+            if is_inline:
+                if actual_idx not in used_inline:
+                    lines[actual_idx] = (
+                        f"{lines[actual_idx]}  {comment_lines[0]}"
+                    )
+                    used_inline.add(actual_idx)
+            else:
+                anchor_line = lines[actual_idx]
+                indent = len(anchor_line) - len(
+                    anchor_line.lstrip()
+                )
+                prefix = ' ' * indent
+                for ci, ctext in enumerate(comment_lines):
+                    lines.insert(actual_idx + ci, prefix + ctext)
+                offset += len(comment_lines)
+
+        return '\n'.join(lines)
 
 
 class PythonCodeOptimizer:
@@ -119,7 +317,7 @@ class PythonCodeOptimizer:
 
     Implements multi-stage optimization pipeline including structural refactoring,
     documentation enhancement, performance optimization, and quality enforcement.
-    Designed for Google Antigravity IDE 1.15.6 and Gemini 3 Pro agent.
+    Designed for Google Antigravity IDE 1.16.5 and Gemini 3 Pro agent.
 
     Parameters
     ----------
@@ -159,7 +357,7 @@ class PythonCodeOptimizer:
         focus_areas: Optional[List[str]] = None,
         preserve_comments: bool = True,
         max_complexity: int = 10,
-        target_maintainability: float = 70.0
+        target_maintainability: float = 75.0
     ):
         """
         Initialize the Python Code Optimizer.
@@ -174,7 +372,7 @@ class PythonCodeOptimizer:
             Preserve existing comments
         max_complexity : int, default=10
             Maximum cyclomatic complexity threshold
-        target_maintainability : float, default=70.0
+        target_maintainability : float, default=75.0
             Target maintainability index
         """
         self.optimization_level = optimization_level
@@ -184,6 +382,13 @@ class PythonCodeOptimizer:
         self.target_maintainability = target_maintainability
         self.temp_dir = Path(tempfile.mkdtemp(prefix='py_optimize_'))
         self.validation_enabled = True
+
+        # Apply level-based threshold overrides
+        if self.optimization_level == 'extreme':
+            self.max_complexity = min(self.max_complexity, 6)
+            self.target_maintainability = max(
+                self.target_maintainability, 85.0
+            )
 
         logger.info(
             f"Initialized PythonCodeOptimizer: level={optimization_level}, "
@@ -260,15 +465,30 @@ class PythonCodeOptimizer:
 
             # Stage 2: Structural Optimization
             if 'all' in self.focus_areas or 'structure' in self.focus_areas:
-                logger.info("Stage 2: Applying structural optimizations")
-                structure_changes = self._optimize_structure(working_file)
+                logger.info("Stage 2: Analyzing structure")
+                structure_changes, structure_warnings = self._optimize_structure(working_file)
                 changes_applied.extend(structure_changes)
+                warnings.extend(structure_warnings)
+
+            # Stage 2.5: AST-Based Refactoring
+            if 'all' in self.focus_areas or 'structure' in self.focus_areas:
+                logger.info(
+                    "Stage 2.5: Applying AST-based refactoring "
+                    "(naming, docstrings, type stubs, "
+                    "modularization)"
+                )
+                refactor_changes, refactor_warnings = (
+                    self._apply_refactoring(working_file)
+                )
+                changes_applied.extend(refactor_changes)
+                warnings.extend(refactor_warnings)
 
             # Stage 3: Documentation Enhancement
             if 'all' in self.focus_areas or 'documentation' in self.focus_areas:
                 logger.info("Stage 3: Enhancing documentation")
-                doc_changes = self._enhance_documentation(working_file)
+                doc_changes, doc_warnings = self._enhance_documentation(working_file)
                 changes_applied.extend(doc_changes)
+                warnings.extend(doc_warnings)
 
             # Stage 4: Code Quality Enforcement
             if 'all' in self.focus_areas or 'style' in self.focus_areas:
@@ -278,9 +498,10 @@ class PythonCodeOptimizer:
 
             # Stage 5: Performance Optimization
             if 'all' in self.focus_areas or 'performance' in self.focus_areas:
-                logger.info("Stage 5: Optimizing performance")
-                perf_changes = self._optimize_performance(working_file)
+                logger.info("Stage 5: Analyzing performance")
+                perf_changes, perf_warnings = self._optimize_performance(working_file)
                 changes_applied.extend(perf_changes)
+                warnings.extend(perf_warnings)
 
             # Stage 6: Validation
             logger.info("Stage 6: Validating optimizations")
@@ -295,8 +516,12 @@ class PythonCodeOptimizer:
             logger.info(f"Optimized metrics: {asdict(optimized_metrics)}")
 
             # Copy to output location
-            shutil.copy2(working_file, output_path)
-            logger.info(f"Optimization complete: {output_path}")
+            if filecmp.cmp(working_file, input_path):
+                logger.info("No changes were necessary - file is already optimized.")
+                changes_applied.append("No changes needed (content identical)")
+            else:
+                shutil.copy2(working_file, output_path)
+                logger.info(f"Optimization complete: {output_path}")
 
             # Generate report if requested
             if generate_report:
@@ -306,6 +531,15 @@ class PythonCodeOptimizer:
                     changes_applied,
                     output_path
                 )
+            
+            # stdout summary for agent visibility
+            print("\n=== OPTIMIZATION SUMMARY ===")
+            print(f"File: {output_path}")
+            print(f"Status: {'Success' if changes_applied else 'No Changes'}")
+            print(f"Changes Applied: {len(changes_applied)}")
+            for change in changes_applied:
+                print(f"  - {change}")
+            print("============================\n")
 
             duration = (datetime.now() - start_time).total_seconds()
 
@@ -394,33 +628,29 @@ class PythonCodeOptimizer:
         # Analyze type hint coverage
         type_coverage = self._analyze_type_hints(tree)
 
+        # Compute Entropy
+        entropy = 0.0
+        if analyze_entropy:
+            try:
+                metrics = analyze_entropy.compute_entropy_from_source(source_code)
+                entropy = metrics.normalized_score
+            except Exception:
+                pass
+
         return OptimizationMetrics(
             cyclomatic_complexity=complexity,
             maintainability_index=maintainability,
             lines_of_code=loc,
             documentation_coverage=doc_coverage,
             pep8_violations=pep8_violations,
-            type_hint_coverage=type_coverage
+            type_hint_coverage=type_coverage,
+            entropy_score=entropy
         )
 
-    def _optimize_structure(self, file_path: Path) -> List[str]:
-        """
-        Apply structural optimizations to reduce complexity and improve design.
-
-        Decomposes complex functions, extracts duplicated code, applies design
-        patterns, and reduces nesting depth.
-
-        Parameters
-        ----------
-        file_path : Path
-            Path to file to optimize
-
-        Returns
-        -------
-        List[str]
-            Descriptions of structural changes applied
-        """
+    def _optimize_structure(self, file_path: Path) -> Tuple[List[str], List[str]]:
+        """Analyze structure and recommend improvements."""
         changes = []
+        warnings = []
 
         with open(file_path, 'r', encoding='utf-8') as f:
             source = f.read()
@@ -429,50 +659,141 @@ class PythonCodeOptimizer:
             tree = ast.parse(source)
         except SyntaxError:
             logger.warning(f"Cannot parse {file_path} for structural optimization")
-            return changes
+            return changes, warnings
 
         # Identify functions with high complexity
         complex_functions = self._find_complex_functions(tree)
 
         if complex_functions:
-            changes.append(
-                f"Identified {len(complex_functions)} functions exceeding "
-                f"complexity threshold (>{self.max_complexity})"
-            )
-            # Note: Actual decomposition would require sophisticated AST
-            # transformation - implementation would use tools like rope or jedi
-            changes.append(
-                "Applied function decomposition to reduce complexity"
+            warnings.append(
+                f"[Structure] Found {len(complex_functions)} functions exceeding "
+                f"complexity threshold (>{self.max_complexity}). Recommendation: Decompose."
             )
 
         # Extract duplicated code
         duplicates = self._find_code_duplication(tree)
         if duplicates:
-            changes.append(
-                f"Extracted {len(duplicates)} duplicated code blocks into "
-                f"reusable utilities"
+            warnings.append(
+                f"[Structure] Found {len(duplicates)} duplicated code blocks. "
+                f"Recommendation: Extract to utilities."
             )
 
-        return changes
+        # Clean Code F1: Max 5 Arguments (enterprise target)
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                args = [a for a in node.args.args if a.arg not in ('self', 'cls')]
+                if len(args) > 5:
+                     warnings.append(f"[Clean Code] Function '{node.name}' has {len(args)} arguments (Max 5). Recommendation: Use dataclass.")
 
-    def _enhance_documentation(self, file_path: Path) -> List[str]:
+        return changes, warnings
+
+    def _apply_refactoring(
+        self, file_path: Path
+    ) -> Tuple[List[str], List[str]]:
         """
-        Enhance code documentation with comprehensive Numpy-style docstrings.
+        Apply AST-based refactoring via RefactorEngine with comment
+        preservation.
 
-        Adds docstrings to undocumented functions and classes, ensures all
-        parameters, returns, and exceptions are documented with examples.
+        Performs naming convention enforcement, docstring injection,
+        type stub injection, large string modularization, and
+        anti-pattern elimination while preserving existing comments.
 
         Parameters
         ----------
         file_path : Path
-            Path to file to document
+            Path to the working Python file to refactor
 
         Returns
         -------
-        List[str]
-            Descriptions of documentation enhancements
+        Tuple[List[str], List[str]]
+            (changes_applied, warnings)
+
+        Notes
+        -----
+        - Skipped when RefactorEngine is unavailable
+        - Skipped in 'conservative' mode (analysis only)
+        - On engine failure, original file is preserved and errors
+          are demoted to warnings (fail-safe)
         """
+        changes: List[str] = []
+        warnings: List[str] = []
+
+        if RefactorEngine is None:
+            warnings.append(
+                "[Refactor] refactor_engine module not available; "
+                "AST refactoring skipped."
+            )
+            return changes, warnings
+
+        if self.optimization_level == 'conservative':
+            logger.info(
+                "Skipping AST refactoring in conservative mode"
+            )
+            return changes, warnings
+
+        source = file_path.read_text(encoding='utf-8')
+
+        # Preserve comments before AST round-trip
+        preserver = None
+        if self.preserve_comments:
+            preserver = _CommentPreserver(source)
+            logger.info(
+                f"Extracted {len(preserver._groups)} comment "
+                f"groups for preservation"
+            )
+
+        # String restoration thresholds by optimization level
+        _thresholds = {
+            'balanced':   {'min_newlines': 6, 'min_length': 300},
+            'aggressive': {'min_newlines': 4, 'min_length': 200},
+            'extreme':    {'min_newlines': 2, 'min_length': 100},
+        }.get(self.optimization_level, {'min_newlines': 4, 'min_length': 200})
+
+        engine = RefactorEngine(
+            max_line_length=88,
+            inject_type_stubs=True,
+            numpy_doc_examples=True,
+            string_restore_min_newlines=_thresholds['min_newlines'],
+            string_restore_min_length=_thresholds['min_length']
+        )
+        result = engine.refactor_source(source, str(file_path))
+
+        if not result.success:
+            for err in result.errors:
+                warnings.append(
+                    f"[Refactor] Engine error: {err}"
+                )
+            logger.warning(
+                "RefactorEngine failed; preserving original file"
+            )
+            return changes, warnings
+
+        refactored = result.refactored_source
+
+        # Re-inject preserved comments
+        if preserver is not None and refactored != source:
+            refactored = preserver.reinsert(refactored)
+
+        # Only write back if source actually changed
+        if refactored != source:
+            file_path.write_text(refactored, encoding='utf-8')
+            for rc in result.changes:
+                changes.append(
+                    f"[Refactor/{rc.category}] {rc.description}"
+                )
+            logger.info(
+                f"Refactoring complete: "
+                f"{len(result.changes)} transformations applied"
+            )
+        else:
+            logger.info("Refactoring produced no changes")
+
+        return changes, warnings
+
+    def _enhance_documentation(self, file_path: Path) -> Tuple[List[str], List[str]]:
+        """Analyze documentation and recommend improvements."""
         changes = []
+        warnings = []
 
         with open(file_path, 'r', encoding='utf-8') as f:
             source = f.read()
@@ -480,33 +801,30 @@ class PythonCodeOptimizer:
         try:
             tree = ast.parse(source)
         except SyntaxError:
-            return changes
+            return changes, warnings
 
-        # Find undocumented functions and classes
+        # Find undocumented elements
         undocumented = self._find_undocumented_elements(tree)
 
         if undocumented['functions']:
-            changes.append(
-                f"Added Numpy-style docstrings to {len(undocumented['functions'])} "
-                f"undocumented functions"
+            warnings.append(
+                f"[Documentation] Found {len(undocumented['functions'])} undocumented functions. "
+                f"Recommendation: Add Numpy-style docstrings."
             )
 
         if undocumented['classes']:
-            changes.append(
-                f"Added comprehensive documentation to {len(undocumented['classes'])} "
-                f"classes"
+            warnings.append(
+                f"[Documentation] Found {len(undocumented['classes'])} undocumented classes. "
+                f"Recommendation: Add docstrings."
             )
 
-        # Note: Actual docstring generation would use AST transformation
-        # and potentially LLM-based generation for high-quality descriptions
-
-        return changes
+        return changes, warnings
 
     def _enforce_quality(self, file_path: Path) -> List[str]:
         """
         Enforce code quality standards including PEP 8, type hints, and naming.
 
-        Applies Black formatting, isort import organization, and pylint fixes.
+        Applies Ruff formatting and linting (preferred), with Black/isort fallback.
 
         Parameters
         ----------
@@ -520,54 +838,75 @@ class PythonCodeOptimizer:
         """
         changes = []
 
-        # Apply Black formatting
+        # Prefer Ruff (modern, fast, replaces black+isort+pycodestyle)
+        ruff_available = False
         try:
             result = subprocess.run(
-                ['black', '--quiet', str(file_path)],
+                ['ruff', 'format', str(file_path)],
                 capture_output=True,
                 text=True,
-                timeout=30
+                timeout=30,
+                errors='replace'
             )
             if result.returncode == 0:
-                changes.append("Applied Black code formatting (PEP 8)")
+                changes.append("Applied Ruff code formatting (PEP 8)")
+                ruff_available = True
             else:
-                logger.warning(f"Black formatting failed: {result.stderr}")
-        except (subprocess.TimeoutExpired, FileNotFoundError) as e:
-            logger.warning(f"Black not available: {e}")
+                logger.warning(f"Ruff format failed: {result.stderr}")
+        except (subprocess.TimeoutExpired, FileNotFoundError):
+            logger.info("Ruff not available, falling back to black+isort")
 
-        # Organize imports with isort
-        try:
-            result = subprocess.run(
-                ['isort', '--quiet', str(file_path)],
-                capture_output=True,
-                text=True,
-                timeout=30
-            )
-            if result.returncode == 0:
-                changes.append("Organized imports with isort")
-        except (subprocess.TimeoutExpired, FileNotFoundError) as e:
-            logger.warning(f"isort not available: {e}")
+        if ruff_available:
+            # Ruff lint with auto-fix
+            try:
+                result = subprocess.run(
+                    ['ruff', 'check', '--fix', str(file_path)],
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                    errors='replace'
+                )
+                if result.returncode == 0:
+                    changes.append("Applied Ruff lint fixes (imports, style)")
+            except (subprocess.TimeoutExpired, FileNotFoundError):
+                pass
+        else:
+            # Fallback: Black formatting
+            try:
+                result = subprocess.run(
+                    ['black', '--quiet', str(file_path)],
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                    errors='replace'
+                )
+                if result.returncode == 0:
+                    changes.append("Applied Black code formatting (PEP 8)")
+                else:
+                    logger.warning(f"Black formatting failed: {result.stderr}")
+            except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+                logger.warning(f"Black not available: {e}")
+
+            # Fallback: isort import organization
+            try:
+                result = subprocess.run(
+                    ['isort', '--quiet', str(file_path)],
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                    errors='replace'
+                )
+                if result.returncode == 0:
+                    changes.append("Organized imports with isort")
+            except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+                logger.warning(f"isort not available: {e}")
 
         return changes
 
-    def _optimize_performance(self, file_path: Path) -> List[str]:
-        """
-        Apply performance optimizations to improve execution efficiency.
-
-        Identifies and optimizes algorithmic complexity, replaces inefficient
-        patterns, implements caching, and optimizes data structures.
-
-        Parameters
-        ----------
-        file_path : Path
-            Path to file to optimize
-
-        Returns
-        -------
-        List[str]
-            Descriptions of performance improvements
-        """
+    def _optimize_performance(self, file_path: Path) -> Tuple[List[str], List[str]]:
+        """Analyze performance and recommend improvements."""
         changes = []
+        warnings = []
 
         with open(file_path, 'r', encoding='utf-8') as f:
             source = f.read()
@@ -575,24 +914,24 @@ class PythonCodeOptimizer:
         try:
             tree = ast.parse(source)
         except SyntaxError:
-            return changes
+            return changes, warnings
 
         # Identify inefficient patterns
         patterns = self._find_inefficient_patterns(tree)
 
         if patterns.get('nested_loops'):
-            changes.append(
-                f"Optimized {len(patterns['nested_loops'])} nested loop "
-                f"structures for better algorithmic complexity"
+            warnings.append(
+                f"[Performance] Found {len(patterns['nested_loops'])} nested loop structures. "
+                f"Recommendation: Review for O(n^2) complexity."
             )
 
         if patterns.get('repeated_operations'):
-            changes.append(
-                f"Implemented caching for {len(patterns['repeated_operations'])} "
-                f"repeated expensive operations"
+            warnings.append(
+                f"[Performance] Found {len(patterns['repeated_operations'])} repeated "
+                f"expensive operations. Recommendation: Implement caching."
             )
 
-        return changes
+        return changes, warnings
 
     def _validate_optimizations(
         self,
@@ -602,8 +941,10 @@ class PythonCodeOptimizer:
         """
         Validate that optimizations preserve original functionality.
 
-        Compares execution behavior, checks for regressions, and ensures
-        semantic equivalence between original and optimized code.
+        Runs the full ValidationSuite (if available) to check API
+        preservation, documentation coverage, type hint coverage,
+        complexity thresholds, and Clean Code compliance. Falls back
+        to basic syntax validation if the suite is unavailable.
 
         Parameters
         ----------
@@ -619,7 +960,7 @@ class PythonCodeOptimizer:
         """
         warnings = []
 
-        # Basic syntax validation
+        # Basic syntax validation (always performed)
         try:
             with open(optimized_path, 'r', encoding='utf-8') as f:
                 ast.parse(f.read())
@@ -627,8 +968,37 @@ class PythonCodeOptimizer:
             warnings.append(f"Syntax error in optimized code: {e}")
             return warnings
 
-        # Note: Full functional validation would require running test suites
-        # or performing static analysis to prove equivalence
+        # Full validation via ValidationSuite
+        if ValidationSuite is not None:
+            try:
+                suite = ValidationSuite()
+                report = suite.validate(original_path, optimized_path)
+                if not report.overall_pass:
+                    for check in report.checks:
+                        if not check.passed:
+                            warnings.append(
+                                f"[Validation/{check.severity}] "
+                                f"{check.name}: {check.details}"
+                            )
+                for rec in report.recommendations:
+                    warnings.append(
+                        f"[Validation] Recommendation: {rec}"
+                    )
+                logger.info(
+                    "ValidationSuite complete: score=%.1f, pass=%s",
+                    report.quality_score, report.overall_pass
+                )
+            except Exception as e:
+                logger.warning(
+                    "ValidationSuite failed: %s", str(e)
+                )
+                warnings.append(
+                    f"[Validation] Suite error: {e}"
+                )
+        else:
+            logger.info(
+                "ValidationSuite not available; syntax-only validation"
+            )
 
         logger.info("Validation completed successfully")
         return warnings
@@ -688,7 +1058,8 @@ class PythonCodeOptimizer:
                 ['radon', 'cc', '-a', file_path],
                 capture_output=True,
                 text=True,
-                timeout=10
+                timeout=10,
+                errors='replace'
             )
             if result.returncode == 0:
                 # Parse radon output for average complexity
@@ -1178,7 +1549,7 @@ def _build_argument_parser() -> argparse.ArgumentParser:
         prog='optimize_python',
         description=(
             'Optimize Python code to academic-professional standards.\n'
-            'Part of the python-code-optimizer Antigravity Skill v1.15.6.'
+            'Part of the python-code-optimizer Antigravity Skill v3.0.0.'
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
@@ -1202,7 +1573,7 @@ def _build_argument_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         '--level', '-l',
-        choices=['conservative', 'balanced', 'aggressive'],
+        choices=['conservative', 'balanced', 'aggressive', 'extreme'],
         default='balanced',
         help='Optimization aggressiveness level (default: balanced)'
     )
@@ -1269,7 +1640,7 @@ def main() -> int:
     # Print human-readable summary
     status = "SUCCESS" if result.success else "FAILED"
     print(f"\n{'='*60}")
-    print(f"  Python Code Optimizer — {status}")
+    print(f"  Python Code Optimizer - {status}")
     print(f"{'='*60}")
     print(f"  Input  : {args.input}")
     print(f"  Output : {args.output}")
@@ -1280,25 +1651,26 @@ def main() -> int:
         orig = result.original_metrics
         opt  = result.optimized_metrics
         print(f"\n  Metric                  Before     After")
-        print(f"  {'─'*44}")
-        print(f"  Cyclomatic Complexity   {orig.cyclomatic_complexity:>6.2f}  →  {opt.cyclomatic_complexity:>6.2f}")
-        print(f"  Maintainability Index   {orig.maintainability_index:>6.2f}  →  {opt.maintainability_index:>6.2f}")
-        print(f"  Doc Coverage (%)        {orig.documentation_coverage:>6.2f}  →  {opt.documentation_coverage:>6.2f}")
-        print(f"  PEP 8 Violations        {orig.pep8_violations:>6}  →  {opt.pep8_violations:>6}")
-        print(f"  Type Hint Coverage (%)  {orig.type_hint_coverage:>6.2f}  →  {opt.type_hint_coverage:>6.2f}")
+        print(f"  {'-'*44}")
+        print(f"  Cyclomatic Complexity   {orig.cyclomatic_complexity:>6.2f}  ->  {opt.cyclomatic_complexity:>6.2f}")
+        print(f"  Maintainability Index   {orig.maintainability_index:>6.2f}  ->  {opt.maintainability_index:>6.2f}")
+        print(f"  Doc Coverage (%)        {orig.documentation_coverage:>6.2f}  ->  {opt.documentation_coverage:>6.2f}")
+        print(f"  PEP 8 Violations        {orig.pep8_violations:>6}  ->  {opt.pep8_violations:>6}")
+        print(f"  Type Hint Coverage (%)  {orig.type_hint_coverage:>6.2f}  ->  {opt.type_hint_coverage:>6.2f}")
+        print(f"  Lines of Code           {orig.lines_of_code:>6}  ->  {opt.lines_of_code:>6}")
         print(f"\n  Changes Applied : {len(result.changes_applied)}")
         for change in result.changes_applied:
-            print(f"    • {change}")
+            print(f"    - {change}")
 
     if result.warnings:
         print(f"\n  Warnings ({len(result.warnings)}):")
         for w in result.warnings:
-            print(f"    ⚠  {w}")
+            print(f"    [WARN] {w}")
 
     if result.errors:
         print(f"\n  Errors ({len(result.errors)}):")
         for e in result.errors:
-            print(f"    ✗  {e}")
+            print(f"    [ERR]  {e}")
 
     print(f"{'='*60}\n")
 

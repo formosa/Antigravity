@@ -2,7 +2,7 @@
 
 > Master lookup for all agent enforcement rules.
 >
-> **Total Rules**: 21 (post-optimization)
+> **Total Rules**: 22 (post-optimization)
 >
 > **Schema**: [`antigravity_types.d.ts`](../assets/antigravity_types.d.ts)
 >
@@ -20,7 +20,7 @@
 
 | Mode | Count | Purpose |
 | :----- | ------: | :-------- |
-| Always On | 3 | Safety constraints, ID immutability |
+| Always On | 4 | Safety constraints, ID immutability, Execution protocols |
 | Glob | 15 | Tier-scoped doc enforcement |
 | Model Decision | 2 | Contextual application during doc work |
 | Manual | 1 | Adversarial planning protocol |
@@ -33,6 +33,14 @@
 | :----- | :-------- |
 | [sys_protected_files.md](sys_protected_files.md) | `.agent/assets/` write protection |
 | [sys_antigravity_types.md](sys_antigravity_types.md) | Schema compliance enforcement |
+
+---
+
+### Execution Rules (1) — Always On, Priority 100
+
+| File | Purpose |
+| :----- | :-------- |
+| [execution_protocol.md](execution_protocol.md) | Shell & Python execution constraints |
 
 ---
 

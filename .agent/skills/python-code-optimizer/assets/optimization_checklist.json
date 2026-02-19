@@ -1,5 +1,5 @@
 {
-    "schema_version": "1.15.6",
+    "schema_version": "1.16.5",
     "skill": "python-code-optimizer",
     "target_model": "gemini-3-pro",
     "optimization_checklist": {
@@ -59,8 +59,8 @@
                 {
                     "id": "STR-002",
                     "priority": "critical",
-                    "check": "Maintainability index >= 70",
-                    "target_metric": 70,
+                    "check": "Maintainability index >= 75",
+                    "target_metric": 75,
                     "automated": true,
                     "tool": "radon mi"
                 },
@@ -90,8 +90,8 @@
                 {
                     "id": "STR-006",
                     "priority": "minor",
-                    "check": "Max function parameters <= 7",
-                    "target_metric": 7,
+                    "check": "Max function parameters <= 5",
+                    "target_metric": 5,
                     "automated": true,
                     "tool": "pylint"
                 }
@@ -337,34 +337,55 @@
         "target_quality_score": 90.0,
         "academic_grade_score": 95.0,
         "max_cyclomatic_complexity": 10,
-        "min_maintainability_index": 70.0,
+        "max_cognitive_complexity": 15,
+        "min_maintainability_index": 75.0,
         "min_documentation_coverage": 80.0,
         "target_documentation_coverage": 100.0,
         "min_type_hint_coverage": 70.0,
-        "target_type_hint_coverage": 90.0,
+        "target_type_hint_coverage": 95.0,
         "max_pep8_violations": 0,
         "max_line_length": 88,
         "max_function_lines": 50,
         "max_nesting_depth": 4,
-        "max_function_parameters": 7
+        "max_function_parameters": 5,
+        "max_entropy_score": 0.4,
+        "extreme_thresholds": {
+            "max_cyclomatic_complexity": 6,
+            "max_cognitive_complexity": 10,
+            "min_maintainability_index": 85.0,
+            "min_documentation_coverage": 100.0,
+            "min_type_hint_coverage": 95.0,
+            "max_function_lines": 30,
+            "max_function_parameters": 3,
+            "max_nesting_depth": 3,
+            "max_entropy_score": 0.25
+        }
     },
     "tool_requirements": {
         "required": [
-            "python>=3.8",
+            "python>=3.9",
             "ast"
         ],
         "recommended": [
-            "black",
-            "isort",
+            "ruff",
             "pylint",
-            "pycodestyle",
             "radon",
             "mypy"
         ],
         "optional": [
+            "black",
+            "isort",
+            "pycodestyle",
             "memory_profiler",
             "line_profiler",
             "bandit"
         ]
+    },
+    "skill_metadata": {
+        "version": "3.0.0",
+        "target_model": "gemini-3-pro",
+        "optimization_level": "academic-professional",
+        "min_python_version": "3.9",
+        "ide_compatibility": "Antigravity IDE 1.16.5+"
     }
 }

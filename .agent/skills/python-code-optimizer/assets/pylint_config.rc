@@ -1,7 +1,7 @@
 [MASTER]
-# Antigravity Skill v1.15.6 — Enterprise Pylint Configuration
+# Antigravity Skill v1.16.5 — Enterprise Pylint Configuration
 # Optimized for Gemini 3 Pro code quality enforcement
-# Python 3.8+ target
+# Python 3.9+ target
 
 jobs=4
 suggestion-mode=yes
@@ -44,7 +44,7 @@ single-line-if-stmt=no
 single-line-class-stmt=no
 
 [DESIGN]
-max-args=7
+max-args=5
 max-attributes=10
 max-bool-expr=5
 max-branches=12
@@ -82,7 +82,7 @@ method-naming-style=snake_case
 module-naming-style=snake_case
 variable-naming-style=snake_case
 
-good-names=i,j,k,n,x,y,z,f,e,dt,ax,df,ex,ok,id,ip,db,ok,_
+good-names=i,j,k,n,x,y,z,f,e,dt,ax,df,ex,ok,id,ip,db,_
 bad-names=l,O,I
 name-group=
 include-naming-hint=yes

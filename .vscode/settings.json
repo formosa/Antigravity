@@ -74,6 +74,7 @@
         "opds",
         "optparse",
         "overgeneral",
+        "pasteable",
         "pathlib",
         "pycodestyle",
         "pylint",
@@ -81,5 +82,31 @@
         "stdlib",
         "tkinter",
         "undoc"
-    ]
+    ],
+    // =========================================================================
+    // PowerShell: Hardened Agentic Execution Environment
+    // =========================================================================
+    // Enforce PowerShell 7 (pwsh) as the default integrated terminal.
+    // Windows PowerShell 5.1 uses legacy encoding and is forbidden.
+    "terminal.integrated.defaultProfile.windows": "PowerShell 7",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell 7": {
+            "path": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "args": [
+                "-NoLogo"
+            ]
+        }
+    },
+    // =========================================================================
+    // UTF-8: IDE Boundary Encoding Enforcement
+    // =========================================================================
+    // These variables are forcefully injected into every terminal session spawned
+    // by the Antigravity IDE, preventing agentic subprocess hallucination failures.
+    "terminal.integrated.env.windows": {
+        // PEP 686 Standard: Forces Python 3.x to use UTF-8 globally for open(),
+        // os.fsdecode(), and all standard streams.
+        "PYTHONUTF8": "1",
+        // Fallback safeguard for legacy Python tooling prior to UTF-8 Mode adoption.
+        "PYTHONIOENCODING": "utf-8"
+    }
 }

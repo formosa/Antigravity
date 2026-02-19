@@ -1,6 +1,6 @@
 # Enterprise Python Best Practices
 
-> Reference guide for the `python-code-optimizer` Antigravity Skill v1.15.6.
+> Reference guide for the `python-code-optimizer` Antigravity Skill v3.0.0.
 
 ---
 
@@ -161,10 +161,10 @@ class TestDivide:
 
 ## 8. Version Compatibility
 
-Target Python 3.8+ for enterprise compatibility:
+Target Python 3.9+ for enterprise compatibility:
 
 ```python
-# Use __future__ annotations for forward references (Python 3.8)
+# Use __future__ annotations for forward references (Python 3.9+)
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
