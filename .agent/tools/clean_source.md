@@ -45,10 +45,10 @@ The Agent must provide:
 
 ## Exit Codes & Interpretation
 
-| Code | Status | Agent Interpretation |
-| :----: | :------- | :--------------------- |
-| **0** | **SUCCESS** | File modified (or dry-run complete). Comments/docstrings removed. Syntax verified. |
-| **1** | **ERROR** | Operation aborted. File read/write failed, syntax check failed, or encoding error. |
+| Code   | Status      | Agent Interpretation                                                               |
+| :----: | :---------- | :--------------------------------------------------------------------------------- |
+| **0**  | **SUCCESS** | File modified (or dry-run complete). Comments/docstrings removed. Syntax verified. |
+| **1**  | **ERROR**   | Operation aborted. File read/write failed, syntax check failed, or encoding error. |
 
 ## Performance Profile
 

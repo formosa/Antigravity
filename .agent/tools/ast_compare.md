@@ -44,11 +44,11 @@ The Agent must provide two absolute or relative file paths:
 
 ## Exit Codes & Interpretation
 
-| Code | Status | Agent Interpretation |
-| :----: | :------- | :--------------------- |
-| **0** | **VERIFIED** | **SUCCESS:** Logic is identical. The docstrings were added safely. You may proceed to commit/save. |
-| **1** | **VIOLATION** | **CRITICAL FAILURE:** Logic has been altered. The modification is DESTRUCTIVE. Discard the modified file immediately and analyze why logic was touched. |
-| **2** | **ERROR** | **SYSTEM ERROR:** One or both files could not be parsed (Syntax Error) or found. Check file paths and Python syntax validity. |
+| Code   | Status        | Agent Interpretation                                                                                                                                    |
+| :----: | :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **0**  | **VERIFIED**  | **SUCCESS:** Logic is identical. The docstrings were added safely. You may proceed to commit/save.                                                      |
+| **1**  | **VIOLATION** | **CRITICAL FAILURE:** Logic has been altered. The modification is DESTRUCTIVE. Discard the modified file immediately and analyze why logic was touched. |
+| **2**  | **ERROR**     | **SYSTEM ERROR:** One or both files could not be parsed (Syntax Error) or found. Check file paths and Python syntax validity.                           |
 
 ## Operational Protocol
 

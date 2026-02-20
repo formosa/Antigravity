@@ -33,13 +33,13 @@ The **FSD tier** captures what the system does from a user/stakeholder perspecti
 
 ## Characteristics
 
-| Attribute | Value |
-| :---------- | :------ |
-| **Layer** | Behavior |
-| **Question** | "What does the system do?" |
-| **Persona** | Product Owner |
-| **Audience** | Product managers, UX designers, architects |
-| **Tag Format** | `FSD-N` (block), `FSD-N.M` (atomic) |
+| Attribute      | Value                                      |
+| :------------- | :----------------------------------------- |
+| **Layer**      | Behavior                                   |
+| **Question**   | "What does the system do?"                 |
+| **Persona**    | Product Owner                              |
+| **Audience**   | Product managers, UX designers, architects |
+| **Tag Format** | `FSD-N` (block), `FSD-N.M` (atomic)        |
 
 ### Key Content
 
@@ -57,12 +57,12 @@ The **FSD tier** captures what the system does from a user/stakeholder perspecti
 
 ### Constraints
 
-| Constraint | Rule |
-| :----------- | :----- |
+| Constraint        | Rule                                     |
+| :---------------- | :--------------------------------------- |
 | No Implementation | No code, algorithms, or class structures |
-| Behavior Focus | Describe WHAT happens, not HOW |
-| User Perspective | Frame from user/stakeholder viewpoint |
-| Testable | Behaviors must be verifiable |
+| Behavior Focus    | Describe WHAT happens, not HOW           |
+| User Perspective  | Frame from user/stakeholder viewpoint    |
+| Testable          | Behaviors must be verifiable             |
 
 ## Context
 

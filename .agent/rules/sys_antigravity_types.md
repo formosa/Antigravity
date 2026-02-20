@@ -12,14 +12,14 @@ This rule mandates strict adherence to the TypeScript interfaces defined in `.ag
 
 ## Schema Reference
 
-| File Pattern | Interface | Required Frontmatter Keys |
-| :--- | :--- | :--- |
-| `.agent/personas/*.mdc` | `PersonaDefinition` | `name`, `handle`, `description`, `model`, `temperature`, `color`, `icon`, `tools`, `context_globs` |
-| `.agent/rules/*.md` | `RuleDefinition` | `type`, `name`, `priority`, `severity`, `description` |
-| `.agent/tools/*.md` | `ToolDefinition` | `type`, `name`, `description`, `command`, `runtime`, `confirmation`, `args` |
-| `.agent/workflows/*.md` | `WorkflowDefinition` | `type`, `name`, `slug`, `description`, `mode`, `context`, `on_finish`, `inputs` |
-| `.agent/knowledge/*.md` | `KnowledgeDefinition` | `name`, `sources`, `refresh_schedule`, `strategy`, `access` |
-| `.agent/evals/*.md` | `EvaluationDefinition` | `name`, `target_agent`, `judge_model`, `pass_threshold`, `scenarios`, `rubric` |
+| File Pattern            | Interface              | Required Frontmatter Keys                                                                          |
+| :---------------------- | :--------------------- | :------------------------------------------------------------------------------------------------- |
+| `.agent/personas/*.mdc` | `PersonaDefinition`    | `name`, `handle`, `description`, `model`, `temperature`, `color`, `icon`, `tools`, `context_globs` |
+| `.agent/rules/*.md`     | `RuleDefinition`       | `type`, `name`, `priority`, `severity`, `description`                                              |
+| `.agent/tools/*.md`     | `ToolDefinition`       | `type`, `name`, `description`, `command`, `runtime`, `confirmation`, `args`                        |
+| `.agent/workflows/*.md` | `WorkflowDefinition`   | `type`, `name`, `slug`, `description`, `mode`, `context`, `on_finish`, `inputs`                    |
+| `.agent/knowledge/*.md` | `KnowledgeDefinition`  | `name`, `sources`, `refresh_schedule`, `strategy`, `access`                                        |
+| `.agent/evals/*.md`     | `EvaluationDefinition` | `name`, `target_agent`, `judge_model`, `pass_threshold`, `scenarios`, `rubric`                     |
 
 ## Enforcement Protocol
 

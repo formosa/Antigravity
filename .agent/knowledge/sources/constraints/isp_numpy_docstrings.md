@@ -40,22 +40,22 @@ All ISP classes, methods, and functions must include comprehensive Numpy-style d
 
 How to identify violations:
 
-| Pattern | Examples |
-| :-------- | :--------- |
-| Missing docstring | Method without `"""..."""` |
-| Wrong format | Google-style, reST-style docstrings |
-| Missing sections | No Parameters, Returns, or Attributes |
-| Missing citations | No `Implements:` or `Requirements:` |
-| Invalid tag format | `TDD-1` without pipe delimiters |
+| Pattern            | Examples                              |
+| :----------------- | :------------------------------------ |
+| Missing docstring  | Method without `"""..."""`            |
+| Wrong format       | Google-style, reST-style docstrings   |
+| Missing sections   | No Parameters, Returns, or Attributes |
+| Missing citations  | No `Implements:` or `Requirements:`   |
+| Invalid tag format | `TDD-1` without pipe delimiters       |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Missing docstring | ERROR | Add Numpy-style docstring |
-| Wrong format | WARNING | Convert to Numpy style |
-| Missing `Implements:` | ERROR | Add TDD citation |
-| Invalid citation format | WARNING | Use `\|TAG-X\|` format |
+| Violation               | Severity   | Resolution                |
+| :---------------------- | :--------: | :------------------------ |
+| Missing docstring       | ERROR      | Add Numpy-style docstring |
+| Wrong format            | WARNING    | Convert to Numpy style    |
+| Missing `Implements:`   | ERROR      | Add TDD citation          |
+| Invalid citation format | WARNING    | Use `\|TAG-X\|` format    |
 
 ## Examples
 

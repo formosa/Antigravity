@@ -28,18 +28,18 @@ BRD > NFR > FSD > SAD > ICD > TDD > ISP
 
 ## Classification Factors & Weights
 
-| Factor | BRD | NFR | FSD | SAD | ICD | TDD | ISP | Detection Pattern |
-| :------- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :------------------ |
-| **Contains numeric metrics** | 1 | **3** | 1 | 0 | 2 | 0 | 0 | Numbers with units (ms, MB, %, cores) |
-| **References hardware** | 1 | **3** | 0 | 1 | 0 | 0 | 0 | GPU, CPU, RAM, network specs |
-| **Describes user behavior** | 2 | 0 | **3** | 0 | 0 | 0 | 0 | User actions, workflows, interactions |
-| **Names patterns** | 0 | 0 | 0 | **3** | 0 | 1 | 0 | Hub-and-Spoke, Client-Server, Event-Driven |
-| **Defines JSON/YAML** | 0 | 0 | 0 | 0 | **3** | 0 | 1 | Schema structures, field definitions |
-| **Contains class names** | 0 | 0 | 0 | 0 | 0 | **3** | 2 | CamelCase identifiers, OOP terms |
-| **Has executable code** | 0 | 0 | 0 | 0 | 0 | 0 | **3** | Python syntax, `def`, `class`, `pass` |
-| **Uses "must/shall"** | 2 | **3** | 2 | 1 | 1 | 1 | 0 | RFC 2119 keywords (MUST, SHALL, SHOULD, MAY) |
-| **Includes rationale** | **3** | 1 | 1 | **3** | 0 | 2 | 0 | "Because...", "to enable...", "justifies..." |
-| **Technology-agnostic** | **3** | 1 | 2 | 0 | 0 | 0 | 0 | No specific libraries, languages, frameworks |
+| Factor                       | BRD   | NFR   | FSD   | SAD   | ICD   | TDD   | ISP   | Detection Pattern                            |
+| :--------------------------- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :------------------------------------------- |
+| **Contains numeric metrics** | 1     | **3** | 1     | 0     | 2     | 0     | 0     | Numbers with units (ms, MB, %, cores)        |
+| **References hardware**      | 1     | **3** | 0     | 1     | 0     | 0     | 0     | GPU, CPU, RAM, network specs                 |
+| **Describes user behavior**  | 2     | 0     | **3** | 0     | 0     | 0     | 0     | User actions, workflows, interactions        |
+| **Names patterns**           | 0     | 0     | 0     | **3** | 0     | 1     | 0     | Hub-and-Spoke, Client-Server, Event-Driven   |
+| **Defines JSON/YAML**        | 0     | 0     | 0     | 0     | **3** | 0     | 1     | Schema structures, field definitions         |
+| **Contains class names**     | 0     | 0     | 0     | 0     | 0     | **3** | 2     | CamelCase identifiers, OOP terms             |
+| **Has executable code**      | 0     | 0     | 0     | 0     | 0     | 0     | **3** | Python syntax, `def`, `class`, `pass`        |
+| **Uses "must/shall"**        | 2     | **3** | 2     | 1     | 1     | 1     | 0     | RFC 2119 keywords (MUST, SHALL, SHOULD, MAY) |
+| **Includes rationale**       | **3** | 1     | 1     | **3** | 0     | 2     | 0     | "Because...", "to enable...", "justifies..." |
+| **Technology-agnostic**      | **3** | 1     | 2     | 0     | 0     | 0     | 0     | No specific libraries, languages, frameworks |
 
 ---
 
@@ -49,30 +49,30 @@ BRD > NFR > FSD > SAD > ICD > TDD > ISP
 
 ### Factor Detection
 
-| Factor | Present? | Reasoning |
-| :------- | :--------: | :---------- |
-| Numeric metrics | ✅ YES | "50MB", "30 days" |
-| Hardware reference | ❌ NO | No CPU/GPU/RAM mentioned |
-| User behavior | ❌ NO | No user actions described |
-| Pattern naming | ❌ NO | No architectural pattern named |
-| JSON/YAML schema | 🟡 PARTIAL | Implies config schema but not explicit |
-| Class names | ❌ NO | No OOP identifiers |
-| Executable code | ❌ NO | No Python syntax |
-| Must/shall | ✅ YES | "must aggregate" |
-| Rationale | ❌ NO | No "because" explanation |
-| Technology-agnostic | ✅ YES | No specific tech mentioned |
+| Factor              | Present?   | Reasoning                              |
+| :------------------ | :--------: | :------------------------------------- |
+| Numeric metrics     | ✅ YES     | "50MB", "30 days"                      |
+| Hardware reference  | ❌ NO      | No CPU/GPU/RAM mentioned               |
+| User behavior       | ❌ NO      | No user actions described              |
+| Pattern naming      | ❌ NO      | No architectural pattern named         |
+| JSON/YAML schema    | 🟡 PARTIAL | Implies config schema but not explicit |
+| Class names         | ❌ NO      | No OOP identifiers                     |
+| Executable code     | ❌ NO      | No Python syntax                       |
+| Must/shall          | ✅ YES     | "must aggregate"                       |
+| Rationale           | ❌ NO      | No "because" explanation               |
+| Technology-agnostic | ✅ YES     | No specific tech mentioned             |
 
 ### Score Calculation
 
-| Tier | Calculation | Total |
-| :----- | :------------ | :-----: |
-| **BRD** | (numeric:1) + (must:2) + (tech-agnostic:3) | **6** |
+| Tier    | Calculation                                | Total              |
+| :------ | :----------------------------------------- | :----------------: |
+| **BRD** | (numeric:1) + (must:2) + (tech-agnostic:3) | **6**              |
 | **NFR** | (numeric:3) + (must:3) + (tech-agnostic:1) | **7** ← **Winner** |
-| **FSD** | (must:2) + (tech-agnostic:2) | **4** |
-| **SAD** | — | **0** |
-| **ICD** | (numeric:2) + (schema:3) + (must:1) | **6** |
-| **TDD** | — | **0** |
-| **ISP** | — | **0** |
+| **FSD** | (must:2) + (tech-agnostic:2)               | **4**              |
+| **SAD** | —                                          | **0**              |
+| **ICD** | (numeric:2) + (schema:3) + (must:1)        | **6**              |
+| **TDD** | —                                          | **0**              |
+| **ISP** | —                                          | **0**              |
 
 ### Decision: NFR (Score: 7)
 
@@ -92,12 +92,12 @@ Where:
 
 ### Confidence Thresholds
 
-| Score | Interpretation | Action |
-| :------ | :--------------- | :------- |
-| 0.9-1.0 | High confidence | Proceed with classification |
-| 0.7-0.89 | Moderate confidence | Suggest human review |
-| 0.5-0.69 | Low confidence | Request fragment decomposition |
-| <0.5 | Very low confidence | Return ambiguous result with all candidates |
+| Score    | Interpretation      | Action                                      |
+| :------- | :------------------ | :------------------------------------------ |
+| 0.9-1.0  | High confidence     | Proceed with classification                 |
+| 0.7-0.89 | Moderate confidence | Suggest human review                        |
+| 0.5-0.69 | Low confidence      | Request fragment decomposition              |
+| <0.5     | Very low confidence | Return ambiguous result with all candidates |
 
 ---
 

@@ -12,55 +12,55 @@
 
 ## Quick Lookup
 
-| Topic | Type | Path |
-| :------ | :----- | :----- |
-| Glossary | vocabulary | `vocabulary/glossary.md` |
-| DDR Overview | concept | `concepts/ddr_overview.md` |
-| Tier Hierarchy | concept | `concepts/tier_hierarchy.md` |
-| Information Flow | concept | `concepts/information_flow.md` |
-| Tier: BRD | concept | `concepts/tier_brd.md` |
-| Tier: NFR | concept | `concepts/tier_nfr.md` |
-| Tier: FSD | concept | `concepts/tier_fsd.md` |
-| Tier: SAD | concept | `concepts/tier_sad.md` |
-| Tier: ICD | concept | `concepts/tier_icd.md` |
-| Tier: TDD | concept | `concepts/tier_tdd.md` |
-| Tier: ISP | concept | `concepts/tier_isp.md` |
-| Classification Decision Tree | protocol | `protocols/classification_decision_tree.md` |
-| Classification Scoring | protocol | `protocols/classification_scoring.md` |
-| Abstraction Upward | protocol | `protocols/abstraction_upward.md` |
-| Abstraction Downward | protocol | `protocols/abstraction_downward.md` |
-| Abstraction Lateral | protocol | `protocols/abstraction_lateral.md` |
-| Traceability Chain | protocol | `protocols/traceability_chain.md` |
-| Impact Analysis | protocol | `protocols/impact_analysis.md` |
-| Reconciliation Dirty Flag | protocol | `protocols/reconciliation_dirty_flag.md` |
-| Reconciliation Inventory | protocol | `protocols/reconciliation_inventory.md` |
-| Tag Immutability | constraint | `constraints/tag_immutability.md` |
-| Tag Citation Required | constraint | `constraints/tag_citation_required.md` |
-| Sibling Prohibition | constraint | `constraints/sibling_prohibition.md` |
-| BRD Technology Agnostic | constraint | `constraints/brd_technology_agnostic.md` |
-| BRD Measurable Metrics | constraint | `constraints/brd_measurable_metrics.md` |
-| NFR Numeric Constraints | constraint | `constraints/nfr_numeric_constraints.md` |
-| FSD No Implementation | constraint | `constraints/fsd_no_implementation.md` |
-| ISP Stub Only | constraint | `constraints/isp_stub_only.md` |
-| ISP Numpy Docstrings | constraint | `constraints/isp_numpy_docstrings.md` |
-| Tag Syntax | pattern | `patterns/tag_syntax.md` |
-| Manifest Structure | pattern | `patterns/manifest_structure.md` |
-| Knowledge Source Template | pattern | `patterns/knowledge_source_template.md` |
-| Worked Example: Classification | pattern | `patterns/worked_example_classification.md` |
-| Worked Example: Feature | pattern | `patterns/worked_example_feature.md` |
-| Persona Content Strategy | pattern | `patterns/persona_content_strategy.md` |
-| Metadata Schema | pattern | `patterns/metadata_schema.md` |
-| Source Citation Style | pattern | `patterns/source_citation_style.md` |
-| Agent Registry | concept | `concepts/agent_registry.md` |
-| Evaluation Framework | pattern | `patterns/evaluation_framework.md` |
-| Contextual Chunking | pattern | `patterns/llm_contextual_chunking.md` |
-| Validation Prompts | pattern | `patterns/llm_validation_prompts.md` |
-| Template: New Feature | pattern | `patterns/template_new_feature.md` |
-| Template: Bug Fix | pattern | `patterns/template_bug_fix.md` |
-| Workflow: Document Feature | protocol | `protocols/workflow_document_feature.md` |
-| Workflow: Orphan Resolution | protocol | `protocols/workflow_orphan_resolution.md` |
-| Trace Complete Chain | protocol | `protocols/trace_complete_chain.md` |
-| Tag Deprecation Lifecycle | constraint | `constraints/tag_deprecation_lifecycle.md` |
+| Topic                          | Type       | Path                                        |
+| :----------------------------- | :--------- | :------------------------------------------ |
+| Glossary                       | vocabulary | `vocabulary/glossary.md`                    |
+| DDR Overview                   | concept    | `concepts/ddr_overview.md`                  |
+| Tier Hierarchy                 | concept    | `concepts/tier_hierarchy.md`                |
+| Information Flow               | concept    | `concepts/information_flow.md`              |
+| Tier: BRD                      | concept    | `concepts/tier_brd.md`                      |
+| Tier: NFR                      | concept    | `concepts/tier_nfr.md`                      |
+| Tier: FSD                      | concept    | `concepts/tier_fsd.md`                      |
+| Tier: SAD                      | concept    | `concepts/tier_sad.md`                      |
+| Tier: ICD                      | concept    | `concepts/tier_icd.md`                      |
+| Tier: TDD                      | concept    | `concepts/tier_tdd.md`                      |
+| Tier: ISP                      | concept    | `concepts/tier_isp.md`                      |
+| Classification Decision Tree   | protocol   | `protocols/classification_decision_tree.md` |
+| Classification Scoring         | protocol   | `protocols/classification_scoring.md`       |
+| Abstraction Upward             | protocol   | `protocols/abstraction_upward.md`           |
+| Abstraction Downward           | protocol   | `protocols/abstraction_downward.md`         |
+| Abstraction Lateral            | protocol   | `protocols/abstraction_lateral.md`          |
+| Traceability Chain             | protocol   | `protocols/traceability_chain.md`           |
+| Impact Analysis                | protocol   | `protocols/impact_analysis.md`              |
+| Reconciliation Dirty Flag      | protocol   | `protocols/reconciliation_dirty_flag.md`    |
+| Reconciliation Inventory       | protocol   | `protocols/reconciliation_inventory.md`     |
+| Tag Immutability               | constraint | `constraints/tag_immutability.md`           |
+| Tag Citation Required          | constraint | `constraints/tag_citation_required.md`      |
+| Sibling Prohibition            | constraint | `constraints/sibling_prohibition.md`        |
+| BRD Technology Agnostic        | constraint | `constraints/brd_technology_agnostic.md`    |
+| BRD Measurable Metrics         | constraint | `constraints/brd_measurable_metrics.md`     |
+| NFR Numeric Constraints        | constraint | `constraints/nfr_numeric_constraints.md`    |
+| FSD No Implementation          | constraint | `constraints/fsd_no_implementation.md`      |
+| ISP Stub Only                  | constraint | `constraints/isp_stub_only.md`              |
+| ISP Numpy Docstrings           | constraint | `constraints/isp_numpy_docstrings.md`       |
+| Tag Syntax                     | pattern    | `patterns/tag_syntax.md`                    |
+| Manifest Structure             | pattern    | `patterns/manifest_structure.md`            |
+| Knowledge Source Template      | pattern    | `patterns/knowledge_source_template.md`     |
+| Worked Example: Classification | pattern    | `patterns/worked_example_classification.md` |
+| Worked Example: Feature        | pattern    | `patterns/worked_example_feature.md`        |
+| Persona Content Strategy       | pattern    | `patterns/persona_content_strategy.md`      |
+| Metadata Schema                | pattern    | `patterns/metadata_schema.md`               |
+| Source Citation Style          | pattern    | `patterns/source_citation_style.md`         |
+| Agent Registry                 | concept    | `concepts/agent_registry.md`                |
+| Evaluation Framework           | pattern    | `patterns/evaluation_framework.md`          |
+| Contextual Chunking            | pattern    | `patterns/llm_contextual_chunking.md`       |
+| Validation Prompts             | pattern    | `patterns/llm_validation_prompts.md`        |
+| Template: New Feature          | pattern    | `patterns/template_new_feature.md`          |
+| Template: Bug Fix              | pattern    | `patterns/template_bug_fix.md`              |
+| Workflow: Document Feature     | protocol   | `protocols/workflow_document_feature.md`    |
+| Workflow: Orphan Resolution    | protocol   | `protocols/workflow_orphan_resolution.md`   |
+| Trace Complete Chain           | protocol   | `protocols/trace_complete_chain.md`         |
+| Tag Deprecation Lifecycle      | constraint | `constraints/tag_deprecation_lifecycle.md`  |
 
 ---
 
@@ -133,11 +133,11 @@
 
 ## Progress Summary
 
-| Archetype | Created | Planned | Status |
-| :---------- | --------: | --------: | :------- |
-| Concepts | 11 | 11 | ✅ Complete |
-| Protocols | 13 | 13 | ✅ Complete |
-| Constraints | 10 | 10 | ✅ Complete |
-| Patterns | 11 | 11 | ✅ Complete |
-| Vocabulary | 1 | 1 | ✅ Complete |
-| **Total** | **47** | **47** | **100%** |
+| Archetype   | Created   | Planned   | Status      |
+| :---------- | --------: | --------: | :---------- |
+| Concepts    | 11        | 11        | ✅ Complete |
+| Protocols   | 13        | 13        | ✅ Complete |
+| Constraints | 10        | 10        | ✅ Complete |
+| Patterns    | 11        | 11        | ✅ Complete |
+| Vocabulary  | 1         | 1         | ✅ Complete |
+| **Total**   | **47**    | **47**    | **100%**    |

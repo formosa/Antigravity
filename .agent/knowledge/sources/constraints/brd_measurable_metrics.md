@@ -40,20 +40,20 @@ BRD success criteria must be measurable to enable objective validation. Vague or
 
 How to identify violations:
 
-| Pattern | Examples |
-| :-------- | :--------- |
-| Subjective adjectives | "fast", "reliable", "scalable" |
-| Vague comparatives | "better", "improved", "enhanced" |
-| Unmeasurable goals | "user-friendly", "intuitive" |
-| Missing targets | "reduce latency" (by how much?) |
+| Pattern               | Examples                         |
+| :-------------------- | :------------------------------- |
+| Subjective adjectives | "fast", "reliable", "scalable"   |
+| Vague comparatives    | "better", "improved", "enhanced" |
+| Unmeasurable goals    | "user-friendly", "intuitive"     |
+| Missing targets       | "reduce latency" (by how much?)  |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Subjective criterion | ERROR | Add specific metric |
-| Missing target value | ERROR | Specify numeric target |
-| Unmeasurable goal | WARNING | Reframe or move to FSD |
+| Violation            | Severity   | Resolution             |
+| :------------------- | :--------: | :--------------------- |
+| Subjective criterion | ERROR      | Add specific metric    |
+| Missing target value | ERROR      | Specify numeric target |
+| Unmeasurable goal    | WARNING    | Reframe or move to FSD |
 
 ## Examples
 

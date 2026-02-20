@@ -37,18 +37,18 @@ Sub-atomic tags within the same block-level parent are peers, not hierarchical d
 
 How to identify violations:
 
-| Pattern | Example |
-| :-------- | :-------- |
-| Same prefix in `:links:` | FSD-4.4 links to FSD-4.3 |
-| Same block parent | Both tags under FSD-4 |
-| Sequential dependency | "This follows from..." sibling |
+| Pattern                  | Example                        |
+| :----------------------- | :----------------------------- |
+| Same prefix in `:links:` | FSD-4.4 links to FSD-4.3       |
+| Same block parent        | Both tags under FSD-4          |
+| Sequential dependency    | "This follows from..." sibling |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Sibling citation | ERROR | Remove sibling link |
-| Sequential dependency | WARNING | Express in prose, not citation |
+| Violation             | Severity   | Resolution                     |
+| :-------------------- | :--------: | :----------------------------- |
+| Sibling citation      | ERROR      | Remove sibling link            |
+| Sequential dependency | WARNING    | Express in prose, not citation |
 
 ## Examples
 

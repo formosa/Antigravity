@@ -40,22 +40,22 @@ ISP (Implementation Stubs & Prompts) provides code skeletons, not implementation
 
 How to identify violations:
 
-| Pattern | Examples |
-| :-------- | :--------- |
-| Actual code | `self.socket = zmq.Context()` |
-| Control flow | `if condition:`, `for item in:` |
-| Return values | `return result` |
-| Variable assignment | `data = process()` |
-| API calls | `zmq.Context()` |
-| Exceptions | `raise ValueError()` |
+| Pattern             | Examples                        |
+| :------------------ | :------------------------------ |
+| Actual code         | `self.socket = zmq.Context()`   |
+| Control flow        | `if condition:`, `for item in:` |
+| Return values       | `return result`                 |
+| Variable assignment | `data = process()`              |
+| API calls           | `zmq.Context()`                 |
+| Exceptions          | `raise ValueError()`            |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Any code beyond `pass` | ERROR | Replace with `pass` |
-| Return statement | ERROR | Remove; use `pass` |
-| Logic in body | ERROR | Move to implementation |
+| Violation              | Severity   | Resolution             |
+| :--------------------- | :--------: | :--------------------- |
+| Any code beyond `pass` | ERROR      | Replace with `pass`    |
+| Return statement       | ERROR      | Remove; use `pass`     |
+| Logic in body          | ERROR      | Move to implementation |
 
 ## Examples
 

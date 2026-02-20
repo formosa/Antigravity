@@ -39,22 +39,22 @@ FSD (Feature Specifications Document) describes WHAT the system does from a user
 
 How to identify violations:
 
-| Pattern | Examples |
-| :-------- | :--------- |
-| Code snippets | Python/JSON in FSD content |
-| Class/method names | "CoreProcess.run()" |
-| Algorithm descriptions | "Uses binary search to..." |
-| Library references | "via PySide6 widget" |
-| Data structure specifics | `dict[str, Tuple]` |
+| Pattern                  | Examples                   |
+| :----------------------- | :------------------------- |
+| Code snippets            | Python/JSON in FSD content |
+| Class/method names       | "CoreProcess.run()"        |
+| Algorithm descriptions   | "Uses binary search to..." |
+| Library references       | "via PySide6 widget"       |
+| Data structure specifics | `dict[str, Tuple]`         |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Code in FSD | ERROR | Remove; move to TDD/ISP |
-| Algorithm detail | ERROR | Abstract to behavior |
-| Class reference | WARNING | Describe capability instead |
-| Library mention | ERROR | Abstract to feature |
+| Violation        | Severity   | Resolution                  |
+| :--------------- | :--------: | :-------------------------- |
+| Code in FSD      | ERROR      | Remove; move to TDD/ISP     |
+| Algorithm detail | ERROR      | Abstract to behavior        |
+| Class reference  | WARNING    | Describe capability instead |
+| Library mention  | ERROR      | Abstract to feature         |
 
 ## Examples
 

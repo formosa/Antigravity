@@ -776,4 +776,3 @@ A discrete, executable unit of logic that can be invoked by an agent or the Core
 
 **[TERM-UI-PROCESS] UI Process**
 A specialized Runtime Process dedicated to rendering the graphical user interface.
-

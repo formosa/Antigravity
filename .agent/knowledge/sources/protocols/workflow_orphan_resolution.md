@@ -35,11 +35,11 @@ Resolves orphaned tags (missing parents) by classifying the orphan type and appl
 
 ### Step 1: Classify Orphan
 
-| Orphan Type | Condition | Strategy |
-| :------------ | :---------- | :--------- |
-| BRD Tier | Tag is BRD | No action (Root allowed) |
-| Implementation Detail | Tag contains technical specifics | Upward Abstraction |
-| High-Level Requirement | Tag is abstract/strategic | Downward Specification |
+| Orphan Type            | Condition                        | Strategy                 |
+| :--------------------- | :------------------------------- | :----------------------- |
+| BRD Tier               | Tag is BRD                       | No action (Root allowed) |
+| Implementation Detail  | Tag contains technical specifics | Upward Abstraction       |
+| High-Level Requirement | Tag is abstract/strategic        | Downward Specification   |
 
 ### Step 2: Execute Resolution
 
@@ -65,11 +65,11 @@ Invoke `@manifest_manager` to update reconciliation manifests.
 
 ## Outcomes
 
-| Result | Condition | Next Action |
-| :------- | :---------- | :------------ |
-| Resolved | Chain complete to BRD | Close orphan ticket |
-| Cascading | New parent is also orphan | Repeat from Step 1 |
-| Blocked | Cannot determine parent tier | Escalate to user |
+| Result    | Condition                    | Next Action         |
+| :-------- | :--------------------------- | :------------------ |
+| Resolved  | Chain complete to BRD        | Close orphan ticket |
+| Cascading | New parent is also orphan    | Repeat from Step 1  |
+| Blocked   | Cannot determine parent tier | Escalate to user    |
 
 ---
 

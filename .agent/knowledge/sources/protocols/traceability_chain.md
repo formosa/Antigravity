@@ -55,14 +55,14 @@ For each cited tag:
 
 **Valid Citation Matrix**:
 
-| Child Tier | May Cite |
+| Child Tier   | May Cite   |
 | :----------- | :--------- |
-| NFR | BRD |
-| FSD | BRD, NFR |
-| SAD | FSD, NFR |
-| ICD | SAD, NFR |
-| TDD | SAD, ICD |
-| ISP | TDD |
+| NFR          | BRD        |
+| FSD          | BRD, NFR   |
+| SAD          | FSD, NFR   |
+| ICD          | SAD, NFR   |
+| TDD          | SAD, ICD   |
+| ISP          | TDD        |
 
 > **Exception (Decomposition):** An Atomic tag (`TIER-N.M`) MAY cite its direct Block header (`TIER-N`) as defined in `constraints/sibling_prohibition.md`.
 
@@ -74,33 +74,33 @@ For each cited parent, repeat Steps 1-2 until reaching BRD.
 
 ### Step 4: Detect Violations
 
-| Violation | Detection | Severity |
-| :---------- | :---------- | :--------- |
-| **Orphan** | Tag has empty `:links:` (non-BRD) | ERROR |
-| **Missing parent** | Cited tag doesn't exist | ERROR |
-| **Forward reference** | TDD cites ISP | ERROR |
-| **Invalid Sibling citation** | FSD-1.2 cites FSD-1.1 | ERROR |
-| **Broken chain** | Parent is orphan | WARNING |
-| **Cycle** | A → B → C → A | ERROR |
+| Violation                    | Detection                         | Severity   |
+| :--------------------------- | :-------------------------------- | :--------- |
+| **Orphan**                   | Tag has empty `:links:` (non-BRD) | ERROR      |
+| **Missing parent**           | Cited tag doesn't exist           | ERROR      |
+| **Forward reference**        | TDD cites ISP                     | ERROR      |
+| **Invalid Sibling citation** | FSD-1.2 cites FSD-1.1             | ERROR      |
+| **Broken chain**             | Parent is orphan                  | WARNING    |
+| **Cycle**                    | A → B → C → A                     | ERROR      |
 
 Forward-reference rule: `:links:` MUST point upward in justification authority (toward BRD), never downward.
 
 ### Step 5: Generate Report
 
-| Tag | Status | Chain | Issue |
-| :---- | :------- | :------ | :------ |
-| TDD-1.7 | ✅ VALID | TDD-1.7 → SAD-4.1 → NFR-5.1 → BRD-2 | — |
-| ICD-5 | ❌ ORPHAN | ICD-5 → (none) | Missing parent citation |
-| FSD-4.3 | ❌ BROKEN | FSD-4.3 → NFR-99 (missing) | Parent not found |
+| Tag     | Status    | Chain                               | Issue                   |
+| :------ | :-------- | :---------------------------------- | :---------------------- |
+| TDD-1.7 | ✅ VALID  | TDD-1.7 → SAD-4.1 → NFR-5.1 → BRD-2 | —                       |
+| ICD-5   | ❌ ORPHAN | ICD-5 → (none)                      | Missing parent citation |
+| FSD-4.3 | ❌ BROKEN | FSD-4.3 → NFR-99 (missing)          | Parent not found        |
 
 ## Outcomes
 
-| Result | Condition | Next Action |
-| :------- | :---------- | :------------ |
-| Valid chain | Complete path to BRD | Document in audit report |
-| Orphan | No parent citation | Use `abstraction_upward.md` |
-| Missing parent | Cited tag not found | Locate or create parent |
-| Cycle detected | Circular reference | Break cycle, restructure |
+| Result         | Condition            | Next Action                 |
+| :------------- | :------------------- | :-------------------------- |
+| Valid chain    | Complete path to BRD | Document in audit report    |
+| Orphan         | No parent citation   | Use `abstraction_upward.md` |
+| Missing parent | Cited tag not found  | Locate or create parent     |
+| Cycle detected | Circular reference   | Break cycle, restructure    |
 
 ---
 

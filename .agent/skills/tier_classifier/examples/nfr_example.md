@@ -18,11 +18,11 @@
 
 ### Factor Detection
 
-| Factor | Present? | Evidence |
-| :------- | :--------: | :--------- |
-| Numeric metrics | ✅ | "< 1ms", "20ms", "1MB" |
-| Hardware reference | ✅ | "AMD Ryzen 9 5900X, 32GB RAM" |
-| Modality keywords | ✅ | "must achieve" |
+| Factor             | Present?   | Evidence                      |
+| :----------------- | :--------: | :---------------------------- |
+| Numeric metrics    | ✅         | "< 1ms", "20ms", "1MB"        |
+| Hardware reference | ✅         | "AMD Ryzen 9 5900X, 32GB RAM" |
+| Modality keywords  | ✅         | "must achieve"                |
 
 ### Scoring (if ambiguous)
 

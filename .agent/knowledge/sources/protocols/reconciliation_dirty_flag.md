@@ -37,13 +37,13 @@ The dirty flag (`integrity_status: "DIRTY"`) signals that a documentation sectio
 
 Events that trigger DIRTY status:
 
-| Event | Affected Section(s) |
-| :------ | :-------------------- |
-| Tag content modified | Section containing tag + all citing sections |
-| Tag added | Section containing tag |
-| Tag deleted | Section containing tag + all citing sections |
-| Parent tag modified | All child-citing sections |
-| Citation added/removed | Section containing tag |
+| Event                  | Affected Section(s)                          |
+| :--------------------- | :------------------------------------------- |
+| Tag content modified   | Section containing tag + all citing sections |
+| Tag added              | Section containing tag                       |
+| Tag deleted            | Section containing tag + all citing sections |
+| Parent tag modified    | All child-citing sections                    |
+| Citation added/removed | Section containing tag                       |
 
 ### Step 2: Set Dirty Flag
 
@@ -115,11 +115,11 @@ DIRTY status may ONLY be cleared when:
 
 ## Outcomes
 
-| Result | Condition | Next Action |
-| :------- | :---------- | :------------ |
-| Flag set | Trigger event occurred | Begin reconciliation |
+| Result          | Condition                   | Next Action             |
+| :-------------- | :-------------------------- | :---------------------- |
+| Flag set        | Trigger event occurred      | Begin reconciliation    |
 | Flag propagated | Downstream sections flagged | Schedule cascade review |
-| Flag cleared | All items resolved | Document resolution |
+| Flag cleared    | All items resolved          | Document resolution     |
 
 ---
 

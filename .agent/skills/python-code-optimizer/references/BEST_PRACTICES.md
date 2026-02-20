@@ -83,12 +83,12 @@ with tempfile.TemporaryDirectory() as tmp_dir:
 
 ## 5. Dataclass vs. NamedTuple vs. TypedDict
 
-| Use Case                        | Recommended Type   |
-|---------------------------------|--------------------|
-| Mutable data container          | `@dataclass`       |
-| Immutable record                | `NamedTuple`       |
-| Dict with typed keys            | `TypedDict`        |
-| Config with defaults + methods  | `@dataclass`       |
+| Use Case                          | Recommended Type     |
+| --------------------------------- | -------------------- |
+| Mutable data container            | `@dataclass`         |
+| Immutable record                  | `NamedTuple`         |
+| Dict with typed keys              | `TypedDict`          |
+| Config with defaults + methods    | `@dataclass`         |
 
 ---
 

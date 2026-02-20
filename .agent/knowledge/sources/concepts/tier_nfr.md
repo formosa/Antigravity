@@ -33,12 +33,12 @@ The **NFR tier** captures measurable constraints, performance targets, and envir
 
 ## Characteristics
 
-| Attribute | Value |
-| :---------- | :------ |
-| **Layer** | Boundaries |
-| **Question** | "What are the system limits?" |
-| **Persona** | SysAdmin |
-| **Audience** | Architects, operations, QA |
+| Attribute      | Value                               |
+| :------------- | :---------------------------------- |
+| **Layer**      | Boundaries                          |
+| **Question**   | "What are the system limits?"       |
+| **Persona**    | SysAdmin                            |
+| **Audience**   | Architects, operations, QA          |
 | **Tag Format** | `NFR-N` (block), `NFR-N.M` (atomic) |
 
 ### Key Content
@@ -57,19 +57,19 @@ The **NFR tier** captures measurable constraints, performance targets, and envir
 
 ### Modality (RFC 2119)
 
-| Keyword | Meaning |
-| :-------- | :-------- |
-| **MUST** | Mandatory requirement |
-| **SHOULD** | Recommended practice |
-| **MAY** | Optional feature |
+| Keyword    | Meaning               |
+| :--------- | :-------------------- |
+| **MUST**   | Mandatory requirement |
+| **SHOULD** | Recommended practice  |
+| **MAY**    | Optional feature      |
 
 ### Constraints
 
-| Constraint | Rule |
-| :----------- | :----- |
+| Constraint     | Rule                                      |
+| :------------- | :---------------------------------------- |
 | Numeric Values | All targets must include specific numbers |
-| Measurable | Constraints must be testable |
-| Justified | Each constraint traces to BRD objective |
+| Measurable     | Constraints must be testable              |
+| Justified      | Each constraint traces to BRD objective   |
 
 ## Context
 

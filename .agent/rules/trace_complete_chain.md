@@ -16,19 +16,19 @@ description: "Every tag must have a complete traceability chain to BRD root."
 
 ## Detection
 
-| Violation | How to Detect |
-| :---------- | :-------------- |
-| Orphan | Tag has no `:links:` directive |
-| Broken chain | Parent tag is itself an orphan |
-| Missing parent | Cited tag does not exist |
+| Violation      | How to Detect                  |
+| :------------- | :----------------------------- |
+| Orphan         | Tag has no `:links:` directive |
+| Broken chain   | Parent tag is itself an orphan |
+| Missing parent | Cited tag does not exist       |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Orphan tag | ERROR | Add parent citation |
-| Broken chain | ERROR | Fix upstream orphan first |
-| Missing parent | ERROR | Create parent or fix reference |
+| Violation      | Severity   | Resolution                     |
+| :------------- | :--------: | :----------------------------- |
+| Orphan tag     | ERROR      | Add parent citation            |
+| Broken chain   | ERROR      | Fix upstream orphan first      |
+| Missing parent | ERROR      | Create parent or fix reference |
 
 ## Chain Validation
 

@@ -36,17 +36,17 @@ Used by antipattern_scanner for documentation quality validation.
 
 ## Anti-Pattern Definitions
 
-| ID | Name |
-| :--- | :----- |
+| ID    | Name                                     |
+| :---- | :--------------------------------------- |
 | AP001 | Vertical Pollution (code in upper tiers) |
-| AP002 | Orphan Tag (no parent) |
-| AP003 | Sibling Citation (same-tier link) |
-| AP004 | Forward Reference (lower-tier citation) |
-| AP005 | Missing Title |
-| AP006 | Dangling ISP (no TDD parent) |
-| AP007 | ID Format Violation |
-| AP008 | Technology Leak in BRD |
-| AP009 | Empty Content |
+| AP002 | Orphan Tag (no parent)                   |
+| AP003 | Sibling Citation (same-tier link)        |
+| AP004 | Forward Reference (lower-tier citation)  |
+| AP005 | Missing Title                            |
+| AP006 | Dangling ISP (no TDD parent)             |
+| AP007 | ID Format Violation                      |
+| AP008 | Technology Leak in BRD                   |
+| AP009 | Empty Content                            |
 
 ## Protocol & Validation
 

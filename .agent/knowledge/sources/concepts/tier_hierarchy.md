@@ -36,15 +36,15 @@ The **tier hierarchy** is the seven-layer structure that organizes all DDR docum
 
 ### The Seven Tiers
 
-| Tier | Name | Layer | Question Answered | Persona |
-| :----: | :----- | :------ | :------------------ | :-------- |
-| 1 | BRD | Context | "Why build it?" | Strategist |
-| 2 | NFR | Boundaries | "What limits?" | SysAdmin |
-| 3 | FSD | Behavior | "What does it?" | Product Owner |
-| 4 | SAD | Structure | "How organize?" | Architect |
-| 5 | ICD | Contracts | "What shape?" | Data Engineer |
-| 6 | TDD | Blueprints | "What classes?" | Lead Developer |
-| 7 | ISP | Prompts | "What stubs?" | Code Generator |
+| Tier   | Name   | Layer      | Question Answered   | Persona        |
+| :----: | :----- | :--------- | :------------------ | :------------- |
+| 1      | BRD    | Context    | "Why build it?"     | Strategist     |
+| 2      | NFR    | Boundaries | "What limits?"      | SysAdmin       |
+| 3      | FSD    | Behavior   | "What does it?"     | Product Owner  |
+| 4      | SAD    | Structure  | "How organize?"     | Architect      |
+| 5      | ICD    | Contracts  | "What shape?"       | Data Engineer  |
+| 6      | TDD    | Blueprints | "What classes?"     | Lead Developer |
+| 7      | ISP    | Prompts    | "What stubs?"       | Code Generator |
 
 ### Validation Hierarchy
 

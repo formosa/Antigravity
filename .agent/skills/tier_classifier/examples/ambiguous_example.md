@@ -21,13 +21,13 @@
 
 ### Scoring Matrix
 
-| Factor | Present? | BRD | NFR | FSD | ICD | Total |
-| :------- | :--------: | :---: | :---: | :---: | :---: | :-----: |
-| Numeric metrics | ✅ | +1 | +3 | +1 | +2 | — |
-| Modality (must) | ✅ | +2 | +3 | +2 | +1 | — |
-| Schema definition | 🟡 | 0 | 0 | 0 | +3 | — |
-| Technology-agnostic | ✅ | +3 | +1 | +2 | 0 | — |
-| **TOTALS** | — | **6** | **7** | **5** | **6** | — |
+| Factor              | Present?   | BRD   | NFR   | FSD   | ICD   | Total   |
+| :------------------ | :--------: | :---: | :---: | :---: | :---: | :-----: |
+| Numeric metrics     | ✅         | +1    | +3    | +1    | +2    | —       |
+| Modality (must)     | ✅         | +2    | +3    | +2    | +1    | —       |
+| Schema definition   | 🟡         | 0     | 0     | 0     | +3    | —       |
+| Technology-agnostic | ✅         | +3    | +1    | +2    | 0     | —       |
+| **TOTALS**          | —          | **6** | **7** | **5** | **6** | —       |
 
 **Winner**: **NFR** (Score: 7)
 

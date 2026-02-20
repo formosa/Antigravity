@@ -34,12 +34,12 @@ description: "Always classify information by tier before processing using the DD
 
 ## Enforcement
 
-| Result | Next Action |
-| :------- | :------------ |
-| Clear tier match | Create tag in appropriate tier |
-| Ambiguous | Use scoring matrix |
-| No match | Decompose fragment |
-| Mixed-tier content | Split into separate tags |
+| Result             | Next Action                    |
+| :----------------- | :----------------------------- |
+| Clear tier match   | Create tag in appropriate tier |
+| Ambiguous          | Use scoring matrix             |
+| No match           | Decompose fragment             |
+| Mixed-tier content | Split into separate tags       |
 
 ## References
 

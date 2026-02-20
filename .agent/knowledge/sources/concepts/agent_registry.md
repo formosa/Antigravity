@@ -35,24 +35,24 @@ The **Agent Registry** is the authoritative lookup for all DDR agent handles, th
 
 ### Core Agents
 
-| Handle | Role | Context |
-| :--- | :--- | :--- |
-| `@ddr_orchestrator` | System coordinator, tier classification, and routing. | Docs Context, Rules |
-| `@traceability_auditor` | Cross-tier validation, orphan detection, cycle detection. | Full Graph, Validation Rules |
-| `@manifest_manager` | Managing reconciliation manifests and integrity status. | Manifests, File System |
-| `@antipattern_scanner` | Detecting structural violations (e.g., tech in BRD). | Regex Rules, Anti-Pattern List |
+| Handle                  | Role                                                      | Context                        |
+| :---------------------- | :-------------------------------------------------------- | :----------------------------- |
+| `@ddr_orchestrator`     | System coordinator, tier classification, and routing.     | Docs Context, Rules            |
+| `@traceability_auditor` | Cross-tier validation, orphan detection, cycle detection. | Full Graph, Validation Rules   |
+| `@manifest_manager`     | Managing reconciliation manifests and integrity status.   | Manifests, File System         |
+| `@antipattern_scanner`  | Detecting structural violations (e.g., tech in BRD).      | Regex Rules, Anti-Pattern List |
 
 ### Tier Specialists
 
-| Handle | Tier | Focus |
-| :--- | :--- | :--- |
-| `@brd_strategist` | BRD | Business alignment, ROI, strategic objectives (No tech details). |
-| `@nfr_enforcer` | NFR | Quantifiable constraints, SLAs, hardware limits. |
-| `@fsd_analyst` | FSD | User flows, behavior specifications, feature definitions. |
-| `@sad_architect` | SAD | System topology, design patterns, component selection. |
-| `@icd_dataengineer` | ICD | Data schemas (JSON/YAML), API contracts. |
-| `@tdd_designer` | TDD | Class/component blueprints, method signatures. |
-| `@isp_codegenerator` | ISP | Implementation stubs, PySide6/ZMQ code generation. |
+| Handle               | Tier | Focus                                                            |
+| :------------------- | :--- | :--------------------------------------------------------------- |
+| `@brd_strategist`    | BRD  | Business alignment, ROI, strategic objectives (No tech details). |
+| `@nfr_enforcer`      | NFR  | Quantifiable constraints, SLAs, hardware limits.                 |
+| `@fsd_analyst`       | FSD  | User flows, behavior specifications, feature definitions.        |
+| `@sad_architect`     | SAD  | System topology, design patterns, component selection.           |
+| `@icd_dataengineer`  | ICD  | Data schemas (JSON/YAML), API contracts.                         |
+| `@tdd_designer`      | TDD  | Class/component blueprints, method signatures.                   |
+| `@isp_codegenerator` | ISP  | Implementation stubs, PySide6/ZMQ code generation.               |
 
 ## Context
 

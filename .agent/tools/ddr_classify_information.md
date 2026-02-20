@@ -96,14 +96,14 @@ Default: → ISP
 
 ## Classification Criteria
 
-| Question | Tier | Key Indicators |
-| :--------- | :----- | :--------------- |
-| Q1: WHY? | BRD | business value, ROI, stakeholder, strategic |
-| Q2: LIMITS? | NFR | latency, SLA, performance, constraint, threshold |
-| Q3: WHAT? | FSD | user shall, feature, capability, use case |
-| Q4: HOW? | SAD | architecture, component, pattern, topology |
-| Q5: SCHEMA? | ICD | API, schema, JSON, request/response, contract |
-| Q6: CLASS? | TDD | class, method, signature, inheritance |
+| Question    | Tier   | Key Indicators                                   |
+| :---------- | :----- | :----------------------------------------------- |
+| Q1: WHY?    | BRD    | business value, ROI, stakeholder, strategic      |
+| Q2: LIMITS? | NFR    | latency, SLA, performance, constraint, threshold |
+| Q3: WHAT?   | FSD    | user shall, feature, capability, use case        |
+| Q4: HOW?    | SAD    | architecture, component, pattern, topology       |
+| Q5: SCHEMA? | ICD    | API, schema, JSON, request/response, contract    |
+| Q6: CLASS?  | TDD    | class, method, signature, inheritance            |
 
 ## Rules
 

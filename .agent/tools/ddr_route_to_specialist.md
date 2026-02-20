@@ -65,15 +65,15 @@ tasks to the appropriate specialist agent.
 
 ## Tier-Specialist Mapping
 
-| Tier | Handle | Persona |
-| :----- | :------- | :-------- |
-| BRD | `@brd_strategist` | Business Requirements Specialist |
-| NFR | `@nfr_enforcer` | Non-Functional Requirements Enforcer |
-| FSD | `@fsd_analyst` | Feature Specification Analyst |
-| SAD | `@sad_architect` | System Architecture Designer |
-| ICD | `@icd_dataengineer` | Interface Contract Data Engineer |
-| TDD | `@tdd_designer` | Technical Design Document Designer |
-| ISP | `@isp_codegenerator` | Implementation Stub Producer |
+| Tier   | Handle               | Persona                              |
+| :----- | :------------------- | :----------------------------------- |
+| BRD    | `@brd_strategist`    | Business Requirements Specialist     |
+| NFR    | `@nfr_enforcer`      | Non-Functional Requirements Enforcer |
+| FSD    | `@fsd_analyst`       | Feature Specification Analyst        |
+| SAD    | `@sad_architect`     | System Architecture Designer         |
+| ICD    | `@icd_dataengineer`  | Interface Contract Data Engineer     |
+| TDD    | `@tdd_designer`      | Technical Design Document Designer   |
+| ISP    | `@isp_codegenerator` | Implementation Stub Producer         |
 
 ## Rules
 

@@ -33,12 +33,12 @@ The **ISP tier** captures Python class stubs with comprehensive Numpy-style docs
 
 ## Characteristics
 
-| Attribute | Value |
-| :---------- | :------ |
-| **Layer** | Prompts |
-| **Question** | "What is the code skeleton?" |
-| **Persona** | Code Generator |
-| **Audience** | Developers, AI coding assistants |
+| Attribute      | Value                               |
+| :------------- | :---------------------------------- |
+| **Layer**      | Prompts                             |
+| **Question**   | "What is the code skeleton?"        |
+| **Persona**    | Code Generator                      |
+| **Audience**   | Developers, AI coding assistants    |
 | **Tag Format** | `ISP-N` (block), `ISP-N.M` (atomic) |
 
 ### Key Content
@@ -56,22 +56,22 @@ The **ISP tier** captures Python class stubs with comprehensive Numpy-style docs
 
 ### Docstring Requirements
 
-| Section | Content |
-| :-------- | :-------- |
-| Description | One-line summary |
-| Parameters | All arguments with types |
-| Returns | Return type and description |
-| Implements | TDD tag citations |
-| Requirements | FSD/NFR tag citations |
+| Section      | Content                     |
+| :----------- | :-------------------------- |
+| Description  | One-line summary            |
+| Parameters   | All arguments with types    |
+| Returns      | Return type and description |
+| Implements   | TDD tag citations           |
+| Requirements | FSD/NFR tag citations       |
 
 ### Critical Constraints
 
-| Constraint | Rule |
-| :----------- | :----- |
-| Stub Only | Method bodies contain only `pass` |
-| No Logic | No algorithms, control flow, or business logic |
-| Numpy Format | Docstrings follow Numpy style |
-| Full Traceability | Every method cites TDD source |
+| Constraint        | Rule                                           |
+| :---------------- | :--------------------------------------------- |
+| Stub Only         | Method bodies contain only `pass`              |
+| No Logic          | No algorithms, control flow, or business logic |
+| Numpy Format      | Docstrings follow Numpy style                  |
+| Full Traceability | Every method cites TDD source                  |
 
 ### Example
 

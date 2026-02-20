@@ -16,28 +16,28 @@ description: "ICD tags must specify language-agnostic data shapes using PascalCa
 
 ## Detection
 
-| Pattern | Examples |
-| :-------- | :--------- |
-| Language implementation | `Dict[str, Any]`, `struct Message` |
-| Library symbols | `ZMQ_ROUTER`, `PySide6.QtCore.QPoint` |
-| Wrong casing | `my_property` (snake_case), `schema_name` (snake_case) |
-| Missing schema | Description without concrete format |
+| Pattern                 | Examples                                               |
+| :---------------------- | :----------------------------------------------------- |
+| Language implementation | `Dict[str, Any]`, `struct Message`                     |
+| Library symbols         | `ZMQ_ROUTER`, `PySide6.QtCore.QPoint`                  |
+| Wrong casing            | `my_property` (snake_case), `schema_name` (snake_case) |
+| Missing schema          | Description without concrete format                    |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Implementation symbol | ERROR | Use generic data type (string, int, object) |
-| Wrong casing | ERROR | Convert to camelCase/PascalCase |
-| No concrete schema | ERROR | Add YAML or JSON schema block |
+| Violation             | Severity   | Resolution                                  |
+| :-------------------- | :--------: | :------------------------------------------ |
+| Implementation symbol | ERROR      | Use generic data type (string, int, object) |
+| Wrong casing          | ERROR      | Convert to camelCase/PascalCase             |
+| No concrete schema    | ERROR      | Add YAML or JSON schema block               |
 
 ## Forbidden Terms
 
-| Category | Terms |
-| :--------- | :------ |
-| Types | Dict, List, Tuple (Pythonic), struct, class, void* |
-| Libraries | ZeroMQ, ZMQ, ONNX, PySide6 |
-| Protocols | TCP Socket, ThreadID (implementation level) |
+| Category   | Terms                                              |
+| :--------- | :------------------------------------------------- |
+| Types      | Dict, List, Tuple (Pythonic), struct, class, void* |
+| Libraries  | ZeroMQ, ZMQ, ONNX, PySide6                         |
+| Protocols  | TCP Socket, ThreadID (implementation level)        |
 
 ## Enforcement Protocol
 

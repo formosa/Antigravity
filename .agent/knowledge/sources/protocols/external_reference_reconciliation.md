@@ -36,9 +36,9 @@ This protocol prevents hallucination and policy drift by requiring explicit evid
 
 ## Outcomes
 
-| Result | Condition | Next Action |
-| :------- | :---------- | :------------ |
-| Retrieved | Source accessible | Diff and reconcile immediately |
+| Result     | Condition           | Next Action                                          |
+| :--------- | :------------------ | :--------------------------------------------------- |
+| Retrieved  | Source accessible   | Diff and reconcile immediately                       |
 | Unresolved | Source inaccessible | Continue with canonical sources + open deferred task |
 
 ---

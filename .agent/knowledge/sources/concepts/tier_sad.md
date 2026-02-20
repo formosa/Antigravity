@@ -32,12 +32,12 @@ The **SAD tier** captures architectural patterns, process topology, integration 
 
 ## Characteristics
 
-| Attribute | Value |
-| :---------- | :------ |
-| **Layer** | Structure |
-| **Question** | "How is the system organized?" |
-| **Persona** | Architect |
-| **Audience** | Technical leads, senior developers |
+| Attribute      | Value                               |
+| :------------- | :---------------------------------- |
+| **Layer**      | Structure                           |
+| **Question**   | "How is the system organized?"      |
+| **Persona**    | Architect                           |
+| **Audience**   | Technical leads, senior developers  |
 | **Tag Format** | `SAD-N` (block), `SAD-N.M` (atomic) |
 
 ### Key Content

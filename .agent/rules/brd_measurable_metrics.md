@@ -13,29 +13,29 @@ severity: mandatory
 
 ## Detection
 
-| Pattern | Examples |
-| :-------- | :--------- |
-| Subjective adjectives | "fast", "reliable", "scalable" |
-| Vague comparatives | "better", "improved", "enhanced" |
-| Unmeasurable goals | "user-friendly", "intuitive" |
-| Missing targets | "reduce latency" (by how much?) |
+| Pattern               | Examples                         |
+| :-------------------- | :------------------------------- |
+| Subjective adjectives | "fast", "reliable", "scalable"   |
+| Vague comparatives    | "better", "improved", "enhanced" |
+| Unmeasurable goals    | "user-friendly", "intuitive"     |
+| Missing targets       | "reduce latency" (by how much?)  |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Subjective criterion | ERROR | Add specific metric |
-| Missing target value | ERROR | Specify numeric target |
-| Unmeasurable goal | WARNING | Reframe or move to FSD |
+| Violation            | Severity   | Resolution             |
+| :------------------- | :--------: | :--------------------- |
+| Subjective criterion | ERROR      | Add specific metric    |
+| Missing target value | ERROR      | Specify numeric target |
+| Unmeasurable goal    | WARNING    | Reframe or move to FSD |
 
 ## Metric Format Requirements
 
-| Type | Example |
-| :----- | :-------- |
+| Type       | Example             |
+| :--------- | :------------------ |
 | Percentage | "60% user adoption" |
-| Time | "within 3 months" |
-| Count | "500 users" |
-| Currency | "$100K revenue" |
+| Time       | "within 3 months"   |
+| Count      | "500 users"         |
+| Currency   | "$100K revenue"     |
 
 ## Examples
 

@@ -49,37 +49,37 @@ However, there's ambiguity—this could also be ICD (configuration schema). Appl
 
 ## Step 2: Scoring Matrix Application
 
-| Factor | Present? | Scores Applied |
-| :------- | :--------: | :--------------- |
-| Contains numeric metrics | YES | NFR=3, ICD=2, BRD=1 |
-| References hardware | NO | — |
-| Describes user behavior | NO | — |
-| Names patterns | NO | — |
-| Defines JSON/YAML | PARTIAL | ICD=3 |
-| Contains class names | NO | — |
-| Has executable code | NO | — |
-| Uses "must/shall" | YES | NFR=3, FSD=2, BRD=2 |
-| Includes rationale | NO | — |
-| Technology-agnostic | YES | BRD=3, NFR=1, FSD=2 |
+| Factor                   | Present?   | Scores Applied      |
+| :----------------------- | :--------: | :------------------ |
+| Contains numeric metrics | YES        | NFR=3, ICD=2, BRD=1 |
+| References hardware      | NO         | —                   |
+| Describes user behavior  | NO         | —                   |
+| Names patterns           | NO         | —                   |
+| Defines JSON/YAML        | PARTIAL    | ICD=3               |
+| Contains class names     | NO         | —                   |
+| Has executable code      | NO         | —                   |
+| Uses "must/shall"        | YES        | NFR=3, FSD=2, BRD=2 |
+| Includes rationale       | NO         | —                   |
+| Technology-agnostic      | YES        | BRD=3, NFR=1, FSD=2 |
 
 ## Step 3: Calculate Tier Scores
 
-| Tier | Calculation | Total |
-| :----- | :------------ | :-----: |
-| BRD | 1 + 2 + 3 | 6 |
-| NFR | 3 + 3 + 1 | **7** ← Winner |
-| FSD | 2 + 2 | 4 |
-| SAD | — | 0 |
-| ICD | 2 + 3 | 5 |
-| TDD | — | 0 |
-| ISP | — | 0 |
+| Tier   | Calculation   | Total          |
+| :----- | :------------ | :------------: |
+| BRD    | 1 + 2 + 3     | 6              |
+| NFR    | 3 + 3 + 1     | **7** ← Winner |
+| FSD    | 2 + 2         | 4              |
+| SAD    | —             | 0              |
+| ICD    | 2 + 3         | 5              |
+| TDD    | —             | 0              |
+| ISP    | —             | 0              |
 
 ## Step 4: Contextual Validation
 
-| Check | Result |
-| :------ | :------- |
-| Does NFR make sense? | YES—operational limits (size, time) |
-| Can it cite BRD? | YES—traces to observability objective |
+| Check                      | Result                                              |
+| :------------------------- | :-------------------------------------------------- |
+| Does NFR make sense?       | YES—operational limits (size, time)                 |
+| Can it cite BRD?           | YES—traces to observability objective               |
 | Does it enable downstream? | YES—SAD chooses logging pattern, ICD defines config |
 
 ## Step 5: Final Output
@@ -104,11 +104,11 @@ However, there's ambiguity—this could also be ICD (configuration schema). Appl
 
 ## Key Decisions
 
-| Decision Point | Choice | Rationale |
-| :--------------- | :------- | :---------- |
-| NFR vs ICD | NFR | Constraint > Schema (ICD is downstream) |
-| Block + Atomics | Yes | Multiple related constraints warrant grouping |
-| Parent citation | BRD-3.5 | "Observability/debugging" business objective |
+| Decision Point   | Choice   | Rationale                                     |
+| :--------------- | :------- | :-------------------------------------------- |
+| NFR vs ICD       | NFR      | Constraint > Schema (ICD is downstream)       |
+| Block + Atomics  | Yes      | Multiple related constraints warrant grouping |
+| Parent citation  | BRD-3.5  | "Observability/debugging" business objective  |
 
 ---
 

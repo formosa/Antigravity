@@ -12,16 +12,16 @@ This reference is optimized for **DDR (Documentation-Design-Reference) compliant
 
 ### v1.14.2 → v1.16.5 Delta
 
-| Area | Change | Impact |
-| :---- | :------ | :------ |
-| CLI binary | `gemini` → `agy` | **Breaking** — update all scripts |
-| Static asset directory | `references/` → `resources/` | **Breaking** — v1.16.5 treats `references/` as unknown; agent cannot find assets |
-| Rule activation | `activation:` + `glob:` frontmatter formalized | Enables file-scoped and model-triggered rules |
-| SKILL.md frontmatter | YAML `name:` + `description:` block supported | Required for reliable intent-matching |
-| Workspace MCP | `.mcp.json` at project root | Preferred over global config for project-scoped tools |
-| Preset name | "Secure Mode" → **Strict Mode** | Update any references in team docs |
-| Agent modes | **Planning** / **Fast** modes formalized | Selectable per conversation |
-| `@`-mention search | Significantly faster | Now the preferred on-demand context method |
+| Area                   | Change                                         | Impact                                                                           |
+| :--------------------- | :--------------------------------------------- | :------------------------------------------------------------------------------- |
+| CLI binary             | `gemini` → `agy`                               | **Breaking** — update all scripts                                                |
+| Static asset directory | `references/` → `resources/`                   | **Breaking** — v1.16.5 treats `references/` as unknown; agent cannot find assets |
+| Rule activation        | `activation:` + `glob:` frontmatter formalized | Enables file-scoped and model-triggered rules                                    |
+| SKILL.md frontmatter   | YAML `name:` + `description:` block supported  | Required for reliable intent-matching                                            |
+| Workspace MCP          | `.mcp.json` at project root                    | Preferred over global config for project-scoped tools                            |
+| Preset name            | "Secure Mode" → **Strict Mode**                | Update any references in team docs                                               |
+| Agent modes            | **Planning** / **Fast** modes formalized       | Selectable per conversation                                                      |
+| `@`-mention search     | Significantly faster                           | Now the preferred on-demand context method                                       |
 
 > ⚠️ **Migration Priority**: Rename all `references/` directories to `resources/` before upgrading to v1.16.5. Failure to do so will cause skills to silently fail to locate their assets.
 
@@ -31,36 +31,36 @@ This reference is optimized for **DDR (Documentation-Design-Reference) compliant
 
 ### 1.1 System Components
 
-| Component | Function | Access |
-| :---------- | :-------- | :------ |
-| **Agent Manager** | Spawn, monitor, interact with parallel agents | `Cmd+E` |
-| **Editor Surface** | VS Code-based editing with inline agent | `Cmd+I` |
-| **Browser Subagent** | Headless Chrome automation and verification | Integrated extension |
-| **Terminal Agent** | Shell command execution under policy control | Governed by Terminal Policy |
-| **Artifact System** | Task outputs: plans, diffs, reports, logs | Auto-generated per task |
+| Component            | Function                                      | Access                      |
+| :------------------- | :-------------------------------------------- | :-------------------------- |
+| **Agent Manager**    | Spawn, monitor, interact with parallel agents | `Cmd+E`                     |
+| **Editor Surface**   | VS Code-based editing with inline agent       | `Cmd+I`                     |
+| **Browser Subagent** | Headless Chrome automation and verification   | Integrated extension        |
+| **Terminal Agent**   | Shell command execution under policy control  | Governed by Terminal Policy |
+| **Artifact System**  | Task outputs: plans, diffs, reports, logs     | Auto-generated per task     |
 
 > **Parallel Agent Memory Ceiling (32 GB RAM)**: Each agent can consume up to its full Node.js heap allocation. Chromium 142.x browser subagent instances add a further 1–1.5 GB each. The table below shows allocated ceilings vs. observed typical peaks for a 3-agent DDR configuration on this hardware:
 >
-> | Component | Allocated (Max) | Actual Peak (Typical) |
-> | :--------- | :-------------- | :-------------------- |
-> | IDE + Language Server | 2.0 GB | 2.5 GB |
-> | 3× Agents (8 GB heap each) | 24.0 GB | ~18.0 GB |
-> | 3× Browser Subagents | 4.5 GB | ~3.0 GB |
-> | Windows 11 Pro OS | 4.0 GB | 4.0 GB |
-> | **Total** | **34.5 GB** | **~27.5 GB** |
+> | Component                  | Allocated (Max) | Actual Peak (Typical) |
+> | :------------------------- | :-------------- | :-------------------- |
+> | IDE + Language Server      | 2.0 GB          | 2.5 GB                |
+> | 3× Agents (8 GB heap each) | 24.0 GB         | ~18.0 GB              |
+> | 3× Browser Subagents       | 4.5 GB          | ~3.0 GB               |
+> | Windows 11 Pro OS          | 4.0 GB          | 4.0 GB                |
+> | **Total**                  | **34.5 GB**     | **~27.5 GB**          |
 >
 > The ~27.5 GB typical peak leaves a **~4.5 GB buffer** for file system caching and OS overhead, preventing the Ryzen 9 5900X from being throttled by NVMe page-file swapping. At 4 agents hitting full heap + 4 browser instances, the worst-case projection is ~42 GB — exceeding physical RAM. **For high-inheritance DDR tasks, the hard limit is 3 concurrent complex agents.** Reserve a 4th slot only for lightweight orchestrator agents that do not trigger browser subagents or heavy `grep`/`find` operations.
 
 ### 1.2 Configuration Asset Taxonomy
 
-| Asset | Scope | Activation | Purpose | Format |
-| :------ | :---- | :--------- | :------- | :------ |
-| **Personas** | Implicit / Defined | System instruction | Behavioral identity | Markdown in Rules / AGENTS.md |
-| **Rules** | Global / Workspace | Configurable (see §4.2) | Immutable behavioral constraints | `.md` with YAML frontmatter |
-| **Workflows** | Global / Workspace | `/command` trigger | Reusable prompt macros | `.md` with YAML frontmatter |
-| **Skills** | Global / Workspace | Intent-matched (progressive) | On-demand capability extension | Directory (`SKILL.md`) or `.yaml` |
-| **MCP Tools** | Global / Workspace | Always-available | Deterministic function execution | `mcp_config.json` / `.mcp.json` |
-| **Knowledge** | Workspace | `@`-mention or rule-loaded | Domain-specific static context | Markdown / YAML / text |
+| Asset         | Scope              | Activation                   | Purpose                          | Format                            |
+| :------------ | :----------------- | :--------------------------- | :------------------------------- | :-------------------------------- |
+| **Personas**  | Implicit / Defined | System instruction           | Behavioral identity              | Markdown in Rules / AGENTS.md     |
+| **Rules**     | Global / Workspace | Configurable (see §4.2)      | Immutable behavioral constraints | `.md` with YAML frontmatter       |
+| **Workflows** | Global / Workspace | `/command` trigger           | Reusable prompt macros           | `.md` with YAML frontmatter       |
+| **Skills**    | Global / Workspace | Intent-matched (progressive) | On-demand capability extension   | Directory (`SKILL.md`) or `.yaml` |
+| **MCP Tools** | Global / Workspace | Always-available             | Deterministic function execution | `mcp_config.json` / `.mcp.json`   |
+| **Knowledge** | Workspace          | `@`-mention or rule-loaded   | Domain-specific static context   | Markdown / YAML / text            |
 
 ### 1.3 Scope Hierarchy & File Layout
 
@@ -112,36 +112,36 @@ Configure via **Settings → Agent Manager → Execution Policies** or the initi
 
 #### Terminal Execution Policy
 
-| Mode | Behavior | Risk |
-| :---- | :-------- | :---- |
-| **Off** | Executes only `terminalAllowlist.txt` commands | Lowest — but blocks `grep`, `find`, `python` unless explicitly listed |
-| **Auto** *(recommended)* | Agent's risk model decides execution vs. review | Moderate — allows traceability scripts to run unblocked |
-| **Turbo** | Executes everything except `terminalDenylist.txt` | Highest |
+| Mode                     | Behavior                                          | Risk                                                                  |
+| :----------------------- | :------------------------------------------------ | :-------------------------------------------------------------------- |
+| **Off**                  | Executes only `terminalAllowlist.txt` commands    | Lowest — but blocks `grep`, `find`, `python` unless explicitly listed |
+| **Auto** *(recommended)* | Agent's risk model decides execution vs. review   | Moderate — allows traceability scripts to run unblocked               |
+| **Turbo**                | Executes everything except `terminalDenylist.txt` | Highest                                                               |
 
 #### Review Policy
 
-| Mode | Behavior |
-| :---- | :-------- |
-| **Always Proceed** | No review checkpoints |
+| Mode                              | Behavior                                  |
+| :-------------------------------- | :---------------------------------------- |
+| **Always Proceed**                | No review checkpoints                     |
 | **Agent Decides** *(recommended)* | Agent self-checkpoints based on task risk |
-| **Request Review** | Always pauses for explicit user approval |
+| **Request Review**                | Always pauses for explicit user approval  |
 
 #### JavaScript Execution Policy
 
-| Mode | Behavior |
-| :---- | :-------- |
-| **Disabled** | No browser JS execution |
-| **Request Review** *(recommended)* | Prompts before each execution |
-| **Always Proceed** | Unrestricted; highest exposure |
+| Mode                               | Behavior                       |
+| :--------------------------------- | :----------------------------- |
+| **Disabled**                       | No browser JS execution        |
+| **Request Review** *(recommended)* | Prompts before each execution  |
+| **Always Proceed**                 | Unrestricted; highest exposure |
 
 ### 2.2 Preset Profiles
 
-| Profile | Terminal | Review | JS | Use Case |
-| :-------- | :-------- | :------ | :-- | :-------- |
-| **Strict Mode** *(formerly "Secure Mode")* | Off | Request Review | Disabled | Maximum safety — but **blocks traceability scripts**; not recommended for DDR |
-| **Review-Driven** *(recommended for DDR)* | Auto | Agent Decides | Request Review | Balanced; allows `grep`/`find`/`python` to run without constant interruption |
-| **Agent-Driven** | Turbo | Always Proceed | Always Proceed | Fully sandboxed environments only |
-| **Custom** | User-defined | User-defined | User-defined | — |
+| Profile                                    | Terminal     | Review         | JS             | Use Case                                                                      |
+| :----------------------------------------- | :----------- | :------------- | :------------- | :---------------------------------------------------------------------------- |
+| **Strict Mode** *(formerly "Secure Mode")* | Off          | Request Review | Disabled       | Maximum safety — but **blocks traceability scripts**; not recommended for DDR |
+| **Review-Driven** *(recommended for DDR)*  | Auto         | Agent Decides  | Request Review | Balanced; allows `grep`/`find`/`python` to run without constant interruption  |
+| **Agent-Driven**                           | Turbo        | Always Proceed | Always Proceed | Fully sandboxed environments only                                             |
+| **Custom**                                 | User-defined | User-defined   | User-defined   | —                                                                             |
 
 > **DDR Policy Recommendation**: Use **Review-Driven** (`terminal_policy: auto`). Strict Mode's Off terminal policy will block the `grep` and `find` operations required by inheritance traceability scripts, causing constant workflow interruptions. Strict Mode is appropriate for production-facing or regulated environments, not documentation-framework agents.
 
@@ -176,10 +176,10 @@ Configure via **Settings → Agent Manager → Execution Policies** or the initi
 
 Selected per conversation from the **Planning / Fast** dropdown (`Cmd+L`).
 
-| Mode | Behavior | Use When |
-| :---- | :-------- | :-------- |
-| **Planning** *(default)* | Produces task groups and intermediate Artifacts before executing | Complex documentation, refactors, multi-agent orchestration |
-| **Fast** | Executes directly; no planning phase | Simple tasks: renaming, small bash commands, localized edits |
+| Mode                     | Behavior                                                         | Use When                                                     |
+| :----------------------- | :--------------------------------------------------------------- | :----------------------------------------------------------- |
+| **Planning** *(default)* | Produces task groups and intermediate Artifacts before executing | Complex documentation, refactors, multi-agent orchestration  |
+| **Fast**                 | Executes directly; no planning phase                             | Simple tasks: renaming, small bash commands, localized edits |
 
 ---
 
@@ -276,21 +276,21 @@ Synthesize findings; issue merge authorization artifact.
 
 ### 4.1 Characteristics
 
-| Property | Value |
-| :-------- | :---- |
-| **Scope** | Global (`~/.gemini/GEMINI.md`) or Workspace (`.agent/rules/*.md`) |
-| **Precedence** | Workspace overrides Global (binary, not additive) |
-| **Immutability** | Workflows and skills cannot override rules |
-| **Multi-level scope** | Use `glob:` frontmatter to approximate directory-level scoping |
+| Property              | Value                                                             |
+| :-------------------- | :---------------------------------------------------------------- |
+| **Scope**             | Global (`~/.gemini/GEMINI.md`) or Workspace (`.agent/rules/*.md`) |
+| **Precedence**        | Workspace overrides Global (binary, not additive)                 |
+| **Immutability**      | Workflows and skills cannot override rules                        |
+| **Multi-level scope** | Use `glob:` frontmatter to approximate directory-level scoping    |
 
 ### 4.2 Rule Activation Methods
 
-| Method | Frontmatter | Behavior | Best For |
-| :------ | :---------- | :-------- | :-------- |
-| **Always On** | `activation: always_on` | Injected into every agent context | Universal coding standards |
-| **Manual** | `activation: manual` | Loaded only when `@mentioned` | Heavy reference docs; load on-demand to avoid bloat |
-| **Model Decision** | `activation: model_decision` | Agent self-loads when relevant | Inheritance guards, domain-specific constraints |
-| **Glob** | `activation: always_on` + `glob:` | Activates on matched file patterns | Language-specific or directory-scoped rules |
+| Method             | Frontmatter                       | Behavior                           | Best For                                            |
+| :----------------- | :-------------------------------- | :--------------------------------- | :-------------------------------------------------- |
+| **Always On**      | `activation: always_on`           | Injected into every agent context  | Universal coding standards                          |
+| **Manual**         | `activation: manual`              | Loaded only when `@mentioned`      | Heavy reference docs; load on-demand to avoid bloat |
+| **Model Decision** | `activation: model_decision`      | Agent self-loads when relevant     | Inheritance guards, domain-specific constraints     |
+| **Glob**           | `activation: always_on` + `glob:` | Activates on matched file patterns | Language-specific or directory-scoped rules         |
 
 ### 4.3 Rule Implementation
 
@@ -383,11 +383,11 @@ activation: manual
 
 ### 5.1 Characteristics
 
-| Property | Value |
-| :-------- | :---- |
-| **Activation** | `/command` typed in Agent Manager |
-| **Scope** | Global (`~/.gemini/antigravity/global_workflows/`) or Workspace (`.agent/workflows/`) |
-| **Required frontmatter** | `name:`, `trigger:`, `description:` |
+| Property                 | Value                                                                                 |
+| :----------------------- | :------------------------------------------------------------------------------------ |
+| **Activation**           | `/command` typed in Agent Manager                                                     |
+| **Scope**                | Global (`~/.gemini/antigravity/global_workflows/`) or Workspace (`.agent/workflows/`) |
+| **Required frontmatter** | `name:`, `trigger:`, `description:`                                                   |
 
 ### 5.2 Workflow File Specification
 
@@ -455,10 +455,10 @@ Skill Execution → Artifacts
 
 ### 6.2 Skill Formats
 
-| Format | Best For | Path |
-| :------ | :-------- | :---- |
-| **Directory + SKILL.md** | Multi-file skills with scripts, examples, resources | `.agent/skills/<name>/` |
-| **Lightweight YAML** | Script-free, minimal-context skills | `.agent/skills/<name>.yaml` |
+| Format                   | Best For                                            | Path                        |
+| :----------------------- | :-------------------------------------------------- | :-------------------------- |
+| **Directory + SKILL.md** | Multi-file skills with scripts, examples, resources | `.agent/skills/<name>/`     |
+| **Lightweight YAML**     | Script-free, minimal-context skills                 | `.agent/skills/<name>.yaml` |
 
 #### Directory Structure
 
@@ -502,14 +502,14 @@ description: Enforces Conventional Commits specification for all git commit mess
 - Workflow includes a commit step
 
 ## Commit Type Detection
-| Keyword | Type |
-| :------- | :---- |
-| "fix", "bug" | `fix:` |
-| "feature", "add" | `feat:` |
-| "docs", "documentation" | `docs:` |
-| "refactor" | `refactor:` |
-| "test" | `test:` |
-| "chore", "build" | `chore:` |
+| Keyword                 | Type        |
+| :---------------------- | :---------- |
+| "fix", "bug"            | `fix:`      |
+| "feature", "add"        | `feat:`     |
+| "docs", "documentation" | `docs:`     |
+| "refactor"              | `refactor:` |
+| "test"                  | `test:`     |
+| "chore", "build"        | `chore:`    |
 
 ## Message Format
 `<type>(<scope>): <subject>` — lowercase, imperative mood, ≤ 50 chars, no trailing period.
@@ -520,12 +520,12 @@ Artifact: `formatted_commit.txt` → prompt for approval before `git commit`
 
 ### 6.4 Skill Patterns
 
-| Pattern | Structure | Use Case |
-| :------- | :-------- | :-------- |
-| **Basic Router** | `SKILL.md` only | Simple instruction sets |
-| **Resource** | `SKILL.md` + `/resources` | Large static docs; fetched on-demand |
-| **Few-Shot** | `SKILL.md` + `/examples` | Complex transformations via I/O pairs |
-| **Script Delegation** | `SKILL.md` + `/scripts` | Deterministic operations delegated to scripts |
+| Pattern               | Structure                 | Use Case                                      |
+| :-------------------- | :------------------------ | :-------------------------------------------- |
+| **Basic Router**      | `SKILL.md` only           | Simple instruction sets                       |
+| **Resource**          | `SKILL.md` + `/resources` | Large static docs; fetched on-demand          |
+| **Few-Shot**          | `SKILL.md` + `/examples`  | Complex transformations via I/O pairs         |
+| **Script Delegation** | `SKILL.md` + `/scripts`   | Deterministic operations delegated to scripts |
 
 **Script Delegation example**:
 
@@ -576,11 +576,11 @@ description: Validates DDR document inheritance chains; checks that child docume
    c. Verify each tag is satisfied in the child document
 4. Interpret exit codes as follows:
 
-| Exit Code | Meaning | Agent Action |
-| :--------- | :------- | :----------- |
-| `0` | Clean pass | Generate `artifacts/inheritance_tree.md`; continue |
-| `1` | Soft warning — constraint violation | Generate `artifacts/conflict_report.md`; halt and prompt user |
-| `2` | **Dependency loop detected** | Present `artifacts/inheritance_tree.md` to user; **do not attempt auto-fix**; request structural clarification before proceeding |
+| Exit Code  | Meaning                             | Agent Action                                                                                                                     |
+| :--------- | :---------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
+| `0`        | Clean pass                          | Generate `artifacts/inheritance_tree.md`; continue                                                                               |
+| `1`        | Soft warning — constraint violation | Generate `artifacts/conflict_report.md`; halt and prompt user                                                                    |
+| `2`        | **Dependency loop detected**        | Present `artifacts/inheritance_tree.md` to user; **do not attempt auto-fix**; request structural clarification before proceeding |
 
 > ⚠️ **Exit code `2` is a hard halt.** A dependency loop (A inherits B inherits A) cannot be resolved by the agent deterministically. Attempting auto-resolution risks compounding the structural corruption. The user must manually restructure the inheritance graph.
 
@@ -625,14 +625,14 @@ agy "run: python --version"
 
 ### 6.6 Skills vs. MCP Tools
 
-| Factor | Skill | MCP Tool |
-| :------ | :---- | :-------- |
-| Architecture | File-based; ephemeral | Client-server; persistent process |
-| Overhead | Low | Higher; running process per server |
-| Context loading | Progressive; on-demand only | Always injected |
-| State | Stateless | Stateful |
-| Latency | Low (local execution) | Variable (network + IPC) |
-| Best for | Multi-step procedures, codegen, validation scripts | External APIs, databases, Slack, GitHub |
+| Factor          | Skill                                              | MCP Tool                                |
+| :-------------- | :------------------------------------------------- | :-------------------------------------- |
+| Architecture    | File-based; ephemeral                              | Client-server; persistent process       |
+| Overhead        | Low                                                | Higher; running process per server      |
+| Context loading | Progressive; on-demand only                        | Always injected                         |
+| State           | Stateless                                          | Stateful                                |
+| Latency         | Low (local execution)                              | Variable (network + IPC)                |
+| Best for        | Multi-step procedures, codegen, validation scripts | External APIs, databases, Slack, GitHub |
 
 ---
 
@@ -714,12 +714,12 @@ The router pattern routes all tool calls through a single proxy MCP server that 
 
 ### 8.2 Injection Methods
 
-| Method | Syntax | When to Use |
-| :------ | :------ | :----------- |
-| **`@`-mention** | `@.context/root-framework.md` | On-demand; explicit in prompt — preferred for heavy docs |
-| **Skill-embedded** | Directive in SKILL.md | Knowledge always needed by a specific skill |
-| **Rule-based auto-load** | Directive in `GEMINI.md` | Relevant every session; low-weight files only |
-| **Resource-bundled** | Files in `skill/resources/` | Knowledge scoped entirely to one skill |
+| Method                   | Syntax                        | When to Use                                              |
+| :----------------------- | :---------------------------- | :------------------------------------------------------- |
+| **`@`-mention**          | `@.context/root-framework.md` | On-demand; explicit in prompt — preferred for heavy docs |
+| **Skill-embedded**       | Directive in SKILL.md         | Knowledge always needed by a specific skill              |
+| **Rule-based auto-load** | Directive in `GEMINI.md`      | Relevant every session; low-weight files only            |
+| **Resource-bundled**     | Files in `skill/resources/`   | Knowledge scoped entirely to one skill                   |
 
 > **DDR Context Strategy**: Keep `root-framework.md` out of `always_on` auto-load. Load it via `@`-mention in the DDR Inheritance Guard rule (§4.3) and DDR Validator Skill (§6.5). This prevents the root constraints document from consuming context tokens on every unrelated agent task.
 
@@ -756,13 +756,13 @@ Lowest Priority
 
 ### 9.2 Conflict Resolution
 
-| Scenario | Resolution |
-| :-------- | :--------- |
-| Workspace Rule ≠ Global Rule | Workspace wins |
-| Workflow invokes restricted operation | Rule blocks execution — rules are immutable |
-| Multiple skills match same intent | Agent scores by frontmatter `description` relevance |
-| MCP Tool vs. Skill approach | Skill provides methodology; tool provides execution |
-| DDR inheritance conflict detected | DDR Validator halts and generates `conflict_report.md` |
+| Scenario                              | Resolution                                             |
+| :------------------------------------ | :----------------------------------------------------- |
+| Workspace Rule ≠ Global Rule          | Workspace wins                                         |
+| Workflow invokes restricted operation | Rule blocks execution — rules are immutable            |
+| Multiple skills match same intent     | Agent scores by frontmatter `description` relevance    |
+| MCP Tool vs. Skill approach           | Skill provides methodology; tool provides execution    |
+| DDR inheritance conflict detected     | DDR Validator halts and generates `conflict_report.md` |
 
 ### 9.3 Activation Flow
 
@@ -1049,24 +1049,24 @@ Input: [invalid]  |  Expected: [graceful failure]  |  Validation: [steps]
 
 ## 14. Troubleshooting
 
-| Problem | Diagnosis | Solution |
-| :------- | :-------- | :-------- |
-| Skill can't find asset | `references/` not renamed | Rename to `resources/`; v1.16.5 treats old path as unknown |
-| Traceability scripts blocked | Terminal Policy = Off | Switch to Auto (Review-Driven profile) |
-| Workflow not triggering | Wrong trigger syntax | Ensure `trigger: /exact-command` in frontmatter |
-| Skill not loading | Vague description | Rewrite `description:` as action-oriented phrase |
-| Skill over-activating | Broad description | Narrow it; switch to `activation: manual` |
-| MCP tool unavailable | Server not started | Check JSON syntax; verify env vars; `agy --mcp-status` |
-| High TTFT on tool calls | Using MCP Router | Replace with direct `.mcp.json` workspace connection |
-| Context overflow | Too many skills loading | Tighten `description:` fields; use `model_decision` activation |
-| 4+ agents degrading / disk swap | Node.js heap + browser RAM exceeds 32 GB | Reduce DDR agents to ≤ 3; avoid browser subagents in parallel DDR tasks |
-| Inheritance Guard not triggering | Frontmatter not in first 512 bytes | Move YAML frontmatter to byte 0; remove all preceding content |
-| Compliance Drift after root change | Stale context in active agent | Pause dependent agents; run `/validate-ddr`; resume after clean pass |
-| Exit code 2 from validator | Dependency loop in inheritance graph | Do not auto-fix; present `inheritance_tree.md` to user for manual restructure |
-| `validate_inheritance.py` not found | Script not on Python path in `agy` terminal | Confirm Python is in system PATH before IDE launch; restart IDE if installed after |
-| `validate_inheritance.py` permission denied | Script not executable (Linux/macOS) | `chmod +x .agent/skills/ddr-inheritance-validator/scripts/validate_inheritance.py` |
-| `agy` not found | Old `gemini` CLI | `npm install -g @google/antigravity` |
-| `.mcp.json` ignored | Pre-v1.16.5 install | Update to v1.16.5+; confirm file is at workspace root |
+| Problem                                     | Diagnosis                                   | Solution                                                                           |
+| :------------------------------------------ | :------------------------------------------ | :--------------------------------------------------------------------------------- |
+| Skill can't find asset                      | `references/` not renamed                   | Rename to `resources/`; v1.16.5 treats old path as unknown                         |
+| Traceability scripts blocked                | Terminal Policy = Off                       | Switch to Auto (Review-Driven profile)                                             |
+| Workflow not triggering                     | Wrong trigger syntax                        | Ensure `trigger: /exact-command` in frontmatter                                    |
+| Skill not loading                           | Vague description                           | Rewrite `description:` as action-oriented phrase                                   |
+| Skill over-activating                       | Broad description                           | Narrow it; switch to `activation: manual`                                          |
+| MCP tool unavailable                        | Server not started                          | Check JSON syntax; verify env vars; `agy --mcp-status`                             |
+| High TTFT on tool calls                     | Using MCP Router                            | Replace with direct `.mcp.json` workspace connection                               |
+| Context overflow                            | Too many skills loading                     | Tighten `description:` fields; use `model_decision` activation                     |
+| 4+ agents degrading / disk swap             | Node.js heap + browser RAM exceeds 32 GB    | Reduce DDR agents to ≤ 3; avoid browser subagents in parallel DDR tasks            |
+| Inheritance Guard not triggering            | Frontmatter not in first 512 bytes          | Move YAML frontmatter to byte 0; remove all preceding content                      |
+| Compliance Drift after root change          | Stale context in active agent               | Pause dependent agents; run `/validate-ddr`; resume after clean pass               |
+| Exit code 2 from validator                  | Dependency loop in inheritance graph        | Do not auto-fix; present `inheritance_tree.md` to user for manual restructure      |
+| `validate_inheritance.py` not found         | Script not on Python path in `agy` terminal | Confirm Python is in system PATH before IDE launch; restart IDE if installed after |
+| `validate_inheritance.py` permission denied | Script not executable (Linux/macOS)         | `chmod +x .agent/skills/ddr-inheritance-validator/scripts/validate_inheritance.py` |
+| `agy` not found                             | Old `gemini` CLI                            | `npm install -g @google/antigravity`                                               |
+| `.mcp.json` ignored                         | Pre-v1.16.5 install                         | Update to v1.16.5+; confirm file is at workspace root                              |
 
 **Inspect active context**:
 
@@ -1080,28 +1080,28 @@ Input: [invalid]  |  Expected: [graceful failure]  |  Validation: [steps]
 
 ### 15.1 Asset Interaction Matrix
 
-| From → To | Personas | Rules | Workflows | Skills | MCP Tools | Knowledge |
-| :--------- | :------- | :---- | :-------- | :----- | :-------- | :-------- |
-| **Personas** | N/A | Embedded in Rules | Define phase personas | Guides execution style | N/A | Shapes interpretation |
-| **Rules** | Defines global persona | Can cross-reference | **CONSTRAINS** | **CONSTRAINS** | Restricts usage | N/A |
-| **Workflows** | Invokes per-phase personas | **OBEYS** | Can chain | **COMPOSES** | Orchestrates calls | References files |
-| **Skills** | Adopts execution persona | **OBEYS** | Invoked by | Can depend on others | Calls for execution | Bundles in `resources/` |
-| **MCP Tools** | N/A | **OBEYS** | Called by | Called by | Can compose others | N/A |
-| **Knowledge** | Informs persona | N/A | Provides context | Provides reference | N/A | Can cross-reference |
+| From → To     | Personas                   | Rules               | Workflows             | Skills                 | MCP Tools           | Knowledge               |
+| :------------ | :------------------------- | :------------------ | :-------------------- | :--------------------- | :------------------ | :---------------------- |
+| **Personas**  | N/A                        | Embedded in Rules   | Define phase personas | Guides execution style | N/A                 | Shapes interpretation   |
+| **Rules**     | Defines global persona     | Can cross-reference | **CONSTRAINS**        | **CONSTRAINS**         | Restricts usage     | N/A                     |
+| **Workflows** | Invokes per-phase personas | **OBEYS**           | Can chain             | **COMPOSES**           | Orchestrates calls  | References files        |
+| **Skills**    | Adopts execution persona   | **OBEYS**           | Invoked by            | Can depend on others   | Calls for execution | Bundles in `resources/` |
+| **MCP Tools** | N/A                        | **OBEYS**           | Called by             | Called by              | Can compose others  | N/A                     |
+| **Knowledge** | Informs persona            | N/A                 | Provides context      | Provides reference     | N/A                 | Can cross-reference     |
 
 ### 15.2 When to Use Each Asset
 
-| Use Case | Asset | Key Detail |
-| :-------- | :---- | :---------- |
-| Universal coding standards | **Rule** (`always_on`) | Injected into every context |
-| Language/file-specific standards | **Rule** with `glob:` | Activates on matched files only |
-| DDR inheritance guard | **Rule** (`model_decision`) | Loads only when `inherits_from` detected |
-| Reusable multi-step prompt | **Workflow** | `/command` trigger |
-| On-demand domain capability | **Skill** (directory) | Progressive; intent-matched |
-| Simple script-free tasks | **Skill** (YAML) | Minimal context footprint |
-| External API / DB integration | **MCP Tool** | Direct `.mcp.json` for latency-sensitive work |
-| Behavioral identity | **Persona** (Rules / AGENTS.md) | Persistent across all interactions |
-| Static reference material | **Knowledge** (`.context/`) | `@`-mention for heavy docs |
+| Use Case                         | Asset                           | Key Detail                                    |
+| :------------------------------- | :------------------------------ | :-------------------------------------------- |
+| Universal coding standards       | **Rule** (`always_on`)          | Injected into every context                   |
+| Language/file-specific standards | **Rule** with `glob:`           | Activates on matched files only               |
+| DDR inheritance guard            | **Rule** (`model_decision`)     | Loads only when `inherits_from` detected      |
+| Reusable multi-step prompt       | **Workflow**                    | `/command` trigger                            |
+| On-demand domain capability      | **Skill** (directory)           | Progressive; intent-matched                   |
+| Simple script-free tasks         | **Skill** (YAML)                | Minimal context footprint                     |
+| External API / DB integration    | **MCP Tool**                    | Direct `.mcp.json` for latency-sensitive work |
+| Behavioral identity              | **Persona** (Rules / AGENTS.md) | Persistent across all interactions            |
+| Static reference material        | **Knowledge** (`.context/`)     | `@`-mention for heavy docs                    |
 
 ### 15.3 File Locations Cheat Sheet
 
@@ -1161,29 +1161,29 @@ description: Action-oriented, intent-rich phrase
 
 ## 16. Keyboard Shortcuts
 
-| Shortcut | Action |
-| :-------- | :------ |
-| `Cmd + E` | Open Agent Manager panel |
-| `Cmd + L` | Open chat / toggle Planning ⇄ Fast |
-| `Shift + Cmd + L` | New Agent conversation |
-| `Cmd + I` | Inline agent chat in Editor |
-| `Cmd + ,` | Settings |
-| `` Ctrl + ` `` | Toggle terminal |
-| `Tab` | Accept completion |
-| `Escape` | Cancel agent operation |
-| `Cmd + Enter` | Approve pending action |
-| `Cmd + Backspace` | Reject pending action |
+| Shortcut          | Action                             |
+| :---------------- | :--------------------------------- |
+| `Cmd + E`         | Open Agent Manager panel           |
+| `Cmd + L`         | Open chat / toggle Planning ⇄ Fast |
+| `Shift + Cmd + L` | New Agent conversation             |
+| `Cmd + I`         | Inline agent chat in Editor        |
+| `Cmd + ,`         | Settings                           |
+| `` Ctrl + ` ``    | Toggle terminal                    |
+| `Tab`             | Accept completion                  |
+| `Escape`          | Cancel agent operation             |
+| `Cmd + Enter`     | Approve pending action             |
+| `Cmd + Backspace` | Reject pending action              |
 
 ---
 
 ## 17. Version History
 
-| Version | Release | Key Changes |
-| :------- | :------ | :---------- |
+| Version    | Release    | Key Changes                                                                                                    |
+| :--------- | :--------- | :------------------------------------------------------------------------------------------------------------- |
 | **1.16.5** | 2025-12-22 | Strict Mode; `.mcp.json`; rule `activation:`/`glob:`; `resources/` (breaking); SKILL.md frontmatter; `agy` CLI |
-| 1.15.8 | 2025-11 | Multi-model support; Planning/Fast modes |
-| 1.14.2 | 2025-10 | Skills framework; initial SKILL.md spec |
-| 1.13.3 | 2025-09 | Browser subagent; initial MCP integration |
+| 1.15.8     | 2025-11    | Multi-model support; Planning/Fast modes                                                                       |
+| 1.14.2     | 2025-10    | Skills framework; initial SKILL.md spec                                                                        |
+| 1.13.3     | 2025-09    | Browser subagent; initial MCP integration                                                                      |
 
 **Update cadence**: Auto-updates 3× weekly (Mon/Wed/Fri, 09:00 UTC).
 
@@ -1191,29 +1191,29 @@ description: Action-oriented, intent-rich phrase
 
 ## Appendix A: Migration Checklist (v1.14.2 → v1.16.5)
 
-| # | Action | Priority |
-| :- | :------ | :-------- |
-| 1 | Rename all `references/` → `resources/` in skill directories | **Critical** |
-| 2 | Update all scripts: `gemini` → `agy` | **Critical** |
-| 3 | Add YAML frontmatter to all `SKILL.md` files (`name:`, `description:`) | High |
-| 4 | Add `activation:` frontmatter to all rule files | High |
-| 5 | Move project-specific MCP servers to `.mcp.json` at workspace root | Medium |
-| 6 | Set `--max-old-space-size=8192` in `security_config.json` | **Critical for DDR** |
-| 7 | Mark `validate_inheritance.py` executable; confirm Python in `agy` terminal PATH | **Critical for DDR** |
-| 8 | Update team docs: "Secure Mode" → "Strict Mode" | Low |
-| 9 | Switch DDR workflows from Strict Mode → Review-Driven profile | **Critical for DDR** |
+| #   | Action                                                                           | Priority             |
+| :-- | :------------------------------------------------------------------------------- | :------------------- |
+| 1   | Rename all `references/` → `resources/` in skill directories                     | **Critical**         |
+| 2   | Update all scripts: `gemini` → `agy`                                             | **Critical**         |
+| 3   | Add YAML frontmatter to all `SKILL.md` files (`name:`, `description:`)           | High                 |
+| 4   | Add `activation:` frontmatter to all rule files                                  | High                 |
+| 5   | Move project-specific MCP servers to `.mcp.json` at workspace root               | Medium               |
+| 6   | Set `--max-old-space-size=8192` in `security_config.json`                        | **Critical for DDR** |
+| 7   | Mark `validate_inheritance.py` executable; confirm Python in `agy` terminal PATH | **Critical for DDR** |
+| 8   | Update team docs: "Secure Mode" → "Strict Mode"                                  | Low                  |
+| 9   | Switch DDR workflows from Strict Mode → Review-Driven profile                    | **Critical for DDR** |
 
 ## Appendix B: Traditional IDE Migration
 
-| Traditional Feature | Antigravity Equivalent |
-| :------------------ | :--------------------- |
-| Code snippets | Workflows (`/trigger`) |
-| Linter configs | Rules with `glob:` frontmatter |
-| IDE plugins | Skills (progressive loading) |
-| External tools | MCP Tools (direct `.mcp.json`) |
-| Workspace settings | `.agent/` directory |
-| Project documentation | `.context/` knowledge base |
-| Code templates | Skill `examples/` directory |
+| Traditional Feature   | Antigravity Equivalent         |
+| :-------------------- | :----------------------------- |
+| Code snippets         | Workflows (`/trigger`)         |
+| Linter configs        | Rules with `glob:` frontmatter |
+| IDE plugins           | Skills (progressive loading)   |
+| External tools        | MCP Tools (direct `.mcp.json`) |
+| Workspace settings    | `.agent/` directory            |
+| Project documentation | `.context/` knowledge base     |
+| Code templates        | Skill `examples/` directory    |
 
 ## Appendix C: Reference Links
 

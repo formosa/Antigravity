@@ -45,15 +45,15 @@ Validates tag content against tier-specific constraints (technology leaks, numer
 
 ## Tier Rules
 
-| Tier | Rules |
-| :----- | :------ |
-| BRD | tech_agnostic, measurable, stakeholder_focus |
-| NFR | numeric_targets, constraint_language |
-| FSD | no_impl, behavioral_language |
-| SAD | pattern_reference |
-| ICD | schema_definition |
-| TDD | class_structure |
-| ISP | stub_only, has_docstring |
+| Tier   | Rules                                        |
+| :----- | :------------------------------------------- |
+| BRD    | tech_agnostic, measurable, stakeholder_focus |
+| NFR    | numeric_targets, constraint_language         |
+| FSD    | no_impl, behavioral_language                 |
+| SAD    | pattern_reference                            |
+| ICD    | schema_definition                            |
+| TDD    | class_structure                              |
+| ISP    | stub_only, has_docstring                     |
 
 ## Protocol & Validation
 

@@ -16,28 +16,28 @@ description: "SAD sections must define the architectural pattern and include at 
 
 ## Detection
 
-| Pattern | Examples |
-| :-------- | :--------- |
-| Missing diagram | Section with text only |
-| Non-standard diagram | Mermaid or image links (without ASCII fallback) |
-| Implementation detail | Step-by-step logic in SAD |
-| Granular logic | "If message type is X, then Y" |
+| Pattern               | Examples                                        |
+| :-------------------- | :---------------------------------------------- |
+| Missing diagram       | Section with text only                          |
+| Non-standard diagram  | Mermaid or image links (without ASCII fallback) |
+| Implementation detail | Step-by-step logic in SAD                       |
+| Granular logic        | "If message type is X, then Y"                  |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Missing diagram | ERROR | Add ASCII topology diagram |
-| Implementation detail | ERROR | Move to TDD or ISP tier |
-| No pattern definition | WARNING | Explicitly name the architecture pattern |
+| Violation             | Severity   | Resolution                               |
+| :-------------------- | :--------: | :--------------------------------------- |
+| Missing diagram       | ERROR      | Add ASCII topology diagram               |
+| Implementation detail | ERROR      | Move to TDD or ISP tier                  |
+| No pattern definition | WARNING    | Explicitly name the architecture pattern |
 
 ## Forbidden Terms
 
-| Category | Terms |
-| :--------- | :------ |
-| Logic | if, else, while, return, calculate |
-| Code | Python, class, method, function |
-| Granularity | line 45, variable name |
+| Category    | Terms                              |
+| :---------- | :--------------------------------- |
+| Logic       | if, else, while, return, calculate |
+| Code        | Python, class, method, function    |
+| Granularity | line 45, variable name             |
 
 ## Enforcement Protocol
 

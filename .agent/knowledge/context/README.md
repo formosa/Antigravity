@@ -10,8 +10,8 @@
 
 ## Files
 
-| File | Purpose |
-| :----- | :-------- |
+| File                       | Purpose                         |
+| :------------------------- | :------------------------------ |
 | [glossary.md](glossary.md) | Project terms and abbreviations |
 
 ## Precedence

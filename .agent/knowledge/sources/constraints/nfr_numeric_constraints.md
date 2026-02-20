@@ -39,20 +39,20 @@ NFR (Non-Functional Requirements) define measurable system limits. Every constra
 
 How to identify violations:
 
-| Pattern | Examples |
-| :-------- | :--------- |
-| Missing numbers | "low latency", "high throughput" |
-| Missing units | "latency < 100" (100 what?) |
-| Vague bounds | "reasonable", "acceptable" |
-| Qualitative limits | "minimal overhead" |
+| Pattern            | Examples                         |
+| :----------------- | :------------------------------- |
+| Missing numbers    | "low latency", "high throughput" |
+| Missing units      | "latency < 100" (100 what?)      |
+| Vague bounds       | "reasonable", "acceptable"       |
+| Qualitative limits | "minimal overhead"               |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| No numeric value | ERROR | Add specific number |
-| Missing units | ERROR | Specify units (ms, MB, etc.) |
-| Vague bound | ERROR | Quantify limit |
+| Violation        | Severity   | Resolution                   |
+| :--------------- | :--------: | :--------------------------- |
+| No numeric value | ERROR      | Add specific number          |
+| Missing units    | ERROR      | Specify units (ms, MB, etc.) |
+| Vague bound      | ERROR      | Quantify limit               |
 
 ## Examples
 

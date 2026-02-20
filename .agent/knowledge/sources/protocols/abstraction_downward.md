@@ -37,24 +37,24 @@ Downward specification decomposes abstract parent requirements into concrete chi
 
 What specific technologies, patterns, or mechanisms enable this requirement?
 
-| Parent Tier | Child Tier | Vector Types |
-| :------------ | :----------- | :------------- |
-| BRD → NFR | Quantitative constraints | Latency, throughput, resource limits |
-| NFR → FSD | Capability requirements | User-facing behaviors |
-| FSD → SAD | Architectural patterns | Topology, concurrency model |
-| SAD → ICD | Data contracts | Schemas, message formats |
-| ICD → TDD | Component structures | Classes, methods, dependencies |
-| TDD → ISP | Code skeletons | Stubs with docstrings |
+| Parent Tier   | Child Tier               | Vector Types                         |
+| :------------ | :----------------------- | :----------------------------------- |
+| BRD → NFR     | Quantitative constraints | Latency, throughput, resource limits |
+| NFR → FSD     | Capability requirements  | User-facing behaviors                |
+| FSD → SAD     | Architectural patterns   | Topology, concurrency model          |
+| SAD → ICD     | Data contracts           | Schemas, message formats             |
+| ICD → TDD     | Component structures     | Classes, methods, dependencies       |
+| TDD → ISP     | Code skeletons           | Stubs with docstrings                |
 
 ### Step 2: Extract Measurables
 
 Convert qualitative goals to quantitative specifications:
 
-| Qualitative (BRD) | Quantitative (NFR) |
-| :------------------ | :------------------- |
-| "Fast response" | "< 1 second average latency" |
-| "Sub-250ms IPC" | "< 1ms metadata, < 20ms 1MB payload" |
-| "High reliability" | "99.9% uptime, < 5s recovery" |
+| Qualitative (BRD)   | Quantitative (NFR)                   |
+| :------------------ | :----------------------------------- |
+| "Fast response"     | "< 1 second average latency"         |
+| "Sub-250ms IPC"     | "< 1ms metadata, < 20ms 1MB payload" |
+| "High reliability"  | "99.9% uptime, < 5s recovery"        |
 
 ### Step 3: Partition by Concern
 
@@ -62,11 +62,11 @@ Separate into appropriate child categories:
 
 **Parent**: BRD-8.1 "Sub-250ms IPC dispatch; <1s LLM response"
 
-| Concern | Child Tag | Content |
-| :-------- | :---------- | :-------- |
-| Metadata latency | NFR-4.1 | IPC Dispatch: < 1ms metadata-only |
-| Payload latency | NFR-4.2 | Round Trip: < 20ms for 1MB payload |
-| Model latency | NFR-4.3 | LLM Inference: < 1s average |
+| Concern          | Child Tag   | Content                            |
+| :--------------- | :---------- | :--------------------------------- |
+| Metadata latency | NFR-4.1     | IPC Dispatch: < 1ms metadata-only  |
+| Payload latency  | NFR-4.2     | Round Trip: < 20ms for 1MB payload |
+| Model latency    | NFR-4.3     | LLM Inference: < 1s average        |
 
 ### Step 4: Maintain Traceability
 
@@ -88,11 +88,11 @@ Check that children collectively cover parent scope:
 
 ## Outcomes
 
-| Result | Condition | Next Action |
-| :------- | :---------- | :------------ |
-| Success | Children fully cover parent | Document in reconciliation manifest |
-| Incomplete | Gaps remain | Create additional children |
-| Over-specified | Children exceed parent scope | Revise or escalate to parent tier |
+| Result         | Condition                    | Next Action                         |
+| :------------- | :--------------------------- | :---------------------------------- |
+| Success        | Children fully cover parent  | Document in reconciliation manifest |
+| Incomplete     | Gaps remain                  | Create additional children          |
+| Over-specified | Children exceed parent scope | Revise or escalate to parent tier   |
 
 ---
 

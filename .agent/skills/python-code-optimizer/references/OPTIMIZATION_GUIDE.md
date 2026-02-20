@@ -15,12 +15,12 @@ through a function. A CC of 1 means one path; each branch (`if`, `for`,
 
 ### Thresholds
 
-| CC Range | Risk Level   | Action Required               |
-|----------|--------------|-------------------------------|
-| 1–5      | Low          | None                          |
-| 6–10     | Moderate     | Review; document logic paths  |
-| 11–20    | High         | Refactor; decompose function  |
-| 21+      | Very High    | Immediate decomposition       |
+| CC Range   | Risk Level     | Action Required                 |
+| ---------- | -------------- | ------------------------------- |
+| 1–5        | Low            | None                            |
+| 6–10       | Moderate       | Review; document logic paths    |
+| 11–20      | High           | Refactor; decompose function    |
+| 21+        | Very High      | Immediate decomposition         |
 
 ### Decomposition Strategy
 
@@ -70,13 +70,13 @@ nested structures more heavily, reflecting actual human comprehension cost.
 
 ## 3. Maintainability Index Targets
 
-| MI Score | Grade | Meaning                          |
-|----------|-------|----------------------------------|
-| 85–100   | A     | Highly maintainable              |
-| 70–84    | B     | Maintainable with minor issues   |
-| 55–69    | C     | Moderate maintainability         |
-| 40–54    | D     | Difficult to maintain            |
-| 0–39     | F     | Unmaintainable — requires rewrite|
+| MI Score   | Grade   | Meaning                            |
+| ---------- | ------- | ---------------------------------- |
+| 85–100     | A       | Highly maintainable                |
+| 70–84      | B       | Maintainable with minor issues     |
+| 55–69      | C       | Moderate maintainability           |
+| 40–54      | D       | Difficult to maintain              |
+| 0–39       | F       | Unmaintainable — requires rewrite  |
 
 ### Improving Maintainability
 

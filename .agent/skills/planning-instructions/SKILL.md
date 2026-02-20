@@ -227,9 +227,9 @@ unless a step is explicitly marked `[PARALLEL-SAFE]`.
 
 ### §3 — Justification & Research Citations
 
-| Decision                             | Rationale (why chosen over alternatives) | Citation (URL + publication date, ≤ 3 months old) |
-|--------------------------------------|------------------------------------------|---------------------------------------------------|
-| \[Non-obvious architectural choice\] | \[Explicit justification\]               | \[URL — YYYY-MM-DD\]                              |
+| Decision                               | Rationale (why chosen over alternatives)   | Citation (URL + publication date, ≤ 3 months old)   |
+| -------------------------------------- | ------------------------------------------ | --------------------------------------------------- |
+| \[Non-obvious architectural choice\]   | \[Explicit justification\]                 | \[URL — YYYY-MM-DD\]                                |
 
 > If a decision cannot be cited within the freshness window, it must not appear here.
 > Treat uncitable decisions as RFQ-triggering gaps.

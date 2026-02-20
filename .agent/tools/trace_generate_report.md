@@ -42,12 +42,12 @@ Analyzes citation chains and generates violation reports with format/severity op
 
 ## Violation Types
 
-| Type | Severity |
-| :----- | :--------- |
-| ORPHAN | ERROR |
-| MISSING_PARENT | ERROR |
-| SIBLING_CITATION | WARNING |
-| FORWARD_REFERENCE | ERROR |
+| Type              | Severity   |
+| :---------------- | :--------- |
+| ORPHAN            | ERROR      |
+| MISSING_PARENT    | ERROR      |
+| SIBLING_CITATION  | WARNING    |
+| FORWARD_REFERENCE | ERROR      |
 
 ## Protocol & Validation
 

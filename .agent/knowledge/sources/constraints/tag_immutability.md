@@ -33,20 +33,20 @@ Immutable IDs prevent cascading reference updates across the entire document hie
 
 How to identify violations:
 
-| Pattern | Violation Type |
-| :-------- | :--------------- |
-| ID renumbered after deletion | Re-sequencing |
-| Deleted ID assigned to new tag | Recycling |
-| ID format changed (BRD-1 → BRD-001) | Format mutation |
-| Tag moved, ID changed to fit sequence | Reordering |
+| Pattern                               | Violation Type   |
+| :------------------------------------ | :--------------- |
+| ID renumbered after deletion          | Re-sequencing    |
+| Deleted ID assigned to new tag        | Recycling        |
+| ID format changed (BRD-1 → BRD-001)   | Format mutation  |
+| Tag moved, ID changed to fit sequence | Reordering       |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Re-sequenced IDs | ERROR | Restore original IDs |
-| Recycled deleted ID | ERROR | Mint new ID |
-| Format mutation | WARNING | Standardize format |
+| Violation           | Severity   | Resolution           |
+| :------------------ | :--------: | :------------------- |
+| Re-sequenced IDs    | ERROR      | Restore original IDs |
+| Recycled deleted ID | ERROR      | Mint new ID          |
+| Format mutation     | WARNING    | Standardize format   |
 
 ## Examples
 

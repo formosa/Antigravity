@@ -16,28 +16,28 @@ description: "TDD content must define structure (classes, signatures) but PROHIB
 
 ## Detection
 
-| Pattern | Examples |
-| :-------- | :--------- |
+| Pattern              | Examples                                    |
+| :------------------- | :------------------------------------------ |
 | Control flow leakage | `if response is valid`, `for item in items` |
-| Algorithmic logic | `calculate_hash()`, `logic to determine X` |
-| Multi-line bodies | Complex method implementations |
-| Business logic | "Process the payment if balance > 0" |
+| Algorithmic logic    | `calculate_hash()`, `logic to determine X`  |
+| Multi-line bodies    | Complex method implementations              |
+| Business logic       | "Process the payment if balance > 0"        |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Logic Leakage | ERROR | Move logic to ISP tier; use `...`, `pass`, or `@abstractmethod` |
-| Missing structure | ERROR | Add class/module definitions |
-| State mutation logic | ERROR | Describe state shape, not mutation steps |
+| Violation            | Severity   | Resolution                                                      |
+| :------------------- | :--------: | :-------------------------------------------------------------- |
+| Logic Leakage        | ERROR      | Move logic to ISP tier; use `...`, `pass`, or `@abstractmethod` |
+| Missing structure    | ERROR      | Add class/module definitions                                    |
+| State mutation logic | ERROR      | Describe state shape, not mutation steps                        |
 
 ## Forbidden Terms
 
-| Category | Terms |
-| :--------- | :------ |
-| Control Flow | if, else, for, while, switch, case |
-| Logic | calculate, determine, decide, process (verb) |
-| Detail | line by line, step by step |
+| Category     | Terms                                        |
+| :----------- | :------------------------------------------- |
+| Control Flow | if, else, for, while, switch, case           |
+| Logic        | calculate, determine, decide, process (verb) |
+| Detail       | line by line, step by step                   |
 
 ## Enforcement Protocol
 

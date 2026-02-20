@@ -71,12 +71,12 @@ identifying downstream dependents that may require reconciliation.
 
 ### Updateable Fields
 
-| Field | Triggers Reconciliation |
-| :------ | :-----------------------: |
-| title | ✅ Yes |
-| description | ✅ Yes |
-| content | ✅ Yes |
-| status | ❌ No |
+| Field       | Triggers Reconciliation   |
+| :---------- | :-----------------------: |
+| title       | ✅ Yes                    |
+| description | ✅ Yes                    |
+| content     | ✅ Yes                    |
+| status      | ❌ No                     |
 
 ### Immutable Fields
 

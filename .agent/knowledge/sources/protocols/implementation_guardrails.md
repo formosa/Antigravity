@@ -36,11 +36,11 @@ This protocol defines mandatory preflight, execution, and postflight checks for 
 
 ## Outcomes
 
-| Result | Condition | Next Action |
-| :------- | :---------- | :------------ |
-| Pass | All checks green | Merge-ready |
-| Soft fail | Non-blocking warnings | Open follow-up issue |
-| Hard fail | Schema/path/provenance violation | Block merge |
+| Result    | Condition                        | Next Action          |
+| :-------- | :------------------------------- | :------------------- |
+| Pass      | All checks green                 | Merge-ready          |
+| Soft fail | Non-blocking warnings            | Open follow-up issue |
+| Hard fail | Schema/path/provenance violation | Block merge          |
 
 ---
 

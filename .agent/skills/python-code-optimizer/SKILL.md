@@ -48,18 +48,18 @@ Optimization levels: `conservative` (analysis only) | `balanced` (enterprise tar
 
 ## Quality Targets
 
-| Metric | Target | Tool |
-| --- | --- | --- |
-| Cyclomatic Complexity | ≤ 10 / function | radon, AST |
-| Cognitive Complexity | ≤ 15 / function | AST |
-| Maintainability Index | ≥ 75 | radon, SEI formula |
-| Structural Entropy | < 0.4 | `analyze_entropy.py` |
-| Documentation Coverage | ≥ 80% | `validation_suite.py` |
-| Type Hint Coverage | ≥ 70% | `validation_suite.py` |
-| PEP 8 Violations | 0 | Ruff |
-| Max Function Lines | ≤ 50 | AST |
-| Max Function Args | ≤ 5 | AST, pylint |
-| Max Nesting Depth | ≤ 4 | AST |
+| Metric                 | Target          | Tool                  |
+| ---------------------- | --------------- | --------------------- |
+| Cyclomatic Complexity  | ≤ 10 / function | radon, AST            |
+| Cognitive Complexity   | ≤ 15 / function | AST                   |
+| Maintainability Index  | ≥ 75            | radon, SEI formula    |
+| Structural Entropy     | < 0.4           | `analyze_entropy.py`  |
+| Documentation Coverage | ≥ 80%           | `validation_suite.py` |
+| Type Hint Coverage     | ≥ 70%           | `validation_suite.py` |
+| PEP 8 Violations       | 0               | Ruff                  |
+| Max Function Lines     | ≤ 50            | AST                   |
+| Max Function Args      | ≤ 5             | AST, pylint           |
+| Max Nesting Depth      | ≤ 4             | AST                   |
 
 ## Clean Code Rules
 

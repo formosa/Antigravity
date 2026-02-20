@@ -6,10 +6,10 @@
 
 The knowledge base is organized into two distinct layers with strict precedence rules:
 
-| Layer | Directory | Scope | Precedence |
-| :------ | :---------- | :------ | :----------- |
-| **1. Sources** | [`sources/`](sources/README.md) | Static DDR Framework (Concepts, Protocols, Constraints, Patterns, Vocabulary) | **High** — Canonical |
-| **2. Context** | [`context/`](context/README.md) | Project-Specific Terminology (currently: Maggie) | **Low** — Defers to Sources |
+| Layer          | Directory                       | Scope                                                                         | Precedence                  |
+| :------------- | :------------------------------ | :---------------------------------------------------------------------------- | :-------------------------- |
+| **1. Sources** | [`sources/`](sources/README.md) | Static DDR Framework (Concepts, Protocols, Constraints, Patterns, Vocabulary) | **High** — Canonical        |
+| **2. Context** | [`context/`](context/README.md) | Project-Specific Terminology (currently: Maggie)                              | **Low** — Defers to Sources |
 
 ## Precedence Rule
 

@@ -16,29 +16,29 @@ description: "FSD tags must describe WHAT the system does from a user perspectiv
 
 ## Detection
 
-| Pattern | Examples |
-| :-------- | :--------- |
-| Implementation leakage | "The CoreController class", "The SQL table" |
-| Low-level algorithms | "Sort using a quicksort algorithm", "Iterate over the array" |
-| Code blocks | Python, JavaScript, CSS blocks |
-| Internal data structures | "Dictionary with request_id as key" |
+| Pattern                  | Examples                                                     |
+| :----------------------- | :----------------------------------------------------------- |
+| Implementation leakage   | "The CoreController class", "The SQL table"                  |
+| Low-level algorithms     | "Sort using a quicksort algorithm", "Iterate over the array" |
+| Code blocks              | Python, JavaScript, CSS blocks                               |
+| Internal data structures | "Dictionary with request_id as key"                          |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Implementation detail | ERROR | Reframe as user-facing behavior |
-| Class/Function names | ERROR | Use descriptive business terms |
-| Technical design | ERROR | Move to TDD or SAD tier |
+| Violation             | Severity   | Resolution                      |
+| :-------------------- | :--------: | :------------------------------ |
+| Implementation detail | ERROR      | Reframe as user-facing behavior |
+| Class/Function names  | ERROR      | Use descriptive business terms  |
+| Technical design      | ERROR      | Move to TDD or SAD tier         |
 
 ## Forbidden Terms
 
-| Category | Terms |
-| :--------- | :------ |
+| Category    | Terms                                           |
+| :---------- | :---------------------------------------------- |
 | Programming | Python, class, function, method, loop, variable |
-| Persistence | SQL, Database, Table, Column, Index |
-| Structure | Dictionary, List, Array, Pointer |
-| Logic | Quicksort, regex, hash, boolean |
+| Persistence | SQL, Database, Table, Column, Index             |
+| Structure   | Dictionary, List, Array, Pointer                |
+| Logic       | Quicksort, regex, hash, boolean                 |
 
 ## Enforcement Protocol
 

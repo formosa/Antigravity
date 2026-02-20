@@ -32,12 +32,12 @@ The **ICD tier** captures configuration schemas, message formats, payload struct
 
 ## Characteristics
 
-| Attribute | Value |
-| :---------- | :------ |
-| **Layer** | Contracts |
-| **Question** | "What are the data shapes?" |
-| **Persona** | Data Engineer |
-| **Audience** | Developers, integrators |
+| Attribute      | Value                               |
+| :------------- | :---------------------------------- |
+| **Layer**      | Contracts                           |
+| **Question**   | "What are the data shapes?"         |
+| **Persona**    | Data Engineer                       |
+| **Audience**   | Developers, integrators             |
 | **Tag Format** | `ICD-N` (block), `ICD-N.M` (atomic) |
 
 ### Key Content
@@ -55,10 +55,10 @@ The **ICD tier** captures configuration schemas, message formats, payload struct
 
 ### Format Requirements
 
-| Format | Usage |
-| :------- | :------ |
-| YAML | Configuration files |
-| JSON | Metadata and payloads |
+| Format      | Usage                                      |
+| :---------- | :----------------------------------------- |
+| YAML        | Configuration files                        |
+| JSON        | Metadata and payloads                      |
 | Code blocks | Language-specific with syntax highlighting |
 
 ### Example Schema

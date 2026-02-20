@@ -59,30 +59,30 @@ One paragraph for agent context injection.
 
 ### Frontmatter (Required)
 
-| Field | Type | Description |
-| :------ | :----- | :------------ |
-| `archetype` | enum | One of: concept, protocol, constraint, pattern, vocabulary, context, index |
-| `status` | enum | One of: draft, review, active, deprecated |
-| `version` | semver | Semantic version (MAJOR.MINOR.PATCH) |
-| `created` | date | Creation date (YYYY-MM-DD) |
-| `updated` | date | Last modification date |
+| Field       | Type   | Description                                                                |
+| :---------- | :----- | :------------------------------------------------------------------------- |
+| `archetype` | enum   | One of: concept, protocol, constraint, pattern, vocabulary, context, index |
+| `status`    | enum   | One of: draft, review, active, deprecated                                  |
+| `version`   | semver | Semantic version (MAJOR.MINOR.PATCH)                                       |
+| `created`   | date   | Creation date (YYYY-MM-DD)                                                 |
+| `updated`   | date   | Last modification date                                                     |
 
 ### Frontmatter (Optional)
 
-| Field | Type | Description | Default |
-| :------ | :----- | :------------ | :-------- |
-| `requires` | array | Paths to prerequisite knowledge sources | none |
-| `related` | array | Paths to related knowledge sources | none |
-| `tags` | array | String tags for metadata filtering | none |
+| Field      | Type   | Description                             | Default   |
+| :--------- | :----- | :-------------------------------------- | :-------- |
+| `requires` | array  | Paths to prerequisite knowledge sources | none      |
+| `related`  | array  | Paths to related knowledge sources      | none      |
+| `tags`     | array  | String tags for metadata filtering      | none      |
 
 ### Body (Required)
 
-| Section | Description |
-| :-------- | :------------ |
-| `# [Title]` | H1 header matching filename |
-| `> Scope/Excludes` | Blockquote defining boundaries |
-| `## Summary` | Agent-injectable context paragraph |
-| `## References` | Cross-references with relationship notes |
+| Section            | Description                              |
+| :----------------- | :--------------------------------------- |
+| `# [Title]`        | H1 header matching filename              |
+| `> Scope/Excludes` | Blockquote defining boundaries           |
+| `## Summary`       | Agent-injectable context paragraph       |
+| `## References`    | Cross-references with relationship notes |
 
 ---
 
@@ -90,46 +90,46 @@ One paragraph for agent context injection.
 
 ### Concept
 
-| Section | Purpose |
-| :-------- | :-------- |
-| `## Definition` | Precise, authoritative statement |
-| `## Characteristics` | Key properties or attributes |
-| `## Context` | When/where this applies |
+| Section              | Purpose                          |
+| :------------------- | :------------------------------- |
+| `## Definition`      | Precise, authoritative statement |
+| `## Characteristics` | Key properties or attributes     |
+| `## Context`         | When/where this applies          |
 
 ### Protocol
 
-| Section | Purpose |
-| :-------- | :-------- |
-| `## Prerequisites` | What must be true before executing |
-| `## Procedure` | Numbered steps with decision points |
-| `## Outcomes` | Result table (Success/Failure conditions) |
+| Section            | Purpose                                   |
+| :----------------- | :---------------------------------------- |
+| `## Prerequisites` | What must be true before executing        |
+| `## Procedure`     | Numbered steps with decision points       |
+| `## Outcomes`      | Result table (Success/Failure conditions) |
 
 ### Constraint
 
-| Section | Purpose |
-| :-------- | :-------- |
-| `## Rule Statement` | Bold MUST/MUST NOT directive |
-| `## Rationale` | Why this exists |
-| `## Detection` | How to identify violations |
-| `## Enforcement` | Violation/severity/resolution table |
-| `## Examples` | ✅ Correct and ❌ Incorrect |
+| Section             | Purpose                             |
+| :------------------ | :---------------------------------- |
+| `## Rule Statement` | Bold MUST/MUST NOT directive        |
+| `## Rationale`      | Why this exists                     |
+| `## Detection`      | How to identify violations          |
+| `## Enforcement`    | Violation/severity/resolution table |
+| `## Examples`       | ✅ Correct and ❌ Incorrect         |
 
 ### Pattern
 
-| Section | Purpose |
-| :-------- | :-------- |
-| `## Structure` | Template with placeholders |
-| `## Fields` | Field descriptions table |
+| Section             | Purpose                     |
+| :------------------ | :-------------------------- |
+| `## Structure`      | Template with placeholders  |
+| `## Fields`         | Field descriptions table    |
 | `## Usage Examples` | Basic and complete examples |
-| `## Anti-Patterns` | What NOT to do |
+| `## Anti-Patterns`  | What NOT to do              |
 
 ### Vocabulary
 
-| Section | Purpose |
-| :-------- | :-------- |
-| `## Terms` | Term/Definition/Usage/Avoid table |
-| `## Abbreviations` | Abbrev/Expansion/Context table |
-| `## Enforcement` | Validation procedure |
+| Section            | Purpose                           |
+| :----------------- | :-------------------------------- |
+| `## Terms`         | Term/Definition/Usage/Avoid table |
+| `## Abbreviations` | Abbrev/Expansion/Context table    |
+| `## Enforcement`   | Validation procedure              |
 
 ---
 

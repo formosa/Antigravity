@@ -101,11 +101,11 @@ parent tag. Essential for understanding the propagation effects of modifications
 
 ## Use Cases
 
-| Use Case | Command |
-| :--------- | :-------- |
-| Pre-update impact check | `find_tags_citing --id BRD-001` |
-| Full dependency tree | `find_tags_citing --id BRD-001 --recursive` |
-| Deprecation planning | Check all dependents before deprecating |
+| Use Case                | Command                                     |
+| :---------------------- | :------------------------------------------ |
+| Pre-update impact check | `find_tags_citing --id BRD-001`             |
+| Full dependency tree    | `find_tags_citing --id BRD-001 --recursive` |
+| Deprecation planning    | Check all dependents before deprecating     |
 
 ## Rules
 

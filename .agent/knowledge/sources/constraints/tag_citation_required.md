@@ -38,11 +38,11 @@ Parent citations ensure every documentation element has explicit justification. 
 
 How to identify violations:
 
-| Pattern | Location |
-| :-------- | :--------- |
-| Missing `:links:` directive | Any non-BRD tag |
-| Empty `:links:` value | `:links:` with no content |
-| Invalid parent reference | `:links:` pointing to non-existent tag |
+| Pattern                     | Location                               |
+| :-------------------------- | :------------------------------------- |
+| Missing `:links:` directive | Any non-BRD tag                        |
+| Empty `:links:` value       | `:links:` with no content              |
+| Invalid parent reference    | `:links:` pointing to non-existent tag |
 
 ```rst
 .. fsd:: Some Feature
@@ -52,12 +52,12 @@ How to identify violations:
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Missing `:links:` | ERROR | Add parent citation |
-| Empty `:links:` | ERROR | Specify parent tag(s) |
-| Invalid parent | ERROR | Fix reference or create parent |
-| BRD with `:links:` | WARNING | Remove (BRD is root) |
+| Violation          | Severity   | Resolution                     |
+| :----------------- | :--------: | :----------------------------- |
+| Missing `:links:`  | ERROR      | Add parent citation            |
+| Empty `:links:`    | ERROR      | Specify parent tag(s)          |
+| Invalid parent     | ERROR      | Fix reference or create parent |
+| BRD with `:links:` | WARNING    | Remove (BRD is root)           |
 
 ## Examples
 

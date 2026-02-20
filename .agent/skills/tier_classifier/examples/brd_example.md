@@ -15,12 +15,12 @@
 
 ### Factor Detection
 
-| Factor | Present? | Evidence |
-| :------- | :--------: | :--------- |
-| Numeric metrics | ✅ | "under 1 second" |
-| Technology-agnostic | ✅ | No specific tech mentioned |
-| User behavior | ✅ | "hands-free interaction" |
-| Rationale | ✅ | "for accessibility-conscious users" |
+| Factor              | Present?   | Evidence                            |
+| :------------------ | :--------: | :---------------------------------- |
+| Numeric metrics     | ✅         | "under 1 second"                    |
+| Technology-agnostic | ✅         | No specific tech mentioned          |
+| User behavior       | ✅         | "hands-free interaction"            |
+| Rationale           | ✅         | "for accessibility-conscious users" |
 
 ### Validation
 

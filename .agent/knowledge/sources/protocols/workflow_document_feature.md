@@ -82,11 +82,11 @@ Report all created artifacts with traceability status.
 
 ## Outcomes
 
-| Result | Condition | Next Action |
-| :------- | :---------- | :------------ |
-| Complete | All 12 steps pass | Feature documented |
-| Blocked | Traceability audit fails | Fix orphans, re-validate |
-| Incomplete | Missing tier artifacts | Return to relevant step |
+| Result     | Condition                | Next Action              |
+| :--------- | :----------------------- | :----------------------- |
+| Complete   | All 12 steps pass        | Feature documented       |
+| Blocked    | Traceability audit fails | Fix orphans, re-validate |
+| Incomplete | Missing tier artifacts   | Return to relevant step  |
 
 ---
 

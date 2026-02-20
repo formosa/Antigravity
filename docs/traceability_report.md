@@ -4,143 +4,143 @@
 
 ## SIBLING_CITATION (124)
 
-| ID | Title | Severity | Cited Tag | Message |
-| :--- | :------ | :--------- | :---------- | :-------- |
-| `FSD-1.1` | Core Hub | **WARNING** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
-| `FSD-1.2` | **UI Process:** Handles user interaction (PySide6). | **WARNING** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
-| `FSD-1.3` | **Runtime Process:** GPU-optimized environment for model inference. | **WARNING** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
-| `FSD-1.4` | **Audio Process:** Real-time audio I/O, WWD, and VAD. | **WARNING** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
-| `FSD-1.5` | **LogServer (Sink):** Aggregates logs via PULL socket. | **WARNING** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
-| `FSD-2.1` | Core must maintain an HSM (using `transitions` library). | **WARNING** | FSD-2 (Hierarchical State Machine (HSM)) | Cites sibling 'FSD-2' |
-| `FSD-2.2` | **Dynamic Compilation:** HSM must be dynamically compiled at startup from definitions provided by Tools, Routines, and Services. | **WARNING** | FSD-2 (Hierarchical State Machine (HSM)) | Cites sibling 'FSD-2' |
-| `FSD-2.3` | **Required States:** `Root(DEFAULT)`, `initializing`, `sleeping`, `waking`, `active`, `busy` (`llm`, `tts`, `stt`), `error`, `shutting_down`. | **WARNING** | FSD-2 (Hierarchical State Machine (HSM)) | Cites sibling 'FSD-2' |
-| `FSD-2.4` | **Transitions:** | **WARNING** | FSD-2 (Hierarchical State Machine (HSM)) | Cites sibling 'FSD-2' |
-| `FSD-3.1` | **Tools:** Modular functional assets with specific HSM states (e.g., File Export). | **WARNING** | FSD-3 (Modular Extensions (Tools/Routines)) | Cites sibling 'FSD-3' |
-| `FSD-3.2` | **Routines:** Structured workflows composed of Tools and Services (e.g., Recipe Creator). | **WARNING** | FSD-3 (Modular Extensions (Tools/Routines)) | Cites sibling 'FSD-3' |
-| `FSD-3.3` | **Default Routine:** A "Primary Routine" providing conversational LLM chat mapping GUI inputs to CLI commands. | **WARNING** | FSD-3 (Modular Extensions (Tools/Routines)) | Cites sibling 'FSD-3' |
-| `FSD-4.1` | **Wake Word:** Always-on detection using `pvporcupine`. | **WARNING** | FSD-4 (Audio Acquisition (Audio Service)) | Cites sibling 'FSD-4' |
-| `FSD-4.2` | **Constraint:** Must only send `WAKE_WORD_DETECTED` if Core is in `idle` state. | **WARNING** | FSD-4 (Audio Acquisition (Audio Service)) | Cites sibling 'FSD-4' |
-| `FSD-4.3` | **VAD (Stage 1):** Real-time, CPU-based VAD using `webrtcvad`. | **WARNING** | FSD-4 (Audio Acquisition (Audio Service)) | Cites sibling 'FSD-4' |
-| `FSD-4.5` | **Signal Output:** Emits normalized `SIGNAL_SPEECH` (Text) or `SIGNAL_WAKE` (Event) to Core. No command interpretation. | **WARNING** | FSD-4 (Audio Acquisition (Audio Service)) | Cites sibling 'FSD-4' |
-| `FSD-5.1` | **STT:** Execute transcription using `faster-whisper` (ONNX) on audio buffers routed from Audio Service. | **WARNING** | FSD-5 (Inference Execution (Runtime Service)) | Cites sibling 'FSD-5' |
-| `FSD-5.2` | **LLM:** Execute text generation using local models via ONNX Runtime. | **WARNING** | FSD-5 (Inference Execution (Runtime Service)) | Cites sibling 'FSD-5' |
-| `FSD-5.3` | **TTS:** Execute synthesis using `kokoro` (ONNX). | **WARNING** | FSD-5 (Inference Execution (Runtime Service)) | Cites sibling 'FSD-5' |
-| `FSD-5.4` | **Error Handling:** Must report clear error codes (e.g., `ONNX_E_CUDA_OOM`). | **WARNING** | FSD-5 (Inference Execution (Runtime Service)) | Cites sibling 'FSD-5' |
-| `FSD-6.1` | All processes must emit logs to the central LogServer. | **WARNING** | FSD-6 (Distributed Logging) | Cites sibling 'FSD-6' |
-| `FSD-6.2` | **Fire-and-Forget:** Senders must never block; messages are dropped if LogServer is down. | **WARNING** | FSD-6 (Distributed Logging) | Cites sibling 'FSD-6' |
-| `FSD-6.3` | **Correlation:** All logs must include `request_id` for correlation across processes. | **WARNING** | FSD-6 (Distributed Logging) | Cites sibling 'FSD-6' |
-| `FSD-6.4` | **Traceability:** 100% traceable request coverage. | **WARNING** | FSD-6 (Distributed Logging) | Cites sibling 'FSD-6' |
-| `FSD-7.1` | **LogServer Fault:** Senders continue normally, silently dropping logs. | **WARNING** | FSD-7 (Error Handling Strategy) | Cites sibling 'FSD-7' |
-| `FSD-7.2` | **Service Fault:** Core detects disconnection, marks service unavailable, transitions requests to error. | **WARNING** | FSD-7 (Error Handling Strategy) | Cites sibling 'FSD-7' |
-| `FSD-7.3` | **Timeout:** Core detects non-response (>5.0s) and triggers error state. | **WARNING** | FSD-7 (Error Handling Strategy) | Cites sibling 'FSD-7' |
-| `FSD-7.4` | **Core Fault:** Services remain operational but disconnected; attempt reconnect on restart. | **WARNING** | FSD-7 (Error Handling Strategy) | Cites sibling 'FSD-7' |
-| `FSD-8` | Intent Resolution (The "Brain") | **WARNING** | FSD-1 (Process Orchestration) | Cites sibling 'FSD-1' |
-| `FSD-8.1` | **Input Normalization:** Core accepts inputs (`VOICE`, `CLI`, `GUI`) as uniform text strings. | **WARNING** | FSD-8 (Intent Resolution (The "Brain")) | Cites sibling 'FSD-8' |
-| `FSD-8.2` | **Command Registry:** Core maintains a registry of valid commands mapping "String" → "Callable". | **WARNING** | FSD-8 (Intent Resolution (The "Brain")) | Cites sibling 'FSD-8' |
-| `FSD-8.3` | **Fast Path:** IF input matches Registry Key → Execute immediately (Deterministic). | **WARNING** | FSD-8 (Intent Resolution (The "Brain")) | Cites sibling 'FSD-8' |
-| `FSD-8.4` | **Slow Path:** IF input does not match → Forward to LLM Service for inference (Probabilistic). | **WARNING** | FSD-8 (Intent Resolution (The "Brain")) | Cites sibling 'FSD-8' |
-| `FSD-9` | User Experience (UX) | **WARNING** | FSD-1.2 (**UI Process:** Handles user interaction (PySide6).) | Cites sibling 'FSD-1.2' |
-| `FSD-9.1` | **State Reflection:** UI must visually reflect state (Dark/Gray for Sleep, Bright/Color for Active). | **WARNING** | FSD-9 (User Experience (UX)) | Cites sibling 'FSD-9' |
-| `FSD-9.2` | **Input Locking:** Text input disabled in Sleep; Blinking cursor only in Active. | **WARNING** | FSD-9 (User Experience (UX)) | Cites sibling 'FSD-9' |
-| `FSD-9.3` | **Wake Triggers:** System wakes on Voice ("Hey Maggie") OR Click-to-Wake on input box. | **WARNING** | FSD-9 (User Experience (UX)) | Cites sibling 'FSD-9' |
-| `FSD-9.4` | **Audio Feedback:** | **WARNING** | FSD-9 (User Experience (UX)) | Cites sibling 'FSD-9' |
-| `ICD-2.1` | **Core ↔ Services (ROUTER-DEALER):** | **WARNING** | ICD-2 (Frame Structure) | Cites sibling 'ICD-2' |
-| `ICD-2.2` | **Outbound (DEALER):** `[metadata_json, payload_bytes...]` | **WARNING** | ICD-2 (Frame Structure) | Cites sibling 'ICD-2' |
-| `ICD-2.3` | **Inbound (ROUTER):** `[service_identity, b'', metadata_json, payload_bytes...]` | **WARNING** | ICD-2 (Frame Structure) | Cites sibling 'ICD-2' |
-| `ICD-2.4` | **All → LogServer (PUSH-PULL):** | **WARNING** | ICD-2 (Frame Structure) | Cites sibling 'ICD-2' |
-| `ICD-2.5` | **Frame:** `[metadata_json, message_string]` | **WARNING** | ICD-2 (Frame Structure) | Cites sibling 'ICD-2' |
-| `ICD-2.6` | **Payloads:** | **WARNING** | ICD-2 (Frame Structure) | Cites sibling 'ICD-2' |
-| `ICD-2.7` | Text: JSON-encoded UTF-8 bytes. | **WARNING** | ICD-2 (Frame Structure) | Cites sibling 'ICD-2' |
-| `ICD-2.8` | Binary: Raw bytes (PCM, tensors). | **WARNING** | ICD-2 (Frame Structure) | Cites sibling 'ICD-2' |
-| `ICD-2.9` | Multi-part: Supported for zero-copy efficiency. | **WARNING** | ICD-2 (Frame Structure) | Cites sibling 'ICD-2' |
-| `ICD-4` | Response Payload Schema | **WARNING** | ICD-3 (Metadata Schema (JSON)) | Cites sibling 'ICD-3' |
-| `NFR-1.1` | **CPU:** AMD Ryzen 9 5900X (Audio/Core must run here). | **WARNING** | NFR-1 (Target Environment) | Cites sibling 'NFR-1' |
-| `NFR-1.2` | **GPU:** RTX 3080 10GB VRAM (Runtime/Inference only). | **WARNING** | NFR-1 (Target Environment) | Cites sibling 'NFR-1' |
-| `NFR-1.3` | **RAM:** 32GB System Memory. | **WARNING** | NFR-1 (Target Environment) | Cites sibling 'NFR-1' |
-| `NFR-1.4` | **OS:** Windows 11 Pro x64. | **WARNING** | NFR-1 (Target Environment) | Cites sibling 'NFR-1' |
-| `NFR-1.5` | **Python:** Version >= 3.11. | **WARNING** | NFR-1 (Target Environment) | Cites sibling 'NFR-1' |
-| `NFR-1.6` | **CUDA:** Toolkit installed for GPU inference. | **WARNING** | NFR-1 (Target Environment) | Cites sibling 'NFR-1' |
-| `NFR-2.1` | All communication limited to local TCP sockets (`127.0.0.1`) via ZeroMQ. | **WARNING** | NFR-2 (Security & Network) | Cites sibling 'NFR-2' |
-| `NFR-2.2` | No cloud dependencies allowed for runtime operations. | **WARNING** | NFR-2 (Security & Network) | Cites sibling 'NFR-2' |
-| `NFR-3.1` | **CPU Idle:** Processes polling for IPC messages must consume <5% CPU when idle. | **WARNING** | NFR-3 (Resource Isolation) | Cites sibling 'NFR-3' |
-| `NFR-3.2` | **Audio Priority:** CPU-bound services (Audio) must prioritize low-latency over idle CPU. | **WARNING** | NFR-3 (Resource Isolation) | Cites sibling 'NFR-3' |
-| `NFR-3.3` | **Memory Footprint (Core Queue):** 1000 cap, ~10-50 MB. | **WARNING** | NFR-3 (Resource Isolation) | Cites sibling 'NFR-3' |
-| `NFR-3.4` | **Memory Footprint (UI Queue):** 100 cap, ~1-5 MB. | **WARNING** | NFR-3 (Resource Isolation) | Cites sibling 'NFR-3' |
-| `NFR-3.5` | **Memory Footprint (Runtime Queue):** 50 cap, ~5-25 MB. | **WARNING** | NFR-3 (Resource Isolation) | Cites sibling 'NFR-3' |
-| `NFR-3.6` | **Memory Footprint (Audio Queue):** 50 cap, ~1-5 MB. | **WARNING** | NFR-3 (Resource Isolation) | Cites sibling 'NFR-3' |
-| `NFR-4.1` | **IPC Dispatch:** Sub-millisecond (<1ms) for metadata-only messages. | **WARNING** | NFR-4 (Latency & Throughput) | Cites sibling 'NFR-4' |
-| `NFR-4.2` | **Round Trip:** <5ms metadata-only; <20ms for 1MB payload (excluding processing). | **WARNING** | NFR-4 (Latency & Throughput) | Cites sibling 'NFR-4' |
-| `NFR-4.3` | **LLM Inference:** <1s average response time. | **WARNING** | NFR-4 (Latency & Throughput) | Cites sibling 'NFR-4' |
-| `NFR-4.4` | **TTS:** ≤2s average end-to-end response. | **WARNING** | NFR-4 (Latency & Throughput) | Cites sibling 'NFR-4' |
-| `NFR-4.5` | **UI Responsiveness:** No input blocking >100ms. | **WARNING** | NFR-4 (Latency & Throughput) | Cites sibling 'NFR-4' |
-| `NFR-4.6` | **Logging:** LogServer must support ≥ 10,000 msgs/sec. | **WARNING** | NFR-4 (Latency & Throughput) | Cites sibling 'NFR-4' |
-| `NFR-4.7` | **HSM:** Must support ≥ 1,000 state transitions/sec. | **WARNING** | NFR-4 (Latency & Throughput) | Cites sibling 'NFR-4' |
-| `NFR-4.8` | **Queue Operations:** O(log n) time (1-5 microseconds). | **WARNING** | NFR-4 (Latency & Throughput) | Cites sibling 'NFR-4' |
-| `NFR-5.1` | **Non-blocking:** No process shall block waiting for another during standard IPC. | **WARNING** | NFR-5 (Fault Tolerance) | Cites sibling 'NFR-5' |
-| `NFR-5.2` | **Isolation:** Failures in UI, Runtime, or Audio must not cascade to Core. | **WARNING** | NFR-5 (Fault Tolerance) | Cites sibling 'NFR-5' |
-| `NFR-5.3` | **Fire-and-Forget:** Log messages are acceptable to be lost if LogServer is down. | **WARNING** | NFR-5 (Fault Tolerance) | Cites sibling 'NFR-5' |
-| `NFR-5.4` | **Timeout Accuracy:** Detection must be within ±100ms of configured limit. | **WARNING** | NFR-5 (Fault Tolerance) | Cites sibling 'NFR-5' |
-| `NFR-5.5` | **Core Failure:** In-flight requests are considered lost (MVP acceptable). | **WARNING** | NFR-5 (Fault Tolerance) | Cites sibling 'NFR-5' |
-| `NFR-5.6` | **Message Routability:** The Core must explicitly detect and handle attempts to send messages to disconnected or non-existent service identities. | **WARNING** | NFR-5 (Fault Tolerance) | Cites sibling 'NFR-5' |
-| `NFR-6.1` | `PySide6`: Default GUI framework. | **WARNING** | NFR-6 (Key Dependencies) | Cites sibling 'NFR-6' |
-| `NFR-6.2` | `pyzmq`: Non-blocking IPC. | **WARNING** | NFR-6 (Key Dependencies) | Cites sibling 'NFR-6' |
-| `NFR-6.3` | `onnxruntime-gpu`: GPU inference. | **WARNING** | NFR-6 (Key Dependencies) | Cites sibling 'NFR-6' |
-| `NFR-6.4` | `loguru`: Distributed logging. | **WARNING** | NFR-6 (Key Dependencies) | Cites sibling 'NFR-6' |
-| `NFR-6.5` | `transitions`: HSM implementation. | **WARNING** | NFR-6 (Key Dependencies) | Cites sibling 'NFR-6' |
-| `SAD-1.1` | **Hub-and-Spoke:** Core Process acts as the central `ROUTER` (Hub); Services are `DEALER` (Spokes). | **WARNING** | SAD-1 (Architectural Patterns) | Cites sibling 'SAD-1' |
-| `SAD-1.2` | **Decoupled Sink:** Dedicated LogServer acts as `PULL` sink for `PUSH` sources. | **WARNING** | SAD-1 (Architectural Patterns) | Cites sibling 'SAD-1' |
-| `SAD-1.3` | **No Shared Abstraction:** `ROUTER-DEALER` and `PUSH-PULL` patterns are implemented separately to avoid artificial coupling. | **WARNING** | SAD-1 (Architectural Patterns) | Cites sibling 'SAD-1' |
-| `SAD-1.4` | **Context Propagation:** `request_id` must be passed in every frame. | **WARNING** | SAD-1 (Architectural Patterns) | Cites sibling 'SAD-1' |
-| `SAD-3.1` | **Core ↔ Services (Request-Response):** | **WARNING** | SAD-3 (Integration Strategy) | Cites sibling 'SAD-3' |
-| `SAD-3.2` | **Pattern:** ZeroMQ `ROUTER` (Core) ↔ `DEALER` (Service). | **WARNING** | SAD-3 (Integration Strategy) | Cites sibling 'SAD-3' |
-| `SAD-3.3` | **Type:** Bidirectional. | **WARNING** | SAD-3 (Integration Strategy) | Cites sibling 'SAD-3' |
-| `SAD-3.4` | **Requirement:** Core maintains routing table (client identity → socket identity). | **WARNING** | SAD-3 (Integration Strategy) | Cites sibling 'SAD-3' |
-| `SAD-3.5` | **All Processes → LogServer (Logging):** | **WARNING** | SAD-3 (Integration Strategy) | Cites sibling 'SAD-3' |
-| `SAD-3.6` | **Pattern:** ZeroMQ `PUSH` (Client) → `PULL` (LogServer). | **WARNING** | SAD-3 (Integration Strategy) | Cites sibling 'SAD-3' |
-| `SAD-3.7` | **Type:** Unidirectional, Fire-and-Forget. | **WARNING** | SAD-3 (Integration Strategy) | Cites sibling 'SAD-3' |
-| `SAD-3.8` | **Requirement:** Senders must set `SNDHWM=100` and `LINGER=0` to buffer micro-bursts without blocking. | **WARNING** | SAD-3 (Integration Strategy) | Cites sibling 'SAD-3' |
-| `SAD-4.1` | **Receiver Threads:** Each process uses a dedicated thread to poll ZMQ sockets and push to an internal `queue.PriorityQueue`. | **WARNING** | SAD-4 (Concurrency Model) | Cites sibling 'SAD-4' |
-| `SAD-4.2` | **Main Loop:** The main application loop processes the `PriorityQueue` to remain non-blocking. | **WARNING** | SAD-4 (Concurrency Model) | Cites sibling 'SAD-4' |
-| `SAD-4.3` | **Queueing:** | **WARNING** | SAD-4 (Concurrency Model) | Cites sibling 'SAD-4' |
-| `SAD-4.4` | Must use `queue.PriorityQueue`. | **WARNING** | SAD-4 (Concurrency Model) | Cites sibling 'SAD-4' |
-| `SAD-4.5` | **Structure:** `(priority, counter, message)`. | **WARNING** | SAD-4 (Concurrency Model) | Cites sibling 'SAD-4' |
-| `SAD-4.6` | **Ordering:** Monotonic counter (`itertools.count`) ensures FIFO within priority levels. | **WARNING** | SAD-4 (Concurrency Model) | Cites sibling 'SAD-4' |
-| `SAD-4.7` | **Priority Levels:** | **WARNING** | SAD-4 (Concurrency Model) | Cites sibling 'SAD-4' |
-| `SAD-4.8` | **High (0):** `shutdown`, `error_notification`, `state_change`. | **WARNING** | SAD-4 (Concurrency Model) | Cites sibling 'SAD-4' |
-| `SAD-4.9` | **Normal (1):** Inference requests, status updates. | **WARNING** | SAD-4 (Concurrency Model) | Cites sibling 'SAD-4' |
-| `SAD-5.1` | All IPC endpoints (addresses, ports) and parameters (queue sizes, timeouts) must be loaded from `ipc_config.yaml`. | **WARNING** | SAD-5 (Configuration Driven) | Cites sibling 'SAD-5' |
-| `TDD-1.1` | **Class Name:** `CoreProcess` | **WARNING** | TDD-1 (Component: CoreProcess) | Cites sibling 'TDD-1' |
-| `TDD-1.12` | **Validation:** Parse `manifest.yaml` in subdirectories (`tools/`, `routines/`). | **WARNING** | TDD-1 (Component: CoreProcess) | Cites sibling 'TDD-1' |
-| `TDD-1.13` | **Loading:** Use `importlib` to dynamically import the module specified in manifest `entry_point`. | **WARNING** | TDD-1 (Component: CoreProcess) | Cites sibling 'TDD-1' |
-| `TDD-1.15` | **Logic:** `resolve_intent(input_str: str)` checks registry before HSM dispatch. | **WARNING** | TDD-1 (Component: CoreProcess) | Cites sibling 'TDD-1' |
-| `TDD-1.2` | **Dependencies:** `zmq`, `queue`, `itertools`, `transitions`, `yaml`, `threading`, `importlib`, `pathlib`. | **WARNING** | TDD-1 (Component: CoreProcess) | Cites sibling 'TDD-1' |
-| `TDD-2.1` | **Class Name:** `ServiceClient` | **WARNING** | TDD-2 (Component: ServiceClient) | Cites sibling 'TDD-2' |
-| `TDD-2.2` | **Purpose:** Standardized base implementation for UI, Runtime, and Audio services. | **WARNING** | TDD-2 (Component: ServiceClient) | Cites sibling 'TDD-2' |
-| `TDD-2.3` | **Dependencies:** `yaml`, `zmq`, `queue`, `itertools`, `threading`. | **WARNING** | TDD-2 (Component: ServiceClient) | Cites sibling 'TDD-2' |
-| `TDD-3.1` | **Class Name:** `LogServerSink` | **WARNING** | TDD-3 (Component: LogServerSink) | Cites sibling 'TDD-3' |
-| `TDD-3.2` | **Dependencies:** `loguru`, `zmq`. | **WARNING** | TDD-3 (Component: LogServerSink) | Cites sibling 'TDD-3' |
-| `TDD-4.1` | **Class Name:** `AbstractTool`, `AbstractRoutine` (ABC). | **WARNING** | TDD-4 (Component: Tool/Routine Interface) | Cites sibling 'TDD-4' |
-| `TDD-4.2` | `initialize(core_context: CoreProcess)`: Inject Core dependencies. | **WARNING** | TDD-4 (Component: Tool/Routine Interface) | Cites sibling 'TDD-4' |
-| `TDD-4.4` | `handle_event(event_data: Dict) -> str`: Process business logic and return next trigger. | **WARNING** | TDD-4 (Component: Tool/Routine Interface) | Cites sibling 'TDD-4' |
-| `TDD-4.5` | **Requirement:** Every extension directory must contain `manifest.yaml`. | **WARNING** | TDD-4 (Component: Tool/Routine Interface) | Cites sibling 'TDD-4' |
-| `TDD-4.6` | **Schema:** | **WARNING** | TDD-4 (Component: Tool/Routine Interface) | Cites sibling 'TDD-4' |
-| `TDD-5.1` | **Function Name:** `audio_worker_loop(client: ServiceClient)` | **WARNING** | TDD-5 (Component: AudioWorkerLoop) | Cites sibling 'TDD-5' |
-| `TDD-5.2` | **Dependencies:** `pvporcupine`, `webrtcvad`, `numpy`, `threading`. | **WARNING** | TDD-5 (Component: AudioWorkerLoop) | Cites sibling 'TDD-5' |
-| `TDD-5.3` | **Stage 1 (WWD):** Process audio chunks through pvporcupine. On detection, check Core state before emitting event. | **WARNING** | TDD-5 (Component: AudioWorkerLoop) | Cites sibling 'TDD-5' |
-| `TDD-5.4` | **Stage 2 (VAD):** Apply webrtcvad (CPU) for initial speech detection, buffer frames for STT handoff. | **WARNING** | TDD-5 (Component: AudioWorkerLoop) | Cites sibling 'TDD-5' |
-| `TDD-5.5` | **State Check:** Query Core HSM state via `client.get_state()`. Only emit `WAKE_WORD_DETECTED` if state is `idle`. | **WARNING** | TDD-5 (Component: AudioWorkerLoop) | Cites sibling 'TDD-5' |
-| `TDD-5.6` | **Denoising:** Apply RNNoise or equivalent before WWD/VAD stages. Must operate within NFR-3 latency budget. | **WARNING** | TDD-5 (Component: AudioWorkerLoop) | Cites sibling 'TDD-5' |
+| ID         | Title                                                                                                                                             | Severity    | Cited Tag                                                     | Message                 |
+| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------ | :---------- | :------------------------------------------------------------ | :---------------------- |
+| `FSD-1.1`  | Core Hub                                                                                                                                          | **WARNING** | FSD-1 (Process Orchestration)                                 | Cites sibling 'FSD-1'   |
+| `FSD-1.2`  | **UI Process:** Handles user interaction (PySide6).                                                                                               | **WARNING** | FSD-1 (Process Orchestration)                                 | Cites sibling 'FSD-1'   |
+| `FSD-1.3`  | **Runtime Process:** GPU-optimized environment for model inference.                                                                               | **WARNING** | FSD-1 (Process Orchestration)                                 | Cites sibling 'FSD-1'   |
+| `FSD-1.4`  | **Audio Process:** Real-time audio I/O, WWD, and VAD.                                                                                             | **WARNING** | FSD-1 (Process Orchestration)                                 | Cites sibling 'FSD-1'   |
+| `FSD-1.5`  | **LogServer (Sink):** Aggregates logs via PULL socket.                                                                                            | **WARNING** | FSD-1 (Process Orchestration)                                 | Cites sibling 'FSD-1'   |
+| `FSD-2.1`  | Core must maintain an HSM (using `transitions` library).                                                                                          | **WARNING** | FSD-2 (Hierarchical State Machine (HSM))                      | Cites sibling 'FSD-2'   |
+| `FSD-2.2`  | **Dynamic Compilation:** HSM must be dynamically compiled at startup from definitions provided by Tools, Routines, and Services.                  | **WARNING** | FSD-2 (Hierarchical State Machine (HSM))                      | Cites sibling 'FSD-2'   |
+| `FSD-2.3`  | **Required States:** `Root(DEFAULT)`, `initializing`, `sleeping`, `waking`, `active`, `busy` (`llm`, `tts`, `stt`), `error`, `shutting_down`.     | **WARNING** | FSD-2 (Hierarchical State Machine (HSM))                      | Cites sibling 'FSD-2'   |
+| `FSD-2.4`  | **Transitions:**                                                                                                                                  | **WARNING** | FSD-2 (Hierarchical State Machine (HSM))                      | Cites sibling 'FSD-2'   |
+| `FSD-3.1`  | **Tools:** Modular functional assets with specific HSM states (e.g., File Export).                                                                | **WARNING** | FSD-3 (Modular Extensions (Tools/Routines))                   | Cites sibling 'FSD-3'   |
+| `FSD-3.2`  | **Routines:** Structured workflows composed of Tools and Services (e.g., Recipe Creator).                                                         | **WARNING** | FSD-3 (Modular Extensions (Tools/Routines))                   | Cites sibling 'FSD-3'   |
+| `FSD-3.3`  | **Default Routine:** A "Primary Routine" providing conversational LLM chat mapping GUI inputs to CLI commands.                                    | **WARNING** | FSD-3 (Modular Extensions (Tools/Routines))                   | Cites sibling 'FSD-3'   |
+| `FSD-4.1`  | **Wake Word:** Always-on detection using `pvporcupine`.                                                                                           | **WARNING** | FSD-4 (Audio Acquisition (Audio Service))                     | Cites sibling 'FSD-4'   |
+| `FSD-4.2`  | **Constraint:** Must only send `WAKE_WORD_DETECTED` if Core is in `idle` state.                                                                   | **WARNING** | FSD-4 (Audio Acquisition (Audio Service))                     | Cites sibling 'FSD-4'   |
+| `FSD-4.3`  | **VAD (Stage 1):** Real-time, CPU-based VAD using `webrtcvad`.                                                                                    | **WARNING** | FSD-4 (Audio Acquisition (Audio Service))                     | Cites sibling 'FSD-4'   |
+| `FSD-4.5`  | **Signal Output:** Emits normalized `SIGNAL_SPEECH` (Text) or `SIGNAL_WAKE` (Event) to Core. No command interpretation.                           | **WARNING** | FSD-4 (Audio Acquisition (Audio Service))                     | Cites sibling 'FSD-4'   |
+| `FSD-5.1`  | **STT:** Execute transcription using `faster-whisper` (ONNX) on audio buffers routed from Audio Service.                                          | **WARNING** | FSD-5 (Inference Execution (Runtime Service))                 | Cites sibling 'FSD-5'   |
+| `FSD-5.2`  | **LLM:** Execute text generation using local models via ONNX Runtime.                                                                             | **WARNING** | FSD-5 (Inference Execution (Runtime Service))                 | Cites sibling 'FSD-5'   |
+| `FSD-5.3`  | **TTS:** Execute synthesis using `kokoro` (ONNX).                                                                                                 | **WARNING** | FSD-5 (Inference Execution (Runtime Service))                 | Cites sibling 'FSD-5'   |
+| `FSD-5.4`  | **Error Handling:** Must report clear error codes (e.g., `ONNX_E_CUDA_OOM`).                                                                      | **WARNING** | FSD-5 (Inference Execution (Runtime Service))                 | Cites sibling 'FSD-5'   |
+| `FSD-6.1`  | All processes must emit logs to the central LogServer.                                                                                            | **WARNING** | FSD-6 (Distributed Logging)                                   | Cites sibling 'FSD-6'   |
+| `FSD-6.2`  | **Fire-and-Forget:** Senders must never block; messages are dropped if LogServer is down.                                                         | **WARNING** | FSD-6 (Distributed Logging)                                   | Cites sibling 'FSD-6'   |
+| `FSD-6.3`  | **Correlation:** All logs must include `request_id` for correlation across processes.                                                             | **WARNING** | FSD-6 (Distributed Logging)                                   | Cites sibling 'FSD-6'   |
+| `FSD-6.4`  | **Traceability:** 100% traceable request coverage.                                                                                                | **WARNING** | FSD-6 (Distributed Logging)                                   | Cites sibling 'FSD-6'   |
+| `FSD-7.1`  | **LogServer Fault:** Senders continue normally, silently dropping logs.                                                                           | **WARNING** | FSD-7 (Error Handling Strategy)                               | Cites sibling 'FSD-7'   |
+| `FSD-7.2`  | **Service Fault:** Core detects disconnection, marks service unavailable, transitions requests to error.                                          | **WARNING** | FSD-7 (Error Handling Strategy)                               | Cites sibling 'FSD-7'   |
+| `FSD-7.3`  | **Timeout:** Core detects non-response (>5.0s) and triggers error state.                                                                          | **WARNING** | FSD-7 (Error Handling Strategy)                               | Cites sibling 'FSD-7'   |
+| `FSD-7.4`  | **Core Fault:** Services remain operational but disconnected; attempt reconnect on restart.                                                       | **WARNING** | FSD-7 (Error Handling Strategy)                               | Cites sibling 'FSD-7'   |
+| `FSD-8`    | Intent Resolution (The "Brain")                                                                                                                   | **WARNING** | FSD-1 (Process Orchestration)                                 | Cites sibling 'FSD-1'   |
+| `FSD-8.1`  | **Input Normalization:** Core accepts inputs (`VOICE`, `CLI`, `GUI`) as uniform text strings.                                                     | **WARNING** | FSD-8 (Intent Resolution (The "Brain"))                       | Cites sibling 'FSD-8'   |
+| `FSD-8.2`  | **Command Registry:** Core maintains a registry of valid commands mapping "String" → "Callable".                                                  | **WARNING** | FSD-8 (Intent Resolution (The "Brain"))                       | Cites sibling 'FSD-8'   |
+| `FSD-8.3`  | **Fast Path:** IF input matches Registry Key → Execute immediately (Deterministic).                                                               | **WARNING** | FSD-8 (Intent Resolution (The "Brain"))                       | Cites sibling 'FSD-8'   |
+| `FSD-8.4`  | **Slow Path:** IF input does not match → Forward to LLM Service for inference (Probabilistic).                                                    | **WARNING** | FSD-8 (Intent Resolution (The "Brain"))                       | Cites sibling 'FSD-8'   |
+| `FSD-9`    | User Experience (UX)                                                                                                                              | **WARNING** | FSD-1.2 (**UI Process:** Handles user interaction (PySide6).) | Cites sibling 'FSD-1.2' |
+| `FSD-9.1`  | **State Reflection:** UI must visually reflect state (Dark/Gray for Sleep, Bright/Color for Active).                                              | **WARNING** | FSD-9 (User Experience (UX))                                  | Cites sibling 'FSD-9'   |
+| `FSD-9.2`  | **Input Locking:** Text input disabled in Sleep; Blinking cursor only in Active.                                                                  | **WARNING** | FSD-9 (User Experience (UX))                                  | Cites sibling 'FSD-9'   |
+| `FSD-9.3`  | **Wake Triggers:** System wakes on Voice ("Hey Maggie") OR Click-to-Wake on input box.                                                            | **WARNING** | FSD-9 (User Experience (UX))                                  | Cites sibling 'FSD-9'   |
+| `FSD-9.4`  | **Audio Feedback:**                                                                                                                               | **WARNING** | FSD-9 (User Experience (UX))                                  | Cites sibling 'FSD-9'   |
+| `ICD-2.1`  | **Core ↔ Services (ROUTER-DEALER):**                                                                                                              | **WARNING** | ICD-2 (Frame Structure)                                       | Cites sibling 'ICD-2'   |
+| `ICD-2.2`  | **Outbound (DEALER):** `[metadata_json, payload_bytes...]`                                                                                        | **WARNING** | ICD-2 (Frame Structure)                                       | Cites sibling 'ICD-2'   |
+| `ICD-2.3`  | **Inbound (ROUTER):** `[service_identity, b'', metadata_json, payload_bytes...]`                                                                  | **WARNING** | ICD-2 (Frame Structure)                                       | Cites sibling 'ICD-2'   |
+| `ICD-2.4`  | **All → LogServer (PUSH-PULL):**                                                                                                                  | **WARNING** | ICD-2 (Frame Structure)                                       | Cites sibling 'ICD-2'   |
+| `ICD-2.5`  | **Frame:** `[metadata_json, message_string]`                                                                                                      | **WARNING** | ICD-2 (Frame Structure)                                       | Cites sibling 'ICD-2'   |
+| `ICD-2.6`  | **Payloads:**                                                                                                                                     | **WARNING** | ICD-2 (Frame Structure)                                       | Cites sibling 'ICD-2'   |
+| `ICD-2.7`  | Text: JSON-encoded UTF-8 bytes.                                                                                                                   | **WARNING** | ICD-2 (Frame Structure)                                       | Cites sibling 'ICD-2'   |
+| `ICD-2.8`  | Binary: Raw bytes (PCM, tensors).                                                                                                                 | **WARNING** | ICD-2 (Frame Structure)                                       | Cites sibling 'ICD-2'   |
+| `ICD-2.9`  | Multi-part: Supported for zero-copy efficiency.                                                                                                   | **WARNING** | ICD-2 (Frame Structure)                                       | Cites sibling 'ICD-2'   |
+| `ICD-4`    | Response Payload Schema                                                                                                                           | **WARNING** | ICD-3 (Metadata Schema (JSON))                                | Cites sibling 'ICD-3'   |
+| `NFR-1.1`  | **CPU:** AMD Ryzen 9 5900X (Audio/Core must run here).                                                                                            | **WARNING** | NFR-1 (Target Environment)                                    | Cites sibling 'NFR-1'   |
+| `NFR-1.2`  | **GPU:** RTX 3080 10GB VRAM (Runtime/Inference only).                                                                                             | **WARNING** | NFR-1 (Target Environment)                                    | Cites sibling 'NFR-1'   |
+| `NFR-1.3`  | **RAM:** 32GB System Memory.                                                                                                                      | **WARNING** | NFR-1 (Target Environment)                                    | Cites sibling 'NFR-1'   |
+| `NFR-1.4`  | **OS:** Windows 11 Pro x64.                                                                                                                       | **WARNING** | NFR-1 (Target Environment)                                    | Cites sibling 'NFR-1'   |
+| `NFR-1.5`  | **Python:** Version >= 3.11.                                                                                                                      | **WARNING** | NFR-1 (Target Environment)                                    | Cites sibling 'NFR-1'   |
+| `NFR-1.6`  | **CUDA:** Toolkit installed for GPU inference.                                                                                                    | **WARNING** | NFR-1 (Target Environment)                                    | Cites sibling 'NFR-1'   |
+| `NFR-2.1`  | All communication limited to local TCP sockets (`127.0.0.1`) via ZeroMQ.                                                                          | **WARNING** | NFR-2 (Security & Network)                                    | Cites sibling 'NFR-2'   |
+| `NFR-2.2`  | No cloud dependencies allowed for runtime operations.                                                                                             | **WARNING** | NFR-2 (Security & Network)                                    | Cites sibling 'NFR-2'   |
+| `NFR-3.1`  | **CPU Idle:** Processes polling for IPC messages must consume <5% CPU when idle.                                                                  | **WARNING** | NFR-3 (Resource Isolation)                                    | Cites sibling 'NFR-3'   |
+| `NFR-3.2`  | **Audio Priority:** CPU-bound services (Audio) must prioritize low-latency over idle CPU.                                                         | **WARNING** | NFR-3 (Resource Isolation)                                    | Cites sibling 'NFR-3'   |
+| `NFR-3.3`  | **Memory Footprint (Core Queue):** 1000 cap, ~10-50 MB.                                                                                           | **WARNING** | NFR-3 (Resource Isolation)                                    | Cites sibling 'NFR-3'   |
+| `NFR-3.4`  | **Memory Footprint (UI Queue):** 100 cap, ~1-5 MB.                                                                                                | **WARNING** | NFR-3 (Resource Isolation)                                    | Cites sibling 'NFR-3'   |
+| `NFR-3.5`  | **Memory Footprint (Runtime Queue):** 50 cap, ~5-25 MB.                                                                                           | **WARNING** | NFR-3 (Resource Isolation)                                    | Cites sibling 'NFR-3'   |
+| `NFR-3.6`  | **Memory Footprint (Audio Queue):** 50 cap, ~1-5 MB.                                                                                              | **WARNING** | NFR-3 (Resource Isolation)                                    | Cites sibling 'NFR-3'   |
+| `NFR-4.1`  | **IPC Dispatch:** Sub-millisecond (<1ms) for metadata-only messages.                                                                              | **WARNING** | NFR-4 (Latency & Throughput)                                  | Cites sibling 'NFR-4'   |
+| `NFR-4.2`  | **Round Trip:** <5ms metadata-only; <20ms for 1MB payload (excluding processing).                                                                 | **WARNING** | NFR-4 (Latency & Throughput)                                  | Cites sibling 'NFR-4'   |
+| `NFR-4.3`  | **LLM Inference:** <1s average response time.                                                                                                     | **WARNING** | NFR-4 (Latency & Throughput)                                  | Cites sibling 'NFR-4'   |
+| `NFR-4.4`  | **TTS:** ≤2s average end-to-end response.                                                                                                         | **WARNING** | NFR-4 (Latency & Throughput)                                  | Cites sibling 'NFR-4'   |
+| `NFR-4.5`  | **UI Responsiveness:** No input blocking >100ms.                                                                                                  | **WARNING** | NFR-4 (Latency & Throughput)                                  | Cites sibling 'NFR-4'   |
+| `NFR-4.6`  | **Logging:** LogServer must support ≥ 10,000 msgs/sec.                                                                                            | **WARNING** | NFR-4 (Latency & Throughput)                                  | Cites sibling 'NFR-4'   |
+| `NFR-4.7`  | **HSM:** Must support ≥ 1,000 state transitions/sec.                                                                                              | **WARNING** | NFR-4 (Latency & Throughput)                                  | Cites sibling 'NFR-4'   |
+| `NFR-4.8`  | **Queue Operations:** O(log n) time (1-5 microseconds).                                                                                           | **WARNING** | NFR-4 (Latency & Throughput)                                  | Cites sibling 'NFR-4'   |
+| `NFR-5.1`  | **Non-blocking:** No process shall block waiting for another during standard IPC.                                                                 | **WARNING** | NFR-5 (Fault Tolerance)                                       | Cites sibling 'NFR-5'   |
+| `NFR-5.2`  | **Isolation:** Failures in UI, Runtime, or Audio must not cascade to Core.                                                                        | **WARNING** | NFR-5 (Fault Tolerance)                                       | Cites sibling 'NFR-5'   |
+| `NFR-5.3`  | **Fire-and-Forget:** Log messages are acceptable to be lost if LogServer is down.                                                                 | **WARNING** | NFR-5 (Fault Tolerance)                                       | Cites sibling 'NFR-5'   |
+| `NFR-5.4`  | **Timeout Accuracy:** Detection must be within ±100ms of configured limit.                                                                        | **WARNING** | NFR-5 (Fault Tolerance)                                       | Cites sibling 'NFR-5'   |
+| `NFR-5.5`  | **Core Failure:** In-flight requests are considered lost (MVP acceptable).                                                                        | **WARNING** | NFR-5 (Fault Tolerance)                                       | Cites sibling 'NFR-5'   |
+| `NFR-5.6`  | **Message Routability:** The Core must explicitly detect and handle attempts to send messages to disconnected or non-existent service identities. | **WARNING** | NFR-5 (Fault Tolerance)                                       | Cites sibling 'NFR-5'   |
+| `NFR-6.1`  | `PySide6`: Default GUI framework.                                                                                                                 | **WARNING** | NFR-6 (Key Dependencies)                                      | Cites sibling 'NFR-6'   |
+| `NFR-6.2`  | `pyzmq`: Non-blocking IPC.                                                                                                                        | **WARNING** | NFR-6 (Key Dependencies)                                      | Cites sibling 'NFR-6'   |
+| `NFR-6.3`  | `onnxruntime-gpu`: GPU inference.                                                                                                                 | **WARNING** | NFR-6 (Key Dependencies)                                      | Cites sibling 'NFR-6'   |
+| `NFR-6.4`  | `loguru`: Distributed logging.                                                                                                                    | **WARNING** | NFR-6 (Key Dependencies)                                      | Cites sibling 'NFR-6'   |
+| `NFR-6.5`  | `transitions`: HSM implementation.                                                                                                                | **WARNING** | NFR-6 (Key Dependencies)                                      | Cites sibling 'NFR-6'   |
+| `SAD-1.1`  | **Hub-and-Spoke:** Core Process acts as the central `ROUTER` (Hub); Services are `DEALER` (Spokes).                                               | **WARNING** | SAD-1 (Architectural Patterns)                                | Cites sibling 'SAD-1'   |
+| `SAD-1.2`  | **Decoupled Sink:** Dedicated LogServer acts as `PULL` sink for `PUSH` sources.                                                                   | **WARNING** | SAD-1 (Architectural Patterns)                                | Cites sibling 'SAD-1'   |
+| `SAD-1.3`  | **No Shared Abstraction:** `ROUTER-DEALER` and `PUSH-PULL` patterns are implemented separately to avoid artificial coupling.                      | **WARNING** | SAD-1 (Architectural Patterns)                                | Cites sibling 'SAD-1'   |
+| `SAD-1.4`  | **Context Propagation:** `request_id` must be passed in every frame.                                                                              | **WARNING** | SAD-1 (Architectural Patterns)                                | Cites sibling 'SAD-1'   |
+| `SAD-3.1`  | **Core ↔ Services (Request-Response):**                                                                                                           | **WARNING** | SAD-3 (Integration Strategy)                                  | Cites sibling 'SAD-3'   |
+| `SAD-3.2`  | **Pattern:** ZeroMQ `ROUTER` (Core) ↔ `DEALER` (Service).                                                                                         | **WARNING** | SAD-3 (Integration Strategy)                                  | Cites sibling 'SAD-3'   |
+| `SAD-3.3`  | **Type:** Bidirectional.                                                                                                                          | **WARNING** | SAD-3 (Integration Strategy)                                  | Cites sibling 'SAD-3'   |
+| `SAD-3.4`  | **Requirement:** Core maintains routing table (client identity → socket identity).                                                                | **WARNING** | SAD-3 (Integration Strategy)                                  | Cites sibling 'SAD-3'   |
+| `SAD-3.5`  | **All Processes → LogServer (Logging):**                                                                                                          | **WARNING** | SAD-3 (Integration Strategy)                                  | Cites sibling 'SAD-3'   |
+| `SAD-3.6`  | **Pattern:** ZeroMQ `PUSH` (Client) → `PULL` (LogServer).                                                                                         | **WARNING** | SAD-3 (Integration Strategy)                                  | Cites sibling 'SAD-3'   |
+| `SAD-3.7`  | **Type:** Unidirectional, Fire-and-Forget.                                                                                                        | **WARNING** | SAD-3 (Integration Strategy)                                  | Cites sibling 'SAD-3'   |
+| `SAD-3.8`  | **Requirement:** Senders must set `SNDHWM=100` and `LINGER=0` to buffer micro-bursts without blocking.                                            | **WARNING** | SAD-3 (Integration Strategy)                                  | Cites sibling 'SAD-3'   |
+| `SAD-4.1`  | **Receiver Threads:** Each process uses a dedicated thread to poll ZMQ sockets and push to an internal `queue.PriorityQueue`.                     | **WARNING** | SAD-4 (Concurrency Model)                                     | Cites sibling 'SAD-4'   |
+| `SAD-4.2`  | **Main Loop:** The main application loop processes the `PriorityQueue` to remain non-blocking.                                                    | **WARNING** | SAD-4 (Concurrency Model)                                     | Cites sibling 'SAD-4'   |
+| `SAD-4.3`  | **Queueing:**                                                                                                                                     | **WARNING** | SAD-4 (Concurrency Model)                                     | Cites sibling 'SAD-4'   |
+| `SAD-4.4`  | Must use `queue.PriorityQueue`.                                                                                                                   | **WARNING** | SAD-4 (Concurrency Model)                                     | Cites sibling 'SAD-4'   |
+| `SAD-4.5`  | **Structure:** `(priority, counter, message)`.                                                                                                    | **WARNING** | SAD-4 (Concurrency Model)                                     | Cites sibling 'SAD-4'   |
+| `SAD-4.6`  | **Ordering:** Monotonic counter (`itertools.count`) ensures FIFO within priority levels.                                                          | **WARNING** | SAD-4 (Concurrency Model)                                     | Cites sibling 'SAD-4'   |
+| `SAD-4.7`  | **Priority Levels:**                                                                                                                              | **WARNING** | SAD-4 (Concurrency Model)                                     | Cites sibling 'SAD-4'   |
+| `SAD-4.8`  | **High (0):** `shutdown`, `error_notification`, `state_change`.                                                                                   | **WARNING** | SAD-4 (Concurrency Model)                                     | Cites sibling 'SAD-4'   |
+| `SAD-4.9`  | **Normal (1):** Inference requests, status updates.                                                                                               | **WARNING** | SAD-4 (Concurrency Model)                                     | Cites sibling 'SAD-4'   |
+| `SAD-5.1`  | All IPC endpoints (addresses, ports) and parameters (queue sizes, timeouts) must be loaded from `ipc_config.yaml`.                                | **WARNING** | SAD-5 (Configuration Driven)                                  | Cites sibling 'SAD-5'   |
+| `TDD-1.1`  | **Class Name:** `CoreProcess`                                                                                                                     | **WARNING** | TDD-1 (Component: CoreProcess)                                | Cites sibling 'TDD-1'   |
+| `TDD-1.12` | **Validation:** Parse `manifest.yaml` in subdirectories (`tools/`, `routines/`).                                                                  | **WARNING** | TDD-1 (Component: CoreProcess)                                | Cites sibling 'TDD-1'   |
+| `TDD-1.13` | **Loading:** Use `importlib` to dynamically import the module specified in manifest `entry_point`.                                                | **WARNING** | TDD-1 (Component: CoreProcess)                                | Cites sibling 'TDD-1'   |
+| `TDD-1.15` | **Logic:** `resolve_intent(input_str: str)` checks registry before HSM dispatch.                                                                  | **WARNING** | TDD-1 (Component: CoreProcess)                                | Cites sibling 'TDD-1'   |
+| `TDD-1.2`  | **Dependencies:** `zmq`, `queue`, `itertools`, `transitions`, `yaml`, `threading`, `importlib`, `pathlib`.                                        | **WARNING** | TDD-1 (Component: CoreProcess)                                | Cites sibling 'TDD-1'   |
+| `TDD-2.1`  | **Class Name:** `ServiceClient`                                                                                                                   | **WARNING** | TDD-2 (Component: ServiceClient)                              | Cites sibling 'TDD-2'   |
+| `TDD-2.2`  | **Purpose:** Standardized base implementation for UI, Runtime, and Audio services.                                                                | **WARNING** | TDD-2 (Component: ServiceClient)                              | Cites sibling 'TDD-2'   |
+| `TDD-2.3`  | **Dependencies:** `yaml`, `zmq`, `queue`, `itertools`, `threading`.                                                                               | **WARNING** | TDD-2 (Component: ServiceClient)                              | Cites sibling 'TDD-2'   |
+| `TDD-3.1`  | **Class Name:** `LogServerSink`                                                                                                                   | **WARNING** | TDD-3 (Component: LogServerSink)                              | Cites sibling 'TDD-3'   |
+| `TDD-3.2`  | **Dependencies:** `loguru`, `zmq`.                                                                                                                | **WARNING** | TDD-3 (Component: LogServerSink)                              | Cites sibling 'TDD-3'   |
+| `TDD-4.1`  | **Class Name:** `AbstractTool`, `AbstractRoutine` (ABC).                                                                                          | **WARNING** | TDD-4 (Component: Tool/Routine Interface)                     | Cites sibling 'TDD-4'   |
+| `TDD-4.2`  | `initialize(core_context: CoreProcess)`: Inject Core dependencies.                                                                                | **WARNING** | TDD-4 (Component: Tool/Routine Interface)                     | Cites sibling 'TDD-4'   |
+| `TDD-4.4`  | `handle_event(event_data: Dict) -> str`: Process business logic and return next trigger.                                                          | **WARNING** | TDD-4 (Component: Tool/Routine Interface)                     | Cites sibling 'TDD-4'   |
+| `TDD-4.5`  | **Requirement:** Every extension directory must contain `manifest.yaml`.                                                                          | **WARNING** | TDD-4 (Component: Tool/Routine Interface)                     | Cites sibling 'TDD-4'   |
+| `TDD-4.6`  | **Schema:**                                                                                                                                       | **WARNING** | TDD-4 (Component: Tool/Routine Interface)                     | Cites sibling 'TDD-4'   |
+| `TDD-5.1`  | **Function Name:** `audio_worker_loop(client: ServiceClient)`                                                                                     | **WARNING** | TDD-5 (Component: AudioWorkerLoop)                            | Cites sibling 'TDD-5'   |
+| `TDD-5.2`  | **Dependencies:** `pvporcupine`, `webrtcvad`, `numpy`, `threading`.                                                                               | **WARNING** | TDD-5 (Component: AudioWorkerLoop)                            | Cites sibling 'TDD-5'   |
+| `TDD-5.3`  | **Stage 1 (WWD):** Process audio chunks through pvporcupine. On detection, check Core state before emitting event.                                | **WARNING** | TDD-5 (Component: AudioWorkerLoop)                            | Cites sibling 'TDD-5'   |
+| `TDD-5.4`  | **Stage 2 (VAD):** Apply webrtcvad (CPU) for initial speech detection, buffer frames for STT handoff.                                             | **WARNING** | TDD-5 (Component: AudioWorkerLoop)                            | Cites sibling 'TDD-5'   |
+| `TDD-5.5`  | **State Check:** Query Core HSM state via `client.get_state()`. Only emit `WAKE_WORD_DETECTED` if state is `idle`.                                | **WARNING** | TDD-5 (Component: AudioWorkerLoop)                            | Cites sibling 'TDD-5'   |
+| `TDD-5.6`  | **Denoising:** Apply RNNoise or equivalent before WWD/VAD stages. Must operate within NFR-3 latency budget.                                       | **WARNING** | TDD-5 (Component: AudioWorkerLoop)                            | Cites sibling 'TDD-5'   |
 
 ## ORPHAN (9)
 
-| ID | Title | Severity | Cited Tag | Message |
-| :--- | :------ | :--------- | :---------- | :-------- |
-| `TERM-AUDIO-PROCESS` | Audio Process | **ERROR** | None | No parent citations |
-| `TERM-CORE-PROCESS` | Core Process | **ERROR** | None | No parent citations |
-| `TERM-HSM` | HSM | **ERROR** | None | No parent citations |
-| `TERM-LOGSERVER` | LogServer | **ERROR** | None | No parent citations |
-| `TERM-ROUTINE` | Routine | **ERROR** | None | No parent citations |
-| `TERM-RUNTIME-PROCESS` | Runtime Process | **ERROR** | None | No parent citations |
-| `TERM-SERVICE` | Service | **ERROR** | None | No parent citations |
-| `TERM-TOOL` | Tool | **ERROR** | None | No parent citations |
-| `TERM-UI-PROCESS` | UI Process | **ERROR** | None | No parent citations |
+| ID                     | Title           | Severity   | Cited Tag   | Message             |
+| :--------------------- | :-------------- | :--------- | :---------- | :------------------ |
+| `TERM-AUDIO-PROCESS`   | Audio Process   | **ERROR**  | None        | No parent citations |
+| `TERM-CORE-PROCESS`    | Core Process    | **ERROR**  | None        | No parent citations |
+| `TERM-HSM`             | HSM             | **ERROR**  | None        | No parent citations |
+| `TERM-LOGSERVER`       | LogServer       | **ERROR**  | None        | No parent citations |
+| `TERM-ROUTINE`         | Routine         | **ERROR**  | None        | No parent citations |
+| `TERM-RUNTIME-PROCESS` | Runtime Process | **ERROR**  | None        | No parent citations |
+| `TERM-SERVICE`         | Service         | **ERROR**  | None        | No parent citations |
+| `TERM-TOOL`            | Tool            | **ERROR**  | None        | No parent citations |
+| `TERM-UI-PROCESS`      | UI Process      | **ERROR**  | None        | No parent citations |

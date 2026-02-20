@@ -33,13 +33,13 @@ The **BRD tier** captures business context, strategic objectives, and success cr
 
 ## Characteristics
 
-| Attribute | Value |
-| :---------- | :------ |
-| **Layer** | Context |
-| **Question** | "Why are we building this?" |
-| **Persona** | Strategist |
-| **Audience** | Stakeholders, executives, product leadership |
-| **Tag Format** | `BRD-N` (block), `BRD-N.M` (atomic) |
+| Attribute      | Value                                        |
+| :------------- | :------------------------------------------- |
+| **Layer**      | Context                                      |
+| **Question**   | "Why are we building this?"                  |
+| **Persona**    | Strategist                                   |
+| **Audience**   | Stakeholders, executives, product leadership |
+| **Tag Format** | `BRD-N` (block), `BRD-N.M` (atomic)          |
 
 ### Key Content
 
@@ -56,12 +56,12 @@ All NFR and FSD tags MUST cite specific BRD tags as their ultimate justification
 
 ### Constraints
 
-| Constraint | Rule |
-| :----------- | :----- |
+| Constraint          | Rule                                      |
+| :------------------ | :---------------------------------------- |
 | Technology Agnostic | No technology terms (ZeroMQ, Python, GPU) |
-| Measurable Metrics | Success criteria must be quantifiable |
-| Stakeholder Focus | Identify benefiting stakeholders |
-| No Implementation | Describe WHAT to achieve, not HOW |
+| Measurable Metrics  | Success criteria must be quantifiable     |
+| Stakeholder Focus   | Identify benefiting stakeholders          |
+| No Implementation   | Describe WHAT to achieve, not HOW         |
 
 ## Context
 

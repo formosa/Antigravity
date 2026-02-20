@@ -32,12 +32,12 @@ The **TDD tier** captures component class names, dependencies, socket configurat
 
 ## Characteristics
 
-| Attribute | Value |
-| :---------- | :------ |
-| **Layer** | Blueprints |
-| **Question** | "What classes/modules exist?" |
-| **Persona** | Lead Developer |
-| **Audience** | Developers, code reviewers |
+| Attribute      | Value                               |
+| :------------- | :---------------------------------- |
+| **Layer**      | Blueprints                          |
+| **Question**   | "What classes/modules exist?"       |
+| **Persona**    | Lead Developer                      |
+| **Audience**   | Developers, code reviewers          |
 | **Tag Format** | `TDD-N` (block), `TDD-N.M` (atomic) |
 
 ### Key Content
@@ -58,12 +58,12 @@ The **TDD tier** captures component class names, dependencies, socket configurat
 
 TDD defines **WHAT exists** and **HOW it's wired**, NOT the logic:
 
-| ✅ TDD Content | ❌ Not TDD Content |
-| :--------------- | :------------------- |
-| Class names | Algorithm implementations |
-| Method signatures | Business logic |
-| Dependencies | Control flow |
-| Socket bindings | Message handling code |
+| ✅ TDD Content    | ❌ Not TDD Content        |
+| :---------------- | :------------------------ |
+| Class names       | Algorithm implementations |
+| Method signatures | Business logic            |
+| Dependencies      | Control flow              |
+| Socket bindings   | Message handling code     |
 
 ## Context
 

@@ -16,18 +16,18 @@ description: "Tags cannot cite peer tags at the same abstraction level."
 
 ## Detection
 
-| Pattern | Example |
-| :-------- | :--------- |
-| Same prefix in `:links:` | FSD-4.4 links to FSD-4.3 |
-| Same block parent | Both tags under FSD-4 |
-| Sequential dependency | "This follows from..." sibling |
+| Pattern                  | Example                        |
+| :----------------------- | :----------------------------- |
+| Same prefix in `:links:` | FSD-4.4 links to FSD-4.3       |
+| Same block parent        | Both tags under FSD-4          |
+| Sequential dependency    | "This follows from..." sibling |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Sibling citation | ERROR | Remove sibling link |
-| Sequential dependency | WARNING | Express in prose, not citation |
+| Violation             | Severity   | Resolution                     |
+| :-------------------- | :--------: | :----------------------------- |
+| Sibling citation      | ERROR      | Remove sibling link            |
+| Sequential dependency | WARNING    | Express in prose, not citation |
 
 ## Pattern Detection
 

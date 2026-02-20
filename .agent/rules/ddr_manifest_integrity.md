@@ -13,13 +13,13 @@ severity: mandatory
 
 ## Trigger Events
 
-| Event | Affected Section(s) |
-| :------ | :-------------------- |
-| Tag content modified | Section + all citing sections |
-| Tag added | Section containing tag |
-| Tag deleted | Section + all citing sections |
-| Parent tag modified | All child-citing sections |
-| Citation added/removed | Section containing tag |
+| Event                  | Affected Section(s)           |
+| :--------------------- | :---------------------------- |
+| Tag content modified   | Section + all citing sections |
+| Tag added              | Section containing tag        |
+| Tag deleted            | Section + all citing sections |
+| Parent tag modified    | All child-citing sections     |
+| Citation added/removed | Section containing tag        |
 
 ## Enforcement Protocol
 
@@ -30,11 +30,11 @@ severity: mandatory
 
 ## Issue Types
 
-| Type | Meaning |
-| :----- | :-------- |
+| Type                   | Meaning                   |
+| :--------------------- | :------------------------ |
 | `CONSTRAINT_VIOLATION` | Parent constraint changed |
-| `MISSING_PARENT` | Cited tag not found |
-| `ORPHAN` | No parent citation |
+| `MISSING_PARENT`       | Cited tag not found       |
+| `ORPHAN`               | No parent citation        |
 
 ## Clear Conditions
 

@@ -31,19 +31,19 @@ Deleting or renumbering tags would break all downstream citations, causing casca
 
 ## Detection
 
-| Check | Method |
-| :------ | :------- |
-| Deleted tag | Tag ID referenced in `:links:` but not found in documentation |
-| Renumbered tag | Two tags with identical content, different IDs |
-| Broken legacy chain | Deprecated parent no longer resolves |
+| Check               | Method                                                        |
+| :------------------ | :------------------------------------------------------------ |
+| Deleted tag         | Tag ID referenced in `:links:` but not found in documentation |
+| Renumbered tag      | Two tags with identical content, different IDs                |
+| Broken legacy chain | Deprecated parent no longer resolves                          |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------- | :----------- |
-| Tag deleted | ERROR | Restore tag with `[DEPRECATED vX.Y]` marker |
-| Tag renumbered | ERROR | Revert to original ID, deprecate if needed |
-| Legacy chain broken | WARNING | Verify deprecated parent still exists |
+| Violation           | Severity   | Resolution                                  |
+| :------------------ | :--------- | :------------------------------------------ |
+| Tag deleted         | ERROR      | Restore tag with `[DEPRECATED vX.Y]` marker |
+| Tag renumbered      | ERROR      | Revert to original ID, deprecate if needed  |
+| Legacy chain broken | WARNING    | Verify deprecated parent still exists       |
 
 ## Examples
 
@@ -62,10 +62,10 @@ Deleting or renumbering tags would break all downstream citations, causing casca
 
 ### Transitions
 
-| From | To | Action |
-| :----- | :--- | :------- |
-| Active | Deprecated | Mark `[DEPRECATED vX.Y]`, create replacement with new ID |
-| Deprecated | Removed | Sunsetting — only after confirming zero downstream citations |
+| From       | To         | Action                                                       |
+| :--------- | :--------- | :----------------------------------------------------------- |
+| Active     | Deprecated | Mark `[DEPRECATED vX.Y]`, create replacement with new ID     |
+| Deprecated | Removed    | Sunsetting — only after confirming zero downstream citations |
 
 ---
 

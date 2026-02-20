@@ -33,10 +33,10 @@ This tool accepts no input arguments.
 
 ## Exit Codes & Interpretation
 
-| Code | Status | Agent Interpretation |
-| :----: | :------- | :--------------------- |
-| **0** | **SUCCESS** | A valid UUID string was output to stdout. Capture this string for use in subsequent workflow steps. |
-| **1** | **ERROR** | System failure in generating randomness. Do not proceed with tasks requiring unique paths. |
+| Code   | Status      | Agent Interpretation                                                                                |
+| :----: | :---------- | :-------------------------------------------------------------------------------------------------- |
+| **0**  | **SUCCESS** | A valid UUID string was output to stdout. Capture this string for use in subsequent workflow steps. |
+| **1**  | **ERROR**   | System failure in generating randomness. Do not proceed with tasks requiring unique paths.          |
 
 ## Operational Protocol
 

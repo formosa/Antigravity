@@ -14,17 +14,17 @@ description: "Protects .agent/assets/ directory from unauthorized modifications.
 
 ## Detection
 
-| Pattern | Location |
-| :-------- | :--------- |
-| Edit command targeting `.agent/assets/*` | Any agent tool call |
-| Overwrite request | File write operations |
+| Pattern                                  | Location              |
+| :--------------------------------------- | :-------------------- |
+| Edit command targeting `.agent/assets/*` | Any agent tool call   |
+| Overwrite request                        | File write operations |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Unauthorized edit | ERROR | Halt and request user approval |
-| Deletion attempt | ERROR | Block and report |
+| Violation         | Severity   | Resolution                     |
+| :---------------- | :--------: | :----------------------------- |
+| Unauthorized edit | ERROR      | Halt and request user approval |
+| Deletion attempt  | ERROR      | Block and report               |
 
 ## Enforcement Protocol
 

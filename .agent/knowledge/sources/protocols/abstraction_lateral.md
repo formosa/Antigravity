@@ -47,12 +47,12 @@ List all peer-level concerns the isolated tag implies:
 
 **Example**: FSD-7.1 "LogServer Fault: Senders continue, drop logs silently."
 
-| Implied Parallel Concern |
-| :------------------------- |
-| What about Service faults? |
-| What about Core faults? |
+| Implied Parallel Concern      |
+| :---------------------------- |
+| What about Service faults?    |
+| What about Core faults?       |
 | What about timeout scenarios? |
-| What about network failures? |
+| What about network failures?  |
 
 ### Step 3: Create Parent Block (if missing)
 
@@ -97,11 +97,11 @@ Check that siblings:
 
 ## Outcomes
 
-| Result | Condition | Next Action |
-| :------- | :---------- | :------------ |
-| Complete set | All parallel concerns covered | Update reconciliation manifest |
-| Partial set | Some concerns remain | Continue sibling generation |
-| Over-expansion | Too granular for tier | Merge or demote to lower tier |
+| Result         | Condition                     | Next Action                    |
+| :------------- | :---------------------------- | :----------------------------- |
+| Complete set   | All parallel concerns covered | Update reconciliation manifest |
+| Partial set    | Some concerns remain          | Continue sibling generation    |
+| Over-expansion | Too granular for tier         | Merge or demote to lower tier  |
 
 ---
 

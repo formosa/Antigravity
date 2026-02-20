@@ -27,43 +27,43 @@ The Evaluation Framework defines quantitative pass/fail metrics for each DDR cor
 
 ### Classification Accuracy
 
-| Field | Value |
-| :------ | :------ |
-| **Target** | `@ddr_orchestrator` |
+| Field      | Value                                   |
+| :--------- | :-------------------------------------- |
+| **Target** | `@ddr_orchestrator`                     |
 | **Metric** | Correct tier assignment vs Ground Truth |
-| **Pass** | >95% accuracy |
+| **Pass**   | >95% accuracy                           |
 
 ### Traceability Completeness
 
-| Field | Value |
-| :------ | :------ |
-| **Target** | `@traceability_auditor` |
+| Field      | Value                          |
+| :--------- | :----------------------------- |
+| **Target** | `@traceability_auditor`        |
 | **Metric** | All ISP tags trace to BRD root |
-| **Pass** | 100% (No orphans allowed) |
+| **Pass**   | 100% (No orphans allowed)      |
 
 ### Anti-Pattern Detection
 
-| Field | Value |
-| :------ | :------ |
-| **Target** | `@antipattern_scanner` |
+| Field      | Value                                        |
+| :--------- | :------------------------------------------- |
+| **Target** | `@antipattern_scanner`                       |
 | **Metric** | Zero violations of "Technology in BRD" rules |
-| **Pass** | 0 False Negatives |
+| **Pass**   | 0 False Negatives                            |
 
 ### Stub Purity
 
-| Field | Value |
-| :------ | :------ |
-| **Target** | `@isp_codegenerator` |
+| Field      | Value                                  |
+| :--------- | :------------------------------------- |
+| **Target** | `@isp_codegenerator`                   |
 | **Metric** | `violations_per_stub` (Logic > `pass`) |
-| **Pass** | 0 (Zero tolerance for logic in stubs) |
+| **Pass**   | 0 (Zero tolerance for logic in stubs)  |
 
 ### Docstring Completeness
 
-| Field | Value |
-| :------ | :------ |
-| **Target** | `@isp_codegenerator` |
+| Field      | Value                                      |
+| :--------- | :----------------------------------------- |
+| **Target** | `@isp_codegenerator`                       |
 | **Metric** | Presence of Implements/References sections |
-| **Pass** | 100% compliance |
+| **Pass**   | 100% compliance                            |
 
 ## Anti-Patterns
 

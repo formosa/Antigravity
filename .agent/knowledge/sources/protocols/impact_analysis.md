@@ -36,13 +36,13 @@ When a parent tag is modified, all downstream citations are potentially affected
 
 Record the tag being changed and the nature of modification:
 
-| Modification Type | Impact Level |
-| :------------------ | :------------- |
-| Content change | Review all citing children |
-| ID change | CRITICAL - all citations break |
-| Deletion | All citing children become orphans |
-| Scope expansion | May require new children |
-| Scope reduction | May orphan some children |
+| Modification Type   | Impact Level                       |
+| :------------------ | :--------------------------------- |
+| Content change      | Review all citing children         |
+| ID change           | CRITICAL - all citations break     |
+| Deletion            | All citing children become orphans |
+| Scope expansion     | May require new children           |
+| Scope reduction     | May orphan some children           |
 
 ### Step 2: Build Downstream Graph
 
@@ -71,13 +71,13 @@ Level 1: NFR-4
 
 ### Step 4: Generate Impact Report
 
-| Tag | Level | Path from Modified | Action Required |
-| :---- | :-----: | :------------------- | :---------------- |
-| NFR-4 | 1 | BRD-5.2 → NFR-4 | Review for consistency |
-| FSD-1.3 | 2 | BRD-5.2 → NFR-4 → FSD-1.3 | Verify still valid |
-| SAD-2 | 3 | ... → FSD-1.3 → SAD-2 | Check architecture |
-| TDD-1 | 4 | ... → SAD-2 → TDD-1 | Review design |
-| ISP-1 | 5 | ... → TDD-1 → ISP-1 | Regenerate stub |
+| Tag     | Level   | Path from Modified        | Action Required        |
+| :------ | :-----: | :------------------------ | :--------------------- |
+| NFR-4   | 1       | BRD-5.2 → NFR-4           | Review for consistency |
+| FSD-1.3 | 2       | BRD-5.2 → NFR-4 → FSD-1.3 | Verify still valid     |
+| SAD-2   | 3       | ... → FSD-1.3 → SAD-2     | Check architecture     |
+| TDD-1   | 4       | ... → SAD-2 → TDD-1       | Review design          |
+| ISP-1   | 5       | ... → TDD-1 → ISP-1       | Regenerate stub        |
 
 ### Step 5: Flag Affected Sections
 
@@ -99,12 +99,12 @@ For each affected tier, set dirty flag in reconciliation manifest:
 
 ## Outcomes
 
-| Result | Condition | Next Action |
-| :------- | :---------- | :------------ |
-| No citations | Parent has no children | No impact |
-| Local impact | Only direct children affected | Review Level 1 only |
-| Cascade impact | Multiple levels affected | Full reconciliation pass |
-| Critical impact | ID changed/deleted | Emergency citation repair |
+| Result          | Condition                     | Next Action               |
+| :-------------- | :---------------------------- | :------------------------ |
+| No citations    | Parent has no children        | No impact                 |
+| Local impact    | Only direct children affected | Review Level 1 only       |
+| Cascade impact  | Multiple levels affected      | Full reconciliation pass  |
+| Critical impact | ID changed/deleted            | Emergency citation repair |
 
 ---
 

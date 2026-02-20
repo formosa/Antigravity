@@ -45,18 +45,18 @@ matrix. Used when `classify_information` returns `ambiguous: true`.
 
 For each factor, score presence (0-3 points per tier):
 
-| Factor | Best Tier |
-| :------- | :---------- |
-| Numeric metrics | NFR (3) |
-| Hardware reference | NFR (3) |
-| User behavior | FSD (3) |
-| Pattern naming | SAD (3) |
-| Schema definition | ICD (3) |
-| Class names | TDD (3) |
-| Executable code | ISP (3) |
-| Must/shall modality | NFR (3) |
-| Includes rationale | BRD/SAD (3) |
-| Technology-agnostic | BRD (3) |
+| Factor              | Best Tier   |
+| :------------------ | :---------- |
+| Numeric metrics     | NFR (3)     |
+| Hardware reference  | NFR (3)     |
+| User behavior       | FSD (3)     |
+| Pattern naming      | SAD (3)     |
+| Schema definition   | ICD (3)     |
+| Class names         | TDD (3)     |
+| Executable code     | ISP (3)     |
+| Must/shall modality | NFR (3)     |
+| Includes rationale  | BRD/SAD (3) |
+| Technology-agnostic | BRD (3)     |
 
 ### 3. Sum Scores
 

@@ -40,22 +40,22 @@ The BRD tier captures business intent in language accessible to all stakeholders
 
 How to identify violations:
 
-| Pattern | Examples |
-| :-------- | :--------- |
-| Programming languages | Python, JavaScript, React |
-| Libraries/frameworks | ZeroMQ, PySide6, pvporcupine |
-| Hardware specifics | RTX 3080, AMD Ryzen, CUDA |
-| Protocols | TCP, MQTT, REST API |
-| File formats | JSON, YAML, Protobuf |
-| Database names | PostgreSQL, Redis, SQLite |
+| Pattern               | Examples                     |
+| :-------------------- | :--------------------------- |
+| Programming languages | Python, JavaScript, React    |
+| Libraries/frameworks  | ZeroMQ, PySide6, pvporcupine |
+| Hardware specifics    | RTX 3080, AMD Ryzen, CUDA    |
+| Protocols             | TCP, MQTT, REST API          |
+| File formats          | JSON, YAML, Protobuf         |
+| Database names        | PostgreSQL, Redis, SQLite    |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Technology term in BRD | ERROR | Abstract to business language |
-| Implementation detail | ERROR | Move to appropriate tier |
-| Solution prescription | WARNING | Reframe as objective |
+| Violation              | Severity   | Resolution                    |
+| :--------------------- | :--------: | :---------------------------- |
+| Technology term in BRD | ERROR      | Abstract to business language |
+| Implementation detail  | ERROR      | Move to appropriate tier      |
+| Solution prescription  | WARNING    | Reframe as objective          |
 
 ## Examples
 

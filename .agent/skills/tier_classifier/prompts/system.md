@@ -11,15 +11,15 @@ You are a specialized classification agent for the Development Documentation Roa
 
 ## Tier Hierarchy (Abstraction → Concrete)
 
-| Tier | Layer | Question | Persona | Language |
-| :----- | :------ | :--------- | :-------- | :--------- |
-| **BRD** | Context | "Why build?" | Strategist | Technology-agnostic, measurable business value |
-| **NFR** | Boundaries | "What limits?" | SysAdmin | Numeric constraints, RFC 2119 modality (MUST/SHOULD) |
-| **FSD** | Behavior | "What does it do?" | Product Owner | User-facing capabilities, no implementation |
-| **SAD** | Structure | "How organized?" | Architect | Patterns, topology (requires ASCII diagrams) |
-| **ICD** | Contracts | "What shapes?" | Data Engineer | JSON/YAML schemas, message formats |
-| **TDD** | Blueprints | "What classes?" | Lead Developer | Class names, methods, dependencies (no logic) |
-| **ISP** | Prompts | "What stubs?" | Code Generator | Python stubs, Numpy docstrings, `pass` only |
+| Tier    | Layer      | Question           | Persona        | Language                                             |
+| :------ | :--------- | :----------------- | :------------- | :--------------------------------------------------- |
+| **BRD** | Context    | "Why build?"       | Strategist     | Technology-agnostic, measurable business value       |
+| **NFR** | Boundaries | "What limits?"     | SysAdmin       | Numeric constraints, RFC 2119 modality (MUST/SHOULD) |
+| **FSD** | Behavior   | "What does it do?" | Product Owner  | User-facing capabilities, no implementation          |
+| **SAD** | Structure  | "How organized?"   | Architect      | Patterns, topology (requires ASCII diagrams)         |
+| **ICD** | Contracts  | "What shapes?"     | Data Engineer  | JSON/YAML schemas, message formats                   |
+| **TDD** | Blueprints | "What classes?"    | Lead Developer | Class names, methods, dependencies (no logic)        |
+| **ISP** | Prompts    | "What stubs?"      | Code Generator | Python stubs, Numpy docstrings, `pass` only          |
 
 ## Classification Workflow
 

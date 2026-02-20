@@ -121,13 +121,13 @@ docs/
 
 #### Qualification Rubric
 
-| Criterion | BRD-Appropriate | Not BRD-Appropriate |
-| :-- | :-- | :-- |
-| **Abstraction Level** | "Enable privacy-preserving AI" | "Use local TCP sockets" |
-| **Stakeholder Focus** | "End users require offline capability" | "Runtime process uses ONNX" |
-| **Temporal Scope** | "Strategic objective for 2025-2026" | "Queue timeout = 100ms" |
-| **Justification Type** | "Competitive advantage" | "Prevents memory leak" |
-| **Success Measure** | "99.9% uptime SLA" | "<1ms dispatch latency" |
+| Criterion              | BRD-Appropriate                        | Not BRD-Appropriate         |
+| :--------------------- | :------------------------------------- | :-------------------------- |
+| **Abstraction Level**  | "Enable privacy-preserving AI"         | "Use local TCP sockets"     |
+| **Stakeholder Focus**  | "End users require offline capability" | "Runtime process uses ONNX" |
+| **Temporal Scope**     | "Strategic objective for 2025-2026"    | "Queue timeout = 100ms"     |
+| **Justification Type** | "Competitive advantage"                | "Prevents memory leak"      |
+| **Success Measure**    | "99.9% uptime SLA"                     | "<1ms dispatch latency"     |
 
 #### Real-World Examples
 
@@ -221,13 +221,13 @@ docs/
 
 #### Qualification Rubric
 
-| Criterion | NFR-Appropriate | Not NFR-Appropriate |
-| :-- | :-- | :-- |
-| **Measurability** | "<1ms dispatch latency" | "Fast IPC communication" |
-| **Constraint Type** | "RTX 3080 10GB VRAM limit" | "Use GPU for inference" |
-| **Enforcement** | "No process shall block >5s" | "Core routes messages" |
-| **Scope** | "All communication via 127.0.0.1" | "ROUTER binds to :5555" |
-| **Invariance** | "Python >=3.11 required" | "Import zmq.Context" |
+| Criterion           | NFR-Appropriate                   | Not NFR-Appropriate      |
+| :------------------ | :-------------------------------- | :----------------------- |
+| **Measurability**   | "<1ms dispatch latency"           | "Fast IPC communication" |
+| **Constraint Type** | "RTX 3080 10GB VRAM limit"        | "Use GPU for inference"  |
+| **Enforcement**     | "No process shall block >5s"      | "Core routes messages"   |
+| **Scope**           | "All communication via 127.0.0.1" | "ROUTER binds to :5555"  |
+| **Invariance**      | "Python >=3.11 required"          | "Import zmq.Context"     |
 
 #### Real-World Examples
 
@@ -321,13 +321,13 @@ docs/
 
 #### Qualification Rubric
 
-| Criterion | FSD-Appropriate | Not FSD-Appropriate |
-| :-- | :-- | :-- |
-| **Observability** | "UI reflects HSM state visually" | "UI uses PySide6 framework" |
-| **Action Trigger** | "Wake word detection transitions to Active" | "Porcupine engine runs on CPU" |
-| **Capability** | "System supports STT, TTS, LLM inference" | "Runtime uses ONNX Runtime GPU" |
-| **Workflow** | "Audio → Core → Runtime → Core → UI" | "Messages use ROUTER-DEALER pattern" |
-| **Business Rule** | "Only emit WAKE_WORD if Core is Idle" | "Check state via HSM trigger guard" |
+| Criterion          | FSD-Appropriate                             | Not FSD-Appropriate                  |
+| :----------------- | :------------------------------------------ | :----------------------------------- |
+| **Observability**  | "UI reflects HSM state visually"            | "UI uses PySide6 framework"          |
+| **Action Trigger** | "Wake word detection transitions to Active" | "Porcupine engine runs on CPU"       |
+| **Capability**     | "System supports STT, TTS, LLM inference"   | "Runtime uses ONNX Runtime GPU"      |
+| **Workflow**       | "Audio → Core → Runtime → Core → UI"        | "Messages use ROUTER-DEALER pattern" |
+| **Business Rule**  | "Only emit WAKE_WORD if Core is Idle"       | "Check state via HSM trigger guard"  |
 
 #### Real-World Examples
 
@@ -433,12 +433,12 @@ docs/
 
 #### Qualification Rubric
 
-| Criterion | SAD-Appropriate | Not SAD-Appropriate |
-| :-- | :-- | :-- |
-| **Abstraction** | "Hub-and-Spoke topology" | "Core binds port 5555" | | **Pattern** | "ROUTER-DEALER for request-response" | "Metadata frame is JSON" |
-| **Principle** | "No shared base class for patterns" | "Class ServiceClient extends ABC" |
-| **Technology** | "ZeroMQ for non-blocking IPC" | "import zmq; ctx = zmq.Context()" |
-| **Concurrency** | "Receiver threads + PriorityQueue" | "threading.Thread(target=_poll_loop)" |
+| Criterion       | SAD-Appropriate                     | Not SAD-Appropriate                   |     |             |                                      |                          |
+| :-------------- | :---------------------------------- | :------------------------------------ | --- | ----------- | ------------------------------------ | ------------------------ |
+| **Abstraction** | "Hub-and-Spoke topology"            | "Core binds port 5555"                |     | **Pattern** | "ROUTER-DEALER for request-response" | "Metadata frame is JSON" |
+| **Principle**   | "No shared base class for patterns" | "Class ServiceClient extends ABC"     |     |             |                                      |                          |
+| **Technology**  | "ZeroMQ for non-blocking IPC"       | "import zmq; ctx = zmq.Context()"     |     |             |                                      |                          |
+| **Concurrency** | "Receiver threads + PriorityQueue"  | "threading.Thread(target=_poll_loop)" |     |             |                                      |                          |
 
 #### Real-World Examples
 
@@ -578,13 +578,13 @@ docs/
 
 ### Qualification Rubric
 
-| Criterion | ICD-Appropriate | Not ICD-Appropriate |
-| :-- | :-- | :-- |
-| **Data Shape** | `{"command": "string", "priority": 0\|1}` | "Messages are prioritized" |
-| **Validation** | "request_id: UUID v4 format required" | "Generate UUID on send" |
-| **Encoding** | "Payload: UTF-8 JSON or raw bytes" | "Parse JSON with json.loads()" |
-| **Contract** | "Response echoes original request_id" | "Track request_id in dict" |
-| **Protocol** | "Frame 0: Metadata, Frame 1+: Payload" | "Use send_multipart() method" |
+| Criterion      | ICD-Appropriate                           | Not ICD-Appropriate            |
+| :------------- | :---------------------------------------- | :----------------------------- |
+| **Data Shape** | `{"command": "string", "priority": 0\|1}` | "Messages are prioritized"     |
+| **Validation** | "request_id: UUID v4 format required"     | "Generate UUID on send"        |
+| **Encoding**   | "Payload: UTF-8 JSON or raw bytes"        | "Parse JSON with json.loads()" |
+| **Contract**   | "Response echoes original request_id"     | "Track request_id in dict"     |
+| **Protocol**   | "Frame 0: Metadata, Frame 1+: Payload"    | "Use send_multipart() method"  |
 
 #### Real-World Examples
 
@@ -716,13 +716,13 @@ docs/
 
 #### Qualification Rubric
 
-| Criterion | TDD-Appropriate | Not TDD-Appropriate |
-| :-- | :-- | :-- |
-| **Component** | "Class: CoreProcess" | "Core routes messages" |
-| **Structure** | "active_requests: Dict\[str, Tuple\[bytes, float, str\]\]" | `{"req-123": (b'\x00\x01', 1234.56, "llm")}` |
-| **Signature** | `send_request(cmd: str, payload: dict, priority: int)` | `self.dealer.send_multipart([meta, data])` |
-| **Dependency** | "Import: zmq, queue, transitions" | `import zmq; ctx = zmq.Context()` |
-| **Blueprint** | "Spawns receiver thread on init" | `threading.Thread(target=self._poll).start()` |
+| Criterion      | TDD-Appropriate                                            | Not TDD-Appropriate                           |
+| :------------- | :--------------------------------------------------------- | :-------------------------------------------- |
+| **Component**  | "Class: CoreProcess"                                       | "Core routes messages"                        |
+| **Structure**  | "active_requests: Dict\[str, Tuple\[bytes, float, str\]\]" | `{"req-123": (b'\x00\x01', 1234.56, "llm")}`  |
+| **Signature**  | `send_request(cmd: str, payload: dict, priority: int)`     | `self.dealer.send_multipart([meta, data])`    |
+| **Dependency** | "Import: zmq, queue, transitions"                          | `import zmq; ctx = zmq.Context()`             |
+| **Blueprint**  | "Spawns receiver thread on init"                           | `threading.Thread(target=self._poll).start()` |
 
 #### Real-World Examples
 
@@ -847,13 +847,13 @@ def send_log(self, level, message):
 
 #### Qualification Rubric
 
-| Criterion | ISP-Appropriate | Not ISP-Appropriate |
-| :-- | :-- | :-- |
-| **Code State** | `def run(self): pass` | `def run(self): while True: ...` |
-| **Documentation** | Numpy docstring with `Ref: |TAG|` | Inline comments only |
-| **Completeness** | Structural skeleton | Fully implemented logic |
-| **Guidance** | `# TODO: Implement timeout check` | Complete algorithm |
-| **Traceability** | `Initialize. Ref: |TDD-1|` | |
+| Criterion         | ISP-Appropriate                   | Not ISP-Appropriate              |
+| :---------------- | :-------------------------------- | :------------------------------- |
+| **Code State**    | `def run(self): pass`             | `def run(self): while True: ...` |
+| **Documentation** | Numpy docstring with `Ref: |TAG|` | Inline comments only             |
+| **Completeness**  | Structural skeleton               | Fully implemented logic          |
+| **Guidance**      | `# TODO: Implement timeout check` | Complete algorithm               |
+| **Traceability**  | `Initialize. Ref: |TDD-1|`        |                                  |
 
 #### Real-World Examples
 
@@ -1108,15 +1108,15 @@ def audio_worker_loop(client: ServiceClient):
 
 ### 3.2 Error Handling (Cross-Cutting Concern)
 
-| Tier | Content | Distinction |
-| :-- | :-- | :-- |
-| **BRD** | `.. brd:: Reduce downtime` (ID: BRD-3.4) | Strategic goal |
-| **NFR** | `.. nfr:: Service heartbeat 1s` (ID: NFR-5.2) | Operational constraint |
-| **FSD** | `.. fsd:: Centralized error codes` (ID: FSD-7.2) | Feature requirement |
-| **SAD** | `.. sad:: Supervisor Pattern` (ID: SAD-5.1) | Architectural choice |
-| **ICD** | `.. icd:: Response Schema` (ID: ICD-4) | Data contract |
-| **TDD** | `.. tdd:: health_check() method` (ID: TDD-1.9) | Component interface |
-| **ISP** | `def check_timeouts(self): pass` | Code stub |
+| Tier    | Content                                          | Distinction            |
+| :------ | :----------------------------------------------- | :--------------------- |
+| **BRD** | `.. brd:: Reduce downtime` (ID: BRD-3.4)         | Strategic goal         |
+| **NFR** | `.. nfr:: Service heartbeat 1s` (ID: NFR-5.2)    | Operational constraint |
+| **FSD** | `.. fsd:: Centralized error codes` (ID: FSD-7.2) | Feature requirement    |
+| **SAD** | `.. sad:: Supervisor Pattern` (ID: SAD-5.1)      | Architectural choice   |
+| **ICD** | `.. icd:: Response Schema` (ID: ICD-4)           | Data contract          |
+| **TDD** | `.. tdd:: health_check() method` (ID: TDD-1.9)   | Component interface    |
+| **ISP** | `def check_timeouts(self): pass`                 | Code stub              |
 
 ----------
 
@@ -1185,18 +1185,18 @@ def audio_worker_loop(client: ServiceClient):
 
 For ambiguous cases, score the information against these criteria (0-3 scale, 3 = strong match):
 
-|Factor | BRD | NFR | FSD | SAD | ICD | TDD | ISP |
-| :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
-| Contains numeric metrics | 1 | 3 | 1 | 0 | 2 | 0 | 0 |
-| References hardware | 1 | 3 | 0 | 1 | 0 | 0 | 0 |
-| Describes user behavior | 2 | 0 | 3 | 0 | 0 | 0 | 0 |
-| Names patterns | 0 | 0 | 0 | 3 | 0 | 1 | 0 |
-| Defines JSON/YAML | 0 | 0 | 0 | 0 | 3 | 0 | 1 |
-| Contains class names | 0 | 0 | 0 | 0 | 0 | 3 | 2 |
-| Has executable code | 0 | 0 | 0 | 0 | 0 | 0 | 3 |
-| Uses "must/shall" | 2 | 3 | 2 | 1 | 1 | 1 | 0 |
-| Includes rationale | 3 | 1 | 1 | 3 | 0 | 2 | 0 |
-| Technology-agnostic | 3 | 1 | 2 | 0 | 0 | 0 | 0 |
+| Factor                   | BRD | NFR | FSD | SAD | ICD | TDD | ISP |
+| :----------------------- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
+| Contains numeric metrics | 1   | 3   | 1   | 0   | 2   | 0   | 0   |
+| References hardware      | 1   | 3   | 0   | 1   | 0   | 0   | 0   |
+| Describes user behavior  | 2   | 0   | 3   | 0   | 0   | 0   | 0   |
+| Names patterns           | 0   | 0   | 0   | 3   | 0   | 1   | 0   |
+| Defines JSON/YAML        | 0   | 0   | 0   | 0   | 3   | 0   | 1   |
+| Contains class names     | 0   | 0   | 0   | 0   | 0   | 3   | 2   |
+| Has executable code      | 0   | 0   | 0   | 0   | 0   | 0   | 3   |
+| Uses "must/shall"        | 2   | 3   | 2   | 1   | 1   | 1   | 0   |
+| Includes rationale       | 3   | 1   | 1   | 3   | 0   | 2   | 0   |
+| Technology-agnostic      | 3   | 1   | 2   | 0   | 0   | 0   | 0   |
 
 **Classification Rule:** Assign to tier with highest total score. Ties favor higher abstraction (left).
 
@@ -1216,18 +1216,18 @@ For ambiguous cases, score the information against these criteria (0-3 scale, 3 
 
 **Step 2: Matrix Scoring**
 
-| Factor | Score | Reasoning |
-| :-- | :-- | :-- |
-| Numeric metrics | NFR=3, ICD=2 | Performance/config values |
-| Hardware reference | All=0 | No hardware mentioned |
-| User behavior | All=0 | Internal system behavior |
-| Pattern naming | All=0 | No patterns referenced |
-| Schema definition | ICD=3 | Implies loguru config schema |
-| Class names | All=0 | No classes mentioned |
-| Executable code | All=0 | No code provided |
-| Must/shall modality | NFR=3, FSD=2 | Strong requirement |
-| Rationale included | All=0 | No justification given |
-| Technology-agnostic | BRD=3, NFR=1 | Rotation is generic concept |
+| Factor              | Score        | Reasoning                    |
+| :------------------ | :----------- | :--------------------------- |
+| Numeric metrics     | NFR=3, ICD=2 | Performance/config values    |
+| Hardware reference  | All=0        | No hardware mentioned        |
+| User behavior       | All=0        | Internal system behavior     |
+| Pattern naming      | All=0        | No patterns referenced       |
+| Schema definition   | ICD=3        | Implies loguru config schema |
+| Class names         | All=0        | No classes mentioned         |
+| Executable code     | All=0        | No code provided             |
+| Must/shall modality | NFR=3, FSD=2 | Strong requirement           |
+| Rationale included  | All=0        | No justification given       |
+| Technology-agnostic | BRD=3, NFR=1 | Rotation is generic concept  |
 
 **Step 3: Tier Scores**
 
@@ -2503,28 +2503,28 @@ core:
 
 ### 11.1 Quick Classification Guide
 
-| Information Type | Primary Tier | Secondary Tier (if hybrid) |
+| Information Type          | Primary Tier  | Secondary Tier (if hybrid)  |
 | :------------------------ | :------------ | :-------------------------- |
-| Business goal | BRD | - |
-| Market problem | BRD | - |
-| SLA target | BRD | NFR (if quantified) |
-| Hardware spec | NFR | - |
-| Performance target | NFR | - |
-| Security constraint | NFR | BRD (if strategic) |
-| User workflow | FSD | - |
-| Feature capability | FSD | - |
-| Error handling behavior | FSD | - |
-| Architectural pattern | SAD | - |
-| Component topology | SAD | - |
-| Technology choice | SAD | NFR (if constraint-driven) |
-| JSON schema | ICD | - |
-| Config format | ICD | - |
-| API contract | ICD | - |
-| Class structure | TDD | - |
-| Method signature | TDD | ISP (if stub included) |
-| Dependency list | TDD | - |
-| Code stub | ISP | - |
-| Docstring | ISP | - |
+| Business goal             | BRD           | -                           |
+| Market problem            | BRD           | -                           |
+| SLA target                | BRD           | NFR (if quantified)         |
+| Hardware spec             | NFR           | -                           |
+| Performance target        | NFR           | -                           |
+| Security constraint       | NFR           | BRD (if strategic)          |
+| User workflow             | FSD           | -                           |
+| Feature capability        | FSD           | -                           |
+| Error handling behavior   | FSD           | -                           |
+| Architectural pattern     | SAD           | -                           |
+| Component topology        | SAD           | -                           |
+| Technology choice         | SAD           | NFR (if constraint-driven)  |
+| JSON schema               | ICD           | -                           |
+| Config format             | ICD           | -                           |
+| API contract              | ICD           | -                           |
+| Class structure           | TDD           | -                           |
+| Method signature          | TDD           | ISP (if stub included)      |
+| Dependency list           | TDD           | -                           |
+| Code stub                 | ISP           | -                           |
+| Docstring                 | ISP           | -                           |
 
 ### 11.2 Traceability Validation Checklist
 
@@ -2541,15 +2541,15 @@ core:
 
 ### 11.3 Persona-Question-Output Map
 
-| Tier | Persona | Core Question | Typical Output |
-| :-- | :-- | :-- | :-- |
-| BRD | Executive | "Why invest?" | ROI justification, strategic objectives |
-| NFR | SysAdmin | "What limits?" | Performance SLAs, hardware specs |
-| Product Manager | "What features?" | Use cases, workflows, acceptance criteria |
-| SAD | Architect | "What structure?" | Topology diagrams, pattern selections |
-| ICD | Data Engineer | "What contracts?" | JSON schemas, YAML configs, API specs |
-| TDD | Lead Developer | "What classes?" | Component blueprints, method signatures |
-| ISP | Code Generator | "What scaffold?" | Python stubs with docstrings |
+| Tier            | Persona          | Core Question                             | Typical Output                          |
+| :-------------- | :--------------- | :---------------------------------------- | :-------------------------------------- |
+| BRD             | Executive        | "Why invest?"                             | ROI justification, strategic objectives |
+| NFR             | SysAdmin         | "What limits?"                            | Performance SLAs, hardware specs        |
+| Product Manager | "What features?" | Use cases, workflows, acceptance criteria |                                         |
+| SAD             | Architect        | "What structure?"                         | Topology diagrams, pattern selections   |
+| ICD             | Data Engineer    | "What contracts?"                         | JSON schemas, YAML configs, API specs   |
+| TDD             | Lead Developer   | "What classes?"                           | Component blueprints, method signatures |
+| ISP             | Code Generator   | "What scaffold?"                          | Python stubs with docstrings            |
 
 ----------
 
@@ -3084,12 +3084,12 @@ CONFLICT: Quantized models <5GB achieve only ~1.5s inference time on RTX 3080.
 
 **Resolution Framework:**
 
-| Option | BRD Impact | NFR Changes | FSD Changes | SAD Changes | Risk |
-| :-- | :-- | :-- | :-- | :-- | :-- |
-| **A: Relax Latency** | Acceptable if <2s | Update NFR-4.3 → <2s | No change | No change | Low user satisfaction |
-| **B: Increase Model Size** | Violates BRD-11 | Update NFR-10.3 → <8GB | No change | No change | Regulatory risk |
-| **C: Upgrade Hardware** | Cost increase | Update NFR-1.2 → RTX 4090 | No change | No change | Budget impact |
-| **D: Hybrid Approach** | Partial compliance | Add NFR-11.5: "Fast mode" | Add FSD-13: "User selects mode" | Update SAD for conditional loading | Complexity increase |
+| Option                     | BRD Impact         | NFR Changes               | FSD Changes                     | SAD Changes                        | Risk                  |
+| :------------------------- | :----------------- | :------------------------ | :------------------------------ | :--------------------------------- | :-------------------- |
+| **A: Relax Latency**       | Acceptable if <2s  | Update NFR-4.3 → <2s      | No change                       | No change                          | Low user satisfaction |
+| **B: Increase Model Size** | Violates BRD-11    | Update NFR-10.3 → <8GB    | No change                       | No change                          | Regulatory risk       |
+| **C: Upgrade Hardware**    | Cost increase      | Update NFR-1.2 → RTX 4090 | No change                       | No change                          | Budget impact         |
+| **D: Hybrid Approach**     | Partial compliance | Add NFR-11.5: "Fast mode" | Add FSD-13: "User selects mode" | Update SAD for conditional loading | Complexity increase   |
 
 **Recommended: Option D (Hybrid)**
 
@@ -4338,14 +4338,14 @@ class UserManager:
 
 ### 18.1 Documentation Maintenance Schedule
 
-| Activity | Frequency | Responsible Persona |
-| :--------- | :---------- | :-------------------- |
-| **Tag Inventory Audit** | Weekly | Any developer |
-| **Broken Citation Check** | On every commit | Automated CI/CD |
-| **Orphan Detection** | Sprint planning | Tech Lead |
-| **Reconciliation Sweep** | After major refactor | Architect |
-| **Version Migration** | Release milestones | Product Owner |
-| **LLM Context Test** | Monthly | DevOps |
+| Activity                  | Frequency            | Responsible Persona   |
+| :------------------------ | :------------------- | :-------------------- |
+| **Tag Inventory Audit**   | Weekly               | Any developer         |
+| **Broken Citation Check** | On every commit      | Automated CI/CD       |
+| **Orphan Detection**      | Sprint planning      | Tech Lead             |
+| **Reconciliation Sweep**  | After major refactor | Architect             |
+| **Version Migration**     | Release milestones   | Product Owner         |
+| **LLM Context Test**      | Monthly              | DevOps                |
 
 ### 18.2 Tag Naming Conventions
 
@@ -5555,9 +5555,9 @@ When refactoring requires tag restructuring:
 ## Refactoring: [Refactor Name]
 
 ### Migration Map
-| Old Tag | New Tag | Status | Notes |
+| Old Tag   | New Tag   | Status   | Notes   |
 | :-------- | :-------- | :------- | :------ |
-| OLD-1   | NEW-1   | MOVED  | ...   |
+| OLD-1     | NEW-1     | MOVED    | ...     |
 
 ### Backward Compatibility
 ~~~rst
@@ -5596,18 +5596,18 @@ When refactoring requires tag restructuring:
 ### 23.3 Common Mistakes Summary
 
 
-| Mistake | Problem | Solution |
-| :-- | :-- | :-- |
-| Technology in BRD | "Use PostgreSQL" | Abstract to "Persistent storage" in BRD, specify PostgreSQL in SAD |
-| Missing citations | Orphaned tags | Add `:links: PARENT` option |
-| Implementation in FSD | "Uses zmq_ROUTER socket" | Move to SAD/TDD, keep FSD focused on behavior |
-| Schema in SAD | JSON structures in architecture | Move data schemas to ICD tier |
-| Complete code in ISP | Fully implemented methods | Provide stubs with `pass` and implementation notes |
-| Sibling citations | Citing peer tags (e.g., SAD-1.2 → SAD-1.1) | Cite common parent tier instead |
-| Renumbering tags | Changing existing IDs (e.g., FSD-5 → FSD-2) | Add new tags with new IDs, deprecate old ones if needed |
-| No rationale | Design choice without justification | Add Rationale section within the tag content |
-| Vague constraints | "Fast performance" | Specify measurable targets: "<1s latency" |
-| Mixed abstractions | Combining BRD and NFR in one tag | Decompose into separate tier-appropriate tags |
+| Mistake               | Problem                                     | Solution                                                           |
+| :-------------------- | :------------------------------------------ | :----------------------------------------------------------------- |
+| Technology in BRD     | "Use PostgreSQL"                            | Abstract to "Persistent storage" in BRD, specify PostgreSQL in SAD |
+| Missing citations     | Orphaned tags                               | Add `:links: PARENT` option                                        |
+| Implementation in FSD | "Uses zmq_ROUTER socket"                    | Move to SAD/TDD, keep FSD focused on behavior                      |
+| Schema in SAD         | JSON structures in architecture             | Move data schemas to ICD tier                                      |
+| Complete code in ISP  | Fully implemented methods                   | Provide stubs with `pass` and implementation notes                 |
+| Sibling citations     | Citing peer tags (e.g., SAD-1.2 → SAD-1.1)  | Cite common parent tier instead                                    |
+| Renumbering tags      | Changing existing IDs (e.g., FSD-5 → FSD-2) | Add new tags with new IDs, deprecate old ones if needed            |
+| No rationale          | Design choice without justification         | Add Rationale section within the tag content                       |
+| Vague constraints     | "Fast performance"                          | Specify measurable targets: "<1s latency"                          |
+| Mixed abstractions    | Combining BRD and NFR in one tag            | Decompose into separate tier-appropriate tags                      |
 
 ----------
 
@@ -6807,15 +6807,15 @@ args:
 Delegates documentation tasks to the appropriate tier-specific agent.
 
 ## Agent Mapping
-| Tier | Agent |
-| :-- | :-- |
-| BRD | `@brd_strategist` |
-| NFR | `@nfr_enforcer` |
-| FSD | `@fsd_analyst` |
-| SAD | `@sad_architect` |
-| ICD | `@icd_dataengineer` |
-| TDD | `@tdd_designer` |
-| ISP | `@isp_codegenerator` |
+| Tier | Agent                |
+| :--- | :------------------- |
+| BRD  | `@brd_strategist`    |
+| NFR  | `@nfr_enforcer`      |
+| FSD  | `@fsd_analyst`       |
+| SAD  | `@sad_architect`     |
+| ICD  | `@icd_dataengineer`  |
+| TDD  | `@tdd_designer`      |
+| ISP  | `@isp_codegenerator` |
 
 ~~~
 
@@ -6953,13 +6953,13 @@ Controlled vocabulary for documentation terminology. Enforces consistent
 naming across all documentation tiers.
 
 ## Key Terms
-| Term | Definition | Enforcement |
-| :-- | :-- | :-- |
-| Core Process | Central orchestrator (never "manager" or "controller") | Strict |
-| Runtime Process | GPU inference engine (never "model server") | Strict |
-| Tool | Modular capability extending Core (not a process) | Strict |
-| Routine | Workflow composed of Tools and Services | Strict |
-| HSM | Hierarchical State Machine controlling orchestration | Strict |
+| Term            | Definition                                             | Enforcement |
+| :-------------- | :----------------------------------------------------- | :---------- |
+| Core Process    | Central orchestrator (never "manager" or "controller") | Strict      |
+| Runtime Process | GPU inference engine (never "model server")            | Strict      |
+| Tool            | Modular capability extending Core (not a process)      | Strict      |
+| Routine         | Workflow composed of Tools and Services                | Strict      |
+| HSM             | Hierarchical State Machine controlling orchestration   | Strict      |
 
 ~~~
 
@@ -6992,15 +6992,15 @@ rubric:
 Measures accuracy of tier classification against ground truth examples.
 
 ## Expected Classifications
-| Input | Expected Tier | Rationale |
-| :-- | :-- | :-- |
-| "Enable voice control of smart home devices" | BRD | Business value proposition |
-| "Device discovery must complete in <5s" | NFR | Quantified performance constraint |
-| "User says 'Turn on lights' → System extracts intent" | FSD | User-observable behavior |
-| "Pattern: Command-Query Separation" | SAD | Architectural pattern selection |
-| `{"command": "device_control", ...}` | ICD | JSON schema data contract |
-| "Class: DeviceService" | TDD | Component class structure |
-| "def send_command(self, ...): pass" | ISP | Python stub with signature |
+| Input                                                 | Expected Tier | Rationale                         |
+| :---------------------------------------------------- | :------------ | :-------------------------------- |
+| "Enable voice control of smart home devices"          | BRD           | Business value proposition        |
+| "Device discovery must complete in <5s"               | NFR           | Quantified performance constraint |
+| "User says 'Turn on lights' → System extracts intent" | FSD           | User-observable behavior          |
+| "Pattern: Command-Query Separation"                   | SAD           | Architectural pattern selection   |
+| `{"command": "device_control", ...}`                  | ICD           | JSON schema data contract         |
+| "Class: DeviceService"                                | TDD           | Component class structure         |
+| "def send_command(self, ...): pass"                   | ISP           | Python stub with signature        |
 
 ~~~
 
@@ -7029,12 +7029,12 @@ rubric:
 Identifies common documentation anti-patterns that violate DDR tier boundaries.
 
 ## Patterns Tested
-| Pattern | Severity | Detection Regex |
-| :-- | :-- | :-- |
-| `technology_in_brd` | Error | `\.\. brd::.*(?:ZeroMQ\|PostgreSQL\|React\|ONNX)` |
-| `implementation_in_fsd` | Error | `\.\. fsd::.*(?:socket\|thread\|class\|import)` |
-| `schema_in_sad` | Warning | `\.\. sad::.*.. code-block::` |
-| `sibling_citation` | Error | `:links:.*([A-Z]{3})-(\d+)\.(\d+).*:id: \1-\2\.` |
+| Pattern                 | Severity | Detection Regex                                   |
+| :---------------------- | :------- | :------------------------------------------------ |
+| `technology_in_brd`     | Error    | `\.\. brd::.*(?:ZeroMQ\|PostgreSQL\|React\|ONNX)` |
+| `implementation_in_fsd` | Error    | `\.\. fsd::.*(?:socket\|thread\|class\|import)`   |
+| `schema_in_sad`         | Warning  | `\.\. sad::.*.. code-block::`                     |
+| `sibling_citation`      | Error    | `:links:.*([A-Z]{3})-(\d+)\.(\d+).*:id: \1-\2\.`  |
 
 ~~~
 
@@ -7213,11 +7213,11 @@ Converts technology-specific details into technology-agnostic business
 value propositions suitable for BRD tier.
 
 ## Examples
-| Technical Detail | Business Value |
-| :-- | :-- |
-| "Use ZeroMQ ROUTER-DEALER for IPC" | "Enable fault-tolerant, scalable communication" |
-| "ONNX Runtime GPU inference" | "Preserve user privacy, eliminate internet dependency" |
-| "Pvporcupine wake word detection" | "Enable hands-free voice interaction" |
+| Technical Detail                   | Business Value                                         |
+| :--------------------------------- | :----------------------------------------------------- |
+| "Use ZeroMQ ROUTER-DEALER for IPC" | "Enable fault-tolerant, scalable communication"        |
+| "ONNX Runtime GPU inference"       | "Preserve user privacy, eliminate internet dependency" |
+| "Pvporcupine wake word detection"  | "Enable hands-free voice interaction"                  |
 
 ~~~
 
@@ -8779,14 +8779,14 @@ Checks content against tier-specific validation rules:
 - **ISP**: Must be executable Python stubs
 
 ## Tier Rules
-| Tier | Forbidden Terms | Required Elements |
-| :----- | :---------------- | :------------------ |
-| BRD | ZeroMQ, ONNX, API, socket, thread, class, GPU | business value, stakeholder, metric |
-| NFR | - | metric, constraint, limit (+ numbers) |
-| FSD | zmq.ROUTER, onnxruntime, class, def | behavior description |
-| ICD | - | schema, format, contract |
-| TDD | implementation, algorithm | class, method, component |
-| ISP | - | def, pass (must be code) |
+| Tier   | Forbidden Terms                               | Required Elements                     |
+| :----- | :-------------------------------------------- | :------------------------------------ |
+| BRD    | ZeroMQ, ONNX, API, socket, thread, class, GPU | business value, stakeholder, metric   |
+| NFR    | -                                             | metric, constraint, limit (+ numbers) |
+| FSD    | zmq.ROUTER, onnxruntime, class, def           | behavior description                  |
+| ICD    | -                                             | schema, format, contract              |
+| TDD    | implementation, algorithm                     | class, method, component              |
+| ISP    | -                                             | def, pass (must be code)              |
 
 ~~~
 
@@ -8853,14 +8853,14 @@ args:
 ## Overview
 Scans documentation for common mistakes:
 
-| Pattern | Severity | Description |
-| :-------- | :--------- | :------------ |
-| `technology_in_brd` | ERROR | Technology terms in BRD tier |
-| `implementation_in_fsd` | ERROR | Code/implementation in FSD tier |
-| `schema_in_sad` | WARNING | Code blocks in SAD tier |
-| `sibling_citation` | ERROR | Peer tags citing each other |
-| `missing_rationale` | WARNING | Design decision without "why" |
-| `vague_nfr` | WARNING | Qualitative terms without numbers |
+| Pattern                 | Severity   | Description                       |
+| :---------------------- | :--------- | :-------------------------------- |
+| `technology_in_brd`     | ERROR      | Technology terms in BRD tier      |
+| `implementation_in_fsd` | ERROR      | Code/implementation in FSD tier   |
+| `schema_in_sad`         | WARNING    | Code blocks in SAD tier           |
+| `sibling_citation`      | ERROR      | Peer tags citing each other       |
+| `missing_rationale`     | WARNING    | Design decision without "why"     |
+| `vague_nfr`             | WARNING    | Qualitative terms without numbers |
 
 ## Output
 
@@ -9271,11 +9271,11 @@ threshold: 0.95
 # Evaluation: Docstring Completeness
 
 ## Required Sections
-| Entity | Required Sections |
-| :------- | :------------------ |
-| Classes | Attributes, Implements/References |
-| Functions | Parameters, Returns, References |
-| Methods | Parameters, Implementation Notes (stubs), References |
+| Entity    | Required Sections                                    |
+| :-------- | :--------------------------------------------------- |
+| Classes   | Attributes, Implements/References                    |
+| Functions | Parameters, Returns, References                      |
+| Methods   | Parameters, Implementation Notes (stubs), References |
 
 ## Scoring
 `completeness_percentage = count_valid_docstrings / count_total_entities`

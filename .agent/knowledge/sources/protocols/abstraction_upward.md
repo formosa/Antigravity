@@ -38,24 +38,24 @@ Upward abstraction synthesizes parent tags when orphaned specifications exist wi
 
 Strip implementation details; preserve the "why" or "what limit":
 
-| Child Tier | Extract | Discard |
-| :----------- | :-------- | :-------- |
-| ISP → TDD | Class responsibility | Code syntax |
-| TDD → SAD | Pattern rationale | Method signatures |
-| SAD → FSD | User capability | Topology details |
-| FSD → NFR | Constraint boundary | Feature behavior |
-| NFR → BRD | Business objective | Technical metrics |
+| Child Tier   | Extract              | Discard           |
+| :----------- | :------------------- | :---------------- |
+| ISP → TDD    | Class responsibility | Code syntax       |
+| TDD → SAD    | Pattern rationale    | Method signatures |
+| SAD → FSD    | User capability      | Topology details  |
+| FSD → NFR    | Constraint boundary  | Feature behavior  |
+| NFR → BRD    | Business objective   | Technical metrics |
 
 ### Step 2: Elevate Abstraction
 
 Transform technical specifics into parent tier language:
 
-| Original (TDD) | Abstracted (SAD) |
-| :------------- | :--------------- |
+| Original (TDD)                                 | Abstracted (SAD)                                 |
+| :--------------------------------------------- | :----------------------------------------------- |
 | "Spawns receiver thread to poll ROUTER socket" | "Non-blocking I/O via dedicated polling threads" |
 
-| Original (FSD) | Abstracted (BRD) |
-| :------------- | :--------------- |
+| Original (FSD)                          | Abstracted (BRD)                                |
+| :-------------------------------------- | :---------------------------------------------- |
 | "Wake word detection using pvporcupine" | "Hands-free voice activation for accessibility" |
 
 ### Step 3: Validate Scope
@@ -93,11 +93,11 @@ Apply appropriate tier template and establish bidirectional link:
 
 ## Outcomes
 
-| Result | Condition | Next Action |
-| :------- | :---------- | :------------ |
-| Success | Parent created, orphan linked | Validate chain to BRD |
-| Duplicate found | Existing parent covers this | Link orphan to existing tag |
-| Chain incomplete | New parent also orphaned | Recurse upward abstraction |
+| Result           | Condition                     | Next Action                 |
+| :--------------- | :---------------------------- | :-------------------------- |
+| Success          | Parent created, orphan linked | Validate chain to BRD       |
+| Duplicate found  | Existing parent covers this   | Link orphan to existing tag |
+| Chain incomplete | New parent also orphaned      | Recurse upward abstraction  |
 
 ---
 

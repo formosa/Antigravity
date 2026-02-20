@@ -24,14 +24,14 @@ Google Antigravity implements an **agent-first development platform** where conf
 
 ### 1.1 Asset Taxonomy
 
-| Asset Type | Scope | Activation | Purpose | Format |
-| :----------- | :------ | :----------- | :-------- | :------- |
-| **Personas** | Implicit/Defined | System instruction | Define agent behavioral identity | Markdown (system_instruction) |
-| **Rules** | Global/Workspace | Always-on | Passive behavioral constraints | Markdown (`.md`) |
-| **Workflows** | Global/Workspace | User-triggered | On-demand prompt templates | Markdown (`.md`) |
-| **Skills** | Global/Workspace | Context-matched | Progressive capability extension | Directory (`SKILL.md` + assets) |
-| **Tools (MCP)** | Global | Always-available | Deterministic function execution | JSON config + MCP server |
-| **Knowledge** | Workspace | Reference-based | Domain-specific context | Markdown/text files |
+| Asset Type      | Scope            | Activation         | Purpose                          | Format                          |
+| :-------------- | :--------------- | :----------------- | :------------------------------- | :------------------------------ |
+| **Personas**    | Implicit/Defined | System instruction | Define agent behavioral identity | Markdown (system_instruction)   |
+| **Rules**       | Global/Workspace | Always-on          | Passive behavioral constraints   | Markdown (`.md`)                |
+| **Workflows**   | Global/Workspace | User-triggered     | On-demand prompt templates       | Markdown (`.md`)                |
+| **Skills**      | Global/Workspace | Context-matched    | Progressive capability extension | Directory (`SKILL.md` + assets) |
+| **Tools (MCP)** | Global           | Always-available   | Deterministic function execution | JSON config + MCP server        |
+| **Knowledge**   | Workspace        | Reference-based    | Domain-specific context          | Markdown/text files             |
 
 ### 1.2 Scope Hierarchy
 
@@ -79,41 +79,41 @@ Before configuring assets, understand the three independent policy axes that gov
 
 Controls whether the agent may run shell commands autonomously.
 
-| Mode | Behavior | Recommended For |
-| :---- | :-------- | :--------------- |
-| **Always Proceed** | Executes all commands without approval (except denylist) | Greenfield projects, trusted sandboxes |
-| **Request Review** | Prompts the user before every terminal command | Production systems, critical infrastructure |
+| Mode               | Behavior                                                 | Recommended For                             |
+| :----------------- | :------------------------------------------------------- | :------------------------------------------ |
+| **Always Proceed** | Executes all commands without approval (except denylist) | Greenfield projects, trusted sandboxes      |
+| **Request Review** | Prompts the user before every terminal command           | Production systems, critical infrastructure |
 
 ### 2.2 Review Policy
 
 Controls when the agent pauses for human review of its generated Artifacts (plans, diffs, reports).
 
-| Mode | Behavior |
-| :---- | :-------- |
-| **Always Proceed** | Agent never requests a review checkpoint |
-| **Agent Decides** | Agent autonomously determines when to checkpoint *(recommended)* |
+| Mode               | Behavior                                                                  |
+| :----------------- | :------------------------------------------------------------------------ |
+| **Always Proceed** | Agent never requests a review checkpoint                                  |
+| **Agent Decides**  | Agent autonomously determines when to checkpoint *(recommended)*          |
 | **Request Review** | Agent always pauses and requires explicit user approval before proceeding |
 
 ### 2.3 JavaScript Execution Policy
 
 Controls browser subagent behavior when interacting with web pages.
 
-| Mode | Behavior |
-| :---- | :-------- |
+| Mode               | Behavior                                                                                               |
+| :----------------- | :----------------------------------------------------------------------------------------------------- |
 | **Always Proceed** | Agent executes JavaScript in the browser without pausing. Maximum autonomy; highest security exposure. |
-| **Request Review** | Agent prompts before executing any JavaScript. |
-| **Disabled** | Agent will never execute JavaScript in the browser. |
+| **Request Review** | Agent prompts before executing any JavaScript.                                                         |
+| **Disabled**       | Agent will never execute JavaScript in the browser.                                                    |
 
 ### 2.4 Preset Profiles
 
 For convenience, the following named profiles map to combinations of the above three policies.
 
-| Profile | Terminal | Review | JavaScript | Notes |
-| :-------- | :-------- | :------ | :---------- | :----- |
-| **Strict Mode** *(renamed from "Secure Mode" in v1.16.5)* | Request Review | Request Review | Disabled | Maximum safety; enforces human review for all agent actions |
-| **Review-Driven Development** *(recommended)* | Agent Decides | Agent Decides | Request Review | Balanced autonomy; suitable for most development |
-| **Agent-Driven Development** | Always Proceed | Always Proceed | Always Proceed | Full autonomy; use only in fully sandboxed environments |
-| **Custom** | User-defined | User-defined | User-defined | Granular control |
+| Profile                                                   | Terminal       | Review         | JavaScript     | Notes                                                       |
+| :-------------------------------------------------------- | :------------- | :------------- | :------------- | :---------------------------------------------------------- |
+| **Strict Mode** *(renamed from "Secure Mode" in v1.16.5)* | Request Review | Request Review | Disabled       | Maximum safety; enforces human review for all agent actions |
+| **Review-Driven Development** *(recommended)*             | Agent Decides  | Agent Decides  | Request Review | Balanced autonomy; suitable for most development            |
+| **Agent-Driven Development**                              | Always Proceed | Always Proceed | Always Proceed | Full autonomy; use only in fully sandboxed environments     |
+| **Custom**                                                | User-defined   | User-defined   | User-defined   | Granular control                                            |
 
 > **Security Notice**: Strict Mode is the only profile that prevents the agent from autonomously running targeted exploits. It is strongly recommended for production-adjacent work and regulated environments.
 
@@ -238,12 +238,12 @@ description: Multi-phase code review with specialist personas
 
 ### 4.1 Characteristics
 
-| Property | Value |
-| :--------- | :------ |
-| **Activation** | Always-on; loaded into every agent context |
-| **Scope** | Global (`~/.gemini/GEMINI.md`) or Workspace (`<workspace>/.agent/rules/*.md`) |
-| **Precedence** | Workspace rules override global rules |
-| **Analogy** | System constitution; immutable guardrails |
+| Property       | Value                                                                         |
+| :------------- | :---------------------------------------------------------------------------- |
+| **Activation** | Always-on; loaded into every agent context                                    |
+| **Scope**      | Global (`~/.gemini/GEMINI.md`) or Workspace (`<workspace>/.agent/rules/*.md`) |
+| **Precedence** | Workspace rules override global rules                                         |
+| **Analogy**    | System constitution; immutable guardrails                                     |
 
 ### 4.2 Implementation Standards
 
@@ -329,11 +329,11 @@ trigger: /deploy-prod
 
 ### 5.1 Characteristics
 
-| Property | Value |
-| :--------- | :------ |
-| **Activation** | User-triggered via `/workflow-name` |
-| **Scope** | Global (`~/.gemini/antigravity/global_workflows/`) or Workspace (`<workspace>/.agent/workflows/`) |
-| **Analogy** | Saved prompts / Task macros |
+| Property       | Value                                                                                             |
+| :------------- | :------------------------------------------------------------------------------------------------ |
+| **Activation** | User-triggered via `/workflow-name`                                                               |
+| **Scope**      | Global (`~/.gemini/antigravity/global_workflows/`) or Workspace (`<workspace>/.agent/workflows/`) |
+| **Analogy**    | Saved prompts / Task macros                                                                       |
 
 ### 5.2 Workflow File Structure
 
@@ -499,11 +499,11 @@ Format: `<type>(<scope>): <subject>`
 - Subject must use imperative mood ("add" not "added")
 
 ### Example Transformations
-| User Input | Formatted Output |
-| :----------- | :----------------- |
-| "fixed the login bug" | `fix(auth): resolve login validation error` |
-| "Added new API endpoint" | `feat(api): add user profile endpoint` |
-| "updated docs" | `docs: update API documentation` |
+| User Input               | Formatted Output                            |
+| :----------------------- | :------------------------------------------ |
+| "fixed the login bug"    | `fix(auth): resolve login validation error` |
+| "Added new API endpoint" | `feat(api): add user profile endpoint`      |
+| "updated docs"           | `docs: update API documentation`            |
 
 ## Deliverables
 - Artifact: `formatted_commit.txt` with proposed message
@@ -683,13 +683,13 @@ GitHub Slack Notion Postgres Custom
 
 ### 7.3 Skills vs. MCP Tools: Design Decision Matrix
 
-| Factor | Use Skill | Use MCP Tool |
-| :------- | :---------- | :------------- |
-| **Context Sensitivity** | High (load only when relevant) | Low (always available) |
-| **Execution Complexity** | Multi-step procedures | Single function calls |
-| **State Management** | May maintain ephemeral state | Stateless preferred |
-| **Infrastructure** | File-based; no server required | Requires running MCP server |
-| **Example** | "Generate release notes from commits" | "Execute SQL query" |
+| Factor                   | Use Skill                             | Use MCP Tool                |
+| :----------------------- | :------------------------------------ | :-------------------------- |
+| **Context Sensitivity**  | High (load only when relevant)        | Low (always available)      |
+| **Execution Complexity** | Multi-step procedures                 | Single function calls       |
+| **State Management**     | May maintain ephemeral state          | Stateless preferred         |
+| **Infrastructure**       | File-based; no server required        | Requires running MCP server |
+| **Example**              | "Generate release notes from commits" | "Execute SQL query"         |
 
 ### 7.4 MCP Router Pattern (Advanced)
 
@@ -796,11 +796,11 @@ Lowest Priority
 
 ### 9.2 Conflict Resolution Rules
 
-| Scenario | Resolution |
-| :--------- | :----------- |
-| Workspace Rule ≠ Global Rule | Workspace rule overrides |
-| Workflow invokes restricted operation | Rule blocks execution (rules are immutable) |
-| Skill A and Skill B both match intent | Agent scores by `description` field relevance |
+| Scenario                               | Resolution                                          |
+| :------------------------------------- | :-------------------------------------------------- |
+| Workspace Rule ≠ Global Rule           | Workspace rule overrides                            |
+| Workflow invokes restricted operation  | Rule blocks execution (rules are immutable)         |
+| Skill A and Skill B both match intent  | Agent scores by `description` field relevance       |
 | MCP Tool conflicts with Skill approach | Skill provides methodology; tool provides execution |
 
 ---
@@ -811,10 +811,10 @@ Lowest Priority
 
 Antigravity exposes two agent execution modes selectable per conversation from the Agent Manager dropdown.
 
-| Mode | Behavior | Use When |
-| :---- | :-------- | :-------- |
-| **Planning** *(default)* | Agent organizes work into task groups, produces intermediate Artifacts, and reasons through multi-step plans before executing | Deep research, complex refactors, collaborative or multi-agent work |
-| **Fast** | Agent executes directly without a planning phase | Simple tasks: renaming variables, running bash commands, small localized changes |
+| Mode                     | Behavior                                                                                                                      | Use When                                                                         |
+| :----------------------- | :---------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------- |
+| **Planning** *(default)* | Agent organizes work into task groups, produces intermediate Artifacts, and reasons through multi-step plans before executing | Deep research, complex refactors, collaborative or multi-agent work              |
+| **Fast**                 | Agent executes directly without a planning phase                                                                              | Simple tasks: renaming variables, running bash commands, small localized changes |
 
 ---
 
@@ -973,12 +973,12 @@ github.com
 
 ### 13.1 Naming Conventions
 
-| Asset Type | Convention | Examples |
-| :----------- | :----------- | :--------- |
-| **Rules** | `kebab-case.md` | `python-standards.md`, `security-policy.md` |
-| **Workflows** | `kebab-case.md` | `deploy-production.md`, `generate-tests.md` |
-| **Skills** | `kebab-case/` | `git-commit-formatter/`, `pydantic-generator/` |
-| **MCP Servers** | `camelCase` | `"githubMcp"`, `"slackIntegration"` |
+| Asset Type      | Convention      | Examples                                       |
+| :-------------- | :-------------- | :--------------------------------------------- |
+| **Rules**       | `kebab-case.md` | `python-standards.md`, `security-policy.md`    |
+| **Workflows**   | `kebab-case.md` | `deploy-production.md`, `generate-tests.md`    |
+| **Skills**      | `kebab-case/`   | `git-commit-formatter/`, `pydantic-generator/` |
+| **MCP Servers** | `camelCase`     | `"githubMcp"`, `"slackIntegration"`            |
 
 ### 13.2 Recommended File Organization
 
@@ -1133,14 +1133,14 @@ jobs:
 
 ### 15.1 Common Issues
 
-| Problem | Diagnosis | Solution |
-| :-------- | :---------- | :--------- |
-| Workflow not triggering | Incorrect trigger syntax in frontmatter | Ensure `trigger: /exact-command` format |
-| Skill not loading | Description too vague for intent matching | Improve frontmatter `description:` with action-oriented language |
-| MCP tool unavailable | Server failed to start | Verify `mcp_config.json` paths and env var expansion |
-| Rule being ignored | Workspace/global rule conflict | Check precedence hierarchy; workspace rule wins |
-| Context overflow | Too many skills loading simultaneously | Make skill `description:` fields more specific |
-| `agy` command not found | Old `gemini` CLI still in PATH | Reinstall with `npm install -g @google/antigravity` |
+| Problem                 | Diagnosis                                 | Solution                                                         |
+| :---------------------- | :---------------------------------------- | :--------------------------------------------------------------- |
+| Workflow not triggering | Incorrect trigger syntax in frontmatter   | Ensure `trigger: /exact-command` format                          |
+| Skill not loading       | Description too vague for intent matching | Improve frontmatter `description:` with action-oriented language |
+| MCP tool unavailable    | Server failed to start                    | Verify `mcp_config.json` paths and env var expansion             |
+| Rule being ignored      | Workspace/global rule conflict            | Check precedence hierarchy; workspace rule wins                  |
+| Context overflow        | Too many skills loading simultaneously    | Make skill `description:` fields more specific                   |
+| `agy` command not found | Old `gemini` CLI still in PATH            | Reinstall with `npm install -g @google/antigravity`              |
 
 ### 15.2 Debugging Techniques
 
@@ -1278,14 +1278,14 @@ description: DEPRECATED — Use new-skill-name instead.
 
 ### 17.1 Asset Interaction Table
 
-| From → To | Personas | Rules | Workflows | Skills | MCP Tools | Knowledge |
-| :---------- | :--------- | :------ | :---------- | :------- | :---------- | :---------- |
-| **Personas** | N/A | Embedded in Rules | Define workflow-specific persona | Guides skill execution style | N/A | Shapes knowledge interpretation |
-| **Rules** | Defines global persona | Can reference other rules | **CONSTRAINS** execution | **CONSTRAINS** execution | Restricts tool usage | N/A |
-| **Workflows** | Invokes personas per phase | **OBEYS** rules | Can chain workflows | **COMPOSES** multiple skills | Orchestrates tool calls | References knowledge files |
-| **Skills** | Adopts execution persona | **OBEYS** rules | Invoked by workflows | Can depend on other skills | Uses tools for execution | Bundles knowledge in `/resources` |
-| **MCP Tools** | N/A | **OBEYS** rules | Called by workflows | Called by skills | Can compose other tools | N/A |
-| **Knowledge** | Informs persona context | N/A | Provides workflow context | Provides skill reference data | N/A | Can reference other knowledge |
+| From → To     | Personas                   | Rules                     | Workflows                        | Skills                        | MCP Tools                | Knowledge                         |
+| :------------ | :------------------------- | :------------------------ | :------------------------------- | :---------------------------- | :----------------------- | :-------------------------------- |
+| **Personas**  | N/A                        | Embedded in Rules         | Define workflow-specific persona | Guides skill execution style  | N/A                      | Shapes knowledge interpretation   |
+| **Rules**     | Defines global persona     | Can reference other rules | **CONSTRAINS** execution         | **CONSTRAINS** execution      | Restricts tool usage     | N/A                               |
+| **Workflows** | Invokes personas per phase | **OBEYS** rules           | Can chain workflows              | **COMPOSES** multiple skills  | Orchestrates tool calls  | References knowledge files        |
+| **Skills**    | Adopts execution persona   | **OBEYS** rules           | Invoked by workflows             | Can depend on other skills    | Uses tools for execution | Bundles knowledge in `/resources` |
+| **MCP Tools** | N/A                        | **OBEYS** rules           | Called by workflows              | Called by skills              | Can compose other tools  | N/A                               |
+| **Knowledge** | Informs persona context    | N/A                       | Provides workflow context        | Provides skill reference data | N/A                      | Can reference other knowledge     |
 
 ### 17.2 Activation Flow
 
@@ -1343,14 +1343,14 @@ User Request
 
 ### 18.1 When to Use Each Asset
 
-| Use Case | Asset Type | Rationale |
-| :--------- | :----------- | :---------- |
-| Define coding standards | **Rule** | Always-on constraint |
-| Save complex prompt template | **Workflow** | Reusable, user-triggered procedure |
-| Add domain-specific capability | **Skill** | Progressive disclosure (loads only when relevant) |
-| Integrate external API | **MCP Tool** | Deterministic function execution |
-| Enforce behavioral identity | **Persona** | Identity/style enforcement |
-| Provide reference material | **Knowledge** | Static context retrieval |
+| Use Case                       | Asset Type    | Rationale                                         |
+| :----------------------------- | :------------ | :------------------------------------------------ |
+| Define coding standards        | **Rule**      | Always-on constraint                              |
+| Save complex prompt template   | **Workflow**  | Reusable, user-triggered procedure                |
+| Add domain-specific capability | **Skill**     | Progressive disclosure (loads only when relevant) |
+| Integrate external API         | **MCP Tool**  | Deterministic function execution                  |
+| Enforce behavioral identity    | **Persona**   | Identity/style enforcement                        |
+| Provide reference material     | **Knowledge** | Static context retrieval                          |
 
 ### 18.2 File Location Cheat Sheet
 
@@ -1420,15 +1420,15 @@ description: Intent-rich description for discovery
 
 ## Appendix A: Migration from Traditional IDEs
 
-| Traditional IDE Feature | Antigravity Equivalent |
-| :------------------------ | :----------------------- |
-| Code snippets | Workflows (with `/trigger`) |
-| Linter configurations | Rules (e.g., `eslint-rules.md`) |
-| IDE plugins | Skills (progressive loading) |
-| External tools (git, docker) | MCP Tools |
-| Workspace settings | `.agent/` directory configuration |
-| Project documentation | `.context/` knowledge base |
-| Code templates | Skill examples (`/examples`) |
+| Traditional IDE Feature      | Antigravity Equivalent            |
+| :--------------------------- | :-------------------------------- |
+| Code snippets                | Workflows (with `/trigger`)       |
+| Linter configurations        | Rules (e.g., `eslint-rules.md`)   |
+| IDE plugins                  | Skills (progressive loading)      |
+| External tools (git, docker) | MCP Tools                         |
+| Workspace settings           | `.agent/` directory configuration |
+| Project documentation        | `.context/` knowledge base        |
+| Code templates               | Skill examples (`/examples`)      |
 
 **Migration Strategy**:
 
@@ -1442,14 +1442,14 @@ description: Intent-rich description for discovery
 
 ## Appendix B: v1.14.2 → v1.16.5 Migration Checklist
 
-| Item | Action Required |
-| :---- | :-------------- |
-| CLI binary | Update scripts: `gemini` → `agy` |
-| Strict Mode | Update references: "Secure Mode" → "Strict Mode" |
-| Skill static assets | Rename `references/` → `resources/` (optional but recommended) |
-| SKILL.md files | Add YAML frontmatter (`name:`, `description:`) for improved discovery |
-| Execution policies | Review three-axis policy model (Terminal, Review, JavaScript) |
-| Deprecated skills | Update deprecation notice version and removal date |
+| Item                | Action Required                                                       |
+| :------------------ | :-------------------------------------------------------------------- |
+| CLI binary          | Update scripts: `gemini` → `agy`                                      |
+| Strict Mode         | Update references: "Secure Mode" → "Strict Mode"                      |
+| Skill static assets | Rename `references/` → `resources/` (optional but recommended)        |
+| SKILL.md files      | Add YAML frontmatter (`name:`, `description:`) for improved discovery |
+| Execution policies  | Review three-axis policy model (Terminal, Review, JavaScript)         |
+| Deprecated skills   | Update deprecation notice version and removal date                    |
 
 ---
 

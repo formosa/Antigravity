@@ -21,20 +21,20 @@ Identify requirements that lack:
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| No stakeholder identified | WARNING | Tag with stakeholder role |
-| Vague utility | WARNING | Clarify business benefit |
-| Misaligned scope | ERROR | Re-verify with Stakeholder Map |
+| Violation                 | Severity   | Resolution                     |
+| :------------------------ | :--------: | :----------------------------- |
+| No stakeholder identified | WARNING    | Tag with stakeholder role      |
+| Vague utility             | WARNING    | Clarify business benefit       |
+| Misaligned scope          | ERROR      | Re-verify with Stakeholder Map |
 
 ## Stakeholder Categories
 
-| Category | Examples |
-| :--------- | :--------- |
-| End User | Consumer, Operator, Client |
-| Business | Owner, Sponsor, Finance |
-| Technical | Developer, DevOps, Architect |
-| Regulatory | Legal, Compliance, Audit |
+| Category   | Examples                     |
+| :--------- | :--------------------------- |
+| End User   | Consumer, Operator, Client   |
+| Business   | Owner, Sponsor, Finance      |
+| Technical  | Developer, DevOps, Architect |
+| Regulatory | Legal, Compliance, Audit     |
 
 ## References
 

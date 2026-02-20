@@ -21,15 +21,15 @@ The Tier Classifier skill analyzes unstructured information fragments and assign
 
 ## Tier Hierarchy
 
-| Tier | Layer | Question | Output |
-| :----- | :------ | :--------- | :------- |
-| **BRD** | Context | Why build? | Business value, stakeholders |
-| **NFR** | Boundaries | What limits? | Numeric constraints, SLAs |
-| **FSD** | Behavior | What does it? | User-facing capabilities |
-| **SAD** | Structure | How organized? | Architectural patterns |
-| **ICD** | Contracts | What shapes? | Data schemas |
-| **TDD** | Blueprints | What classes? | Component structure |
-| **ISP** | Prompts | What stubs? | Code skeletons |
+| Tier    | Layer      | Question       | Output                       |
+| :------ | :--------- | :------------- | :--------------------------- |
+| **BRD** | Context    | Why build?     | Business value, stakeholders |
+| **NFR** | Boundaries | What limits?   | Numeric constraints, SLAs    |
+| **FSD** | Behavior   | What does it?  | User-facing capabilities     |
+| **SAD** | Structure  | How organized? | Architectural patterns       |
+| **ICD** | Contracts  | What shapes?   | Data schemas                 |
+| **TDD** | Blueprints | What classes?  | Component structure          |
+| **ISP** | Prompts    | What stubs?    | Code skeletons               |
 
 ## Usage
 

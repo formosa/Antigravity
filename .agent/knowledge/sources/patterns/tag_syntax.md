@@ -30,12 +30,12 @@ DDR tags use a consistent format: tier prefix, hyphen, sequential integer, optio
 |TIER-N.M|      Atomic-level tag
 ```
 
-| Component | Format | Examples |
-| :---------- | :------- | :--------- |
-| Tier prefix | Uppercase 3-letter abbreviation | BRD, NFR, FSD, SAD, ICD, TDD, ISP |
-| Separator | Hyphen | `-` |
-| Block number | Sequential integer (no padding) | 1, 2, 10, 99 |
-| Atomic suffix | `.` + sequential integer | .1, .2, .10 |
+| Component     | Format                          | Examples                          |
+| :------------ | :------------------------------ | :-------------------------------- |
+| Tier prefix   | Uppercase 3-letter abbreviation | BRD, NFR, FSD, SAD, ICD, TDD, ISP |
+| Separator     | Hyphen                          | `-`                               |
+| Block number  | Sequential integer (no padding) | 1, 2, 10, 99                      |
+| Atomic suffix | `.` + sequential integer        | .1, .2, .10                       |
 
 ### RST Directive Syntax
 
@@ -47,12 +47,12 @@ DDR tags use a consistent format: tier prefix, hyphen, sequential integer, optio
 
 ## Fields
 
-| Field | Required | Type | Description |
-| :------ | :--------: | :----- | :------------ |
-| Directive | Yes | `.. tier::` | Tier name lowercase (brd, nfr, fsd, etc.) |
-| Title | Yes | string | Human-readable description |
-| `:id:` | Yes | TAG-ID | Unique identifier in correct format |
-| `:links:` | Conditional | TAG-ID list | Parent citations (required for non-BRD) |
+| Field     | Required    | Type        | Description                               |
+| :-------- | :---------: | :---------- | :---------------------------------------- |
+| Directive | Yes         | `.. tier::` | Tier name lowercase (brd, nfr, fsd, etc.) |
+| Title     | Yes         | string      | Human-readable description                |
+| `:id:`    | Yes         | TAG-ID      | Unique identifier in correct format       |
+| `:links:` | Conditional | TAG-ID list | Parent citations (required for non-BRD)   |
 
 ## Usage Examples
 

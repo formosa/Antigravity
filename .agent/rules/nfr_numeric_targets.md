@@ -16,29 +16,29 @@ description: "NFR constraints must include specific, measurable numeric targets 
 
 ## Detection
 
-| Pattern | Examples |
-| :-------- | :--------- |
+| Pattern                  | Examples                                                    |
+| :----------------------- | :---------------------------------------------------------- |
 | Vague performance claims | "fast", "efficient", "responsive", "real-time" (without ms) |
-| Missing units | "latency less than 100" |
-| Qualitative descriptors | "high throughput", "low power" |
-| Non-RFC 2119 modality | "it is necessary to", "should" (lowercase) |
+| Missing units            | "latency less than 100"                                     |
+| Qualitative descriptors  | "high throughput", "low power"                              |
+| Non-RFC 2119 modality    | "it is necessary to", "should" (lowercase)                  |
 
 ## Enforcement
 
-| Violation | Severity | Resolution |
-| :---------- | :--------: | :----------- |
-| Vague descriptor | ERROR | Replace with specific `<number> <unit>` |
-| Missing modality | ERROR | Add MUST, SHOULD, or MAY |
-| Unitless value | ERROR | Add appropriate unit (ms, %, FPS, etc.) |
+| Violation        | Severity   | Resolution                              |
+| :--------------- | :--------: | :-------------------------------------- |
+| Vague descriptor | ERROR      | Replace with specific `<number> <unit>` |
+| Missing modality | ERROR      | Add MUST, SHOULD, or MAY                |
+| Unitless value   | ERROR      | Add appropriate unit (ms, %, FPS, etc.) |
 
 ## Forbidden Terms
 
-| Category | Terms |
-| :--------- | :------ |
-| Performance | fast, optimized, efficient, snappy |
-| Latency | low-latency, real-time (without ms) |
-| Throughput | high-speed, bulk |
-| Power | low-power, battery-friendly |
+| Category    | Terms                               |
+| :---------- | :---------------------------------- |
+| Performance | fast, optimized, efficient, snappy  |
+| Latency     | low-latency, real-time (without ms) |
+| Throughput  | high-speed, bulk                    |
+| Power       | low-power, battery-friendly         |
 
 ## Enforcement Protocol
 
