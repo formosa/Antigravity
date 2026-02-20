@@ -200,6 +200,11 @@
 - **Function:** Clarity check.
 - **Action:** Scans BRD/NFR for subjective terms; ensures numeric targets/units exist.
 
+### `md060-strict-aligner`
+
+- **Function:** Table Alignment.
+- **Action:** Repairs MD060 violations by deterministically reformatting markdown tables via Python script.
+
 ---
 
 ## 10. Migration & Transformation
