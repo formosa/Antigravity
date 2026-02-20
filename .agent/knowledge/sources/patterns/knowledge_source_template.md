@@ -29,12 +29,11 @@ All knowledge source files follow a standardized template with minimal YAML fron
 ---
 archetype: concept | protocol | constraint | pattern | vocabulary | context | index
 status: draft | review | active | deprecated
-schema_version: 1
 version: 1.0.0
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-requires: []
-related: []
+# requires: []
+# related: []
 ---
 
 # [Title]
@@ -67,15 +66,14 @@ One paragraph for agent context injection.
 | `version` | semver | Semantic version (MAJOR.MINOR.PATCH) |
 | `created` | date | Creation date (YYYY-MM-DD) |
 | `updated` | date | Last modification date |
-| `requires` | array | Paths to prerequisite knowledge sources |
-| `related` | array | Paths to related knowledge sources |
 
 ### Frontmatter (Optional)
 
 | Field | Type | Description | Default |
 | :------ | :----- | :------------ | :-------- |
-| `tiers` | array | Applicable DDR tiers | all |
-| `agents` | array | Relevant agent handles | all |
+| `requires` | array | Paths to prerequisite knowledge sources | none |
+| `related` | array | Paths to related knowledge sources | none |
+| `tags` | array | String tags for metadata filtering | none |
 
 ### Body (Required)
 

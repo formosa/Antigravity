@@ -94,6 +94,9 @@ def validate_file(path: Path) -> List[str]:
         return [f"Could not read file: {e}"]
 
     # 1. Frontmatter Check
+    if path.name == "README.md":
+        return errors
+
     fm = parse_frontmatter(content)
     # Minimal check: must have archetype if supposed to
     if not fm:

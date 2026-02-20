@@ -39,8 +39,12 @@ Defines normative frontmatter fields, enums, and scope classes used by validatio
 - version
 - created
 - updated
+
+### Optional Frontmatter Fields
+
 - requires
 - related
+- tags
 
 ### Status Enum
 
@@ -56,7 +60,9 @@ Defines normative frontmatter fields, enums, and scope classes used by validatio
 
 ### Index Rule
 
-`_index.md` files are in-scope and MUST carry frontmatter with `archetype: index`.
+- `_index.md` files MUST carry the exact frontmatter for `IndexDefinition` (including optional fields like `scope`, `index_policy`, `path_convention`, `project`, `context_mode`).
+- `_index.md` files act as programmatic routing layers and MUST NOT contain human documentation. They explicitly point the agent to `README.md` (e.g., "Refer to README.md for conceptual content").
+- `README.md` files are strictly for human prose and MUST NOT contain YAML frontmatter.
 
 ---
 

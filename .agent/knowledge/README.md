@@ -1,12 +1,3 @@
----
-type: index
-name: "DDR Knowledge Base"
-categories:
-  - "DDR Sources (Canonical)"
-  - "DDR Context (Project-Specific)"
-  - "DDR System Specs & Reports"
----
-
 # Knowledge Base Index
 
 > Root index for all agent knowledge layers.

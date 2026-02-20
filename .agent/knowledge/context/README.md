@@ -1,14 +1,3 @@
----
-archetype: index
-status: active
-version: 1.1.0
-created: 2026-01-16
-updated: 2026-02-15
-scope: context-index
-project: antigravity
-context_mode: namespaced
----
-
 # Project Context Index
 
 > Project-specific terminology for DDR agent operations.
