@@ -80,6 +80,7 @@
         "pycodestyle",
         "pylint",
         "pytest",
+        "sandboxed",
         "stdlib",
         "tkinter",
         "undoc"

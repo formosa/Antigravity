@@ -2,7 +2,7 @@
 
 > Master lookup for all agent enforcement rules.
 >
-> **Total Rules**: 22 (post-optimization)
+> **Total Rules**: 21 (post-optimization)
 >
 > **Schema**: [`antigravity_types.d.ts`](../assets/antigravity_types.d.ts)
 >
@@ -23,7 +23,6 @@
 | Always On | 4 | Safety constraints, ID immutability, Execution protocols |
 | Glob | 15 | Tier-scoped doc enforcement |
 | Model Decision | 2 | Contextual application during doc work |
-| Manual | 1 | Adversarial planning protocol |
 
 ## By Category
 
@@ -103,9 +102,3 @@
 | [isp_traceability_required.md](isp_traceability_required.md) | Implements/Requirements citations |
 
 ---
-
-### Planning (1) — Manual, Priority 50
-
-| File | Purpose |
-| :----- | :-------- |
-| [planning_instructions.md](planning_instructions.md) | Adversarial 3-stage refinement protocol |
