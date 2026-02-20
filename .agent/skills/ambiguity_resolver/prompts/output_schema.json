@@ -1,0 +1,251 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "DDR Ambiguity Resolution Result",
+    "description": "Structured output schema for tier classification results",
+    "type": "object",
+    "required": [
+        "assigned_tier",
+        "confidence",
+        "scores",
+        "factors_detected",
+        "validation_passed"
+    ],
+    "properties": {
+        "assigned_tier": {
+            "type": "string",
+            "enum": [
+                "BRD",
+                "NFR",
+                "FSD",
+                "SAD",
+                "ICD",
+                "TDD",
+                "ISP"
+            ],
+            "description": "Final tier assignment from classification"
+        },
+        "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence score (0-1) for classification"
+        },
+        "scores": {
+            "type": "object",
+            "description": "Raw scores for all evaluated tiers",
+            "properties": {
+                "BRD": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "NFR": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "FSD": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "SAD": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "ICD": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "TDD": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "ISP": {
+                    "type": "integer",
+                    "minimum": 0
+                }
+            },
+            "additionalProperties": false
+        },
+        "factors_detected": {
+            "type": "object",
+            "description": "Detected factors with presence levels",
+            "properties": {
+                "numeric_metrics": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "partial",
+                        "yes"
+                    ]
+                },
+                "hardware_reference": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "partial",
+                        "yes"
+                    ]
+                },
+                "user_behavior": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "partial",
+                        "yes"
+                    ]
+                },
+                "pattern_names": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "partial",
+                        "yes"
+                    ]
+                },
+                "schema_definition": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "partial",
+                        "yes"
+                    ]
+                },
+                "class_names": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "partial",
+                        "yes"
+                    ]
+                },
+                "executable_code": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "partial",
+                        "yes"
+                    ]
+                },
+                "modal_keywords": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "partial",
+                        "yes"
+                    ]
+                },
+                "includes_rationale": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "partial",
+                        "yes"
+                    ]
+                },
+                "technology_agnostic": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "partial",
+                        "yes"
+                    ]
+                }
+            },
+            "required": [
+                "numeric_metrics",
+                "hardware_reference",
+                "user_behavior",
+                "pattern_names",
+                "schema_definition",
+                "class_names",
+                "executable_code",
+                "modal_keywords",
+                "includes_rationale",
+                "technology_agnostic"
+            ],
+            "additionalProperties": false
+        },
+        "tie_breaker_applied": {
+            "type": "boolean",
+            "description": "Whether tie-breaker rule was used"
+        },
+        "validation_passed": {
+            "type": "boolean",
+            "description": "Whether contextual validation passed"
+        },
+        "validation_notes": {
+            "type": "array",
+            "description": "Validation observations and warnings",
+            "items": {
+                "type": "string"
+            }
+        },
+        "reasoning": {
+            "type": "string",
+            "description": "Human-readable explanation of classification"
+        },
+        "metadata": {
+            "type": "object",
+            "description": "Additional metadata about classification",
+            "properties": {
+                "fragment_length": {
+                    "type": "integer",
+                    "description": "Length of input fragment in characters"
+                },
+                "processing_time_ms": {
+                    "type": "number",
+                    "description": "Processing time in milliseconds"
+                },
+                "skill_version": {
+                    "type": "string",
+                    "description": "Version of ambiguity_resolver skill"
+                },
+                "model_used": {
+                    "type": "string",
+                    "description": "Claude model used for classification"
+                }
+            }
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "assigned_tier": "NFR",
+            "confidence": 0.823,
+            "scores": {
+                "BRD": 6,
+                "NFR": 7,
+                "FSD": 4,
+                "SAD": 0,
+                "ICD": 5,
+                "TDD": 0,
+                "ISP": 0
+            },
+            "factors_detected": {
+                "numeric_metrics": "yes",
+                "hardware_reference": "none",
+                "user_behavior": "none",
+                "pattern_names": "none",
+                "schema_definition": "partial",
+                "class_names": "none",
+                "executable_code": "none",
+                "modal_keywords": "yes",
+                "includes_rationale": "none",
+                "technology_agnostic": "yes"
+            },
+            "tie_breaker_applied": false,
+            "validation_passed": true,
+            "validation_notes": [
+                "Semantic fit for NFR validated",
+                "Parent BRD tags available for citation: 12 tags",
+                "NFR constraints can guide FSD feature specifications"
+            ],
+            "reasoning": "Fragment contains numeric metrics (50MB) and modal keywords (MUST), strongly indicating NFR tier. Technology-agnostic language supports this. No tie-breaker needed.",
+            "metadata": {
+                "fragment_length": 89,
+                "processing_time_ms": 142,
+                "skill_version": "1.0.0",
+                "model_used": "claude-sonnet-4-5"
+            }
+        }
+    ]
+}

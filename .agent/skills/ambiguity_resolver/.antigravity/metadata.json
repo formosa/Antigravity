@@ -1,0 +1,193 @@
+{
+    "skill": {
+        "id": "ambiguity_resolver",
+        "version": "1.0.0",
+        "compatibility": {
+            "antigravity_version": ">=1.16.5",
+            "claude_model": "claude-sonnet-4-5",
+            "api_version": "v1"
+        }
+    },
+    "integration": {
+        "workspace_types": [
+            "documentation",
+            "ddr_project",
+            "software_design"
+        ],
+        "file_patterns": {
+            "trigger": [
+                "**/*.rst",
+                "**/docs/**/*.md",
+                "**/brd/**/*",
+                "**/nfr/**/*",
+                "**/fsd/**/*",
+                "**/sad/**/*",
+                "**/icd/**/*",
+                "**/tdd/**/*",
+                "**/isp/**/*"
+            ],
+            "exclude": [
+                "**/node_modules/**",
+                "**/.git/**",
+                "**/build/**"
+            ]
+        },
+        "activation": {
+            "command_palette": [
+                {
+                    "command": "ddr.resolve_ambiguity",
+                    "title": "DDR: Resolve Tier Ambiguity",
+                    "category": "Classification",
+                    "when": "editorHasSelection"
+                },
+                {
+                    "command": "ddr.classify_fragment",
+                    "title": "DDR: Classify Selected Fragment",
+                    "category": "Classification",
+                    "when": "editorHasSelection"
+                }
+            ],
+            "context_menu": [
+                {
+                    "command": "ddr.resolve_ambiguity",
+                    "title": "Resolve DDR Tier Ambiguity",
+                    "group": "classification",
+                    "when": "editorHasSelection && resourceExtname =~ /\\.(rst|md)$/"
+                }
+            ],
+            "keybindings": [
+                {
+                    "command": "ddr.resolve_ambiguity",
+                    "key": "ctrl+shift+r",
+                    "mac": "cmd+shift+r",
+                    "when": "editorTextFocus && editorHasSelection"
+                }
+            ],
+            "natural_language_triggers": [
+                "resolve tier ambiguity",
+                "classify this fragment",
+                "which tier does this belong to",
+                "score classification",
+                "resolve ambiguous classification"
+            ]
+        },
+        "output_integration": {
+            "inline_annotations": {
+                "enabled": true,
+                "format": "rst_comment",
+                "prefix": "# DDR Classification: "
+            },
+            "side_panel": {
+                "enabled": true,
+                "title": "Classification Results",
+                "sections": [
+                    {
+                        "id": "tier_assignment",
+                        "title": "Tier Assignment",
+                        "format": "badge"
+                    },
+                    {
+                        "id": "confidence",
+                        "title": "Confidence Score",
+                        "format": "progress_bar"
+                    },
+                    {
+                        "id": "scores",
+                        "title": "Tier Scores",
+                        "format": "table"
+                    },
+                    {
+                        "id": "factors",
+                        "title": "Detected Factors",
+                        "format": "tag_list"
+                    },
+                    {
+                        "id": "validation",
+                        "title": "Validation",
+                        "format": "checklist"
+                    },
+                    {
+                        "id": "reasoning",
+                        "title": "Reasoning",
+                        "format": "markdown"
+                    }
+                ]
+            },
+            "notifications": {
+                "low_confidence": {
+                    "threshold": 0.5,
+                    "message": "Low confidence classification - manual review recommended",
+                    "severity": "warning"
+                },
+                "validation_failed": {
+                    "message": "Classification validation failed - see notes",
+                    "severity": "error"
+                }
+            }
+        }
+    },
+    "ui": {
+        "icon": "classification",
+        "color": "#4A90E2",
+        "statusbar": {
+            "enabled": true,
+            "text": "DDR Classifier",
+            "tooltip": "Click to resolve tier ambiguity"
+        }
+    },
+    "context_injection": {
+        "knowledge_sources": [
+            {
+                "path": "knowledge/tier_concepts.md",
+                "priority": "high",
+                "inject_on": "invocation"
+            },
+            {
+                "path": "config/scoring_weights.yaml",
+                "priority": "high",
+                "inject_on": "invocation"
+            },
+            {
+                "path": "knowledge/factor_guide.md",
+                "priority": "medium",
+                "inject_on": "first_use"
+            }
+        ],
+        "workspace_context": {
+            "scan_for_tags": true,
+            "tag_patterns": [
+                "BRD-\\d+(\\.\\d+)?",
+                "NFR-\\d+(\\.\\d+)?",
+                "FSD-\\d+(\\.\\d+)?",
+                "SAD-\\d+(\\.\\d+)?",
+                "ICD-\\d+(\\.\\d+)?",
+                "TDD-\\d+(\\.\\d+)?",
+                "ISP-\\d+(\\.\\d+)?"
+            ],
+            "extract_citations": true
+        }
+    },
+    "performance": {
+        "caching": {
+            "enabled": true,
+            "ttl": 3600,
+            "cache_key": "fragment_hash"
+        },
+        "batch_processing": {
+            "enabled": true,
+            "max_batch_size": 10,
+            "parallel": false
+        }
+    },
+    "telemetry": {
+        "track_usage": true,
+        "metrics": [
+            "classification_count",
+            "average_confidence",
+            "tier_distribution",
+            "validation_failures",
+            "tie_breaker_frequency"
+        ],
+        "anonymize": true
+    }
+}
