@@ -1,72 +1,144 @@
 #!/usr/bin/env python3
 import sys
 import re
+import argparse
+import unicodedata
 
-def align_markdown_table(text: str) -> str:
-    """Parses a malformed markdown table and returns a perfectly aligned version."""
-    lines = [line.strip() for line in text.strip().split('\n')]
-    if not lines:
-        return text
+def get_visual_width(text: str) -> int:
+    """Calculates the visual width of a string considering double-width characters."""
+    width = 0
+    for char in text:
+        if unicodedata.east_asian_width(char) in ('W', 'F'):
+            width += 2
+        else:
+            width += 1
+    return width
 
-    # Parse rows into individual cells
-    rows = []
-    for line in lines:
-        if not line.startswith('|') or not line.endswith('|'):
-            continue
-        # Extract cells, ignoring the empty strings outside the outer pipes
-        cells = [cell.strip() for cell in line.split('|')[1:-1]]
-        rows.append(cells)
-
+def align_markdown_table_block(rows: list) -> list:
+    """Aligns a single block of markdown table rows."""
     if not rows:
-        return text
+        return []
 
-    # Calculate the maximum width required for each column
-    num_cols = max(len(row) for row in rows)
+    # Parse rows into prefixes and cells
+    parsed_rows = []
+    num_cols = 0
+
+    # Prefix capture: captures leading blockquote '>' or spaces
+    prefix_regex = re.compile(r'^([\s>]*)\|(.*)\|[\s]*$')
+
+    for row_str in rows:
+        match = prefix_regex.match(row_str)
+        if not match:
+            continue
+
+        prefix, content = match.groups()
+
+        # Token masking: protect pipes inside backticks and escaped pipes
+        # We replace them with a temporary placeholder that won't be split
+        protected_content = content
+        protected_content = re.sub(r'`[^`]+`', lambda m: m.group(0).replace('|', '__PIPE__'), protected_content)
+        protected_content = protected_content.replace(r'\|', '__ESC_PIPE__')
+
+        cells = [c.strip() for c in protected_content.split('|')]
+
+        # Restore placeholders before width calculation
+        restored_cells = []
+        for cell in cells:
+            cell = cell.replace('__PIPE__', '|').replace('__ESC_PIPE__', r'\|')
+            restored_cells.append(cell)
+
+        parsed_rows.append({'prefix': prefix, 'cells': restored_cells})
+        num_cols = max(num_cols, len(restored_cells))
+
+    if not parsed_rows:
+        return rows
+
+    # Calculate column widths
     col_widths = [0] * num_cols
+    for row in parsed_rows:
+        for i, cell in enumerate(row['cells']):
+            col_widths[i] = max(col_widths[i], get_visual_width(cell))
 
-    for r_idx, row in enumerate(rows):
-        for c_idx, cell in enumerate(row):
-            if c_idx < num_cols:
-                col_widths[c_idx] = max(col_widths[c_idx], len(cell))
-
-    # Ensure a minimum width of 3 to accommodate standard '---' delimiters
+    # Minimum width for delimiters
     col_widths = [max(w, 3) for w in col_widths]
 
-    # Reconstruct the table with exact padding
+    # Reconstruct rows
     output = []
-    for r_idx, row in enumerate(rows):
+    for r_idx, row in enumerate(parsed_rows):
+        is_delimiter = (r_idx == 1 and all(re.match(r'^:?-+:?$', c) for c in row['cells']))
         formatted_cells = []
-        # Identify if this is the markdown header delimiter row
-        is_delimiter = (r_idx == 1 and all(re.match(r'^:?-+:?$', c) for c in row))
 
-        for c_idx in range(num_cols):
-            width = col_widths[c_idx]
-            cell = row[c_idx] if c_idx < len(row) else ""
+        for i in range(num_cols):
+            width = col_widths[i]
+            cell = row['cells'][i] if i < len(row['cells']) else ""
 
             if is_delimiter:
-                # Preserve alignment colons while expanding hyphens to match column width
-                left_align = cell.startswith(':')
-                right_align = cell.endswith(':')
-
-                if left_align and right_align:
-                    formatted_cell = ':' + '-' * (width - 2) + ':'
-                elif left_align:
-                    formatted_cell = ':' + '-' * (width - 1)
-                elif right_align:
-                    formatted_cell = '-' * (width - 1) + ':'
+                left = cell.startswith(':')
+                right = cell.endswith(':')
+                if left and right:
+                    formatted = ':' + '-' * (width - 2) + ':'
+                elif left:
+                    formatted = ':' + '-' * (width - 1)
+                elif right:
+                    formatted = '-' * (width - 1) + ':'
                 else:
-                    formatted_cell = '-' * width
-
-                formatted_cells.append(formatted_cell)
+                    formatted = '-' * width
+                formatted_cells.append(formatted)
             else:
-                # Pad standard text cells with trailing spaces
-                formatted_cells.append(cell.ljust(width))
+                # Padding calculation considering visual width
+                current_width = get_visual_width(cell)
+                padding = ' ' * (width - current_width)
+                formatted_cells.append(cell + padding)
 
-        output.append("| " + " | ".join(formatted_cells) + " |")
+        output.append(f"{row['prefix']}| " + " | ".join(formatted_cells) + " |")
 
-    return '\n'.join(output)
+    return output
+
+def process_document(text: str) -> str:
+    """Identifies and processes all table blocks in a markdown document."""
+    lines = text.splitlines()
+    output_lines = []
+    current_block = []
+
+    # Table delimiter detector: row must consist of pipes, hyphens, colons, and spaces
+    delimiter_regex = re.compile(r'^[\s>]*\|[\s\-:|]+\|[\s]*$')
+
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+
+        # Lookahead for table block: at least two lines, second one is a delimiter
+        if "|" in line and i + 1 < len(lines) and delimiter_regex.match(lines[i+1]):
+            # Start of a table block
+            current_block = []
+            while i < len(lines) and "|" in lines[i]:
+                current_block.append(lines[i])
+                i += 1
+
+            # Process the block
+            output_lines.extend(align_markdown_table_block(current_block))
+        else:
+            output_lines.append(line)
+            i += 1
+
+    return '\n'.join(output_lines)
 
 if __name__ == '__main__':
-    # Read malformed table from standard input
-    input_text = sys.stdin.read()
-    print(align_markdown_table(input_text))
+    parser = argparse.ArgumentParser(description='Align Markdown tables.')
+    parser.add_argument('--file', help='Path to the markdown file to process.')
+    args = parser.parse_args()
+
+    if args.file:
+        try:
+            with open(args.file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            processed = process_document(content)
+            with open(args.file, 'w', encoding='utf-8') as f:
+                f.write(processed)
+        except Exception as e:
+            print(f"Error processing file: {e}", file=sys.stderr)
+            sys.exit(1)
+    else:
+        # Backward compatibility for stdin
+        content = sys.stdin.read()
+        print(process_document(content))
