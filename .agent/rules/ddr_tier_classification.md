@@ -1,14 +1,8 @@
 ---
 type: rule
-name: "DDR Tier Classification"
+name: ddr_tier_classification
 activation: model_decision
-globs:
-  - "docs/**/*.rst"
 priority: 50
-trigger:
-  - "classify"
-  - "tier"
-  - "documentation"
 severity: mandatory
 description: "Always classify information by tier before processing using the DDR decision tree."
 ---

@@ -1,15 +1,17 @@
 ---
 type: evaluation
 name: "Manifest Accuracy"
-description: "Validates manifest reflects actual DDR tag inventory."
 target_agent: "@manifest_manager"
-threshold: 100
-metrics:
-  - name: manifest_accuracy
-    type: percentage
-    target: 100
-test_cases: "inline"
-schedule: "on_demand"
+judge_model: "gemini-3.1-pro"
+pass_threshold: 100
+scenarios:
+  - "Scan all .rst files in docs/ and compare against needs.json"
+  - "Add a mock tag to a .rst file and verify manifest manager detects the addition"
+  - "Modify an existing tag ID and verify manifest manager flags the integrity violation"
+rubric:
+  - "Verification of 1:1 mapping between .rst tags and needs.json entries"
+  - "Detection of orphan tags with 0 false negatives"
+  - "Validation of integrity_status field accuracy"
 ---
 
 # Evaluation: Manifest Accuracy
@@ -17,9 +19,16 @@ schedule: "on_demand"
 ## Test Procedure
 
 1. Execute:
+
    ```powershell
-   & ".venv/Scripts/python" ".agent/scripts/check_manifest_integrity.py" --needs-json "docs/_build/json/needs.json"
+   python scripts/reconcile_manifest.py --check-only
    ```
-2. Parse output for `in_manifest_not_in_needs` and `in_needs_not_in_manifest`
-3. Calculate: `accuracy = (matching / total) * 100`
-4. Pass if `accuracy == 100` and both mismatch counts are 0
+
+2. Parse output for `MISMATCH` or `ORPHAN`.
+3. Verify that the manifest manager correctly identifies all out-of-sync tags.
+
+## Success Criteria
+
+- 100% agreement between physical files and logical manifest.
+- Zero undocumented tags in `needs.json`.
+- All `pending_items` correctly categorized.

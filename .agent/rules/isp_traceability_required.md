@@ -1,14 +1,10 @@
 ---
 type: rule
-name: "ISP Traceability Required"
+name: isp_traceability_required
 activation: glob
 globs:
   - "docs/07_isp/*.rst"
 priority: 80
-trigger:
-  - "implements"
-  - "requirements"
-  - "docstring"
 severity: mandatory
 description: "ISP docstrings must include Implements: and Requirements: citations."
 ---

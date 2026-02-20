@@ -1,14 +1,10 @@
 ---
 type: rule
-name: "ISP Numpy Docstring"
+name: isp_numpy_docstring
 activation: glob
 globs:
   - "docs/07_isp/*.rst"
 priority: 80
-trigger:
-  - "docstring"
-  - "documentation"
-  - "numpy"
 severity: mandatory
 description: "All ISP code must use Numpy-style docstrings with proper sections."
 ---

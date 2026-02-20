@@ -3,7 +3,9 @@ type: workflow
 name: "Complete Feature Documentation"
 slug: /complete_feature
 description: "Full 9-stage DDR workflow: Classify → BRD → NFR → FSD → SAD → ICD → TDD → ISP → Validate"
-mode: autonomous
+mode: background
+expected_artifacts:
+  - task_list
 inputs:
   - name: feature_description
     type: string
@@ -31,6 +33,7 @@ on_finish: "suggest_followup: /audit_traceability"
 ## Stage 1: Classification
 
 // turbo
+
 ```powershell
 & "${workspaceFolder}/.venv/Scripts/python" "${workspaceFolder}/.agent/scripts/classify_information.py" --input "{{inputs.feature_description}}"
 ```
@@ -42,6 +45,7 @@ on_finish: "suggest_followup: /audit_traceability"
 **@brd_strategist**: Draft business requirement.
 
 // turbo
+
 ```powershell
 & "${workspaceFolder}/.venv/Scripts/python" "${workspaceFolder}/.agent/scripts/create_tag.py" --tier BRD --title "{{feature_title}}" --description "{{brd_content}}"
 ```
@@ -53,6 +57,7 @@ on_finish: "suggest_followup: /audit_traceability"
 **@nfr_enforcer**: Extract non-functional constraints.
 
 // turbo
+
 ```powershell
 & "${workspaceFolder}/.venv/Scripts/python" "${workspaceFolder}/.agent/scripts/create_tag.py" --tier NFR --parent "{{brd_id}}" --title "{{nfr_title}}"
 ```
@@ -64,6 +69,7 @@ on_finish: "suggest_followup: /audit_traceability"
 **@fsd_analyst**: Define feature behavior.
 
 // turbo
+
 ```powershell
 & "${workspaceFolder}/.venv/Scripts/python" "${workspaceFolder}/.agent/scripts/create_tag.py" --tier FSD --parent "{{brd_id}}" --title "{{fsd_title}}"
 ```
@@ -75,6 +81,7 @@ on_finish: "suggest_followup: /audit_traceability"
 **@sad_architect**: Design component topology.
 
 // turbo
+
 ```powershell
 & "${workspaceFolder}/.venv/Scripts/python" "${workspaceFolder}/.agent/scripts/create_tag.py" --tier SAD --parent "{{fsd_id}}" --title "{{sad_title}}"
 ```
@@ -86,6 +93,7 @@ on_finish: "suggest_followup: /audit_traceability"
 **@icd_dataengineer**: Specify interface contracts.
 
 // turbo
+
 ```powershell
 & "${workspaceFolder}/.venv/Scripts/python" "${workspaceFolder}/.agent/scripts/create_tag.py" --tier ICD --parent "{{sad_id}}" --title "{{icd_title}}"
 ```
@@ -97,6 +105,7 @@ on_finish: "suggest_followup: /audit_traceability"
 **@tdd_designer**: Document technical design.
 
 // turbo
+
 ```powershell
 & "${workspaceFolder}/.venv/Scripts/python" "${workspaceFolder}/.agent/scripts/create_tag.py" --tier TDD --parent "{{icd_id}}" --title "{{tdd_title}}"
 ```
@@ -108,6 +117,7 @@ on_finish: "suggest_followup: /audit_traceability"
 **@isp_codegenerator**: Generate implementation stub.
 
 // turbo
+
 ```powershell
 & "${workspaceFolder}/.venv/Scripts/python" "${workspaceFolder}/.agent/scripts/create_tag.py" --tier ISP --parent "{{tdd_id}}" --title "{{isp_title}}"
 ```
@@ -117,6 +127,7 @@ on_finish: "suggest_followup: /audit_traceability"
 ## Stage 9: Validation
 
 // turbo
+
 ```powershell
 & "${workspaceFolder}/.venv/Scripts/python" "${workspaceFolder}/.agent/scripts/generate_traceability_report.py" --needs-json "${workspaceFolder}/docs/_build/json/needs.json" --format summary
 ```

@@ -1,29 +1,8 @@
 ---
 type: skill
-name: "Implementation Planning (v3.0 - Native Antigravity 1.16.5 / Gemini 3.1 Pro)"
-activation: auto
-triggers:
-  - "@Implementation_Plan"
-priority: 100
-severity: mandatory
-description: >
-  Generates a deterministic, hallucination-resistant Implementation Plan Artifact for
-  zero-ambiguity execution within Google Antigravity IDE v1.16.5, optimized for the
-  Gemini 3.1 Pro planning agent and Gemini 3 Flash execution agent. Applies
-  instruction-after-context placement, explicit-abstention grounding, and minimal
-  prompt scaffolding per Google's official Gemini 3 prompt design guidance (2026-02-12).
-  Integrates native Antigravity Review Policy binding (Strict Mode), high-risk rollback
-  procedures, and mandatory post-execution Knowledge Base persistence to ensure rigorous,
-  project-agnostic, self-improving execution.
-research_citations:
-  - "Google Gemini 3.1 Pro announcement — blog.google — 2026-02-19"
-  - "Gemini 3.1 Pro Model Card — deepmind.google — 2026-02-19"
-  - "Google Antigravity v1.16.5 changelog (Strict Mode rename) — changelogs.directory — 2026-02-03"
-  - "Antigravity launch announcement & Artifact transparency model — developers.googleblog.com — 2025-11-20"
-  - "Prompt design strategies (Gemini API official docs) — ai.google.dev — 2026-02-12"
-  - "Gemini 3 Prompting Playbook — promptbuilder.cc — 2025-11-15"
-  - "Reduce Gemini 3 hallucinations via grounding and abstention — zilliz.com — 2025-01-13"
-  - "Gemini 3 Flash thinking_level parameter — docs.cloud.google.com — 2026-02-19"
+name: planning-instructions
+description: Generates a deterministic, hallucination-resistant Implementation Plan Artifact for zero-ambiguity execution within Google Antigravity IDE v1.16.5.
+scope: workspace
 ---
 
 # SKILL: IMPLEMENTATION PLANNING (v3.0)

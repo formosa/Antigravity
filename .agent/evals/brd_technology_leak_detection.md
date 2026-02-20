@@ -1,15 +1,15 @@
 ---
 type: evaluation
 name: "BRD Technology Leak Detection"
-description: "Ensures BRD tags contain no technology-specific terms."
 target_agent: "@brd_strategist"
-threshold: 100
-metrics:
-  - name: clean_brd_rate
-    type: percentage
-    target: 100
-test_cases: "needs.json"
-schedule: "on_demand"
+judge_model: "gemini-3.1-pro"
+pass_threshold: 100
+scenarios:
+  - "Scan BRD tags for technology-specific keywords"
+  - "Verify detected leaks in test set"
+rubric:
+  - "Zero technology terms in BRD tags"
+  - "Must detect all seeded technology terms"
 ---
 
 # Evaluation: BRD Technology Leak Detection

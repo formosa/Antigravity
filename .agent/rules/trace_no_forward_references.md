@@ -1,14 +1,10 @@
 ---
 type: rule
-name: "Trace No Forward References"
+name: trace_no_forward_references
 activation: glob
 globs:
   - "docs/**/*.rst"
 priority: 85
-trigger:
-  - "forward"
-  - "reference"
-  - "citation"
 severity: mandatory
 description: "Tags cannot cite tags in lower (more concrete) tiers."
 ---

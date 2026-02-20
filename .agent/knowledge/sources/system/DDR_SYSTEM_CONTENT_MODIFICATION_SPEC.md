@@ -1,8 +1,18 @@
+---
+title: "DDR System Content Modification Specification"
+description: "Implementation-grade specification for normalizing DDR knowledge assets."
+status: published
+tags:
+  - "DDR"
+  - "Normalization"
+  - "Specification"
+last_updated: "2026-02-15"
+---
 # DDR System Content Modification Specification (Implementation-Grade)
 
-Date: 2026-02-15  
-Audience: Agents implementing DDR knowledge-base normalization  
-Primary Scope: `.agent/knowledge/` (authoritative DDR source of truth)  
+Date: 2026-02-15
+Audience: Agents implementing DDR knowledge-base normalization
+Primary Scope: `.agent/knowledge/` (authoritative DDR source of truth)
 Reference Basis: `.agent/assets/documentation_system.md`
 
 ---
@@ -20,6 +30,7 @@ For each modification unit, this document provides:
 5. Validation checks
 
 If a listed anchor cannot be found exactly, agents MUST:
+
 - stop that unit,
 - run the validation commands in §6,
 - record deviation in implementation notes,
@@ -51,11 +62,13 @@ The implementation MUST enforce these system-wide decisions:
 **File**: `.agent/knowledge/_index.md`
 
 **Anchor to locate**:
+
 ```md
 # Knowledge Base Index
 ```
 
 **Replace file header with**:
+
 ```md
 ---
 archetype: index
@@ -74,6 +87,7 @@ path_convention: knowledge-root-relative
 **Rationale**: Removes index-governance ambiguity and makes root policy machine-readable.
 
 **Validation**:
+
 - frontmatter parse succeeds
 - `archetype: index` allowed by metadata schema (MU-004 / MU-014)
 
@@ -84,11 +98,13 @@ path_convention: knowledge-root-relative
 **File**: `.agent/knowledge/sources/_index.md`
 
 **Anchor to locate**:
+
 ```md
 # Knowledge Source Index
 ```
 
 **Replace file header with**:
+
 ```md
 ---
 archetype: index
@@ -106,6 +122,7 @@ path_convention: knowledge-root-relative
 **Rationale**: Ensures indexes are validator-visible and explicit about path semantics.
 
 **Validation**:
+
 - frontmatter parse succeeds
 - no schema exception needed for `_index.md`
 
@@ -116,11 +133,13 @@ path_convention: knowledge-root-relative
 **File**: `.agent/knowledge/context/_index.md`
 
 **Anchor to locate**:
+
 ```md
 # Project Context Index
 ```
 
 **Replace file header with**:
+
 ```md
 ---
 archetype: index
@@ -137,6 +156,7 @@ context_mode: namespaced
 ```
 
 **Add this section near the end (after Precedence)**:
+
 ```md
 ## Context Namespace Policy
 
@@ -149,6 +169,7 @@ Context files are project-scoped overlays and MUST declare their namespace.
 **Rationale**: Resolves repository/project identity ambiguity and introduces explicit context strategy.
 
 **Validation**:
+
 - section present exactly once
 - index frontmatter valid
 
@@ -161,11 +182,13 @@ Context files are project-scoped overlays and MUST declare their namespace.
 ### MU-004A — Frontmatter status normalization
 
 **Anchor**:
+
 ```md
 status: validated
 ```
 
 **Replace with**:
+
 ```md
 status: active
 ```
@@ -173,12 +196,14 @@ status: active
 ### MU-004B — Universal template block enum correction
 
 **Anchor block**:
+
 ```md
 archetype: concept | protocol | constraint | pattern | vocabulary
 status: active | review | validated
 ```
 
 **Replace block with**:
+
 ```md
 archetype: concept | protocol | constraint | pattern | vocabulary | context | index
 status: draft | review | active | deprecated
@@ -188,11 +213,13 @@ schema_version: 1
 ### MU-004C — Required-fields table correction
 
 **Anchor row**:
+
 ```md
 | `status` | enum | One of: draft, review, validated |
 ```
 
 **Replace row with**:
+
 ```md
 | `status` | enum | One of: draft, review, active, deprecated |
 ```
@@ -200,6 +227,7 @@ schema_version: 1
 ### MU-004D — Add index scope policy section
 
 **Insert section after “Frontmatter (Optional)”**:
+
 ```md
 ### Index File Policy (Normative)
 
@@ -217,6 +245,7 @@ Minimum required fields for index files:
 ### MU-004E — Add path convention section
 
 **Insert section after “Body (Required)”**:
+
 ```md
 ### Path Convention (Normative)
 
@@ -232,6 +261,7 @@ Relative parent navigation (e.g., `../context/glossary.md`) MUST NOT be used.
 **Rationale**: Removes internal contradictions in the canonical authoring pattern.
 
 **Validation**:
+
 - no remaining `validated` in status enum examples/tables
 - schema_version appears in universal template
 - index/path policy sections exist
@@ -245,11 +275,13 @@ Relative parent navigation (e.g., `../context/glossary.md`) MUST NOT be used.
 ### MU-005A — Frontmatter status
 
 **Anchor**:
+
 ```md
 status: validated
 ```
 
 **Replace with**:
+
 ```md
 status: active
 ```
@@ -257,12 +289,14 @@ status: active
 ### MU-005B — `related` metadata path
 
 **Anchor**:
+
 ```md
 related:
   - ../context/glossary.md
 ```
 
 **Replace with**:
+
 ```md
 related:
   - context/glossary.md
@@ -271,11 +305,13 @@ related:
 ### MU-005C — Forward Reference definition correction
 
 **Anchor row**:
+
 ```md
 | **Forward Reference** | Invalid citation where a lower tier cites a higher tier |
 ```
 
 **Replace row with**:
+
 ```md
 | **Forward Reference** | Invalid citation where a higher abstraction tier cites a lower abstraction tier (e.g., BRD citing SAD) |
 ```
@@ -283,11 +319,13 @@ related:
 ### MU-005D — References section path normalization
 
 **Anchor**:
+
 ```md
 - Project glossary: `../context/glossary.md`
 ```
 
 **Replace with**:
+
 ```md
 - Project glossary: `context/glossary.md`
 ```
@@ -295,6 +333,7 @@ related:
 **Rationale**: Fixes semantic contradiction and normalizes metadata/reference paths.
 
 **Validation**:
+
 - no `../context/` in file
 - forward-reference wording aligns with hierarchy docs
 
@@ -305,11 +344,13 @@ related:
 **File**: `.agent/knowledge/sources/patterns/persona_content_strategy.md`
 
 **Anchor**:
+
 ```md
 status: validated
 ```
 
 **Replace with**:
+
 ```md
 status: active
 ```
@@ -317,6 +358,7 @@ status: active
 **Rationale**: Aligns with canonical status lifecycle.
 
 **Validation**:
+
 - file status ∈ canonical enum
 
 ---
@@ -326,11 +368,13 @@ status: active
 **File**: `.agent/knowledge/context/glossary.md`
 
 **Anchor**:
+
 ```md
 - DDR glossary: `../sources/vocabulary/glossary.md`
 ```
 
 **Replace with**:
+
 ```md
 - DDR glossary: `sources/vocabulary/glossary.md`
 ```
@@ -338,6 +382,7 @@ status: active
 **Rationale**: Enforces single path convention for cross-layer references.
 
 **Validation**:
+
 - no `../sources/` path remains in this file
 
 ---
@@ -347,11 +392,13 @@ status: active
 **File**: `.agent/knowledge/sources/protocols/classification_decision_tree.md`
 
 **Anchor**:
+
 ```md
 - Source: `4. Information Assessment & Classification Framework.md` §4.1
 ```
 
 **Replace with**:
+
 ```md
 - Source: `.agent/assets/documentation_system.md` §4 (Information Assessment & Classification Framework), §4.1
 ```
@@ -359,6 +406,7 @@ status: active
 **Rationale**: Eliminates non-resolvable source title citation.
 
 **Validation**:
+
 - source line contains `.agent/assets/documentation_system.md`
 
 ---
@@ -368,11 +416,13 @@ status: active
 **File**: `.agent/knowledge/sources/protocols/classification_scoring.md`
 
 **Anchor**:
+
 ```md
 - Source: `4. Information Assessment & Classification Framework.md` §4.2, §4.3
 ```
 
 **Replace with**:
+
 ```md
 - Source: `.agent/assets/documentation_system.md` §4 (Information Assessment & Classification Framework), §4.2, §4.3
 ```
@@ -380,6 +430,7 @@ status: active
 **Rationale**: Same as MU-008.
 
 **Validation**:
+
 - source line contains `.agent/assets/documentation_system.md`
 
 ---
@@ -389,11 +440,13 @@ status: active
 **File**: `.agent/knowledge/sources/protocols/abstraction_upward.md`
 
 **Anchor**:
+
 ```md
 - Source: `5. Vertical Abstraction & Specification Protocols.md` §5.1
 ```
 
 **Replace with**:
+
 ```md
 - Source: `.agent/assets/documentation_system.md` §5 (Vertical Abstraction & Specification Protocols), §5.1
 ```
@@ -405,11 +458,13 @@ status: active
 **File**: `.agent/knowledge/sources/protocols/abstraction_downward.md`
 
 **Anchor**:
+
 ```md
 - Source: `5. Vertical Abstraction & Specification Protocols.md` §5.2
 ```
 
 **Replace with**:
+
 ```md
 - Source: `.agent/assets/documentation_system.md` §5 (Vertical Abstraction & Specification Protocols), §5.2
 ```
@@ -421,11 +476,13 @@ status: active
 **File**: `.agent/knowledge/sources/protocols/abstraction_lateral.md`
 
 **Anchor**:
+
 ```md
 - Source: `5. Vertical Abstraction & Specification Protocols.md` §5.3
 ```
 
 **Replace with**:
+
 ```md
 - Source: `.agent/assets/documentation_system.md` §5 (Vertical Abstraction & Specification Protocols), §5.3
 ```
@@ -435,27 +492,33 @@ status: active
 ## MU-013 — Worked example citations normalization
 
 ### MU-013A
+
 **File**: `.agent/knowledge/sources/patterns/worked_example_classification.md`
 
 **Anchor**:
+
 ```md
 - Source: `4. Information Assessment & Classification Framework.md` §4.3
 ```
 
 **Replace with**:
+
 ```md
 - Source: `.agent/assets/documentation_system.md` §4 (Information Assessment & Classification Framework), §4.3
 ```
 
 ### MU-013B
+
 **File**: `.agent/knowledge/sources/patterns/worked_example_feature.md`
 
 **Anchor**:
+
 ```md
 - Source: `20. Advanced Integration Patterns.md`
 ```
 
 **Replace with**:
+
 ```md
 - Source: `.agent/assets/documentation_system.md` §20 (Advanced Integration Patterns)
 ```
@@ -463,6 +526,7 @@ status: active
 **Rationale (MU-010 to MU-013)**: Makes provenance deterministic and validator-friendly.
 
 **Validation**:
+
 - all source lines use `.agent/assets/documentation_system.md`
 
 ---
@@ -472,6 +536,7 @@ status: active
 **File to create**: `.agent/knowledge/sources/patterns/metadata_schema.md`
 
 **Create with content**:
+
 ```md
 ---
 archetype: pattern
@@ -544,6 +609,7 @@ Defines normative frontmatter fields, enums, and scope classes used by validatio
 **Rationale**: Makes validation contract explicit and stable.
 
 **Validation**:
+
 - new file included in sources index (MU-016)
 
 ---
@@ -553,6 +619,7 @@ Defines normative frontmatter fields, enums, and scope classes used by validatio
 **File to create**: `.agent/knowledge/sources/patterns/source_citation_style.md`
 
 **Create with content**:
+
 ```md
 ---
 archetype: pattern
@@ -607,6 +674,7 @@ All provenance references must resolve to concrete repository paths and stable s
 **Rationale**: Prevents provenance drift and non-resolvable references.
 
 **Validation**:
+
 - all existing noncanonical source lines remediated
 
 ---
@@ -616,23 +684,27 @@ All provenance references must resolve to concrete repository paths and stable s
 **File**: `.agent/knowledge/sources/_index.md`
 
 **Add entries to Quick Lookup table**:
+
 ```md
 | Metadata Schema | pattern | `patterns/metadata_schema.md` |
 | Source Citation Style | pattern | `patterns/source_citation_style.md` |
 ```
 
 **Add entries to Patterns section**:
+
 ```md
 - `Metadata Schema` (`patterns/metadata_schema.md`) — Canonical validation fields and enums
 - `Source Citation Style` (`patterns/source_citation_style.md`) — Provenance citation standard
 ```
 
 **Adjust counts**:
+
 - Total files and patterns counts must be updated consistently across header, section title, and progress summary.
 
 **Rationale**: Prevents orphan pattern docs and keeps inventory accurate.
 
 **Validation**:
+
 - counts match actual file inventory
 
 ---
@@ -642,16 +714,19 @@ All provenance references must resolve to concrete repository paths and stable s
 **File**: `.agent/knowledge/sources/protocols/traceability_chain.md`
 
 **Anchor**:
+
 ```md
 | **Forward reference** | TDD cites ISP | ERROR |
 ```
 
 **Replace with**:
+
 ```md
 | **Forward reference** | Higher abstraction tier cites lower abstraction tier (e.g., BRD cites SAD) | ERROR |
 ```
 
 **Add clarifier below citation matrix**:
+
 ```md
 Forward-reference rule: `:links:` MUST point upward in justification authority (toward BRD), never downward.
 ```
@@ -659,6 +734,7 @@ Forward-reference rule: `:links:` MUST point upward in justification authority (
 **Rationale**: Synchronizes protocol language with corrected glossary semantics.
 
 **Validation**:
+
 - glossary and traceability definitions are semantically identical
 
 ---
@@ -668,6 +744,7 @@ Forward-reference rule: `:links:` MUST point upward in justification authority (
 **File to create**: `.agent/knowledge/sources/protocols/implementation_guardrails.md`
 
 **Create with content**:
+
 ```md
 ---
 archetype: protocol
@@ -725,6 +802,7 @@ This protocol defines mandatory preflight, execution, and postflight checks for 
 **Rationale**: Gives executing agents a strict process to minimize hallucinations and omissions.
 
 **Validation**:
+
 - protocol appears in sources index protocol list and quick lookup (MU-016 extension)
 
 ---
@@ -734,6 +812,7 @@ This protocol defines mandatory preflight, execution, and postflight checks for 
 **File to create**: `.agent/knowledge/sources/protocols/external_reference_reconciliation.md`
 
 **Create with content**:
+
 ```md
 ---
 archetype: protocol
@@ -790,6 +869,7 @@ This protocol prevents hallucination and policy drift by requiring explicit evid
 **Rationale**: Integrates externally supplied legacy documentation safely without introducing unverifiable content.
 
 **Validation**:
+
 - unresolved external references are logged with command evidence
 - deferred reconciliation task exists for each unresolved source
 
@@ -927,4 +1007,3 @@ Implementation is complete only when:
 - All required validation commands pass with zero blocking errors.
 - Source and index inventories are internally consistent.
 - No unresolved contradiction remains for status lifecycle, path policy, or forward-reference semantics.
-

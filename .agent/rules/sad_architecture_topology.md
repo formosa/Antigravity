@@ -1,15 +1,10 @@
 ---
 type: rule
-name: "SAD Architecture Topology"
+name: sad_architecture_topology
 activation: glob
 globs:
   - "docs/04_sad/*.rst"
 priority: 80
-trigger:
-  - "structure"
-  - "topology"
-  - "boundary"
-  - "architecture"
 severity: mandatory
 description: "SAD sections must define the architectural pattern and include at least one ASCII topology diagram."
 ---

@@ -1,3 +1,20 @@
+---
+type: index
+name: "DDR System Skills Registry"
+categories:
+  - "Core Classification & Routing"
+  - "Vertical Abstraction"
+  - "Traceability & Validation"
+  - "Constraint Enforcement"
+  - "Reconciliation & Integrity"
+  - "Document Generation"
+  - "Workflow Orchestration"
+  - "Knowledge Source Management"
+  - "Quality Assurance"
+  - "Migration & Transformation"
+  - "Reporting & Analytics"
+  - "Planning & Strategy"
+---
 # DDR System Skills Registry
 
 > **Context:** This index defines atomic capabilities for the AI Agent functioning within the Antigravity IDE.
@@ -253,7 +270,7 @@
 
 *Primary function: User-guided execution planning.*
 
-### `planning_instructions`
+### `planning-instructions`
 
 - **Function:** Implementation Planning.
 - **Action:** Generates hallucination-resistant implementation plans via research and validation.

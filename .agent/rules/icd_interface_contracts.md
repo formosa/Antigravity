@@ -1,14 +1,10 @@
 ---
 type: rule
-name: "ICD Interface Contracts"
+name: icd_interface_contracts
 activation: glob
 globs:
   - "docs/05_icd/*.rst"
 priority: 80
-trigger:
-  - "schema"
-  - "payload"
-  - "contract"
 severity: mandatory
 description: "ICD tags must specify language-agnostic data shapes using PascalCase for schemas and camelCase for properties."
 ---

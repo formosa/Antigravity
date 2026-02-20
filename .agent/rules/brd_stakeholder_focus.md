@@ -1,66 +1,42 @@
 ---
 type: rule
-name: "BRD Stakeholder Focus"
-activation: glob
-globs:
-  - "docs/01_brd/*.rst"
+name: brd_stakeholder_focus
+activation: model_decision
 priority: 70
-severity: guideline
-description: "BRD requirements should identify which stakeholders benefit."
+severity: mandatory
 ---
-# BRD Stakeholder Focus Rule
+# BRD Stakeholder Alignment Rule
 
 ## Rule Statement
 
-**BRD: Requirements SHOULD identify the stakeholders who benefit from each objective.**
+**Every requirement in the BRD MUST identify which stakeholder group(s) it addresses or benefits.**
 
 ## Detection
 
-| Pattern | Indication |
-| :-------- | :----------- |
-| No stakeholder mention | Requirement lacks "who benefits" |
-| Generic "users" | Could be more specific |
-| Missing persona context | No role identification |
+Identify requirements that lack:
+
+- Explicit stakeholder mentions
+- Role-based justifications
+- Business unit alignment
 
 ## Enforcement
 
 | Violation | Severity | Resolution |
 | :---------- | :--------: | :----------- |
-| No stakeholder identified | WARNING | Add beneficiary context |
-| Vague stakeholder | INFO | Specify role or persona |
+| No stakeholder identified | WARNING | Tag with stakeholder role |
+| Vague utility | WARNING | Clarify business benefit |
+| Misaligned scope | ERROR | Re-verify with Stakeholder Map |
 
-## Typical Stakeholders
+## Stakeholder Categories
 
-- End users — What do they gain?
-- Enterprise customers — Revenue impact?
-- Business owners — Competitive advantage?
-- Compliance officers — Regulatory requirements?
-- Developers — Productivity improvements?
-
-## Examples
-
-### ✅ Correct
-
-.. code-block:: rst
-
-   .. brd:: Enable accessibility users to interact hands-free.
-      :id: BRD-5.7
-
-### ❌ Could Improve
-
-.. code-block:: rst
-
-   .. brd:: Enable hands-free interaction.
-      :id: BRD-5.7
-
-**Why**: Who benefits? Add stakeholder context.
-
-## Related Rules
-
-- [brd_technology_agnostic.md](brd_technology_agnostic.md) — No tech terms in BRD
-- [brd_measurable_metrics.md](brd_measurable_metrics.md) — Quantifiable success criteria
+| Category | Examples |
+| :--------- | :--------- |
+| End User | Consumer, Operator, Client |
+| Business | Owner, Sponsor, Finance |
+| Technical | Developer, DevOps, Architect |
+| Regulatory | Legal, Compliance, Audit |
 
 ## References
 
-- Knowledge: `concepts/tier_brd.md`
-- Source: DDR Meta-Standard §2.1
+- Knowledge: `constraints/brd_stakeholder_focus.md`
+- Source: DDR Meta-Standard §2.2

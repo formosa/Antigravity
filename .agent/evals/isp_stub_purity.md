@@ -1,15 +1,15 @@
 ---
 type: evaluation
 name: "ISP Stub Purity"
-description: "Ensures ISP stubs contain only NotImplementedError, no logic."
 target_agent: "@isp_codegenerator"
-threshold: 100
-metrics:
-  - name: stub_purity
-    type: percentage
-    target: 100
-test_cases: "inline"
-schedule: "on_demand"
+judge_model: "gemini-3.1-pro"
+pass_threshold: 100
+scenarios:
+  - "Scan ISP functions for implementation logic"
+  - "Verify only pass or raise NotImplementedError"
+rubric:
+  - "Zero implementation logic allowed"
+  - "Only structural definitions and docstrings permitted"
 ---
 
 # Evaluation: ISP Stub Purity

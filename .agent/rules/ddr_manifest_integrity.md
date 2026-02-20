@@ -1,17 +1,9 @@
 ---
 type: rule
-name: "DDR Manifest Integrity"
+name: ddr_manifest_integrity
 activation: model_decision
-globs:
-  - "docs/**/*.rst"
-  - "docs/**/reconciliation_manifest.rst"
 priority: 50
-trigger:
-  - "manifest"
-  - "inventory"
-  - "reconciliation"
 severity: mandatory
-description: "Reconciliation manifests must stay synchronized with tag inventory."
 ---
 # DDR Manifest Integrity Rule
 

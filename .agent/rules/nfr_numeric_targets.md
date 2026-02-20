@@ -1,6 +1,6 @@
 ---
 type: rule
-name: "NFR Numeric Targets"
+name: nfr_numeric_targets
 activation: glob
 globs:
   - "docs/02_nfr/*.rst"

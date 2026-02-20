@@ -1,199 +1,220 @@
 // Antigravity Agent Asset Configuration Schema (v1.16.5)
-// AUTHORITATIVE REFERENCE for LLM Context
-// NOTE: Use YAML frontmatter for all agent asset definition Markdown files matching these interfaces.
+// OPTIMIZED FOR AGENTIC CONSUMPTION AND LLM CONTEXT WINDOWS
+// INSTRUCTION FOR AGENTS: Parse this file to understand the strict schema requirements for generating valid YAML frontmatter in .md/.mdc asset files.
 
 /** * 1. PERSONA DEFINITION
  * File Pattern: .agent/personas/*.mdc
+ * Purpose: Defines the core identity, model backend, and base capabilities of an AI actor.
  */
 interface PersonaDefinition {
-    // Human-readable display name (Max ~25 chars).
+    // The human-readable display name of the agent. Constraint: Max 25 characters.
     name: string;
-    // Unique identifier for summoning/delegation.
+    // The unique identifier used by the routing system or user to summon this specific agent. Must start with '@'.
     handle: `@${string}`;
-    // One sentence summary of role for Router/User.
+    // A highly concise, one-sentence summary of the agent's primary function. Used by the semantic router for delegation.
     description: string;
-    // Specific backend. Use high-reasoning models for Architects/QAs.
-    model: 'gemini-3-pro-high' | 'gemini-3-pro-low' | 'gemini-3-flash' | 'claude-sonnet-4.5' | 'claude-sonnet-4.5-thinking' | 'claude-opus-4.6-thinking' | 'gpt-oss-120b-medium';
-    // 0.0 (code/linting) to 1.0 (creative/design).
+    // The LLM backend to utilize. Instruction: Select 'gemini-3.1-pro' or 'claude-opus-4.6-thinking' for complex reasoning, architecture, or Python coding tasks. Use 'gemini-3-flash' for rapid, simple text processing.
+    model: 'gemini-3.1-pro' | 'gemini-3-pro-high' | 'gemini-3-pro-low' | 'gemini-3-flash' | 'claude-sonnet-4.5' | 'claude-sonnet-4.5-thinking' | 'claude-opus-4.6-thinking' | 'gpt-oss-120b-medium';
+    // Creativity slider. Constraint: Float between 0.0 (deterministic/code) and 1.0 (creative/prose).
     temperature: number;
-    // UI visual accent (Hex Code or Color Name).
+    // The visual accent color for the agent's UI elements. Constraint: Must be a valid Hex Code (e.g., '#FF5733') or standard CSS color name.
     color: string;
-    // Avatar icon (Phosphor/Material name or relative SVG path).
+    // The avatar icon identifier. Constraint: Must be a valid Phosphor icon name, Material icon name, or a relative path to an SVG file.
     icon: string;
-    // Allowlist of executable capabilities. Restrict dangerous tools for "Advisor" agents.
+    // An array of specific tool names (from ToolDefinition) this agent is authorized to execute. Leave empty [] if no tools are needed.
     tools: string[];
-    // Files automatically loaded into context. Use sparingly. Provide [] if none.
+    // An array of Model Context Protocol (MCP) server names (e.g., 'postgres_local', 'bigquery_prod') the agent can query for dynamic data context. Optional.
+    mcp_servers?: string[];
+    // An array of file glob patterns (e.g., ['src/**/*.py', 'docs/*.md']) automatically injected into the agent's context window upon initialization. Use sparingly to save tokens.
     context_globs: string[];
 }
 
 /** * 2. RULE DEFINITION
  * File Pattern: .agent/rules/*.md
+ * Purpose: Injects strict behavioral guidelines, coding standards, or domain-specific constraints into the agent's system prompt.
  */
 interface RuleDefinition {
-    // Must be the first property.
+    // Identifies this asset as a rule. Constraint: Must always be the exact string 'rule'.
     type: 'rule';
-    // Display name for "Active Rules" status.
+    // The human-readable display name for the rule shown in the "Active Rules" UI.
     name: string;
-    // Activation mode. Determines when this rule is loaded into agent context.
-    // 'always_on': injected into every prompt regardless of file context.
-    // 'glob': fires only when working on files matching globs patterns.
-    // 'model_decision': agent decides based on conversation context and triggers.
-    // 'manual': only loaded when explicitly invoked by user via @mention.
+    // Dictates when the LLM must process this rule. 'always_on' injects globally. 'glob' triggers on file match. 'model_decision' relies on semantic relevance. 'manual' requires user invocation.
     activation?: 'always_on' | 'model_decision' | 'glob' | 'manual';
-    // File patterns triggering this rule. If omitted, rule is global.
+    // The file patterns that trigger this rule if activation is set to 'glob' (e.g., ['*.py']). Optional.
     globs?: string[];
-    // Conflict resolution rank (High > Low). Default: 1. Critical Safety: >50.
+    // The importance weight of this rule when conflicts occur. Constraint: Integer. Higher number = higher priority. Critical safety constraints should be > 50.
     priority: number;
-    // Keywords activating rule regardless of file type (e.g., "refactor").
+    // An array of specific words or phrases that, if detected in the user prompt, will activate this rule. Optional.
     trigger?: string[];
-    // 'mandatory' forces rejection of violations.
+    // The strictness level. 'mandatory' means the agent must refuse requests that violate the rule.
     severity: 'mandatory' | 'guideline' | 'suggestion';
-    // Precise instruction prompt injected into system context.
+    // The actual system prompt instructions injected into the LLM context. Must be highly precise and unambiguous.
     description: string;
 }
 
 /** * 3. TOOL DEFINITION
  * File Pattern: .agent/tools/*.md
- * Script Location: .agent/scripts/
+ * Purpose: Defines custom executable functions that the agent can invoke to interact with the external environment.
  */
 interface ToolDefinition {
+    // Identifies this asset as a tool. Constraint: Must always be the exact string 'tool'.
     type: 'tool';
-    // Function identifier used by LLM (snake_case). Unique.
+    // The strict programmatic identifier for the function. Constraint: Must be snake_case and globally unique.
     name: string;
-    // Prompt explaining when/how to use the tool. Critical for selection.
+    // A detailed explanation of what the tool does, when to use it, and what it returns. CRITICAL: The agent relies heavily on this for tool selection.
     description: string;
-    // Shell command. Supports {{args.x}} templating. Runs in project root.
+    // The actual shell command to execute. Supports handlebar templating (e.g., `python scripts/process.py --input {{args.file}}`).
     command: string;
-    // Execution environment. 'system' uses default shell (PowerShell/Bash).
-    runtime: 'system' | 'node' | 'python' | 'docker';
-    // User permission requirement. Use 'never' only for safe read-ops.
+    // The execution environment context. 'system' uses the local host OS shell. 'remote_ssh' executes on a configured remote server.
+    runtime: 'system' | 'node' | 'python' | 'docker' | 'remote_ssh';
+    // Safety guardrail. 'always' pauses execution to ask the user for permission. Set to 'never' ONLY for harmless, read-only operations.
     confirmation: 'always' | 'never';
-    // Schema definition for required inputs to prevent hallucinations.
+    // A strictly typed JSON schema of the arguments the LLM must provide to execute the command. Prevents hallucinated arguments.
     args: Record<string, {
+        // The data type of the argument.
         type: 'string' | 'number' | 'boolean';
+        // Instructions for the LLM on how to generate this specific argument.
         description: string;
+        // Whether the tool will fail if this argument is omitted. Defaults to false if not specified.
         required?: boolean;
     }>;
 }
 
 /** * 4. WORKFLOW DEFINITION
  * File Pattern: .agent/workflows/*.md
+ * Purpose: Defines multi-step, complex standard operating procedures (SOPs) for the agent to follow.
  */
 interface WorkflowDefinition {
+    // Identifies this asset as a workflow. Constraint: Must always be the exact string 'workflow'.
     type: 'workflow';
-    // Action-oriented display title.
+    // The human-readable title of the workflow. Should be action-oriented (e.g., 'Generate API Documentation').
     name: string;
-    // Slash command trigger (e.g., "/spec").
+    // The shortcut command the user types to trigger the workflow. Constraint: Must begin with a forward slash (e.g., '/docs').
     slug: `/${string}`;
-    // Summary for Router to suggest this workflow.
+    // A summary of the workflow's purpose so the Router agent knows when to suggest it to the user.
     description: string;
-    // 'interactive' pauses for user approval after every step.
-    mode: 'interactive' | 'autonomous';
-    // Resources to preload (Globs or Agent Handles).
+    // 'interactive' requires user approval between steps. 'autonomous' runs end-to-end. 'background' delegates to the Agent Manager for headless, asynchronous execution.
+    mode: 'interactive' | 'autonomous' | 'background';
+    // An array of expected tangible outputs the agent must generate before considering the workflow complete. Optional.
+    expected_artifacts?: Array<'implementation_plan' | 'task_list' | 'code_diff' | 'walkthrough' | 'screenshot' | 'browser_recording'>;
+    // Context resources to preload before starting. Can be file globs or other agent handles (e.g., '@QA_Agent').
     context: string[];
-    // Post-execution action string (e.g., "suggest_followup: /scaffold").
+    // Instructions for what the agent should do or suggest immediately after the workflow succeeds.
     on_finish: string;
-    // Variables required from user before starting. Creates Form UI.
+    // A schema for a UI form presented to the user to gather required variables before the workflow begins.
     inputs: Array<{
+        // The variable name injected into the workflow context.
         name: string;
+        // The data type, driving the UI input component (e.g., file picker vs text box).
         type: 'text' | 'string' | 'boolean' | 'file_path';
+        // Help text shown to the user in the form. Optional.
         description?: string;
+        // A pre-filled value for the form. Optional.
         default?: any;
-        required?: boolean; // Default: true
+        // Whether the user must provide this before starting. Defaults to true.
+        required?: boolean;
     }>;
 }
 
 /** * 5. KNOWLEDGE DEFINITION
  * File Pattern: .agent/knowledge/*.md
- * Purpose: RAG Indexing Configuration.
+ * Purpose: Configures custom Retrieval-Augmented Generation (RAG) indexes.
  */
 interface KnowledgeDefinition {
-    // Unique identifier (snake_case).
+    // The programmatic identifier for the RAG index. Constraint: Must be snake_case.
     name: string;
-    // Data sources (URLs or File Paths). Supports scraping and binaries.
+    // An array of URLs, file paths, or directories to scrape and ingest into the vector database.
     sources: string[];
-    // Re-indexing frequency. 'always' runs on every build.
+    // How often the index should rebuild to capture changes.
     refresh_schedule: 'always' | 'daily' | 'weekly' | 'manual';
-    // Chunking strategy. Use 'code' for repos, 'prose' for docs.
+    // The chunking algorithm to use. 'code' respects semantic boundaries of functions/classes. 'prose' chunks by paragraphs/sections.
     strategy: 'code' | 'prose' | 'mixed';
-    // Permission scope (Agent Handles) or visibility level.
+    // Who or what can query this index. Can be an array of agent handles or a general visibility flag ('public'/'private').
     access: string[] | 'public' | 'private';
 }
 
 /** * 6. EVALUATION DEFINITION
  * File Pattern: .agent/evals/*.md
- * Purpose: Automated QA/Testing for Agents.
+ * Purpose: Defines automated LLM-as-a-Judge test suites to verify agent behavior and output quality.
  */
 interface EvaluationDefinition {
-    // Name of test suite.
+    // The human-readable name of the test suite.
     name: string;
-    // The agent handle being tested.
+    // The specific agent being tested. Constraint: Must be a valid agent handle starting with '@'.
     target_agent: `@${string}`;
-    // Judge LLM. Should be stronger than target.
-    judge_model: 'claude-opus-4.6-thinking' | 'gemini-3-pro-high';
-    // Minimum pass score (0-100). Strict: 90+.
+    // The reasoning model assigned to evaluate the target agent. Instruction: Always use a high-tier reasoning model like 'gemini-3.1-pro' for judging.
+    judge_model: 'claude-opus-4.6-thinking' | 'gemini-3.1-pro';
+    // The minimum score required to pass the evaluation. Range: 0-100.
     pass_threshold: number;
-    // Input prompts/scenarios to feed the agent.
+    // An array of simulated user prompts or inputs to feed into the target agent during the test.
     scenarios: string[];
-    // Grading criteria for the Judge.
+    // An array of strict grading criteria the judge model must use to score the target agent's responses.
     rubric: string[];
 }
 
-
-/** * 7. SKILL DEFINITION (v1.14.2+)
+/** * 7. SKILL DEFINITION
  * File Pattern: .agent/skills/<skill-name>/SKILL.md
- * Purpose: On-demand capability extension via progressive disclosure.
- *
- * Skills are directory-based packages containing:
- *   - SKILL.md (this definition + instructions)
- *   - scripts/ (optional: executable automation)
- *   - references/ (optional: static reference materials)
- *   - examples/ (optional: few-shot learning examples)
- *
- * Loading Behavior:
- *   - Level 1 (Router): name + description always indexed at session start
- *   - Level 2 (Context): Full SKILL.md instructions loaded on semantic match
- *   - Level 3 (Assets): scripts/references/examples loaded on-demand
+ * Purpose: Defines progressive disclosure capabilities that load dynamic tools, prompts, or scripts only when semantically relevant.
  */
 interface SkillDefinition {
+    // Identifies this asset as a skill. Constraint: Must always be the exact string 'skill'.
     type: 'skill';
-    // Unique identifier (kebab-case). Matches directory name.
+    // The unique identifier for the skill bundle. Constraint: Must be kebab-case and match the parent directory name.
     name: string;
-    // CRITICAL: Router matching trigger. Must be descriptive for semantic matching.
-    // Example: "Execute read-only SQL queries against local PostgreSQL for debugging"
+    // A highly descriptive explanation of what the skill allows the agent to do. CRITICAL: The router uses semantic vector matching on this string to load the skill dynamically.
     description: string;
-    // Installation scope. 'workspace' = .agent/skills/, 'global' = ~/.gemini/antigravity/skills/
+    // Defines where the skill is installed. 'workspace' limits it to the current project. 'global' makes it available across all user projects.
     scope: 'workspace' | 'global';
 }
 
 /**
  * 8. KNOWLEDGE SOURCE DEFINITION
  * File Pattern: .agent/knowledge/sources/ ** / *.md
+ * Purpose: Metadata for individual documents ingested into a knowledge index.
  */
 interface KnowledgeSourceDefinition {
+    // The structural classification of the document.
     archetype: 'concept' | 'protocol' | 'constraint' | 'pattern' | 'vocabulary' | 'context';
+    // The current lifecycle state of the document. 'active' is preferred for RAG.
     status: 'draft' | 'review' | 'active' | 'deprecated';
-    version: string; // semver
-    created: string; // YYYY-MM-DD
-    updated: string; // YYYY-MM-DD
-    requires?: string[]; // paths relative to knowledge root
-    related?: string[]; // paths relative to knowledge root
+    // Semantic versioning string (e.g., '1.0.0').
+    version: string;
+    // The date the source was initially added. Format: YYYY-MM-DD.
+    created: string;
+    // The date the source was last modified. Format: YYYY-MM-DD.
+    updated: string;
+    // An array of paths to other knowledge source files that must be understood prior to this one. Optional.
+    requires?: string[];
+    // An array of paths to tangentially related knowledge source files. Optional.
+    related?: string[];
+    // An array of string tags for metadata filtering during RAG retrieval. Optional.
     tags?: string[];
 }
 
 /**
  * 9. INDEX DEFINITION
  * File Pattern: .agent/knowledge/ ** /_index.md
+ * Purpose: Defines the aggregation rules and context modes for a specific knowledge namespace.
  */
 interface IndexDefinition {
+    // Identifies this asset as an index configuration. Constraint: Must always be the exact string 'index'.
     archetype: 'index';
+    // The lifecycle state of the index configuration.
     status: 'draft' | 'review' | 'active' | 'deprecated';
-    version: string; // semver
-    created: string; // YYYY-MM-DD
-    updated: string; // YYYY-MM-DD
+    // Semantic versioning string (e.g., '1.0.0').
+    version: string;
+    // Creation date. Format: YYYY-MM-DD.
+    created: string;
+    // Last modification date. Format: YYYY-MM-DD.
+    updated: string;
+    // The boundary constraint for this index (e.g., 'frontend', 'backend', 'system-design').
     scope: string;
+    // Specific instructions on how the RAG pipeline should process files in this scope. Optional.
     index_policy?: string;
+    // Rules for how files should be named or organized within this namespace. Optional.
     path_convention?: string;
+    // The overarching project this index belongs to. Optional.
     project?: string;
+    // Hints to the agent on how to apply the retrieved information (e.g., 'strict-compliance', 'creative-reference'). Optional.
     context_mode?: string;
 }

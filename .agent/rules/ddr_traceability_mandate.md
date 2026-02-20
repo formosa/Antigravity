@@ -1,14 +1,10 @@
 ---
 type: rule
-name: "DDR Traceability Mandate"
+name: ddr_traceability_mandate
 activation: glob
 globs:
   - "docs/**/*.rst"
 priority: 85
-trigger:
-  - "tag"
-  - "citation"
-  - "parent"
 severity: mandatory
 description: "Every tag must cite parent (except BRD root). Enforces complete traceability chains."
 ---

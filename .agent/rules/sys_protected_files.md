@@ -1,14 +1,11 @@
 ---
 type: rule
-name: "Immutable Assets Protection"
+name: sys_protected_files
 activation: always_on
-globs:
-  - ".agent/assets/**/*"
 priority: 100
 severity: mandatory
-description: "The .agent/assets/ directory contains strict project standards and reference schemas. These files are READ-ONLY. You are strictly forbidden from editing, modifying, overwriting, or deleting any file in this directory. EXCEPTION: If a user request specifically requires changes to these files, you must HALT execution, list the specific files to be changed, and explicitly ask the user for approval before proceeding."
+description: "Protects .agent/assets/ directory from unauthorized modifications."
 ---
-
 # Immutable Assets Protection
 
 ## Rule Statement

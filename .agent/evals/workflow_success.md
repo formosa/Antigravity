@@ -1,22 +1,28 @@
 ---
 type: evaluation
 name: "Workflow Success Rate"
-description: "Validates complete 9-stage workflow execution."
 target_agent: "@ddr_orchestrator"
-threshold: 9
-metrics:
-  - name: stages_completed
-    type: count
-    target: 9
-test_cases: "inline"
-schedule: "on_demand"
+judge_model: "gemini-3.1-pro"
+pass_threshold: 90
+scenarios:
+  - "Execute /complete_feature for a new 'Voice Activation' feature"
+  - "Execute /complete_feature for a complex 'Data Persistence' module"
+rubric:
+  - "All 9 stages (BRD to Validate) must be completed in order"
+  - "Each stage must produce the required rst artifacts"
+  - "Traceability links must be correctly generated between tiers"
 ---
 
 # Evaluation: Workflow Success Rate
 
 ## Test Procedure
 
-1. Execute `/complete_feature` with test input
-2. Track completion of each stage (1-9)
-3. Verify each stage returns valid tag ID
-4. Pass if `stages_completed == 9`
+1. Execute `/complete_feature` with test input.
+2. Track completion of each stage (1-9).
+3. Verify output artifacts exist in `docs/`.
+
+## Success Criteria
+
+- All 9 stages documented.
+- Valid traceability chain from ISP to BRD.
+- No orphan tags created during the process.

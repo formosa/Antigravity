@@ -1,14 +1,10 @@
 ---
 type: rule
-name: "Trace Complete Chain"
+name: trace_complete_chain
 activation: glob
 globs:
   - "docs/**/*.rst"
 priority: 90
-trigger:
-  - "orphan"
-  - "chain"
-  - "traceability"
 severity: mandatory
 description: "Every tag must have a complete traceability chain to BRD root."
 ---

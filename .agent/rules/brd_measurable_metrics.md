@@ -1,12 +1,9 @@
 ---
 type: rule
-name: "BRD Measurable Metrics"
-activation: glob
-globs:
-  - "docs/01_brd/*.rst"
+name: brd_measurable_metrics
+activation: model_decision
 priority: 80
 severity: mandatory
-description: "BRD success criteria must include measurable, quantifiable metrics."
 ---
 # BRD Measurable Metrics Rule
 

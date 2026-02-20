@@ -1,15 +1,15 @@
 ---
 type: evaluation
 name: "Traceability Completeness"
-description: "Ensures all non-BRD tags have valid parent citations."
 target_agent: "@traceability_auditor"
-threshold: 100
-metrics:
-  - name: citation_coverage
-    type: percentage
-    target: 100
-test_cases: "needs.json"
-schedule: "on_demand"
+judge_model: "gemini-3.1-pro"
+pass_threshold: 100
+scenarios:
+  - "Audit a dataset with missing parent links"
+  - "Audit a fully connected dataset"
+rubric:
+  - "Report orphan count equals seeded orphans"
+  - "Report 100% coverage on clean dataset"
 ---
 
 # Evaluation: Traceability Completeness

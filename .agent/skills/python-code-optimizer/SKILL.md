@@ -1,14 +1,8 @@
 ---
+type: skill
 name: python-code-optimizer
-description: >-
-  Comprehensively optimizes Python code quality through multi-stage AST-based
-  analysis including Clean Code enforcement (naming, functions, comments),
-  structural entropy reduction, cyclomatic and cognitive complexity management,
-  Numpy-style documentation, and PEP 8 compliance via Ruff. Use when: optimizing
-  Python code, enforcing code quality standards, reducing complexity, improving
-  maintainability, refactoring Python files, cleaning up code, enforcing naming
-  conventions, or requests containing 'optimize', 'refactor', 'clean code',
-  'code quality', or file paths ending in .py requiring quality improvement.
+description: Comprehensively optimizes Python code quality through multi-stage AST-based analysis including Clean Code enforcement and PEP 8 compliance.
+scope: workspace
 ---
 
 # Python Code Optimizer

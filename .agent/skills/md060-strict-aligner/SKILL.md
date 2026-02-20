@@ -1,6 +1,8 @@
 ---
+type: skill
 name: md060-strict-aligner
 description: Identifies markdown tables with the MD060/table-column-style violation and repairs them using a local Python script to achieve absolute character-count vertical pipe alignment.
+scope: workspace
 ---
 
 # SKILL: md060-strict-aligner

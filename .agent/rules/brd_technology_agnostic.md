@@ -1,14 +1,11 @@
 ---
 type: rule
-name: "BRD Technology Agnostic"
-activation: glob
-globs:
-  - "docs/01_brd/*.rst"
+name: brd_technology_agnostic
+activation: model_decision
 priority: 80
 severity: mandatory
-description: "BRD content must not contain technology-specific terms or implementation details."
 ---
-# BRD Technology Agnostic Rule
+# Antigravity Rules — BRD Technologic Agnostic Rule
 
 ## Rule Statement
 

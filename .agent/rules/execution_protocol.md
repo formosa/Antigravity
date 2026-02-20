@@ -1,3 +1,11 @@
+---
+type: rule
+name: execution_protocol
+activation: always_on
+priority: 100
+severity: mandatory
+description: "Strict protocols for shell (PowerShell 7) and Python execution (UTF-8 encoding)."
+---
 # Antigravity Agent Rules — DDR System Execution
 
 ## Shell Protocol
@@ -17,11 +25,11 @@ Rules governing Python file operations and external tool execution:
   - `Path.read_text()`
   - `Path.write_text()`
 - `encoding='utf-8', errors='replace'` is MANDATORY in all `subprocess.run()` calls that capture output.
+- Avoid using libraries that do not support specified encodings where possible.
+- If a script requires external dependencies, ensure they are listed in the `Build Manifest` of the implementation plan.
 
-## Execution Planning
+## Enforcement
 
-Rules governing the generation of implementation plans:
-
-- Never use descriptive or ambiguous placeholders (e.g., "run the script").
-- All execution plans MUST contain explicit, verbatim command blocks.
-- You MUST explicitly validate the existence of target files using the `Test-Path` cmdlet before attempting to execute Python scripts against them.
+- **Violation**: Non-UTF8 file operations or use of `powershell.exe`.
+- **Severity**: FATAL
+- **Action**: Halt execution and request explicit encoding fixes.

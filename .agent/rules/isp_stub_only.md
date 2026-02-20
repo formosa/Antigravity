@@ -1,6 +1,6 @@
 ---
 type: rule
-name: "ISP Stub Only"
+name: isp_stub_only
 activation: glob
 globs:
   - "docs/07_isp/*.rst"

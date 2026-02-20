@@ -1,14 +1,10 @@
 ---
 type: rule
-name: "Trace No Sibling Citations"
+name: trace_no_sibling_citations
 activation: glob
 globs:
   - "docs/**/*.rst"
 priority: 85
-trigger:
-  - "sibling"
-  - "peer"
-  - "lateral"
 severity: mandatory
 description: "Tags cannot cite peer tags at the same abstraction level."
 ---

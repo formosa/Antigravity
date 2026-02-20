@@ -1,15 +1,16 @@
 ---
 type: evaluation
 name: "ISP Docstring Completeness"
-description: "Ensures all ISP stubs have complete NumPy-style docstrings."
 target_agent: "@isp_codegenerator"
-threshold: 100
-metrics:
-  - name: docstring_completeness
-    type: percentage
-    target: 100
-test_cases: "inline"
-schedule: "on_demand"
+judge_model: "gemini-3.1-pro"
+pass_threshold: 100
+scenarios:
+  - "Scan ISP functions for NumPy style docstrings"
+  - "Check for missing Implements/Requirements sections"
+rubric:
+  - "All functions must have a docstring"
+  - "Docstrings must follow NumPy format"
+  - "Must include traceability links"
 ---
 
 # Evaluation: ISP Docstring Completeness
