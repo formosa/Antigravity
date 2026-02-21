@@ -1,0 +1,321 @@
+---
+# Error Message Templates Configuration
+# Standardized user-facing messages for all violation types
+
+version: 1.0.0
+
+# Violation message templates
+violations:
+  SAD-DIAGRAM-001:
+    title: "Missing ASCII Diagram"
+    short: "Block-level SAD tag requires ASCII topology diagram"
+    detailed: |
+      Rule SAD-DIAGRAM-001: Every block-level SAD tag must include an ASCII
+      topology diagram illustrating the architectural pattern, component
+      relationships, or system structure.
+
+      Block-level tags (format: SAD-N) require diagrams. Atomic tags (format:
+      SAD-N.M) inherit diagram requirements from their parent block.
+
+    suggestion: "Insert ASCII diagram template using Ctrl+Alt+D or quick fix action"
+
+    examples:
+      valid: |
+        .. sad:: Hub-and-Spoke Architecture
+           :id: SAD-1
+           :links: FSD-1
+
+        +-------+     +-------+     +-------+
+        |  UI   | --> | Core  | <-- | Runtime|
+        +-------+     +-------+     +-------+
+
+      invalid: |
+        .. sad:: Hub-and-Spoke Architecture
+           :id: SAD-1
+           :links: FSD-1
+
+        (No diagram present - VIOLATION!)
+
+    quick_fixes:
+      - action: "insert_template"
+        label: "Insert ASCII Diagram Template"
+      - action: "view_examples"
+        label: "View Example Diagrams"
+
+    related_rules:
+      - "SAD-DIAGRAM-003"
+      - "SAD-DIAGRAM-004"
+
+  SAD-DIAGRAM-002:
+    title: "Unrecognized Box Characters"
+    short: "Diagram uses non-standard characters"
+    detailed: |
+      Rule SAD-DIAGRAM-002: ASCII diagrams must use recognized box drawing
+      characters for consistency and compatibility across tools.
+
+      Standard characters include:
+      - ASCII: + - | / \
+      - Unicode single: ┌ ┐ └ ┘ ─ │ ├ ┤ ┬ ┴ ┼
+      - Unicode double: ╔ ╗ ╚ ╝ ═ ║ ╠ ╣ ╦ ╩ ╬
+      - Arrows: < > ^ v ← → ↑ ↓ ↔
+
+    suggestion: "Replace unrecognized characters with standard box drawing characters"
+
+    examples:
+      valid: |
+        +-------+     +-------+
+        | Core  | --> |  UI   |
+        +-------+     +-------+
+
+      invalid: |
+        [Core] ===> [UI]          # Using brackets
+        {Process} ~~~> {Handler}  # Using braces
+
+    quick_fixes:
+      - action: "suggest_replacement"
+        label: "Suggest Standard Characters"
+      - action: "auto_convert"
+        label: "Auto-Convert to Standard (if possible)"
+
+  SAD-DIAGRAM-003:
+    title: "Missing Component Relationships"
+    short: "Diagram must show connections between components"
+    detailed: |
+      Rule SAD-DIAGRAM-003: Architecture diagrams must illustrate relationships
+      between components, not just isolated boxes.
+
+      Requirements:
+      - Minimum 2 components (boxes/nodes)
+      - Minimum 1 connection (arrow/line between components)
+
+      Diagrams showing only a single isolated component or multiple
+      unconnected components do not convey architectural structure.
+
+    suggestion: "Add arrows (-->, <--, etc.) or connecting lines between components"
+
+    examples:
+      valid: |
+        +-------+     +-------+
+        | Core  | --> |  UI   |   # Shows relationship
+        +-------+     +-------+
+
+      invalid: |
+        +-------+
+        | Core  |     # Isolated - no relationships
+        +-------+
+
+    quick_fixes:
+      - action: "add_connection"
+        label: "Add Connection Between Components"
+      - action: "view_relationship_patterns"
+        label: "View Relationship Pattern Examples"
+
+    related_rules:
+      - "SAD-DIAGRAM-001"
+
+  SAD-DIAGRAM-004:
+    title: "Insufficient Structural Clarity"
+    short: "Diagram lacks minimum clarity for architectural representation"
+    detailed: |
+      Rule SAD-DIAGRAM-004: Diagrams should have sufficient structural
+      complexity to convey architectural meaning.
+
+      Clarity requirements:
+      - Minimum 3 lines for visual structure
+      - Component labels for identification
+      - Clear visual hierarchy or flow
+
+      Very simple single-line diagrams may lack necessary architectural detail.
+
+    suggestion: "Expand diagram to at least 3 lines with proper box structure and labels"
+
+    examples:
+      valid: |
+        +-------+     +-------+
+        | Core  | --> |  UI   |   # 3+ lines, has labels
+        +-------+     +-------+
+
+      invalid: |
+        Core --> UI               # Only 1 line, no boxes
+
+    quick_fixes:
+      - action: "expand_template"
+        label: "Expand to Full Box Structure"
+      - action: "add_labels"
+        label: "Add Component Labels"
+
+# User notification messages
+notifications:
+  validation_started:
+    title: "Validating ASCII Diagrams"
+    message: "Checking SAD-tier diagrams for compliance..."
+
+  validation_passed:
+    title: "✓ Validation Passed"
+    message: "All SAD tags have valid ASCII diagrams"
+    icon: "success"
+
+  validation_failed:
+    title: "✗ Validation Failed"
+    message: "Found {error_count} error(s) and {warning_count} warning(s)"
+    icon: "error"
+
+  save_blocked_strict:
+    title: "Cannot Save - Diagram Violations"
+    message: |
+      Found {error_count} ERROR-level violation(s) that must be fixed before saving.
+
+      Actions:
+      • Fix violations using quick fixes
+      • Disable strict mode in settings
+      • View detailed report in Problems panel
+    icon: "error"
+
+  save_allowed_warnings:
+    title: "⚠ Saved with Warnings"
+    message: "Document saved with {warning_count} diagram quality warning(s)"
+    icon: "warning"
+
+  manifest_updated:
+    title: "Reconciliation Manifest Updated"
+    message: "DIRTY flag set - {item_count} pending item(s) added"
+    icon: "info"
+
+# Dialog messages
+dialogs:
+  confirm_disable_strict:
+    title: "Disable Strict Mode?"
+    message: |
+      Disabling strict mode will allow saving documents with ERROR-level violations.
+
+      This may compromise DDR System compliance.
+
+      Continue?
+    buttons:
+      - label: "Disable and Save"
+        action: "disable_save"
+      - label: "Cancel"
+        action: "cancel"
+
+  multiple_violations:
+    title: "Multiple Diagram Violations"
+    message: |
+      Found violations in {tag_count} SAD tag(s):
+
+      {violation_summary}
+
+      Would you like to:
+    buttons:
+      - label: "Fix All (Insert Templates)"
+        action: "fix_all"
+      - label: "View Details"
+        action: "view_report"
+      - label: "Ignore for Now"
+        action: "cancel"
+
+# Help text
+help_text:
+  getting_started: |
+    ASCII Diagram Enforcer - Getting Started
+    ========================================
+
+    This skill ensures all SAD-tier documentation includes proper ASCII
+    topology diagrams per DDR System requirements.
+
+    Quick Start:
+    1. Open a SAD document (docs/04_sad/*.rst)
+    2. Add .. sad:: directive with :id: and :links:
+    3. Insert ASCII diagram after the directive
+    4. Validate with Ctrl+Shift+D
+
+    Keyboard Shortcuts:
+    • Ctrl+Shift+D - Validate diagrams
+    • Ctrl+Alt+D - Insert diagram template
+
+    Common Patterns:
+    • Hub-and-Spoke: Central node with peripheral connections
+    • Pipeline: Linear flow through stages
+    • Hierarchical: Tree-like parent-child structure
+    • Network: Mesh of interconnected components
+
+    For more examples, use: DDR: View Example Diagrams
+
+  diagram_requirements: |
+    SAD Tier Diagram Requirements
+    ==============================
+
+    Every block-level SAD tag (format: SAD-N) MUST include an ASCII diagram.
+
+    Diagram must show:
+    ✓ Component boxes (using + - | or Unicode equivalents)
+    ✓ Connections between components (arrows: -->, <--, etc.)
+    ✓ Component labels for identification
+    ✓ Minimum 3 lines for structural clarity
+
+    Atomic tags (format: SAD-N.M) inherit from parent block.
+
+    Example:
+
+    .. sad:: Architecture Overview
+       :id: SAD-1
+       :links: FSD-1
+
+    +----------+     +----------+     +----------+
+    |    UI    | --> |   Core   | <-- | Runtime  |
+    +----------+     +----------+     +----------+
+
+  troubleshooting: |
+    Troubleshooting Common Issues
+    ==============================
+
+    Issue: "Validation not triggering"
+    Solution: Ensure document is in docs/04_sad/ with .rst/.md extension
+
+    Issue: "False positive for valid diagram"
+    Solution: Check box characters are standard (+ - | not [ ] { })
+
+    Issue: "Cannot save in strict mode"
+    Solution: Fix ERROR violations or disable strict mode in settings
+
+    Issue: "Diagram not detected"
+    Solution: Ensure diagram is 3+ lines and immediately follows SAD tag
+
+    Issue: "Too many warnings"
+    Solution: Warnings are advisory only - address at your discretion
+
+    For more help, see: docs/usage.md
+
+# Command palette descriptions
+commands:
+  validate_diagrams:
+    label: "DDR: Validate ASCII Diagrams"
+    description: "Run validation on current SAD document"
+    keybinding: "Ctrl+Shift+D"
+
+  insert_template:
+    label: "DDR: Insert ASCII Diagram Template"
+    description: "Insert boilerplate diagram at cursor"
+    keybinding: "Ctrl+Alt+D"
+
+  view_examples:
+    label: "DDR: View ASCII Diagram Examples"
+    description: "Open reference library of diagram patterns"
+    keybinding: null
+
+  toggle_strict_mode:
+    label: "DDR: Toggle Strict Mode"
+    description: "Enable/disable save blocking on errors"
+    keybinding: null
+
+  clear_violations:
+    label: "DDR: Clear Diagram Violations"
+    description: "Remove resolved violations from manifest"
+    keybinding: null
+
+# Status bar messages
+status_bar:
+  validating: "🔍 Validating diagrams..."
+  valid: "✓ Diagrams valid"
+  invalid: "✗ {count} violation(s)"
+  not_sad: "Not a SAD document"
+  disabled: "Validation disabled"

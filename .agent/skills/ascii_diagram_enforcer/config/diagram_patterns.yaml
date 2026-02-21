@@ -1,0 +1,277 @@
+---
+# ASCII Diagram Validation Patterns Configuration
+# Defines recognized patterns, characters, and quality thresholds
+
+version: 1.0.0
+
+# Recognized box drawing characters
+box_characters:
+  ascii:
+    corners: ['+']
+    edges: ['-', '|']
+    diagonals: ['/', '\']
+
+  unicode_single:
+    corners: ['┌', '┐', '└', '┘']
+    edges: ['─', '│']
+    junctions: ['├', '┤', '┬', '┴', '┼']
+
+  unicode_double:
+    corners: ['╔', '╗', '╚', '╝']
+    edges: ['═', '║']
+    junctions: ['╠', '╣', '╦', '╩', '╬']
+
+  unicode_rounded:
+    corners: ['╭', '╮', '╯', '╰']
+
+# Arrow and directional characters
+arrows:
+  ascii:
+    horizontal: ['<', '>']
+    vertical: ['^', 'v', 'V']
+    bidirectional: ['<>', '><']
+
+  unicode:
+    single: ['←', '→', '↑', '↓', '↔', '↕']
+    double: ['⇐', '⇒', '⇑', '⇓', '⇔', '⇕']
+
+# Connector patterns
+connectors:
+  horizontal:
+    single: '-'
+    double: '='
+    repeated_min: 2  # Minimum repetitions for valid connector
+
+  vertical:
+    single: '|'
+    double: '║'
+
+  compound:
+    patterns:
+      - '--->'   # Horizontal arrow right
+      - '<---'   # Horizontal arrow left
+      - '<--->'  # Bidirectional arrow
+      - '====>'  # Double line arrow
+      - '...>'   # Dotted connector
+
+# Diagram style definitions
+styles:
+  box_and_arrow:
+    description: "Rectangular boxes connected by arrows/lines"
+    required_features:
+      - boxes: 2
+      - arrows: 1
+    confidence_boost: 0.25
+    patterns:
+      box: '[+┌┐└┘╔╗╚╝][\-─═]{2,}[+┌┐└┘╔╗╚╝]'
+      arrow: '<?[-=]{2,}>?'
+
+  hierarchical:
+    description: "Tree-like structure with parent-child relationships"
+    required_features:
+      - vertical_lines: 2
+      - branching: 1
+    confidence_boost: 0.20
+    patterns:
+      stem: '\|'
+      branch: '[├└]'
+      diagonal: '[/\\]'
+
+  network_topology:
+    description: "Interconnected nodes with multiple relationships"
+    required_features:
+      - boxes: 3
+      - connections: 3
+    confidence_boost: 0.25
+    patterns:
+      node: '[+┌][\-─]{2,}[+┐]'
+      connection: '[-=|]{2,}'
+
+# Quality thresholds
+quality:
+  min_components: 2       # Minimum boxes/nodes for architecture
+  min_connections: 1      # Minimum arrows/lines between components
+  min_lines: 3            # Minimum diagram height
+  min_width: 10           # Minimum diagram width (characters)
+
+  confidence:
+    minimum: 0.60         # Minimum confidence for valid diagram
+    high_quality: 0.80    # Threshold for high-quality diagram
+    perfect: 0.95         # Near-perfect diagram score
+
+  density:
+    min_box_chars: 0.10   # Minimum 10% box characters
+    max_text_ratio: 0.40  # Maximum 40% alphanumeric (prefer structure)
+
+  alignment:
+    max_variance: 0.20    # Maximum 20% line length variance for consistent alignment
+
+# Validation rules configuration
+rules:
+  SAD-DIAGRAM-001:
+    enabled: true
+    severity: ERROR
+    description: "Every SAD block-level tag must have ASCII diagram"
+    auto_fix: false
+
+  SAD-DIAGRAM-002:
+    enabled: true
+    severity: WARNING
+    description: "ASCII diagrams must use recognized box characters"
+    auto_fix: false
+    allowed_exceptions:
+      - '('   # Parentheses for labels
+      - ')'
+      - ':'
+      - ','
+      - '.'
+      - ';'
+
+  SAD-DIAGRAM-003:
+    enabled: true
+    severity: ERROR
+    description: "Diagrams must show component relationships"
+    min_components: 2
+    min_connections: 1
+    auto_fix: false
+
+  SAD-DIAGRAM-004:
+    enabled: true
+    severity: WARNING
+    description: "Minimum structural clarity requirements"
+    checks:
+      - min_lines: 3
+      - has_labels: true
+      - has_structure: true
+    auto_fix: false
+
+# Pattern matching configuration
+detection:
+  scan_window: 50         # Lines to scan ahead for diagram continuation
+  gap_tolerance: 1        # Blank lines allowed within diagram
+
+  heuristics:
+    box_char_weight: 0.30
+    arrow_weight: 0.20
+    alignment_weight: 0.25
+    style_coherence_weight: 0.25
+
+  exclusions:
+    # Patterns that look like diagrams but aren't
+    false_positives:
+      - '^\s*[-=]+\s*$'           # Horizontal rules
+      - '^\s*\*+\s*$'             # Asterisk decorations
+      - '^\s*#+\s*$'              # Hash decorations
+      - '^\s*[A-Za-z0-9\s]+\s*$' # Plain text lines
+
+# Template library
+templates:
+  basic_box:
+    content: |
+      +--------+
+      | Label  |
+      +--------+
+    description: "Single box component"
+
+  two_boxes_horizontal:
+    content: |
+      +--------+     +--------+
+      | Left   | --> | Right  |
+      +--------+     +--------+
+    description: "Two boxes with horizontal arrow"
+
+  three_tier_vertical:
+    content: |
+      +------------+
+      |    Top     |
+      +------------+
+            |
+            v
+      +------------+
+      |   Middle   |
+      +------------+
+            |
+            v
+      +------------+
+      |   Bottom   |
+      +------------+
+    description: "Three-tier vertical hierarchy"
+
+  hub_and_spoke:
+    content: |
+      +--------+     +--------+     +--------+
+      | Spoke1 | --> |  Hub   | <-- | Spoke2 |
+      +--------+     +--------+     +--------+
+                          |
+                          v
+                     +--------+
+                     | Spoke3 |
+                     +--------+
+    description: "Hub-and-spoke topology"
+
+  network_mesh:
+    content: |
+      ┌─────┐       ┌─────┐
+      │  A  │◄─────►│  B  │
+      └──┬──┘       └──┬──┘
+         │   ╲     ╱   │
+         │    ╲   ╱    │
+         │     ╲ ╱     │
+         ▼      X      ▼
+      ┌─────┐  ╱ ╲  ┌─────┐
+      │  C  │◄╱   ╲►│  D  │
+      └─────┘       └─────┘
+    description: "Full mesh network topology"
+
+# Error messages templates
+messages:
+  missing_diagram:
+    format: "Block-level SAD tag '{tag_id}' missing mandatory ASCII diagram"
+    suggestion: "Insert ASCII topology diagram illustrating architectural pattern"
+
+  unrecognized_chars:
+    format: "Diagram contains unrecognized box characters: {chars}"
+    suggestion: "Replace unrecognized characters with standard box drawing characters"
+
+  insufficient_components:
+    format: "Diagram has only {count} component(s). Minimum {min} required."
+    suggestion: "Add additional components to show system architecture"
+
+  missing_relationships:
+    format: "Diagram has only {count} connection(s). Must show component relationships."
+    suggestion: "Add arrows (-->, <--, etc.) or lines to show relationships"
+
+  insufficient_clarity:
+    format: "Diagram has only {lines} line(s). Minimum {min} recommended for clarity."
+    suggestion: "Expand diagram to at least {min} lines"
+
+  missing_labels:
+    format: "Diagram lacks text labels for components"
+    suggestion: "Add descriptive labels inside boxes (e.g., 'Core', 'UI', 'Runtime')"
+
+# Integration settings
+integration:
+  reconciliation:
+    auto_dirty_flag: true
+    pending_item_format:
+      target_tag: "{tag_id}"
+      source_trigger: "ascii_diagram_enforcer validation"
+      issue_type: "CONSTRAINT_VIOLATION"
+      description: "{violation_summary}"
+
+  ide:
+    real_time_validation: true
+    debounce_ms: 500
+    annotation_styles:
+      error:
+        color: "#FF0000"
+        icon: "error"
+        severity: "error"
+      warning:
+        color: "#FFA500"
+        icon: "warning"
+        severity: "warning"
+      info:
+        color: "#0000FF"
+        icon: "info"
+        severity: "info"
