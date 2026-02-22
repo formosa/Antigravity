@@ -6,7 +6,7 @@ Enriches ISP stub files with implementation guidance from TDD/ICD references.
 Meta
 ----
 Tool Definition : .agent/tools/isp_add_implementation_hints.md
-Knowledge Source: .agent/knowledge/sources/constraints/isp_numpy_docstrings.md
+Knowledge Source: .agent/knowledge/sources/constraints/isp-numpy-docstrings.md
 Architect       : Antigravity IDE
 
 Usage

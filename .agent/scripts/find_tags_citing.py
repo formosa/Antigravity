@@ -6,7 +6,7 @@ Finds all DDR tags that cite a given parent tag for downstream impact analysis.
 Meta
 ----
 Tool Definition : .agent/tools/tag_find_citing.md
-Knowledge Source: .agent/knowledge/sources/protocols/impact_analysis.md
+Knowledge Source: .agent/knowledge/sources/protocols/impact-analysis.md
 Architect       : Antigravity IDE
 
 Usage

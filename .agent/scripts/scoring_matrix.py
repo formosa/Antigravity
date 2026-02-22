@@ -6,7 +6,7 @@ Resolves ambiguous tier classification using multi-factor weighted scoring.
 Meta
 ----
 Tool Definition : .agent/tools/ddr_scoring_matrix.md
-Knowledge Source: .agent/knowledge/sources/protocols/classification_scoring.md
+Knowledge Source: .agent/knowledge/sources/protocols/classification-scoring.md
 Architect       : Antigravity IDE
 
 Usage
@@ -37,7 +37,7 @@ class ScoringResult:
     factors_matched: list[str] = None
 
 
-# Scoring matrix from classification_scoring.md §Step 1 — VERIFIED
+# Scoring matrix from classification-scoring.md §Step 1 — VERIFIED
 # Factor weights per tier (0-3 scale)
 SCORING_MATRIX: dict[str, dict[str, int]] = {
     "numeric_metrics": {

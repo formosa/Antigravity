@@ -6552,7 +6552,7 @@ The DDR_Orchestrator is the master agent for the DDR documentation system. This 
 
 ##### 27.3.1.1 Persona Definition
 
-**File:** `.agent/personas/ddr_orchestrator.mdc`
+**File:** `.agent/personas/ddr-orchestrator.mdc`
 
 ~~~mdc
 ---
@@ -6568,7 +6568,7 @@ tools:
   - scoring_matrix
   - route_to_specialist
 context_globs:
-  - ".agent/rules/ddr_*.md"
+  - ".agent/rules/ddr-*.md"
   - ".agent/assets/ddr_hierarchy/*.md"
   - "docs/llm_export/context_flat.md"
 ---
@@ -6595,7 +6595,7 @@ speak in terms of tags, tiers, and traceability chains.
 
 ##### 27.3.1.2 Associated Rule Definitions
 
-**File:** `.agent/rules/ddr_tier_classification.md`
+**File:** `.agent/rules/ddr-tier-classification.md`
 
 ~~~markdown
 ---
@@ -6622,7 +6622,7 @@ Before any documentation task, invoke classification workflow:
 
 ~~~
 
-**File:** `.agent/rules/ddr_traceability_mandate.md`
+**File:** `.agent/rules/ddr-traceability-mandate.md`
 
 ~~~markdown
 ---
@@ -6649,7 +6649,7 @@ Before confirming any new tag creation:
 
 ~~~
 
-**File:** `.agent/rules/ddr_id_immutability.md`
+**File:** `.agent/rules/ddr-id-immutability.md`
 
 ~~~markdown
 ---
@@ -6675,7 +6675,7 @@ description: "Tag IDs are immutable database keys. Never allow renumbering or re
 
 ~~~
 
-**File:** `.agent/rules/ddr_manifest_integrity.md`
+**File:** `.agent/rules/ddr-manifest-integrity.md`
 
 ~~~markdown
 ---
@@ -6821,7 +6821,7 @@ Delegates documentation tasks to the appropriate tier-specific agent.
 
 ##### 27.3.1.4 Associated Workflow Definitions
 
-**File:** `.agent/workflows/ddr_new_feature_documentation.md`
+**File:** `.agent/workflows/ddr-new-feature-documentation.md`
 
 ~~~markdown
 ---
@@ -6865,7 +6865,7 @@ End-to-end workflow for documenting a new feature across all DDR tiers.
 
 ~~~
 
-**File:** `.agent/workflows/ddr_orphan_resolution.md`
+**File:** `.agent/workflows/ddr-orphan-resolution.md`
 
 ~~~markdown
 ---
@@ -7046,7 +7046,7 @@ The BRD_Strategist is a specialized agent for authoring Business Requirements Do
 
 ##### 27.3.2.1 Persona Definition
 
-**File:** `.agent/personas/brd_strategist.mdc`
+**File:** `.agent/personas/brd-strategist.mdc`
 
 ~~~mdc
 ---
@@ -7062,7 +7062,7 @@ tools:
   - derive_success_metrics
 context_globs:
   - "docs/01_brd/*.rst"
-  - ".agent/rules/brd_*.md"
+  - ".agent/rules/brd-*.md"
 ---
 # PERSONA: BRD Strategist (Business Requirements)
 
@@ -7095,7 +7095,7 @@ technical jargon (APIs, sockets, threads). Frame everything as business value.
 
 ##### 27.3.2.2 Associated Rule Definitions
 
-**File:** `.agent/rules/brd_technology_agnostic.md`
+**File:** `.agent/rules/brd-technology-agnostic.md`
 
 ~~~markdown
 ---
@@ -7123,7 +7123,7 @@ Scan all BRD content for forbidden terms. Any detection requires immediate abstr
 
 ~~~
 
-**File:** `.agent/rules/brd_measurable_metrics.md`
+**File:** `.agent/rules/brd-measurable-metrics.md`
 
 ~~~markdown
 ---
@@ -7154,7 +7154,7 @@ Success metrics must include numeric targets with units:
 
 ~~~
 
-**File:** `.agent/rules/brd_stakeholder_focus.md`
+**File:** `.agent/rules/brd-stakeholder-focus.md`
 
 ~~~markdown
 ---
@@ -7259,7 +7259,7 @@ Generates quantifiable KPIs from high-level business objectives.
 
 ##### 27.3.2.4 Associated Workflow Definitions
 
-**File:** `.agent/workflows/brd_create_tag.md`
+**File:** `.agent/workflows/brd-create-tag.md`
 
 ~~~markdown
 ---
@@ -7388,7 +7388,7 @@ The Traceability_Auditor is a cross-tier validation agent ensuring complete trac
 
 ##### 27.3.3.1 Persona Definition
 
-**File:** `.agent/personas/traceability_auditor.mdc`
+**File:** `.agent/personas/traceability-auditor.mdc`
 
 ~~~mdc
 ---
@@ -7405,7 +7405,7 @@ tools:
   - visualize_traceability
 context_globs:
   - "docs/**/*.rst"
-  - ".agent/rules/trace_*.md"
+  - ".agent/rules/trace-*.md"
   - "docs/_build/json/needs.json"
 ---
 # PERSONA: Traceability Auditor (Cross-Tier Validator)
@@ -7430,7 +7430,7 @@ and exact error descriptions. Provide actionable fix suggestions.
 
 ##### 27.3.3.2 Associated Rule Definitions
 
-**File:** `.agent/rules/trace_complete_chain.md`
+**File:** `.agent/rules/trace-complete-chain.md`
 
 ~~~markdown
 ---
@@ -7480,7 +7480,7 @@ def validate_complete_chain(tag_id, documentation):
 
 ~~~
 
-**File:** `.agent/rules/trace_no_forward_references.md`
+**File:** `.agent/rules/trace-no-forward-references.md`
 
 ~~~markdown
 ---
@@ -7506,7 +7506,7 @@ For every citation in the documentation:
 
 ~~~
 
-**File:** `.agent/rules/trace_no_sibling_citations.md`
+**File:** `.agent/rules/trace-no-sibling-citations.md`
 
 ~~~markdown
 ---
@@ -7673,7 +7673,7 @@ graph TD
 
 ##### 27.3.3.4 Associated Workflow Definitions
 
-**File:** `.agent/workflows/trace_comprehensive_audit.md`
+**File:** `.agent/workflows/trace-comprehensive-audit.md`
 
 ~~~markdown
 ---
@@ -7732,7 +7732,7 @@ Next Steps:
 
 ~~~
 
-**File:** `.agent/workflows/trace_tag_to_root.md`
+**File:** `.agent/workflows/trace-tag-to-root.md`
 
 ~~~markdown
 ---
@@ -7908,7 +7908,7 @@ The ISP_CodeGenerator is a specialized agent for generating Python implementatio
 
 ##### 27.3.4.1 Persona Definition
 
-**File:** `.agent/personas/isp_codegenerator.mdc`
+**File:** `.agent/personas/isp-codegenerator.mdc`
 
 ~~~mdc
 ---
@@ -7926,7 +7926,7 @@ tools:
 context_globs:
   - "docs/**/*.rst"
   - "src/**/*.py"
-  - ".agent/rules/isp_*.md"
+  - ".agent/rules/isp-*.md"
 ---
 # PERSONA: ISP Code Generator (Implementation Stub Agent)
 
@@ -7959,7 +7959,7 @@ hints, and error handling guidance—but never complete implementations.
 
 ##### 27.3.4.2 Associated Rule Definitions
 
-**File:** `.agent/rules/isp_stub_only.md`
+**File:** `.agent/rules/isp-stub-only.md`
 
 ~~~markdown
 ---
@@ -8014,7 +8014,7 @@ def validate_stub(code):
 
 ~~~
 
-**File:** `.agent/rules/isp_traceability_required.md`
+**File:** `.agent/rules/isp-traceability-required.md`
 
 ~~~markdown
 ---
@@ -8051,7 +8051,7 @@ Any entity missing these markers fails validation.
 
 ~~~
 
-**File:** `.agent/rules/isp_numpy_docstring.md`
+**File:** `.agent/rules/isp-numpy-docstring.md`
 
 ~~~markdown
 ---
@@ -8266,7 +8266,7 @@ Analyzes TDD, ICD, and SAD tags to generate implementation guidance:
 
 ##### 27.3.4.4 Associated Workflow Definitions
 
-**File:** `.agent/workflows/isp_create_from_tdd.md`
+**File:** `.agent/workflows/isp-create-from-tdd.md`
 
 ~~~markdown
 ---
@@ -8885,7 +8885,7 @@ Scans documentation for common mistakes:
 
 #### 27.5.1 Complete Feature Documentation Workflow
 
-**File:** `.agent/workflows/feature_documentation.md`
+**File:** `.agent/workflows/feature-documentation.md`
 
 ~~~markdown
 ---

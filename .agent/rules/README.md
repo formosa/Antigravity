@@ -30,8 +30,8 @@
 
 | File                                                 | Purpose                           |
 | :--------------------------------------------------- | :-------------------------------- |
-| [sys_protected_files.md](sys_protected_files.md)     | `.agent/assets/` write protection |
-| [sys_antigravity_types.md](sys_antigravity_types.md) | Schema compliance enforcement     |
+| [sys-protected-files.md](sys-protected-files.md)     | `.agent/assets/` write protection |
+| [sys-antigravity-types.md](sys-antigravity-types.md) | Schema compliance enforcement     |
 
 ---
 
@@ -39,7 +39,7 @@
 
 | File                                           | Purpose                              |
 | :--------------------------------------------- | :----------------------------------- |
-| [execution_protocol.md](execution_protocol.md) | Shell & Python execution constraints |
+| [execution-protocol.md](execution-protocol.md) | Shell & Python execution constraints |
 
 ---
 
@@ -47,9 +47,9 @@
 
 | File                                                     | Activation     | Priority   | Purpose                      |
 | :------------------------------------------------------- | :------------- | :--------- | :--------------------------- |
-| [ddr_id_immutability.md](ddr_id_immutability.md)         | Always On      | 100        | Tag ID immutability          |
-| [ddr_tier_classification.md](ddr_tier_classification.md) | Model Decision | 50         | Classification decision tree |
-| [ddr_manifest_integrity.md](ddr_manifest_integrity.md)   | Model Decision | 50         | Reconciliation manifest sync |
+| [ddr-id-immutability.md](ddr-id-immutability.md)         | Always On      | 100        | Tag ID immutability          |
+| [ddr-tier-classification.md](ddr-tier-classification.md) | Model Decision | 50         | Classification decision tree |
+| [ddr-manifest-integrity.md](ddr-manifest-integrity.md)   | Model Decision | 50         | Reconciliation manifest sync |
 
 ---
 
@@ -57,10 +57,10 @@
 
 | File                                                             | Priority   | Purpose                    |
 | :--------------------------------------------------------------- | :--------- | :------------------------- |
-| [trace_complete_chain.md](trace_complete_chain.md)               | 90         | Complete chain to BRD root |
-| [trace_no_forward_references.md](trace_no_forward_references.md) | 85         | No downward citations      |
-| [trace_no_sibling_citations.md](trace_no_sibling_citations.md)   | 85         | No peer citations          |
-| [ddr_traceability_mandate.md](ddr_traceability_mandate.md)       | 85         | Parent citation required   |
+| [trace-complete-chain.md](trace-complete-chain.md)               | 90         | Complete chain to BRD root |
+| [trace-no-forward-references.md](trace-no-forward-references.md) | 85         | No downward citations      |
+| [trace-no-sibling-citations.md](trace-no-sibling-citations.md)   | 85         | No peer citations          |
+| [ddr-traceability-mandate.md](ddr-traceability-mandate.md)       | 85         | Parent citation required   |
 
 ---
 
@@ -68,9 +68,9 @@
 
 | File                                                     | Severity   | Priority   | Purpose                       |
 | :------------------------------------------------------- | :--------- | :--------- | :---------------------------- |
-| [brd_technology_agnostic.md](brd_technology_agnostic.md) | Mandatory  | 80         | No tech terms in BRD          |
-| [brd_measurable_metrics.md](brd_measurable_metrics.md)   | Mandatory  | 80         | Quantifiable success criteria |
-| [brd_stakeholder_focus.md](brd_stakeholder_focus.md)     | Guideline  | 70         | Stakeholder identification    |
+| [brd-technology-agnostic.md](brd-technology-agnostic.md) | Mandatory  | 80         | No tech terms in BRD          |
+| [brd-measurable-metrics.md](brd-measurable-metrics.md)   | Mandatory  | 80         | Quantifiable success criteria |
+| [brd-stakeholder-focus.md](brd-stakeholder-focus.md)     | Guideline  | 70         | Stakeholder identification    |
 
 ---
 
@@ -78,7 +78,7 @@
 
 | File                                             | Purpose                       |
 | :----------------------------------------------- | :---------------------------- |
-| [nfr_numeric_targets.md](nfr_numeric_targets.md) | Numeric targets with RFC 2119 |
+| [nfr-numeric-targets.md](nfr-numeric-targets.md) | Numeric targets with RFC 2119 |
 
 ---
 
@@ -86,9 +86,9 @@
 
 | File                                                         | Purpose                              |
 | :----------------------------------------------------------- | :----------------------------------- |
-| [fsd_behavioral_specs.md](fsd_behavioral_specs.md)           | User-perspective behavioral specs    |
-| [sad_architecture_topology.md](sad_architecture_topology.md) | Architecture pattern + ASCII diagram |
-| [icd_interface_contracts.md](icd_interface_contracts.md)     | Language-agnostic data shapes        |
+| [fsd-behavioral-specs.md](fsd-behavioral-specs.md)           | User-perspective behavioral specs    |
+| [sad-architecture-topology.md](sad-architecture-topology.md) | Architecture pattern + ASCII diagram |
+| [icd-interface-contracts.md](icd-interface-contracts.md)     | Language-agnostic data shapes        |
 
 ---
 
@@ -96,9 +96,9 @@
 
 | File                                                         | Purpose                                |
 | :----------------------------------------------------------- | :------------------------------------- |
-| [tdd_structural_blueprints.md](tdd_structural_blueprints.md) | Structure without implementation logic |
-| [isp_stub_only.md](isp_stub_only.md)                         | Pass-only method bodies                |
-| [isp_numpy_docstring.md](isp_numpy_docstring.md)             | Numpy-style docstring format           |
-| [isp_traceability_required.md](isp_traceability_required.md) | Implements/Requirements citations      |
+| [tdd-structural-blueprints.md](tdd-structural-blueprints.md) | Structure without implementation logic |
+| [isp-stub-only.md](isp-stub-only.md)                         | Pass-only method bodies                |
+| [isp-numpy-docstring.md](isp-numpy-docstring.md)             | Numpy-style docstring format           |
+| [isp-traceability-required.md](isp-traceability-required.md) | Implements/Requirements citations      |
 
 ---

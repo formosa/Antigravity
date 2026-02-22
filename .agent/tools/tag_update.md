@@ -26,8 +26,8 @@ identifying downstream dependents that may require reconciliation.
 
 ## Knowledge Source
 
-- **Dirty Flag**: `.agent/knowledge/sources/protocols/reconciliation_dirty_flag.md`
-- **ID Immutability**: `.agent/knowledge/sources/constraints/tag_immutability.md`
+- **Dirty Flag**: `.agent/knowledge/sources/protocols/reconciliation-dirty-flag.md`
+- **ID Immutability**: `.agent/knowledge/sources/constraints/tag-immutability.md`
 
 ## Configuration
 

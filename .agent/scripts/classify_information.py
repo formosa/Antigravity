@@ -7,8 +7,8 @@ decision tree algorithm from the classification protocol.
 Meta
 ----
 Tool Definition : .agent/tools/ddr_classify_information.md
-Knowledge Source: .agent/knowledge/sources/protocols/classification_decision_tree.md
-                  .agent/knowledge/sources/protocols/classification_scoring.md
+Knowledge Source: .agent/knowledge/sources/protocols/classification-decision-tree.md
+                  .agent/knowledge/sources/protocols/classification-scoring.md
 Architect       : Antigravity IDE
 
 Usage

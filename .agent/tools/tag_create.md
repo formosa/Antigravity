@@ -25,9 +25,9 @@ Generates a new DDR tag with a **Sequential Integer ID** (e.g., `FSD-12`), prope
 
 ## Knowledge Sources
 
-- **Tag Syntax**: `.agent/knowledge/sources/patterns/tag_syntax.md`
-- **ID Immutability**: `.agent/knowledge/sources/constraints/tag_immutability.md`
-- **Citation Required**: `.agent/knowledge/sources/constraints/tag_citation_required.md`
+- **Tag Syntax**: `.agent/knowledge/sources/patterns/tag-syntax.md`
+- **ID Immutability**: `.agent/knowledge/sources/constraints/tag-immutability.md`
+- **Citation Required**: `.agent/knowledge/sources/constraints/tag-citation-required.md`
 
 ## Configuration
 

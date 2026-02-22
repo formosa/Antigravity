@@ -23,8 +23,8 @@ Detects missing fields, invalid status values, and count/inventory mismatches.
 
 ## Knowledge Sources
 
-- **Manifest Structure**: `.agent/knowledge/sources/patterns/manifest_structure.md`
-- **Dirty Flag Protocol**: `.agent/knowledge/sources/protocols/reconciliation_dirty_flag.md`
+- **Manifest Structure**: `.agent/knowledge/sources/patterns/manifest-structure.md`
+- **Dirty Flag Protocol**: `.agent/knowledge/sources/protocols/reconciliation-dirty-flag.md`
 
 ## Configuration
 

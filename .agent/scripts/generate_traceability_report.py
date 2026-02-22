@@ -6,7 +6,7 @@ Analyzes DDR citation chains and generates violation reports.
 Meta
 ----
 Tool Definition : .agent/tools/trace_generate_report.md
-Knowledge Source: .agent/knowledge/sources/protocols/traceability_chain.md
+Knowledge Source: .agent/knowledge/sources/protocols/traceability-chain.md
 Architect       : Antigravity IDE
 
 Usage
@@ -25,7 +25,7 @@ from pathlib import Path
 
 TIER_ORDER = ["BRD", "NFR", "FSD", "SAD", "ICD", "TDD", "ISP"]
 
-# Strict Parent-Child Hierarchy (Protocol: traceability_chain.md)
+# Strict Parent-Child Hierarchy (Protocol: traceability-chain.md)
 VALID_PARENTS = {
     "NFR": ["BRD"],
     "FSD": ["BRD", "NFR"],
@@ -94,7 +94,7 @@ def analyze(needs: dict, severity: str = "ALL") -> dict:
             if ptier not in allowed_parents:
                 # Determine specific violation type for clarity
                 if ptier == tier:
-                     # Sibling Prohibition (Protocol: sibling_prohibition.md)
+                     # Sibling Prohibition (Protocol: sibling-prohibition.md)
                      # Treat as ERROR per strict enforcement
                      nviol.append({"id": nid, "title": ntitle, "type": "SIBLING_CITATION", "severity": "ERROR",
                                   "message": f"Cites sibling '{pid}'", "cited": f"{pid} ({ptitle})"})

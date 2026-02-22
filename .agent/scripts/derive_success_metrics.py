@@ -6,7 +6,7 @@ Generates quantifiable success metrics from business objectives.
 Meta
 ----
 Tool Definition : .agent/tools/brd_derive_success_metrics.md
-Knowledge Source: .agent/knowledge/sources/constraints/brd_measurable_metrics.md
+Knowledge Source: .agent/knowledge/sources/constraints/brd-measurable-metrics.md
 Architect       : Antigravity IDE
 
 Usage
@@ -22,7 +22,7 @@ import argparse
 import json
 import sys
 
-# Metric categories (brd_measurable_metrics.md)
+# Metric categories (brd-measurable-metrics.md)
 PATTERNS: dict[str, dict] = {
     "performance": {
         "keywords": ["fast", "quick", "responsive", "efficient", "speed", "latency", "throughput"],

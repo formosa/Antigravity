@@ -23,7 +23,7 @@ Identifies dependent tags that need migration and provides update instructions.
 
 ## Knowledge Source
 
-- **ID Immutability**: `.agent/knowledge/sources/constraints/tag_immutability.md`
+- **ID Immutability**: `.agent/knowledge/sources/constraints/tag-immutability.md`
 
 ## Configuration
 
