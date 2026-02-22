@@ -6,9 +6,9 @@ Scans DDR tags for structural and content violations.
 Meta
 ----
 Tool Definition : .agent/tools/detect_anti_patterns.md
-Knowledge Source: .agent/knowledge/sources/constraints/sibling_prohibition.md
-                  .agent/knowledge/sources/constraints/tag_immutability.md
-                  .agent/knowledge/sources/protocols/traceability_chain.md
+Knowledge Source: .agent/knowledge/sources/constraints/sibling-prohibition.md
+                  .agent/knowledge/sources/constraints/tag-immutability.md
+                  .agent/knowledge/sources/protocols/traceability-chain.md
 Architect       : Antigravity IDE
 
 Usage

@@ -6,7 +6,7 @@ Generates Mermaid flowchart diagrams from DDR dependency graph.
 Meta
 ----
 Tool Definition : .agent/tools/trace_visualize.md
-Knowledge Source: .agent/knowledge/sources/concepts/tier_hierarchy.md
+Knowledge Source: .agent/knowledge/sources/concepts/tier-hierarchy.md
 Architect       : Antigravity IDE
 
 Usage

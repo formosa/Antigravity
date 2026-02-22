@@ -6,7 +6,7 @@ Updates an existing DDR tag and marks affected children for reconciliation.
 Meta
 ----
 Tool Definition : .agent/tools/tag_update.md
-Knowledge Source: .agent/knowledge/sources/protocols/reconciliation_dirty_flag.md
+Knowledge Source: .agent/knowledge/sources/protocols/reconciliation-dirty-flag.md
 Architect       : Antigravity IDE
 
 Usage
@@ -234,7 +234,7 @@ def update_tag(
     if diff["requires_reconciliation"]:
         result["reconciliation_required"] = True
         result["reconciliation_instructions"] = [
-            "4. Set integrity_status to DIRTY per reconciliation_dirty_flag.md",
+            "4. Set integrity_status to DIRTY per reconciliation-dirty-flag.md",
             "5. Review affected children for semantic consistency:",
             *[f"   - {d['id']} ({d['tier']}): {d['title']}" for d in dependents[:5]],
             *([f"   - ...and {len(dependents) - 5} more"] if len(dependents) > 5 else [])

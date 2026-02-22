@@ -58,7 +58,7 @@ tasks to the appropriate specialist agent.
 {
   "tier": "FSD",
   "handle": "@fsd_analyst",
-  "persona_path": ".agent/personas/fsd_analyst.mdc",
+  "persona_path": ".agent/personas/fsd-analyst.mdc",
   "description": "Feature Specification Analyst"
 }
 ```

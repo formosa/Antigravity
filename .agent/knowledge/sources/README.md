@@ -15,52 +15,52 @@
 | Topic                          | Type       | Path                                        |
 | :----------------------------- | :--------- | :------------------------------------------ |
 | Glossary                       | vocabulary | `vocabulary/glossary.md`                    |
-| DDR Overview                   | concept    | `concepts/ddr_overview.md`                  |
-| Tier Hierarchy                 | concept    | `concepts/tier_hierarchy.md`                |
-| Information Flow               | concept    | `concepts/information_flow.md`              |
-| Tier: BRD                      | concept    | `concepts/tier_brd.md`                      |
-| Tier: NFR                      | concept    | `concepts/tier_nfr.md`                      |
-| Tier: FSD                      | concept    | `concepts/tier_fsd.md`                      |
-| Tier: SAD                      | concept    | `concepts/tier_sad.md`                      |
-| Tier: ICD                      | concept    | `concepts/tier_icd.md`                      |
-| Tier: TDD                      | concept    | `concepts/tier_tdd.md`                      |
-| Tier: ISP                      | concept    | `concepts/tier_isp.md`                      |
-| Classification Decision Tree   | protocol   | `protocols/classification_decision_tree.md` |
-| Classification Scoring         | protocol   | `protocols/classification_scoring.md`       |
-| Abstraction Upward             | protocol   | `protocols/abstraction_upward.md`           |
-| Abstraction Downward           | protocol   | `protocols/abstraction_downward.md`         |
-| Abstraction Lateral            | protocol   | `protocols/abstraction_lateral.md`          |
-| Traceability Chain             | protocol   | `protocols/traceability_chain.md`           |
-| Impact Analysis                | protocol   | `protocols/impact_analysis.md`              |
-| Reconciliation Dirty Flag      | protocol   | `protocols/reconciliation_dirty_flag.md`    |
-| Reconciliation Inventory       | protocol   | `protocols/reconciliation_inventory.md`     |
-| Tag Immutability               | constraint | `constraints/tag_immutability.md`           |
-| Tag Citation Required          | constraint | `constraints/tag_citation_required.md`      |
-| Sibling Prohibition            | constraint | `constraints/sibling_prohibition.md`        |
-| BRD Technology Agnostic        | constraint | `constraints/brd_technology_agnostic.md`    |
-| BRD Measurable Metrics         | constraint | `constraints/brd_measurable_metrics.md`     |
-| NFR Numeric Constraints        | constraint | `constraints/nfr_numeric_constraints.md`    |
-| FSD No Implementation          | constraint | `constraints/fsd_no_implementation.md`      |
-| ISP Stub Only                  | constraint | `constraints/isp_stub_only.md`              |
-| ISP Numpy Docstrings           | constraint | `constraints/isp_numpy_docstrings.md`       |
-| Tag Syntax                     | pattern    | `patterns/tag_syntax.md`                    |
-| Manifest Structure             | pattern    | `patterns/manifest_structure.md`            |
-| Knowledge Source Template      | pattern    | `patterns/knowledge_source_template.md`     |
-| Worked Example: Classification | pattern    | `patterns/worked_example_classification.md` |
-| Worked Example: Feature        | pattern    | `patterns/worked_example_feature.md`        |
-| Persona Content Strategy       | pattern    | `patterns/persona_content_strategy.md`      |
-| Metadata Schema                | pattern    | `patterns/metadata_schema.md`               |
-| Source Citation Style          | pattern    | `patterns/source_citation_style.md`         |
-| Agent Registry                 | concept    | `concepts/agent_registry.md`                |
-| Evaluation Framework           | pattern    | `patterns/evaluation_framework.md`          |
-| Contextual Chunking            | pattern    | `patterns/llm_contextual_chunking.md`       |
-| Validation Prompts             | pattern    | `patterns/llm_validation_prompts.md`        |
-| Template: New Feature          | pattern    | `patterns/template_new_feature.md`          |
-| Template: Bug Fix              | pattern    | `patterns/template_bug_fix.md`              |
-| Workflow: Document Feature     | protocol   | `protocols/workflow_document_feature.md`    |
-| Workflow: Orphan Resolution    | protocol   | `protocols/workflow_orphan_resolution.md`   |
-| Trace Complete Chain           | protocol   | `protocols/trace_complete_chain.md`         |
-| Tag Deprecation Lifecycle      | constraint | `constraints/tag_deprecation_lifecycle.md`  |
+| DDR Overview                   | concept    | `concepts/ddr-overview.md`                  |
+| Tier Hierarchy                 | concept    | `concepts/tier-hierarchy.md`                |
+| Information Flow               | concept    | `concepts/information-flow.md`              |
+| Tier: BRD                      | concept    | `concepts/tier-brd.md`                      |
+| Tier: NFR                      | concept    | `concepts/tier-nfr.md`                      |
+| Tier: FSD                      | concept    | `concepts/tier-fsd.md`                      |
+| Tier: SAD                      | concept    | `concepts/tier-sad.md`                      |
+| Tier: ICD                      | concept    | `concepts/tier-icd.md`                      |
+| Tier: TDD                      | concept    | `concepts/tier-tdd.md`                      |
+| Tier: ISP                      | concept    | `concepts/tier-isp.md`                      |
+| Classification Decision Tree   | protocol   | `protocols/classification-decision-tree.md` |
+| Classification Scoring         | protocol   | `protocols/classification-scoring.md`       |
+| Abstraction Upward             | protocol   | `protocols/abstraction-upward.md`           |
+| Abstraction Downward           | protocol   | `protocols/abstraction-downward.md`         |
+| Abstraction Lateral            | protocol   | `protocols/abstraction-lateral.md`          |
+| Traceability Chain             | protocol   | `protocols/traceability-chain.md`           |
+| Impact Analysis                | protocol   | `protocols/impact-analysis.md`              |
+| Reconciliation Dirty Flag      | protocol   | `protocols/reconciliation-dirty-flag.md`    |
+| Reconciliation Inventory       | protocol   | `protocols/reconciliation-inventory.md`     |
+| Tag Immutability               | constraint | `constraints/tag-immutability.md`           |
+| Tag Citation Required          | constraint | `constraints/tag-citation-required.md`      |
+| Sibling Prohibition            | constraint | `constraints/sibling-prohibition.md`        |
+| BRD Technology Agnostic        | constraint | `constraints/brd-technology-agnostic.md`    |
+| BRD Measurable Metrics         | constraint | `constraints/brd-measurable-metrics.md`     |
+| NFR Numeric Constraints        | constraint | `constraints/nfr-numeric-constraints.md`    |
+| FSD No Implementation          | constraint | `constraints/fsd-no-implementation.md`      |
+| ISP Stub Only                  | constraint | `constraints/isp-stub-only.md`              |
+| ISP Numpy Docstrings           | constraint | `constraints/isp-numpy-docstrings.md`       |
+| Tag Syntax                     | pattern    | `patterns/tag-syntax.md`                    |
+| Manifest Structure             | pattern    | `patterns/manifest-structure.md`            |
+| Knowledge Source Template      | pattern    | `patterns/knowledge-source-template.md`     |
+| Worked Example: Classification | pattern    | `patterns/worked-example-classification.md` |
+| Worked Example: Feature        | pattern    | `patterns/worked-example-feature.md`        |
+| Persona Content Strategy       | pattern    | `patterns/persona-content-strategy.md`      |
+| Metadata Schema                | pattern    | `patterns/metadata-schema.md`               |
+| Source Citation Style          | pattern    | `patterns/source-citation-style.md`         |
+| Agent Registry                 | concept    | `concepts/agent-registry.md`                |
+| Evaluation Framework           | pattern    | `patterns/evaluation-framework.md`          |
+| Contextual Chunking            | pattern    | `patterns/llm-contextual-chunking.md`       |
+| Validation Prompts             | pattern    | `patterns/llm-validation-prompts.md`        |
+| Template: New Feature          | pattern    | `patterns/template-new-feature.md`          |
+| Template: Bug Fix              | pattern    | `patterns/template-bug-fix.md`              |
+| Workflow: Document Feature     | protocol   | `protocols/workflow-document-feature.md`    |
+| Workflow: Orphan Resolution    | protocol   | `protocols/workflow-orphan-resolution.md`   |
+| Trace Complete Chain           | protocol   | `protocols/trace-complete-chain.md`         |
+| Tag Deprecation Lifecycle      | constraint | `constraints/tag-deprecation-lifecycle.md`  |
 
 ---
 
@@ -68,62 +68,62 @@
 
 ### Concepts (11) ✅
 
-- [DDR Overview](concepts/ddr_overview.md) — Purpose and principles
-- [Tier Hierarchy](concepts/tier_hierarchy.md) — Seven-tier structure
-- [Information Flow](concepts/information_flow.md) — Cascade and citation
-- [Tier: BRD](concepts/tier_brd.md) — Business Requirements
-- [Tier: NFR](concepts/tier_nfr.md) — Non-Functional Requirements
-- [Tier: FSD](concepts/tier_fsd.md) — Feature Specifications
-- [Tier: SAD](concepts/tier_sad.md) — System Architecture
-- [Tier: ICD](concepts/tier_icd.md) — Interface Contracts
-- [Tier: TDD](concepts/tier_tdd.md) — Technical Design
-- [Tier: ISP](concepts/tier_isp.md) — Implementation Stubs
-- [Agent Registry](concepts/agent_registry.md) — DDR agent handles and roles
+- [DDR Overview](concepts/ddr-overview.md) — Purpose and principles
+- [Tier Hierarchy](concepts/tier-hierarchy.md) — Seven-tier structure
+- [Information Flow](concepts/information-flow.md) — Cascade and citation
+- [Tier: BRD](concepts/tier-brd.md) — Business Requirements
+- [Tier: NFR](concepts/tier-nfr.md) — Non-Functional Requirements
+- [Tier: FSD](concepts/tier-fsd.md) — Feature Specifications
+- [Tier: SAD](concepts/tier-sad.md) — System Architecture
+- [Tier: ICD](concepts/tier-icd.md) — Interface Contracts
+- [Tier: TDD](concepts/tier-tdd.md) — Technical Design
+- [Tier: ISP](concepts/tier-isp.md) — Implementation Stubs
+- [Agent Registry](concepts/agent-registry.md) — DDR agent handles and roles
 
 ### Protocols (12) ✅
 
-- [Classification Decision Tree](protocols/classification_decision_tree.md) — Primary tier assignment
-- [Classification Scoring](protocols/classification_scoring.md) — Ambiguity resolution
-- [Abstraction Upward](protocols/abstraction_upward.md) — Parent synthesis
-- [Abstraction Downward](protocols/abstraction_downward.md) — Child decomposition
-- [Abstraction Lateral](protocols/abstraction_lateral.md) — Sibling generation
-- [Traceability Chain](protocols/traceability_chain.md) — Chain validation
-- [Impact Analysis](protocols/impact_analysis.md) — Downstream effects
-- [Reconciliation Dirty Flag](protocols/reconciliation_dirty_flag.md) — Integrity status
-- [Reconciliation Inventory](protocols/reconciliation_inventory.md) — Tag count sync
-- [Workflow: Document Feature](protocols/workflow_document_feature.md) — End-to-end feature documentation
-- [Workflow: Orphan Resolution](protocols/workflow_orphan_resolution.md) — Orphan tag resolution
-- [Trace Complete Chain](protocols/trace_complete_chain.md) — ISP-to-BRD chain rule
-- [Implementation Guardrails](protocols/implementation_guardrails.md) — Anti-hallucination execution protocol
+- [Classification Decision Tree](protocols/classification-decision-tree.md) — Primary tier assignment
+- [Classification Scoring](protocols/classification-scoring.md) — Ambiguity resolution
+- [Abstraction Upward](protocols/abstraction-upward.md) — Parent synthesis
+- [Abstraction Downward](protocols/abstraction-downward.md) — Child decomposition
+- [Abstraction Lateral](protocols/abstraction-lateral.md) — Sibling generation
+- [Traceability Chain](protocols/traceability-chain.md) — Chain validation
+- [Impact Analysis](protocols/impact-analysis.md) — Downstream effects
+- [Reconciliation Dirty Flag](protocols/reconciliation-dirty-flag.md) — Integrity status
+- [Reconciliation Inventory](protocols/reconciliation-inventory.md) — Tag count sync
+- [Workflow: Document Feature](protocols/workflow-document-feature.md) — End-to-end feature documentation
+- [Workflow: Orphan Resolution](protocols/workflow-orphan-resolution.md) — Orphan tag resolution
+- [Trace Complete Chain](protocols/trace-complete-chain.md) — ISP-to-BRD chain rule
+- [Implementation Guardrails](protocols/implementation-guardrails.md) — Anti-hallucination execution protocol
 
 ### Constraints (10) ✅
 
-- [Tag Immutability](constraints/tag_immutability.md) — IDs never change
-- [Tag Citation Required](constraints/tag_citation_required.md) — Parent links mandatory
-- [Sibling Prohibition](constraints/sibling_prohibition.md) — No peer citations
-- [BRD Technology Agnostic](constraints/brd_technology_agnostic.md) — No tech terms
-- [BRD Measurable Metrics](constraints/brd_measurable_metrics.md) — Quantifiable criteria
-- [NFR Numeric Constraints](constraints/nfr_numeric_constraints.md) — Specific values
-- [FSD No Implementation](constraints/fsd_no_implementation.md) — No code
-- [ISP Stub Only](constraints/isp_stub_only.md) — Pass statements only
-- [ISP Numpy Docstrings](constraints/isp_numpy_docstrings.md) — Required format
-- [Tag Deprecation Lifecycle](constraints/tag_deprecation_lifecycle.md) — Deprecation rules
+- [Tag Immutability](constraints/tag-immutability.md) — IDs never change
+- [Tag Citation Required](constraints/tag-citation-required.md) — Parent links mandatory
+- [Sibling Prohibition](constraints/sibling-prohibition.md) — No peer citations
+- [BRD Technology Agnostic](constraints/brd-technology-agnostic.md) — No tech terms
+- [BRD Measurable Metrics](constraints/brd-measurable-metrics.md) — Quantifiable criteria
+- [NFR Numeric Constraints](constraints/nfr-numeric-constraints.md) — Specific values
+- [FSD No Implementation](constraints/fsd-no-implementation.md) — No code
+- [ISP Stub Only](constraints/isp-stub-only.md) — Pass statements only
+- [ISP Numpy Docstrings](constraints/isp-numpy-docstrings.md) — Required format
+- [Tag Deprecation Lifecycle](constraints/tag-deprecation-lifecycle.md) — Deprecation rules
 
 ### Patterns (11) ✅
 
-- [Knowledge Source Template](patterns/knowledge_source_template.md) — Authoring specification
-- [Tag Syntax](patterns/tag_syntax.md) — ID format and RST directives
-- [Manifest Structure](patterns/manifest_structure.md) — Reconciliation format
-- [Worked Example: Classification](patterns/worked_example_classification.md) — Tier assignment demo
-- [Worked Example: Feature](patterns/worked_example_feature.md) — End-to-end demo
-- [Persona Content Strategy](patterns/persona_content_strategy.md) — Inline vs. refs decision
-- [Metadata Schema](patterns/metadata_schema.md) — Canonical validation fields and enums
-- [Source Citation Style](patterns/source_citation_style.md) — Provenance citation standard
-- [Evaluation Framework](patterns/evaluation_framework.md) — Agent evaluation metrics
-- [Contextual Chunking](patterns/llm_contextual_chunking.md) — LLM context retrieval
-- [Validation Prompts](patterns/llm_validation_prompts.md) — LLM prompt templates
-- [Template: New Feature](patterns/template_new_feature.md) — 7-tier starter template
-- [Template: Bug Fix](patterns/template_bug_fix.md) — Bug fix documentation
+- [Knowledge Source Template](patterns/knowledge-source-template.md) — Authoring specification
+- [Tag Syntax](patterns/tag-syntax.md) — ID format and RST directives
+- [Manifest Structure](patterns/manifest-structure.md) — Reconciliation format
+- [Worked Example: Classification](patterns/worked-example-classification.md) — Tier assignment demo
+- [Worked Example: Feature](patterns/worked-example-feature.md) — End-to-end demo
+- [Persona Content Strategy](patterns/persona-content-strategy.md) — Inline vs. refs decision
+- [Metadata Schema](patterns/metadata-schema.md) — Canonical validation fields and enums
+- [Source Citation Style](patterns/source-citation-style.md) — Provenance citation standard
+- [Evaluation Framework](patterns/evaluation-framework.md) — Agent evaluation metrics
+- [Contextual Chunking](patterns/llm-contextual-chunking.md) — LLM context retrieval
+- [Validation Prompts](patterns/llm-validation-prompts.md) — LLM prompt templates
+- [Template: New Feature](patterns/template-new-feature.md) — 7-tier starter template
+- [Template: Bug Fix](patterns/template-bug-fix.md) — Bug fix documentation
 
 ### Vocabulary (1) ✅
 

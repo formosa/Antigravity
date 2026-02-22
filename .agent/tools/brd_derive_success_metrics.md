@@ -20,7 +20,7 @@ Used by BRD specialists to transform unmeasurable requirements into DDR-complian
 
 ## Knowledge Source
 
-- **Measurable Metrics Constraint**: `.agent/knowledge/sources/constraints/brd_measurable_metrics.md`
+- **Measurable Metrics Constraint**: `.agent/knowledge/sources/constraints/brd-measurable-metrics.md`
 
 ## Configuration
 

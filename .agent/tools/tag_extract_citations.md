@@ -20,7 +20,7 @@ Validates that cited parents exist and identifies orphan status.
 
 ## Knowledge Source
 
-- **Citation Required**: `.agent/knowledge/sources/constraints/tag_citation_required.md`
+- **Citation Required**: `.agent/knowledge/sources/constraints/tag-citation-required.md`
 
 ## Configuration
 

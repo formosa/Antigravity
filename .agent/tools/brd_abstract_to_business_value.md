@@ -21,7 +21,7 @@ technology-agnostic constraint before tag creation.
 
 ## Knowledge Source
 
-- **Technology Agnostic Constraint**: `.agent/knowledge/sources/constraints/brd_technology_agnostic.md`
+- **Technology Agnostic Constraint**: `.agent/knowledge/sources/constraints/brd-technology-agnostic.md`
 
 ## Configuration
 

@@ -21,8 +21,8 @@ by the orchestrator to route new documentation content.
 
 ## Knowledge Sources
 
-- **Decision Tree**: `.agent/knowledge/sources/protocols/classification_decision_tree.md`
-- **Scoring Matrix**: `.agent/knowledge/sources/protocols/classification_scoring.md`
+- **Decision Tree**: `.agent/knowledge/sources/protocols/classification-decision-tree.md`
+- **Scoring Matrix**: `.agent/knowledge/sources/protocols/classification-scoring.md`
 
 ## Configuration
 

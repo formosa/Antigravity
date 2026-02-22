@@ -7,9 +7,9 @@ Enforces sequential integer IDs (e.g., FSD-12) based on existing needs.
 Meta
 ----
 Tool Definition : .agent/tools/tag_create.md
-Knowledge Source: .agent/knowledge/sources/patterns/tag_syntax.md
-                  .agent/knowledge/sources/constraints/tag_immutability.md
-                  .agent/knowledge/sources/constraints/tag_citation_required.md
+Knowledge Source: .agent/knowledge/sources/patterns/tag-syntax.md
+                  .agent/knowledge/sources/constraints/tag-immutability.md
+                  .agent/knowledge/sources/constraints/tag-citation-required.md
 Architect       : Antigravity IDE
 """
 

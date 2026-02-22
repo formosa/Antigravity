@@ -6,7 +6,7 @@ Extracts parent citations from a DDR tag's :links: directive.
 Meta
 ----
 Tool Definition : .agent/tools/tag_extract_citations.md
-Knowledge Source: .agent/knowledge/sources/constraints/tag_citation_required.md
+Knowledge Source: .agent/knowledge/sources/constraints/tag-citation-required.md
 Architect       : Antigravity IDE
 
 Usage

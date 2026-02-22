@@ -28,7 +28,7 @@ Generates Mermaid flowcharts with tier-based subgraphs and color coding.
 
 ## Knowledge Source
 
-- **Tier Hierarchy**: `.agent/knowledge/sources/concepts/tier_hierarchy.md`
+- **Tier Hierarchy**: `.agent/knowledge/sources/concepts/tier-hierarchy.md`
 
 ## Configuration
 

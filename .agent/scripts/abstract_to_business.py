@@ -7,7 +7,7 @@ for BRD tier compliance.
 Meta
 ----
 Tool Definition : .agent/tools/brd_abstract_to_business_value.md
-Knowledge Source: .agent/knowledge/sources/constraints/brd_technology_agnostic.md
+Knowledge Source: .agent/knowledge/sources/constraints/brd-technology-agnostic.md
 Architect       : Antigravity IDE
 
 Usage
@@ -24,7 +24,7 @@ import json
 import re
 import sys
 
-# Technology terms → business replacements (brd_technology_agnostic.md §Detection)
+# Technology terms → business replacements (brd-technology-agnostic.md §Detection)
 TRANSFORMS: dict[str, str] = {
     # Languages/frameworks → [REMOVE]
     "python": "[REMOVE]", "javascript": "[REMOVE]", "java": "[REMOVE]",

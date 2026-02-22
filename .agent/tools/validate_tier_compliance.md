@@ -29,9 +29,9 @@ Validates tag content against tier-specific constraints (technology leaks, numer
 
 ## Knowledge Sources
 
-- **BRD Technology Agnostic**: `.agent/knowledge/sources/constraints/brd_technology_agnostic.md`
-- **NFR Numeric Constraints**: `.agent/knowledge/sources/constraints/nfr_numeric_constraints.md`
-- **ISP Stub Only**: `.agent/knowledge/sources/constraints/isp_stub_only.md`
+- **BRD Technology Agnostic**: `.agent/knowledge/sources/constraints/brd-technology-agnostic.md`
+- **NFR Numeric Constraints**: `.agent/knowledge/sources/constraints/nfr-numeric-constraints.md`
+- **ISP Stub Only**: `.agent/knowledge/sources/constraints/isp-stub-only.md`
 
 ## Configuration
 

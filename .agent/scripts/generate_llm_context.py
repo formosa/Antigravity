@@ -37,8 +37,8 @@ Example::
 Workflow Integration::
 
     # Referenced by:
-    # - .agent/workflows/update_documentation_spec.md
-    # - .agent/workflows/traceability_audit.md
+    # - .agent/workflows/update-documentation-spec.md
+    # - .agent/workflows/traceability-audit.md
     # - .agent/tools/rebuild_docs.mdt
 
 Output Format

@@ -6,7 +6,7 @@ Marks a DDR tag as deprecated and optionally specifies a replacement.
 Meta
 ----
 Tool Definition : .agent/tools/tag_deprecate.md
-Knowledge Source: .agent/knowledge/sources/constraints/tag_immutability.md
+Knowledge Source: .agent/knowledge/sources/constraints/tag-immutability.md
 Architect       : Antigravity IDE
 
 Usage

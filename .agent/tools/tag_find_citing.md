@@ -20,7 +20,7 @@ parent tag. Essential for understanding the propagation effects of modifications
 
 ## Knowledge Source
 
-- **Impact Analysis**: `.agent/knowledge/sources/protocols/impact_analysis.md`
+- **Impact Analysis**: `.agent/knowledge/sources/protocols/impact-analysis.md`
 
 ## Configuration
 

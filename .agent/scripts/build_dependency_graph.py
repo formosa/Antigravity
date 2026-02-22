@@ -6,7 +6,7 @@ Constructs citation dependency graph from needs.json.
 Meta
 ----
 Tool Definition : .agent/tools/trace_build_dependency_graph.md
-Knowledge Source: .agent/knowledge/sources/protocols/traceability_chain.md
+Knowledge Source: .agent/knowledge/sources/protocols/traceability-chain.md
 Architect       : Antigravity IDE
 
 Usage

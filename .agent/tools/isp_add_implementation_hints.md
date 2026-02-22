@@ -27,7 +27,7 @@ hint comments. Creates a `.hints.py` file without modifying the original.
 
 ## Knowledge Source
 
-- **Numpy Docstrings**: `.agent/knowledge/sources/constraints/isp_numpy_docstrings.md`
+- **Numpy Docstrings**: `.agent/knowledge/sources/constraints/isp-numpy-docstrings.md`
 
 ## Configuration
 

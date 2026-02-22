@@ -6,10 +6,10 @@ Validates DDR tag content against tier-specific constraints.
 Meta
 ----
 Tool Definition : .agent/tools/validate_tier_compliance.md
-Knowledge Source: .agent/knowledge/sources/constraints/brd_technology_agnostic.md
-                  .agent/knowledge/sources/constraints/nfr_numeric_constraints.md
-                  .agent/knowledge/sources/constraints/fsd_no_implementation.md
-                  .agent/knowledge/sources/constraints/isp_stub_only.md
+Knowledge Source: .agent/knowledge/sources/constraints/brd-technology-agnostic.md
+                  .agent/knowledge/sources/constraints/nfr-numeric-constraints.md
+                  .agent/knowledge/sources/constraints/fsd-no-implementation.md
+                  .agent/knowledge/sources/constraints/isp-stub-only.md
 Architect       : Antigravity IDE
 
 Usage

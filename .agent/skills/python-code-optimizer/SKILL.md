@@ -64,7 +64,7 @@ Optimization levels: `conservative` (analysis only) | `balanced` (enterprise tar
 ## Clean Code Rules
 
 For the complete enforcement ruleset (N1–N7, F1–F4, C1–C4, G5–G36, S1–S3),
-read [references/clean_code_rules.md](references/clean_code_rules.md)
+read [resources/clean_code_rules.md](resources/clean_code_rules.md)
 before applying optimizations.
 
 ## Error Handling

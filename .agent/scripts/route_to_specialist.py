@@ -8,7 +8,7 @@ tier-to-agent routing information.
 Meta
 ----
 Tool Definition : .agent/tools/ddr_route_to_specialist.md
-Knowledge Source: .agent/knowledge/sources/concepts/tier_hierarchy.md
+Knowledge Source: .agent/knowledge/sources/concepts/tier-hierarchy.md
 Architect       : Antigravity IDE
 
 Usage
@@ -31,37 +31,37 @@ from typing import Optional
 TIER_SPECIALIST_MAP: dict[str, dict[str, str]] = {
     "BRD": {
         "handle": "@brd_strategist",
-        "persona_path": ".agent/personas/brd_strategist.mdc",
+        "persona_path": ".agent/personas/brd-strategist.mdc",
         "description": "Business Requirements Specialist"
     },
     "NFR": {
         "handle": "@nfr_enforcer",
-        "persona_path": ".agent/personas/nfr_enforcer.mdc",
+        "persona_path": ".agent/personas/nfr-enforcer.mdc",
         "description": "Non-Functional Requirements Enforcer"
     },
     "FSD": {
         "handle": "@fsd_analyst",
-        "persona_path": ".agent/personas/fsd_analyst.mdc",
+        "persona_path": ".agent/personas/fsd-analyst.mdc",
         "description": "Feature Specification Analyst"
     },
     "SAD": {
         "handle": "@sad_architect",
-        "persona_path": ".agent/personas/sad_architect.mdc",
+        "persona_path": ".agent/personas/sad-architect.mdc",
         "description": "System Architecture Designer"
     },
     "ICD": {
         "handle": "@icd_dataengineer",
-        "persona_path": ".agent/personas/icd_dataengineer.mdc",
+        "persona_path": ".agent/personas/icd-dataengineer.mdc",
         "description": "Interface Contract Data Engineer"
     },
     "TDD": {
         "handle": "@tdd_designer",
-        "persona_path": ".agent/personas/tdd_designer.mdc",
+        "persona_path": ".agent/personas/tdd-designer.mdc",
         "description": "Technical Design Document Designer"
     },
     "ISP": {
         "handle": "@isp_codegenerator",
-        "persona_path": ".agent/personas/isp_codegenerator.mdc",
+        "persona_path": ".agent/personas/isp-codegenerator.mdc",
         "description": "Implementation Stub Producer"
     }
 }

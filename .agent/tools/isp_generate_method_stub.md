@@ -34,8 +34,8 @@ Creates ISP-compliant method stub with Numpy docstring and traceability links.
 
 ## Knowledge Sources
 
-- **Stub Only**: `.agent/knowledge/sources/constraints/isp_stub_only.md`
-- **Numpy Docstrings**: `.agent/knowledge/sources/constraints/isp_numpy_docstrings.md`
+- **Stub Only**: `.agent/knowledge/sources/constraints/isp-stub-only.md`
+- **Numpy Docstrings**: `.agent/knowledge/sources/constraints/isp-numpy-docstrings.md`
 
 ## Configuration
 

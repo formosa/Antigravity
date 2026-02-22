@@ -23,8 +23,8 @@ Used by antipattern_scanner for documentation quality validation.
 
 ## Knowledge Sources
 
-- **Sibling Prohibition**: `.agent/knowledge/sources/constraints/sibling_prohibition.md`
-- **Traceability Chain**: `.agent/knowledge/sources/protocols/traceability_chain.md`
+- **Sibling Prohibition**: `.agent/knowledge/sources/constraints/sibling-prohibition.md`
+- **Traceability Chain**: `.agent/knowledge/sources/protocols/traceability-chain.md`
 
 ## Configuration
 

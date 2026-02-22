@@ -58,7 +58,7 @@ Notes
 See Also
 --------
 - Sphinx-Needs documentation: https://sphinx-needs.readthedocs.io/
-- Project workflow: `.agent/workflows/update_documentation_spec.md`
+- Project workflow: `.agent/workflows/update-documentation-spec.md`
 """
 # Configuration file for the Sphinx documentation builder.
 #

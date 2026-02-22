@@ -26,7 +26,7 @@ Constructs complete citation dependency graph from needs.json with orphan and cy
 
 ## Knowledge Source
 
-- **Traceability Chain**: `.agent/knowledge/sources/protocols/traceability_chain.md`
+- **Traceability Chain**: `.agent/knowledge/sources/protocols/traceability-chain.md`
 
 ## Configuration
 

@@ -28,7 +28,7 @@ Analyzes citation chains and generates violation reports with format/severity op
 
 ## Knowledge Source
 
-- **Traceability Chain**: `.agent/knowledge/sources/protocols/traceability_chain.md`
+- **Traceability Chain**: `.agent/knowledge/sources/protocols/traceability-chain.md`
 
 ## Configuration
 

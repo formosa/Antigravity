@@ -25,8 +25,8 @@ Creates ISP-compliant Python class stub from TDD tag with Numpy docstring and pa
 
 ## Knowledge Sources
 
-- **Stub Only**: `.agent/knowledge/sources/constraints/isp_stub_only.md`
-- **Numpy Docstrings**: `.agent/knowledge/sources/constraints/isp_numpy_docstrings.md`
+- **Stub Only**: `.agent/knowledge/sources/constraints/isp-stub-only.md`
+- **Numpy Docstrings**: `.agent/knowledge/sources/constraints/isp-numpy-docstrings.md`
 
 ## Configuration
 

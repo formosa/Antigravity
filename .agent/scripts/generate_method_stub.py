@@ -6,8 +6,8 @@ Creates Python method stub with Numpy-style docstring.
 Meta
 ----
 Tool Definition : .agent/tools/isp_generate_method_stub.md
-Knowledge Source: .agent/knowledge/sources/constraints/isp_stub_only.md
-                  .agent/knowledge/sources/constraints/isp_numpy_docstrings.md
+Knowledge Source: .agent/knowledge/sources/constraints/isp-stub-only.md
+                  .agent/knowledge/sources/constraints/isp-numpy-docstrings.md
 Architect       : Antigravity IDE
 
 Usage

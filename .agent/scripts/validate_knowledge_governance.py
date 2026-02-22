@@ -100,16 +100,16 @@ def validate_file(path: Path) -> List[str]:
     fm = parse_frontmatter(content)
     # Minimal check: must have archetype if supposed to
     if not fm:
-        if path.name == "_index.md" or path.suffix == ".md":
+        if path.name == "index.md" or path.suffix == ".md":
             errors.append("Missing or invalid YAML frontmatter")
         return errors
 
-    # 2. Required Fields (skip strict required check for _index.md? Plan says: "Index Policy: all _index.md files... require minimal frontmatter".
+    # 2. Required Fields (skip strict required check for index.md? Plan says: "Index Policy: all index.md files... require minimal frontmatter".
     # But schema says specific fields for all.
     # Let's apply stricter check for now and see failures.
 
-    # Special handling for _index.md: check minimal fields or archetype
-    # But metadata_schema.md lists required fields for ALL.
+    # Special handling for index.md: check minimal fields or archetype
+    # But metadata-schema.md lists required fields for ALL.
     for field in REQUIRED_FIELDS:
         if field not in fm:
             errors.append(f"Missing required field: '{field}'")
@@ -133,7 +133,7 @@ def validate_file(path: Path) -> List[str]:
     # Using regex search for flexible match
 
     # Exempt the style definition file itself
-    if path.name == "source_citation_style.md":
+    if path.name == "source-citation-style.md":
         return errors
 
     body = content.split("---", 2)[-1] if len(content.split("---", 2)) >= 3 else content
@@ -145,7 +145,7 @@ def validate_file(path: Path) -> List[str]:
                  errors.append(f"Non-canonical Source citation: '{line.strip()}'")
 
     # 6. Index Policy
-    if path.name == "_index.md":
+    if path.name == "index.md":
         if fm.get("archetype") != "index":
             errors.append("Index file must have archetype 'index'")
 
@@ -192,13 +192,13 @@ def main():
                 if file_errors:
                     all_errors[str(rel_path)] = file_errors
 
-    # Also check root _index.md
-    root_index = knowledge_dir / "_index.md"
+    # Also check root index.md
+    root_index = knowledge_dir / "index.md"
     if root_index.exists():
         files_scanned += 1
         errs = validate_file(root_index)
         if errs:
-            all_errors["_index.md"] = errs
+            all_errors["index.md"] = errs
 
     log(f"\nScanned {files_scanned} files.")
 

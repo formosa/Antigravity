@@ -6,8 +6,8 @@ Validates reconciliation manifest blocks against DDR structure requirements.
 Meta
 ----
 Tool Definition : .agent/tools/check_manifest_integrity.md
-Knowledge Source: .agent/knowledge/sources/patterns/manifest_structure.md
-                  .agent/knowledge/sources/protocols/reconciliation_dirty_flag.md
+Knowledge Source: .agent/knowledge/sources/patterns/manifest-structure.md
+                  .agent/knowledge/sources/protocols/reconciliation-dirty-flag.md
 Architect       : Antigravity IDE
 
 Usage
@@ -25,7 +25,7 @@ import re
 import sys
 from pathlib import Path
 
-# Required fields per manifest_structure.md §Fields
+# Required fields per manifest-structure.md §Fields
 REQUIRED_FIELDS: list[str] = [
     ":section_id:", ":integrity_status:", ":timestamp:",
     ":tag_count:", ":tag_inventory:", ":pending_items:"

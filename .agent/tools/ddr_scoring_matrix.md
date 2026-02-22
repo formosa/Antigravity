@@ -23,7 +23,7 @@ matrix. Used when `classify_information` returns `ambiguous: true`.
 
 ## Knowledge Source
 
-- **Scoring Protocol**: `.agent/knowledge/sources/protocols/classification_scoring.md`
+- **Scoring Protocol**: `.agent/knowledge/sources/protocols/classification-scoring.md`
 
 ## Configuration
 
