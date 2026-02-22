@@ -38,7 +38,7 @@ description: "Protects .agent/assets/ directory from unauthorized modifications.
 
 ### ✅ Correct
 
-```
+```plaintext
 Agent: "I need to modify antigravity_types.d.ts. May I proceed?"
 User: "Yes, approved."
 Agent: [proceeds with modification]
@@ -46,7 +46,7 @@ Agent: [proceeds with modification]
 
 ### ❌ Incorrect
 
-```
+```plaintext
 Agent: [silently modifies antigravity_types.d.ts]
 ```
 
