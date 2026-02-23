@@ -7,13 +7,11 @@
 	"settings": {
 		"workbench.editorAssociations": {
 			"**/.agent/rules/**/*.md": "default",
-			"**/.agent/tools/**/*.md": "default",
-			"**/.agent/workflows/**/*.md": "default",
-			"**/.agent/personas/**/*.mdc": "default"
+			"**/.agent/skills/**/*.md": "default",
+			"**/.agent/workflows/**/*.md": "default"
 		},
 		"files.associations": {
-			"**/.agent/**/*.md": "markdown",
-			"**/.agent/**/*.mdc": "markdown"
+			"**/.agent/**/*.md": "markdown"
 		}
 	}
 }
