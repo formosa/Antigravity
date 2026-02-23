@@ -1,0 +1,18 @@
+# DESIGN_JUSTIFICATION:antigravity_types_v1_18_3
+
+## SOURCE_INVENTORY
+
+1. [Google Antigravity - Wikipedia](https://en.wikipedia.org/wiki/Google_Antigravity): Details the Antigravity v1.18.3 release on February 19, 2026. Identifies the IDE's agent-first paradigm, Artifact generation capabilities including task lists and implementation plans, and asynchronous Manager view orchestration.
+2. [Build with Google Antigravity](https://developers.googleblog.com/build-with-google-antigravity-our-new-agentic-development-platform/): Published November 20, 2025. Outlines the shift to autonomous task orchestration. Specifies the requirement for verifiable Artifacts over raw logs. Highlights agent execution across integrated terminal and browser environments.
+3. [Gemini 3.1 Pro, Building with Advanced Intelligence in Google Antigravity](https://antigravity.google/blog/gemini-3-1-pro-in-google-antigravity): Published February 19, 2026. Verifies the integration of Gemini 3.1 Pro for advanced reasoning. Confirms applicability for complex workflows, long-horizon tasks, and semantic codebase understanding.
+4. [Gemini 3.1 Pro - Model Card - Google DeepMind](https://deepmind.google/models/model-cards/gemini-3-1-pro/): Published February 19, 2026. Defines Gemini 3.1 Pro as state-of-the-art for reasoning and agentic coding. Confirms distribution via the Google Antigravity platform.
+5. [Google launches Gemini 3.1 Pro with advanced reasoning abilities](https://www.livemint.com/technology/tech-news/google-launches-gemini-3-1-pro-with-advanced-reasoning-abilities-heres-how-to-start-using-11771555412897.html): Published February 19, 2026. Cites 80.6% SWE-Bench Verified score. Cites 77.1% ARC-AGI-2 score. Validates the requirement for dynamic cognitive controls.
+6. [Where we're going, we don't need chatbots](https://dev.to/googleai/where-were-going-we-dont-need-chatbots-introducing-the-antigravity-ide-2c3k): Published December 22, 2025. Outlines the Manager View interface. Describes the Artifacts System, specifically Walkthrough Artifacts. Details centralized agent coordination.
+
+## SCHEMA_EVALUATION_AND_JUSTIFICATION
+
+* `GeminiMdConfiguration`: The schema centralizes `security_and_execution_guardrails`. It restricts `models` arrays to `gemini-3.1-pro-preview` and `gemini-3-flash`. This aligns precisely with the IDE v1.18.3 release on February 19, 2026. It enforces the architectural shift toward unified mission control instead of fragmented security files.
+* Cognitive reasoning parameters: The schema exposes granular `thinking_level` controls including `minimal`, `low`, `medium`, and `high`. This configuration directly harnesses Gemini 3.1 Pro's advanced reasoning engine. It supports the model's high benchmark performance in agentic coding without generating unnecessary token latency.
+* `SkillDefinition` progressive disclosure: The schema omits explicit type discriminators. It utilizes semantic keyword matching within the `description` frontmatter field. This architectural choice optimizes context window utilization during long-horizon autonomous operations.
+* Artifact-driven structures: The `ImplementationPlanDefinition`, `TaskExecutionState`, and `WalkthroughDefinition` interfaces directly enforce the Antigravity Artifacts System. This schema structure forces agents to generate structured, human-verifiable deliverables such as task lists and walkthroughs. It prevents the generation of opaque raw tool calls.
+* Asynchronous execution tracking: The `TaskExecutionState` tracking mechanism utilizes native `status` and `dependencies` properties. This supports the Manager View's multi-agent task orchestration. It enables concurrent operational tracking across diverse workspaces.
