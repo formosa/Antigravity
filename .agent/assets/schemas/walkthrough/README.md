@@ -1,0 +1,20 @@
+# DESIGN_JUSTIFICATION: Antigravity Walkthrough Assets v1.18.3
+
+<document_purpose>
+This document verifies the structural necessity of Walkthrough artifacts within the Antigravity v1.18.3 ecosystem, serving as the required hand-off protocol between autonomous agents and human developers.
+</document_purpose>
+
+<schema_evaluation_and_justification>
+
+- **Proof of Work Protocol:** Modern agentic IDEs require final outputs to be auditable. The `<architectural_changes>` block forces the model to summarize exactly what it touched, preventing stealth modifications from going unnoticed.
+- **Human-in-the-Loop Validation:** The `<verification_steps>` block provides deterministic, copy-pasteable terminal commands or explicit GUI instructions, dramatically reducing the cognitive load required for the human developer to validate the agent's logic.
+- **Context Closure:** Generating this artifact signals the deterministic end of a complex workflow pipeline, clearing the active execution state in the Agent Manager.
+</schema_evaluation_and_justification>
+
+<authoritative_reference_repository>
+
+1. [Google Antigravity - Wikipedia](https://en.wikipedia.org/wiki/Google_Antigravity)
+   - Identifies the IDE's core feature of producing human-verifiable artifacts rather than forcing developers to read raw code diffs or execution logs.
+2. [Prompt design strategies | Gemini API - Google AI for Developers](https://ai.google.dev/gemini-api/docs/prompting-strategies)
+   - Supports the use of standardized output templates to guarantee consistent, readable summaries from Gemini 3 models following complex generative tasks.
+</authoritative_reference_repository>
