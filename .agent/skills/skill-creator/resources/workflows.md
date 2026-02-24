@@ -1,28 +1,23 @@
-# Workflow Patterns
+<document_purpose>
+This document establishes the patterns for authoring deterministic workflows for Gemini 3.1 Pro inside the Antigravity IDE v1.18.3.
+</document_purpose>
 
-## Sequential Workflows
+<decision_tree_patterns>
+For complex tasks with branching logic, you MUST implement Explicit Decision Trees. This prevents the LLM from hallucinating fallbacks.
 
-For complex tasks, break operations into clear, sequential steps. It is often helpful to give the agent an overview of the process towards the beginning of SKILL.md:
+Example implementation inside a `<how_to_use>` block:
 
-```markdown
-Filling a PDF form involves these steps:
+1. **Analyze Dependency Tree:**
+   - **IF** the package is missing, **THEN** execute the installation script and log the change.
+   - **IF** the package exists but is outdated, **THEN** prompt the human developer for upgrade approval.
+   - **IF** the package is current, **THEN** proceed to Step 2.
+</decision_tree_patterns>
 
-1. Analyze the form (run analyze_form.py)
-2. Create field mapping (edit fields.json)
-3. Validate mapping (run validate_fields.py)
-4. Fill the form (run fill_form.py)
-5. Verify output (run verify_output.py)
-```
+<silent_reasoning_patterns>
+To force Gemini 3.1 Pro to evaluate its own work before modifying the codebase, implement a silent verification loop using the `<verification_step>` tag.
 
-## Conditional Workflows
-
-For tasks with branching logic, guide the agent through decision points:
-
-```markdown
-1. Determine the modification type:
-   **Creating new content?** → Follow "Creation workflow" below
-   **Editing existing content?** → Follow "Editing workflow" below
-
-2. Creation workflow: [steps]
-3. Editing workflow: [steps]
-```
+Example implementation:
+<verification_step>
+SILENT AUDIT: Before emitting the final code block, silently review your AST structure. If any synchronous blocking I/O calls are detected within the `async` function, silently rewrite the function to use `aiohttp` before presenting the final output to the user.
+</verification_step>
+</silent_reasoning_patterns>

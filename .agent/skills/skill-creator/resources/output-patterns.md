@@ -1,82 +1,23 @@
-# Output Patterns
+<document_purpose>
+This document defines how agent skills must format outputs using the Antigravity v1.18.3 Artifact System.
+</document_purpose>
 
-Use these patterns when skills need to produce consistent, high-quality output.
+<artifact_generation_rules>
+Do not generate generic Markdown reports. All complex workflows must end by generating one of the following Execution State Artifacts:
 
-## Template Pattern
+1. **Implementation_Plan.md:** Used during the Planning phase. Must include `<phases>`, `<atomic_steps>`, and `<verification>` blocks. Requires human approval before the agent modifies code.
+2. **Task.md:** Used to track active granular execution. Must include `<pre_check>` and `<rollback_procedure>` blocks.
+3. **Walkthrough.md:** Used as proof-of-work upon completion. Must include `<execution_summary>`, `<architectural_changes>`, and explicit terminal commands in `<verification_steps>`.
+</artifact_generation_rules>
 
-Provide templates for output format. Match the level of strictness to your needs.
+<xml_fenced_outputs>
+When generating localized files like `CHANGELOG.md` or configuration logs, you must isolate the strict formatting rules using localized XML tags to prevent instruction drift.
 
-**For strict requirements (like API responses or data formats):**
+Example:
+**Codebase Modification:** Update the `CHANGELOG.md` adhering strictly to the required formatting guidelines.
+<changelog_constraints>
 
-```markdown
-## Report structure
-
-ALWAYS use this exact template structure:
-
-# [Analysis Title]
-
-## Executive summary
-[One-paragraph overview of key findings]
-
-## Key findings
-- Finding 1 with supporting data
-- Finding 2 with supporting data
-- Finding 3 with supporting data
-
-## Recommendations
-1. Specific actionable recommendation
-2. Specific actionable recommendation
-```
-
-**For flexible guidance (when adaptation is useful):**
-
-```markdown
-## Report structure
-
-Here is a sensible default format, but use your best judgment:
-
-# [Analysis Title]
-
-## Executive summary
-[Overview]
-
-## Key findings
-[Adapt sections based on what you discover]
-
-## Recommendations
-[Tailor to the specific context]
-
-Adjust sections as needed for the specific analysis type.
-```
-
-## Examples Pattern
-
-For skills where output quality depends on seeing examples, provide input/output pairs:
-
-```markdown
-## Commit message format
-
-Generate commit messages following these examples:
-
-**Example 1:**
-Input: Added user authentication with JWT tokens
-Output:
-```
-feat(auth): implement JWT-based authentication
-
-Add login endpoint and token validation middleware
-```
-
-**Example 2:**
-Input: Fixed bug where dates displayed incorrectly in reports
-Output:
-```
-fix(reports): correct date formatting in timezone conversion
-
-Use UTC timestamps consistently across report generation
-```
-
-Follow this style: type(scope): brief description, then detailed explanation.
-```
-
-Examples help Claude understand the desired style and level of detail more clearly than descriptions alone.
+- Group changes by type: Added, Changed, Deprecated, Removed, Fixed, Security.
+- Use imperative mood in all bullet points.
+</changelog_constraints>
+</xml_fenced_outputs>
