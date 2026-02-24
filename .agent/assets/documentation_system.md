@@ -2,7 +2,7 @@
 # ⚠️ DEPRECATED — DDR Documentation System (Monolithic)
 
 > **Status**: DEPRECATED as of 2026-02-24
-> **Replacement**: `.agent/assets/proposals/.processed/documentation_system/INDEX.md`
+> **Replacement**: `.agent/assets/documentation_system/INDEX.md`
 
 This file has been superseded by the modular DDR Documentation System.
 All core section content has been preserved in individual files within the modular directory.
@@ -11,9 +11,9 @@ All core section content has been preserved in individual files within the modul
 
 The canonical DDR System specification is now located at:
 
-`.agent/assets/proposals/.processed/documentation_system/`
+`.agent/assets/documentation_system/`
 
-See [INDEX.md](proposals/.processed/documentation_system/INDEX.md) for the
+See [INDEX.md](documentation_system/INDEX.md) for the
 complete manifest of all 33 specification files.
 
 ## End-of-Life Notice (Deprecated Assets)
