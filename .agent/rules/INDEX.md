@@ -4,7 +4,7 @@
 >
 > **Total Rules**: 21 (post-optimization)
 >
-> **Schema**: [`antigravity_types.d.ts`](../assets/antigravity_types.d.ts)
+> **Schema**: [`rule.d.ts`](../assets/schemas/rule/rule.d.ts)
 >
 > **Parent**: [`.agent/`](..)
 
@@ -30,8 +30,8 @@
 
 | File                                                 | Purpose                           |
 | :--------------------------------------------------- | :-------------------------------- |
-| [sys-protected-files.md](sys-protected-files.md)     | `.agent/assets/` write protection |
-| [sys-antigravity-types.md](sys-antigravity-types.md) | Schema compliance enforcement     |
+| [dev-protected-files.md](dev-protected-files.md)     | `.agent/assets/` write protection |
+| [dev-antigravity-types.md](dev-antigravity-types.md) | Schema compliance enforcement     |
 
 ---
 

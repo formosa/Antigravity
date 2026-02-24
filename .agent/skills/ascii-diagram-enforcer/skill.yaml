@@ -68,7 +68,6 @@ skill:
     pre_save:
       enabled: true
       handler: "hooks.pre_save:validate_before_save"
-      priority: 10
 
     # On-demand validation (manual trigger)
     on_demand:

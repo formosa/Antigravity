@@ -35,14 +35,12 @@
     "workbench.editorAssociations": {
         "**/.agent/rules/**/*.md": "default",
         "**/.agent/tools/**/*.md": "default",
-        "**/.agent/workflows/**/*.md": "default",
-        "**/.agent/personas/**/*.mdc": "default"
+        "**/.agent/workflows/**/*.md": "default"
     },
     // 2. Ensure they are treated as standard Markdown for syntax highlighting
     // (Do NOT use 'antigravity-markdown' here, as that may re-trigger the GUI)
     "files.associations": {
-        "**/.agent/**/*.md": "markdown",
-        "**/.agent/**/*.mdc": "markdown"
+        "**/.agent/**/*.md": "markdown"
     },
     "markdown.validate.enabled": true,
     "cSpell.words": [
@@ -113,5 +111,8 @@
         "PYTHONUTF8": "1",
         // Fallback safeguard for legacy Python tooling prior to UTF-8 Mode adoption.
         "PYTHONIOENCODING": "utf-8"
-    }
+    },
+    "markdown.validate.ignoredLinks": [
+        "../assets/schemas/rule/rule.d.ts"
+    ]
 }

@@ -2,7 +2,7 @@
 
 > Master lookup table for topic-based navigation of DDR knowledge sources.
 >
-> **Total Files**: 46 (1 index + 45 content files)
+> **Total Files**: 45 (1 index + 44 content files)
 >
 > **Layer**: Static DDR Framework Knowledge (reusable across projects)
 >
@@ -48,7 +48,6 @@
 | Knowledge Source Template      | pattern    | `patterns/knowledge-source-template.md`     |
 | Worked Example: Classification | pattern    | `patterns/worked-example-classification.md` |
 | Worked Example: Feature        | pattern    | `patterns/worked-example-feature.md`        |
-| Persona Content Strategy       | pattern    | `patterns/persona-content-strategy.md`      |
 | Metadata Schema                | pattern    | `patterns/metadata-schema.md`               |
 | Source Citation Style          | pattern    | `patterns/source-citation-style.md`         |
 | Agent Registry                 | concept    | `concepts/agent-registry.md`                |
@@ -109,14 +108,13 @@
 - [ISP Numpy Docstrings](constraints/isp-numpy-docstrings.md) — Required format
 - [Tag Deprecation Lifecycle](constraints/tag-deprecation-lifecycle.md) — Deprecation rules
 
-### Patterns (11) ✅
+### Patterns (10) ✅
 
 - [Knowledge Source Template](patterns/knowledge-source-template.md) — Authoring specification
 - [Tag Syntax](patterns/tag-syntax.md) — ID format and RST directives
 - [Manifest Structure](patterns/manifest-structure.md) — Reconciliation format
 - [Worked Example: Classification](patterns/worked-example-classification.md) — Tier assignment demo
 - [Worked Example: Feature](patterns/worked-example-feature.md) — End-to-end demo
-- [Persona Content Strategy](patterns/persona-content-strategy.md) — Inline vs. refs decision
 - [Metadata Schema](patterns/metadata-schema.md) — Canonical validation fields and enums
 - [Source Citation Style](patterns/source-citation-style.md) — Provenance citation standard
 - [Evaluation Framework](patterns/evaluation-framework.md) — Agent evaluation metrics
@@ -138,6 +136,6 @@
 | Concepts    | 11        | 11        | ✅ Complete |
 | Protocols   | 13        | 13        | ✅ Complete |
 | Constraints | 10        | 10        | ✅ Complete |
-| Patterns    | 11        | 11        | ✅ Complete |
+| Patterns    | 10        | 10        | ✅ Complete |
 | Vocabulary  | 1         | 1         | ✅ Complete |
-| **Total**   | **47**    | **47**    | **100%**    |
+| **Total**   | **46**    | **46**    | **100%**    |

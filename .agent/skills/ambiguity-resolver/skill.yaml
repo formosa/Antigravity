@@ -64,10 +64,8 @@ integration:
     context_injection:
       - type: file
         path: "knowledge/tier_concepts.md"
-        priority: high
       - type: file
         path: "config/scoring_weights.yaml"
-        priority: high
     output_integration:
       - type: inline_annotation
         format: rst_comment

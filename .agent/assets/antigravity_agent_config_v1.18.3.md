@@ -14,11 +14,11 @@ This reference is explicitly optimized for **Gemini 3.1 Pro**, enforcing strict 
 
 | Area                   | Change                                         | Impact                                                                         |
 | :--------------------- | :--------------------------------------------- | :----------------------------------------------------------------------------- |
-| **Personas** | Deprecated                                     | Replaced entirely by `GEMINI.md` and the `thought_signature_protocol`.         |
-| **Schema Structure** | Strict Frontmatter / Body split                | Flat JSON/YAML schemas are rejected; all assets must use `<xml_fencing>`.      |
-| **Rule Triggering** | `activation` → `trigger`                       | Updated YAML frontmatter syntax. Priority sorting is now mandatory.            |
-| **Skill Loading** | `<when_to_use>` progressive disclosure         | Legacy `type`, `scope`, and `priority` removed from Skills.                    |
-| **Execution State** | Artifact-driven memory                         | Workflows must explicitly generate `implementation_plan.md` and `task.md`.     |
+| **Personas**           | Deprecated                                     | Replaced entirely by `GEMINI.md` and the `thought_signature_protocol`.         |
+| **Schema Structure**   | Strict Frontmatter / Body split                | Flat JSON/YAML schemas are rejected; all assets must use `<xml_fencing>`.      |
+| **Rule Triggering**    | `activation` → `trigger`                       | Updated YAML frontmatter syntax. Priority sorting is now mandatory.            |
+| **Skill Loading**      | `<when_to_use>` progressive disclosure         | Legacy `type`, `scope`, and `priority` removed from Skills.                    |
+| **Execution State**    | Artifact-driven memory                         | Workflows must explicitly generate `implementation_plan.md` and `task.md`.     |
 
 ---
 

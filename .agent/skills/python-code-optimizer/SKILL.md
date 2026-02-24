@@ -1,8 +1,6 @@
 ---
-type: skill
 name: python-code-optimizer
 description: Comprehensively optimizes Python code quality through multi-stage AST-based analysis including Clean Code enforcement and PEP 8 compliance.
-scope: workspace
 ---
 
 # Python Code Optimizer

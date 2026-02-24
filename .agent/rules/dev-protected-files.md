@@ -1,6 +1,6 @@
 ---
 type: rule
-name: sys-protected-files
+name: dev-protected-files
 activation: always_on
 priority: 100
 severity: mandatory
@@ -39,7 +39,7 @@ description: "Protects .agent/assets/ directory from unauthorized modifications.
 ### ✅ Correct
 
 ```plaintext
-Agent: "I need to modify antigravity_types.d.ts. May I proceed?"
+Agent: "I need to modify security-policy.d.ts. May I proceed?"
 User: "Yes, approved."
 Agent: [proceeds with modification]
 ```
@@ -47,7 +47,7 @@ Agent: [proceeds with modification]
 ### ❌ Incorrect
 
 ```plaintext
-Agent: [silently modifies antigravity_types.d.ts]
+Agent: [silently modifies rule.d.ts]
 ```
 
 **Why**: Protected files require explicit approval before modification.

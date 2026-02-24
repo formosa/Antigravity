@@ -1,8 +1,6 @@
 ---
-type: skill
 name: skill-creator
 description: Guide for creating effective skills that extend capabilities with specialized knowledge, workflows, or tool integrations.
-scope: workspace
 ---
 
 # Skill Creator

@@ -1,8 +1,6 @@
 ---
-type: skill
 name: planning-instructions
 description: Generates a deterministic, hallucination-resistant Implementation Plan Artifact for zero-ambiguity execution within Google Antigravity IDE v1.16.5.
-scope: workspace
 ---
 
 # SKILL: IMPLEMENTATION PLANNING (v3.0)
@@ -42,6 +40,8 @@ degrades output quality relative to Gemini 2.x behavior.
 
 ### 1.1 — Load Context
 
+> Notify the user, "(1.1 — Load Context):  I am studying the project in preparation for planning."
+
 Read the target task definition and every explicitly referenced design document.
 Sync with Antigravity's persistent Knowledge / Decision Records at
 `.gemini/antigravity/brain/` (or the project-equivalent path). Prior decision
@@ -49,6 +49,8 @@ records **OVERRIDE** all defaults. Confirm directory existence with a file-syste
 read — do not assume absence.
 
 ### 1.2 — Entropy Audit
+
+> Notify the user, "(1.2 — Entropy Audit):  I am now auditing the project to ensure a clean foundation for the new implementation."
 
 Before drafting any plan, audit the affected scope for existing technical debt that
 would undermine the new implementation if left unaddressed.
@@ -66,6 +68,8 @@ when it directly aligns with task intent. Do not expand scope.
 
 ### 1.3 — Contextual Purity
 
+> Notify the user, "(1.3 — Contextual Purity):  I am now focusing in on the relevant details for this plan..."
+
 Retain only: target source code, current environment constraints (runtime versions,
 `requirements.txt`, `package.json`, lock files), and immediate task parameters.
 Discard irrelevant conversation history to maximize signal-to-noise.
@@ -75,6 +79,8 @@ either a verified local file read or a cited external source. If a fact cannot b
 traced to either, treat it as unknown and apply the RFQ rule below.
 
 ### 1.4 — Explicit Abstention (RFQ — Hard Halt)
+
+> Notify the user, "(1.4 — Explicit Abstention): I am now determining if I require any addition details necessary for designing an accurate and precise Implementation Plan."
 
 If **any** of the following conditions are met, output an **RFQ Artifact** and
 **halt immediately**. Do not proceed to Phase 2. Do not guess or fill gaps.
@@ -108,6 +114,8 @@ RFQ trigger conditions:
 
 ### 2.1 — Targeted Search
 
+> Notify the user, "(2.1 — Targeted Search): I am now conducting research to ensure the best and most up-to-date approach for this Implementation Plan."
+
 Execute web searches for every framework, library, or API required by the task.
 
 **Research freshness constraint**: Only cite sources published within the **last
@@ -117,12 +125,16 @@ If no source within the freshness window is found, this is an RFQ-triggering con
 
 ### 2.2 — Validation
 
+> Notify the user, "(2.2 — Validation): I am now validating the research to ensure it is accurate and up-to-date."
+
 Confirm that intended syntax, endpoints, and design patterns align with authoritative
 documentation within the freshness window. Cross-reference against local project
 context (version pins, lock files) to detect drift between upstream docs and pinned
 versions.
 
 ### 2.3 — Grounding
+
+> Notify the user, "(2.3 — Grounding): I am now grounding the Implementation Plan in the project's current context and research."
 
 Every technical decision in the Build Manifest must be directly traceable to either:
 
@@ -135,6 +147,8 @@ state "I do not have sufficient information to make this decision" and issue an 
 ---
 
 ## PHASE 3 — NATIVE REVIEW POLICY BINDING
+
+> Notify the user, "(3.1 — Native Review Policy Binding): I am now assigning Review Policies to each step to ensure the highest quality and accuracy."
 
 Assign Antigravity's native Review Policies to each atomic step using the risk matrix
 below. Rely on the user's existing IDE settings for Terminal and Strict Mode
@@ -157,6 +171,8 @@ written approval before proceeding.
 ---
 
 ## PHASE 4 — OUTPUT: IMPLEMENTATION PLAN ARTIFACT
+
+> Notify the user, "(4.1 — Output: Implementation Plan Artifact): I am now generating the Implementation Plan based on the research and validation I have conducted."
 
 Output strictly using the schema below. Omit all conversational filler. Gemini 3.1 Pro
 is the authoring agent; Gemini 3 Flash is the executing agent. Each section is addressed
@@ -316,7 +332,7 @@ MUST respect in this project.]
 
 ## Research Citations Used
 
-- [URL — publication date]
+- [title — URL — publication date — summary of relevant content]
 
 ## Verification Artifacts
 
