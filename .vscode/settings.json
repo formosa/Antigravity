@@ -45,6 +45,7 @@
     "markdown.validate.enabled": true,
     "cSpell.words": [
         "abstractproperty",
+        "Acyclicity",
         "agentic",
         "asdict",
         "autoflake",
