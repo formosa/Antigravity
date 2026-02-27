@@ -39,11 +39,11 @@
 | `title`                 | String         | Human-readable artifact label                                      |
 | `content`               | Text           | Body constrained by the tier's atomic ruleset                      |
 | `parent_ids`            | List\[String\] | ≥1 for all non-root nodes; typed by edge                           |
-| `status`                | Enum         | `DRAFT` \| `ACTIVE` \| `DIRTY` \| `DEPRECATED` \| `SUPERSEDED`     |
-| `version`               | SemVer       | Content version string                                             |
-| `created`               | ISO 8601     | Creation timestamp                                                 |
-| `modified`              | ISO 8601     | Last modification timestamp                                        |
-| `extension_annotations` | Map          | Read-only Extension metadata; never modifies `content`             |
+| `status`                | Enum           | `DRAFT` \| `ACTIVE` \| `DIRTY` \| `DEPRECATED` \| `SUPERSEDED`     |
+| `version`               | SemVer         | Content version string                                             |
+| `created`               | ISO 8601       | Creation timestamp                                                 |
+| `modified`              | ISO 8601       | Last modification timestamp                                        |
+| `extension_annotations` | Map            | Read-only Extension metadata; never modifies `content`             |
 
 ### 2.2 Edge Types
 
@@ -233,7 +233,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Parent:** XPD (if active) or none (root if XPD skipped). **Edge to child:** `derives` → GPCL
 
-#### Atomic Inclusion Rules
+#### SIL: Atomic Inclusion Rules
 
 | Rule   | Statement                                                                                    | Violation Consequence                   |
 | ------ | -------------------------------------------------------------------------------------------- | --------------------------------------- |
@@ -244,7 +244,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | SIL-R5 | Must define organizational success metrics                                                   | Inability to declare completion         |
 | SIL-R6 | Must be stable under technology changes; content must not be invalidated by a framework swap | Technology coupling at the intent level |
 
-#### Atomic Exclusion Rules
+#### SIL: Atomic Exclusion Rules
 
 | Rule   | Statement                                                                |
 | ------ | ------------------------------------------------------------------------ |
@@ -263,7 +263,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Parent:** `derives` ← SIL. **Edge to child:** `derives` → ORL
 
-#### Atomic Inclusion Rules
+#### GPCL: Atomic Inclusion Rules
 
 | Rule    | Statement                                                                       | Violation Consequence                     |
 | ------- | ------------------------------------------------------------------------------- | ----------------------------------------- |
@@ -274,7 +274,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | GPCL-R5 | Must specify audit and record-retention mandates                                | Regulatory audit failure                  |
 | GPCL-R6 | Must cite parent SIL IDs for each constraint, establishing the business context | Orphaned compliance requirements          |
 
-#### Atomic Exclusion Rules
+#### GPCL: Atomic Exclusion Rules
 
 | Rule    | Statement                                                             |
 | ------- | --------------------------------------------------------------------- |
@@ -290,7 +290,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Parent:** `derives` ← GPCL. **Edges to children:** `constrains` → HIL (if active); `constrains` → TDL (if active); `derives` → FCL
 
-#### Atomic Inclusion Rules
+#### ORL: Atomic Inclusion Rules
 
 | Rule   | Statement                                                                          | Violation Consequence                                          |
 | ------ | ---------------------------------------------------------------------------------- | -------------------------------------------------------------- |
@@ -302,7 +302,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | ORL-R6 | Must specify accessibility requirements (e.g., WCAG 2.1 AA)                        | Compliance violations and user exclusion                       |
 | ORL-R7 | Compliance-driven requirements must cite parent GPCL IDs                           | Orphaned compliance-driven requirements                        |
 
-#### Atomic Exclusion Rules
+#### ORL: Atomic Exclusion Rules
 
 | Rule   | Statement                                                 |
 | ------ | --------------------------------------------------------- |
@@ -318,7 +318,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Parent:** `derives` ← ORL. **Fork point** when HIL or TDL active; `derives` → SAL when neither active.
 
-#### Atomic Inclusion Rules
+#### FCL: Atomic Inclusion Rules
 
 | Rule   | Statement                                                                                | Violation Consequence                                           |
 | ------ | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
@@ -329,7 +329,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | FCL-R5 | Must be decomposable into sub-capabilities (parent-child FCL nodes) for complex features | Monolithic feature specs that resist traceability               |
 | FCL-R6 | Must cite parent ORL IDs for capabilities that satisfy an operational requirement        | Disconnected functional requirements                            |
 
-#### Atomic Exclusion Rules
+#### FCL: Atomic Exclusion Rules
 
 | Rule   | Statement                                                                  |
 | ------ | -------------------------------------------------------------------------- |
@@ -349,7 +349,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Parents:** `constrains` ← FCL; `constrains` ← ORL. **Edge to child:** `constrains` → SAL
 
-#### Atomic Inclusion Rules
+#### HIL: Atomic Inclusion Rules
 
 | Rule   | Statement                                                                                           | Violation Consequence                                 |
 | ------ | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
@@ -359,7 +359,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | HIL-R4 | Must specify network topology constraints (air-gapped, restricted egress, inter-zone latency SLAs)  | Architecture with unachievable networking assumptions |
 | HIL-R5 | Must cite parent ORL IDs for each constraint derived from a performance or availability requirement | Orphaned infrastructure constraints                   |
 
-#### Atomic Exclusion Rules
+#### HIL: Atomic Exclusion Rules
 
 | Rule   | Statement                                                                           |
 | ------ | ----------------------------------------------------------------------------------- |
@@ -379,7 +379,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Parents:** `constrains` ← FCL; `constrains` ← ORL. **Edge to child:** `constrains` → SAL
 
-#### Atomic Inclusion Rules
+#### TDL: Atomic Inclusion Rules
 
 | Rule   | Statement                                                                                      | Violation Consequence                                |
 | ------ | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
@@ -390,7 +390,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | TDL-R5 | Must explicitly declare prohibited technologies with rationale                                 | License compliance violations                        |
 | TDL-R6 | Must cite FCL or ORL IDs for each mandated technology choice                                   | Technology selections untraceable to a business need |
 
-#### Atomic Exclusion Rules
+#### TDL: Atomic Exclusion Rules
 
 | Rule   | Statement                                                                                               |
 | ------ | ------------------------------------------------------------------------------------------------------- |
@@ -408,7 +408,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Parents:** `derives` ← FCL (always); `constrains` ← HIL (if active); `constrains` ← TDL (if active). **Edge to child:** `derives` → ICL
 
-#### Atomic Inclusion Rules
+#### SAL: Atomic Inclusion Rules
 
 | Rule   | Statement                                                                                                   | Violation Consequence                                   |
 | ------ | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -419,7 +419,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | SAL-R5 | Must specify failure isolation and resilience boundaries (circuit breakers, bulkheads, fallback strategies) | Cascading failure scenarios in the architecture         |
 | SAL-R6 | Must cite all active parent IDs (FCL + HIL if active + TDL if active) for each major architectural decision | Architectural decisions without traceable justification |
 
-#### Atomic Exclusion Rules
+#### SAL: Atomic Exclusion Rules
 
 | Rule   | Statement                                                          |
 | ------ | ------------------------------------------------------------------ |
@@ -435,7 +435,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Parent:** `derives` ← SAL. **Edge to child:** `implements` → CDL
 
-#### Atomic Inclusion Rules
+#### ICL: Atomic Inclusion Rules
 
 | Rule   | Statement                                                                                     | Violation Consequence                              |
 | ------ | --------------------------------------------------------------------------------------------- | -------------------------------------------------- |
@@ -447,7 +447,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | ICL-R6 | Must specify versioning strategy per contract (backward compatibility, deprecation protocol)  | Breaking changes without migration path            |
 | ICL-R7 | Must cite SAL IDs for each contract, establishing which architectural boundary it governs     | Contracts without architectural justification      |
 
-#### Atomic Exclusion Rules
+#### ICL: Atomic Exclusion Rules
 
 | Rule   | Statement                                                              |
 | ------ | ---------------------------------------------------------------------- |
@@ -463,7 +463,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Parent:** `implements` ← ICL. **Edge to child:** `implements` → ISL
 
-#### Atomic Inclusion Rules
+#### CDL: Atomic Inclusion Rules
 
 | Rule   | Statement                                                                                           | Violation Consequence                               |
 | ------ | --------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
@@ -474,7 +474,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | CDL-R5 | Must map each component to the ICL contracts it implements                                          | Components without contractual grounding            |
 | CDL-R6 | Must specify initialization, lifecycle, and teardown contracts for stateful components              | Resource leaks and initialization-order bugs        |
 
-#### Atomic Exclusion Rules
+#### CDL: Atomic Exclusion Rules
 
 | Rule   | Statement                                                            |
 | ------ | -------------------------------------------------------------------- |
@@ -490,7 +490,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Parent:** `implements` ← CDL. **Terminal leaf — no Core children.**
 
-#### Atomic Inclusion Rules
+#### ISL: Atomic Inclusion Rules
 
 | Rule   | Statement                                                                                                                                    | Violation Consequence                                         |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
@@ -501,7 +501,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | ISL-R5 | Must be language-specific — one ISL node per target language/runtime when multiple are declared in TDL                                       | Language-ambiguous stubs                                      |
 | ISL-R6 | Must cite CDL parent IDs for every stub                                                                                                      | Orphaned scaffolding                                          |
 
-#### Atomic Exclusion Rules
+#### ISL: Atomic Exclusion Rules
 
 | Rule   | Statement                                                       |
 | ------ | --------------------------------------------------------------- |
@@ -577,7 +577,7 @@ XPD constraints function as **absolute veto rights** over any downstream decisio
 [TIER-N.M, TIER-P.Q]     →  multiple parents
 ```
 
-Example: *"This architectural boundary derives from the microservices mandate [SAL-2.1] and the latency ceiling [ORL-1.3], with the API contract defined in [ICL-3.1]."*
+Example: *"This architectural boundary derives from the microservices mandate \[SAL-2.1\] and the latency ceiling \[ORL-1.3\], with the API contract defined in \[ICL-3.1\]."*
 
 ---
 
@@ -742,7 +742,7 @@ Disabling any Extension leaves the Core valid, complete, and fully operational.
 **Purpose:** Enables reverse-engineering of higher-tier DDR nodes from lower-tier content or existing codebases. Infers DRAFT-status parent nodes from ISL, CDL, and ICL content; surfaces candidates for human review and promotion.
 
 **Reads:** ISL, CDL, ICL, SAL
-**Annotates:** All tiers (`ARE::inferred_draft`, `ARE::confidence_score` [0.0–1.0])
+**Annotates:** All tiers (`ARE::inferred_draft`, `ARE::confidence_score` \[0.0–1.0\])
 
 | Rule   | Statement                                                                                                       |
 | ------ | --------------------------------------------------------------------------------------------------------------- |
@@ -923,7 +923,7 @@ flowchart TD
 
 A DDR project may not be declared `CLEAN` and production-ready until all items are satisfied.
 
-**Structural Validation**
+> **Structural Validation**
 
 - [ ] All non-root nodes have ≥1 valid, non-superseded `parent_id`
 - [ ] All `parent_ids` reference nodes of the correct parent tier
@@ -934,7 +934,7 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 - [ ] No node has `status: DIRTY`
 - [ ] Reconciliation manifest shows zero pending items
 
-**Atomic Rule Validation**
+> **Atomic Rule Validation**
 
 - [ ] XPD nodes satisfy XPD-R1 through XPD-R6 and XPD-E1 through XPD-E3
 - [ ] SIL nodes satisfy SIL-R1 through SIL-R6 and SIL-E1 through SIL-E4
@@ -947,13 +947,13 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 - [ ] ICL schemas are machine-parseable (ICL-R2)
 - [ ] ISL stubs contain traceable docstrings citing CDL parent IDs (ISL-R2, ISL-R5, ISL-R6)
 
-**Fork Conflict Resolution**
+> **Fork Conflict Resolution**
 
 - [ ] All HIL∥TDL conflicts are documented in CRRs
 - [ ] All CRRs have explicit resolution rationale and SAL impact statements
 - [ ] No SAL node in conflict state is set to `ACTIVE`
 
-**Extension Validation** *(when Extensions active)*
+> **Extension Validation** *(when Extensions active)*
 
 - [ ] All active Extensions declare compatible contract versions for DDR-Core-3.x
 - [ ] Extension annotations stored in `extension_annotations` only
