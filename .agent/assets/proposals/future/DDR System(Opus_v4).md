@@ -459,16 +459,16 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | ISL-R1 | Must produce syntactically valid structural scaffolding in the target language                        | Scaffolding that fails to compile or parse  |
 | ISL-R2 | Must embed docstrings or code comments with explicit parent DDR node IDs                              | Implementations without traceability        |
 | ISL-R3 | Must include implementation hints as structured comments                                              | Implementers who lose architectural context |
-| ISL-R4 | Must not contain business logic; all function/method bodies must be stubs                             | Pre-implementation contamination            |
+| ISL-R4 | Must define all function/method bodies exclusively as stubs                                           | Pre-implementation contamination            |
 | ISL-R5 | Must be language-specific — one ISL node per target language/runtime when multiple are declared in CL | Language-ambiguous stubs                    |
 | ISL-R6 | Must cite CDL parent IDs for every stub                                                               | Orphaned scaffolding                        |
 
 #### ISL Atomic Exclusion Rules
 
-| Rule   | Statement                                                    |
-| ------ | ------------------------------------------------------------ |
-| ISL-E1 | Must not contain complete algorithmic logic                  |
-| ISL-E2 | Must not contain infrastructure configuration (→ Extensions) |
+| Rule   | Statement                                                     |
+| ------ | ------------------------------------------------------------- |
+| ISL-E1 | Must not contain business logic or complete algorithmic logic |
+| ISL-E2 | Must not contain infrastructure configuration (→ Extensions)  |
 
 ---
 
