@@ -45,6 +45,7 @@
     "markdown.validate.enabled": true,
     "cSpell.words": [
         "abstractproperty",
+        "Activatable",
         "Acyclicity",
         "agentic",
         "asdict",
@@ -56,12 +57,14 @@
         "Cormen",
         "dataclass",
         "Dataclasses",
+        "DBML",
         "docstrings",
         "elif",
         "frontmatter",
         "funcs",
         "functools",
         "googleblog",
+        "GPCL",
         "Halstead",
         "Hotspot",
         "hotspots",
@@ -84,7 +87,9 @@
         "sandboxed",
         "stdlib",
         "tkinter",
+        "unbundleable",
         "undoc",
+        "WCAG",
         "zilliz"
     ],
     // =========================================================================

@@ -1,6 +1,6 @@
 # DDR System Specification v3.1.1
 
-**Deterministic Design & Requirements System — Authoritative Reference**
+> **Deterministic Design & Requirements System — Authoritative Reference**
 
 | Property  | Value                                    |
 | --------- | ---------------------------------------- |
@@ -32,13 +32,13 @@
 
 ### 2.1 Node Schema
 
-| Property                | Type         | Description                                                        |
-| ----------------------- | ------------ | ------------------------------------------------------------------ |
-| `id`                    | `TIER-N.M`   | Immutable on assignment; superseded nodes retain their original ID |
-| `tier`                  | Enum         | One of: XPD, SIL, GPCL, ORL, FCL, HIL, TDL, SAL, ICL, CDL, ISL     |
-| `title`                 | String       | Human-readable artifact label                                      |
-| `content`               | Text         | Body constrained by the tier's atomic ruleset                      |
-| `parent_ids`            | List[String] | ≥1 for all non-root nodes; typed by edge                           |
+| Property                | Type           | Description                                                        |
+| ----------------------- | -------------- | ------------------------------------------------------------------ |
+| `id`                    | `TIER-N.M`     | Immutable on assignment; superseded nodes retain their original ID |
+| `tier`                  | Enum           | One of: XPD, SIL, GPCL, ORL, FCL, HIL, TDL, SAL, ICL, CDL, ISL     |
+| `title`                 | String         | Human-readable artifact label                                      |
+| `content`               | Text           | Body constrained by the tier's atomic ruleset                      |
+| `parent_ids`            | List\[String\] | ≥1 for all non-root nodes; typed by edge                           |
 | `status`                | Enum         | `DRAFT` \| `ACTIVE` \| `DIRTY` \| `DEPRECATED` \| `SUPERSEDED`     |
 | `version`               | SemVer       | Content version string                                             |
 | `created`               | ISO 8601     | Creation timestamp                                                 |
