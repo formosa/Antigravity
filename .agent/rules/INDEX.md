@@ -37,9 +37,9 @@
 
 ### Execution Rules (1) — Always On, Priority 100
 
-| File                                           | Purpose                              |
-| :--------------------------------------------- | :----------------------------------- |
-| [execution-protocol.md](execution-protocol.md) | Shell & Python execution constraints |
+| File                                                                     | Purpose                              |
+| :----------------------------------------------------------------------- | :----------------------------------- |
+| [POWERSHELL_EXECUTION_GUARDRAILS.md](POWERSHELL_EXECUTION_GUARDRAILS.md) | Shell & Python execution guardrails  |
 
 ---
 

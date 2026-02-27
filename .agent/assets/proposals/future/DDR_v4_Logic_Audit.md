@@ -37,7 +37,7 @@
 
 **Location:** §6 Constraint Precedence Table; §5 Tier 3 (FCL) and Tier 4 (CL)
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 The `constrains` edge type is defined in §3.2 as: *"Parent sets enforceable limits on child's design space."* The specification explicitly places FCL as the **parent** of CL via a `constrains` edge:
 
@@ -66,7 +66,7 @@ This means CL **overrides** FCL in any conflict. A child node is declared to hav
 
 **Location:** §6 Constraint Precedence Table; §2 AX-2; DAG topology
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 The Constraint Precedence table in §6 lists:
 
@@ -91,7 +91,7 @@ Allowing GPCL to override SIL means a child node can veto the intent of its own 
 
 **Location:** §7.1 SUPERSEDE operation; §7.2 Dirty Flag Triggers
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 §7.2 Dirty Flag Triggers states unambiguously:
 
@@ -121,7 +121,7 @@ This is not merely ambiguous — it is a directly contradictory specification. A
 
 **Location:** §3.7 CIT-R2; §3.5 DAG Invariants; §5 Tier 5 SAL (SAL-R6); §3.4 DAG Topology
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 CIT-R2 states: *"`parent_ids` must reference nodes exactly one tier above in the derivation path."*
 
@@ -143,11 +143,11 @@ When CL is active, the active tier sequence is: FCL (Tier 3) → CL (Tier 4) →
 
 **Location:** Appendix B — v3.1.1 → v4.0 Tier Migration; §5 Tier 4 CL rules
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 Appendix B states: *"HIL-R1 through HIL-R5 become CL-R6 through CL-R8."*
 
-HIL had 5 rules (R1–R5); CL-R6 through CL-R8 provides only 3 target slots. Two rules are unaccounted for. The ORL migration (5 rules to GPCL-R6–R10) explicitly notes a consolidation: *"ORL-R5 and ORL-R6 consolidated into GPCL-R9."* No analogous consolidation note exists for HIL. This omission means the migration cannot be independently audited or verified, breaking the deterministic traceability that is the framework's core value proposition.
+HIL had 5 rules (R1–R5); CL-R6 through CL-R8 provides only 3 target slots. Two rules are unaccounted for. The ORL migration (<span style="color:red">~~5 rules~~</span> <span style="color:#00BFFF">*7 rules*</span> to GPCL-R6–R10) explicitly notes a consolidation: *"ORL-R5 and ORL-R6 consolidated into GPCL-R9."* No analogous consolidation note exists for HIL. This omission means the migration cannot be independently audited or verified, breaking the deterministic traceability that is the framework's core value proposition.
 
 **Recommendations:**
 
@@ -161,7 +161,7 @@ HIL had 5 rules (R1–R5); CL-R6 through CL-R8 provides only 3 target slots. Two
 
 **Location:** Appendix B — v3.1.1 → v4.0 Tier Migration; §5 Tier 4 CL rules
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 Appendix B states: *"TDL-R1 through TDL-R6 become CL-R1 through CL-R5."*
 
@@ -179,7 +179,7 @@ TDL had 6 rules (R1–R6); CL-R1 through CL-R5 provides only 5 target slots. One
 
 **Location:** §7.1 Core Operations (INSERT); §7.2 Dirty Flag Triggers
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 §7.1 states that INSERT triggers: *"Full atomic ruleset; parent existence; DAG cycle detection."* This language implies INSERT performs synchronous validation at creation time — a successfully completed INSERT produces a validated, clean node.
 
@@ -204,7 +204,7 @@ There is no specification of which model applies, whether INSERT can partially s
 
 **Location:** §9 E5 ARE contract declaration; ARE-R4; §5 Tier 0 XPD; §8.1 Extension Architecture
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 ARE's contract declaration reads: *"Reads: ISL, CDL, ICL, SAL · **Annotates: All tiers**"*
 
@@ -228,7 +228,7 @@ The restriction in ARE-R4 applies only to node **creation**. The "Annotates: All
 
 **Location:** §1.1 Changes from v3.1.1 Table (Express Mode row)
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 The §1.1 changes table reads:
 
@@ -250,7 +250,7 @@ The §1.1 changes table reads:
 
 **Location:** §9 E9 EHD-R5; §5 Tier 0 XPD; §6 Constraint Precedence (XPD Priority 1)
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 EHD-R5 states: *"When XPD is inactive, EHD creates a synthetic XPD-equivalent assessment anchored to SIL."*
 
@@ -273,7 +273,7 @@ This synthetic assessment is stored in `extension_annotations` (per Extension ar
 
 **Location:** §3.5 DAG Invariants; §3.6 Node ID Format; §5 Tier 0 XPD; Glossary ("Root Node")
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 The Glossary defines Root Node as *"XPD (if active) or SIL (if XPD inactive); the only node with an empty `parent_ids` list."* The DAG Invariant implies a single root. However, nothing in the XPD tier rules, the DAG Invariants in §3.5, or the Core Operations prevents the existence of two simultaneously ACTIVE XPD nodes (e.g., XPD-0.1 and XPD-0.2 both ACTIVE at once). Node IDs are immutable, SUPERSEDE creates a new node rather than deleting the old one, and there is no formal constraint that exactly one XPD node may be ACTIVE at a time.
 
@@ -291,7 +291,7 @@ If two ACTIVE XPD nodes exist with conflicting ethical boundaries, the Constrain
 
 **Location:** §5 Tier 5 SAL Exclusion Rules (SAL-E3); §5 Tier 7 CDL Exclusion Rules (CDL-E1)
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 - SAL-E3: *"Must not contain **executable code**"*
 - CDL-E1: *"Must not contain **executable code bodies or algorithm implementations**"*
@@ -314,7 +314,7 @@ SAL-E3's phrasing ("executable code") is a subset of CDL-E1's phrasing ("code bo
 
 **Location:** §9 E3 LVE contract header; §8.3 EXT-R2
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 EXT-R2 requires Extensions to *"declare which Core tiers it reads and which it annotates."* LVE declares *"Reads: All Core tiers · Annotates: All Core tiers."* While technically compliant with the letter of EXT-R2, this blanket declaration defeats the purpose of the rule — one cannot verify LVE's scope, audit its annotation surface, or reason about what happens when new tiers are added in a future DDR version.
 
@@ -330,7 +330,7 @@ EXT-R2 requires Extensions to *"declare which Core tiers it reads and which it a
 
 **Location:** §10 Architecture Diagram (Mermaid); §3.4 DAG Topology; §3.5 DAG Invariants
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 The Mermaid diagram shows `FCL -->|derives| SAL` as a solid unconditional edge, and `CL -. constrains .-> SAL` as a conditional edge. However, the diagram does not visually distinguish the two FCL → SAL scenarios:
 
@@ -351,7 +351,7 @@ A reader examining the diagram cannot determine that the `FCL → SAL` edge chan
 
 **Location:** §11 Compliance Checklist; §8.1 Extension Architecture; EXT-R7
 
-**Description:**
+**Description:** <span style="color:violet">***Verified and Validated***</span>
 
 The Compliance Checklist places Extension validation items under the conditional block *"Extension Validation (when Extensions active)."* This means a project could be declared CLEAN and production-ready with active Extensions carrying unreviewed critical advisories, since the CLEAN declaration only requires the core structural checklist. EXT-R7 confirms that advisories do not mutate Core DIRTY/CLEAN status, creating a design where the flag that blocks production deployment is independent from the advisories that may indicate production risk.
 

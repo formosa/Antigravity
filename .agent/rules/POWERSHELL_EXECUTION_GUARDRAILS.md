@@ -1,6 +1,6 @@
 ---
 name: "POWERSHELL_EXECUTION_GUARDRAILS"
-description: "Enforces safe execution practices for Windows PowerShell command line interactions, mitigating string pipeline collapse and UTF-8 encoding corruption."
+description: "Enforces safe execution practices for Windows PowerShell command line interactions, mitigating string pipeline collapse and UTF-8 encoding corruption across shell and Python boundaries."
 trigger: "always_on"
 priority: "critical"
 ---
@@ -11,6 +11,10 @@ priority: "critical"
 2. Strict UTF-8 Enforcement for Subprocesses: When executing Python scripts via the terminal, MUST prefix with `$env:PYTHONIOENCODING="utf-8";`.
 3. Explicit File I/O Encoding Specification: Commands that write to files (e.g., `Set-Content`, `Out-File`) MUST include `-Encoding UTF8`. Commands reading files MUST explicitly dictate encoding if text processing is required.
 4. Binary Existence Prudence: Do not assume non-standard global CLI tools (npx, make) are installed; prioritize agentic internal capabilities or project-provided scripts over arbitrary global dependencies.
+5. Hardened Shell Enforcement: Terminal commands MUST be executed in explicit powershell code blocks. Operating in a hardened PowerShell 7 (pwsh) environment is mandatory. Legacy powershell.exe aliases are strictly FORBIDDEN. Every shell step MUST be a complete, self-contained, and copy-pasteable command.
+6. Python I/O Integrity: encoding='utf-8' is MANDATORY in all instances of internal Python open(), Path.read_text(), and Path.write_text().
+7. Subprocess Integrity: encoding='utf-8', errors='replace' is MANDATORY in all subprocess.run() calls that capture output.
+8. Dependency Tracing: If a script requires external dependencies, ensure they are listed in the Build Manifest of the implementation plan. Avoid using libraries that do not support specified encodings where possible.
 </constraints>
 
 <verification_step>
