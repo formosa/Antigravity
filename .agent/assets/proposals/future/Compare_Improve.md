@@ -13,7 +13,7 @@
 
 ## 1. Executive Summary
 
-Both specifications define a Deterministic Design & Requirements System built on a Directed Acyclic Graph (DAG) with typed edges, atomic inclusion/exclusion rules per tier, an Extension overlay system, and consumption modes (Express/Full). They share identical axioms (AX-1 through AX-7), identical node schema fields, and an identical philosophy of declarative Core with read-only Extensions.
+Both specifications define a Deterministic Design & Requirements System built on a Directed Acyclic Graph (DAG) with typed edges, atomic inclusion/exclusion rules per tier, an Extension overlay system, and consumption modes (Express/Full). They share identical axioms (AX-1 through AX-7), <span style="color:violet">~~identical node schema fields~~</span><span style="color:limegreen">*identical node schema structure (the `tier` enum values differ due to merged/removed tiers: v3.1.1 includes ORL, HIL, TDL; v4.0 replaces these with CL)*</span>, and an identical philosophy of declarative Core with read-only Extensions.
 
 **v4.0 (Opus_v4) is the superior design.** It systematically eliminates structural redundancies, resolves internal contradictions, and reduces cognitive overhead — <span style="color:red">~~all without sacrificing expressiveness~~</span><span style="color:blue">*while introducing minor trade-offs in explicit parallel invariant enforcement that must be mitigated*</span>. The remainder of this report substantiates this endorsement.
 
@@ -27,11 +27,11 @@ Both specifications define a Deterministic Design & Requirements System built on
 | --------- | ------------------- | --------------- |
 | Total tiers | 11 (8 mandatory + 3 optional) | 9 (7 mandatory + 2 optional) |
 | Optional tiers | XPD, HIL, TDL | XPD, CL |
-| Governance | GPCL (governance only) | GPCL (governance + quality thresholds) |
+| Governance | <span style="color:violet">~~GPCL (governance only)~~</span><span style="color:limegreen">*GPCL (governance + policy constraints)*</span> | GPCL (governance + policy + quality thresholds) |
 | Operational quality | ORL (separate tier) | Absorbed into GPCL as content sections |
 | Hardware constraints | HIL (independent tier) | Absorbed into CL |
 | Technology constraints | TDL (independent tier) | Absorbed into CL |
-| Topology | Fork-join (FCL → HIL∥TDL → SAL) | Merge-node (FCL → CL? → SAL) |
+| Topology | <span style="color:violet">~~Fork-join (FCL → HIL∥TDL → SAL)~~</span><span style="color:limegreen">*Fork-join (ORL/FCL → HIL∥TDL → SAL) — both ORL and FCL issue constrains edges to HIL/TDL*</span> | Merge-node (FCL → CL? → SAL) |
 
 > [!IMPORTANT]
 > **Key Reduction:** v4.0 eliminates ORL and merges HIL + TDL into a unified Constraint Layer (CL). This removes two tiers while preserving every inclusion rule as content sections within the merged tiers.
@@ -50,7 +50,7 @@ Both specifications define a Deterministic Design & Requirements System built on
 | `reads` | ✅ | ❌ | Merged into `extends` |
 | `extends` | ❌ | ✅ | New unified Extension-to-Core edge |
 
-**Verdict:** v4.0 reduces from 6 to 4 edge types. The `cites` → `derives` merge is semantically sound: citing a parent for traceability *is* a derivation edge with the same structural invariant (parent must exist, one-tier-above rule applies). Merging `reads` and `annotates` into `extends` is correct because both describe the same structural relationship — Extension accesses Core node without mutating it. <span style="color:blue">*However, this reduces the granularity of explicitly knowing whether an extension only reads a node versus actively attaching annotations to it, which may complicate permission scoping for extensions.*</span>
+**Verdict:** v4.0 reduces from 6 to 4 edge types. The `cites` → `derives` merge is semantically sound: citing a parent for traceability *is* a derivation edge with the same structural invariant (parent must exist, one-tier-above rule applies). Merging `reads` and `annotates` into `extends` is correct because both describe the same structural relationship — Extension accesses Core node without mutating it. <span style="color:violet">~~<span style="color:blue">*However, this reduces the granularity of explicitly knowing whether an extension only reads a node versus actively attaching annotations to it, which may complicate permission scoping for extensions.*</span>~~</span><span style="color:limegreen">*However, this reduces audit-trail granularity: a unified `extends` edge no longer distinguishes read-only analysis from active annotation attachment. This impacts audit logging and Extension behavior forensics — not permission scoping, which is governed by the Extension integration rules (EXT-R2), not edge types.*</span>
 
 ---
 
@@ -86,7 +86,7 @@ Both specifications define a Deterministic Design & Requirements System built on
 | Validation complexity | Must validate two independent constraint paths to SAL | Single constraint path |
 
 > [!TIP]
-> v4.0's merge-node topology eliminates the entire CRR protocol, the parallel-tier invariant enforcement, and the fork conflict resolution compliance checklist section — <span style="color:red">~~significant reduction in both specification and implementation complexity~~</span><span style="color:blue">*shifting the responsibility of conflict resolution from explicit structural protocol to internal node authoring discipline, which risks a degradation in deterministic traceability if not strictly governed*</span>.
+> v4.0's merge-node topology eliminates the entire CRR protocol, the parallel-tier invariant enforcement, and the fork conflict resolution compliance checklist section — <span style="color:red">~~significant reduction in both specification and implementation complexity~~</span><span style="color:violet">~~<span style="color:blue">*shifting the responsibility of conflict resolution from explicit structural protocol to internal node authoring discipline, which risks a degradation in deterministic traceability if not strictly governed*</span>~~</span><span style="color:limegreen">*shifting conflict resolution from an explicit, auditable protocol (CRR) to internal node authoring discipline. This affects both deterministic traceability AND compliance audit trails — CRR artifacts served dual purpose as both resolution records and audit evidence per v3.1.1 §12 Fork Conflict Resolution checklist items.*</span>
 
 ---
 
@@ -143,7 +143,7 @@ Both specifications define a Deterministic Design & Requirements System built on
 | Compliance checklist | 4 sections (includes Fork Conflict Resolution) | 3 sections (no fork resolution needed) |
 | Glossary | 15 terms | 12 terms (removed fork/join/CRR/Z-Axis; added Candidate Pool/Merge Node) |
 
-**Verdict:** v4.0 is ~12% shorter while being more self-documenting. Every structural change includes an explicit rationale section. The migration table (Appendix B) provides a clear, mechanical path from v3.1.1 to v4.0.
+**Verdict:** v4.0 is ~12% shorter while being more self-documenting. Every structural change includes an explicit rationale section. The migration table (Appendix B) provides a clear, mechanical path from v3.1.1 to v4.0. <span style="color:limegreen">*However, Appendix B contains a numeric discrepancy: it states "ORL-R1 through ORL-R7 become GPCL-R6 through GPCL-R10" — mapping 7 source rules to 5 destination rules. Two ORL rules (ORL-R5 scalability and ORL-R6 accessibility) were consolidated into a single GPCL-R9. This consolidation should be explicitly documented in the migration table to maintain the "zero information loss" claim.*</span>
 
 ---
 
@@ -157,7 +157,7 @@ Both specifications define a Deterministic Design & Requirements System built on
 | 2 | **ARE DRAFT-in-Core tension** | ARE creates `DRAFT` nodes inside Core DAG, violating the read-only Extension axiom (AX-6) | Extension Candidate Pool explicitly outside Core DAG |
 | 3 | **ORL pass-through** | ORL often produces pass-through nodes that add a tier boundary without independent semantic value | ORL absorbed into GPCL as content sections |
 | 4 | **Fork-join complexity** | HIL∥TDL parallel topology requires CRR protocol, orthogonality invariant, and fork-specific compliance | Unified CL with internal conflict resolution |
-| 5 | **6 edge types when 4 suffice** | `cites` is semantically a `derives` variant; `reads`/`annotates` share the same structural invariant | 4 edge types with no expressiveness loss |
+| 5 | **6 edge types when 4 suffice** | `cites` is semantically a `derives` variant; `reads`/`annotates` share the same structural invariant | 4 edge types with <span style="color:violet">~~no expressiveness loss~~</span><span style="color:limegreen">*minor audit-trail granularity loss (reads vs. annotates distinction eliminated)*</span> |
 | 6 | **Service Model in specification** | Pricing contaminated the system design document with commercial concerns | Service Model removed |
 
 ### 3.2 Potential Concerns with v4.0
@@ -166,7 +166,8 @@ Both specifications define a Deterministic Design & Requirements System built on
 | - | ------- | ---------- | -------- |
 | 1 | **ORL absorption may obscure NFR governance** | GPCL now hosts both regulatory governance *and* performance quality thresholds. These have different change velocities — governance evolves with legal landscapes; performance targets evolve with business scaling. | **Low** — The distinction is preserved via content sections within GPCL. GPCL-R1..R5 remain pure governance; GPCL-R6..R10 are absorbed ORL rules. If separation becomes necessary, UNBUNDLE can cleanly extract. |
 | 2 | **HIL/TDL unification loses explicit orthogonality** | v3.1.1's separation made it structurally impossible to conflate hardware and technology decisions. In CL, this is an author discipline concern. | <span style="color:red">~~**Low**~~</span> <span style="color:blue">***Medium***</span> — CL exclusion rules and content sections maintain the logical separation. The benefit of eliminating fork-join topology <span style="color:red">~~far outweighs the minor orthogonality loss~~</span><span style="color:blue">*must be actively managed by strict author discipline to prevent conflation of hardware and software constraints*</span>. |
-| 3 | **CRR protocol removal** | Removes a structured conflict resolution mechanism between hardware and technology constraints. | <span style="color:red">~~**Low**~~</span> <span style="color:blue">***High***</span> — <span style="color:red">~~Conflicts are resolved internally within CL nodes, which is simpler. The formal CRR protocol was over-engineered for the common case.~~</span><span style="color:blue">*Removing explicit CRR sacrifices deterministic traceability of constraint conflicts. A lightweight internal reconciliation documentation requirement should be appended to the CL atomic rules to mitigate this.*</span> |
+| 3 | **CRR protocol removal** | Removes a structured conflict resolution mechanism between hardware and technology constraints. | <span style="color:red">~~**Low**~~</span> <span style="color:violet">~~<span style="color:blue">***High***</span>~~</span><span style="color:limegreen">***Medium-High***</span> — <span style="color:red">~~Conflicts are resolved internally within CL nodes, which is simpler. The formal CRR protocol was over-engineered for the common case.~~</span><span style="color:violet">~~<span style="color:blue">*Removing explicit CRR sacrifices deterministic traceability of constraint conflicts. A lightweight internal reconciliation documentation requirement should be appended to the CL atomic rules to mitigate this.*</span>~~</span><span style="color:limegreen">*The CRR protocol served dual roles: (1) conflict resolution and (2) compliance audit trail. A lightweight reconciliation documentation section within CL nodes (e.g., a CL-R10 rule requiring explicit conflict rationale) would preserve audit capability without reintroducing fork-join complexity. Severity is Medium-High rather than High because the precedence table (§6 of v4.0) still provides deterministic ordering — what is lost is the structured documentation of how that ordering was applied in specific cases.*</span> |
+| 4 | **CRR ID format orphan in v4.0** | v4.0 §3.6 Node ID Format (line 175) still includes `CRR-N` in the ID format examples, despite removing the CRR protocol entirely. | <span style="color:limegreen">***Low*** — *This is a document hygiene issue in v4.0 itself. The `CRR-N` format reference should be removed from §3.6 or repurposed as a CL internal conflict record ID format if a CL-R10 reconciliation rule is adopted.*</span> |
 
 ---
 
@@ -188,8 +189,10 @@ v4.0 is the superior specification for the following reasons:
 
 6. **Adoptability** — The reduced tier count and simpler topology lower the barrier to adoption. The specification's own design philosophy ("adoptable by a solo developer on day one") is better realized in v4.0.
 
+7. <span style="color:limegreen">***Migration Completeness** — The Appendix B migration table provides mechanical migration paths for all 11 v3.1.1 tiers. However, the ORL rule consolidation (7 rules → 5 GPCL rules) should be explicitly documented to close a minor traceability gap in the migration itself. Additionally, the orphaned CRR-N ID format reference in §3.6 should be addressed before v4.0 is declared fully internally consistent.*</span>
+
 > [!IMPORTANT]
-> **Endorsement: DDR System v4.0 (Opus_v4) is recommended as the authoritative specification<span style="color:blue">*, provided that a mandatory internal conflict documentation rule is added to the Constraint Layer (CL)*</span>.** It achieves a strict superset of v3.1.1's expressiveness with measurably lower complexity<span style="color:red">~~, zero internal contradictions, and superior self-documentation~~</span><span style="color:blue">*, zero internal contradictions, and superior self-documentation, though it requires stronger author discipline*</span>.
+> **Endorsement: DDR System v4.0 (Opus_v4) is recommended as the authoritative specification<span style="color:blue">*, provided that a mandatory internal conflict documentation rule is added to the Constraint Layer (CL)*</span><span style="color:limegreen">* and the orphaned CRR-N ID format reference in §3.6 is resolved*</span>.** It achieves a strict superset of v3.1.1's expressiveness with measurably lower complexity<span style="color:red">~~, zero internal contradictions, and superior self-documentation~~</span><span style="color:violet">~~<span style="color:blue">*, zero internal contradictions, and superior self-documentation, though it requires stronger author discipline*</span>~~</span><span style="color:limegreen">*, near-zero internal contradictions (the CRR-N orphan in §3.6 is a minor document hygiene item), and superior self-documentation. The ORL rule consolidation gap in Appendix B should also be explicitly documented to maintain v4.0's own "zero information loss" claim.*</span>
 
 ---
 
@@ -213,3 +216,12 @@ v4.0 is the superior specification for the following reasons:
 ---
 
 Report generated 2026-02-26 — DDR Architecture Board Design Comparison
+
+---
+
+## Editorial Audit Log
+
+| Date | Reviewer | Scope |
+| ---- | -------- | ----- |
+| 2026-02-26 | Initial automated comparison | Original report generation |
+| 2026-02-26 | Editorial Audit (Adversarial Review) | Validated all assertions against source documents; corrected imprecise claims; identified v4.0 internal inconsistency (CRR-N orphan in §3.6); identified ORL rule consolidation gap in Appendix B migration table; refined severity assessments with dual-role analysis of CRR protocol; corrected GPCL v3.1.1 descriptor; corrected fork-join topology descriptor to include ORL; refined edge-type audit-trail impact from "permission scoping" to "audit logging"; endorsed v4.0 with explicit remediation prerequisites |

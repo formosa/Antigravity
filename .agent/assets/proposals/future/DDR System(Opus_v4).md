@@ -172,7 +172,6 @@ This specification was designed under three governing constraints:
 ```text
 [TIER]-[SECTION].[ITEM]    →  SIL-1.3 | GPCL-2.1 | CDL-12.5
 XPD nodes                  →  XPD-0.N  (no sections; section = 0)
-CRRs                       →  CRR-N    (Constraint Reconciliation Records)
 ```
 
 IDs are **immutable once assigned.** A superseded node retains its original ID with `status: SUPERSEDED`; the replacement receives a new ID. No operation — including relocation — may alter a node's assigned ID.
@@ -340,17 +339,18 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 #### CL Atomic Inclusion Rules
 
-| Rule  | Statement                                                                                         | Violation Consequence                            |
-| ----- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| CL-R1 | Must declare approved programming languages with version constraints                              | Incompatible implementations                     |
-| CL-R2 | Must declare mandatory frameworks and core libraries with minimum version bounds                  | Dependency drift                                 |
-| CL-R3 | Must declare required external service contracts without their internal implementation details    | Integration gaps                                 |
-| CL-R4 | Must declare runtime environment constraints (OS, container runtime, execution environment)       | Deployment environment incompatibility           |
-| CL-R5 | Must explicitly declare prohibited technologies with rationale                                    | License compliance violations                    |
-| CL-R6 | Must declare hardware envelopes when applicable (CPU class, RAM floor, storage, GPU)              | Architecture that exceeds target hardware        |
-| CL-R7 | Must declare infrastructure ceilings when applicable (compute budget, storage cap, bandwidth cap) | Cost overruns from unconstrained architecture    |
-| CL-R8 | Must specify deployment topology declarations (on-premise, cloud-agnostic, hybrid, edge)          | Architecture incompatible with deployment target |
-| CL-R9 | Must cite FCL or GPCL IDs for each constraint                                                     | Constraints untraceable to a business need       |
+| Rule   | Statement                                                                                            | Violation Consequence                                       |
+| ------ | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| CL-R1  | Must declare approved programming languages with version constraints                                 | Incompatible implementations                                |
+| CL-R2  | Must declare mandatory frameworks and core libraries with minimum version bounds                     | Dependency drift                                            |
+| CL-R3  | Must declare required external service contracts without their internal implementation details       | Integration gaps                                            |
+| CL-R4  | Must declare runtime environment constraints (OS, container runtime, execution environment)          | Deployment environment incompatibility                      |
+| CL-R5  | Must explicitly declare prohibited technologies with rationale                                       | License compliance violations                               |
+| CL-R6  | Must declare hardware envelopes when applicable (CPU class, RAM floor, storage, GPU)                 | Architecture that exceeds target hardware                   |
+| CL-R7  | Must declare infrastructure ceilings when applicable (compute budget, storage cap, bandwidth cap)    | Cost overruns from unconstrained architecture               |
+| CL-R8  | Must specify deployment topology declarations (on-premise, cloud-agnostic, hybrid, edge)             | Architecture incompatible with deployment target            |
+| CL-R9  | Must cite FCL or GPCL IDs for each constraint                                                        | Constraints untraceable to a business need                  |
+| CL-R10 | Must explicitly document internal reconciliations of conflicting hardware and technology constraints | Loss of deterministic traceability for constraint conflicts |
 
 #### CL Atomic Exclusion Rules
 
@@ -815,19 +815,19 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 
 ## Appendix B: v3.1.1 → v4.0 Tier Migration
 
-| v3.1.1 Tier | v4.0 Destination | Migration Notes                                       |
-| ----------- | ---------------- | ----------------------------------------------------- |
-| XPD         | XPD              | Unchanged                                             |
-| SIL         | SIL              | Unchanged                                             |
-| GPCL        | GPCL             | Expanded to absorb ORL quality/performance content    |
-| ORL         | GPCL             | ORL-R1 through ORL-R7 become GPCL-R6 through GPCL-R10 |
-| FCL         | FCL              | Now derives from GPCL instead of ORL                  |
-| HIL         | CL               | HIL-R1 through HIL-R5 become CL-R6 through CL-R8      |
-| TDL         | CL               | TDL-R1 through TDL-R6 become CL-R1 through CL-R5      |
-| SAL         | SAL              | Simplified from fork-join to single merge-node        |
-| ICL         | ICL              | Unchanged                                             |
-| CDL         | CDL              | Unchanged                                             |
-| ISL         | ISL              | References CL instead of TDL for language targets     |
+| v3.1.1 Tier | v4.0 Destination | Migration Notes                                                                                     |
+| ----------- | ---------------- | --------------------------------------------------------------------------------------------------- |
+| XPD         | XPD              | Unchanged                                                                                           |
+| SIL         | SIL              | Unchanged                                                                                           |
+| GPCL        | GPCL             | Expanded to absorb ORL quality/performance content                                                  |
+| ORL         | GPCL             | ORL-R1 through ORL-R7 become GPCL-R6 through GPCL-R10 (ORL-R5 and ORL-R6 consolidated into GPCL-R9) |
+| FCL         | FCL              | Now derives from GPCL instead of ORL                                                                |
+| HIL         | CL               | HIL-R1 through HIL-R5 become CL-R6 through CL-R8                                                    |
+| TDL         | CL               | TDL-R1 through TDL-R6 become CL-R1 through CL-R5                                                    |
+| SAL         | SAL              | Simplified from fork-join to single merge-node                                                      |
+| ICL         | ICL              | Unchanged                                                                                           |
+| CDL         | CDL              | Unchanged                                                                                           |
+| ISL         | ISL              | References CL instead of TDL for language targets                                                   |
 
 ---
 
