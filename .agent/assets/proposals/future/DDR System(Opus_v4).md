@@ -25,8 +25,6 @@ This specification was designed under three governing constraints:
 
 ### 1.1 Changes from v3.1.1
 
-| Area                 | v3.1.1 (Claude_v3)                  | v4.0 (This Spec)                                       | Rationale                                                                                                                      |
-
 | Area                 | v3.1.1 (Claude_v3)                  | v4.0 (This Spec)                                                                                                            | Rationale                                                                                                                      |
 | -------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | Tier count           | 11 tiers (8 mandatory + 3 optional) | 9 tiers (7 mandatory + 2 optional)                                                                                          | ORL absorbed into GPCL/FCL; HIL absorbed into TDL as a unified Constraint Layer. Eliminates two tiers without information loss |
@@ -42,15 +40,15 @@ This specification was designed under three governing constraints:
 
 ## 2. Foundational Axioms
 
-| ID   | Axiom                 | Statement                                                                                                                | Implication                                                                   |
-| ---- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| AX-1 | Traceability          | Every non-root node must cite at least one parent via a typed edge                                                       | Complete audit trails from intent to implementation; no orphaned requirements |
-| AX-2 | Abstraction Ordering  | Technology and implementation specificity are deferred until logically necessary                                         | No technology references above the Constraint tier                            |
-| AX-3 | Determinism           | Identical inputs produce unambiguous, mechanically verifiable outputs                                                    | Automated validation and compliance checking are possible                     |
-| AX-4 | Universality          | The Core applies to all software systems regardless of domain, scale, or technology                                      | No domain-specific assumptions in any Core tier                               |
-| AX-5 | Extensibility         | Advanced analytical capabilities are delivered exclusively via optional Extensions                                       | Core remains stable under Extension addition, modification, or removal        |
-| AX-6 | Declarative Integrity | The Core is strictly declarative; all inference, optimization, and automated recommendation are Extension-only behaviors | Core structural invariants cannot be destabilized by analytical logic         |
-| AX-7 | DAG Acyclicity        | No citation chain may produce a cycle; causality flows in one direction only                                             | Graph traversal is always terminable                                          |
+| ID   | Axiom                 | Statement                                                                                                                | Implication                                                                                             |
+| ---- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| AX-1 | Traceability          | Every non-root node must cite at least one parent via a typed edge                                                       | Complete audit trails from intent to implementation; no orphaned requirements                           |
+| AX-2 | Abstraction Ordering  | Technology and implementation specificity are deferred until logically necessary                                         | Tiers above CL (XPD, SIL, GPCL, FCL) must contain no technology, hardware, or implementation references |
+| AX-3 | Determinism           | Identical inputs produce unambiguous, mechanically verifiable outputs                                                    | Automated validation and compliance checking are possible                                               |
+| AX-4 | Universality          | The Core applies to all software systems regardless of domain, scale, or technology                                      | No domain-specific assumptions in any Core tier                                                         |
+| AX-5 | Extensibility         | Advanced analytical capabilities are delivered exclusively via optional Extensions                                       | Core remains stable under Extension addition, modification, or removal                                  |
+| AX-6 | Declarative Integrity | The Core is strictly declarative; all inference, optimization, and automated recommendation are Extension-only behaviors | Core structural invariants cannot be destabilized by analytical logic                                   |
+| AX-7 | DAG Acyclicity        | No citation chain may produce a cycle; causality flows in one direction only                                             | Graph traversal is always terminable                                                                    |
 
 ---
 
@@ -126,7 +124,7 @@ This specification was designed under three governing constraints:
                   │
                   │         ┌─────────────────────────────────┐
                   │         │  CL — Constraint Layer          │  ← Optional
-                  │    ╌╌╌╌▶│  "What technology, hardware,    │
+                  │    ────▶│  "What technology, hardware,    │
                   │         │   and infrastructure bounds     │
                   │         │   constrain the solution?"      │
                   │         └──────────────┬──────────────────┘
@@ -184,8 +182,7 @@ IDs are **immutable once assigned.** A superseded node retains its original ID w
 | Rule    | Statement                                                                                                                                                                                                                     |
 | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | CIT-R1  | Every non-root node must have ≥1 `parent_id`                                                                                                                                                                                  |
-| CIT-R2  | `parent_ids` must reference nodes exactly one tier above in the derivation path                                                                                                                                               |
-| CIT-R2a | For SAL as the designated merge node, `parent_ids` may include both the immediate active predecessor (CL or FCL when CL inactive) and the derives-parent FCL, as the derives edge traverses the constraint layer orthogonally |
+| CIT-R2  | `parent_ids` must reference node(s) from the immediately preceding active tier(s) in the DAG topology                                                                                                                         |
 | CIT-R3  | CL → SAL constraint edges are recorded in `parent_ids` with edge type `constrains`                                                                                                                                            |
 | CIT-R4  | An inline `[TIER-N.M]` citation in node content must have a matching entry in `parent_ids`                                                                                                                                    |
 | CIT-R5  | Extension `extends` edges are stored in `extension_annotations` only — never in `parent_ids`                                                                                                                                  |
@@ -210,7 +207,8 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | G3    | SAL + ICL              | Architecture & Contracts       |
 | G4    | CDL + ISL              | Design & Scaffolding           |
 
-> **UNBUNDLE Determinism Rule:** Within Express Mode groups containing conditionally activatable tiers (G2: FCL + CL), content must be authored with explicit tier annotations (e.g., `[FCL]` or `[CL]` inline prefixes) to enable deterministic UNBUNDLE allocation. The UNBUNDLE operation must reject content that cannot be unambiguously assigned to a constituent tier.
+> **UNBUNDLE Determinism Rule:** Within Express Mode groups containing conditionally activatable tiers (G1: XPD + SIL + GPCL; G2: FCL + CL), content must be authored with explicit tier annotations (e.g., `[FCL]` or `[CL]` inline prefixes) to enable deterministic UNBUNDLE allocation.
+ The UNBUNDLE operation must reject content that cannot be unambiguously assigned to a constituent tier.
 
 ## 5. Tier Specifications
 
@@ -310,7 +308,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Core Question:** "What externally observable behaviors and user-facing capabilities must the system provide?"
 
-**Parent:** `derives` ← GPCL. **Edge to children:** `derives` → SAL (always); `constrains` → CL (if CL active)
+**Parent:** `derives` ← GPCL. **Edge to children:** `derives` → SAL (always); `derives` → CL (if CL active)
 
 #### FCL Atomic Inclusion Rules
 
@@ -341,7 +339,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 **Activate when:** specific technology, hardware, or infrastructure constraints are non-negotiable. Optional when full freedom is preserved into the architecture phase.
 
-**Parents:** `constrains` ← FCL. **Edge to child:** `constrains` → SAL
+**Parents:** `derives` ← FCL. **Edge to child:** `constrains` → SAL
 
 #### CL Atomic Inclusion Rules
 
@@ -497,6 +495,10 @@ When two tiers produce conflicting constraints on a downstream tier, precedence 
 
 Higher-priority tiers override lower-priority tiers. An XPD ethical boundary functions as an **absolute veto right** over any downstream decision.
 
+**Intra-Tier Conflict Rule:** When two or more nodes within the same tier produce conflicting constraints, the conflict must be explicitly documented and resolved before any conflicting node may transition to status: ACTIVE. The VERIFY operation (§7.1) must detect and report intra-tier conflicts as structural violations.
+
+**Physical Constraint Escalation:** Constraint precedence governs design decisions, not physical impossibilities. When a higher-priority tier produces a requirement that is physically incompatible with a lower-priority tier's declared constraint (e.g., a functional requirement that exceeds declared hardware capacity), the conflict must be escalated to the authoring authority for resolution. The precedence hierarchy does not authorize silently overriding physical or externally imposed constraints.
+
 ---
 
 ## 7. Atomic Operations Protocol
@@ -527,8 +529,10 @@ Higher-priority tiers override lower-priority tiers. An XPD ethical boundary fun
 
 > **Dirty Flag Propagation Notes:**
 >
-> - **Node Insertion:** INSERT produces a validated node synchronously or fails atomically. Deferred validation (via `validate=false` override) enters the node as `DIRTY` until explicitly validated.
+> - **Node Insertion:** INSERT may produce nodes in one of two modes: (a) validated insertion produces an ACTIVE node synchronously or fails atomically; (b) draft insertion (via validate=false override) produces a DRAFT node. DRAFT nodes must undergo a successful VALIDATE operation to transition to ACTIVE. DRAFT nodes are structurally present in the DAG but excluded from CLEAN compliance checks (§11).
 > - **Supersede Auto-Update:** The SUPERSEDE auto-update of child `parent_ids` is a structural re-wiring operation. The grandchild's inherited content remains valid pending the child's own re-validation. This scoped propagation is an explicit exception to the general MODIFY cascade rule.
+> - **Supersede-to-MODIFY Interaction:** If a DIRTY child's re-validation results in a content MODIFY, standard MODIFY cascade rules (§7.2, row 1) apply — all descendants of the modified child are set DIRTY. This interaction is not an exception to the SUPERSEDE scoped propagation rule; it is a consequence of the child's own MODIFY, which triggers the general cascade independently.
+> - **Deprecation Lifecycle:** A node is set to DEPRECATED via MODIFY when it is scheduled for removal or replacement. DEPRECATED nodes remain structurally valid and are included in VERIFY traversals. DEPRECATED is not a terminal state — a DEPRECATED node may subsequently be SUPERSEDED (creating a replacement) or DELETED. The distinction: DEPRECATED means "scheduled for replacement, no replacement yet exists"; SUPERSEDED means "replacement exists and children have been re-wired."
 
 ### 7.3 Resolution Workflow
 
@@ -626,7 +630,7 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 
 ### E4 — Observability & Runtime Engine (ORE)
 
-**Contract:** ORE-1.0 / DDR-Core-4.x · **Reads:** GPCL, SAL, ICL, ISL · **Annotates:** ISL, SAL
+**Contract:** ORE-1.0 / DDR-Core-4.x · **Reads:** GPCL, SAL, ICL, CDL, ISL · **Annotates:** ISL, SAL
 
 | Rule   | Statement                                                                         |
 | ------ | --------------------------------------------------------------------------------- |
@@ -646,7 +650,7 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 | ARE-R3 | Promotion into Core DAG requires INSERT with full atomic ruleset validation                                 |
 | ARE-R4 | ARE must never autonomously create XPD or GPCL nodes — ethical/regulatory content requires human authorship |
 
-> **Note:** ARE must not annotate XPD or GPCL nodes; inferred insights pertaining to ethical or regulatory dimensions are surfaced as Candidate Pool nodes only, subject to human promotion via INSERT.
+> **Note:** ARE annotation is restricted to tiers at or below SAL (SAL, ICL, CDL, ISL). ARE must not annotate XPD, SIL, GPCL, or FCL nodes — these tiers are above the architecture layer and must not receive AI-inferred annotations. Inferred insights pertaining to intent, governance, ethical, or functional dimensions are surfaced as Candidate Pool nodes only, subject to human promotion via INSERT.
 
 ### E6 — Security & Compliance Engine (SCE)
 
@@ -662,7 +666,7 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 
 ### E7 — Data Domain Extension (DDE)
 
-**Contract:** DDE-1.0 / DDR-Core-4.x · **Reads:** FCL, SAL, ICL, CDL · **Annotates:** ICL, SAL, FCL
+**Contract:** DDE-1.0 / DDR-Core-4.x · **Reads:** FCL, GPCL, SAL, ICL, CDL · **Annotates:** ICL, SAL, FCL
 
 | Rule   | Statement                                                                                   |
 | ------ | ------------------------------------------------------------------------------------------- |
@@ -734,7 +738,7 @@ flowchart TD
     SIL -->|derives| GPCL
     GPCL -->|derives| FCL
     FCL -->|"derives (always)"| SAL
-    FCL -. constrains .-> CL
+    FCL -->|derives| CL
     CL -. constrains .-> SAL
     SAL -->|derives| ICL
     ICL -->|implements| CDL
@@ -744,7 +748,15 @@ flowchart TD
     HRE -..->|extends| SAL
     DGA -..->|extends| CL
     DGA -..->|extends| ICL
-    LVE -..->|extends| CORE
+    LVE -..->|extends| XPD
+    LVE -..->|extends| SIL
+    LVE -..->|extends| GPCL
+    LVE -..->|extends| FCL
+    LVE -..->|extends| CL
+    LVE -..->|extends| SAL
+    LVE -..->|extends| ICL
+    LVE -..->|extends| CDL
+    LVE -..->|extends| ISL
     ORE -..->|extends| ISL
     ORE -..->|extends| SAL
     ARE -..->|extends| ISL
@@ -801,20 +813,20 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 
 ## Glossary
 
-| Term                   | Definition                                                                                                       |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| **Atomic Rule**        | An inclusion or exclusion constraint on a tier node, individually verifiable without reference to other nodes    |
-| **Candidate Pool**     | Extension-managed staging area for ARE-inferred nodes; explicitly outside the Core DAG until promoted via INSERT |
-| **DAG**                | Directed Acyclic Graph — the DDR System's foundational data structure                                            |
-| **Dirty Flag**         | `DIRTY` status indicating a node requires re-validation following a graph-modifying event                        |
-| **Edge Type**          | One of four typed relationships: `derives`, `constrains`, `implements`, `extends`                                |
-| **Express Mode**       | A four-group consumption mode; groups are unbundleable to Full Mode tiers via UNBUNDLE                           |
-| **Extension**          | An optional analytical overlay that reads and annotates Core nodes without modifying Core semantics              |
-| **Leaf Node**          | A node with no children; ISL nodes are the only valid leaf nodes in the Core DAG                                 |
-| **Merge Node**         | SAL — the point where FCL derivations and CL constraints converge                                                |
-| **Orphan**             | A non-root node with no valid `parent_id` — a structural violation                                               |
-| **Root Node**          | XPD (if active) or SIL (if XPD inactive); the only node with an empty `parent_ids` list                          |
-| **Tier Contamination** | Presence of content in a node that violates that tier's atomic exclusion rules                                   |
+| Term                   | Definition                                                                                                                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Atomic Rule**        | An inclusion or exclusion constraint on a tier node, individually verifiable without reference to other nodes                                                                                    |
+| **Candidate Pool**     | Extension-managed staging area for ARE-inferred nodes; explicitly outside the Core DAG until promoted via INSERT                                                                                 |
+| **DAG**                | Directed Acyclic Graph — the DDR System's foundational data structure                                                                                                                            |
+| **Dirty Flag**         | `DIRTY` status indicating a node requires re-validation following a graph-modifying event                                                                                                        |
+| **Edge Type**          | One of four typed relationships: `derives`, `constrains`, `implements`, `extends`                                                                                                                |
+| **Express Mode**       | A four-group consumption mode; groups are unbundleable to Full Mode tiers via UNBUNDLE                                                                                                           |
+| **Extension**          | An optional analytical overlay that reads and annotates Core nodes without modifying Core semantics                                                                                              |
+| **Leaf Node**          | A node with no children; ISL nodes are the only valid leaf nodes in a CLEAN Core DAG. During incremental authoring, non-ISL tiers may temporarily be leaf nodes; VERIFY flags them as incomplete |
+| **Merge Node**         | SAL — the point where FCL derivations and CL constraints converge                                                                                                                                |
+| **Orphan**             | A non-root node with no valid `parent_id` — a structural violation                                                                                                                               |
+| **Root Node**          | XPD (if active) or SIL (if XPD inactive); the only node with an empty `parent_ids` list                                                                                                          |
+| **Tier Contamination** | Presence of content in a node that violates that tier's atomic exclusion rules                                                                                                                   |
 
 ---
 
@@ -855,8 +867,14 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 | ORL-R1 through ORL-R4, ORL-R7 | GPCL-R6, GPCL-R7, GPCL-R8, GPCL-R10 | 1:1 / TBD                           | Existing mapping documented rules                    |
 | ORL-R5                        | GPCL-R9                             | N:1                                 | Consolidated with ORL-R6                             |
 | ORL-R6                        | GPCL-R9                             | N:1                                 | Consolidated with ORL-R5                             |
-| HIL-R1 through HIL-R5         | CL-R6 through CL-R8                 | UNKNOWN — consolidation pairing TBD | 5 source rules map to 3 target slots (2 unaccounted) |
-| TDL-R1 through TDL-R6         | CL-R1 through CL-R5                 | UNKNOWN — consolidation pairing TBD | 6 source rules map to 5 target slots (1 unaccounted) |
+| HIL-R1/R2/R3                  | CL-R6                               | N:1 Consolidated                    | Consolidated into hardware envelopes                 |
+| HIL-R4                        | CL-R7                               | 1:1                                 | —                                                    |
+| HIL-R5                        | CL-R8                               | 1:1                                 | —                                                    |
+| TDL-R1                        | CL-R1                               | 1:1                                 | —                                                    |
+| TDL-R2/R6                     | CL-R2                               | N:1 Consolidated                    | Consolidated into minimum version bounds             |
+| TDL-R3                        | CL-R3                               | 1:1                                 | —                                                    |
+| TDL-R4                        | CL-R4                               | 1:1                                 | —                                                    |
+| TDL-R5                        | CL-R5                               | 1:1                                 | —                                                    |
 
 ---
 
