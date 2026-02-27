@@ -1,31 +1,31 @@
 # DDR System v4.0 — Logic Audit Report
 
-**Auditor:** Claude Sonnet 4.6  
-**Date:** 2026-02-26  
-**Document Audited:** DDR System Specification v4.0 (`DDR_System_Opus_v4_.md`)  
+**Auditor:** Claude Sonnet 4.6
+**Date:** 2026-02-26
+**Document Audited:** DDR System Specification v4.0 (`DDR_System_Opus_v4_.md`)
 **Scope:** Full specification — axioms, DAG model, tier definitions, operations, extension system, compliance checklist, appendices.
 
 ---
 
 ## Summary Table
 
-| ID    | Severity | Location                          | Issue Type              | Short Description                                            |
-|-------|----------|-----------------------------------|-------------------------|--------------------------------------------------------------|
-| LA-01 | CRITICAL | §6 + §5 (FCL/CL)                  | Logical Contradiction   | CL outranks FCL in precedence despite FCL being CL's parent |
-| LA-02 | CRITICAL | §6 + §2 (AX-2) + DAG              | Logical Contradiction   | SIL ranked below its own child GPCL in Constraint Precedence |
-| LA-03 | CRITICAL | §7.1 (SUPERSEDE) + §7.2           | Rule Conflict           | SUPERSEDE explicitly suppresses DIRTY cascade that MODIFY rule mandates |
-| LA-04 | HIGH     | §3.7 (CIT-R2) + §5 SAL + DAG     | Structural Ambiguity    | FCL → SAL `derives` edge is a two-tier skip when CL is active |
-| LA-05 | HIGH     | Appendix B (HIL migration)        | Omission / Arithmetic   | HIL R1–R5 (5 rules) maps to CL-R6–R8 (3 rules); 2 rules unaccounted for |
-| LA-06 | HIGH     | Appendix B (TDL migration)        | Omission / Arithmetic   | TDL R1–R6 (6 rules) maps to CL-R1–R5 (5 rules); 1 rule unaccounted for |
-| LA-07 | HIGH     | §7.1 INSERT + §7.2 Dirty Triggers | Logical Contradiction   | INSERT triggers immediate validation but DIRTY trigger lists "Node inserted" |
-| LA-08 | HIGH     | §9 E5 (ARE) + ARE-R4              | Scope Inconsistency     | ARE declared to annotate "All tiers" but restricted from creating XPD/GPCL nodes; annotation access to ethical tiers unaddressed |
-| LA-09 | MEDIUM   | §1.1 Changes Table                | Misleading Description  | Express Mode v3.1.1 entry reads "Retained with updated groupings" for a 5→4 group reduction |
-| LA-10 | MEDIUM   | §9 E9 (EHD-R5)                    | Omission                | Synthetic XPD-equivalent: authority, constraints, and scope not defined |
-| LA-11 | MEDIUM   | §3.6 + §5 XPD + §3.5             | Structural Ambiguity    | No rule prohibits multiple simultaneously active XPD nodes; single-root property at risk |
-| LA-12 | MEDIUM   | §5 SAL-E3 vs. CDL-E1              | Redundancy / Inconsistency | SAL-E3 excludes "executable code" while CDL-E1 uses stricter "code bodies or algorithm implementations" — inconsistent language |
-| LA-13 | LOW      | §9 E3 (LVE) + EXT-R2             | Precision Gap           | LVE declares "All Core tiers" for reads and annotates — insufficient specificity per EXT-R2 |
-| LA-14 | LOW      | §10 Mermaid Diagram               | Incomplete Representation | Conditional FCL → SAL direct path (when CL is inactive) not shown in architecture diagram |
-| LA-15 | LOW      | §11 Compliance Checklist          | Omission                | Critical Extension advisories appear in optional validation block rather than mandatory structural checks |
+| ID      | Severity   | Location                            | Issue Type                 | Short Description                                                                                                                |
+| ------- | ---------- | ----------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| LA-01   | CRITICAL   | §6 + §5 (FCL/CL)                    | Logical Contradiction      | CL outranks FCL in precedence despite FCL being CL's parent                                                                      |
+| LA-02   | CRITICAL   | §6 + §2 (AX-2) + DAG                | Logical Contradiction      | SIL ranked below its own child GPCL in Constraint Precedence                                                                     |
+| LA-03   | CRITICAL   | §7.1 (SUPERSEDE) + §7.2             | Rule Conflict              | SUPERSEDE explicitly suppresses DIRTY cascade that MODIFY rule mandates                                                          |
+| LA-04   | HIGH       | §3.7 (CIT-R2) + §5 SAL + DAG        | Structural Ambiguity       | FCL → SAL `derives` edge is a two-tier skip when CL is active                                                                    |
+| LA-05   | HIGH       | Appendix B (HIL migration)          | Omission / Arithmetic      | HIL R1–R5 (5 rules) maps to CL-R6–R8 (3 rules); 2 rules unaccounted for                                                          |
+| LA-06   | HIGH       | Appendix B (TDL migration)          | Omission / Arithmetic      | TDL R1–R6 (6 rules) maps to CL-R1–R5 (5 rules); 1 rule unaccounted for                                                           |
+| LA-07   | HIGH       | §7.1 INSERT + §7.2 Dirty Triggers   | Logical Contradiction      | INSERT triggers immediate validation but DIRTY trigger lists "Node inserted"                                                     |
+| LA-08   | HIGH       | §9 E5 (ARE) + ARE-R4                | Scope Inconsistency        | ARE declared to annotate "All tiers" but restricted from creating XPD/GPCL nodes; annotation access to ethical tiers unaddressed |
+| LA-09   | MEDIUM     | §1.1 Changes Table                  | Misleading Description     | Express Mode v3.1.1 entry reads "Retained with updated groupings" for a 5→4 group reduction                                      |
+| LA-10   | MEDIUM     | §9 E9 (EHD-R5)                      | Omission                   | Synthetic XPD-equivalent: authority, constraints, and scope not defined                                                          |
+| LA-11   | MEDIUM     | §3.6 + §5 XPD + §3.5                | Structural Ambiguity       | No rule prohibits multiple simultaneously active XPD nodes; single-root property at risk                                         |
+| LA-12   | MEDIUM     | §5 SAL-E3 vs. CDL-E1                | Redundancy / Inconsistency | SAL-E3 excludes "executable code" while CDL-E1 uses stricter "code bodies or algorithm implementations" — inconsistent language  |
+| LA-13   | LOW        | §9 E3 (LVE) + EXT-R2                | Precision Gap              | LVE declares "All Core tiers" for reads and annotates — insufficient specificity per EXT-R2                                      |
+| LA-14   | LOW        | §10 Mermaid Diagram                 | Incomplete Representation  | Conditional FCL → SAL direct path (when CL is inactive) not shown in architecture diagram                                        |
+| LA-15   | LOW        | §11 Compliance Checklist            | Omission                   | Critical Extension advisories appear in optional validation block rather than mandatory structural checks                        |
 
 ---
 
@@ -47,18 +47,24 @@ The `constrains` edge type is defined in §3.2 as: *"Parent sets enforceable lim
 
 By the edge semantics and DAG hierarchy, FCL authoritatively bounds CL's content. However, the Constraint Precedence table in §6 lists:
 
-| Priority | Tier |
-|----------|------|
-| **4**    | **CL** |
-| **5**    | **FCL** |
+| Priority   | Tier    |
+| ---------- | ------- |
+| **4**      | **CL**  |
+| **5**      | **FCL** |
 
 This means CL **overrides** FCL in any conflict. A child node is declared to have more authority than its parent — directly violating the structural intent of the `constrains` edge and undermining AX-3 (Determinism). Any system where a functional requirement (FCL) conflicts with a technology constraint (CL) will produce a resolution that inverts the intended governance hierarchy.
 
 **Recommendations:**
 
-1. **Swap the precedence ranks.** Assign FCL Priority 4 and CL Priority 5. Rationale: CL's declared technology selections are derived from functional needs (FCL) and thus must yield when a true conflict arises — the architect either relaxes the technology selection (modify CL) or removes the functional constraint (modify FCL), but FCL as the parent tier has the higher claim. Add an explanatory note that CL constraints are externally imposed within the envelope FCL defines, not independent of it.
+<span style="color:#00FF00">1. **Swap the precedence ranks.** Assign FCL Priority 4 and CL Priority 5. Rationale: CL's declared technology selections are derived from functional needs (FCL) and thus must yield when a true conflict arises — the architect either relaxes the technology selection (modify CL) or removes the functional constraint (modify FCL), but FCL as the parent tier has the higher claim. Add an explanatory note that CL constraints are externally imposed within the envelope FCL defines, not independent of it.</span>
 
-2. **Decouple conflict resolution from the precedence table.** If the intent is to express that externally mandated technology constraints (e.g., a procurement mandate) should win over a functional preference, model this via a sub-classification within GPCL (which is Priority 2) rather than elevating CL above its parent. Externally non-negotiable technology selections belong in GPCL (per its absorption of ORL), while CL retains user-configurable technology choices. This preserves the parent-child authority ordering while giving hard external mandates the appropriate priority.
+1. **Decouple conflict resolution from the precedence table.** If the intent is to express that externally mandated technology constraints (e.g., a procurement mandate) should win over a functional preference, model this via a sub-classification within GPCL (which is Priority 2) rather than elevating CL above its parent. Externally non-negotiable technology selections belong in GPCL (per its absorption of ORL), while CL retains user-configurable technology choices. This preserves the parent-child authority ordering while giving hard external mandates the appropriate priority.
+
+2. <span style="color:#00BFFF">**Implement Dynamic Constraint Reconciliation (DCR) logic.** Skip static ranking in favor of a "Structural Mandate" protocol where any conflict between a technology constraint (CL) and its functional parent (FCL) triggers a mandatory `RECONCILIATION_CLAIM` in the SAL merge-node. This forces explicit human-in-the-loop architectural trade-off documentation, ensuring all precedence overrides are auditable, intentional, and non-automatic.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** One table modification (swap two rows) directly resolves the DAG semantic violation — FCL parents CL via `constrains`, so FCL must outrank CL. Zero new constructs, zero specification entropy. Rec 2 introduces a GPCL sub-classification mechanism to solve what is a misordered table. Rec 3 (DCR) adds an entire new protocol disproportionate to a one-line fix.</span>
 
 ---
 
@@ -70,10 +76,10 @@ This means CL **overrides** FCL in any conflict. A child node is declared to hav
 
 The Constraint Precedence table in §6 lists:
 
-| Priority | Tier | Rationale given |
-|----------|------|-----------------|
-| **2**    | **GPCL** | External regulatory mandates are non-negotiable |
-| **3**    | **SIL** | Strategic intent defines the purpose of all design decisions |
+| Priority   | Tier     | Rationale given                                              |
+| ---------- | -------- | ------------------------------------------------------------ |
+| **2**      | **GPCL** | External regulatory mandates are non-negotiable              |
+| **3**      | **SIL**  | Strategic intent defines the purpose of all design decisions |
 
 However, in the Core DAG: SIL **derives** → GPCL. SIL is the direct parent of GPCL. GPCL-R10 explicitly requires every GPCL constraint to cite a SIL parent ID — confirming that all GPCL content is causally grounded in SIL. AX-2 (Abstraction Ordering) further mandates that *"technology and implementation specificity are deferred until logically necessary,"* placing higher abstraction tiers at earlier positions of authority.
 
@@ -81,9 +87,15 @@ Allowing GPCL to override SIL means a child node can veto the intent of its own 
 
 **Recommendations:**
 
-1. **Swap the precedence ranks.** Assign SIL Priority 2 and GPCL Priority 3. If a regulatory mandate genuinely conflicts with strategic intent, the correct response is a new SIL version that incorporates the regulatory reality as a strategic constraint — not a precedence inversion. This preserves the DAG causal model and forces human reconciliation at the appropriate level.
+<span style="color:#00FF00">1. **Swap the precedence ranks.** Assign SIL Priority 2 and GPCL Priority 3. If a regulatory mandate genuinely conflicts with strategic intent, the correct response is a new SIL version that incorporates the regulatory reality as a strategic constraint — not a precedence inversion. This preserves the DAG causal model and forces human reconciliation at the appropriate level.</span>
 
-2. **Introduce a formal "Mandate Classification" within GPCL.** Tag certain GPCL nodes as `class: EXTERNAL_MANDATE` to signal that they derive authority from outside the organization rather than from SIL. The precedence table can then reference "GPCL[EXTERNAL_MANDATE]" at Priority 2 while "GPCL[INTERNAL_POLICY]" and SIL remain at their logical priority positions. This preserves the practical reality of regulatory override while maintaining DAG semantic integrity.
+1. **Introduce a formal "Mandate Classification" within GPCL.** Tag certain GPCL nodes as `class: EXTERNAL_MANDATE` to signal that they derive authority from outside the organization rather than from SIL. The precedence table can then reference "GPCL[EXTERNAL_MANDATE]" at Priority 2 while "GPCL[INTERNAL_POLICY]" and SIL remain at their logical priority positions. This preserves the practical reality of regulatory override while maintaining DAG semantic integrity.
+
+2. <span style="color:#00BFFF">**Adopt "Intent-Regulatory Feedback Loops".** Grant GPCL nodes tagged with `origin: REGULATORY` an "unconditional constraint" status that, if conflicting with SIL, triggers a mandatory `SIL-RE-ALIGN` flag. This treats strategy and regulation as a coupled system where the Strategic Intent must explicitly adapt to the regulatory floor to remain `CLEAN`, ensuring the system is legally viable by construction.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** One table modification (swap two rows) restores DAG causal ordering — SIL derives GPCL, so SIL must outrank GPCL. When a regulatory mandate (GPCL) genuinely conflicts with strategic intent (SIL), Rec 1 specifies the correct workflow: issue a new SIL version incorporating the regulatory reality as a strategic constraint. This handles the real-world tension without introducing new schema attributes. Rec 2 adds a `class: EXTERNAL_MANDATE` tag, conditional precedence entries, and a new node attribute — higher entropy for an equivalent outcome. Rec 3 introduces a coupled state-machine (`SIL-RE-ALIGN` flag) that violates AX-5 (Extensibility).</span>
 
 ---
 
@@ -107,9 +119,15 @@ This is not merely ambiguous — it is a directly contradictory specification. A
 
 **Recommendations:**
 
-1. **Formally document the SUPERSEDE exception in §7.2.** Add an explicit row to the Dirty Flag Triggers table: `"Parent → SUPERSEDED (auto-update of child parent_ids) → Immediate children only (not grandchildren)"` and add a normative rationale note explaining that the auto-update is a structural re-wiring, not a semantic content change, and that the grandchild's inherited content remains valid pending the child's re-validation.
+<span style="color:#00FF00">1. **Formally document the SUPERSEDE exception in §7.2.** Add an explicit row to the Dirty Flag Triggers table: `"Parent → SUPERSEDED (auto-update of child parent_ids) → Immediate children only (not grandchildren)"` and add a normative rationale note explaining that the auto-update is a structural re-wiring, not a semantic content change, and that the grandchild's inherited content remains valid pending the child's re-validation.</span>
 
-2. **Introduce a cascading option.** Define `SUPERSEDE(cascade=true|false)` where `cascade=true` propagates DIRTY to all descendants (matching the MODIFY rule) and `cascade=false` applies the scoped exception. Default to `cascade=true` for safety and permit `cascade=false` only when the superseded node's change is classified as a non-semantic rename or re-reference. This makes the behavior deterministic per operation invocation rather than statically exceptional.
+1. **Introduce a cascading option.** Define `SUPERSEDE(cascade=true|false)` where `cascade=true` propagates DIRTY to all descendants (matching the MODIFY rule) and `cascade=false` applies the scoped exception. Default to `cascade=true` for safety and permit `cascade=false` only when the superseded node's change is classified as a non-semantic rename or re-reference. This makes the behavior deterministic per operation invocation rather than statically exceptional.
+
+2. <span style="color:#00BFFF">**Implement "Semantic Delta Fingerprinting".** During SUPERSEDE, generate a hash of the semantic content change; if the delta exceeds a "semantic threshold," the `DIRTY` flag cascades to grandchildren automatically. If the change is purely structural (e.g., ID rename), propagation is capped at the child tier. This makes the propagation logic data-driven and "intelligent" rather than static or manually toggled.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** One trigger-table row addition documents the existing §7.1 behavior in §7.2, resolving the contradiction with zero new mechanics. The SUPERSEDE scoping is already specified — it just needs formal documentation. Rec 2 adds a `cascade=true|false` parameter creating a new per-invocation decision point for already-defined behavior. Rec 3's "semantic threshold" concept is inherently non-deterministic, violating AX-3.</span>
 
 ---
 
@@ -133,9 +151,15 @@ When CL is active, the active tier sequence is: FCL (Tier 3) → CL (Tier 4) →
 
 **Recommendations:**
 
-1. **Add a formal CIT-R2 exception for merge nodes.** Introduce CIT-R2a: *"For SAL as the designated merge node, `parent_ids` may include both the immediate active predecessor (CL or FCL when CL inactive) and the derives-parent FCL, as the derives edge traverses the constraint layer orthogonally."* This preserves the traceability intent of CIT-R2 while acknowledging the merge-node topology.
+<span style="color:#00FF00">1. **Add a formal CIT-R2 exception for merge nodes.** Introduce CIT-R2a: *"For SAL as the designated merge node, `parent_ids` may include both the immediate active predecessor (CL or FCL when CL inactive) and the derives-parent FCL, as the derives edge traverses the constraint layer orthogonally."* This preserves the traceability intent of CIT-R2 while acknowledging the merge-node topology.</span>
 
-2. **Separate `derives_parents` and `constraint_parents` in the node schema.** Rather than merging all parent references into a single `parent_ids` list (forcing CIT-R2 to cover two semantically distinct relationship types), split into `derives_parent_ids` (exactly one tier above on the derivation axis) and `constraint_parent_ids` (CL reference, governed by its own citation rule). CIT-R2 then applies exclusively to `derives_parent_ids`, resolving the conflict without architectural change.
+1. **Separate `derives_parents` and `constraint_parents` in the node schema.** Rather than merging all parent references into a single `parent_ids` list (forcing CIT-R2 to cover two semantically distinct relationship types), split into `derives_parent_ids` (exactly one tier above on the derivation axis) and `constraint_parent_ids` (CL reference, governed by its own citation rule). CIT-R2 then applies exclusively to `derives_parent_ids`, resolving the conflict without architectural change.
+
+2. <span style="color:#00BFFF">**Define a "Composite Parent" type for Merge Nodes.** Update the schema for SAL to accept a `composite_parent` representing the union of a derivation branch (FCL) and its constraint branches (CL). This allows SAL to cite a single "Structural Goal" as its parent, satisfying the "one tier above" rule (CIT-R2) by treating the FCL+CL intersection as the immediate logical predecessor.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** One rule addition (CIT-R2a) accounts for the merge-node topology that CIT-R2 was never designed to address. CIT-R2 remains intact for all linear derivation paths. Rec 2's schema split (`derives_parent_ids` / `constraint_parent_ids`) is a breaking change cascading across §3.1, §3.7, §7.1, and all tooling — excessive scope for a rule-wording gap. Rec 3's "Composite Parent" obscures actual parentage, weakening AX-1 (Traceability).</span>
 
 ---
 
@@ -153,7 +177,13 @@ HIL had 5 rules (R1–R5); CL-R6 through CL-R8 provides only 3 target slots. Two
 
 1. **Add explicit consolidation notes for HIL.** Identify which two HIL rules were merged, into which CL rules they were consolidated, and the rationale — matching the ORL migration pattern. Example: *"HIL-R3 and HIL-R4 consolidated into CL-R7 (hardware and infrastructure ceilings unified as a single constraint type)."*
 
-2. **Add a cross-reference verification table** to Appendix B showing each v3.1.1 rule ID, its v4.0 destination rule ID, and consolidation status (1:1, N:1, or dropped). This makes the migration independently auditable and protects against silent rule loss during future version transitions.
+<span style="color:#00FF00">2. **Add a cross-reference verification table** to Appendix B showing each v3.1.1 rule ID, its v4.0 destination rule ID, and consolidation status (1:1, N:1, or dropped). This makes the migration independently auditable and protects against silent rule loss during future version transitions.</span>
+
+1. <span style="color:#00BFFF">**Implement a "Rule Lineage Hash" protocol.** For every rule in v4.0, include a machine-verifiable `lineage` field containing the v3.1.1 rule IDs it covers. Provide a "Migration Completeness Proof" via a checksum script that verifies every v3.1.1 ID appears exactly once in the v4.0 lineage tree (or is explicitly listed as deprecated), turning Appendix B into a verifiable integrity proof.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 2 is endorsed.** One generalized cross-reference table in Appendix B covers all v3.1.1→v4.0 transitions (ORL, HIL, TDL) with explicit consolidation status per rule — independently auditable without tooling. Rec 1 patches only HIL, leaving TDL and future migrations vulnerable to the same class of error. Rec 3's lineage hash and checksum script introduces machine-verification infrastructure that belongs in tooling extensions (AX-5), not in the normative specification.</span>
 
 ---
 
@@ -171,7 +201,13 @@ TDL had 6 rules (R1–R6); CL-R1 through CL-R5 provides only 5 target slots. One
 
 1. **Add explicit consolidation notes for TDL.** Identify which TDL rule was merged or dropped, and into which CL rule it was absorbed. Example: *"TDL-R2 and TDL-R3 consolidated into CL-R2 (mandatory frameworks and required service contracts treated as a unified dependency declaration)."*
 
-2. **Apply the same cross-reference verification table** recommended in LA-05 to TDL. A single unified migration cross-reference table covering all absorptions (ORL, HIL, TDL) would be the most robust solution and should be a mandatory audit artifact for any future version migration.
+<span style="color:#00FF00">2. **Apply the same cross-reference verification table** recommended in LA-05 to TDL. A single unified migration cross-reference table covering all absorptions (ORL, HIL, TDL) would be the most robust solution and should be a mandatory audit artifact for any future version migration.</span>
+
+1. <span style="color:#00BFFF">**Extend the "Rule Lineage Hash" (Rec LA-05.3) to TDL.** Ensure TDL transitions are included in the completeness proof and explicitly map any "missing" rules into a new `CL-Extension-Candidate` list if they were removed for being extension-level behaviors (per §1 philosophy), maintaining 100% logic auditability.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 2 is endorsed.** Same rationale as LA-05 — the unified cross-reference table subsumes this finding. A single Appendix B artifact covering all absorptions (ORL→GPCL, HIL→CL, TDL→CL) is the generalized solution with lowest total entropy across both LA-05 and LA-06. Rec 1 patches only TDL. Rec 3 introduces `CL-Extension-Candidate` — a concept with no specification basis.</span>
 
 ---
 
@@ -194,9 +230,15 @@ There is no specification of which model applies, whether INSERT can partially s
 
 **Recommendations:**
 
-1. **Adopt Model A (synchronous validation) as normative.** INSERT is an atomic operation that either succeeds (producing an ACTIVE/DRAFT node) or fails (no node created). Remove the "Node inserted" row from §7.2 Dirty Flag Triggers, or reframe it to cover only the case where INSERT is invoked with `validate=false` as an explicit override flag.
+<span style="color:#00FF00">1. **Adopt Model A (synchronous validation) as normative.** INSERT is an atomic operation that either succeeds (producing an ACTIVE/DRAFT node) or fails (no node created). Remove the "Node inserted" row from §7.2 Dirty Flag Triggers, or reframe it to cover only the case where INSERT is invoked with `validate=false` as an explicit override flag.</span>
 
-2. **Define a `DRAFT` intake workflow** if deferred validation is genuinely needed. Specify that INSERT with `status: DRAFT` skips full atomic validation (but still checks ID uniqueness and cycle detection), and that DRAFT nodes appear in the DIRTY manifest as pending items. DRAFT is then explicitly a pre-validation state, separate from the validated DIRTY state, resolving the semantic confusion between the two triggers.
+1. **Define a `DRAFT` intake workflow** if deferred validation is genuinely needed. Specify that INSERT with `status: DRAFT` skips full atomic validation (but still checks ID uniqueness and cycle detection), and that DRAFT nodes appear in the DIRTY manifest as pending items. DRAFT is then explicitly a pre-validation state, separate from the validated DIRTY state, resolving the semantic confusion between the two triggers.
+
+2. <span style="color:#00BFFF">**Formalize the "Atomic Commit" Lifecycle.** Separate node creation from validation status via a `STAGED` vs `COMMITTED` phase. INSERT always creates a `STAGED` node (automatically `DIRTY`); the `COMMIT` operation (called automatically or manually) triggers validation. This natively supports both sync and async workflows while resolving the current semantic contradiction in the trigger table.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** §7.1 already defines INSERT as triggering full validation — the §7.2 trigger row is the anomaly. Removing or reframing one row resolves the contradiction with zero new constructs. Rec 2 adds a formal DRAFT workflow addressing a hypothetical need, not the identified defect. Rec 3 introduces a new status (`STAGED`), a new operation (`COMMIT`), and a two-phase lifecycle — disproportionate to a documentation inconsistency.</span>
 
 ---
 
@@ -214,9 +256,15 @@ The restriction in ARE-R4 applies only to node **creation**. The "Annotates: All
 
 **Recommendations:**
 
-1. **Restrict ARE's annotate scope.** Change ARE's contract declaration to: *"Annotates: SAL, ICL, CDL, ISL"* (mirroring its read scope). Add an explicit note in §9 E5: *"ARE must not annotate XPD or GPCL nodes; inferred insights pertaining to ethical or regulatory dimensions are surfaced as Candidate Pool nodes only, subject to human promotion via INSERT."*
+<span style="color:#00FF00">1. **Restrict ARE's annotate scope.** Change ARE's contract declaration to: *"Annotates: SAL, ICL, CDL, ISL"* (mirroring its read scope). Add an explicit note in §9 E5: *"ARE must not annotate XPD or GPCL nodes; inferred insights pertaining to ethical or regulatory dimensions are surfaced as Candidate Pool nodes only, subject to human promotion via INSERT."*</span>
 
-2. **Introduce a `human_authored_only` flag in the Node Schema** applicable to XPD and GPCL nodes. Extension annotation writes to flagged nodes are blocked at the schema level rather than relying on rule text, ensuring the constraint is structurally enforced rather than procedurally enforced.
+1. **Introduce a `human_authored_only` flag in the Node Schema** applicable to XPD and GPCL nodes. Extension annotation writes to flagged nodes are blocked at the schema level rather than relying on rule text, ensuring the constraint is structurally enforced rather than procedurally enforced.
+
+2. <span style="color:#00BFFF">**Implement "Advisory Isolation" for Ethical Tiers.** Allow ARE to generate annotations for XPD/GPCL but store them in a restricted `audit_shadow` field. These remain invisible until a human author invokes an "Adversarial Review Mode" to check for human blind spots. This leverages AI for safety checks while preventing anchoring bias and preserving the "human-only" primary content mandate.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** Narrowing ARE's contract declaration to `Annotates: SAL, ICL, CDL, ISL` eliminates the anchoring-bias vector at the source — one contract-text change, zero new schema properties. Ethical/regulatory insights route through the existing Candidate Pool. Rec 2 adds a `human_authored_only` flag to §3.1 Node Schema to enforce what a contract declaration change already achieves. Rec 3's `audit_shadow` field still allows AI content on ethical nodes — it defers the bias risk rather than eliminating it.</span>
 
 ---
 
@@ -232,17 +280,23 @@ The restriction in ARE-R4 applies only to node **creation**. The "Annotates: All
 
 The §1.1 changes table reads:
 
-| Area | v3.1.1 | v4.0 | Rationale |
-|------|--------|------|-----------|
+| Area         | v3.1.1   | v4.0                                | Rationale                       |
+| ------------ | -------- | ----------------------------------- | ------------------------------- |
 | Express Mode | 5 groups | **Retained with updated groupings** | Aligned to new 9-tier structure |
 
 "Retained" strongly implies continuity. However, reducing from 5 groups to 4 groups is a structural change, not retention. The groupings themselves changed, and the group count decreased. Using "Retained" in the status column while the value column reads "5 groups" vs. implied 4 groups understates the change severity and may cause users migrating from v3.1.1 to incorrectly assume Express Mode documents are forward-compatible without review.
 
 **Recommendations:**
 
-1. **Update the change description** to: *"Restructured from 5 groups to 4 groups; UNBUNDLE determinism rule added; all group boundaries realigned to 9-tier structure."*
+<span style="color:#00FF00">1. **Update the change description** to: *"Restructured from 5 groups to 4 groups; UNBUNDLE determinism rule added; all group boundaries realigned to 9-tier structure."*</span>
 
-2. **Add an explicit Express Mode migration note in Appendix B** (mirroring the tier migration appendix) showing old-group-to-new-group mapping so v3.1.1 Express Mode documents can be deterministically upgraded.
+1. **Add an explicit Express Mode migration note in Appendix B** (mirroring the tier migration appendix) showing old-group-to-new-group mapping so v3.1.1 Express Mode documents can be deterministically upgraded.
+
+2. <span style="color:#00BFFF">**Introduce "Group Versioning" and a Transpiler Rule.** Explicitly version the Express Mode Mapping (e.g., "G-v4.0") and provide a transpiler rule in Appendix B that maps `G-v3.1.1` objects to `G-v4.0` by re-mapping IDs based on the 9-tier tier-names rather than group labels, ensuring zero-touch migration for legacy Express documents.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** One text correction replaces misleading "Retained" with accurate "Restructured from 5 groups to 4 groups" — proportional to MEDIUM severity, zero structural changes. Rec 2 addresses migration tooling, not the identified issue (misleading wording). Rec 3's Group Versioning and transpiler rules add specification infrastructure that contradicts §1 (Minimize Design Complexity).</span>
 
 ---
 
@@ -263,9 +317,15 @@ This synthetic assessment is stored in `extension_annotations` (per Extension ar
 
 **Recommendations:**
 
-1. **Add a normative scope statement to EHD-R5:** The synthetic XPD-equivalent is a risk-flagging artifact only, carries no precedence weight in §6 conflict resolution, cannot be cited in Core node `parent_ids`, and does not substitute for a human-authored XPD node. If the synthetic assessment identifies risks that require formal ethical governance, it must surface a blocking advisory recommending XPD activation.
+<span style="color:#00FF00">1. **Add a normative scope statement to EHD-R5:** The synthetic XPD-equivalent is a risk-flagging artifact only, carries no precedence weight in §6 conflict resolution, cannot be cited in Core node `parent_ids`, and does not substitute for a human-authored XPD node. If the synthetic assessment identifies risks that require formal ethical governance, it must surface a blocking advisory recommending XPD activation.</span>
 
-2. **Add EHD-R5 persistence rules.** Define whether the synthetic assessment is retained as a read-only artifact after EHD is disabled (similar to how SUPERSEDED nodes retain their IDs), and whether it must be acknowledged before EHD can be disabled if it contains unresolved findings.
+1. **Add EHD-R5 persistence rules.** Define whether the synthetic assessment is retained as a read-only artifact after EHD is disabled (similar to how SUPERSEDED nodes retain their IDs), and whether it must be acknowledged before EHD can be disabled if it contains unresolved findings.
+
+2. <span style="color:#00BFFF">**Incorporate "Escalation Triggers" for EHD findings.** Define that any "Synthetic XPD" assessment with a `high_risk_detected` flag automatically injects a `MANDATORY_HUMAN_INTERVENTION` task into the reconciliation manifest and sets the anchor node to `DIRTY`. This ensures synthetic findings function as active safety valves rather than passive notes.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** One declarative scope statement resolves all four unanswered questions: no precedence weight, no citability in `parent_ids`, blocking advisory for detected risks, lifecycle via the advisory mechanism. Rec 2 addresses persistence (a secondary concern) without resolving the primary authority/scope ambiguity. Rec 3's escalation triggers that set Core nodes to `DIRTY` directly violate EXT-R7 — creating a new contradiction while fixing an existing one.</span>
 
 ---
 
@@ -281,9 +341,15 @@ If two ACTIVE XPD nodes exist with conflicting ethical boundaries, the Constrain
 
 **Recommendations:**
 
-1. **Add DAG Invariant §3.5-I6:** *"At most one XPD node may carry `status: ACTIVE` at any time. SUPERSEDE of an XPD node must atomically set the predecessor to `SUPERSEDED` before the replacement node can be set to `ACTIVE`."*
+<span style="color:#00FF00">1. **Add DAG Invariant §3.5-I6:** *"At most one XPD node may carry `status: ACTIVE` at any time. SUPERSEDE of an XPD node must atomically set the predecessor to `SUPERSEDED` before the replacement node can be set to `ACTIVE`."*</span>
 
-2. **Add VERIFY multi-root detection.** Specify that VERIFY returns a `STRUCTURAL_VIOLATION` if more than one XPD node is ACTIVE, or if more than one SIL node is ACTIVE when XPD is inactive. This brings root-uniqueness under the same enforcement mechanism as cycle detection and orphan detection.
+1. **Add VERIFY multi-root detection.** Specify that VERIFY returns a `STRUCTURAL_VIOLATION` if more than one XPD node is ACTIVE, or if more than one SIL node is ACTIVE when XPD is inactive. This brings root-uniqueness under the same enforcement mechanism as cycle detection and orphan detection.
+
+2. <span style="color:#00BFFF">**Enforce the "Root Singleton" via URI/ID Logic.** Mandate that the project root is always at `ID: XPD-0.0`. Since IDs are immutable and unique, this structurally prevents multiple ACTIVE root nodes from existing. Any secondary ethical documents must be moved to an Extension as `EXT-XPD` nodes, preserving the strict tree-from-root topology.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** One DAG invariant (I6) declaratively enforces root-singleton semantics: at most one ACTIVE XPD node, with atomic SUPERSEDE transition. Belongs in §3.5 alongside existing invariants. Rec 2 (VERIFY detection) is reactive — it detects violations after they occur rather than preventing them. Rec 3's fixed `XPD-0.0` conflicts with §3.6 ID format (`XPD-0.N`) and introduces `EXT-XPD` with no architectural basis.</span>
 
 ---
 
@@ -300,9 +366,15 @@ SAL-E3's phrasing ("executable code") is a subset of CDL-E1's phrasing ("code bo
 
 **Recommendations:**
 
-1. **Align SAL-E3 to CDL-E1's language:** Update SAL-E3 to read: *"Must not contain executable code, algorithm implementations, or procedural logic (→ CDL/ISL)."*
+<span style="color:#00FF00">1. **Align SAL-E3 to CDL-E1's language:** Update SAL-E3 to read: *"Must not contain executable code, algorithm implementations, or procedural logic (→ CDL/ISL)."*</span>
 
-2. **Define "executable code" in the Glossary** with a normative boundary distinguishing it from pseudocode and logical flow descriptions, so validation engines and human reviewers have a consistent reference for contamination detection across all tiers.
+1. **Define "executable code" in the Glossary** with a normative boundary distinguishing it from pseudocode and logical flow descriptions, so validation engines and human reviewers have a consistent reference for contamination detection across all tiers.
+
+2. <span style="color:#00BFFF">**Implement shared "Abstract Invariant" schemas.** Create a central `INV-NO-CODE` definition containing the most restrictive possible wording ("code bodies, algorithm implementations, or procedural logic") and cite this ID in both SAL-E3 and CDL-E1. This ensures all tiers remain in lockstep as the definition of "prohibited code" evolves.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** One rule-text update aligns SAL-E3 to CDL-E1's comprehensive wording, ensuring the higher-abstraction tier is at least as strict as the lower tier. Zero new constructs. Rec 2 (Glossary definition) provides a reference but doesn't fix the inconsistency itself. Rec 3's centralized `INV-NO-CODE` invariant adds a layer of indirection for a single-rule wording update — violates §1 (Minimize Design Complexity).</span>
 
 ---
 
@@ -322,7 +394,13 @@ EXT-R2 requires Extensions to *"declare which Core tiers it reads and which it a
 
 1. **Enumerate all 9 tiers explicitly** in LVE's contract declaration, matching the format used by all other Extensions. The maintenance cost is trivial; the auditability gain is material.
 
-2. **Add a normative note to EXT-R2** clarifying that *"All Core tiers"* is not a valid contract declaration — Extensions must enumerate tiers by name. This prevents the pattern from appearing in future Extension definitions.
+<span style="color:#00FF00">2. **Add a normative note to EXT-R2** clarifying that *"All Core tiers"* is not a valid contract declaration — Extensions must enumerate tiers by name. This prevents the pattern from appearing in future Extension definitions.</span>
+
+1. <span style="color:#00BFFF">**Introduce an `INFRASTRUCTURE` Extension class.** Permit Extensions like LVE/DGA to use a `*` (wildcard) tier declaration for "observing" (reading) but restrict `annotate` operations to explicitly enumerated tiers. This provides the flexibility needed for universal logging while maintaining the audit-lock security of EXT-R2 for their output.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 2 is endorsed.** One normative note to EXT-R2 eliminates blanket declarations system-wide — prevents recurrence across all future Extensions, not just LVE. Rec 1 fixes the symptom (LVE's declaration) without addressing the root cause (EXT-R2 permits "All Core tiers"). Rec 3's `INFRASTRUCTURE` Extension class adds a new taxonomy for a distinction already captured by the reads/annotates contract declaration.</span>
 
 ---
 
@@ -341,9 +419,15 @@ A reader examining the diagram cannot determine that the `FCL → SAL` edge chan
 
 **Recommendations:**
 
-1. **Add a conditional annotation to the FCL → SAL edge** in the diagram: `FCL -->|"derives (always)"| SAL` and add a note box: *"When CL active: SAL has two parents (FCL derives + CL constrains). When CL inactive: SAL has one parent (FCL derives)."*
+<span style="color:#00FF00">1. **Add a conditional annotation to the FCL → SAL edge** in the diagram: `FCL -->|"derives (always)"| SAL` and add a note box: *"When CL active: SAL has two parents (FCL derives + CL constrains). When CL inactive: SAL has one parent (FCL derives)."*</span>
 
-2. **Add a second diagram** showing the CL-active topology alongside the CL-inactive topology as a side-by-side comparison, matching the conditional topology description in §3.4.
+1. **Add a second diagram** showing the CL-active topology alongside the CL-inactive topology as a side-by-side comparison, matching the conditional topology description in §3.4.
+
+2. <span style="color:#00BFFF">**Implement "Logical Overlay" Diagrams.** Use color-coded edges in the Mermaid diagram (e.g., Green for "Derivation-Only" and Orange for "Constraint-Merge") and add a formal `Visual-to-Node` schema rule in §3 to ensure every diagram edge has a corresponding entry in the §3.2 Edge Types table, making the diagram machine-verifiable.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** One edge annotation and one note box communicate the conditional topology — proportional to LOW severity, zero diagram restructuring. Rec 2 doubles diagram maintenance burden with divergence risk. Rec 3's `Visual-to-Node` schema rule introduces formal diagram-to-schema coupling exceeding the specification's scope.</span>
 
 ---
 
@@ -357,11 +441,17 @@ The Compliance Checklist places Extension validation items under the conditional
 
 **Recommendations:**
 
-1. **Promote critical Extension advisory review to the mandatory structural checklist.** Add the item: *"If any Extension is active, all Extension advisories classified as `critical` or `blocking` have a recorded disposition note"* as a required (non-optional) checklist item.
+<span style="color:#00FF00">1. **Promote critical Extension advisory review to the mandatory structural checklist.** Add the item: *"If any Extension is active, all Extension advisories classified as `critical` or `blocking` have a recorded disposition note"* as a required (non-optional) checklist item.</span>
 
-2. **Define advisory severity levels formally** (e.g., `INFO`, `WARNING`, `BLOCKING`) in §8.3 or a new §8.4, and specify that BLOCKING advisories from any active Extension must prevent the project from being declared CLEAN until resolved or explicitly overridden with a documented rationale by a named human approver.
+1. **Define advisory severity levels formally** (e.g., `INFO`, `WARNING`, `BLOCKING`) in §8.3 or a new §8.4, and specify that BLOCKING advisories from any active Extension must prevent the project from being declared CLEAN until resolved or explicitly overridden with a documented rationale by a named human approver.
+
+2. <span style="color:#00BFFF">**Implement "Extension-Core Gating" (ECG).** If an active Extension generates a `BLOCKING` advisory, it must automatically flag its ID in the `gating_advisories` property of the affected Core node. The Core's own `VERIFY` logic then reads this list and sets the node to `DIRTY`, bringing Extension findings into the Core state machine without violating read-only architecture.</span>
+
+**Selected:**
+
+<span style="color:yellow">**Recommendation 1 is endorsed.** One checklist item moved from the optional Extension section to the mandatory structural section — zero new constructs, zero new taxonomy. The terms "critical" and "blocking" are self-documenting in checklist context and consistent with existing advisory language in §8. Rec 2 introduces a formal three-level severity taxonomy (INFO/WARNING/BLOCKING) and a new §8.4 — higher specification entropy for what is a checklist placement issue. Rec 3's ECG mechanism sets Core nodes to `DIRTY` via Extension-injected data, directly violating EXT-R7.</span>
 
 ---
 
-*End of DDR System v4.0 Logic Audit Report*  
+*End of DDR System v4.0 Logic Audit Report*
 *15 findings identified: 3 CRITICAL · 5 HIGH · 4 MEDIUM · 3 LOW*
