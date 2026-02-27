@@ -26,15 +26,17 @@ This specification was designed under three governing constraints:
 ### 1.1 Changes from v3.1.1
 
 | Area                 | v3.1.1 (Claude_v3)                  | v4.0 (This Spec)                                       | Rationale                                                                                                                      |
-| -------------------- | ----------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| Tier count           | 11 tiers (8 mandatory + 3 optional) | 9 tiers (7 mandatory + 2 optional)                     | ORL absorbed into GPCL/FCL; HIL absorbed into TDL as a unified Constraint Layer. Eliminates two tiers without information loss |
-| Fork-Join            | FCL forks to HIL∥TDL, joins at SAL  | FCL optionally constrains a single CL, joins at SAL    | Eliminates fork complexity; single constraint merge point                                                                      |
-| Edge types           | 6 types                             | 4 types                                                | `cites` merged into `derives`; `reads`/`annotates` unified into `extends`                                                      |
-| Operations           | 11 operations                       | 7 operations                                           | RELOCATE removed (contradicted ID immutability); ABSTRACT/CONCRETIZE merged into INSERT with direction parameter               |
-| Node ID immutability | Contradicted by RELOCATE            | Absolute — no operation mutates a node ID              | Resolves the v3.1.1 RELOCATE contradiction                                                                                     |
-| ARE staging          | Ambiguous DRAFT-in-Core             | Extension Candidate Pool — explicitly outside Core DAG | Eliminates read-only model tension                                                                                             |
-| Express Mode         | 5 groups                            | Retained with updated groupings                        | Aligned to new 9-tier structure                                                                                                |
-| Service Model        | 3-tier pricing                      | Removed                                                | Premature optimization; commercial model is an operational concern, not a specification concern                                |
+
+| Area                 | v3.1.1 (Claude_v3)                  | v4.0 (This Spec)                                                                                                            | Rationale                                                                                                                      |
+| -------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Tier count           | 11 tiers (8 mandatory + 3 optional) | 9 tiers (7 mandatory + 2 optional)                                                                                          | ORL absorbed into GPCL/FCL; HIL absorbed into TDL as a unified Constraint Layer. Eliminates two tiers without information loss |
+| Fork-Join            | FCL forks to HIL∥TDL, joins at SAL  | FCL optionally constrains a single CL, joins at SAL                                                                         | Eliminates fork complexity; single constraint merge point                                                                      |
+| Edge types           | 6 types                             | 4 types                                                                                                                     | `cites` merged into `derives`; `reads`/`annotates` unified into `extends`                                                      |
+| Operations           | 11 operations                       | 7 operations                                                                                                                | RELOCATE removed (contradicted ID immutability); ABSTRACT/CONCRETIZE merged into INSERT with direction parameter               |
+| Node ID immutability | Contradicted by RELOCATE            | Absolute — no operation mutates a node ID                                                                                   | Resolves the v3.1.1 RELOCATE contradiction                                                                                     |
+| ARE staging          | Ambiguous DRAFT-in-Core             | Extension Candidate Pool — explicitly outside Core DAG                                                                      | Eliminates read-only model tension                                                                                             |
+| Express Mode         | 5 groups                            | Restructured from 5 groups to 4 groups; UNBUNDLE determinism rule added; all group boundaries realigned to 9-tier structure | Aligned to new 9-tier structure                                                                                                |
+| Service Model        | 3-tier pricing                      | Removed                                                                                                                     | Premature optimization; commercial model is an operational concern, not a specification concern                                |
 
 ---
 
@@ -166,6 +168,7 @@ This specification was designed under three governing constraints:
 - XPD and CL are conditionally activatable; the Core is valid and complete without them
 - When CL is inactive, SAL derives directly from FCL
 - All non-root nodes must carry at least one `parent_id` citation
+- At most one XPD node may carry `status: ACTIVE` at any time. SUPERSEDE of an XPD node must atomically set the predecessor to `SUPERSEDED` before the replacement node can be set to `ACTIVE`.
 
 ### 3.6 Node ID Format
 
@@ -178,13 +181,14 @@ IDs are **immutable once assigned.** A superseded node retains its original ID w
 
 ### 3.7 Citation Rules
 
-| Rule   | Statement                                                                                    |
-| ------ | -------------------------------------------------------------------------------------------- |
-| CIT-R1 | Every non-root node must have ≥1 `parent_id`                                                 |
-| CIT-R2 | `parent_ids` must reference nodes exactly one tier above in the derivation path              |
-| CIT-R3 | CL → SAL constraint edges are recorded in `parent_ids` with edge type `constrains`           |
-| CIT-R4 | An inline `[TIER-N.M]` citation in node content must have a matching entry in `parent_ids`   |
-| CIT-R5 | Extension `extends` edges are stored in `extension_annotations` only — never in `parent_ids` |
+| Rule    | Statement                                                                                                                                                                                                                     |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CIT-R1  | Every non-root node must have ≥1 `parent_id`                                                                                                                                                                                  |
+| CIT-R2  | `parent_ids` must reference nodes exactly one tier above in the derivation path                                                                                                                                               |
+| CIT-R2a | For SAL as the designated merge node, `parent_ids` may include both the immediate active predecessor (CL or FCL when CL inactive) and the derives-parent FCL, as the derives edge traverses the constraint layer orthogonally |
+| CIT-R3  | CL → SAL constraint edges are recorded in `parent_ids` with edge type `constrains`                                                                                                                                            |
+| CIT-R4  | An inline `[TIER-N.M]` citation in node content must have a matching entry in `parent_ids`                                                                                                                                    |
+| CIT-R5  | Extension `extends` edges are stored in `extension_annotations` only — never in `parent_ids`                                                                                                                                  |
 
 ---
 
@@ -385,11 +389,11 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 #### SAL Atomic Exclusion Rules
 
-| Rule   | Statement                                                          |
-| ------ | ------------------------------------------------------------------ |
-| SAL-E1 | Must not contain exact data schemas or payload definitions (→ ICL) |
-| SAL-E2 | Must not contain class-level component blueprints (→ CDL)          |
-| SAL-E3 | Must not contain executable code                                   |
+| Rule   | Statement                                                                                    |
+| ------ | -------------------------------------------------------------------------------------------- |
+| SAL-E1 | Must not contain exact data schemas or payload definitions (→ ICL)                           |
+| SAL-E2 | Must not contain class-level component blueprints (→ CDL)                                    |
+| SAL-E3 | Must not contain executable code, algorithm implementations, or procedural logic (→ CDL/ISL) |
 
 ---
 
@@ -482,10 +486,10 @@ When two tiers produce conflicting constraints on a downstream tier, precedence 
 | Priority | Tier | Rationale                                                                   |
 | -------- | ---- | --------------------------------------------------------------------------- |
 | 1        | XPD  | Ethical boundary conditions are inviolable                                  |
-| 2        | GPCL | External regulatory mandates and quality thresholds are non-negotiable      |
-| 3        | SIL  | Strategic intent defines the purpose of all design decisions                |
-| 4        | CL   | Technology, hardware, and infrastructure constraints are externally imposed |
-| 5        | FCL  | Functional requirements operate within the constraint envelope              |
+| 2        | SIL  | Strategic intent defines the purpose of all design decisions                |
+| 3        | GPCL | External regulatory mandates and quality thresholds are non-negotiable      |
+| 4        | FCL  | Functional requirements operate within the constraint envelope              |
+| 5        | CL   | Technology, hardware, and infrastructure constraints are externally imposed |
 | 6        | SAL  | Architecture is bounded by all above                                        |
 | 7        | ICL  | Contracts derive from architecture                                          |
 | 8        | CDL  | Design derives from contracts                                               |
@@ -513,14 +517,18 @@ Higher-priority tiers override lower-priority tiers. An XPD ethical boundary fun
 
 ### 7.2 Dirty Flag Triggers
 
-| Trigger                         | Nodes Affected                            |
-| ------------------------------- | ----------------------------------------- |
-| Node modified                   | Modified node + all descendants           |
-| Node deleted                    | All former children of the deleted node   |
-| Node inserted                   | New node (until validated)                |
-| Parent → `SUPERSEDED`           | All children citing the superseded parent |
-| CL constraint added or modified | SAL + all SAL descendants                 |
-| XPD ethical boundary modified   | All tiers (full re-validation required)   |
+| Trigger                                                   | Nodes Affected                                                                                          |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Node modified                                             | Modified node + all descendants                                                                         |
+| Node deleted                                              | All former children of the deleted node                                                                 |
+| Parent → `SUPERSEDED` (auto-update of child `parent_ids`) | Immediate children only; grandchildren not cascaded (structural re-wiring, not semantic content change) |
+| CL constraint added or modified                           | SAL + all SAL descendants                                                                               |
+| XPD ethical boundary modified                             | All tiers (full re-validation required)                                                                 |
+
+> **Dirty Flag Propagation Notes:**
+>
+> - **Node Insertion:** INSERT produces a validated node synchronously or fails atomically. Deferred validation (via `validate=false` override) enters the node as `DIRTY` until explicitly validated.
+> - **Supersede Auto-Update:** The SUPERSEDE auto-update of child `parent_ids` is a structural re-wiring operation. The grandchild's inherited content remains valid pending the child's own re-validation. This scoped propagation is an explicit exception to the general MODIFY cascade rule.
 
 ### 7.3 Resolution Workflow
 
@@ -578,6 +586,8 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 | EXT-R6 | Extension-internal derived artifact graphs must maintain their own acyclicity      |
 | EXT-R7 | Extension advisories do not mutate Core node status                                |
 
+> **Normative Note:** "All Core tiers" is not a valid contract declaration. Extensions must enumerate tiers by name to preserve auditability under EXT-R2.
+
 ---
 
 ## 9. Extension Catalog
@@ -605,7 +615,7 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 
 ### E3 — Lifecycle & Versioning Engine (LVE)
 
-**Contract:** LVE-1.0 / DDR-Core-4.x · **Reads:** All Core tiers · **Annotates:** All Core tiers
+**Contract:** LVE-1.0 / DDR-Core-4.x · **Reads:** XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL · **Annotates:** XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL
 
 | Rule   | Statement                                                                                      |
 | ------ | ---------------------------------------------------------------------------------------------- |
@@ -627,7 +637,7 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 
 ### E5 — AI Upward Reconstruction Engine (ARE)
 
-**Contract:** ARE-1.0 / DDR-Core-4.x · **Reads:** ISL, CDL, ICL, SAL · **Annotates:** All tiers
+**Contract:** ARE-1.0 / DDR-Core-4.x · **Reads:** ISL, CDL, ICL, SAL · **Annotates:** SAL, ICL, CDL, ISL
 
 | Rule   | Statement                                                                                                   |
 | ------ | ----------------------------------------------------------------------------------------------------------- |
@@ -635,6 +645,8 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 | ARE-R2 | Each candidate carries `ARE::confidence_score` (0.0–1.0) derived from source evidence quality               |
 | ARE-R3 | Promotion into Core DAG requires INSERT with full atomic ruleset validation                                 |
 | ARE-R4 | ARE must never autonomously create XPD or GPCL nodes — ethical/regulatory content requires human authorship |
+
+> **Note:** ARE must not annotate XPD or GPCL nodes; inferred insights pertaining to ethical or regulatory dimensions are surfaced as Candidate Pool nodes only, subject to human promotion via INSERT.
 
 ### E6 — Security & Compliance Engine (SCE)
 
@@ -674,13 +686,13 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 
 **Contract:** EHD-1.0 / DDR-Core-4.x · **Reads:** XPD, SIL, FCL, SAL, CDL · **Annotates:** FCL, CDL, SAL
 
-| Rule   | Statement                                                                                         |
-| ------ | ------------------------------------------------------------------------------------------------- |
-| EHD-R1 | Bias impact assessments identify affected demographic groups and potential algorithmic biases     |
-| EHD-R2 | Accessibility compliance validates FCL capabilities against WCAG 2.1 AA or GPCL-declared standard |
-| EHD-R3 | Algorithmic accountability maps link each automated CDL decision to a human oversight mechanism   |
-| EHD-R4 | All EHD assessments cite the XPD ethical boundary conditions being evaluated                      |
-| EHD-R5 | When XPD is inactive, EHD creates a synthetic XPD-equivalent assessment anchored to SIL           |
+| Rule   | Statement                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| EHD-R1 | Bias impact assessments identify affected demographic groups and potential algorithmic biases                                                                                                                                                                                                                                                                                                                                                  |
+| EHD-R2 | Accessibility compliance validates FCL capabilities against WCAG 2.1 AA or GPCL-declared standard                                                                                                                                                                                                                                                                                                                                              |
+| EHD-R3 | Algorithmic accountability maps link each automated CDL decision to a human oversight mechanism                                                                                                                                                                                                                                                                                                                                                |
+| EHD-R4 | All EHD assessments cite the XPD ethical boundary conditions being evaluated                                                                                                                                                                                                                                                                                                                                                                   |
+| EHD-R5 | When XPD is inactive, EHD creates a synthetic XPD-equivalent assessment anchored to SIL. The synthetic XPD-equivalent is a risk-flagging artifact only, carries no precedence weight in Section 6 conflict resolution, cannot be cited in Core node parent_ids, and does not substitute for a human-authored XPD node. If it identifies risks that require formal governance, it must surface a blocking advisory recommending XPD activation. |
 
 ---
 
@@ -721,7 +733,7 @@ flowchart TD
     XPD -->|derives| SIL
     SIL -->|derives| GPCL
     GPCL -->|derives| FCL
-    FCL -->|derives| SAL
+    FCL -->|"derives (always)"| SAL
     FCL -. constrains .-> CL
     CL -. constrains .-> SAL
     SAL -->|derives| ICL
@@ -764,6 +776,7 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 - [ ] All inline `[TIER-N.M]` citations have matching entries in `parent_ids`
 - [ ] No node has `status: DIRTY`
 - [ ] Reconciliation manifest shows zero pending items
+- [ ] If any Extension is active, all Extension advisories classified as `critical` or `blocking` have a recorded disposition note
 
 > **Atomic Rule Validation**
 
@@ -781,7 +794,7 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 
 - [ ] All active Extensions declare compatible contract versions for DDR-Core-4.x
 - [ ] Extension annotations stored in `extension_annotations` only
-- [ ] Extension advisories reviewed; critical advisories have disposition notes
+- [ ] Extension advisories reviewed; non-critical advisories have disposition notes
 - [ ] ARE-generated candidates reviewed and either promoted via INSERT or discarded
 
 ---
@@ -832,6 +845,18 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 | ICL         | ICL              | Unchanged                                                                                           |
 | CDL         | CDL              | Unchanged                                                                                           |
 | ISL         | ISL              | References CL instead of TDL for language targets                                                   |
+
+### Rule-Level Cross-Reference
+
+> **Migration Policy:** All future version migrations must include a complete rule-level cross-reference table with explicit consolidation status.
+
+| v3.1.1 Rule ID                | v4.0 Destination                    | Consolidation Status                | Notes                                                |
+| ----------------------------- | ----------------------------------- | ----------------------------------- | ---------------------------------------------------- |
+| ORL-R1 through ORL-R4, ORL-R7 | GPCL-R6, GPCL-R7, GPCL-R8, GPCL-R10 | 1:1 / TBD                           | Existing mapping documented rules                    |
+| ORL-R5                        | GPCL-R9                             | N:1                                 | Consolidated with ORL-R6                             |
+| ORL-R6                        | GPCL-R9                             | N:1                                 | Consolidated with ORL-R5                             |
+| HIL-R1 through HIL-R5         | CL-R6 through CL-R8                 | UNKNOWN — consolidation pairing TBD | 5 source rules map to 3 target slots (2 unaccounted) |
+| TDL-R1 through TDL-R6         | CL-R1 through CL-R5                 | UNKNOWN — consolidation pairing TBD | 6 source rules map to 5 target slots (1 unaccounted) |
 
 ---
 
