@@ -174,134 +174,142 @@ written approval before proceeding.
 
 > Notify the user, "(4.1 — Output: Implementation Plan Artifact): I am now generating the Implementation Plan based on the research and validation I have conducted."
 
-Output strictly using the schema below. Omit all conversational filler. Gemini 3.1 Pro
-is the authoring agent; Gemini 3 Flash is the executing agent. Each section is addressed
-to the appropriate agent.
+Output the Implementation Plan as an **Antigravity Artifact** conforming to the
+`ImplementationPlanDefinition` schema defined in
+`.agent/assets/schemas/implementation-plan/implementation-plan.d.ts`.
 
-Sections `§1–§7` are canonical and **must all appear, in order**, in every generated plan.
+**Critical**: The artifact MUST be created using the `write_to_file` tool with
+`IsArtifact: true` and `ArtifactType: "implementation_plan"`. Do NOT output the
+plan as inline markdown in the conversation. The plan is a standalone artifact file.
+
+Omit all conversational filler. Gemini 3.1 Pro is the authoring agent; Gemini 3 Flash
+is the executing agent. Reference
+`.agent/assets/schemas/implementation-plan/example.md` for the canonical output template.
 
 ---
 
-### §1 — Overview
+### 4.1 — YAML Frontmatter (Required)
 
-- **Target Objective**: One-sentence goal. Include a measurable success condition.
-- **Design Justification**: Summary of technical decisions from Phase 2. Include source
-  URLs and publication dates. Justify why this is the maximally optimized solution, not
-  merely the most expedient.
-- **Scope**: Exhaustive list of files and modules affected.
-- **Out of Scope**: Exhaustive list of files and modules that MUST NOT be touched.
-- **Entropy Status**: `CLEAN` or findings formatted as `file:line — issue description`,
-  with proposed cleanup steps where applicable.
-- **Knowledge Base Alignment**: `NONE` or list of prior Decision Records consulted and
-  any conflicts resolved.
-- **Context State**: `Verified` or `RFQ Triggered: [list of missing or ambiguous items]`
+The artifact file MUST begin with valid YAML frontmatter containing exactly these keys:
+
+```yaml
+---
+task: "[One-sentence target objective with measurable success condition]"
+model: "gemini-3.1-pro"
+---
+```
+
+---
+
+### 4.2 — Body Content (Required XML Isolation Blocks)
+
+All body content MUST use the following XML isolation blocks, in order. Each block
+anchors the model's attention mechanism to verifiable, structured output.
+
+---
+
+#### `<objective>` (Required)
+
+One-paragraph summary consolidating:
+
+- The target objective and measurable success condition.
+- Design justification summarizing technical decisions from Phase 2 (include source
+  URLs and publication dates). Justify why this is the maximally optimized solution,
+  not merely the most expedient.
+- Scope: exhaustive list of files and modules affected.
+- Out of Scope: exhaustive list of files and modules that MUST NOT be touched.
+- Entropy Status from Phase 1.2 (`CLEAN` or findings formatted as
+  `file:line — issue description`).
+- Knowledge Base Alignment (`NONE` or list of prior Decision Records consulted and
+  any conflicts resolved).
 
 > **If Context State = RFQ Triggered**, halt generation here. Output the RFQ Artifact
-> from Phase 1.4. Do not generate §2 or beyond.
+> from Phase 1.4 instead. Do not generate the remaining blocks.
 
 ---
 
-### §2 — Build Manifest
+#### `<phases>` (Required for multi-phase plans; omit for single-phase work)
 
-Execute task groups in the order listed. Within a group, execute steps in numbered order
-unless a step is explicitly marked `[PARALLEL-SAFE]`.
+Each phase entry MUST include:
+
+- `phase_id`: Unique identifier (e.g., `PHASE_1_SCAFFOLD`).
+- `objectives`: Array of objectives for this phase.
+- `task_references`: Array of related task IDs.
+- `entry_criteria`: Array of conditions that must be true before this phase begins.
+- `exit_criteria`: Array of conditions that must be true for this phase to be complete.
+- `assigned_model`: `"gemini-3.1-pro"` or `"gemini-3-flash"` per the risk matrix in
+  Phase 3.
+
+---
+
+#### `<atomic_steps>` (Required)
+
+Numbered list of deterministic, single-responsibility execution steps. Execute steps
+in numbered order unless a step is explicitly marked `[PARALLEL-SAFE]`.
 
 > **`[PARALLEL-SAFE]` definition**: A step has no read/write dependency on any other
-> step in the same group and may be executed concurrently with other `[PARALLEL-SAFE]`
-> steps. Steps without this marker are strictly sequential. When in doubt, treat a step
-> as sequential.
+> step and may be executed concurrently with other `[PARALLEL-SAFE]` steps. Steps
+> without this marker are strictly sequential. When in doubt, treat as sequential.
+
+Each step MUST encode:
+
+1. **Target File**: `[relative/path/to/file.ext]`
+2. **Component**: `[Exact Class / Function / Module name and full type-annotated signature]`
+3. **Operation**: `CREATE | MODIFY | DELETE`
+4. **Review Policy**: `Always Proceed | Agent Decides | Request Review`
+   (from Phase 3 risk matrix)
+5. **PRE-Condition**: `[Exact verifiable assertion that MUST be true before acting.]`
+6. **Logic Definition**: Deterministic, step-by-step logic referencing exact existing
+   variable and function names. No pronouns. No inference. Every branch and edge case
+   explicitly handled. If a required detail is unknown, insert:
+   `UNKNOWN — RFQ required`.
+7. **PROHIBIT**: `[What MUST NOT happen during this step.]`
+8. **POST-Condition**: `[Exact verifiable assertion that MUST be true after acting.]`
+9. **DEPENDS**: `[N/A | Step #X]`
 
 ---
 
-**Task Group**: `[Logical Group Name]`
-**Target File**: `[relative/path/to/file.ext]`
+#### `<verification>` (Required)
 
-1. **Component**: `[Exact Class / Function / Module name and full type-annotated signature]`
-2. **Operation**: `CREATE | MODIFY | DELETE`
-3. **Review Policy**: `Always Proceed | Agent Decides | Request Review`
-4. **PRE-Condition**: `[Exact verifiable assertion that MUST be true before acting.
-   Example: "src/auth/login.py exists and contains class AuthManager".]`
-5. **Logic Definition**:
+Numbered list mapping 1:1 to each atomic step. Each entry specifies:
 
-   ```plaintext
-   [Deterministic, step-by-step logic referencing exact existing variable and function
-   names from the codebase. No pronouns. No inference. Every branch and edge case
-   explicitly handled. If a required detail is unknown, insert: UNKNOWN — RFQ required.]
-   ```
+- The specific terminal command, pytest invocation, or IDE validation step to confirm
+  correctness before advancing to the next step.
+- For `Request Review` steps: the exact rollback procedure (`git restore` commands)
+  that the executing agent MUST surface and obtain explicit written approval for
+  before proceeding.
 
-6. **PROHIBIT**: `[What MUST NOT happen. Example: "Do NOT alter the constructor
-   signature or error handling in AuthManager.__init__".]`
-7. **POST-Condition**: `[Exact verifiable assertion that MUST be true after acting.
-   Example: "Function accepts oauth_token: str; unit test test_oauth_flow passes".]`
-8. **DEPENDS**: `[N/A | Step #X in Task Group Y]`
-9. **Verification Gate**: `[Specific terminal command, pytest invocation, or IDE
-   validation step to confirm correctness before advancing to the next step.]`
-
-> Repeat task group blocks as necessary.
+> **Required for every HIGH risk step.** If the plan contains zero HIGH risk items,
+> state that explicitly.
 
 ---
 
-### §3 — Justification & Research Citations
+#### `<risks_and_mitigations>` (Optional)
 
-| Decision                               | Rationale (why chosen over alternatives)   | Citation (URL + publication date, ≤ 3 months old)   |
-| -------------------------------------- | ------------------------------------------ | --------------------------------------------------- |
-| \[Non-obvious architectural choice\]   | \[Explicit justification\]                 | \[URL — YYYY-MM-DD\]                                |
+Potential failure points and mitigation strategies. Include the Justification &
+Research Citations table:
 
-> If a decision cannot be cited within the freshness window, it must not appear here.
-> Treat uncitable decisions as RFQ-triggering gaps.
+| Decision                             | Rationale (why chosen over alternatives) | Citation (URL + date, ≤ 3 months old) |
+| :----------------------------------- | :--------------------------------------- | :------------------------------------ |
+| \[Non-obvious architectural choice\] | \[Explicit justification\]               | \[URL — YYYY-MM-DD\]                  |
 
----
-
-### §4 — Verification Strategy
-
-#### Automated Tests
-
-```bash
-# Happy path
-pytest -k "test_successful_<feature>" -v --tb=short
-
-# Failure / edge-case path
-pytest -k "test_invalid_<input_or_error>" -v --tb=short
-
-# Full regression guard
-pytest --tb=no -q
-```
-
-#### Manual / Artifact Checklist
-
-- [ ] **VERIFY**: Observable outcome. Specify expected Antigravity Artifact
-  (screenshot, diff, browser recording) if applicable.
-- [ ] **REGRESSION**: Confirm unaffected functionality. Name the specific paths,
-  endpoints, or behaviors that must remain unchanged.
+> If a decision cannot be cited within the freshness window, treat it as an
+> RFQ-triggering gap.
 
 ---
 
-### §5 — Rollback Procedures
+### 4.3 — Post-Artifact Directives
 
-> **Required for every HIGH risk step.** If the entire Build Manifest contains zero
-> HIGH risk items, state that explicitly and omit the rollback blocks below.
-
-For each HIGH risk step, provide a numbered, exact rollback sequence covering every
-file modified by that step. One rollback block per HIGH risk step.
-
-```bash
-# Rollback: [Task Group Name — Step #N]
-git restore --source=HEAD~1 relative/path/to/affected/file1.ext
-git restore --source=HEAD~1 relative/path/to/affected/file2.ext
-# [Additional commands if schema migration, dependency install, or DB state change occurred]
-```
-
-**High-Risk Human Intervention Gate**: Before executing any step classified
-`Request Review`, the executing agent MUST pause, surface this rollback block to the
-user, and wait for explicit written approval before proceeding.
+These directives are NOT part of the artifact body. They are operational instructions
+bound to the executing agent after the artifact has been approved by the user.
 
 ---
 
-### §6 — Post-Execution Knowledge Base Update
+#### Post-Execution Knowledge Base Update
 
-Upon **full verification success** (all POST-conditions met, all tests passing, all
-manual checklist items confirmed), the executing agent MUST write or update the
-Antigravity persistent Decision Record at `.gemini/antigravity/brain/<TASK_NAME>.md`.
+Upon **full verification success** (all POST-conditions met, all verification checks
+passing), the executing agent MUST write or update the Antigravity persistent Decision
+Record at `.gemini/antigravity/brain/<TASK_NAME>.md`.
 
 If the file already exists, append a new dated entry below existing content.
 Do not overwrite prior records.
@@ -345,10 +353,10 @@ MUST respect in this project.]
 
 ---
 
-### §7 — Execution Contract
+#### Execution Contract
 
 > This section is addressed directly to the **executing agent** (Gemini 3 Flash,
-> Fast Mode). Read it in full before acting on any directive in §2.
+> Fast Mode). Read it in full before acting on any directive in `<atomic_steps>`.
 
 You are the **executing** agent. You did not author this plan.
 
@@ -357,17 +365,17 @@ You are the **executing** agent. You did not author this plan.
 - Confirm every PRE-Condition before acting on a step, using `thinking_level: high`
   for condition evaluation even when operating in Fast Mode.
 - Confirm every POST-Condition after acting on a step.
-- Run the Verification Gate before advancing to the next step.
+- Run the mapped `<verification>` check before advancing to the next step.
 - Halt immediately and notify the user on any failed PRE-Condition, POST-Condition,
   or scope boundary violation.
-- Execute the §5 Rollback Procedure for any HIGH risk step that fails its
+- Execute the rollback procedure for any `Request Review` step that fails its
   POST-Condition, before notifying the user.
-- Write the §6 Decision Record upon successful completion of the full Build Manifest.
+- Write the Knowledge Base Decision Record upon successful completion.
 
 **You WILL NOT**:
 
-- Touch any file listed in §1 "Out of Scope."
-- Interpret, infer, or add anything not explicitly stated in §2.
+- Touch any file listed in the objective's "Out of Scope."
+- Interpret, infer, or add anything not explicitly stated in `<atomic_steps>`.
 - Proceed past any `Request Review` step without explicit written user approval.
 - Fill in gaps or make assumptions when a PRE-Condition or logic detail is marked
   `UNKNOWN — RFQ required`. Halt and surface the gap to the user instead.

@@ -162,7 +162,7 @@ This specification was designed under three governing constraints:
 ### 3.5 DAG Invariants
 
 - No cycles permitted at any path length
-- No tier-skipping: each citation references exactly one tier above in the derivation path
+- No tier-skipping: each citation references exactly one active tier above in the derivation path
 - XPD and CL are conditionally activatable; the Core is valid and complete without them
 - When CL is inactive, SAL derives directly from FCL
 - All non-root nodes must carry at least one `parent_id` citation
@@ -205,6 +205,8 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | G2    | FCL + CL (opt)         | Capabilities & Constraints     |
 | G3    | SAL + ICL              | Architecture & Contracts       |
 | G4    | CDL + ISL              | Design & Scaffolding           |
+
+> **UNBUNDLE Determinism Rule:** Within Express Mode groups containing conditionally activatable tiers (G2: FCL + CL), content must be authored with explicit tier annotations (e.g., `[FCL]` or `[CL]` inline prefixes) to enable deterministic UNBUNDLE allocation. The UNBUNDLE operation must reject content that cannot be unambiguously assigned to a constituent tier.
 
 ## 5. Tier Specifications
 
@@ -349,7 +351,7 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | CL-R6  | Must declare hardware envelopes when applicable (CPU class, RAM floor, storage, GPU)                 | Architecture that exceeds target hardware                   |
 | CL-R7  | Must declare infrastructure ceilings when applicable (compute budget, storage cap, bandwidth cap)    | Cost overruns from unconstrained architecture               |
 | CL-R8  | Must specify deployment topology declarations (on-premise, cloud-agnostic, hybrid, edge)             | Architecture incompatible with deployment target            |
-| CL-R9  | Must cite FCL or GPCL IDs for each constraint                                                        | Constraints untraceable to a business need                  |
+| CL-R9  | Must cite FCL IDs for each constraint                                                                | Constraints untraceable to a business need                  |
 | CL-R10 | Must explicitly document internal reconciliations of conflicting hardware and technology constraints | Loss of deterministic traceability for constraint conflicts |
 
 #### CL Atomic Exclusion Rules
@@ -427,14 +429,15 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 
 #### CDL Atomic Inclusion Rules
 
-| Rule   | Statement                                                                                           | Violation Consequence                               |
-| ------ | --------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| CDL-R1 | Must define component names, logical responsibilities, and ownership boundaries                     | Ambiguous implementation targets                    |
-| CDL-R2 | Must specify all public method/function signatures (name, parameter types, return type, exceptions) | Implementations that violate the declared interface |
-| CDL-R3 | Must specify internal state structures as a logical model — not implementation                      | Hidden state dependencies between components        |
-| CDL-R4 | Must specify component dependencies (consumed components and ICL contracts)                         | Circular dependencies introduced at implementation  |
-| CDL-R5 | Must map each component to the ICL contracts it implements                                          | Components without contractual grounding            |
-| CDL-R6 | Must specify initialization, lifecycle, and teardown contracts for stateful components              | Resource leaks and initialization-order bugs        |
+| Rule   | Statement                                                                                             | Violation Consequence                                     |
+| ------ | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| CDL-R1 | Must define component names, logical responsibilities, and ownership boundaries                       | Ambiguous implementation targets                          |
+| CDL-R2 | Must specify all public method/function signatures (name, parameter types, return type, exceptions)   | Implementations that violate the declared interface       |
+| CDL-R3 | Must specify internal state structures as a logical model — not implementation                        | Hidden state dependencies between components              |
+| CDL-R4 | Must specify component dependencies (consumed components and ICL contracts)                           | Circular dependencies introduced at implementation        |
+| CDL-R5 | Must map each component to the ICL contracts it implements                                            | Components without contractual grounding                  |
+| CDL-R6 | Must specify initialization, lifecycle, and teardown contracts for stateful components                | Resource leaks and initialization-order bugs              |
+| CDL-R7 | When CL declares multiple target languages, must produce language-specific blueprints for each target | Language constraint not propagated; ISL-R5 compliance gap |
 
 #### CDL Atomic Exclusion Rules
 
@@ -496,15 +499,15 @@ Higher-priority tiers override lower-priority tiers. An XPD ethical boundary fun
 
 ### 7.1 Core Operations
 
-| Operation     | Description                                                                                                                                                     | Validation Trigger                                                            |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| **INSERT**    | Create node with auto-assigned ID, `parent_ids`, and tier-compliant content. Supports both forward (parent→child) and reverse (child→inferred parent) direction | Full atomic ruleset; parent existence; DAG cycle detection                    |
-| **DELETE**    | Remove node; cascade orphan detection to children                                                                                                               | Children → `DIRTY`; manifest updated                                          |
-| **MODIFY**    | Update content; version incremented                                                                                                                             | Re-validate ruleset; re-check citations; DIRTY propagation to all descendants |
-| **SUPERSEDE** | Mark node `SUPERSEDED`; create replacement with new ID                                                                                                          | Old node retains ID; new node validated; all children re-targeted             |
-| **VERIFY**    | Traverse DAG downward; validate citation chains, edge types, ID references, orphans, and contamination                                                          | Returns `CLEAN` or `DIRTY` with itemized violations                           |
-| **VALIDATE**  | Check single node against its tier's full atomic ruleset                                                                                                        | Returns pass/fail with specific violated rule IDs                             |
-| **UNBUNDLE**  | Expand Express Mode group into constituent Full Mode tiers                                                                                                      | Content allocated to correct tiers; `parent_ids` auto-wired                   |
+| Operation     | Description                                                                                                                                                     | Validation Trigger                                                                                                                                                                                   |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **INSERT**    | Create node with auto-assigned ID, `parent_ids`, and tier-compliant content. Supports both forward (parent→child) and reverse (child→inferred parent) direction | Full atomic ruleset; parent existence; DAG cycle detection                                                                                                                                           |
+| **DELETE**    | Remove node; cascade orphan detection to children                                                                                                               | Children → `DIRTY`; orphaned children (zero valid `parent_ids`) must resolve via MODIFY (re-attach), DELETE (cascade), or SUPERSEDE (replace deleted parent); manifest updated                       |
+| **MODIFY**    | Update content; version incremented                                                                                                                             | Re-validate ruleset; re-check citations; DIRTY propagation to all descendants                                                                                                                        |
+| **SUPERSEDE** | Mark node `SUPERSEDED`; create replacement with new ID                                                                                                          | Old node retains ID; new node validated; children's `parent_ids` auto-updated to replacement ID then set `DIRTY` for content re-validation; this auto-update does not cascade DIRTY to grandchildren |
+| **VERIFY**    | Traverse DAG downward; validate citation chains, edge types, ID references, orphans, and contamination                                                          | Returns `CLEAN` or `DIRTY` with itemized violations                                                                                                                                                  |
+| **VALIDATE**  | Check single node against its tier's full atomic ruleset                                                                                                        | Returns pass/fail with specific violated rule IDs                                                                                                                                                    |
+| **UNBUNDLE**  | Expand Express Mode group into constituent Full Mode tiers                                                                                                      | Content allocated to correct tiers; `parent_ids` auto-wired                                                                                                                                          |
 
 > **Design Decision — Removed Operations:** v3.1.1 defined 11 operations. RELOCATE is removed (contradicted ID immutability). ABSTRACT and CONCRETIZE are merged into INSERT with a direction parameter. DETECT ORPHAN and DETECT CONTAMINATION are subsumed by VERIFY.
 
@@ -772,6 +775,7 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 - [ ] SAL cites all active parent tiers (FCL + CL if active)
 - [ ] ICL schemas are machine-parseable (ICL-R2)
 - [ ] ISL stubs contain traceable docstrings citing CDL parent IDs
+- [ ] CDL nodes produce language-specific blueprints when CL declares multiple targets (CDL-R7)
 
 **Extension Validation** *(when Extensions active)*
 
