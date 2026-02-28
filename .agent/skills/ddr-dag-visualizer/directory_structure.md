@@ -12,5 +12,5 @@ ddr-dag-visualizer/
 │   ├── ddr_node_schema.yaml
 │   └── output_guide.md
 └── assets/
-    └── style_config.json
+    └── config.json
 ```

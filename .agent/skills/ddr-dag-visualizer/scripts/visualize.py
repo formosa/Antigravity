@@ -187,7 +187,7 @@ def _extract_display_metadata(ddr_data: dict[str, Any]) -> dict[str, Any]:
 
 def _load_style() -> dict[str, Any]:
     """
-    Load the visual style configuration from assets/style_config.json.
+    Load the visual style configuration from assets/config.json.
 
     Returns
     -------
@@ -197,12 +197,12 @@ def _load_style() -> dict[str, Any]:
     Raises
     ------
     FileNotFoundError
-        If style_config.json is not found in the assets directory.
+        If config.json is not found in the assets directory.
     """
-    cfg_path = _ASSETS_DIR / "style_config.json"
+    cfg_path = _ASSETS_DIR / "config.json"
     if not cfg_path.exists():
         raise FileNotFoundError(
-            f"style_config.json not found at {cfg_path}. "
+            f"config.json not found at {cfg_path}. "
             "Ensure the assets/ directory is intact."
         )
     with cfg_path.open("r", encoding="utf-8") as fh:
@@ -708,8 +708,8 @@ def main() -> int:
     )
     parser.add_argument(
         "--output-dir",
-        default="./ddr_output",
-        help="Directory for output files (default: ./ddr_output).",
+        default=None,
+        help="Directory for output files (overrides config.json default).",
     )
     args = parser.parse_args()
 
@@ -730,7 +730,8 @@ def main() -> int:
     result.violations = parse_errors + result.violations
     md_report, json_report = generate_report(result, ddr_data)
 
-    output_dir      = Path(args.output_dir)
+    output_dir_str = args.output_dir or style.get("output", {}).get("output_dir", "./ddr_output")
+    output_dir      = Path(output_dir_str)
     generated_files: list[Path] = []
 
     try:
