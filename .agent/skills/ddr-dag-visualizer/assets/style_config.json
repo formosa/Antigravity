@@ -1,0 +1,114 @@
+{
+    "_comment": "DDR System v4.0 Visualization Style Configuration. Colors adapted from the DDR specification §10 Mermaid palette for white-background rendering.",
+    "tiers": {
+        "_default": {
+            "cluster_bg": "#f5f5f5",
+            "border_color": "#888888",
+            "label_color": "#333333"
+        },
+        "XPD": {
+            "cluster_bg": "#e6f9ed",
+            "border_color": "#2e7d50",
+            "label_color": "#1a4d30"
+        },
+        "SIL": {
+            "cluster_bg": "#e8eef7",
+            "border_color": "#2c4f8a",
+            "label_color": "#1a2f52"
+        },
+        "GPCL": {
+            "cluster_bg": "#edf0f8",
+            "border_color": "#3a5a9e",
+            "label_color": "#1a2f52"
+        },
+        "FCL": {
+            "cluster_bg": "#edf2fb",
+            "border_color": "#4a6bbf",
+            "label_color": "#1a2f52"
+        },
+        "CL": {
+            "cluster_bg": "#fdf6e3",
+            "border_color": "#b8860b",
+            "label_color": "#5c4200"
+        },
+        "SAL": {
+            "cluster_bg": "#fce8e8",
+            "border_color": "#c0392b",
+            "label_color": "#7b1c14"
+        },
+        "ICL": {
+            "cluster_bg": "#edf2fb",
+            "border_color": "#4a6bbf",
+            "label_color": "#1a2f52"
+        },
+        "CDL": {
+            "cluster_bg": "#edf2fb",
+            "border_color": "#4a6bbf",
+            "label_color": "#1a2f52"
+        },
+        "ISL": {
+            "cluster_bg": "#f0f4fb",
+            "border_color": "#6a8bcf",
+            "label_color": "#2a3f6f"
+        }
+    },
+    "status": {
+        "ACTIVE": {
+            "fillcolor": "#d1e8ff",
+            "bordercolor": "#2c6fad",
+            "fontcolor": "#0a2d52"
+        },
+        "DRAFT": {
+            "fillcolor": "#f0f0f0",
+            "bordercolor": "#999999",
+            "fontcolor": "#555555"
+        },
+        "DIRTY": {
+            "fillcolor": "#ffe8cc",
+            "bordercolor": "#d46500",
+            "fontcolor": "#6b3000"
+        },
+        "DEPRECATED": {
+            "fillcolor": "#e8e8e8",
+            "bordercolor": "#aaaaaa",
+            "fontcolor": "#888888"
+        },
+        "SUPERSEDED": {
+            "fillcolor": "#d8d8d8",
+            "bordercolor": "#888888",
+            "fontcolor": "#aaaaaa"
+        }
+    },
+    "edges": {
+        "_default": {
+            "color": "#555555",
+            "dash": "solid",
+            "arrowhead": "normal",
+            "penwidth": "1.5"
+        },
+        "derives": {
+            "color": "#1a1a2e",
+            "dash": "solid",
+            "arrowhead": "normal",
+            "penwidth": "1.8"
+        },
+        "constrains": {
+            "color": "#b8860b",
+            "dash": "dashed",
+            "arrowhead": "open",
+            "penwidth": "1.8"
+        },
+        "implements": {
+            "color": "#2e7d32",
+            "dash": "solid",
+            "arrowhead": "normal",
+            "penwidth": "1.8"
+        },
+        "extends": {
+            "color": "#6a1b9a",
+            "dash": "dotted",
+            "arrowhead": "open",
+            "penwidth": "1.2"
+        }
+    }
+}

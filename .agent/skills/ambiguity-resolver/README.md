@@ -80,18 +80,18 @@ Within the IDE, activate via:
 
 ### The 10 Factors
 
-| Factor | Description | High Score Tiers |
-|:-------|:------------|:-----------------|
-| Numeric Metrics | < 1s, 50MB, 99.9% | NFR (3), ICD (2) |
-| Hardware Reference | CPU, GPU, VRAM | NFR (3), SAD (1) |
-| User Behavior | Interaction, workflow | FSD (3), BRD (2) |
-| Pattern Names | Hub-and-Spoke, DEALER | SAD (3), TDD (1) |
-| Schema Definition | JSON/YAML structures | ICD (3), ISP (1) |
-| Class Names | PascalCase identifiers | TDD (3), ISP (2) |
-| Executable Code | def, class, import | ISP (3) |
-| Modal Keywords | MUST, SHALL, SHOULD | NFR (3), FSD (2) |
-| Rationale | Because, enables, justifies | BRD (3), SAD (3) |
-| Technology-Agnostic | No specific libs/tools | BRD (3), FSD (2) |
+| Factor              | Description                 | High Score Tiers   |
+| :------------------ | :-------------------------- | :----------------- |
+| Numeric Metrics     | < 1s, 50MB, 99.9%           | NFR (3), ICD (2)   |
+| Hardware Reference  | CPU, GPU, VRAM              | NFR (3), SAD (1)   |
+| User Behavior       | Interaction, workflow       | FSD (3), BRD (2)   |
+| Pattern Names       | Hub-and-Spoke, DEALER       | SAD (3), TDD (1)   |
+| Schema Definition   | JSON/YAML structures        | ICD (3), ISP (1)   |
+| Class Names         | PascalCase identifiers      | TDD (3), ISP (2)   |
+| Executable Code     | def, class, import          | ISP (3)            |
+| Modal Keywords      | MUST, SHALL, SHOULD         | NFR (3), FSD (2)   |
+| Rationale           | Because, enables, justifies | BRD (3), SAD (3)   |
+| Technology-Agnostic | No specific libs/tools      | BRD (3), FSD (2)   |
 
 ### Scoring Steps
 
@@ -103,7 +103,7 @@ Within the IDE, activate via:
 
 ### Tie-Breaker Hierarchy
 
-```
+```plaintext
 BRD > NFR > FSD > SAD > ICD > TDD > ISP
  ↑                                   ↓
 Higher Abstraction      Lower Abstraction
