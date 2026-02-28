@@ -1,7 +1,7 @@
 {
     "_comment": "DDR System v4.0 Visualization Style Configuration. Colors adapted from the DDR specification §10 Mermaid palette for white-background rendering.",
     "output": {
-        "style_reference": "cyberpunk_style.json",
+        "style_reference": "advanced_technical_style.json",
         "output_dir": "./ddr_output",
         "formats": [
             "svg",
