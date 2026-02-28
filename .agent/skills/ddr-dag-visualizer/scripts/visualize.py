@@ -206,7 +206,20 @@ def _load_style() -> dict[str, Any]:
             "Ensure the assets/ directory is intact."
         )
     with cfg_path.open("r", encoding="utf-8") as fh:
-        return json.load(fh)
+        base_cfg = json.load(fh)
+
+    style_ref = base_cfg.get("output", {}).get("style_reference")
+    if style_ref:
+        ref_path = _ASSETS_DIR / style_ref
+        if ref_path.exists():
+            with ref_path.open("r", encoding="utf-8") as fh:
+                override_cfg = json.load(fh)
+            for k, v in override_cfg.items():
+                if isinstance(v, dict) and isinstance(base_cfg.get(k), dict):
+                    base_cfg[k].update(v)
+                else:
+                    base_cfg[k] = v
+    return base_cfg
 
 
 # ---------------------------------------------------------------------------
@@ -390,24 +403,29 @@ def build_full_dag_diagram(
     )
     display_meta = _extract_display_metadata(ddr_data)
 
+    layout_cfg = style.get("layout", {})
+    graph_attr = {
+        "rankdir":  "TB",
+        "compound": "true",
+        "fontname": "Helvetica Neue",
+        "fontsize": "13",
+        "label":    f"DDR System v4.0 — {project_name}\\nFull DAG",
+        "labelloc": "t",
+        "splines":  "ortho",
+        "nodesep":  "0.55",
+        "ranksep":  "1.1",
+        "bgcolor":  "#ffffff",
+        "dpi":      "300",
+        "margin":   "0.6",
+        "pad":      "0.4",
+    }
+    for k, v in layout_cfg.items():
+        graph_attr[k] = str(v)
+
     dot = graphviz.Digraph(
         name="DDR_DAG_Full",
         engine="dot",
-        graph_attr={
-            "rankdir":  "TB",
-            "compound": "true",
-            "fontname": "Helvetica Neue",
-            "fontsize": "13",
-            "label":    f"DDR System v4.0 — {project_name}\\nFull DAG",
-            "labelloc": "t",
-            "splines":  "ortho",
-            "nodesep":  "0.55",
-            "ranksep":  "1.1",
-            "bgcolor":  "#ffffff",
-            "dpi":      "300",
-            "margin":   "0.6",
-            "pad":      "0.4",
-        },
+        graph_attr=graph_attr,
         node_attr={"fontname": "Courier New",  "fontsize": "9"},
         edge_attr={"fontname": "Helvetica",    "fontsize": "8"},
     )
@@ -532,22 +550,27 @@ def build_tier_topology_diagram(
     )
     display_meta = _extract_display_metadata(ddr_data)
 
+    layout_cfg = style.get("layout", {})
+    graph_attr = {
+        "rankdir":  "TB",
+        "fontname": "Helvetica Neue",
+        "fontsize": "12",
+        "label":    f"DDR System v4.0 — {project_name}\\nTier Topology",
+        "labelloc": "t",
+        "splines":  "ortho",
+        "nodesep":  "0.4",
+        "ranksep":  "0.9",
+        "bgcolor":  "#ffffff",
+        "dpi":      "300",
+        "pad":      "0.5",
+    }
+    for k, v in layout_cfg.items():
+        graph_attr[k] = str(v)
+
     dot = graphviz.Digraph(
         name="DDR_Tier_Topology",
         engine="dot",
-        graph_attr={
-            "rankdir":  "TB",
-            "fontname": "Helvetica Neue",
-            "fontsize": "12",
-            "label":    f"DDR System v4.0 — {project_name}\\nTier Topology",
-            "labelloc": "t",
-            "splines":  "ortho",
-            "nodesep":  "0.4",
-            "ranksep":  "0.9",
-            "bgcolor":  "#ffffff",
-            "dpi":      "300",
-            "pad":      "0.5",
-        },
+        graph_attr=graph_attr,
     )
 
     # Tier nodes

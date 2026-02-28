@@ -1,0 +1,14 @@
+{
+    "layout": {
+        "rankdir": "LR",
+        "bgcolor": "#0D0E15",
+        "fontname": "Courier New",
+        "splines": "polyline",
+        "fontcolor": "#00ffff"
+    },
+    "tiers": {
+        "_default": {
+            "cluster_bg": "#0a1922"
+        }
+    }
+}
