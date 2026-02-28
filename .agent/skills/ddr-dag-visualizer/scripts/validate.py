@@ -33,6 +33,7 @@ from typing import Any
 
 import networkx as nx
 import yaml
+from align_table import process_document
 
 
 # ---------------------------------------------------------------------------
@@ -719,7 +720,7 @@ def generate_report(
             lines.append(f"\n### {icon} [{v.severity}] `{v.rule_id}` — `{v.node_id}`")
             lines.append(f"\n{v.description}")
 
-    md_report   = "\n".join(lines)
+    md_report   = process_document("\n".join(lines))
     json_report = {
         "project":         name,
         "ddr_version":     version,
