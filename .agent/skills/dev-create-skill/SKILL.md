@@ -1,5 +1,5 @@
 ---
-name: skill-creator
+name: dev-create-skill
 version: 1.1.0
 description: Generates Antigravity v1.18.3 compliant skills optimized for Gemini 3.1 Pro via progressive disclosure.
 ---

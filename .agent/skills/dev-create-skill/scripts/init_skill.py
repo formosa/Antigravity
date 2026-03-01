@@ -101,9 +101,9 @@ def init_skill(skill_name, path):
 
         # Replicate Schema
         schema_dest_dir = resources_dir / 'schema'
-        creator_schema_path = Path(__file__).resolve().parent.parent / 'resources' / 'schema'
-        if creator_schema_path.exists():
-            shutil.copytree(creator_schema_path, schema_dest_dir, dirs_exist_ok=True)
+        source_schema_path = Path(__file__).resolve().parent.parent / 'resources' / 'schema'
+        if source_schema_path.exists():
+            shutil.copytree(source_schema_path, schema_dest_dir, dirs_exist_ok=True)
 
         print("✅ Created resource directories & integrated schemas")
     except Exception as e:
