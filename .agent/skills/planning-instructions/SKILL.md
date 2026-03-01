@@ -1,6 +1,6 @@
 ---
 name: planning-instructions
-description: Generates a deterministic, hallucination-resistant Implementation Plan Artifact for zero-ambiguity execution within Google Antigravity IDE v1.16.5.
+description: Generates a deterministic, hallucination-resistant Implementation Plan Artifact for zero-ambiguity execution within Google Antigravity IDE v1.18.3.
 ---
 
 # SKILL: IMPLEMENTATION PLANNING (v3.0)
@@ -9,8 +9,8 @@ description: Generates a deterministic, hallucination-resistant Implementation P
 > — **Planning agent**: Gemini 3.1 Pro (Plan Mode, `thinking_level: high`)
 > — **Execution agent**: Gemini 3 Flash (Fast Mode, `thinking_level: low` per step; `high` for
 > pre/post-condition evaluation)
-> — **IDE**: Google Antigravity v1.16.5 (Strict Mode available; formerly "Secure Mode" — renamed
-> in this release)
+> — **IDE**: Google Antigravity v1.18.3 (Strict Mode available; formerly "Secure Mode" — renamed
+> in v1.16.5 release)
 > — **Grounding principle**: All factual assertions must trace to local context or cited external
 > research. If a required input is missing or ambiguous, output an RFQ and halt — do not infer,
 > assume, or hallucinate missing details.
@@ -154,7 +154,7 @@ Assign Antigravity's native Review Policies to each atomic step using the risk m
 below. Rely on the user's existing IDE settings for Terminal and Strict Mode
 enforcement. Do not attempt to manage these system-level policies.
 
-> **v1.16.5 note**: "Secure Mode" was renamed **Strict Mode** in Antigravity v1.16.5
+> **v1.18.3+ note**: "Secure Mode" was renamed **Strict Mode** in Antigravity v1.16.5
 > (2026-02-03). All references to Secure Mode in prior skill versions or project
 > documentation should be read as Strict Mode.
 
@@ -261,7 +261,7 @@ Each step MUST encode:
 5. **PRE-Condition**: `[Exact verifiable assertion that MUST be true before acting.]`
 6. **Logic Definition**: Deterministic, step-by-step logic referencing exact existing
    variable and function names. No pronouns. No inference. Every branch and edge case
-   explicitly handled. If a required detail is unknown, insert:
+   explicitly handled. For exact text `CREATE`/`MODIFY` mapping, strictly utilize Antigravity v1.18+ XML fencing (`<replace_target>` and `<replace_content>`, `<insert_before>`, `<insert_after>`, `<content>`) providing identical multi-line string matches to eliminate ambiguity. If a required detail is unknown, insert:
    `UNKNOWN — RFQ required`.
 7. **PROHIBIT**: `[What MUST NOT happen during this step.]`
 8. **POST-Condition**: `[Exact verifiable assertion that MUST be true after acting.]`
