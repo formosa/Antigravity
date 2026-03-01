@@ -7,13 +7,13 @@ Usage:
 """
 
 import sys
+import shutil
 from pathlib import Path
 
 SKILL_TEMPLATE = """---
 name: {skill_name}
+version: 1.0.0
 description: [TODO: Highly specific trigger phrase outlining exact conditions for semantic routing]
-# HUMAN CONTEXT: [TODO: Add human-readable intent and design justifications here
-# to prevent LLM instruction dilution in the active context window]
 ---
 
 <when_to_use>
@@ -32,6 +32,7 @@ description: [TODO: Highly specific trigger phrase outlining exact conditions fo
 </constraints>
 
 <resources_reference>
+- `resources/schema/skill.d.ts`
 - [TODO: List relative paths to included scripts or resources]
 </resources_reference>
 """
@@ -98,7 +99,13 @@ def init_skill(skill_name, path):
         example_resource = resources_dir / 'reference.md'
         example_resource.write_text(EXAMPLE_RESOURCE.format(skill_title=skill_title))
 
-        print("✅ Created resource directories")
+        # Replicate Schema
+        schema_dest_dir = resources_dir / 'schema'
+        creator_schema_path = Path(__file__).resolve().parent.parent / 'resources' / 'schema'
+        if creator_schema_path.exists():
+            shutil.copytree(creator_schema_path, schema_dest_dir, dirs_exist_ok=True)
+
+        print("✅ Created resource directories & integrated schemas")
     except Exception as e:
         print(f"❌ Error creating directories: {e}")
         return None

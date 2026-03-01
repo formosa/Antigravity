@@ -1,10 +1,7 @@
 ---
 name: skill-creator
+version: 1.1.0
 description: Generates Antigravity v1.18.3 compliant skills optimized for Gemini 3.1 Pro via progressive disclosure.
-# HUMAN CONTEXT: This creator skill generates specialized toolchains utilizing the
-# progressive disclosure architecture. It enforces strict XML fencing and Artifact
-# generation to maintain the 1M-token context window economy and prevent
-# instruction dilution during autonomous execution.
 ---
 
 <when_to_use>
@@ -35,4 +32,5 @@ description: Generates Antigravity v1.18.3 compliant skills optimized for Gemini
 - `scripts/quick_validate.py`
 - `resources/workflows.md`
 - `resources/output-patterns.md`
+- `resources/schema/skill.d.ts`
 </resources_reference>
