@@ -1,0 +1,140 @@
+{
+    "layout": {
+        "rankdir": "TB",
+        "bgcolor": "#FFFFFF",
+        "fontname": "Source Sans Pro",
+        "splines": "ortho",
+        "nodesep": "0.75",
+        "ranksep": "1.05",
+        "pad": "0.7"
+    },
+    "graph": {
+        "dpi": 192,
+        "margin": "32",
+        "labelloc": "t",
+        "labeljust": "c",
+        "fontcolor": "#111827"
+    },
+    "clusters": {
+        "_default": {
+            "style": "rounded",
+            "fillcolor": "#FFFFFF",
+            "color": "#111827",
+            "penwidth": "2.4",
+            "fontname": "Source Sans Pro",
+            "fontcolor": "#111827"
+        },
+        "strategic": {
+            "color": "#0F766E",
+            "penwidth": "3.0"
+        },
+        "governance": {
+            "color": "#7C3AED",
+            "penwidth": "3.0"
+        },
+        "architecture": {
+            "color": "#DC2626",
+            "penwidth": "3.0"
+        },
+        "delivery": {
+            "color": "#2563EB",
+            "penwidth": "3.0"
+        }
+    },
+    "nodes": {
+        "_default": {
+            "shape": "rect",
+            "style": "rounded",
+            "fillcolor": "#FFFFFF",
+            "color": "#111827",
+            "penwidth": "2.0",
+            "fontname": "Source Sans Pro",
+            "fontcolor": "#111827",
+            "fontsize": "13",
+            "margin": "0.24,0.16"
+        },
+        "title": {
+            "shape": "rect",
+            "style": "rounded,filled",
+            "fillcolor": "#111827",
+            "color": "#111827",
+            "fontcolor": "#FFFFFF",
+            "fontsize": "15",
+            "penwidth": "2.6"
+        },
+        "accent_teal": {
+            "color": "#0F766E",
+            "penwidth": "2.6"
+        },
+        "accent_purple": {
+            "color": "#7C3AED",
+            "penwidth": "2.6"
+        },
+        "accent_red": {
+            "color": "#DC2626",
+            "penwidth": "2.6"
+        },
+        "accent_blue": {
+            "color": "#2563EB",
+            "penwidth": "2.6"
+        },
+        "status_active": {
+            "style": "rounded,filled",
+            "fillcolor": "#DCFCE7",
+            "color": "#16A34A",
+            "fontcolor": "#14532D",
+            "penwidth": "2.6"
+        },
+        "status_draft": {
+            "style": "rounded,filled",
+            "fillcolor": "#FEF3C7",
+            "color": "#D97706",
+            "fontcolor": "#78350F",
+            "penwidth": "2.6"
+        },
+        "status_deprecated": {
+            "style": "rounded,filled",
+            "fillcolor": "#FEE2E2",
+            "color": "#B91C1C",
+            "fontcolor": "#7F1D1D",
+            "penwidth": "2.6"
+        }
+    },
+    "edges": {
+        "_default": {
+            "color": "#111827",
+            "penwidth": "2.0",
+            "arrowsize": "1.0",
+            "fontname": "Source Sans Pro",
+            "fontcolor": "#111827",
+            "fontsize": "11"
+        },
+        "derives": {
+            "color": "#2563EB",
+            "penwidth": "2.6"
+        },
+        "implements": {
+            "color": "#16A34A",
+            "penwidth": "2.6"
+        },
+        "constrains": {
+            "color": "#DC2626",
+            "style": "dashed",
+            "penwidth": "2.6"
+        },
+        "extends": {
+            "color": "#7C3AED",
+            "style": "dotted",
+            "penwidth": "2.6"
+        }
+    },
+    "legend": {
+        "style": "rounded",
+        "fillcolor": "#FFFFFF",
+        "color": "#111827",
+        "fontname": "Source Sans Pro",
+        "fontcolor": "#111827",
+        "fontsize": "12",
+        "penwidth": "2.0"
+    }
+}

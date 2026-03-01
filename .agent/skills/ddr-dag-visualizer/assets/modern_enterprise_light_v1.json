@@ -1,0 +1,115 @@
+{
+    "layout": {
+        "rankdir": "TB",
+        "bgcolor": "#F8FAFC",
+        "fontname": "Inter",
+        "splines": "spline",
+        "nodesep": "0.6",
+        "ranksep": "0.9",
+        "pad": "0.5"
+    },
+    "graph": {
+        "dpi": 192,
+        "margin": "24",
+        "labelloc": "t",
+        "labeljust": "c",
+        "fontcolor": "#0F172A"
+    },
+    "clusters": {
+        "_default": {
+            "style": "rounded,filled",
+            "fillcolor": "#FFFFFF",
+            "color": "#CBD5E1",
+            "penwidth": "1.2",
+            "fontname": "Inter",
+            "fontcolor": "#0F172A"
+        },
+        "optional": {
+            "fillcolor": "#F1F5F9",
+            "color": "#CBD5E1"
+        },
+        "highlight": {
+            "fillcolor": "#EFF6FF",
+            "color": "#2563EB",
+            "penwidth": "1.8"
+        },
+        "merge_node": {
+            "fillcolor": "#FFF7ED",
+            "color": "#EA580C",
+            "penwidth": "1.8"
+        }
+    },
+    "nodes": {
+        "_default": {
+            "shape": "rect",
+            "style": "rounded,filled",
+            "fillcolor": "#F8FAFC",
+            "color": "#CBD5E1",
+            "penwidth": "1.2",
+            "fontname": "Inter",
+            "fontcolor": "#0F172A",
+            "fontsize": "12",
+            "margin": "0.18,0.12"
+        },
+        "title": {
+            "shape": "rect",
+            "style": "rounded,filled",
+            "fillcolor": "#E2E8F0",
+            "color": "#CBD5E1",
+            "fontsize": "14",
+            "fontcolor": "#0F172A"
+        },
+        "status_active": {
+            "fillcolor": "#ECFDF5",
+            "color": "#10B981",
+            "fontcolor": "#065F46",
+            "penwidth": "1.6"
+        },
+        "status_draft": {
+            "fillcolor": "#FEFCE8",
+            "color": "#EAB308",
+            "fontcolor": "#854D0E"
+        },
+        "status_deprecated": {
+            "fillcolor": "#FEE2E2",
+            "color": "#EF4444",
+            "fontcolor": "#7F1D1D"
+        }
+    },
+    "edges": {
+        "_default": {
+            "color": "#94A3B8",
+            "penwidth": "1.4",
+            "arrowsize": "0.8",
+            "fontname": "Inter",
+            "fontcolor": "#475569",
+            "fontsize": "10"
+        },
+        "derives": {
+            "color": "#2563EB",
+            "penwidth": "1.6"
+        },
+        "implements": {
+            "color": "#16A34A",
+            "penwidth": "1.6"
+        },
+        "constrains": {
+            "color": "#EA580C",
+            "style": "dashed",
+            "penwidth": "1.6"
+        },
+        "extends": {
+            "color": "#7C3AED",
+            "style": "dotted",
+            "penwidth": "1.6"
+        }
+    },
+    "legend": {
+        "style": "rounded,filled",
+        "fillcolor": "#FFFFFF",
+        "color": "#CBD5E1",
+        "fontname": "Inter",
+        "fontcolor": "#0F172A",
+        "fontsize": "11"
+    }
+}
