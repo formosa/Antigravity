@@ -7,20 +7,23 @@
  * Purpose: Defines progressive disclosure capabilities, executable memory modules, and tools loaded on-demand.
  */
 interface SkillDefinition {
+    /** Encoded as standard YAML frontmatter block (---) at the top of the file. */
     frontmatter: {
-        // Kebab-case identifier. Optional; defaults to the directory name if omitted.
+        /** Kebab-case identifier. Optional; defaults to the directory name if omitted. */
         name?: string;
-        // CRITICAL: Functions as the primary "trigger condition". Must be highly precise for the semantic router to discover the skill.
+        /** Schema version for tracking modifications (e.g., "1.1.0"). */
+        version: string;
+        /** CRITICAL: Functions as the primary "trigger condition". Must be highly precise for the semantic router to discover the skill. */
         description: string;
     };
     body_content: {
-        // Bullet list of exact scenarios where the agent should use this skill. Must be wrapped in XML tags (e.g., <when_to_use>).
+        /** Bullet list of exact scenarios where the agent should use this skill. Must be wrapped in XML tags (e.g., `<when_to_use>`). */
         when_to_use: string;
-        // Step-by-step silent reasoning, verification checklist, and expected output format. Must be wrapped in XML tags (e.g., <how_to_use>).
+        /** Step-by-step silent reasoning, verification checklist, and expected output format. Must be wrapped in XML tags (e.g., `<how_to_use>`). */
         how_to_use: string;
-        // Hard safety guardrails and critical "Do Not" rules. Must be wrapped in XML tags (e.g., <constraints>).
+        /** Hard safety guardrails and critical "Do Not" rules. Must be wrapped in XML tags (e.g., `<constraints>`). */
         constraints?: string;
-        // Paths to scripts, examples, or documentation relative to the skill folder. Must be wrapped in XML tags (e.g., <resources_reference>).
+        /** Paths to scripts, examples, or documentation relative to the skill folder. Must be wrapped in XML tags (e.g., `<resources_reference>`). */
         resources_reference?: string;
     };
 }

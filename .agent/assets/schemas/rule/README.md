@@ -38,3 +38,11 @@ This document serves as the verified, single-source-of-truth reference for the a
 8. [Progressive Disclosure and Semantic Routing in Antigravity - Zeabur](https://zeabur.com/blogs/google-antigravity-routing-engine)
    - Explains how Antigravity handles targeted context limits, confirming that `trigger` mechanisms (like glob pattern matching) are the recommended approach over global injection for non-universal rules.
 </authoritative_reference_repository>
+
+<modification_history>
+
+| Date | Version | Classification | Description |
+| :--- | :--- | :--- | :--- |
+| 2026-03-01 | v1.1.0 | Optimization | Enhanced `rule.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework. |
+
+</modification_history>

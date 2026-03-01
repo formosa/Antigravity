@@ -18,3 +18,11 @@ This document establishes the verified architectural pattern for implementing Se
 2. [Prompt design strategies | Gemini API - Google AI for Developers](https://ai.google.dev/gemini-api/docs/prompting-strategies)
    - Official documentation confirming the necessity of isolating strict negative constraints to prevent instruction drift in deep-reasoning models.
 </authoritative_reference_repository>
+
+<modification_history>
+
+| Date | Version | Classification | Description |
+| :--- | :--- | :--- | :--- |
+| 2026-03-01 | v1.1.0 | Optimization | Enhanced `security-policy.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework. |
+
+</modification_history>

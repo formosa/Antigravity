@@ -22,3 +22,11 @@ This document establishes the verified architectural foundation for the `GEMINI.
 4. [Vertex AI Generative AI Docs - Thinking Configuration](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/thinking)
    - Verifies the `thinking_level` parameter (minimal, low, medium, high) as the official mechanism for controlling reasoning depth and execution latency in the Gemini 3 series.
 </authoritative_reference_repository>
+
+<modification_history>
+
+| Date | Version | Classification | Description |
+| :--- | :--- | :--- | :--- |
+| 2026-03-01 | v1.1.0 | Optimization | Enhanced `gemini.d.ts` with dense JSDoc annotations and enforced explicitly constrained unions to align with the Gemini 3.1 Pro prompt optimization framework. |
+
+</modification_history>

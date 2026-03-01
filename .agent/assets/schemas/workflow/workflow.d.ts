@@ -7,16 +7,19 @@
  * Purpose: Defines active, user-triggered sequential operations for repetitive engineering tasks.
  */
 interface WorkflowDefinition {
+    /** Encoded as standard YAML frontmatter block (---) at the top of the file. */
     frontmatter: {
-        // The shortcut command name (used with a slash command).
+        /** The shortcut command name (used with a slash command). */
         name?: string;
-        // A summary of the workflow's purpose.
+        /** Schema version for tracking modifications (e.g., "1.1.0"). */
+        version: string;
+        /** A summary of the workflow's purpose. */
         description: string;
     };
     body_content: {
-        // Numbered sequence of atomic instructions. Each step ends with verification.
+        /** Numbered sequence of atomic instructions. Each step ends with verification. Must be wrapped in `<steps>`. */
         steps: string;
-        // Conditions that must be met to consider the workflow successfully completed.
+        /** Conditions that must be met to consider the workflow successfully completed. Must be wrapped in `<verification_plan>`. */
         verification_plan?: string;
     };
 }
