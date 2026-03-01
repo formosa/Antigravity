@@ -1,0 +1,77 @@
+{
+    "layout": {
+        "rankdir": "TB",
+        "bgcolor": "#F8FAFC",
+        "fontname": "Inter",
+        "splines": "spline",
+        "nodesep": "0.6",
+        "ranksep": "0.9",
+        "pad": "0.5",
+        "dpi": "192",
+        "margin": "0.33",
+        "labelloc": "t",
+        "labeljust": "c",
+        "fontcolor": "#0F172A"
+    },
+    "tiers": {
+        "_default": {
+            "cluster_bg": "#FFFFFF",
+            "border_color": "#CBD5E1",
+            "label_color": "#0F172A"
+        }
+    },
+    "status": {
+        "ACTIVE": {
+            "fillcolor": "#ECFDF5",
+            "bordercolor": "#10B981",
+            "fontcolor": "#065F46",
+            "penwidth": "1.6"
+        },
+        "DRAFT": {
+            "fillcolor": "#FEFCE8",
+            "bordercolor": "#EAB308",
+            "fontcolor": "#854D0E"
+        },
+        "DEPRECATED": {
+            "fillcolor": "#FEE2E2",
+            "bordercolor": "#EF4444",
+            "fontcolor": "#7F1D1D"
+        }
+    },
+    "edges": {
+        "_default": {
+            "color": "#94A3B8",
+            "penwidth": "1.4",
+            "arrowsize": "0.8",
+            "fontname": "Inter",
+            "fontcolor": "#475569",
+            "fontsize": "10",
+            "dash": "solid",
+            "arrowhead": "normal"
+        },
+        "derives": {
+            "color": "#2563EB",
+            "penwidth": "1.6",
+            "dash": "solid",
+            "arrowhead": "normal"
+        },
+        "implements": {
+            "color": "#16A34A",
+            "penwidth": "1.6",
+            "dash": "solid",
+            "arrowhead": "normal"
+        },
+        "constrains": {
+            "color": "#EA580C",
+            "dash": "dashed",
+            "penwidth": "1.6",
+            "arrowhead": "open"
+        },
+        "extends": {
+            "color": "#7C3AED",
+            "dash": "dotted",
+            "penwidth": "1.6",
+            "arrowhead": "open"
+        }
+    }
+}

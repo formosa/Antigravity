@@ -214,11 +214,13 @@ def _load_style() -> dict[str, Any]:
         if ref_path.exists():
             with ref_path.open("r", encoding="utf-8") as fh:
                 override_cfg = json.load(fh)
-            for k, v in override_cfg.items():
-                if isinstance(v, dict) and isinstance(base_cfg.get(k), dict):
-                    base_cfg[k].update(v)
-                else:
-                    base_cfg[k] = v
+            def _deep_update(d, u):
+                for k, v in u.items():
+                    if isinstance(v, dict) and isinstance(d.get(k), dict):
+                        _deep_update(d[k], v)
+                    else:
+                        d[k] = v
+            _deep_update(base_cfg, override_cfg)
     return base_cfg
 
 
@@ -253,18 +255,22 @@ def _get_node_attrs(node: dict[str, Any], style: dict) -> dict[str, str]:
         f"[{status}]  v{node.get('version', '?')}",
     ])
 
-    return {
+    attrs = {
         "label":     label,
-        "shape":     "box",
-        "style":     "filled,rounded",
-        "fillcolor": status_style["fillcolor"],
-        "color":     status_style.get("bordercolor", tier_style["border_color"]),
-        "fontcolor": status_style["fontcolor"],
-        "fontname":  "Courier New",
-        "fontsize":  "9",
-        "margin":    "0.18,0.1",
-        "penwidth":  "3.0" if status == "DIRTY" else "1.5",
+        "shape":     status_style.get("shape", "box"),
+        "style":     status_style.get("style", "filled,rounded"),
+        "fillcolor": status_style.get("fillcolor", "#ffffff"),
+        "color":     status_style.get("bordercolor", tier_style.get("border_color", "#000000")),
+        "fontcolor": status_style.get("fontcolor", "#000000"),
+        "fontname":  status_style.get("fontname", "Courier New"),
+        "fontsize":  status_style.get("fontsize", "9"),
+        "margin":    status_style.get("margin", "0.18,0.1"),
+        "penwidth":  status_style.get("penwidth", "3.0" if status == "DIRTY" else "1.5"),
     }
+    for k, v in status_style.items():
+        if k not in ["fillcolor", "bordercolor", "fontcolor", "shape", "style", "fontname", "fontsize", "margin", "penwidth"]:
+            attrs[k] = str(v)
+    return attrs
 
 
 def _get_edge_attrs(edge_type: str, style: dict) -> dict[str, str]:
@@ -284,16 +290,20 @@ def _get_edge_attrs(edge_type: str, style: dict) -> dict[str, str]:
         Graphviz edge attribute key-value pairs.
     """
     es = style["edges"].get(edge_type, style["edges"]["_default"])
-    return {
-        "color":     es["color"],
-        "style":     es["dash"],
-        "arrowhead": es["arrowhead"],
-        "fontcolor": es["color"],
-        "fontname":  "Helvetica",
-        "fontsize":  "8",
+    attrs = {
+        "color":     es.get("color", "#000000"),
+        "style":     es.get("dash", es.get("style", "solid")),
+        "arrowhead": es.get("arrowhead", "normal"),
+        "fontcolor": es.get("fontcolor", es.get("color", "#000000")),
+        "fontname":  es.get("fontname", "Helvetica"),
+        "fontsize":  es.get("fontsize", "8"),
         "penwidth":  es.get("penwidth", "1.5"),
         "label":     f" {edge_type}",
     }
+    for k, v in es.items():
+        if k not in ["color", "dash", "style", "arrowhead", "fontcolor", "fontname", "fontsize", "penwidth", "label"]:
+            attrs[k] = str(v)
+    return attrs
 
 
 # ---------------------------------------------------------------------------
