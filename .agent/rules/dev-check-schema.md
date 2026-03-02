@@ -1,31 +1,28 @@
 ---
 name: dev-check-schema
-description: "Enforces strict schema compliance for all Antigravity agent asset definition files based on the modular interfaces in .agent/assets/schemas/."
-trigger: always_on
+description: "Enforces 100% strict compliance for Antigravity asset definitions using standard hardware-aware validation."
+version: "1.2.0"
+trigger: glob
+globs: ".agent/assets/schemas/**/*.md, .agent/rules/**/*.md"
 priority: critical
+execution_tier: standard
 ---
-# Antigravity Asset Schema Enforcement
 
 <constraints>
-This rule mandates strict adherence to the TypeScript interfaces defined in the modular schema directory `.agent/assets/schemas/` when creating or modifying any agent asset file.
 
-## Schema Reference
+# Antigravity Asset Schema Enforcement
 
-| File Pattern                                    | Interface                      | Required Frontmatter Keys                      |
-| :---------------------------------------------- | :----------------------------- | :--------------------------------------------- |
-| `~/.gemini/GEMINI.md` or `.agent/GEMINI.md`     | `GeminiMdConfiguration`        | `description`, `models`, `version`, `scope`    |
-| `implementation_plan.md` or `.agent/plans/*.md` | `ImplementationPlanDefinition` | `task`, `model`                                |
-| `.agent/rules/*.md`                             | `RuleDefinition`               | `description`, `trigger`, `priority`           |
-| `.agent/rules/SECURITY_GUARDRAILS.md`           | `SecurityPolicyDefinition`     | `name`, `description`, `trigger`, `priority`   |
-| `.agent/skills/<skill-name>/SKILL.md`           | `SkillDefinition`              | `description`                                  |
-| `task.md` or `TASK-XXXXXX.md`                   | `TaskDefinition`               | `task_id`, `title`, `priority`, `target_model` |
-| `walkthrough.md`                                | `WalkthroughDefinition`        | N/A                                            |
-| `.agent/workflows/*.md`                         | `WorkflowDefinition`           | `description`                                  |
-
-## Enforcement Protocol
-
-1. **Pre-Write Validation**: Before writing any file matching the `globs` patterns, validate all YAML frontmatter keys against the corresponding interface in `.agent/assets/schemas/`.
-2. **Type Constraint Checking**: Ensure values match the types specified in the `.d.ts` definitions (e.g., `priority` in `RuleDefinition` must match `'low' | 'medium' | 'high' | 'critical'`).
-3. **Implicit Uncertainty Protocol**: If uncertain about the optimal value for any required field, the agent **MUST** halt and ask the user clarifying questions before proceeding. Do not use placeholder or generic values.
+- **Frontmatter Integrity:** Every `.md` asset in `.agent/` must include `version: "1.2.0"` and a `description` exceeding 60 characters for semantic routing accuracy.
+- **Resource Protection:** Rules MUST utilize `execution_tier: standard` to preserve system stability and IDE responsiveness.
+- **No Placeholders:** Usage of `TODO`, `N/A`, or generic descriptions is a schema violation.
+- **Strict XML Fencing:** The *entirety* of the body content, including Markdown headers, must be wrapped in XML tags (`<constraints>` and optionally `<verification_step>`).
 
 </constraints>
+
+<verification_step>
+
+1. **Schema Audit:** Cross-reference YAML keys against the `RuleDefinition` interface in `rule.d.ts` to ensure full compliance.
+2. **Resource Check:** Verify that the target file does not aggressively request `parallel_high_perf` unless strictly justified by a heavy, non-LLM parallel workload.
+3. **Semantic Density Check:** Confirm the `description` provides enough context for Gemini 3.1 Pro's router to differentiate it from global rules.
+
+</verification_step>

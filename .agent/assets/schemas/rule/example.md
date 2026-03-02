@@ -1,17 +1,18 @@
 ---
 name: enterprise-python-service-mesh-v1.2.0
-description: "High-concurrency architectural enforcer for distributed Python services. Optimizes Gemini 3.1 Pro for 24-thread parallel verification and zero-latency async patterns."
+description: "Architectural enforcer for distributed Python services. Optimizes for Gemini 3.1 Pro reasoning patterns and async I/O integrity."
 version: "1.2.0"
 trigger: glob
 globs: "src/services/**/*.py, internal/core/*.py"
 priority: critical
-execution_tier: parallel_high_perf
+execution_tier: standard
 ---
+<constraints>
 
 # Enterprise Python Service Architecture
 
-<constraints>
 ## 1. Concurrency & I/O Integrity
+
 - **Non-Blocking Mandate:** All I/O operations must utilize `asyncio` or `trio` primitives. Usage of `requests`, `urllib`, or `time.sleep` is strictly prohibited.
 - **Event Loop Protection:** CPU-bound tasks exceeding 50ms must be offloaded to `loop.run_in_executor()` to prevent event loop starvation.
 
@@ -31,10 +32,9 @@ execution_tier: parallel_high_perf
 </constraints>
 
 <verification_step>
-**SILENT VERIFICATION PROTOCOL (Gemini 3.1 Pro Reasoning):**
+**AGENTIC VERIFICATION PROTOCOL:**
 
-1. **AST Analysis:** Scan the file for any imports from `requests` or `time`. If found, silently refactor to `aiohttp` and `asyncio` before output.
-2. **Type-Check Loop:** Verify that every function has a non-void return type hint. Confirm no `Any` types are present in variable assignments.
-3. **Hardware-Parallel Audit:** Execute a secondary reasoning pass in a parallel thread to check for race conditions in `async` function bodies.
-4. **Contract Validation:** Ensure all class-based data structures inherit from the project's `BaseContract` and not raw `dict`.
+1. **Architectural Review:** Evaluate the asynchronous design pattern for potential event-loop bottlenecks.
+2. **Contract Validation:** Ensure all class-based data structures align logically with the project's `BaseContract`.
+3. **Dependency Check:** Suggest modern async alternatives if synchronous blocking libraries are detected in the architecture.
 </verification_step>

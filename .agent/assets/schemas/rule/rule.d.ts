@@ -20,13 +20,13 @@ interface RuleDefinition {
         globs?: string;
         /** The importance weight of this rule when conflicts occur. */
         priority: 'low' | 'medium' | 'high' | 'critical';
-        /** Directs the IDE to utilize specific CPU thread-pools for validation. */
+        /** Directs the IDE to utilize specific CPU thread-pools. Strongly recommend 'standard' to prevent OS-level thread starvation during agentic tasks. */
         execution_tier?: 'standard' | 'parallel_high_perf';
     };
     body_content: {
-        /** Bullet or numbered list of NEGATIVE and POSITIVE constraints. Must be wrapped in XML tags (e.g., `<constraints>`). */
+        /** Bullet or numbered list of NEGATIVE and POSITIVE constraints. Must be wrapped entirely in XML tags. */
         constraints: string;
-        /** Specific silent verification checks the agent MUST perform before final output. Must be wrapped in XML tags `<verification_step>`. */
+        /** Specific verification checks the agent MUST perform. Should focus on high-level reasoning rather than deterministic static analysis. */
         verification_step?: string;
     };
 }
