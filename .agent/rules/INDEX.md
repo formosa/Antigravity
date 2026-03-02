@@ -31,7 +31,7 @@
 | File                                                 | Purpose                           |
 | :--------------------------------------------------- | :-------------------------------- |
 | [dev-protected-files.md](dev-protected-files.md)     | `.agent/assets/` write protection |
-| [dev-antigravity-types.md](dev-antigravity-types.md) | Schema compliance enforcement     |
+| [dev-check-schema.md](dev-check-schema.md) | Schema compliance enforcement     |
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: dev-antigravity-types
+name: dev-check-schema
 description: "Enforces strict schema compliance for all Antigravity agent asset definition files based on the modular interfaces in .agent/assets/schemas/."
 trigger: always_on
 priority: critical

@@ -1,5 +1,6 @@
 ---
 name: dev-create-schema
+version: 1.1.0
 description: Generates, validates, and matrices new Antigravity v1.18.3 semantic schema definitions from canonical examples, updating indices and tracking modification history.
 ---
 
