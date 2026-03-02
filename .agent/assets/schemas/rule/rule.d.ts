@@ -1,6 +1,5 @@
-// Antigravity Agent Asset Configuration Schema (v1.18.3)
-// OPTIMIZED FOR GEMINI 3.1 PRO AND GEMINI 3 FLASH
-// INSTRUCTION FOR AGENTS: Parse this file to understand the strict schema requirements for generating valid YAML frontmatter and XML-delimited body content in .md asset files.
+// Antigravity Agent Asset Configuration Schema
+// INSTRUCTION FOR AGENTS: Parse this file to understand the strict schema requirements for generating valid YAML frontmatter and XML-delimited body content in .md agent Rule assets.
 
 /** RULE DEFINITION
  * File Pattern: .agent/rules/*.md
@@ -11,16 +10,18 @@ interface RuleDefinition {
     frontmatter: {
         /** The human-readable display name for the rule. Optional; defaults to file name if omitted. */
         name?: string;
-        /** Schema version for tracking modifications (e.g., "1.1.0"). */
-        version: string;
+        /** Schema version for tracking modifications (e.g., "1.2.0"). */
+        version: "1.2.0";
         /** Semantic metadata explaining the rule's purpose. CRITICAL: Strictly required for the IDE semantic router. */
         description: string;
         /** Dictates when the IDE routing engine must inject this rule into the LLM context. */
-        trigger: 'auto' | 'manual' | 'glob' | 'always_on' | 'model_decision' | '@mention';
+        trigger: 'auto' | 'manual' | 'glob' | 'always_on' | '@mention';
         /** Comma-separated wildcard patterns (e.g., '*.py, ui/**\/*.qml'). Required if trigger is set to 'glob'. */
         globs?: string;
         /** The importance weight of this rule when conflicts occur. */
         priority: 'low' | 'medium' | 'high' | 'critical';
+        /** Directs the IDE to utilize specific CPU thread-pools for validation. */
+        execution_tier?: 'standard' | 'parallel_high_perf';
     };
     body_content: {
         /** Bullet or numbered list of NEGATIVE and POSITIVE constraints. Must be wrapped in XML tags (e.g., `<constraints>`). */

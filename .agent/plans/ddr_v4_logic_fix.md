@@ -3,6 +3,8 @@ task: Resolve ISL Rules Structural Logic Inaccuracy
 model: Gemini 3.1 Pro
 ---
 
+# DDR v4 Logic Fix Plan
+
 ### §1 — Overview
 
 - **Target Objective**: Resolve the structural logic inaccuracy in `DDR System(Opus_v4).md` by splitting the compound rule `ISL-R4` and merging prohibitive logic into `ISL-E1`.
@@ -86,8 +88,8 @@ markdownlint ".agent/assets/proposals/future/DDR System(Opus_v4).md"
 # Decision Record: Resolve ISL Rules Structural Logic Inaccuracy
 
 **Date**: 2026-02-26T21:12:00Z
-**Implemented by**: Gemini 3 Flash (Fast Mode, thinking_level: low) via Implementation Planning Skill v3.0
-**Planned by**: Gemini 3.1 Pro (Plan Mode, thinking_level: high) via Implementation Planning Skill v3.0
+**Implemented by**: Gemini 3 Flash (Fast Mode, thinking_level: low) via Dev Create Implementation Plan Skill v3.0
+**Planned by**: Gemini 3.1 Pro (Plan Mode, thinking_level: high) via Dev Create Implementation Plan Skill v3.0
 **Objective**: Resolve the structural logic inaccuracy in `DDR System(Opus_v4).md` by splitting the compound rule `ISL-R4` and merging prohibitive logic into `ISL-E1`.
 
 ## Decision Summary

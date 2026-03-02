@@ -1,9 +1,18 @@
 ---
-name: planning-instructions
+name: dev-create-implementation-plan
+version: 3.0.0
 description: Generates a deterministic, hallucination-resistant Implementation Plan Artifact for zero-ambiguity execution within Google Antigravity IDE v1.18.3.
 ---
 
-# SKILL: IMPLEMENTATION PLANNING (v3.0)
+<when_to_use>
+
+- The user asks to draft, create, or update an Implementation Plan Artifact.
+- The user requests planning instructions for a task before execution.
+</when_to_use>
+
+<how_to_use>
+
+# SKILL: DEV CREATE IMPLEMENTATION PLAN (v3.0)
 
 > **Model context (as of 2026-02-19)**
 > — **Planning agent**: Gemini 3.1 Pro (Plan Mode, `thinking_level: high`)
@@ -319,9 +328,9 @@ Do not overwrite prior records.
 
 **Date**: [ISO 8601 — YYYY-MM-DDThh:mm:ssZ]
 **Implemented by**: Gemini 3 Flash (Fast Mode, thinking_level: low) via
-  Implementation Planning Skill v3.0
+  Dev Create Implementation Plan Skill v3.0
 **Planned by**: Gemini 3.1 Pro (Plan Mode, thinking_level: high) via
-  Implementation Planning Skill v3.0
+  Dev Create Implementation Plan Skill v3.0
 **Objective**: [One-sentence restatement of goal]
 
 ## Decision Summary
@@ -385,3 +394,4 @@ You are the **executing** agent. You did not author this plan.
 Logic Definition references a variable, function, or file that does not exist in the
 codebase as stated in the PRE-Condition, you MUST halt and report the discrepancy.
 You MUST NOT invent plausible-looking implementations to fill the gap.
+</how_to_use>

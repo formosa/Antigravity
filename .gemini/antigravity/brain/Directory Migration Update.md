@@ -1,8 +1,8 @@
 # Decision Record: Directory Migration Update
 
 **Date**: 2026-02-24T17:37:00Z
-**Implemented by**: Gemini 3 Flash (Fast Mode, thinking_level: low) via Implementation Planning Skill v3.0
-**Planned by**: Gemini 3.1 Pro (Plan Mode, thinking_level: high) via Implementation Planning Skill v3.0
+**Implemented by**: Gemini 3 Flash (Fast Mode, thinking_level: low) via Dev Create Implementation Plan Skill v3.0
+**Planned by**: Gemini 3.1 Pro (Plan Mode, thinking_level: high) via Dev Create Implementation Plan Skill v3.0
 **Objective**: Moved the documentation system from its staging proposals structure to its formal production endpoint.
 
 ## Decision Summary

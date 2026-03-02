@@ -1,8 +1,8 @@
 # Decision Record: DDR v4 Specification Fixes
 
 **Date**: 2026-02-27T03:10:00Z
-**Implemented by**: Gemini 3 Flash via Implementation Planning Skill v3.0
-**Planned by**: Gemini 3.1 Pro via Implementation Planning Skill v3.0
+**Implemented by**: Gemini 3 Flash via Dev Create Implementation Plan Skill v3.0
+**Planned by**: Gemini 3.1 Pro via Dev Create Implementation Plan Skill v3.0
 **Objective**: Resolve 6 confirmed logical and structural defects in the DDR System v4.0 specification identified during adversarial audit.
 
 ## Decision Summary

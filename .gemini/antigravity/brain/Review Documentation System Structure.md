@@ -1,8 +1,8 @@
 # Decision Record: Review Documentation System Structure
 
 **Date**: 2026-02-24T17:25:00Z
-**Implemented by**: Gemini 1.5 Flash (Fast Mode, thinking_level: low) via Implementation Planning Skill v3.0
-**Planned by**: Gemini 1.5 Pro (Plan Mode, thinking_level: high) via Implementation Planning Skill v3.0
+**Implemented by**: Gemini 1.5 Flash (Fast Mode, thinking_level: low) via Dev Create Implementation Plan Skill v3.0
+**Planned by**: Gemini 1.5 Pro (Plan Mode, thinking_level: high) via Dev Create Implementation Plan Skill v3.0
 **Objective**: Restructure `.agent/assets/proposals/.processed/documentation_system/INDEX.md` into a four-part logical grouping to accurately reflect the document's pedagogical structure and resolve perceived redundancies.
 
 ## Decision Summary

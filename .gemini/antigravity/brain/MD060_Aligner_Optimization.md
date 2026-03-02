@@ -1,8 +1,8 @@
 # Decision Record: MD060 Strict Aligner Optimization
 
 **Date**: 2026-02-20T15:10:00Z
-**Implemented by**: Gemini 3 Flash (Fast Mode, thinking_level: low) via Implementation Planning Skill v3.0
-**Planned by**: Gemini 3.1 Pro (Plan Mode, thinking_level: high) via Implementation Planning Skill v3.0
+**Implemented by**: Gemini 3 Flash (Fast Mode, thinking_level: low) via Dev Create Implementation Plan Skill v3.0
+**Planned by**: Gemini 3.1 Pro (Plan Mode, thinking_level: high) via Dev Create Implementation Plan Skill v3.0
 **Objective**: Optimize the accuracy and efficiency of the md060-strict-aligner skill by implementing autonomous file-based execution and native prefix handling.
 
 ## Decision Summary
@@ -20,10 +20,10 @@ The `md060-strict-aligner` explicitly manages its standalone, pipe-free structur
 
 ## Research Citations Used
 
-- [Google Deepmind - 2024-02-15]
-- [Microsoft Learn - 2024-02-15]
-- [Python Software Foundation - 2024-02-15]
-- [Python Unicode Database - 2024-02-15]
+- Google Deepmind - 2024-02-15
+- Microsoft Learn - 2024-02-15
+- Python Software Foundation - 2024-02-15
+- Python Unicode Database - 2024-02-15
 
 ## Verification Artifacts
 

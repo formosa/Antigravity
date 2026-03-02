@@ -1,8 +1,8 @@
 # Decision Record: Automated Markdown Table Alignment
 
 **Date**: 2026-02-20T15:45:00Z
-**Implemented by**: Gemini 3 Flash (Fast Mode, thinking_level: low) via Implementation Planning Skill v3.0
-**Planned by**: Gemini 3.1 Pro (Plan Mode, thinking_level: high) via Implementation Planning Skill v3.0
+**Implemented by**: Gemini 3 Flash (Fast Mode, thinking_level: low) via Dev Create Implementation Plan Skill v3.0
+**Planned by**: Gemini 3.1 Pro (Plan Mode, thinking_level: high) via Dev Create Implementation Plan Skill v3.0
 **Objective**: Iteratively process all markdown files in the workspace via `md060-strict-aligner` to ensure structural validity of markdown tables.
 
 ## Decision Summary
