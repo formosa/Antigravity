@@ -1,0 +1,93 @@
+{
+    "colors": {
+        "primary": "#2563eb",
+        "secondary": "#475569",
+        "background": "#ffffff",
+        "surface": "#f8fafc",
+        "border": "#e2e8f0",
+        "text": {
+            "primary": "#0f172a",
+            "secondary": "#64748b",
+            "muted": "#94a3b8"
+        },
+        "fileColors": {
+            "python": {
+                "bg": "#eff6ff",
+                "border": "#bfdbfe",
+                "text": "#1d4ed8"
+            },
+            "javascript": {
+                "bg": "#fefce8",
+                "border": "#fef08a",
+                "text": "#a16207"
+            },
+            "markdown": {
+                "bg": "#f8fafc",
+                "border": "#e2e8f0",
+                "text": "#334155"
+            },
+            "json": {
+                "bg": "#f0fdf4",
+                "border": "#bbf7d0",
+                "text": "#15803d"
+            },
+            "xml": {
+                "bg": "#fff7ed",
+                "border": "#fed7aa",
+                "text": "#c2410c"
+            },
+            "html": {
+                "bg": "#fff7ed",
+                "border": "#fed7aa",
+                "text": "#c2410c"
+            },
+            "css": {
+                "bg": "#f0f9ff",
+                "border": "#bae6fd",
+                "text": "#0369a1"
+            },
+            "yaml": {
+                "bg": "#fef2f2",
+                "border": "#fecaca",
+                "text": "#b91c1c"
+            },
+            "rest": {
+                "bg": "#faf5ff",
+                "border": "#e9d5ff",
+                "text": "#7e22ce"
+            },
+            "plaintext": {
+                "bg": "#fafafa",
+                "border": "#e4e4e7",
+                "text": "#3f3f46"
+            },
+            "default": {
+                "bg": "#fafafa",
+                "border": "#e4e4e7",
+                "text": "#3f3f46"
+            }
+        }
+    },
+    "typography": {
+        "fontFamily": "Inter, system-ui, sans-serif",
+        "monoFontFamily": "JetBrains Mono, monospace",
+        "fontSize": {
+            "xs": "11px",
+            "sm": "12px",
+            "base": "14px",
+            "lg": "16px",
+            "xl": "18px"
+        }
+    },
+    "spacing": {
+        "xs": "4px",
+        "sm": "8px",
+        "md": "16px",
+        "lg": "24px"
+    },
+    "borderRadius": {
+        "sm": "2px",
+        "md": "4px",
+        "lg": "8px"
+    }
+}
