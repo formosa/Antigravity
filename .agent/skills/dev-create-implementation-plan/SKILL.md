@@ -1,7 +1,7 @@
 ---
 name: dev-create-implementation-plan
 version: 3.0.0
-description: Generates a deterministic, hallucination-resistant Implementation Plan Artifact for zero-ambiguity execution within Google Antigravity IDE v1.18.3.
+description: Generates a deterministic, hallucination-resistant Implementation Plan Artifact for zero-ambiguity agentic execution within Antigravity.
 ---
 
 <when_to_use>
