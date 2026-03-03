@@ -348,17 +348,28 @@
             gap: 4px;
         }
 
-        .file-card .drag-icon {
-            font-size: 16px;
+        .drag-icon {
+            font-size: 18px;
+        }
+
+        .close-icon {
+            font-size: 14px;
+        }
+
+        .drag-icon,
+        .close-icon {
+            font-family: var(--sans);
+            cursor: pointer;
+            color: #D1D5DB;
             line-height: 1;
         }
 
-        .file-card .close-icon {
-            font-size: 14px;
-            cursor: pointer;
+        .drag-icon:hover {
+            color: #B1B6C0;
+        }
+
+        .close-icon:hover {
             color: #C30000;
-            line-height: 1;
-            flex-shrink: 0;
         }
 
         .file-card .badge {
@@ -373,20 +384,12 @@
             color: #4A5568;
         }
 
-        .card-template .drag-icon {
-            color: var(--border-ctrl);
-        }
-
         /* Active card */
         .card-active {
             background: var(--accent-muted);
             border: 2px solid var(--accent);
             color: var(--accent-text);
             font-weight: 600;
-        }
-
-        .card-active .drag-icon {
-            color: var(--accent-text);
         }
 
         /* Panel */
