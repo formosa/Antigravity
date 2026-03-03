@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevToolbox — Color Palette & Icons</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #F3F4F6;
+            color: #111827;
+            font-family: 'Consolas', 'Courier New', monospace;
+            padding: 32px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #4B5563;
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
+
+        h1 {
+            font-size: 16px;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 14px;
+        }
+
+        h3 {
+            font-size: 13px;
+            margin-top: 30px;
+            color: #374151;
+        }
+
+        h4 {
+            font-size: 12px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #6B7280;
+        }
+
+        p.description {
+            font-size: 13px;
+            color: #4B5563;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-family: sans-serif;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 40px;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            table-layout: auto;
+        }
+
+        thead tr {
+            background-color: #F9FAFB;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        thead th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 11px;
+            color: #6B7280;
+            white-space: nowrap;
+        }
+
+        thead th.swatch-col {
+            width: 64px;
+            text-align: center;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #F3F4F6;
+            transition: background-color 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #F9FAFB;
+        }
+
+        td {
+            padding: 12px 16px;
+            color: #374151;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        /* Color Palette Specifics */
+        td.swatch {
+            width: 64px;
+            padding: 12px;
+        }
+
+        td.swatch div {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            border: 1px solid #E5E7EB;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        td.role {
+            color: #2563EB;
+            font-weight: 500;
+        }
+
+        td.hex {
+            color: #D97706;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        td.rgb {
+            color: #6B7280;
+        }
+
+        td.desc {
+            color: #4B5563;
+            white-space: normal;
+        }
+
+        /* SVG Icon Specifics */
+        .icon-preview-cell {
+            text-align: center;
+            background-color: #fcfcfc;
+            border-right: 1px solid #f3f4f6;
+        }
+
+        /* Sizing classes */
+        .preview-s svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .preview-m svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .preview-l svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        td.code-cell {
+            font-size: 11px;
+            color: #10B981;
+            background-color: #1F2937;
+            padding: 12px;
+            border-radius: 4px;
+            max-width: 250px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>DevToolbox — Color Palette Definition</h1>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <td class="icon-preview-cell preview-s"><svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <title>Markdown</title>
+                                <path fill="#08304A"
+                                    d="M22.27 19.385H1.73A1.73 1.73 0 010 17.655V6.345a1.73 1.73 0 011.73-1.73h20.54A1.73 1.73 0 0124 6.345v11.308a1.73 1.73 0 01-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z" />
+                            </svg></td>
+                    <td class="icon-preview-cell preview-m"><svg width="23" height="23" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <title>Markdown</title>
+                                <path fill="#08304A"
+                                    d="M22.27 19.385H1.73A1.73 1.73 0 010 17.655V6.345a1.73 1.73 0 011.73-1.73h20.54A1.73 1.73 0 0124 6.345v11.308a1.73 1.73 0 01-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z" />
+                            </svg></td>
+                    <td class="icon-preview-cell preview-l"><svg width="29" height="29" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <title>Markdown</title>
+                                <path fill="#08304A"
+                                    d="M22.27 19.385H1.73A1.73 1.73 0 010 17.655V6.345a1.73 1.73 0 011.73-1.73h20.54A1.73 1.73 0 0124 6.345v11.308a1.73 1.73 0 01-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z" />
+                            </svg></td>
+                    <td>C</td>
+                    <td><code>.py</code></td>
+                    <td class="code-cell">&lt;svg ... fill="#08304A"/&gt;</td>
+                    <td class="swatch">
+                        <div style="background-color:#052235;"></div>
+                    </td>
+                    <td class="swatch">
+                        <div style="background-color:#A7A7A7;"></div>
+                    </td>
+                    <td class="hex">#052235</td>
+                    <td class="hex">#A7A7A7</td>
+                </tr>
+
+                <tr>
+                    <td class="icon-preview-cell preview-s"><svg viewBox="0 0 32 32" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" /><text x="16" y="20"
+                                font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF"
+                                text-anchor="middle">YAML</text>
+                        </svg></td>
+                    <td class="icon-preview-cell preview-m"><svg viewBox="0 0 32 32" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" /><text x="16" y="20"
+                                font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF"
+                                text-anchor="middle">YAML</text>
+                        </svg></td>
+                    <td class="icon-preview-cell preview-l"><svg viewBox="0 0 32 32" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" /><text x="16" y="20"
+                                font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF"
+                                text-anchor="middle">YAML</text>
+                        </svg></td>
+                    <td>YAML</td>
+                    <td><code>.yaml</code></td>
+                    <td class="code-cell">&lt;svg ... fill="#CB171E"/&gt;</td>
+                    <td class="swatch">
+                        <div style="background-color:#D5454B;"></div>
+                    </td>
+                    <td class="swatch">
+                        <div style="background-color:#FFFFFF;"></div>
+                    </td>
+                    <td class="hex">#D5454B</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+
+                <tr>
+                    <td class="icon-preview-cell preview-s"><svg viewBox="0 0 32 32" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
+                            <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
+                                stroke-linecap="round" />
+                        </svg></td>
+                    <td class="icon-preview-cell preview-m"><svg viewBox="0 0 32 32" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
+                            <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
+                                stroke-linecap="round" />
+                        </svg></td>
+                    <td class="icon-preview-cell preview-l"><svg viewBox="0 0 32 32" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
+                            <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
+                                stroke-linecap="round" />
+                        </svg></td>
+                    <td>TXT</td>
+                    <td><code>.txt</code></td>
+                    <td class="code-cell">&lt;svg ... fill="#9CA3AF"/&gt;</td>
+                    <td class="swatch">
+                        <div style="background-color:#B1B6C0;"></div>
+                    </td>
+                    <td class="swatch">
+                        <div style="background-color:#FFFFFF;"></div>
+                    </td>
+                    <td class="hex">#B1B6C0</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Card Display Colors</h2>
+    <p class="description">Cards have a standardized <em>Active</em> Display Colors, and unique <em>Inactive</em>
+        Display Colors that are based on the File Type the card is associated with.</p>
+
+    <h3>Active Display Colors</h3>
+
+    <div
+        style="border: 2px solid #5A5FEB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #5A5FEB; background-color: #E0E7FF; color: #4338CA; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
+                    <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (active): (border-color: #5A5FEB), (background-color: #E0E7FF), (color:
+                #4338CA)</div>
+        </div>
+
+        <div style="background-color: #FFFFFF; color: #111827; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (active): (background-color: #FFFFFF) (color: #111827)
+        </div>
+
+        <div
+            style="border-top: 2px solid #5A5FEB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (active): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                    <th>Border / Decorator</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#E0E7FF</td>
+                    <td class="hex">#4338CA</td>
+                    <td class="hex">Border-Bottom: #5A5FEB</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#FFFFFF</td>
+                    <td class="hex">#111827</td>
+                    <td class="desc">N/A</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                    <td class="hex">Border-Top: #5A5FEB</td>
+                </tr>
+                <tr>
+                    <td class="role">Outer Container</td>
+                    <td class="desc">N/A</td>
+                    <td class="desc">N/A</td>
+                    <td class="hex">Border: #5A5FEB</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Inactive Display Colors</h3>
+
+    <h4>Python:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #1565A7; color: #ffffff; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
+                        fill="url(#p0)"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
+                        fill="url(#p1)"></path>
+                    <defs>
+                        <linearGradient id="p0" x1="12.4809" y1="2" x2="12.4809" y2="22.7407"
+                            gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#327EBD"></stop>
+                            <stop offset="1" stop-color="#1565A7"></stop>
+                        </linearGradient>
+                        <linearGradient id="p1" x1="19.519" y1="9.25928" x2="19.519" y2="30"
+                            gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#FFDA4B"></stop>
+                            <stop offset="1" stop-color="#F9C600"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #1565A7), (color:
+                #ffffff)</div>
+        </div>
+
+        <div style="background-color: #FFE270; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #FFE270) (color: #6B7280)
+        </div>
+
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#1565A7</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#FFE270</td>
+                    <td class="hex">#6B7280</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Markdown:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #333333; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <rect x="2" y="6" width="28" height="20" rx="3" fill="#000000" />
+                    <path
+                        d="M7 21V11L11 15L15 11V21H12.5V14.5L11 16L9.5 14.5V21H7ZM21 21L17 16H19.5V11H22.5V16H25L21 21Z"
+                        fill="white" />
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #333333), (color:
+                #FFFFFF)</div>
+        </div>
+        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
+        </div>
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#333333</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#FFFFFF</td>
+                    <td class="hex">#6B7280</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>JavaScript:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #F9E65E; color: #111827; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#F7DF1E" />
+                    <path
+                        d="M21.531 24.364c-1.849 1.34-4.223 2.115-6.521 2.115-4.482 0-7.394-2.457-7.394-6.848v-8.084h3.763v7.712c0 2.456 1.487 3.738 3.633 3.738 1.411 0 2.822-.508 3.844-1.341l2.675 2.708zm1.096-12.879c1.077-1.155 2.899-1.926 4.887-1.926 2.897 0 4.962 1.696 4.962 4.471 0 2.872-1.95 3.923-4.135 4.872-1.744.743-2.385 1.258-2.385 2.231 0 1.053.847 1.67 2.13 1.67 1.385 0 2.59-.618 3.513-1.618l2.64 2.643c-1.564 1.745-3.693 2.644-6.205 2.644-3.411 0-5.836-1.849-5.836-4.903 0-3.003 2.053-4.134 4.312-5.084 1.591-.667 2.181-1.154 2.181-2.027 0-.847-.718-1.463-1.9-1.463-1.077 0-2.18.513-3.052 1.412l-2.584-2.614z"
+                        fill="#000000" />
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #F9E65E), (color:
+                #111827)</div>
+        </div>
+        <div style="background-color: #333333; color: #FFFFFF; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #333333) (color: #FFFFFF)
+        </div>
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#F9E65E</td>
+                    <td class="hex">#111827</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#333333</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>TypeScript:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #5D96D3; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#3178C6" />
+                    <path
+                        d="M17.5 15.5H11V13.25H21.5V15.5H15.25V24.5H11.5V15.5H17.5ZM28.5 21.75C28.5 24 26.5 25 24.25 25C22.25 25 20.75 24.25 19.5 22.75L21.5 20.5C22.25 21.5 23 22.25 24.25 22.25C25.25 22.25 25.75 21.75 25.75 21.25C25.75 20.25 21.75 20 21.75 17C21.75 14.5 23.5 13 25.75 13C27.5 13 28.75 13.75 29.75 15.25L27.5 17.25C26.75 16.25 26.25 15.75 25.25 15.75C24.5 15.75 24 16.25 24 16.75C24 18 28.5 18 28.5 21.75Z"
+                        fill="#FFFFFF" />
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #5D96D3), (color:
+                #FFFFFF)</div>
+        </div>
+        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
+        </div>
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#5D96D3</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#FFFFFF</td>
+                    <td class="hex">#6B7280</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>HTML:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #E97555; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <path d="M4.5 3L6.8 27.5L16 30L25.2 27.5L27.5 3H4.5Z" fill="#E34F26" />
+                    <path d="M16 27.8V5.3H25.3L23.4 25.6L16 27.8Z" fill="#EF652A" />
+                    <path
+                        d="M16 13H10.8L10.4 9H16V6.5H7.7L8.6 15.5H16V13ZM16 18.2H11.4L11.1 21.4L16 22.8V25.4L8.4 23.3L8 18.2H16V18.2Z"
+                        fill="#EBEBEB" />
+                    <path d="M16 13V15.5H20.6L19.9 21.4L16 22.8V25.4L23.4 23.3L24.3 9H16V13Z" fill="#FFFFFF" />
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #E97555), (color:
+                #FFFFFF)</div>
+        </div>
+        <div style="background-color: #F5F5F5; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #F5F5F5) (color: #6B7280)
+        </div>
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#E97555</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#F5F5F5</td>
+                    <td class="hex">#6B7280</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>JSON:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #6B7280; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#4B5563" />
+                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#F7DF1E"
+                        text-anchor="middle">{ }</text>
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #6B7280), (color:
+                #FFFFFF)</div>
+        </div>
+        <div style="background-color: #F9E65E; color: #111827; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #F9E65E) (color: #111827)
+        </div>
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#6B7280</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#F9E65E</td>
+                    <td class="hex">#111827</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>XML:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #3385AD; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#006699" />
+                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#FFFFFF"
+                        text-anchor="middle">&lt;/&gt;</text>
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #3385AD), (color:
+                #FFFFFF)</div>
+        </div>
+        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
+        </div>
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#3385AD</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#FFFFFF</td>
+                    <td class="hex">#6B7280</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Java:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #759BB3; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <path d="M21 21C21 23 18 25 15 25C11 25 8 23 8 21" stroke="#E76F00" stroke-width="2" fill="none" />
+                    <path d="M7 16H23C24 16 26 17 26 19C26 21 24 22 23 22" stroke="#5382A1" stroke-width="2"
+                        fill="none" />
+                    <path d="M11 6C13 4 14 8 16 6" stroke="#E76F00" stroke-width="2" stroke-linecap="round" />
+                    <path d="M15 10C17 8 18 12 20 10" stroke="#E76F00" stroke-width="2" stroke-linecap="round" />
+                    <path d="M10 16V19C10 21.5 13 23 15 23C17 23 20 21.5 20 19V16" stroke="#5382A1" stroke-width="2"
+                        fill="none" />
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #759BB3), (color:
+                #FFFFFF)</div>
+        </div>
+        <div style="background-color: #EE8C33; color: #111827; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #EE8C33) (color: #111827)
+        </div>
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#759BB3</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#EE8C33</td>
+                    <td class="hex">#111827</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>C:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #606DBB; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <path d="M16 2L29 9.5V22.5L16 30L3 22.5V9.5L16 2Z" fill="#3949AB" />
+                    <text x="16" y="22" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF"
+                        text-anchor="middle">C</text>
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #606DBB), (color:
+                #FFFFFF)</div>
+        </div>
+        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
+        </div>
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#606DBB</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#FFFFFF</td>
+                    <td class="hex">#6B7280</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>YAML:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #D5454B; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" />
+                    <text x="16" y="20" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF"
+                        text-anchor="middle">YAML</text>
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #D5454B), (color:
+                #FFFFFF)</div>
+        </div>
+        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
+        </div>
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#D5454B</td>
+                    <td class="hex">#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#FFFFFF</td>
+                    <td class="hex">#6B7280</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>TXT:</h4>
+    <div
+        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
+        <div
+            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #B1B6C0; color: #111827; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
+            <div style="width: 20px; height: 20px; margin-right: 6px;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width: 100%; height: 100%; display: block;">
+                    <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
+                    <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #B1B6C0), (color:
+                #111827)</div>
+        </div>
+        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
+            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
+        </div>
+        <div
+            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
+            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Background Color</th>
+                    <th>Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="role">Top Bar</td>
+                    <td class="hex">#B1B6C0</td>
+                    <td class="hex">#111827</td>
+                </tr>
+                <tr>
+                    <td class="role">Center Content</td>
+                    <td class="hex">#FFFFFF</td>
+                    <td class="hex">#6B7280</td>
+                </tr>
+                <tr>
+                    <td class="role">Bottom Bar</td>
+                    <td class="hex">#F9FAFB</td>
+                    <td class="hex">#111827</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
