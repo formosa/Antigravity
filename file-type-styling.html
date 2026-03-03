@@ -2,983 +2,1934 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevToolbox — Color Palette & Icons</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevToolbox — Design System Reference</title>
     <style>
-        * {
+        /* ── Reset & Tokens ───────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            background-color: #F3F4F6;
-            color: #111827;
-            font-family: 'Consolas', 'Courier New', monospace;
-            padding: 32px;
+        :root {
+            --app-bg: #FFFFFF;
+            --sidebar-bg: #F9FAFB;
+            --accent: #5A5FEB;
+            --accent-muted: #E0E7FF;
+            --accent-text: #4338CA;
+            --text-primary: #111827;
+            --text-secondary: #6B7280;
+            --border-subtle: #E5E7EB;
+            --border-ctrl: #D1D5DB;
+            --surface: #FFFFFF;
+            --page-bg: #F3F4F6;
+
+            --mono: 'Consolas', 'Courier New', monospace;
+            --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-card: 0 1px 3px rgba(0, 0, 0, .08), 0 4px 12px rgba(0, 0, 0, .04);
+            --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, .10), 0 10px 25px -5px rgba(0, 0, 0, .06);
         }
 
-        h1,
-        h2,
-        h3,
-        h4 {
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #4B5563;
-            margin-bottom: 20px;
-            margin-top: 40px;
-        }
-
-        h1 {
-            font-size: 16px;
-            margin-top: 0;
-        }
-
-        h2 {
+        html {
             font-size: 14px;
         }
 
-        h3 {
-            font-size: 13px;
-            margin-top: 30px;
-            color: #374151;
-        }
-
-        h4 {
-            font-size: 12px;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            color: #6B7280;
-        }
-
-        p.description {
-            font-size: 13px;
-            color: #4B5563;
-            margin-bottom: 20px;
+        body {
+            background: var(--page-bg);
+            color: var(--text-primary);
+            font-family: var(--sans);
+            padding: 40px 48px 80px;
             line-height: 1.5;
-            font-family: sans-serif;
         }
 
-        .table-container {
-            width: 100%;
+        /* ── Header ──────────────────────────────────────────────── */
+        .doc-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 48px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .doc-header .logo {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .doc-header .logo svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .doc-header h1 {
+            font-family: var(--mono);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .doc-header .version {
+            margin-left: auto;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: var(--sidebar-bg);
+            border: 1px solid var(--border-subtle);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        /* ── Section Titles ──────────────────────────────────────── */
+        .section {
+            margin-bottom: 56px;
+        }
+
+        .section-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .section-title {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .section-desc {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            max-width: 640px;
+        }
+
+        /* ── Sub-headings ────────────────────────────────────────── */
+        h3.sub {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin: 32px 0 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        h4.item-title {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin: 20px 0 10px;
+        }
+
+        /* ── Card surface ────────────────────────────────────────── */
+        .card-surface {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin-bottom: 28px;
+        }
+
+        /* ── Tables ──────────────────────────────────────────────── */
+        .tbl-wrap {
             overflow-x: auto;
-            margin-bottom: 40px;
-            background-color: #FFFFFF;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
-            table-layout: auto;
+            font-size: 12.5px;
         }
 
         thead tr {
-            background-color: #F9FAFB;
-            border-bottom: 1px solid #E5E7EB;
+            background: var(--sidebar-bg);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         thead th {
-            padding: 12px 16px;
+            padding: 10px 16px;
             text-align: left;
-            font-weight: 600;
-            letter-spacing: 0.08em;
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .1em;
             text-transform: uppercase;
-            font-size: 11px;
-            color: #6B7280;
+            color: var(--text-secondary);
             white-space: nowrap;
         }
 
-        thead th.swatch-col {
-            width: 64px;
+        thead th.center {
             text-align: center;
         }
 
         tbody tr {
             border-bottom: 1px solid #F3F4F6;
-            transition: background-color 0.15s ease;
+            transition: background .12s ease;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
         }
 
         tbody tr:hover {
-            background-color: #F9FAFB;
+            background: #FAFAFA;
         }
 
         td {
-            padding: 12px 16px;
-            color: #374151;
+            padding: 11px 16px;
+            color: var(--text-primary);
             vertical-align: middle;
-            white-space: nowrap;
         }
 
-        /* Color Palette Specifics */
-        td.swatch {
-            width: 64px;
-            padding: 12px;
+        td.center {
+            text-align: center;
         }
 
-        td.swatch div {
-            width: 36px;
-            height: 36px;
-            border-radius: 6px;
-            border: 1px solid #E5E7EB;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        td.role {
+        /* Cell types */
+        td.t-role {
             color: #2563EB;
+            font-family: var(--mono);
             font-weight: 500;
+            font-size: 12px;
         }
 
-        td.hex {
+        td.t-hex {
             color: #D97706;
+            font-family: var(--mono);
             font-weight: 600;
-            letter-spacing: 0.05em;
+            font-size: 12px;
+            letter-spacing: .04em;
         }
 
-        td.rgb {
-            color: #6B7280;
+        td.t-rgb {
+            color: var(--text-secondary);
+            font-family: var(--mono);
+            font-size: 11.5px;
         }
 
-        td.desc {
+        td.t-desc {
             color: #4B5563;
+            font-size: 12px;
             white-space: normal;
         }
 
-        /* SVG Icon Specifics */
-        .icon-preview-cell {
-            text-align: center;
-            background-color: #fcfcfc;
-            border-right: 1px solid #f3f4f6;
+        td.t-name {
+            color: var(--text-primary);
+            font-weight: 500;
         }
 
-        /* Sizing classes */
-        .preview-s svg {
+        td.t-ext {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        td.t-code {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            color: #10B981;
+            background: #1F2937;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            max-width: 220px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Swatches */
+        .swatch-cell {
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        .swatch-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 0, 0, .08);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, .06);
+            display: inline-block;
+        }
+
+        /* Icon preview cells */
+        .icon-cell {
+            text-align: center;
+            padding: 10px 14px;
+            background: #FCFCFD;
+            border-right: 1px solid #F3F4F6;
+        }
+
+        .icon-cell.s svg {
             width: 16px;
             height: 16px;
         }
 
-        .preview-m svg {
+        .icon-cell.m svg {
             width: 24px;
             height: 24px;
         }
 
-        .preview-l svg {
+        .icon-cell.l svg {
             width: 32px;
             height: 32px;
         }
 
-        td.code-cell {
+        /* ── Component Demos ─────────────────────────────────────── */
+        .demo-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .demo-col {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .demo-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        /* File Card */
+        .file-card {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            border-radius: var(--radius-md);
+            padding: 5px 6px;
+            font-family: var(--sans);
+            font-size: 13px;
+            width: 210px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .file-card .card-left {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .file-card .drag-icon {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .file-card .close-icon {
+            font-size: 14px;
+            cursor: pointer;
+            color: #C30000;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .file-card .badge {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        /* Template card */
+        .card-template {
+            background: var(--app-bg);
+            border: 1px solid var(--border-subtle);
+            color: #4A5568;
+        }
+
+        .card-template .drag-icon {
+            color: var(--border-ctrl);
+        }
+
+        /* Active card */
+        .card-active {
+            background: var(--accent-muted);
+            border: 2px solid var(--accent);
+            color: var(--accent-text);
+            font-weight: 600;
+        }
+
+        .card-active .drag-icon {
+            color: var(--accent-text);
+        }
+
+        /* Panel */
+        .file-panel {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            font-family: var(--sans);
+            width: 100%;
+            max-width: 580px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .panel-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            font-size: 12.5px;
+            font-weight: 500;
+        }
+
+        .panel-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .panel-title {
+            flex: 1;
+            font-size: 12px;
+        }
+
+        .panel-body {
+            padding: 18px;
+            font-size: 12px;
+        }
+
+        .panel-foot {
+            padding: 8px 12px;
+            font-size: 11.5px;
+        }
+
+        /* Template panel */
+        .panel-template .panel-top {
+            background: var(--app-bg);
+            color: #4A5568;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .panel-template .panel-body {
+            background: var(--app-bg);
+            color: #4A5568;
+        }
+
+        .panel-template .panel-foot {
+            background: var(--sidebar-bg);
+            color: #4A5568;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        /* Active panel */
+        .panel-active {
+            border: 2px solid var(--accent);
+        }
+
+        .panel-active .panel-top {
+            background: var(--accent-muted);
+            color: var(--accent-text);
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .panel-active .panel-body {
+            background: var(--app-bg);
+            color: var(--text-primary);
+        }
+
+        .panel-active .panel-foot {
+            background: var(--sidebar-bg);
+            color: var(--text-primary);
+            border-top: 1px solid var(--accent);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--border-subtle);
+            margin: 40px 0;
+        }
+
+        /* Inactive panel/card helpers — set via inline or utility classes */
+        .panel-inactive {
+            border: 2px solid var(--border-subtle);
+        }
+
+        .panel-inactive .panel-foot {
+            background: var(--sidebar-bg);
+            color: var(--text-primary);
+            border-top: 2px solid var(--border-subtle);
+        }
+
+        /* Color palette grid */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .palette-tile {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+
+        .palette-tile .color-block {
+            height: 56px;
+            border-bottom: 1px solid rgba(0, 0, 0, .06);
+        }
+
+        .palette-tile .color-info {
+            background: var(--surface);
+            padding: 8px 10px;
+        }
+
+        .palette-tile .color-role {
+            font-family: var(--mono);
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: .06em;
+            color: var(--accent-text);
+            margin-bottom: 2px;
+        }
+
+        .palette-tile .color-hex {
+            font-family: var(--mono);
             font-size: 11px;
-            color: #10B981;
-            background-color: #1F2937;
-            padding: 12px;
-            border-radius: 4px;
-            max-width: 250px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
+            font-weight: 600;
+            color: #D97706;
+        }
+
+        .palette-tile .color-desc {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+            line-height: 1.4;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>DevToolbox — Color Palette Definition</h1>
+    <!-- ── Page Header ─────────────────────────────────────────── -->
+    <header class="doc-header">
+        <div class="logo">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
+                    fill="url(#hdr0)" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
+                    fill="url(#hdr1)" />
+                <defs>
+                    <linearGradient id="hdr0" x1="12.48" y1="2" x2="12.48" y2="22.74" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#fff" />
+                        <stop offset="1" stop-color="#c7d7ff" />
+                    </linearGradient>
+                    <linearGradient id="hdr1" x1="19.52" y1="9.26" x2="19.52" y2="30" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#fff" />
+                        <stop offset="1" stop-color="#ffe8a0" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+        <h1>DevToolbox — Design System Reference</h1>
+        <span class="version">v1.0</span>
+    </header>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <td class="icon-preview-cell preview-s"><svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <title>Markdown</title>
-                                <path fill="#08304A"
-                                    d="M22.27 19.385H1.73A1.73 1.73 0 010 17.655V6.345a1.73 1.73 0 011.73-1.73h20.54A1.73 1.73 0 0124 6.345v11.308a1.73 1.73 0 01-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z" />
-                            </svg></td>
-                    <td class="icon-preview-cell preview-m"><svg width="23" height="23" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <title>Markdown</title>
-                                <path fill="#08304A"
-                                    d="M22.27 19.385H1.73A1.73 1.73 0 010 17.655V6.345a1.73 1.73 0 011.73-1.73h20.54A1.73 1.73 0 0124 6.345v11.308a1.73 1.73 0 01-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z" />
-                            </svg></td>
-                    <td class="icon-preview-cell preview-l"><svg width="29" height="29" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <title>Markdown</title>
-                                <path fill="#08304A"
-                                    d="M22.27 19.385H1.73A1.73 1.73 0 010 17.655V6.345a1.73 1.73 0 011.73-1.73h20.54A1.73 1.73 0 0124 6.345v11.308a1.73 1.73 0 01-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z" />
-                            </svg></td>
-                    <td>C</td>
-                    <td><code>.py</code></td>
-                    <td class="code-cell">&lt;svg ... fill="#08304A"/&gt;</td>
-                    <td class="swatch">
-                        <div style="background-color:#052235;"></div>
-                    </td>
-                    <td class="swatch">
-                        <div style="background-color:#A7A7A7;"></div>
-                    </td>
-                    <td class="hex">#052235</td>
-                    <td class="hex">#A7A7A7</td>
-                </tr>
 
-                <tr>
-                    <td class="icon-preview-cell preview-s"><svg viewBox="0 0 32 32" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" /><text x="16" y="20"
-                                font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF"
-                                text-anchor="middle">YAML</text>
-                        </svg></td>
-                    <td class="icon-preview-cell preview-m"><svg viewBox="0 0 32 32" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" /><text x="16" y="20"
-                                font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF"
-                                text-anchor="middle">YAML</text>
-                        </svg></td>
-                    <td class="icon-preview-cell preview-l"><svg viewBox="0 0 32 32" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" /><text x="16" y="20"
-                                font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF"
-                                text-anchor="middle">YAML</text>
-                        </svg></td>
-                    <td>YAML</td>
-                    <td><code>.yaml</code></td>
-                    <td class="code-cell">&lt;svg ... fill="#CB171E"/&gt;</td>
-                    <td class="swatch">
-                        <div style="background-color:#D5454B;"></div>
-                    </td>
-                    <td class="swatch">
-                        <div style="background-color:#FFFFFF;"></div>
-                    </td>
-                    <td class="hex">#D5454B</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
+    <!-- ══════════════════════════════════════════════════════════
+       SECTION 1 — COLOR PALETTE
+  ═══════════════════════════════════════════════════════════ -->
+    <section class="section">
+        <div class="section-label">Section 01</div>
+        <div class="section-title">Color Palette</div>
+        <div class="section-desc">
+            Semantic token definitions for all application surfaces, text layers, accents, and control borders.
+        </div>
 
-                <tr>
-                    <td class="icon-preview-cell preview-s"><svg viewBox="0 0 32 32" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
-                            <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
-                                stroke-linecap="round" />
-                        </svg></td>
-                    <td class="icon-preview-cell preview-m"><svg viewBox="0 0 32 32" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
-                            <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
-                                stroke-linecap="round" />
-                        </svg></td>
-                    <td class="icon-preview-cell preview-l"><svg viewBox="0 0 32 32" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
-                            <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
-                                stroke-linecap="round" />
-                        </svg></td>
-                    <td>TXT</td>
-                    <td><code>.txt</code></td>
-                    <td class="code-cell">&lt;svg ... fill="#9CA3AF"/&gt;</td>
-                    <td class="swatch">
-                        <div style="background-color:#B1B6C0;"></div>
-                    </td>
-                    <td class="swatch">
-                        <div style="background-color:#FFFFFF;"></div>
-                    </td>
-                    <td class="hex">#B1B6C0</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h2>Card Display Colors</h2>
-    <p class="description">Cards have a standardized <em>Active</em> Display Colors, and unique <em>Inactive</em>
-        Display Colors that are based on the File Type the card is associated with.</p>
-
-    <h3>Active Display Colors</h3>
-
-    <div
-        style="border: 2px solid #5A5FEB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #5A5FEB; background-color: #E0E7FF; color: #4338CA; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
-                    <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
-                </svg>
+        <!-- Visual tiles -->
+        <div class="palette-grid">
+            <div class="palette-tile">
+                <div class="color-block" style="background:#FFFFFF; border:1px solid #E5E7EB;"></div>
+                <div class="color-info">
+                    <div class="color-role">app_background</div>
+                    <div class="color-hex">#FFFFFF</div>
+                    <div class="color-desc">Main window &amp; document editor surface</div>
+                </div>
             </div>
-            <div style="flex: 1;">Top Bar (active): (border-color: #5A5FEB), (background-color: #E0E7FF), (color:
-                #4338CA)</div>
-        </div>
-
-        <div style="background-color: #FFFFFF; color: #111827; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (active): (background-color: #FFFFFF) (color: #111827)
-        </div>
-
-        <div
-            style="border-top: 2px solid #5A5FEB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (active): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                    <th>Border / Decorator</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#E0E7FF</td>
-                    <td class="hex">#4338CA</td>
-                    <td class="hex">Border-Bottom: #5A5FEB</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#FFFFFF</td>
-                    <td class="hex">#111827</td>
-                    <td class="desc">N/A</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                    <td class="hex">Border-Top: #5A5FEB</td>
-                </tr>
-                <tr>
-                    <td class="role">Outer Container</td>
-                    <td class="desc">N/A</td>
-                    <td class="desc">N/A</td>
-                    <td class="hex">Border: #5A5FEB</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h3>Inactive Display Colors</h3>
-
-    <h4>Python:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #1565A7; color: #ffffff; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
-                        fill="url(#p0)"></path>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
-                        fill="url(#p1)"></path>
-                    <defs>
-                        <linearGradient id="p0" x1="12.4809" y1="2" x2="12.4809" y2="22.7407"
-                            gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#327EBD"></stop>
-                            <stop offset="1" stop-color="#1565A7"></stop>
-                        </linearGradient>
-                        <linearGradient id="p1" x1="19.519" y1="9.25928" x2="19.519" y2="30"
-                            gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#FFDA4B"></stop>
-                            <stop offset="1" stop-color="#F9C600"></stop>
-                        </linearGradient>
-                    </defs>
-                </svg>
+            <div class="palette-tile">
+                <div class="color-block" style="background:#F9FAFB;"></div>
+                <div class="color-info">
+                    <div class="color-role">sidebar_background</div>
+                    <div class="color-hex">#F9FAFB</div>
+                    <div class="color-desc">Left sidebar &amp; document header panels</div>
+                </div>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #1565A7), (color:
-                #ffffff)</div>
-        </div>
-
-        <div style="background-color: #FFE270; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #FFE270) (color: #6B7280)
-        </div>
-
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#1565A7</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#FFE270</td>
-                    <td class="hex">#6B7280</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h4>Markdown:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #333333; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <rect x="2" y="6" width="28" height="20" rx="3" fill="#000000" />
-                    <path
-                        d="M7 21V11L11 15L15 11V21H12.5V14.5L11 16L9.5 14.5V21H7ZM21 21L17 16H19.5V11H22.5V16H25L21 21Z"
-                        fill="white" />
-                </svg>
+            <div class="palette-tile">
+                <div class="color-block" style="background:#5A5FEB;"></div>
+                <div class="color-info">
+                    <div class="color-role">accent_primary</div>
+                    <div class="color-hex">#5A5FEB</div>
+                    <div class="color-desc">Primary CTA buttons &amp; active highlights</div>
+                </div>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #333333), (color:
-                #FFFFFF)</div>
-        </div>
-        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
-        </div>
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#333333</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#FFFFFF</td>
-                    <td class="hex">#6B7280</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h4>JavaScript:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #F9E65E; color: #111827; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#F7DF1E" />
-                    <path
-                        d="M21.531 24.364c-1.849 1.34-4.223 2.115-6.521 2.115-4.482 0-7.394-2.457-7.394-6.848v-8.084h3.763v7.712c0 2.456 1.487 3.738 3.633 3.738 1.411 0 2.822-.508 3.844-1.341l2.675 2.708zm1.096-12.879c1.077-1.155 2.899-1.926 4.887-1.926 2.897 0 4.962 1.696 4.962 4.471 0 2.872-1.95 3.923-4.135 4.872-1.744.743-2.385 1.258-2.385 2.231 0 1.053.847 1.67 2.13 1.67 1.385 0 2.59-.618 3.513-1.618l2.64 2.643c-1.564 1.745-3.693 2.644-6.205 2.644-3.411 0-5.836-1.849-5.836-4.903 0-3.003 2.053-4.134 4.312-5.084 1.591-.667 2.181-1.154 2.181-2.027 0-.847-.718-1.463-1.9-1.463-1.077 0-2.18.513-3.052 1.412l-2.584-2.614z"
-                        fill="#000000" />
-                </svg>
+            <div class="palette-tile">
+                <div class="color-block" style="background:#E0E7FF;"></div>
+                <div class="color-info">
+                    <div class="color-role">accent_muted</div>
+                    <div class="color-hex">#E0E7FF</div>
+                    <div class="color-desc">Active file background in sidebar</div>
+                </div>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #F9E65E), (color:
-                #111827)</div>
-        </div>
-        <div style="background-color: #333333; color: #FFFFFF; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #333333) (color: #FFFFFF)
-        </div>
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#F9E65E</td>
-                    <td class="hex">#111827</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#333333</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h4>TypeScript:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #5D96D3; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#3178C6" />
-                    <path
-                        d="M17.5 15.5H11V13.25H21.5V15.5H15.25V24.5H11.5V15.5H17.5ZM28.5 21.75C28.5 24 26.5 25 24.25 25C22.25 25 20.75 24.25 19.5 22.75L21.5 20.5C22.25 21.5 23 22.25 24.25 22.25C25.25 22.25 25.75 21.75 25.75 21.25C25.75 20.25 21.75 20 21.75 17C21.75 14.5 23.5 13 25.75 13C27.5 13 28.75 13.75 29.75 15.25L27.5 17.25C26.75 16.25 26.25 15.75 25.25 15.75C24.5 15.75 24 16.25 24 16.75C24 18 28.5 18 28.5 21.75Z"
-                        fill="#FFFFFF" />
-                </svg>
+            <div class="palette-tile">
+                <div class="color-block" style="background:#4338CA;"></div>
+                <div class="color-info">
+                    <div class="color-role">accent_text</div>
+                    <div class="color-hex">#4338CA</div>
+                    <div class="color-desc">Active file text in sidebar</div>
+                </div>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #5D96D3), (color:
-                #FFFFFF)</div>
-        </div>
-        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
-        </div>
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#5D96D3</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#FFFFFF</td>
-                    <td class="hex">#6B7280</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h4>HTML:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #E97555; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <path d="M4.5 3L6.8 27.5L16 30L25.2 27.5L27.5 3H4.5Z" fill="#E34F26" />
-                    <path d="M16 27.8V5.3H25.3L23.4 25.6L16 27.8Z" fill="#EF652A" />
-                    <path
-                        d="M16 13H10.8L10.4 9H16V6.5H7.7L8.6 15.5H16V13ZM16 18.2H11.4L11.1 21.4L16 22.8V25.4L8.4 23.3L8 18.2H16V18.2Z"
-                        fill="#EBEBEB" />
-                    <path d="M16 13V15.5H20.6L19.9 21.4L16 22.8V25.4L23.4 23.3L24.3 9H16V13Z" fill="#FFFFFF" />
-                </svg>
+            <div class="palette-tile">
+                <div class="color-block" style="background:#111827;"></div>
+                <div class="color-info">
+                    <div class="color-role">text_primary</div>
+                    <div class="color-hex">#111827</div>
+                    <div class="color-desc">Primary text &amp; document contents</div>
+                </div>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #E97555), (color:
-                #FFFFFF)</div>
-        </div>
-        <div style="background-color: #F5F5F5; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #F5F5F5) (color: #6B7280)
-        </div>
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#E97555</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#F5F5F5</td>
-                    <td class="hex">#6B7280</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h4>JSON:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #6B7280; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#4B5563" />
-                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#F7DF1E"
-                        text-anchor="middle">{ }</text>
-                </svg>
+            <div class="palette-tile">
+                <div class="color-block" style="background:#6B7280;"></div>
+                <div class="color-info">
+                    <div class="color-role">text_secondary</div>
+                    <div class="color-hex">#6B7280</div>
+                    <div class="color-desc">Section headers &amp; inactive file text</div>
+                </div>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #6B7280), (color:
-                #FFFFFF)</div>
-        </div>
-        <div style="background-color: #F9E65E; color: #111827; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #F9E65E) (color: #111827)
-        </div>
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#6B7280</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#F9E65E</td>
-                    <td class="hex">#111827</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h4>XML:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #3385AD; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#006699" />
-                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#FFFFFF"
-                        text-anchor="middle">&lt;/&gt;</text>
-                </svg>
+            <div class="palette-tile">
+                <div class="color-block" style="background:#E5E7EB;"></div>
+                <div class="color-info">
+                    <div class="color-role">border_subtle</div>
+                    <div class="color-hex">#E5E7EB</div>
+                    <div class="color-desc">Card dividers &amp; panel borders</div>
+                </div>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #3385AD), (color:
-                #FFFFFF)</div>
-        </div>
-        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
-        </div>
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#3385AD</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#FFFFFF</td>
-                    <td class="hex">#6B7280</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h4>Java:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #759BB3; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <path d="M21 21C21 23 18 25 15 25C11 25 8 23 8 21" stroke="#E76F00" stroke-width="2" fill="none" />
-                    <path d="M7 16H23C24 16 26 17 26 19C26 21 24 22 23 22" stroke="#5382A1" stroke-width="2"
-                        fill="none" />
-                    <path d="M11 6C13 4 14 8 16 6" stroke="#E76F00" stroke-width="2" stroke-linecap="round" />
-                    <path d="M15 10C17 8 18 12 20 10" stroke="#E76F00" stroke-width="2" stroke-linecap="round" />
-                    <path d="M10 16V19C10 21.5 13 23 15 23C17 23 20 21.5 20 19V16" stroke="#5382A1" stroke-width="2"
-                        fill="none" />
-                </svg>
+            <div class="palette-tile">
+                <div class="color-block" style="background:#D1D5DB;"></div>
+                <div class="color-info">
+                    <div class="color-role">border_control</div>
+                    <div class="color-hex">#D1D5DB</div>
+                    <div class="color-desc">Ghost button outlines &amp; checkbox borders</div>
+                </div>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #759BB3), (color:
-                #FFFFFF)</div>
         </div>
-        <div style="background-color: #EE8C33; color: #111827; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #EE8C33) (color: #111827)
-        </div>
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#759BB3</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#EE8C33</td>
-                    <td class="hex">#111827</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h4>C:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #606DBB; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <path d="M16 2L29 9.5V22.5L16 30L3 22.5V9.5L16 2Z" fill="#3949AB" />
-                    <text x="16" y="22" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF"
-                        text-anchor="middle">C</text>
-                </svg>
+        <!-- Full reference table -->
+        <div class="card-surface">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="center">Swatch</th>
+                            <th>Role</th>
+                            <th>Hex</th>
+                            <th>RGB</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="swatch-cell center"><span class="swatch-dot"
+                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
+                            <td class="t-role">app_background</td>
+                            <td class="t-hex">#FFFFFF</td>
+                            <td class="t-rgb">rgb(255, 255, 255)</td>
+                            <td class="t-desc">Main window background and document editor surface</td>
+                        </tr>
+                        <tr>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#F9FAFB;"></span>
+                            </td>
+                            <td class="t-role">sidebar_background</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-rgb">rgb(249, 250, 251)</td>
+                            <td class="t-desc">Left sidebar panel and document header backgrounds</td>
+                        </tr>
+                        <tr>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#5A5FEB;"></span>
+                            </td>
+                            <td class="t-role">accent_primary</td>
+                            <td class="t-hex">#5A5FEB</td>
+                            <td class="t-rgb">rgb(90, 95, 235)</td>
+                            <td class="t-desc">Primary CTA buttons (Save Consolidated) and active highlights</td>
+                        </tr>
+                        <tr>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#E0E7FF;"></span>
+                            </td>
+                            <td class="t-role">accent_muted</td>
+                            <td class="t-hex">#E0E7FF</td>
+                            <td class="t-rgb">rgb(224, 231, 255)</td>
+                            <td class="t-desc">Active file background in sidebar</td>
+                        </tr>
+                        <tr>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#4338CA;"></span>
+                            </td>
+                            <td class="t-role">accent_text</td>
+                            <td class="t-hex">#4338CA</td>
+                            <td class="t-rgb">rgb(67, 56, 202)</td>
+                            <td class="t-desc">Active file text color in sidebar</td>
+                        </tr>
+                        <tr>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#111827;"></span>
+                            </td>
+                            <td class="t-role">text_primary</td>
+                            <td class="t-hex">#111827</td>
+                            <td class="t-rgb">rgb(17, 24, 39)</td>
+                            <td class="t-desc">Primary text, document contents, and active button text</td>
+                        </tr>
+                        <tr>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#6B7280;"></span>
+                            </td>
+                            <td class="t-role">text_secondary</td>
+                            <td class="t-hex">#6B7280</td>
+                            <td class="t-rgb">rgb(107, 114, 128)</td>
+                            <td class="t-desc">Section headers, metadata, and inactive file text</td>
+                        </tr>
+                        <tr>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#E5E7EB;"></span>
+                            </td>
+                            <td class="t-role">border_subtle</td>
+                            <td class="t-hex">#E5E7EB</td>
+                            <td class="t-rgb">rgb(229, 231, 235)</td>
+                            <td class="t-desc">Card dividers, sidebar boundaries, and panel borders</td>
+                        </tr>
+                        <tr>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#D1D5DB;"></span>
+                            </td>
+                            <td class="t-role">border_control</td>
+                            <td class="t-hex">#D1D5DB</td>
+                            <td class="t-rgb">rgb(209, 213, 219)</td>
+                            <td class="t-desc">Button outlines (Ghost buttons) and checkbox borders</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #606DBB), (color:
-                #FFFFFF)</div>
         </div>
-        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
-        </div>
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
+    </section>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#606DBB</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#FFFFFF</td>
-                    <td class="hex">#6B7280</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 
-    <h4>YAML:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #D5454B; color: #FFFFFF; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" />
-                    <text x="16" y="20" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF"
-                        text-anchor="middle">YAML</text>
-                </svg>
+    <!-- ══════════════════════════════════════════════════════════
+       SECTION 2 — SVG ICONS
+  ═══════════════════════════════════════════════════════════ -->
+    <section class="section">
+        <div class="section-label">Section 02</div>
+        <div class="section-title">SVG Icons — Official Logo Style</div>
+        <div class="section-desc">
+            Per-file-type icon assets with primary and secondary color tokens.
+            All icons use a 32 × 32 viewBox and scale cleanly at 16 / 24 / 32 px.
+        </div>
+
+        <div class="card-surface">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="center">16 px</th>
+                            <th class="center">24 px</th>
+                            <th class="center">32 px</th>
+                            <th>Name</th>
+                            <th>Extension</th>
+                            <th>SVG Snippet</th>
+                            <th class="center">Primary</th>
+                            <th class="center">Secondary</th>
+                            <th>Primary Hex</th>
+                            <th>Secondary Hex</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- Python -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
+                                        fill="url(#py0s)" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
+                                        fill="url(#py1s)" />
+                                    <defs>
+                                        <linearGradient id="py0s" x1="12.48" y1="2" x2="12.48" y2="22.74"
+                                            gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#327EBD" />
+                                            <stop offset="1" stop-color="#1565A7" />
+                                        </linearGradient>
+                                        <linearGradient id="py1s" x1="19.52" y1="9.26" x2="19.52" y2="30"
+                                            gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#FFDA4B" />
+                                            <stop offset="1" stop-color="#F9C600" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
+                                        fill="url(#py0m)" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
+                                        fill="url(#py1m)" />
+                                    <defs>
+                                        <linearGradient id="py0m" x1="12.48" y1="2" x2="12.48" y2="22.74"
+                                            gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#327EBD" />
+                                            <stop offset="1" stop-color="#1565A7" />
+                                        </linearGradient>
+                                        <linearGradient id="py1m" x1="19.52" y1="9.26" x2="19.52" y2="30"
+                                            gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#FFDA4B" />
+                                            <stop offset="1" stop-color="#F9C600" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
+                                        fill="url(#py0l)" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
+                                        fill="url(#py1l)" />
+                                    <defs>
+                                        <linearGradient id="py0l" x1="12.48" y1="2" x2="12.48" y2="22.74"
+                                            gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#327EBD" />
+                                            <stop offset="1" stop-color="#1565A7" />
+                                        </linearGradient>
+                                        <linearGradient id="py1l" x1="19.52" y1="9.26" x2="19.52" y2="30"
+                                            gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#FFDA4B" />
+                                            <stop offset="1" stop-color="#F9C600" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </td>
+                            <td class="t-name">Python</td>
+                            <td class="t-ext"><code>.py</code></td>
+                            <td class="t-code">&lt;svg viewBox="0 0 32 32"&gt;&lt;/svg&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#5D9BD1;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#FFE270;"></span>
+                            </td>
+                            <td class="t-hex">#5D9BD1</td>
+                            <td class="t-hex">#FFE270</td>
+                        </tr>
+
+                        <!-- Markdown -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="6" width="28" height="20" rx="3" fill="#000000" />
+                                    <path
+                                        d="M7 21V11L11 15L15 11V21H12.5V14.5L11 16L9.5 14.5V21H7ZM21 21L17 16H19.5V11H22.5V16H25L21 21Z"
+                                        fill="white" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="6" width="28" height="20" rx="3" fill="#000000" />
+                                    <path
+                                        d="M7 21V11L11 15L15 11V21H12.5V14.5L11 16L9.5 14.5V21H7ZM21 21L17 16H19.5V11H22.5V16H25L21 21Z"
+                                        fill="white" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="6" width="28" height="20" rx="3" fill="#000000" />
+                                    <path
+                                        d="M7 21V11L11 15L15 11V21H12.5V14.5L11 16L9.5 14.5V21H7ZM21 21L17 16H19.5V11H22.5V16H25L21 21Z"
+                                        fill="white" />
+                                </svg>
+                            </td>
+                            <td class="t-name">Markdown</td>
+                            <td class="t-ext"><code>.md</code></td>
+                            <td class="t-code">&lt;svg ... fill="#000000"/&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#333333;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot"
+                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
+                            <td class="t-hex">#333333</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+
+                        <!-- JavaScript -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#F7DF1E" />
+                                    <path
+                                        d="M21.531 24.364c-1.849 1.34-4.223 2.115-6.521 2.115-4.482 0-7.394-2.457-7.394-6.848v-8.084h3.763v7.712c0 2.456 1.487 3.738 3.633 3.738 1.411 0 2.822-.508 3.844-1.341l2.675 2.708zm1.096-12.879c1.077-1.155 2.899-1.926 4.887-1.926 2.897 0 4.962 1.696 4.962 4.471 0 2.872-1.95 3.923-4.135 4.872-1.744.743-2.385 1.258-2.385 2.231 0 1.053.847 1.67 2.13 1.67 1.385 0 2.59-.618 3.513-1.618l2.64 2.643c-1.564 1.745-3.693 2.644-6.205 2.644-3.411 0-5.836-1.849-5.836-4.903 0-3.003 2.053-4.134 4.312-5.084 1.591-.667 2.181-1.154 2.181-2.027 0-.847-.718-1.463-1.9-1.463-1.077 0-2.18.513-3.052 1.412l-2.584-2.614z"
+                                        fill="#000000" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#F7DF1E" />
+                                    <path
+                                        d="M21.531 24.364c-1.849 1.34-4.223 2.115-6.521 2.115-4.482 0-7.394-2.457-7.394-6.848v-8.084h3.763v7.712c0 2.456 1.487 3.738 3.633 3.738 1.411 0 2.822-.508 3.844-1.341l2.675 2.708zm1.096-12.879c1.077-1.155 2.899-1.926 4.887-1.926 2.897 0 4.962 1.696 4.962 4.471 0 2.872-1.95 3.923-4.135 4.872-1.744.743-2.385 1.258-2.385 2.231 0 1.053.847 1.67 2.13 1.67 1.385 0 2.59-.618 3.513-1.618l2.64 2.643c-1.564 1.745-3.693 2.644-6.205 2.644-3.411 0-5.836-1.849-5.836-4.903 0-3.003 2.053-4.134 4.312-5.084 1.591-.667 2.181-1.154 2.181-2.027 0-.847-.718-1.463-1.9-1.463-1.077 0-2.18.513-3.052 1.412l-2.584-2.614z"
+                                        fill="#000000" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#F7DF1E" />
+                                    <path
+                                        d="M21.531 24.364c-1.849 1.34-4.223 2.115-6.521 2.115-4.482 0-7.394-2.457-7.394-6.848v-8.084h3.763v7.712c0 2.456 1.487 3.738 3.633 3.738 1.411 0 2.822-.508 3.844-1.341l2.675 2.708zm1.096-12.879c1.077-1.155 2.899-1.926 4.887-1.926 2.897 0 4.962 1.696 4.962 4.471 0 2.872-1.95 3.923-4.135 4.872-1.744.743-2.385 1.258-2.385 2.231 0 1.053.847 1.67 2.13 1.67 1.385 0 2.59-.618 3.513-1.618l2.64 2.643c-1.564 1.745-3.693 2.644-6.205 2.644-3.411 0-5.836-1.849-5.836-4.903 0-3.003 2.053-4.134 4.312-5.084 1.591-.667 2.181-1.154 2.181-2.027 0-.847-.718-1.463-1.9-1.463-1.077 0-2.18.513-3.052 1.412l-2.584-2.614z"
+                                        fill="#000000" />
+                                </svg>
+                            </td>
+                            <td class="t-name">JavaScript</td>
+                            <td class="t-ext"><code>.js</code></td>
+                            <td class="t-code">&lt;svg ... fill="#F7DF1E"/&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#F9E65E;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#333333;"></span>
+                            </td>
+                            <td class="t-hex">#F9E65E</td>
+                            <td class="t-hex">#333333</td>
+                        </tr>
+
+                        <!-- TypeScript -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#3178C6" />
+                                    <path
+                                        d="M17.5 15.5H11V13.25H21.5V15.5H15.25V24.5H11.5V15.5H17.5ZM28.5 21.75C28.5 24 26.5 25 24.25 25C22.25 25 20.75 24.25 19.5 22.75L21.5 20.5C22.25 21.5 23 22.25 24.25 22.25C25.25 22.25 25.75 21.75 25.75 21.25C25.75 20.25 21.75 20 21.75 17C21.75 14.5 23.5 13 25.75 13C27.5 13 28.75 13.75 29.75 15.25L27.5 17.25C26.75 16.25 26.25 15.75 25.25 15.75C24.5 15.75 24 16.25 24 16.75C24 18 28.5 18 28.5 21.75Z"
+                                        fill="#FFFFFF" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#3178C6" />
+                                    <path
+                                        d="M17.5 15.5H11V13.25H21.5V15.5H15.25V24.5H11.5V15.5H17.5ZM28.5 21.75C28.5 24 26.5 25 24.25 25C22.25 25 20.75 24.25 19.5 22.75L21.5 20.5C22.25 21.5 23 22.25 24.25 22.25C25.25 22.25 25.75 21.75 25.75 21.25C25.75 20.25 21.75 20 21.75 17C21.75 14.5 23.5 13 25.75 13C27.5 13 28.75 13.75 29.75 15.25L27.5 17.25C26.75 16.25 26.25 15.75 25.25 15.75C24.5 15.75 24 16.25 24 16.75C24 18 28.5 18 28.5 21.75Z"
+                                        fill="#FFFFFF" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#3178C6" />
+                                    <path
+                                        d="M17.5 15.5H11V13.25H21.5V15.5H15.25V24.5H11.5V15.5H17.5ZM28.5 21.75C28.5 24 26.5 25 24.25 25C22.25 25 20.75 24.25 19.5 22.75L21.5 20.5C22.25 21.5 23 22.25 24.25 22.25C25.25 22.25 25.75 21.75 25.75 21.25C25.75 20.25 21.75 20 21.75 17C21.75 14.5 23.5 13 25.75 13C27.5 13 28.75 13.75 29.75 15.25L27.5 17.25C26.75 16.25 26.25 15.75 25.25 15.75C24.5 15.75 24 16.25 24 16.75C24 18 28.5 18 28.5 21.75Z"
+                                        fill="#FFFFFF" />
+                                </svg>
+                            </td>
+                            <td class="t-name">TypeScript</td>
+                            <td class="t-ext"><code>.ts</code></td>
+                            <td class="t-code">&lt;svg ... fill="#3178C6"/&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#5D96D3;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot"
+                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
+                            <td class="t-hex">#5D96D3</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+
+                        <!-- HTML -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.5 3L6.8 27.5L16 30L25.2 27.5L27.5 3H4.5Z" fill="#E34F26" />
+                                    <path d="M16 27.8V5.3H25.3L23.4 25.6L16 27.8Z" fill="#EF652A" />
+                                    <path
+                                        d="M16 13H10.8L10.4 9H16V6.5H7.7L8.6 15.5H16V13ZM16 18.2H11.4L11.1 21.4L16 22.8V25.4L8.4 23.3L8 18.2H16V18.2Z"
+                                        fill="#EBEBEB" />
+                                    <path d="M16 13V15.5H20.6L19.9 21.4L16 22.8V25.4L23.4 23.3L24.3 9H16V13Z"
+                                        fill="#FFFFFF" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.5 3L6.8 27.5L16 30L25.2 27.5L27.5 3H4.5Z" fill="#E34F26" />
+                                    <path d="M16 27.8V5.3H25.3L23.4 25.6L16 27.8Z" fill="#EF652A" />
+                                    <path
+                                        d="M16 13H10.8L10.4 9H16V6.5H7.7L8.6 15.5H16V13ZM16 18.2H11.4L11.1 21.4L16 22.8V25.4L8.4 23.3L8 18.2H16V18.2Z"
+                                        fill="#EBEBEB" />
+                                    <path d="M16 13V15.5H20.6L19.9 21.4L16 22.8V25.4L23.4 23.3L24.3 9H16V13Z"
+                                        fill="#FFFFFF" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.5 3L6.8 27.5L16 30L25.2 27.5L27.5 3H4.5Z" fill="#E34F26" />
+                                    <path d="M16 27.8V5.3H25.3L23.4 25.6L16 27.8Z" fill="#EF652A" />
+                                    <path
+                                        d="M16 13H10.8L10.4 9H16V6.5H7.7L8.6 15.5H16V13ZM16 18.2H11.4L11.1 21.4L16 22.8V25.4L8.4 23.3L8 18.2H16V18.2Z"
+                                        fill="#EBEBEB" />
+                                    <path d="M16 13V15.5H20.6L19.9 21.4L16 22.8V25.4L23.4 23.3L24.3 9H16V13Z"
+                                        fill="#FFFFFF" />
+                                </svg>
+                            </td>
+                            <td class="t-name">HTML</td>
+                            <td class="t-ext"><code>.html</code></td>
+                            <td class="t-code">&lt;svg ... fill="#E34F26"/&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#E97555;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#F5F5F5;"></span>
+                            </td>
+                            <td class="t-hex">#E97555</td>
+                            <td class="t-hex">#F5F5F5</td>
+                        </tr>
+
+                        <!-- JSON -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#4B5563" />
+                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
+                                        fill="#F7DF1E" text-anchor="middle">{ }</text>
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#4B5563" />
+                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
+                                        fill="#F7DF1E" text-anchor="middle">{ }</text>
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#4B5563" />
+                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
+                                        fill="#F7DF1E" text-anchor="middle">{ }</text>
+                                </svg>
+                            </td>
+                            <td class="t-name">JSON</td>
+                            <td class="t-ext"><code>.json</code></td>
+                            <td class="t-code">&lt;svg ... fill="#4B5563"/&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#6B7280;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#F9E65E;"></span>
+                            </td>
+                            <td class="t-hex">#6B7280</td>
+                            <td class="t-hex">#F9E65E</td>
+                        </tr>
+
+                        <!-- XML -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#006699" />
+                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
+                                        fill="#FFFFFF" text-anchor="middle">&lt;/&gt;</text>
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#006699" />
+                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
+                                        fill="#FFFFFF" text-anchor="middle">&lt;/&gt;</text>
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#006699" />
+                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
+                                        fill="#FFFFFF" text-anchor="middle">&lt;/&gt;</text>
+                                </svg>
+                            </td>
+                            <td class="t-name">XML</td>
+                            <td class="t-ext"><code>.xml</code></td>
+                            <td class="t-code">&lt;svg ... fill="#006699"/&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#3385AD;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot"
+                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
+                            <td class="t-hex">#3385AD</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+
+                        <!-- Java -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 21C21 23 18 25 15 25C11 25 8 23 8 21" stroke="#E76F00" stroke-width="2"
+                                        fill="none" />
+                                    <path d="M7 16H23C24 16 26 17 26 19C26 21 24 22 23 22" stroke="#5382A1"
+                                        stroke-width="2" fill="none" />
+                                    <path d="M11 6C13 4 14 8 16 6" stroke="#E76F00" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <path d="M15 10C17 8 18 12 20 10" stroke="#E76F00" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <path d="M10 16V19C10 21.5 13 23 15 23C17 23 20 21.5 20 19V16" stroke="#5382A1"
+                                        stroke-width="2" fill="none" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 21C21 23 18 25 15 25C11 25 8 23 8 21" stroke="#E76F00" stroke-width="2"
+                                        fill="none" />
+                                    <path d="M7 16H23C24 16 26 17 26 19C26 21 24 22 23 22" stroke="#5382A1"
+                                        stroke-width="2" fill="none" />
+                                    <path d="M11 6C13 4 14 8 16 6" stroke="#E76F00" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <path d="M15 10C17 8 18 12 20 10" stroke="#E76F00" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <path d="M10 16V19C10 21.5 13 23 15 23C17 23 20 21.5 20 19V16" stroke="#5382A1"
+                                        stroke-width="2" fill="none" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 21C21 23 18 25 15 25C11 25 8 23 8 21" stroke="#E76F00" stroke-width="2"
+                                        fill="none" />
+                                    <path d="M7 16H23C24 16 26 17 26 19C26 21 24 22 23 22" stroke="#5382A1"
+                                        stroke-width="2" fill="none" />
+                                    <path d="M11 6C13 4 14 8 16 6" stroke="#E76F00" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <path d="M15 10C17 8 18 12 20 10" stroke="#E76F00" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <path d="M10 16V19C10 21.5 13 23 15 23C17 23 20 21.5 20 19V16" stroke="#5382A1"
+                                        stroke-width="2" fill="none" />
+                                </svg>
+                            </td>
+                            <td class="t-name">Java</td>
+                            <td class="t-ext"><code>.java</code></td>
+                            <td class="t-code">&lt;svg ... /&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#759BB3;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#EE8C33;"></span>
+                            </td>
+                            <td class="t-hex">#759BB3</td>
+                            <td class="t-hex">#EE8C33</td>
+                        </tr>
+
+                        <!-- C -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 2L29 9.5V22.5L16 30L3 22.5V9.5L16 2Z" fill="#3949AB" />
+                                    <text x="16" y="22" font-family="Arial, sans-serif" font-size="16"
+                                        font-weight="bold" fill="#FFFFFF" text-anchor="middle">C</text>
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 2L29 9.5V22.5L16 30L3 22.5V9.5L16 2Z" fill="#3949AB" />
+                                    <text x="16" y="22" font-family="Arial, sans-serif" font-size="16"
+                                        font-weight="bold" fill="#FFFFFF" text-anchor="middle">C</text>
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 2L29 9.5V22.5L16 30L3 22.5V9.5L16 2Z" fill="#3949AB" />
+                                    <text x="16" y="22" font-family="Arial, sans-serif" font-size="16"
+                                        font-weight="bold" fill="#FFFFFF" text-anchor="middle">C</text>
+                                </svg>
+                            </td>
+                            <td class="t-name">C</td>
+                            <td class="t-ext"><code>.c</code></td>
+                            <td class="t-code">&lt;svg ... fill="#3949AB"/&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#606DBB;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot"
+                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
+                            <td class="t-hex">#606DBB</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+
+                        <!-- YAML -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" />
+                                    <text x="16" y="20" font-family="Arial, sans-serif" font-size="10"
+                                        font-weight="bold" fill="#FFFFFF" text-anchor="middle">YAML</text>
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" />
+                                    <text x="16" y="20" font-family="Arial, sans-serif" font-size="10"
+                                        font-weight="bold" fill="#FFFFFF" text-anchor="middle">YAML</text>
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" />
+                                    <text x="16" y="20" font-family="Arial, sans-serif" font-size="10"
+                                        font-weight="bold" fill="#FFFFFF" text-anchor="middle">YAML</text>
+                                </svg>
+                            </td>
+                            <td class="t-name">YAML</td>
+                            <td class="t-ext"><code>.yaml</code></td>
+                            <td class="t-code">&lt;svg ... fill="#CB171E"/&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#D5454B;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot"
+                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
+                            <td class="t-hex">#D5454B</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+
+                        <!-- TXT -->
+                        <tr>
+                            <td class="icon-cell s">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
+                                    <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell m">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
+                                    <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </td>
+                            <td class="icon-cell l">
+                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
+                                    <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </td>
+                            <td class="t-name">TXT</td>
+                            <td class="t-ext"><code>.txt</code></td>
+                            <td class="t-code">&lt;svg ... fill="#9CA3AF"/&gt;</td>
+                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#B1B6C0;"></span>
+                            </td>
+                            <td class="swatch-cell center"><span class="swatch-dot"
+                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
+                            <td class="t-hex">#B1B6C0</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+
+                    </tbody>
+                </table>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #D5454B), (color:
-                #FFFFFF)</div>
         </div>
-        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
-        </div>
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
+    </section>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#D5454B</td>
-                    <td class="hex">#FFFFFF</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#FFFFFF</td>
-                    <td class="hex">#6B7280</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 
-    <h4>TXT:</h4>
-    <div
-        style="border: 2px solid #E5E7EB; width: 100%; min-width: 600px; max-width: 600px; border-radius: 8px; overflow: hidden; font-family: sans-serif; margin-bottom: 20px;">
-        <div
-            style="display: flex; align-items: center; border-bottom: 2px solid #E5E7EB; background-color: #B1B6C0; color: #111827; padding: 4px; text-align: left; font-weight: bold; font-size: 12px;">
-            <div style="width: 20px; height: 20px; margin-right: 6px;">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    style="width: 100%; height: 100%; display: block;">
-                    <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
-                    <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
-                </svg>
+    <!-- ══════════════════════════════════════════════════════════
+       SECTION 3 — DISPLAY COLORS
+  ═══════════════════════════════════════════════════════════ -->
+    <section class="section">
+        <div class="section-label">Section 03</div>
+        <div class="section-title">Display Colors</div>
+        <div class="section-desc">
+            Cards and Panels share a standardized <strong>Active</strong> color scheme. Each file type has its own
+            <strong>Inactive</strong> color scheme derived from its icon palette.
+        </div>
+
+        <!-- ── Templates ──────────────────────────────────────────── -->
+        <h3 class="sub">Templates</h3>
+
+        <div class="demo-row">
+            <div class="demo-col">
+                <span class="demo-label">Card — Template</span>
+                <div class="file-card card-template">
+                    <span class="card-left">
+                        <span class="drag-icon">&#x283F;</span>
+                        <span>LICENSE.txt</span>
+                    </span>
+                    <span class="close-icon">&#x2716;</span>
+                </div>
             </div>
-            <div style="flex: 1;">Top Bar (inactive): (border-color: #E5E7EB), (background-color: #B1B6C0), (color:
-                #111827)</div>
         </div>
-        <div style="background-color: #FFFFFF; color: #6B7280; padding: 20px; text-align: left; font-size: 12px;">
-            Center Content (inactive): (background-color: #FFFFFF) (color: #6B7280)
-        </div>
-        <div
-            style="border-top: 2px solid #E5E7EB; background-color: #F9FAFB; color: #111827; padding: 8px; text-align: left; font-size: 12px;">
-            Bottom Bar (inactive): (background-color: #F9FAFB), (color: #111827)
-        </div>
-    </div>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Element</th>
-                    <th>Background Color</th>
-                    <th>Text Color</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="role">Top Bar</td>
-                    <td class="hex">#B1B6C0</td>
-                    <td class="hex">#111827</td>
-                </tr>
-                <tr>
-                    <td class="role">Center Content</td>
-                    <td class="hex">#FFFFFF</td>
-                    <td class="hex">#6B7280</td>
-                </tr>
-                <tr>
-                    <td class="role">Bottom Bar</td>
-                    <td class="hex">#F9FAFB</td>
-                    <td class="hex">#111827</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div class="file-panel panel-template" style="margin-bottom:24px;">
+            <div class="panel-top">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <rect x="5" y="3" width="22" height="26" rx="2" fill="#a0aec0" />
+                        <path d="M10 10H22M10 16H22M10 22H17" stroke="#ffffff" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                </div>
+                <span class="panel-title">Top Bar — border-color: #E2E8F0 · bg: #FFFFFF · color: #4A5568</span>
+                <span class="close-icon">&#x2716;</span>
+            </div>
+            <div class="panel-body">Center Content — bg: #FFFFFF · color: #4A5568</div>
+            <div class="panel-foot">Bottom Bar — border-color: #E2E8F0 · bg: #F9FAFB · color: #4A5568</div>
+        </div>
+
+        <!-- ── Active ──────────────────────────────────────────────── -->
+        <h3 class="sub">Active State</h3>
+
+        <div class="demo-row">
+            <div class="demo-col">
+                <span class="demo-label">Card — Active</span>
+                <div class="file-card card-active">
+                    <span class="card-left">
+                        <span class="drag-icon">&#x283F;</span>
+                        <span>LICENSE.txt</span>
+                        <span class="badge">&#x26A0;&#xFE0F;</span>
+                        <span class="badge" style="color:#FF0000;">&#x270E;</span>
+                    </span>
+                    <span class="close-icon">&#x2716;</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="file-panel panel-active" style="margin-bottom:12px;">
+            <div class="panel-top">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <rect x="5" y="3" width="22" height="26" rx="2" fill="#a0aec0" />
+                        <path d="M10 10H22M10 16H22M10 22H17" stroke="#ffffff" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                </div>
+                <span class="panel-title">Top Bar (active) — border: #5A5FEB · bg: #E0E7FF · color: #4338CA</span>
+                <span class="close-icon">&#x2716;</span>
+            </div>
+            <div class="panel-body">Center Content (active) — bg: #FFFFFF · color: #111827</div>
+            <div class="panel-foot">Bottom Bar (active) — border: #5A5FEB · bg: #F9FAFB · color: #111827</div>
+        </div>
+
+        <div class="card-surface" style="margin-bottom:32px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text Color</th>
+                            <th>Border / Decorator</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#E0E7FF</td>
+                            <td class="t-hex">#4338CA</td>
+                            <td class="t-hex">Border-Bottom: #5A5FEB</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#FFFFFF</td>
+                            <td class="t-hex">#111827</td>
+                            <td class="t-desc">N/A</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                            <td class="t-hex">Border-Top: #5A5FEB</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Outer Container</td>
+                            <td class="t-desc">N/A</td>
+                            <td class="t-desc">N/A</td>
+                            <td class="t-hex">Border: #5A5FEB</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ── Inactive per File Type ─────────────────────────────── -->
+        <h3 class="sub">Inactive States — Per File Type</h3>
+        <p class="section-desc" style="margin-top:-4px;">
+            The bottom bar is invariant across all file types: bg <strong>#F9FAFB</strong> · text
+            <strong>#111827</strong> · border-top <strong>#E5E7EB</strong>.
+            Outer container border is always <strong>#E5E7EB</strong>.
+        </p>
+
+        <!-- Macro: inactive panel helper -->
+        <!-- Python -->
+        <h4 class="item-title">Python (.py)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#1565A7; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
+                            fill="url(#pyip0)" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
+                            fill="url(#pyip1)" />
+                        <defs>
+                            <linearGradient id="pyip0" x1="12.48" y1="2" x2="12.48" y2="22.74"
+                                gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#327EBD" />
+                                <stop offset="1" stop-color="#1565A7" />
+                            </linearGradient>
+                            <linearGradient id="pyip1" x1="19.52" y1="9.26" x2="19.52" y2="30"
+                                gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FFDA4B" />
+                                <stop offset="1" stop-color="#F9C600" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="panel-title">Top Bar (inactive) — bg: #1565A7 · color: #FFFFFF</span>
+                <span class="close-icon">&#x2716;</span>
+            </div>
+            <div class="panel-body" style="background:#FFE270; color:#6B7280;">Center Content (inactive) — bg: #FFE270 ·
+                color: #6B7280</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive) — bg: #F9FAFB · color: #111827</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#1565A7</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#FFE270</td>
+                            <td class="t-hex">#6B7280</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Markdown -->
+        <h4 class="item-title">Markdown (.md)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#333333; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <rect x="2" y="6" width="28" height="20" rx="3" fill="#000000" />
+                        <path
+                            d="M7 21V11L11 15L15 11V21H12.5V14.5L11 16L9.5 14.5V21H7ZM21 21L17 16H19.5V11H22.5V16H25L21 21Z"
+                            fill="white" />
+                    </svg></div>
+                <span class="panel-title">Top Bar (inactive) — bg: #333333 · color: #FFFFFF</span>
+                <span class="close-icon">&#x2716;</span>
+            </div>
+            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
+                color: #6B7280</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#333333</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#FFFFFF</td>
+                            <td class="t-hex">#6B7280</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- JavaScript -->
+        <h4 class="item-title">JavaScript (.js)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#F9E65E; color:#111827; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <rect x="2" y="2" width="28" height="28" rx="3" fill="#F7DF1E" />
+                        <path
+                            d="M21.531 24.364c-1.849 1.34-4.223 2.115-6.521 2.115-4.482 0-7.394-2.457-7.394-6.848v-8.084h3.763v7.712c0 2.456 1.487 3.738 3.633 3.738 1.411 0 2.822-.508 3.844-1.341l2.675 2.708zm1.096-12.879c1.077-1.155 2.899-1.926 4.887-1.926 2.897 0 4.962 1.696 4.962 4.471 0 2.872-1.95 3.923-4.135 4.872-1.744.743-2.385 1.258-2.385 2.231 0 1.053.847 1.67 2.13 1.67 1.385 0 2.59-.618 3.513-1.618l2.64 2.643c-1.564 1.745-3.693 2.644-6.205 2.644-3.411 0-5.836-1.849-5.836-4.903 0-3.003 2.053-4.134 4.312-5.084 1.591-.667 2.181-1.154 2.181-2.027 0-.847-.718-1.463-1.9-1.463-1.077 0-2.18.513-3.052 1.412l-2.584-2.614z"
+                            fill="#000000" />
+                    </svg></div>
+                <span class="panel-title">Top Bar (inactive) — bg: #F9E65E · color: #111827</span>
+            </div>
+            <div class="panel-body" style="background:#333333; color:#FFFFFF;">Center Content (inactive) — bg: #333333 ·
+                color: #FFFFFF</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#F9E65E</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#333333</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TypeScript -->
+        <h4 class="item-title">TypeScript (.ts)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#5D96D3; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <rect x="2" y="2" width="28" height="28" rx="3" fill="#3178C6" />
+                        <path
+                            d="M17.5 15.5H11V13.25H21.5V15.5H15.25V24.5H11.5V15.5H17.5ZM28.5 21.75C28.5 24 26.5 25 24.25 25C22.25 25 20.75 24.25 19.5 22.75L21.5 20.5C22.25 21.5 23 22.25 24.25 22.25C25.25 22.25 25.75 21.75 25.75 21.25C25.75 20.25 21.75 20 21.75 17C21.75 14.5 23.5 13 25.75 13C27.5 13 28.75 13.75 29.75 15.25L27.5 17.25C26.75 16.25 26.25 15.75 25.25 15.75C24.5 15.75 24 16.25 24 16.75C24 18 28.5 18 28.5 21.75Z"
+                            fill="#FFFFFF" />
+                    </svg></div>
+                <span class="panel-title">Top Bar (inactive) — bg: #5D96D3 · color: #FFFFFF</span>
+            </div>
+            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
+                color: #6B7280</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#5D96D3</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#FFFFFF</td>
+                            <td class="t-hex">#6B7280</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- HTML -->
+        <h4 class="item-title">HTML (.html)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#E97555; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <path d="M4.5 3L6.8 27.5L16 30L25.2 27.5L27.5 3H4.5Z" fill="#E34F26" />
+                        <path d="M16 27.8V5.3H25.3L23.4 25.6L16 27.8Z" fill="#EF652A" />
+                        <path
+                            d="M16 13H10.8L10.4 9H16V6.5H7.7L8.6 15.5H16V13ZM16 18.2H11.4L11.1 21.4L16 22.8V25.4L8.4 23.3L8 18.2H16V18.2Z"
+                            fill="#EBEBEB" />
+                        <path d="M16 13V15.5H20.6L19.9 21.4L16 22.8V25.4L23.4 23.3L24.3 9H16V13Z" fill="#FFFFFF" />
+                    </svg></div>
+                <span class="panel-title">Top Bar (inactive) — bg: #E97555 · color: #FFFFFF</span>
+            </div>
+            <div class="panel-body" style="background:#F5F5F5; color:#6B7280;">Center Content (inactive) — bg: #F5F5F5 ·
+                color: #6B7280</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#E97555</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#F5F5F5</td>
+                            <td class="t-hex">#6B7280</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- JSON -->
+        <h4 class="item-title">JSON (.json)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#6B7280; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <rect x="2" y="2" width="28" height="28" rx="3" fill="#4B5563" /><text x="16" y="21"
+                            font-family="monospace" font-size="14" font-weight="bold" fill="#F7DF1E"
+                            text-anchor="middle">{ }</text>
+                    </svg></div>
+                <span class="panel-title">Top Bar (inactive) — bg: #6B7280 · color: #FFFFFF</span>
+            </div>
+            <div class="panel-body" style="background:#F9E65E; color:#111827;">Center Content (inactive) — bg: #F9E65E ·
+                color: #111827</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#6B7280</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#F9E65E</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- XML -->
+        <h4 class="item-title">XML (.xml)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#3385AD; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <rect x="2" y="2" width="28" height="28" rx="3" fill="#006699" /><text x="16" y="21"
+                            font-family="monospace" font-size="14" font-weight="bold" fill="#FFFFFF"
+                            text-anchor="middle">&lt;/&gt;</text>
+                    </svg></div>
+                <span class="panel-title">Top Bar (inactive) — bg: #3385AD · color: #FFFFFF</span>
+            </div>
+            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
+                color: #6B7280</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#3385AD</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#FFFFFF</td>
+                            <td class="t-hex">#6B7280</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Java -->
+        <h4 class="item-title">Java (.java)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#759BB3; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <path d="M21 21C21 23 18 25 15 25C11 25 8 23 8 21" stroke="#E76F00" stroke-width="2"
+                            fill="none" />
+                        <path d="M7 16H23C24 16 26 17 26 19C26 21 24 22 23 22" stroke="#5382A1" stroke-width="2"
+                            fill="none" />
+                        <path d="M11 6C13 4 14 8 16 6" stroke="#E76F00" stroke-width="2" stroke-linecap="round" />
+                        <path d="M15 10C17 8 18 12 20 10" stroke="#E76F00" stroke-width="2" stroke-linecap="round" />
+                        <path d="M10 16V19C10 21.5 13 23 15 23C17 23 20 21.5 20 19V16" stroke="#5382A1" stroke-width="2"
+                            fill="none" />
+                    </svg></div>
+                <span class="panel-title">Top Bar (inactive) — bg: #759BB3 · color: #FFFFFF</span>
+            </div>
+            <div class="panel-body" style="background:#EE8C33; color:#111827;">Center Content (inactive) — bg: #EE8C33 ·
+                color: #111827</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#759BB3</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#EE8C33</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- C -->
+        <h4 class="item-title">C (.c)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#606DBB; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <path d="M16 2L29 9.5V22.5L16 30L3 22.5V9.5L16 2Z" fill="#3949AB" /><text x="16" y="22"
+                            font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF"
+                            text-anchor="middle">C</text>
+                    </svg></div>
+                <span class="panel-title">Top Bar (inactive) — bg: #606DBB · color: #FFFFFF</span>
+            </div>
+            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
+                color: #6B7280</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#606DBB</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#FFFFFF</td>
+                            <td class="t-hex">#6B7280</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- YAML -->
+        <h4 class="item-title">YAML (.yaml)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#D5454B; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" /><text x="16" y="20"
+                            font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF"
+                            text-anchor="middle">YAML</text>
+                    </svg></div>
+                <span class="panel-title">Top Bar (inactive) — bg: #D5454B · color: #FFFFFF</span>
+            </div>
+            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
+                color: #6B7280</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#D5454B</td>
+                            <td class="t-hex">#FFFFFF</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#FFFFFF</td>
+                            <td class="t-hex">#6B7280</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TXT -->
+        <h4 class="item-title">TXT (.txt)</h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="background:#B1B6C0; color:#111827; border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%;height:100%;">
+                        <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
+                        <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg></div>
+                <span class="panel-title">Top Bar (inactive) — bg: #B1B6C0 · color: #111827</span>
+            </div>
+            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
+                color: #6B7280</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex">#B1B6C0</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex">#FFFFFF</td>
+                            <td class="t-hex">#6B7280</td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
 
 </body>
 
