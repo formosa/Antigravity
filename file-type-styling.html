@@ -579,80 +579,7 @@
         </div>
 
         <!-- Visual tiles -->
-        <div class="palette-grid">
-            <div class="palette-tile">
-                <div class="color-block" style="background:#FFFFFF; border:1px solid #E5E7EB;"></div>
-                <div class="color-info">
-                    <div class="color-role">app_background</div>
-                    <div class="color-hex">#FFFFFF</div>
-                    <div class="color-desc">Main window &amp; document editor surface</div>
-                </div>
-            </div>
-            <div class="palette-tile">
-                <div class="color-block" style="background:#F9FAFB;"></div>
-                <div class="color-info">
-                    <div class="color-role">sidebar_background</div>
-                    <div class="color-hex">#F9FAFB</div>
-                    <div class="color-desc">Left sidebar &amp; document header panels</div>
-                </div>
-            </div>
-            <div class="palette-tile">
-                <div class="color-block" style="background:#5A5FEB;"></div>
-                <div class="color-info">
-                    <div class="color-role">accent_primary</div>
-                    <div class="color-hex">#5A5FEB</div>
-                    <div class="color-desc">Primary CTA buttons &amp; active highlights</div>
-                </div>
-            </div>
-            <div class="palette-tile">
-                <div class="color-block" style="background:#E0E7FF;"></div>
-                <div class="color-info">
-                    <div class="color-role">accent_muted</div>
-                    <div class="color-hex">#E0E7FF</div>
-                    <div class="color-desc">Active file background in sidebar</div>
-                </div>
-            </div>
-            <div class="palette-tile">
-                <div class="color-block" style="background:#4338CA;"></div>
-                <div class="color-info">
-                    <div class="color-role">accent_text</div>
-                    <div class="color-hex">#4338CA</div>
-                    <div class="color-desc">Active file text in sidebar</div>
-                </div>
-            </div>
-            <div class="palette-tile">
-                <div class="color-block" style="background:#111827;"></div>
-                <div class="color-info">
-                    <div class="color-role">text_primary</div>
-                    <div class="color-hex">#111827</div>
-                    <div class="color-desc">Primary text &amp; document contents</div>
-                </div>
-            </div>
-            <div class="palette-tile">
-                <div class="color-block" style="background:#6B7280;"></div>
-                <div class="color-info">
-                    <div class="color-role">text_secondary</div>
-                    <div class="color-hex">#6B7280</div>
-                    <div class="color-desc">Section headers &amp; inactive file text</div>
-                </div>
-            </div>
-            <div class="palette-tile">
-                <div class="color-block" style="background:#E5E7EB;"></div>
-                <div class="color-info">
-                    <div class="color-role">border_subtle</div>
-                    <div class="color-hex">#E5E7EB</div>
-                    <div class="color-desc">Card dividers &amp; panel borders</div>
-                </div>
-            </div>
-            <div class="palette-tile">
-                <div class="color-block" style="background:#D1D5DB;"></div>
-                <div class="color-info">
-                    <div class="color-role">border_control</div>
-                    <div class="color-hex">#D1D5DB</div>
-                    <div class="color-desc">Ghost button outlines &amp; checkbox borders</div>
-                </div>
-            </div>
-        </div>
+        <div id="palette-grid-container" class="palette-grid"></div>
 
         <!-- Full reference table -->
         <div class="card-surface">
@@ -667,80 +594,7 @@
                             <th>Description</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="swatch-cell center"><span class="swatch-dot"
-                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
-                            <td class="t-role">app_background</td>
-                            <td class="t-hex">#FFFFFF</td>
-                            <td class="t-rgb">rgb(255, 255, 255)</td>
-                            <td class="t-desc">Main window background and document editor surface</td>
-                        </tr>
-                        <tr>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#F9FAFB;"></span>
-                            </td>
-                            <td class="t-role">sidebar_background</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-rgb">rgb(249, 250, 251)</td>
-                            <td class="t-desc">Left sidebar panel and document header backgrounds</td>
-                        </tr>
-                        <tr>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#5A5FEB;"></span>
-                            </td>
-                            <td class="t-role">accent_primary</td>
-                            <td class="t-hex">#5A5FEB</td>
-                            <td class="t-rgb">rgb(90, 95, 235)</td>
-                            <td class="t-desc">Primary CTA buttons (Save Consolidated) and active highlights</td>
-                        </tr>
-                        <tr>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#E0E7FF;"></span>
-                            </td>
-                            <td class="t-role">accent_muted</td>
-                            <td class="t-hex">#E0E7FF</td>
-                            <td class="t-rgb">rgb(224, 231, 255)</td>
-                            <td class="t-desc">Active file background in sidebar</td>
-                        </tr>
-                        <tr>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#4338CA;"></span>
-                            </td>
-                            <td class="t-role">accent_text</td>
-                            <td class="t-hex">#4338CA</td>
-                            <td class="t-rgb">rgb(67, 56, 202)</td>
-                            <td class="t-desc">Active file text color in sidebar</td>
-                        </tr>
-                        <tr>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#111827;"></span>
-                            </td>
-                            <td class="t-role">text_primary</td>
-                            <td class="t-hex">#111827</td>
-                            <td class="t-rgb">rgb(17, 24, 39)</td>
-                            <td class="t-desc">Primary text, document contents, and active button text</td>
-                        </tr>
-                        <tr>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#6B7280;"></span>
-                            </td>
-                            <td class="t-role">text_secondary</td>
-                            <td class="t-hex">#6B7280</td>
-                            <td class="t-rgb">rgb(107, 114, 128)</td>
-                            <td class="t-desc">Section headers, metadata, and inactive file text</td>
-                        </tr>
-                        <tr>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#E5E7EB;"></span>
-                            </td>
-                            <td class="t-role">border_subtle</td>
-                            <td class="t-hex">#E5E7EB</td>
-                            <td class="t-rgb">rgb(229, 231, 235)</td>
-                            <td class="t-desc">Card dividers, sidebar boundaries, and panel borders</td>
-                        </tr>
-                        <tr>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#D1D5DB;"></span>
-                            </td>
-                            <td class="t-role">border_control</td>
-                            <td class="t-hex">#D1D5DB</td>
-                            <td class="t-rgb">rgb(209, 213, 219)</td>
-                            <td class="t-desc">Button outlines (Ghost buttons) and checkbox borders</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="palette-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -775,452 +629,7 @@
                             <th>Secondary Hex</th>
                         </tr>
                     </thead>
-                    <tbody>
-
-                        <!-- Python -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
-                                        fill="url(#py0s)" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
-                                        fill="url(#py1s)" />
-                                    <defs>
-                                        <linearGradient id="py0s" x1="12.48" y1="2" x2="12.48" y2="22.74"
-                                            gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#327EBD" />
-                                            <stop offset="1" stop-color="#1565A7" />
-                                        </linearGradient>
-                                        <linearGradient id="py1s" x1="19.52" y1="9.26" x2="19.52" y2="30"
-                                            gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#FFDA4B" />
-                                            <stop offset="1" stop-color="#F9C600" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
-                                        fill="url(#py0m)" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
-                                        fill="url(#py1m)" />
-                                    <defs>
-                                        <linearGradient id="py0m" x1="12.48" y1="2" x2="12.48" y2="22.74"
-                                            gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#327EBD" />
-                                            <stop offset="1" stop-color="#1565A7" />
-                                        </linearGradient>
-                                        <linearGradient id="py1m" x1="19.52" y1="9.26" x2="19.52" y2="30"
-                                            gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#FFDA4B" />
-                                            <stop offset="1" stop-color="#F9C600" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
-                                        fill="url(#py0l)" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
-                                        fill="url(#py1l)" />
-                                    <defs>
-                                        <linearGradient id="py0l" x1="12.48" y1="2" x2="12.48" y2="22.74"
-                                            gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#327EBD" />
-                                            <stop offset="1" stop-color="#1565A7" />
-                                        </linearGradient>
-                                        <linearGradient id="py1l" x1="19.52" y1="9.26" x2="19.52" y2="30"
-                                            gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#FFDA4B" />
-                                            <stop offset="1" stop-color="#F9C600" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                            </td>
-                            <td class="t-name">Python</td>
-                            <td class="t-ext"><code>.py</code></td>
-                            <td class="t-code">&lt;svg viewBox="0 0 32 32"&gt;&lt;/svg&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#5D9BD1;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#FFE270;"></span>
-                            </td>
-                            <td class="t-hex">#5D9BD1</td>
-                            <td class="t-hex">#FFE270</td>
-                        </tr>
-
-                        <!-- Markdown -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="2" y="6" width="28" height="20" rx="3" fill="#000000" />
-                                    <path
-                                        d="M7 21V11L11 15L15 11V21H12.5V14.5L11 16L9.5 14.5V21H7ZM21 21L17 16H19.5V11H22.5V16H25L21 21Z"
-                                        fill="white" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="2" y="6" width="28" height="20" rx="3" fill="#000000" />
-                                    <path
-                                        d="M7 21V11L11 15L15 11V21H12.5V14.5L11 16L9.5 14.5V21H7ZM21 21L17 16H19.5V11H22.5V16H25L21 21Z"
-                                        fill="white" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="2" y="6" width="28" height="20" rx="3" fill="#000000" />
-                                    <path
-                                        d="M7 21V11L11 15L15 11V21H12.5V14.5L11 16L9.5 14.5V21H7ZM21 21L17 16H19.5V11H22.5V16H25L21 21Z"
-                                        fill="white" />
-                                </svg>
-                            </td>
-                            <td class="t-name">Markdown</td>
-                            <td class="t-ext"><code>.md</code></td>
-                            <td class="t-code">&lt;svg ... fill="#000000"/&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#333333;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot"
-                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
-                            <td class="t-hex">#333333</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-
-                        <!-- JavaScript -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>JavaScript</title>
-                                    <path fill="#F7DF1E"
-                                        d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>JavaScript</title>
-                                    <path fill="#F7DF1E"
-                                        d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>JavaScript</title>
-                                    <path fill="#F7DF1E"
-                                        d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z" />
-                                </svg>
-                            </td>
-                            <td class="t-name">JavaScript</td>
-                            <td class="t-ext"><code>.js</code></td>
-                            <td class="t-code">&lt;svg ... fill="#F7DF1E"/&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#333333;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#F9E65E;"></span>
-                            </td>
-                            <td class="t-hex">#333333</td>
-                            <td class="t-hex">#F9E65E</td>
-                        </tr>
-
-                        <!-- TypeScript -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>TypeScript</title>
-                                    <path fill="#3178C6"
-                                        d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>TypeScript</title>
-                                    <path fill="#3178C6"
-                                        d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>TypeScript</title>
-                                    <path fill="#3178C6"
-                                        d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z" />
-                                </svg>
-                            </td>
-                            <td class="t-name">TypeScript</td>
-                            <td class="t-ext"><code>.ts</code></td>
-                            <td class="t-code">&lt;svg ... fill="#3178C6"/&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#5D96D3;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot"
-                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
-                            <td class="t-hex">#5D96D3</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-
-                        <!-- HTML -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>HTML5</title>
-                                    <path fill="#E34F26"
-                                        d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>HTML5</title>
-                                    <path fill="#E34F26"
-                                        d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>HTML5</title>
-                                    <path fill="#E34F26"
-                                        d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z" />
-                                </svg>
-                            </td>
-                            <td class="t-name">HTML</td>
-                            <td class="t-ext"><code>.html</code></td>
-                            <td class="t-code">&lt;svg ... fill="#E34F26"/&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#E97555;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#F5F5F5;"></span>
-                            </td>
-                            <td class="t-hex">#E97555</td>
-                            <td class="t-hex">#F5F5F5</td>
-                        </tr>
-
-                        <!-- JSON -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#4B5563" />
-                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
-                                        fill="#F7DF1E" text-anchor="middle">{ }</text>
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#4B5563" />
-                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
-                                        fill="#F7DF1E" text-anchor="middle">{ }</text>
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#4B5563" />
-                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
-                                        fill="#F7DF1E" text-anchor="middle">{ }</text>
-                                </svg>
-                            </td>
-                            <td class="t-name">JSON</td>
-                            <td class="t-ext"><code>.json</code></td>
-                            <td class="t-code">&lt;svg ... fill="#4B5563"/&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#6B7280;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#F9E65E;"></span>
-                            </td>
-                            <td class="t-hex">#6B7280</td>
-                            <td class="t-hex">#F9E65E</td>
-                        </tr>
-
-                        <!-- XML -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#006699" />
-                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
-                                        fill="#FFFFFF" text-anchor="middle">&lt;/&gt;</text>
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#006699" />
-                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
-                                        fill="#FFFFFF" text-anchor="middle">&lt;/&gt;</text>
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="2" y="2" width="28" height="28" rx="3" fill="#006699" />
-                                    <text x="16" y="21" font-family="monospace" font-size="14" font-weight="bold"
-                                        fill="#FFFFFF" text-anchor="middle">&lt;/&gt;</text>
-                                </svg>
-                            </td>
-                            <td class="t-name">XML</td>
-                            <td class="t-ext"><code>.xml</code></td>
-                            <td class="t-code">&lt;svg ... fill="#006699"/&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#3385AD;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot"
-                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
-                            <td class="t-hex">#3385AD</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-
-                        <!-- Java -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21 21C21 23 18 25 15 25C11 25 8 23 8 21" stroke="#E76F00" stroke-width="2"
-                                        fill="none" />
-                                    <path d="M7 16H23C24 16 26 17 26 19C26 21 24 22 23 22" stroke="#5382A1"
-                                        stroke-width="2" fill="none" />
-                                    <path d="M11 6C13 4 14 8 16 6" stroke="#E76F00" stroke-width="2"
-                                        stroke-linecap="round" />
-                                    <path d="M15 10C17 8 18 12 20 10" stroke="#E76F00" stroke-width="2"
-                                        stroke-linecap="round" />
-                                    <path d="M10 16V19C10 21.5 13 23 15 23C17 23 20 21.5 20 19V16" stroke="#5382A1"
-                                        stroke-width="2" fill="none" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21 21C21 23 18 25 15 25C11 25 8 23 8 21" stroke="#E76F00" stroke-width="2"
-                                        fill="none" />
-                                    <path d="M7 16H23C24 16 26 17 26 19C26 21 24 22 23 22" stroke="#5382A1"
-                                        stroke-width="2" fill="none" />
-                                    <path d="M11 6C13 4 14 8 16 6" stroke="#E76F00" stroke-width="2"
-                                        stroke-linecap="round" />
-                                    <path d="M15 10C17 8 18 12 20 10" stroke="#E76F00" stroke-width="2"
-                                        stroke-linecap="round" />
-                                    <path d="M10 16V19C10 21.5 13 23 15 23C17 23 20 21.5 20 19V16" stroke="#5382A1"
-                                        stroke-width="2" fill="none" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21 21C21 23 18 25 15 25C11 25 8 23 8 21" stroke="#E76F00" stroke-width="2"
-                                        fill="none" />
-                                    <path d="M7 16H23C24 16 26 17 26 19C26 21 24 22 23 22" stroke="#5382A1"
-                                        stroke-width="2" fill="none" />
-                                    <path d="M11 6C13 4 14 8 16 6" stroke="#E76F00" stroke-width="2"
-                                        stroke-linecap="round" />
-                                    <path d="M15 10C17 8 18 12 20 10" stroke="#E76F00" stroke-width="2"
-                                        stroke-linecap="round" />
-                                    <path d="M10 16V19C10 21.5 13 23 15 23C17 23 20 21.5 20 19V16" stroke="#5382A1"
-                                        stroke-width="2" fill="none" />
-                                </svg>
-                            </td>
-                            <td class="t-name">Java</td>
-                            <td class="t-ext"><code>.java</code></td>
-                            <td class="t-code">&lt;svg ... /&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#759BB3;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#EE8C33;"></span>
-                            </td>
-                            <td class="t-hex">#759BB3</td>
-                            <td class="t-hex">#EE8C33</td>
-                        </tr>
-
-                        <!-- C -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg width="23" height="23" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>C</title>
-                                    <path fill="#A8B9CC"
-                                        d="M22.394 6c-.167-.29-.398-.543-.652-.69L12.926.22c-.509-.294-1.34-.294-1.848 0L2.26 5.31c-.508.293-.923 1.013-.923 1.6v10.18c0 .294.104.62.271.91.167.29.398.543.652.69l8.816 5.09c.508.293 1.34.293 1.848 0l8.816-5.09c.254-.147.485-.4.652-.69.167-.29.27-.616.27-.91V6.91c.003-.294-.1-.62-.268-.91zM12 19.11c-3.92 0-7.109-3.19-7.109-7.11 0-3.92 3.19-7.11 7.11-7.11a7.133 7.133 0 016.156 3.553l-3.076 1.78a3.567 3.567 0 00-3.08-1.78A3.56 3.56 0 008.444 12 3.56 3.56 0 0012 15.555a3.57 3.57 0 003.08-1.778l3.078 1.78A7.135 7.135 0 0112 19.11zm7.11-6.715h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79zm2.962 0h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79z" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg width="23" height="23" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>C</title>
-                                    <path fill="#A8B9CC"
-                                        d="M22.394 6c-.167-.29-.398-.543-.652-.69L12.926.22c-.509-.294-1.34-.294-1.848 0L2.26 5.31c-.508.293-.923 1.013-.923 1.6v10.18c0 .294.104.62.271.91.167.29.398.543.652.69l8.816 5.09c.508.293 1.34.293 1.848 0l8.816-5.09c.254-.147.485-.4.652-.69.167-.29.27-.616.27-.91V6.91c.003-.294-.1-.62-.268-.91zM12 19.11c-3.92 0-7.109-3.19-7.109-7.11 0-3.92 3.19-7.11 7.11-7.11a7.133 7.133 0 016.156 3.553l-3.076 1.78a3.567 3.567 0 00-3.08-1.78A3.56 3.56 0 008.444 12 3.56 3.56 0 0012 15.555a3.57 3.57 0 003.08-1.778l3.078 1.78A7.135 7.135 0 0112 19.11zm7.11-6.715h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79zm2.962 0h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79z" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg width="23" height="23" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>C</title>
-                                    <path fill="#A8B9CC"
-                                        d="M22.394 6c-.167-.29-.398-.543-.652-.69L12.926.22c-.509-.294-1.34-.294-1.848 0L2.26 5.31c-.508.293-.923 1.013-.923 1.6v10.18c0 .294.104.62.271.91.167.29.398.543.652.69l8.816 5.09c.508.293 1.34.293 1.848 0l8.816-5.09c.254-.147.485-.4.652-.69.167-.29.27-.616.27-.91V6.91c.003-.294-.1-.62-.268-.91zM12 19.11c-3.92 0-7.109-3.19-7.109-7.11 0-3.92 3.19-7.11 7.11-7.11a7.133 7.133 0 016.156 3.553l-3.076 1.78a3.567 3.567 0 00-3.08-1.78A3.56 3.56 0 008.444 12 3.56 3.56 0 0012 15.555a3.57 3.57 0 003.08-1.778l3.078 1.78A7.135 7.135 0 0112 19.11zm7.11-6.715h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79zm2.962 0h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79z" />
-                                </svg>
-                            </td>
-                            <td class="t-name">C</td>
-                            <td class="t-ext"><code>.c</code></td>
-                            <td class="t-code">&lt;svg ... fill="#3949AB"/&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#606DBB;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot"
-                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
-                            <td class="t-hex">#606DBB</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-
-                        <!-- YAML -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" />
-                                    <text x="16" y="20" font-family="Arial, sans-serif" font-size="10"
-                                        font-weight="bold" fill="#FFFFFF" text-anchor="middle">YAML</text>
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" />
-                                    <text x="16" y="20" font-family="Arial, sans-serif" font-size="10"
-                                        font-weight="bold" fill="#FFFFFF" text-anchor="middle">YAML</text>
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" />
-                                    <text x="16" y="20" font-family="Arial, sans-serif" font-size="10"
-                                        font-weight="bold" fill="#FFFFFF" text-anchor="middle">YAML</text>
-                                </svg>
-                            </td>
-                            <td class="t-name">YAML</td>
-                            <td class="t-ext"><code>.yaml</code></td>
-                            <td class="t-code">&lt;svg ... fill="#CB171E"/&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#D5454B;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot"
-                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
-                            <td class="t-hex">#D5454B</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-
-                        <!-- TXT -->
-                        <tr>
-                            <td class="icon-cell s">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
-                                    <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
-                                        stroke-linecap="round" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell m">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
-                                    <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
-                                        stroke-linecap="round" />
-                                </svg>
-                            </td>
-                            <td class="icon-cell l">
-                                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
-                                    <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
-                                        stroke-linecap="round" />
-                                </svg>
-                            </td>
-                            <td class="t-name">TXT</td>
-                            <td class="t-ext"><code>.txt</code></td>
-                            <td class="t-code">&lt;svg ... fill="#9CA3AF"/&gt;</td>
-                            <td class="swatch-cell center"><span class="swatch-dot" style="background:#B1B6C0;"></span>
-                            </td>
-                            <td class="swatch-cell center"><span class="swatch-dot"
-                                    style="background:#FFFFFF; border-color:#E5E7EB;"></span></td>
-                            <td class="t-hex">#B1B6C0</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-
-                    </tbody>
+                    <tbody id="icon-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -1356,562 +765,229 @@
             Outer container border is always <strong>#E5E7EB</strong>.
         </p>
 
-        <!-- Macro: inactive panel helper -->
-        <!-- Python -->
-        <h4 class="item-title">Python (.py)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#1565A7; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon">
-                    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z"
-                            fill="url(#pyip0)" />
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z"
-                            fill="url(#pyip1)" />
-                        <defs>
-                            <linearGradient id="pyip0" x1="12.48" y1="2" x2="12.48" y2="22.74"
-                                gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#327EBD" />
-                                <stop offset="1" stop-color="#1565A7" />
-                            </linearGradient>
-                            <linearGradient id="pyip1" x1="19.52" y1="9.26" x2="19.52" y2="30"
-                                gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#FFDA4B" />
-                                <stop offset="1" stop-color="#F9C600" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
-                <span class="panel-title">Top Bar (inactive) — bg: #1565A7 · color: #FFFFFF</span>
-                <span class="close-icon">&#x2716;</span>
-            </div>
-            <div class="panel-body" style="background:#FFE270; color:#6B7280;">Center Content (inactive) — bg: #FFE270 ·
-                color: #6B7280</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive) — bg: #F9FAFB · color: #111827</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#1565A7</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#FFE270</td>
-                            <td class="t-hex">#6B7280</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Markdown -->
-        <h4 class="item-title">Markdown (.md)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#333333; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <rect x="2" y="6" width="28" height="20" rx="3" fill="#000000" />
-                        <path
-                            d="M7 21V11L11 15L15 11V21H12.5V14.5L11 16L9.5 14.5V21H7ZM21 21L17 16H19.5V11H22.5V16H25L21 21Z"
-                            fill="white" />
-                    </svg></div>
-                <span class="panel-title">Top Bar (inactive) — bg: #333333 · color: #FFFFFF</span>
-                <span class="close-icon">&#x2716;</span>
-            </div>
-            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
-                color: #6B7280</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive)</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#333333</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#FFFFFF</td>
-                            <td class="t-hex">#6B7280</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- JavaScript -->
-        <h4 class="item-title">JavaScript (.js)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#333333; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <title>JavaScript</title>
-                        <path fill="#F7DF1E"
-                            d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z" />
-                    </svg></div>
-                <span class="panel-title">Top Bar (inactive) — bg: #333333 · color: #FFFFFF</span>
-            </div>
-            <div class="panel-body" style="background:#F9E65E; color:#111827;">Center Content (inactive) — bg: #F9E65E ·
-                color: #111827</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive)</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#333333</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#F9E65E</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- TypeScript -->
-        <h4 class="item-title">TypeScript (.ts)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#5D96D3; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <title>TypeScript</title>
-                        <path fill="#3178C6"
-                            d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z" />
-                    </svg></div>
-                <span class="panel-title">Top Bar (inactive) — bg: #5D96D3 · color: #FFFFFF</span>
-            </div>
-            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
-                color: #6B7280</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive)</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#5D96D3</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#FFFFFF</td>
-                            <td class="t-hex">#6B7280</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- HTML -->
-        <h4 class="item-title">HTML (.html)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#E97555; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <title>HTML5</title>
-                        <path fill="#E34F26"
-                            d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z" />
-                    </svg></div>
-                <span class="panel-title">Top Bar (inactive) — bg: #E97555 · color: #FFFFFF</span>
-            </div>
-            <div class="panel-body" style="background:#F5F5F5; color:#6B7280;">Center Content (inactive) — bg: #F5F5F5 ·
-                color: #6B7280</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive)</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#E97555</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#F5F5F5</td>
-                            <td class="t-hex">#6B7280</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- JSON -->
-        <h4 class="item-title">JSON (.json)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#6B7280; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <rect x="2" y="2" width="28" height="28" rx="3" fill="#4B5563" /><text x="16" y="21"
-                            font-family="monospace" font-size="14" font-weight="bold" fill="#F7DF1E"
-                            text-anchor="middle">{ }</text>
-                    </svg></div>
-                <span class="panel-title">Top Bar (inactive) — bg: #6B7280 · color: #FFFFFF</span>
-            </div>
-            <div class="panel-body" style="background:#F9E65E; color:#111827;">Center Content (inactive) — bg: #F9E65E ·
-                color: #111827</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive)</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#6B7280</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#F9E65E</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- XML -->
-        <h4 class="item-title">XML (.xml)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#3385AD; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <rect x="2" y="2" width="28" height="28" rx="3" fill="#006699" /><text x="16" y="21"
-                            font-family="monospace" font-size="14" font-weight="bold" fill="#FFFFFF"
-                            text-anchor="middle">&lt;/&gt;</text>
-                    </svg></div>
-                <span class="panel-title">Top Bar (inactive) — bg: #3385AD · color: #FFFFFF</span>
-            </div>
-            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
-                color: #6B7280</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive)</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#3385AD</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#FFFFFF</td>
-                            <td class="t-hex">#6B7280</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Java -->
-        <h4 class="item-title">Java (.java)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#759BB3; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <path d="M21 21C21 23 18 25 15 25C11 25 8 23 8 21" stroke="#E76F00" stroke-width="2"
-                            fill="none" />
-                        <path d="M7 16H23C24 16 26 17 26 19C26 21 24 22 23 22" stroke="#5382A1" stroke-width="2"
-                            fill="none" />
-                        <path d="M11 6C13 4 14 8 16 6" stroke="#E76F00" stroke-width="2" stroke-linecap="round" />
-                        <path d="M15 10C17 8 18 12 20 10" stroke="#E76F00" stroke-width="2" stroke-linecap="round" />
-                        <path d="M10 16V19C10 21.5 13 23 15 23C17 23 20 21.5 20 19V16" stroke="#5382A1" stroke-width="2"
-                            fill="none" />
-                    </svg></div>
-                <span class="panel-title">Top Bar (inactive) — bg: #759BB3 · color: #FFFFFF</span>
-            </div>
-            <div class="panel-body" style="background:#EE8C33; color:#111827;">Center Content (inactive) — bg: #EE8C33 ·
-                color: #111827</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive)</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#759BB3</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#EE8C33</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- C -->
-        <h4 class="item-title">C (.c)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#606DBB; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <title>C</title>
-                        <path fill="#A8B9CC"
-                            d="M22.394 6c-.167-.29-.398-.543-.652-.69L12.926.22c-.509-.294-1.34-.294-1.848 0L2.26 5.31c-.508.293-.923 1.013-.923 1.6v10.18c0 .294.104.62.271.91.167.29.398.543.652.69l8.816 5.09c.508.293 1.34.293 1.848 0l8.816-5.09c.254-.147.485-.4.652-.69.167-.29.27-.616.27-.91V6.91c.003-.294-.1-.62-.268-.91zM12 19.11c-3.92 0-7.109-3.19-7.109-7.11 0-3.92 3.19-7.11 7.11-7.11a7.133 7.133 0 016.156 3.553l-3.076 1.78a3.567 3.567 0 00-3.08-1.78A3.56 3.56 0 008.444 12 3.56 3.56 0 0012 15.555a3.57 3.57 0 003.08-1.778l3.078 1.78A7.135 7.135 0 0112 19.11zm7.11-6.715h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79zm2.962 0h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79z" />
-                    </svg></div>
-                <span class="panel-title">Top Bar (inactive) — bg: #606DBB · color: #FFFFFF</span>
-            </div>
-            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
-                color: #6B7280</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive)</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#606DBB</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#FFFFFF</td>
-                            <td class="t-hex">#6B7280</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- YAML -->
-        <h4 class="item-title">YAML (.yaml)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#D5454B; color:#FFFFFF; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <rect x="4" y="2" width="24" height="28" rx="2" fill="#CB171E" /><text x="16" y="20"
-                            font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF"
-                            text-anchor="middle">YAML</text>
-                    </svg></div>
-                <span class="panel-title">Top Bar (inactive) — bg: #D5454B · color: #FFFFFF</span>
-            </div>
-            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
-                color: #6B7280</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive)</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#D5454B</td>
-                            <td class="t-hex">#FFFFFF</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#FFFFFF</td>
-                            <td class="t-hex">#6B7280</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- TXT -->
-        <h4 class="item-title">TXT (.txt)</h4>
-        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
-            <div class="panel-top" style="background:#B1B6C0; color:#111827; border-bottom:2px solid #E5E7EB;">
-                <div class="panel-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;height:100%;">
-                        <rect x="5" y="3" width="22" height="26" rx="2" fill="#9CA3AF" />
-                        <path d="M10 10H22M10 16H22M10 22H17" stroke="#FFFFFF" stroke-width="2"
-                            stroke-linecap="round" />
-                    </svg></div>
-                <span class="panel-title">Top Bar (inactive) — bg: #B1B6C0 · color: #111827</span>
-            </div>
-            <div class="panel-body" style="background:#FFFFFF; color:#6B7280;">Center Content (inactive) — bg: #FFFFFF ·
-                color: #6B7280</div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
-                (inactive)</div>
-        </div>
-        <div class="card-surface" style="margin-bottom:28px;">
-            <div class="tbl-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex">#B1B6C0</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex">#FFFFFF</td>
-                            <td class="t-hex">#6B7280</td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+        <div id="inactive-panels-container"></div>
     </section>
 
+
+    <!-- Templates -->
+    <template id="tmpl-palette-tile">
+        <div class="palette-tile">
+            <div class="color-block"></div>
+            <div class="color-info">
+                <div class="color-role"></div>
+                <div class="color-hex"></div>
+                <div class="color-desc"></div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-palette-row">
+        <tr>
+            <td class="swatch-cell center"><span class="swatch-dot"></span></td>
+            <td class="t-role"></td>
+            <td class="t-hex"></td>
+            <td class="t-rgb"></td>
+            <td class="t-desc"></td>
+        </tr>
+    </template>
+
+    <template id="tmpl-icon-row">
+        <tr>
+            <td class="icon-cell s"></td>
+            <td class="icon-cell m"></td>
+            <td class="icon-cell l"></td>
+            <td class="t-name"></td>
+            <td class="t-ext"><code></code></td>
+            <td class="t-code"></td>
+            <td class="swatch-cell center swatch-primary"><span class="swatch-dot"></span></td>
+            <td class="swatch-cell center swatch-secondary"><span class="swatch-dot"></span></td>
+            <td class="t-hex hex-primary"></td>
+            <td class="t-hex hex-secondary"></td>
+        </tr>
+    </template>
+
+    <template id="tmpl-inactive-panel">
+        <h4 class="item-title file-title"></h4>
+        <div class="file-panel panel-inactive" style="margin-bottom:10px;">
+            <div class="panel-top" style="border-bottom:2px solid #E5E7EB;">
+                <div class="panel-icon"></div>
+                <span class="panel-title"></span>
+                <span class="close-icon">&#x2716;</span>
+            </div>
+            <div class="panel-body"></div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar (inactive)</div>
+        </div>
+        <div class="card-surface" style="margin-bottom:28px;">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-role">Top Bar</td>
+                            <td class="t-hex tb-bg"></td>
+                            <td class="t-hex tb-text"></td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Center Content</td>
+                            <td class="t-hex cb-bg"></td>
+                            <td class="t-hex cb-text"></td>
+                        </tr>
+                        <tr>
+                            <td class="t-role">Bottom Bar</td>
+                            <td class="t-hex">#F9FAFB</td>
+                            <td class="t-hex">#111827</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+
+    <!-- Script -->
+    <script>
+        async function loadStylingData() {
+            try {
+                const response = await fetch('./file-type-styling.json');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+
+                renderColorPalette(data.colorPalette);
+                renderFileIcons(data.fileTypes);
+                renderInactivePanels(data.fileTypes);
+            } catch (error) {
+                console.error('Failed to load styling data:', error);
+                const el = document.createElement('div');
+                el.style = 'background:#fee2e2; color:#b91c1c; padding:16px; margin:24px; border-radius:8px; border:1px solid #f87171;';
+                el.innerHTML = '<strong>Data load failed:</strong> <br>Please serve over HTTP instead of local file protocol...';
+                document.body.prepend(el);
+            }
+        }
+
+        function renderColorPalette(palette) {
+            const gridContainer = document.getElementById('palette-grid-container');
+            const tableBody = document.getElementById('palette-table-body');
+            const tileTmpl = document.getElementById('tmpl-palette-tile');
+            const rowTmpl = document.getElementById('tmpl-palette-row');
+
+            palette.forEach(color => {
+                // Render Tile
+                const tileNode = tileTmpl.content.cloneNode(true);
+                const block = tileNode.querySelector('.color-block');
+                block.style.background = color.backgroundHex;
+                if (color.borderHex) block.style.border = `1px solid ${color.borderHex}`;
+                tileNode.querySelector('.color-role').textContent = color.role;
+                tileNode.querySelector('.color-hex').textContent = color.hex;
+                tileNode.querySelector('.color-desc').textContent = color.description;
+                gridContainer.appendChild(tileNode);
+
+                // Render Table Row
+                const rowNode = rowTmpl.content.cloneNode(true);
+                const dot = rowNode.querySelector('.swatch-dot');
+                dot.style.background = color.backgroundHex;
+                if (color.borderHex) dot.style.borderColor = color.borderHex;
+                rowNode.querySelector('.t-role').textContent = color.role;
+                rowNode.querySelector('.t-hex').textContent = color.hex;
+                rowNode.querySelector('.t-rgb').textContent = color.rgb;
+                rowNode.querySelector('.t-desc').textContent = color.description;
+                tableBody.appendChild(rowNode);
+            });
+        }
+
+        function renderFileIcons(fileTypes) {
+            const tbody = document.getElementById('icon-table-body');
+            const tmpl = document.getElementById('tmpl-icon-row');
+
+            fileTypes.forEach(ft => {
+                const node = tmpl.content.cloneNode(true);
+
+                node.querySelector('.icon-cell.s').innerHTML = ft.svgContent;
+                node.querySelector('.icon-cell.m').innerHTML = ft.svgContent;
+                node.querySelector('.icon-cell.l').innerHTML = ft.svgContent;
+
+                // For proper scaling, make sure the injected svg has width:100% height:100% or similar
+                // But since CSS '.icon-cell.s svg { width: 16px; ... }' exists, it scales nicely.
+
+                node.querySelector('.t-name').textContent = ft.name;
+                node.querySelector('.t-ext code').textContent = ft.ext;
+
+                const svgSnippet = ft.svgContent.match(/<svg[^>]*>.*?<\/svg>/is);
+                const escapedSvg = ft.svgContent.substring(0, Math.min(60, ft.svgContent.length)) + '...';
+                // Creating a small snippet string
+                let fillMatch = ft.svgContent.match(/fill="([^"]+)"/);
+                let snippetStr = fillMatch ? `<svg ... fill="${fillMatch[1]}"/>` : `<svg ... />`;
+                node.querySelector('.t-code').textContent = snippetStr;
+
+                const pt = node.querySelector('.swatch-primary .swatch-dot');
+                pt.style.background = ft.colors.primaryHex;
+
+                const st = node.querySelector('.swatch-secondary .swatch-dot');
+                st.style.background = ft.colors.secondaryHex;
+                if (ft.colors.secondaryBorderHex) {
+                    st.style.borderColor = ft.colors.secondaryBorderHex;
+                }
+
+                node.querySelector('.hex-primary').textContent = ft.colors.primaryHex;
+                node.querySelector('.hex-secondary').textContent = ft.colors.secondaryHex;
+
+                tbody.appendChild(node);
+            });
+        }
+
+        function renderInactivePanels(fileTypes) {
+            const container = document.getElementById('inactive-panels-container');
+            const tmpl = document.getElementById('tmpl-inactive-panel');
+
+            fileTypes.forEach(ft => {
+                const node = tmpl.content.cloneNode(true);
+                const title = node.querySelector('.file-title');
+                title.textContent = `${ft.name} (${ft.ext})`;
+
+                const panelIcons = node.querySelectorAll('.panel-icon');
+                panelIcons.forEach(icon => {
+                    icon.innerHTML = ft.svgContent;
+                    const svg = icon.querySelector('svg');
+                    if(svg) {
+                        svg.style.width = '100%';
+                        svg.style.height = '100%';
+                    }
+                });
+
+                const panelTop = node.querySelector('.panel-top');
+                panelTop.style.background = ft.colors.panelTopBg;
+                panelTop.style.color = ft.colors.panelTopText;
+
+                const closeIcon = node.querySelector('.panel-top .close-icon');
+                if (ft.colors.panelTopText === '#111827') {
+                   // some top text requires dark colored span overrides... handled by css generally or simple override
+                }
+                node.querySelector('.panel-title').textContent = `Top Bar (inactive) — bg: ${ft.colors.panelTopBg} · color: ${ft.colors.panelTopText}`;
+
+                const panelBody = node.querySelector('.panel-body');
+                panelBody.style.background = ft.colors.panelBodyBg;
+                panelBody.style.color = ft.colors.panelBodyText;
+                panelBody.textContent = `Center Content (inactive) — bg: ${ft.colors.panelBodyBg} · color: ${ft.colors.panelBodyText}`;
+
+                node.querySelector('.tb-bg').textContent = ft.colors.panelTopBg;
+                node.querySelector('.tb-text').textContent = ft.colors.panelTopText;
+
+                node.querySelector('.cb-bg').textContent = ft.colors.panelBodyBg;
+                node.querySelector('.cb-text').textContent = ft.colors.panelBodyText;
+
+                container.appendChild(node);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadStylingData);
+    </script>
 </body>
+
 
 </html>
