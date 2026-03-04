@@ -1,3 +1,4 @@
+<!-- http://localhost:8000/file-type-styling.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -392,6 +393,13 @@
             font-weight: 600;
         }
 
+        /* Inactive card */
+        .card-inactive {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+        }
+
         /* Panel */
         .file-panel {
             border-radius: var(--radius-md);
@@ -698,7 +706,7 @@
                 </div>
             </div>
         </div>
-
+        <span class="demo-label">Panel — Active</span>
         <div class="file-panel panel-active" style="margin-bottom:12px;">
             <div class="panel-top">
                 <div class="panel-icon">
@@ -808,6 +816,19 @@
 
     <template id="tmpl-inactive-panel">
         <h4 class="item-title file-title"></h4>
+        <div class="demo-row">
+            <div class="demo-col">
+                <span class="demo-label">Card — Inactive</span>
+                <div class="file-card card-inactive">
+                    <span class="card-left">
+                        <span class="drag-icon">&#x283F;</span>
+                        <span class="card-filename"></span>
+                    </span>
+                    <span class="close-icon">&#x2716;</span>
+                </div>
+            </div>
+        </div>
+        <span class="demo-label">Panel — Inactive</span>
         <div class="file-panel panel-inactive" style="margin-bottom:10px;">
             <div class="panel-top" style="border-bottom:2px solid #E5E7EB;">
                 <div class="panel-icon"></div>
@@ -815,7 +836,8 @@
                 <span class="close-icon">&#x2716;</span>
             </div>
             <div class="panel-body"></div>
-            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar (inactive)</div>
+            <div class="panel-foot" style="background:#F9FAFB; color:#111827; border-top:2px solid #E5E7EB;">Bottom Bar
+                (inactive)</div>
         </div>
         <div class="card-surface" style="margin-bottom:28px;">
             <div class="tbl-wrap">
@@ -950,11 +972,16 @@
                 const title = node.querySelector('.file-title');
                 title.textContent = `${ft.name} (${ft.ext})`;
 
+                const cardFilename = node.querySelector('.card-filename');
+                if (cardFilename) {
+                    cardFilename.textContent = `LICENSE${ft.ext}`;
+                }
+
                 const panelIcons = node.querySelectorAll('.panel-icon');
                 panelIcons.forEach(icon => {
                     icon.innerHTML = ft.svgContent;
                     const svg = icon.querySelector('svg');
-                    if(svg) {
+                    if (svg) {
                         svg.style.width = '100%';
                         svg.style.height = '100%';
                     }
@@ -966,7 +993,7 @@
 
                 const closeIcon = node.querySelector('.panel-top .close-icon');
                 if (ft.colors.panelTopText === '#111827') {
-                   // some top text requires dark colored span overrides... handled by css generally or simple override
+                    // some top text requires dark colored span overrides... handled by css generally or simple override
                 }
                 node.querySelector('.panel-title').textContent = `Top Bar (inactive) — bg: ${ft.colors.panelTopBg} · color: ${ft.colors.panelTopText}`;
 
