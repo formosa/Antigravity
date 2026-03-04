@@ -1,36 +1,41 @@
 ---
 name: dev-create-skill
-version: 1.1.0
-description: Generates Antigravity v1.18.3 compliant skills optimized for Gemini 3.1 Pro via progressive disclosure.
+version: 2.0.0
+description: Scaffolds and finalizes Antigravity-compatible skills with deterministic structure and low-hallucination instruction design.
 ---
 
 <when_to_use>
-
-- The developer requests the creation, scaffolding, or initialization of a new custom skill.
-- The active task involves extending the agent's capabilities with domain-specific workflows or tool integrations.
+- The user asks to create a new custom skill.
+- The user asks to scaffold or standardize existing skill format.
 </when_to_use>
 
 <how_to_use>
+1. Confirm scope: trigger conditions, expected workflow, required scripts/resources.
+2. Scaffold base structure:
+   - `python .agent/skills/dev-create-skill/scripts/init_skill.py <skill-name> --path <output-directory>`
+3. Implement `SKILL.md` with required XML blocks:
+   - `<when_to_use>`
+   - `<how_to_use>`
+   - `<constraints>`
+   - `<resources_reference>`
+4. Add referenced assets/scripts and ensure links are valid.
+5. Run quick validation:
+   - `python .agent/skills/dev-create-skill/scripts/quick_validate.py <path-to-skill>`
 
-1. **Context Verification (Silent):** Confirm the user's requirements for the new skill (e.g., target domain, required scripts, necessary reference materials).
-2. **Initialization:** Execute `python scripts/init_skill.py <skill-name> --path <output-directory>` to scaffold the deterministic directory structure.
-3. **Content Generation:** Modify the newly generated `SKILL.md` file to implement the requested logic. You MUST use `<when_to_use>`, `<how_to_use>`, and `<constraints>` XML tags. Do NOT use legacy Markdown headings for core logic.
-4. **Resource Population:** Populate the `scripts/` or `resources/` directories with any required auxiliary files. Ensure all references are mapped in the `<resources_reference>` block of the `SKILL.md`.
-5. **Verification Artifact:** Output an `implementation_plan.md` artifact detailing the newly created skill's trigger conditions and capabilities for the human developer to review and approve.
+Prefer concise, deterministic instructions over long narrative guidance.
 </how_to_use>
 
 <constraints>
-- Never generate legacy frontmatter tags such as `type`, `scope`, or `priority` for Skills.
-- Never use generic Markdown headers for execution steps. All operational directives must reside within XML fenced blocks.
-- Do not include explanatory conversational text outside of the XML blocks.
+- Do not use deprecated skill metadata fields.
+- Do not leave ambiguous execution verbs (e.g., “improve”, “optimize”) without measurable criteria.
+- Keep tool paths repository-relative.
 </constraints>
 
 <resources_reference>
-
-- `scripts/init_skill.py`
-- `scripts/package_skill.py`
-- `scripts/quick_validate.py`
-- `resources/workflows.md`
-- `resources/output-patterns.md`
-- `resources/schema/skill.d.ts`
+- `.agent/skills/dev-create-skill/scripts/init_skill.py`
+- `.agent/skills/dev-create-skill/scripts/package_skill.py`
+- `.agent/skills/dev-create-skill/scripts/quick_validate.py`
+- `.agent/skills/dev-create-skill/resources/workflows.md`
+- `.agent/skills/dev-create-skill/resources/output-patterns.md`
+- `.agent/skills/dev-create-skill/resources/schema/skill.d.ts`
 </resources_reference>

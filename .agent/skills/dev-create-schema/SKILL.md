@@ -1,53 +1,48 @@
 ---
 name: dev-create-schema
-version: 1.1.0
-description: Generates, validates, and matrices new Antigravity v1.18.3 semantic schema definitions from canonical examples, updating indices and tracking modification history.
+version: 2.0.0
+description: Creates and updates Antigravity schemas via scaffold, strict validation, and index synchronization.
 ---
 
 <when_to_use>
-
-- The user provides an example file and requests a new schema be built from it.
-- The user asks to create or update an agent schema, `.d.ts` definition, or `README.md` tracking log.
-- The user requests updating the master schema `index.md`.
-- The user requests rolling out schema updates across existing definitions based on changes made to the internal reference schema.
+- The user asks to create a new `.d.ts` schema from an example.
+- The user asks to update existing schemas or schema index documentation.
 </when_to_use>
 
 <how_to_use>
+## Mode A: Create schema
+1. Confirm source example and schema name (`kebab-case`).
+2. Scaffold:
+   - `python .agent/skills/dev-create-schema/scripts/scaffold_schema.py --target-file <path_to_example> --name <schema-name>`
+3. Author generated schema/README using local reference patterns only.
+4. Validate:
+   - `python .agent/skills/dev-create-schema/scripts/validate_schema.py --name <schema-name>`
+5. Update index:
+   - `python .agent/skills/dev-create-schema/scripts/update_index.py`
 
-## Mode 1: Creating a New Schema
+## Mode B: Update schema(s)
+1. Read requested reference changes.
+2. Apply deterministic updates to target schema files.
+3. Append changelog entry in each affected schema README.
+4. Validate each schema.
+5. Update index.
 
-1. **Context Verification:** Identify the canonical example file. If a schema name is not provided, infer a kebab-case `<schema-name>`.
-2. **Scaffolding:** Execute `python scripts/scaffold_schema.py --target-file <path_to_example> --name <schema-name>`.
-3. **Reference Injection (Silent):** Execute `view_file` to read the optimal structure and conventions from `resources/schema/schema.d.ts` and `resources/schema/README.md`.
-4. **Drafting:** Use your `write_to_file` tool to author the final `c:\AI\10162025\maggie\Antigravity\.agent\assets\schemas\<schema-name>\<schema-name>.d.ts` and `README.md` based strictly on semantic derivation of the `example.md`.
-   - Ensure explicit strict TypeScript types and explicit frontmatter XML parsing instructions modeled after the reference schemas.
-   - Insert the `<modification_history>` table in the `README.md` with version `v1.0.0` and description mapping what you analyzed.
-5. **Validation & Rollback:** Execute `python scripts/validate_schema.py --name <schema-name>`. If validation fails, it will rollback the file. If so, fix the code and re-validate.
-6. **Index Updating:** Execute `python scripts/update_index.py`.
-
-## Mode 2: Processing Schema Updates
-
-1. **Reference Update (Silent):** First, review changes made to `resources/schema/schema.d.ts` or `README.md`.
-2. **Propagation:** For each existing schema requested to update, use `replace_file_content` to apply the optimized structural changes to `<schema-name>.d.ts` and `README.md`.
-3. **Changelog Tracking:** Crucially, for *every* modification made to an affected schema, append a new row to its `<modification_history>` table inside its `README.md`, bumping the version (e.g., `v1.1.0`) and explicitly logging the specific changes applied.
-4. **Validation:** Execute `python scripts/validate_schema.py --name <schema-name>`.
-5. **Index Updating:** Execute `python scripts/update_index.py`.
+If validation fails, halt, report failure, and fix before proceeding.
 </how_to_use>
 
 <constraints>
-- Never guess typescript types. Map canonical examples rigidly.
-- Do not bypass `validate_schema.py`; it contains the mandatory Auto-Validation and Rollback mechanics.
-- Every schema update MUST be tracked in the related schema's `<modification_history>` table.
-- Never use generic Markdown headers for execution steps. All operational directives must reside within XML fenced blocks.
+- Do not guess TypeScript types.
+- Do not skip validation.
+- Every update must be recorded in modification history/changelog.
+- Keep references and paths repo-relative.
 </constraints>
 
 <resources_reference>
-
-- `scripts/scaffold_schema.py`
-- `scripts/validate_schema.py`
-- `scripts/update_index.py`
-- `resources/schema/example.md`
-- `resources/schema/README.md`
-- `resources/schema/schema.d.ts`
-- `config.json`
+- `.agent/skills/dev-create-schema/scripts/scaffold_schema.py`
+- `.agent/skills/dev-create-schema/scripts/validate_schema.py`
+- `.agent/skills/dev-create-schema/scripts/update_index.py`
+- `.agent/skills/dev-create-schema/resources/schema/schema.d.ts`
+- `.agent/skills/dev-create-schema/resources/schema/README.md`
+- `.agent/skills/dev-create-schema/resources/schema/example.md`
+- `.agent/skills/dev-create-schema/config.json`
 </resources_reference>
