@@ -1,28 +1,29 @@
 ---
 name: md060-strict-aligner
-description: Identifies markdown tables with the MD060/table-column-style violation and repairs them using a local Python script to achieve absolute character-count vertical pipe alignment.
+version: 1.1.0
+description: Deterministically aligns Markdown tables to satisfy MD060 with minimal, structure-preserving edits.
 ---
 
-# SKILL: md060-strict-aligner
+<when_to_use>
+- The user asks to fix MD060 table alignment violations.
+- Markdown table formatting must be normalized without content rewrites.
+</when_to_use>
 
-## Goal
+<how_to_use>
+1. Identify the markdown file(s) and target tables.
+2. Run the aligner script for deterministic formatting.
+3. Re-run lint/check to confirm MD060 passes.
+4. Report exact files changed and lint result.
 
-Repair markdown tables violating `MD060/table-column-style` by routing the document through a deterministic local formatting script.
+If the file has malformed table syntax that cannot be safely aligned, halt and request clarification.
+</how_to_use>
 
-## Context & Scope
+<constraints>
+- Never alter non-table prose.
+- Never change table semantic content.
+- Keep edits minimal for token and diff efficiency.
+</constraints>
 
-This skill triggers when you detect malformed markdown tables or encounter linting errors regarding misaligned pipes (`|`). Because LLM tokenization makes manual space-counting unreliable, you MUST use the provided `align_table.py` script. The script now supports processing entire files autonomously, significantly reducing token overhead and preventing PowerShell pipeline errors.
-
-## Execution Protocol
-
-1. **Locate Target:** Identify the file containing the misaligned markdown table(s).
-2. **Execute Autonomous Repair:** run the `align_table.py` script using the `--file` flag with the absolute path to the target file.
-   - *Command Example:* `python .agent/skills/md060-strict-aligner/align_table.py --file "c:\absolute\path\to\file.md"`
-3. **Verify:** Confirm that the script executed successfully. Check the file to ensure that all table columns are padded correctly, with all `|` characters forming perfectly straight vertical lines, even within blockquotes or nested lists.
-
-## Directives & Constraints
-
-- ALWAYS prioritize the `--file` flag over piping text via `stdin`. This prevents data corruption from shell escaping issues and reduces token usage.
-- The script automatically handles document-wide processing; it will identify and align all table blocks in the file while leaving non-table text (paragraphs, code blocks) untouched.
-- DO NOT attempt to pad the table columns manually using your own text generation. You MUST use the Python script.
-- IF the script throws an error: HALT execution immediately, output the error, and request user clarification.
+<resources_reference>
+- `.agent/skills/md060-strict-aligner/align_table.py`
+</resources_reference>
