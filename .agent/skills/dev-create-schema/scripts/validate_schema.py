@@ -28,7 +28,11 @@ def main():
         sys.exit(0)
 
     print(f"Validating {dts_path}...")
-    result = subprocess.run(["tsc", "--noEmit", str(dts_path)], capture_output=True, text=True)
+    project_root = Path(__file__).resolve().parents[4]
+    tsc_cmd = project_root / ".nodeenv" / "Scripts" / "tsc.cmd"
+    if not tsc_cmd.exists():
+        tsc_cmd = "tsc"
+    result = subprocess.run([str(tsc_cmd), "--noEmit", str(dts_path)], capture_output=True, text=True)
 
     if result.returncode != 0:
         print("❌ Validation Failed. Outputting errors:")
