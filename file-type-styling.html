@@ -141,16 +141,6 @@
             border-bottom: 1px solid var(--border-subtle);
         }
 
-        h4.item-title {
-            font-family: var(--mono);
-            font-size: 10.5px;
-            font-weight: 600;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            margin: 20px 0 10px;
-        }
-
         /* ── Card surface ────────────────────────────────────────── */
         .card-surface {
             background: var(--surface);
@@ -231,78 +221,10 @@
             letter-spacing: .04em;
         }
 
-        td.t-rgb {
-            color: var(--text-secondary);
-            font-family: var(--mono);
-            font-size: 11.5px;
-        }
-
         td.t-desc {
             color: #4B5563;
             font-size: 12px;
             white-space: normal;
-        }
-
-        td.t-name {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        td.t-ext {
-            font-family: var(--mono);
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        td.t-code {
-            font-family: var(--mono);
-            font-size: 10.5px;
-            color: #10B981;
-            background: #1F2937;
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            max-width: 220px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
-        /* Swatches */
-        .swatch-cell {
-            padding: 10px 12px;
-            text-align: center;
-        }
-
-        .swatch-dot {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            border: 1px solid rgba(0, 0, 0, .08);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, .06);
-            display: inline-block;
-        }
-
-        /* Icon preview cells */
-        .icon-cell {
-            text-align: center;
-            padding: 10px 14px;
-            background: #FCFCFD;
-            border-right: 1px solid #F3F4F6;
-        }
-
-        .icon-cell.s svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .icon-cell.m svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .icon-cell.l svg {
-            width: 32px;
-            height: 32px;
         }
 
         /* ── Component Demos ─────────────────────────────────────── */
@@ -337,44 +259,104 @@
             gap: 12px;
             margin-bottom: 24px;
         }
+    </style>
+    <style>
+        /* ── Embedded CSS Variable Definition Table ──────────────── */
+        :root {
+            /* Section A — Palette Colors */
+            --palette-app_background: #FFFFFF;
+            --palette-sidebar_background: #F9FAFB;
+            --palette-accent_primary: #5A5FEB;
+            --palette-accent_muted: #E0E7FF;
+            --palette-accent_text: #4338CA;
+            --palette-text_primary: #111827;
+            --palette-text_secondary: #6B7280;
+            --palette-border_subtle: #E5E7EB;
+            --palette-border_control: #D1D5DB;
 
-        .palette-tile {
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-        }
+            /* Section B — File Type Colors */
+            --python-primary: #5D9BD1;
+            --python-secondary: #FFE270;
+            --python-panel-top-bg: #5D9BD1;
+            --python-panel-top-text: #FFFFFF;
+            --python-panel-body-bg: #FFE270;
+            --python-panel-body-text: #6B7280;
 
-        .palette-tile .color-block {
-            height: 56px;
-            border-bottom: 1px solid rgba(0, 0, 0, .06);
-        }
+            --markdown-primary: #333333;
+            --markdown-secondary: #FFFFFF;
+            --markdown-panel-top-bg: #333333;
+            --markdown-panel-top-text: #FFFFFF;
+            --markdown-panel-body-bg: #FFFFFF;
+            --markdown-panel-body-text: #6B7280;
+            --markdown-secondary-border: #E5E7EB;
 
-        .palette-tile .color-info {
-            background: var(--surface);
-            padding: 8px 10px;
-        }
+            --javascript-primary: #333333;
+            --javascript-secondary: #F9E65E;
+            --javascript-panel-top-bg: #333333;
+            --javascript-panel-top-text: #FFFFFF;
+            --javascript-panel-body-bg: #F9E65E;
+            --javascript-panel-body-text: #111827;
 
-        .palette-tile .color-role {
-            font-family: var(--mono);
-            font-size: 9.5px;
-            font-weight: 700;
-            letter-spacing: .06em;
-            color: var(--accent-text);
-            margin-bottom: 2px;
-        }
+            --typescript-primary: #5D96D3;
+            --typescript-secondary: #FFFFFF;
+            --typescript-panel-top-bg: #5D96D3;
+            --typescript-panel-top-text: #FFFFFF;
+            --typescript-panel-body-bg: #FFFFFF;
+            --typescript-panel-body-text: #6B7280;
+            --typescript-secondary-border: #E5E7EB;
 
-        .palette-tile .color-hex {
-            font-family: var(--mono);
-            font-size: 11px;
-            font-weight: 600;
-            color: #D97706;
-        }
+            --html-primary: #E97555;
+            --html-secondary: #F5F5F5;
+            --html-panel-top-bg: #E97555;
+            --html-panel-top-text: #FFFFFF;
+            --html-panel-body-bg: #F5F5F5;
+            --html-panel-body-text: #6B7280;
 
-        .palette-tile .color-desc {
-            font-size: 10px;
-            color: var(--text-secondary);
-            margin-top: 2px;
-            line-height: 1.4;
+            --json-primary: #6B7280;
+            --json-secondary: #F9E65E;
+            --json-panel-top-bg: #6B7280;
+            --json-panel-top-text: #FFFFFF;
+            --json-panel-body-bg: #F9E65E;
+            --json-panel-body-text: #111827;
+
+            --xml-primary: #3385AD;
+            --xml-secondary: #FFFFFF;
+            --xml-panel-top-bg: #3385AD;
+            --xml-panel-top-text: #FFFFFF;
+            --xml-panel-body-bg: #FFFFFF;
+            --xml-panel-body-text: #6B7280;
+            --xml-secondary-border: #E5E7EB;
+
+            --java-primary: #759BB3;
+            --java-secondary: #EE8C33;
+            --java-panel-top-bg: #759BB3;
+            --java-panel-top-text: #FFFFFF;
+            --java-panel-body-bg: #EE8C33;
+            --java-panel-body-text: #111827;
+
+            --c-primary: #606DBB;
+            --c-secondary: #FFFFFF;
+            --c-panel-top-bg: #606DBB;
+            --c-panel-top-text: #FFFFFF;
+            --c-panel-body-bg: #FFFFFF;
+            --c-panel-body-text: #6B7280;
+            --c-secondary-border: #E5E7EB;
+
+            --yaml-primary: #D5454B;
+            --yaml-secondary: #FFFFFF;
+            --yaml-panel-top-bg: #D5454B;
+            --yaml-panel-top-text: #FFFFFF;
+            --yaml-panel-body-bg: #FFFFFF;
+            --yaml-panel-body-text: #6B7280;
+            --yaml-secondary-border: #E5E7EB;
+
+            --txt-primary: #B1B6C0;
+            --txt-secondary: #FFFFFF;
+            --txt-panel-top-bg: #B1B6C0;
+            --txt-panel-top-text: #111827;
+            --txt-panel-body-bg: #FFFFFF;
+            --txt-panel-body-text: #6B7280;
+            --txt-secondary-border: #E5E7EB;
         }
     </style>
 </head>
@@ -634,45 +616,76 @@
 
     <!-- Templates -->
     <template id="tmpl-palette-tile">
-        <div class="palette-tile">
-            <div class="color-block"></div>
-            <div class="color-info">
-                <div class="color-role"></div>
-                <div class="color-hex"></div>
-                <div class="color-desc"></div>
+        <div data-id="palette-tile"
+            style="border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card);">
+            <div data-id="color-block" style="height: 56px; border-bottom: 1px solid rgba(0,0,0,.06);"></div>
+            <div style="background: var(--surface); padding: 8px 10px;">
+                <div data-id="color-role"
+                    style="font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .06em; color: var(--accent-text); margin-bottom: 2px;">
+                </div>
+                <div data-id="color-hex"
+                    style="font-family: var(--mono); font-size: 11px; font-weight: 600; color: #D97706;"></div>
+                <div data-id="color-desc"
+                    style="font-size: 10px; color: var(--text-secondary); margin-top: 2px; line-height: 1.4;"></div>
             </div>
         </div>
     </template>
 
     <template id="tmpl-palette-row">
         <tr>
-            <td class="swatch-cell center"><span class="swatch-dot"></span></td>
-            <td class="t-role"></td>
-            <td class="t-hex"></td>
-            <td class="t-rgb"></td>
-            <td class="t-desc"></td>
+            <td data-id="swatch-cell" style="padding: 10px 12px; text-align: center;"><span data-id="swatch-dot"
+                    style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(0,0,0,.08); box-shadow: inset 0 1px 3px rgba(0,0,0,.06); display: inline-block;"></span>
+            </td>
+            <td data-id="t-role" style="color: #2563EB; font-family: var(--mono); font-weight: 500; font-size: 12px;">
+            </td>
+            <td data-id="t-hex"
+                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em;">
+            </td>
+            <td data-id="t-rgb" style="color: var(--text-secondary); font-family: var(--mono); font-size: 11.5px;"></td>
+            <td data-id="t-desc" style="color: #4B5563; font-size: 12px; white-space: normal;"></td>
         </tr>
     </template>
 
     <template id="tmpl-icon-row">
         <tr>
-            <td class="icon-cell s"></td>
-            <td class="icon-cell m"></td>
-            <td class="icon-cell l"></td>
-            <td class="t-name"></td>
-            <td class="t-ext"><code></code></td>
-            <td class="t-code"></td>
-            <td class="swatch-cell center swatch-primary"><span class="swatch-dot"></span></td>
-            <td class="swatch-cell center swatch-secondary"><span class="swatch-dot"></span></td>
-            <td class="t-hex hex-primary"></td>
-            <td class="t-hex hex-secondary"></td>
+            <td data-id="icon-s"
+                style="text-align: center; padding: 10px 14px; background: #FCFCFD; border-right: 1px solid #F3F4F6;">
+            </td>
+            <td data-id="icon-m"
+                style="text-align: center; padding: 10px 14px; background: #FCFCFD; border-right: 1px solid #F3F4F6;">
+            </td>
+            <td data-id="icon-l"
+                style="text-align: center; padding: 10px 14px; background: #FCFCFD; border-right: 1px solid #F3F4F6;">
+            </td>
+            <td data-id="t-name" style="color: var(--text-primary); font-weight: 500;"></td>
+            <td data-id="t-ext" style="font-family: var(--mono); font-size: 11px; color: var(--text-secondary);">
+                <code></code>
+            </td>
+            <td data-id="t-code"
+                style="font-family: var(--mono); font-size: 10.5px; color: #10B981; background: #1F2937; padding: 8px 12px; border-radius: var(--radius-sm); max-width: 220px; overflow-x: auto; white-space: pre-wrap; word-break: break-all;">
+            </td>
+            <td data-id="swatch-primary" style="padding: 10px 12px; text-align: center;"><span data-id="swatch-dot"
+                    style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(0,0,0,.08); box-shadow: inset 0 1px 3px rgba(0,0,0,.06); display: inline-block;"></span>
+            </td>
+            <td data-id="swatch-secondary" style="padding: 10px 12px; text-align: center;"><span data-id="swatch-dot"
+                    style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(0,0,0,.08); box-shadow: inset 0 1px 3px rgba(0,0,0,.06); display: inline-block;"></span>
+            </td>
+            <td data-id="hex-primary"
+                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em;">
+            </td>
+            <td data-id="hex-secondary"
+                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em;">
+            </td>
         </tr>
     </template>
 
     <template id="tmpl-inactive-panel">
         <!-- ── Header Row ──────────────────────────────────────── -->
-        <h4 class="item-title file-title"></h4>
-        <div data-id="header-row" class="demo-row" style="align-items: center; gap: 16px; margin-bottom: 12px;">
+        <h4 data-id="file-title"
+            style="font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); margin: 20px 0 10px;">
+        </h4>
+        <div data-id="header-row"
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 12px;">
             <div data-id="header-icon" style="width: 32px; height: 32px; flex-shrink: 0;"></div>
             <span data-id="header-name" style="font-weight: 600; font-size: 14px;"></span>
             <span data-id="header-ext"
@@ -681,19 +694,21 @@
                 style="font-family: var(--mono); font-size: 10.5px; color: #10B981; background: #1F2937; padding: 4px 8px; border-radius: var(--radius-sm); white-space: nowrap;"></span>
             <span data-id="header-color1-label"
                 style="font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--text-secondary);"></span>
-            <span data-id="header-swatch1" class="swatch-dot"
-                style="width: 22px; height: 22px; border-radius: 4px; display: inline-block; vertical-align: middle;"></span>
+            <span data-id="header-swatch1"
+                style="width: 22px; height: 22px; border-radius: 4px; display: inline-block; vertical-align: middle; border: 1px solid rgba(0,0,0,.08); box-shadow: inset 0 1px 3px rgba(0,0,0,.06);"></span>
             <span data-id="header-color2-label"
                 style="font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--text-secondary);"></span>
-            <span data-id="header-swatch2" class="swatch-dot"
-                style="width: 22px; height: 22px; border-radius: 4px; display: inline-block; vertical-align: middle;"></span>
+            <span data-id="header-swatch2"
+                style="width: 22px; height: 22px; border-radius: 4px; display: inline-block; vertical-align: middle; border: 1px solid rgba(0,0,0,.08); box-shadow: inset 0 1px 3px rgba(0,0,0,.06);"></span>
         </div>
 
         <!-- ── 4 Card States Row ───────────────────────────────── -->
-        <div class="demo-row" style="gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+        <div data-id="card-states-row"
+            style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; margin-bottom: 16px;">
             <!-- Card: Inactive -->
-            <div class="demo-col">
-                <span class="demo-label" data-id="card-label-inactive"></span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span data-id="card-label-inactive"
+                    style="font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary);"></span>
                 <div data-id="card-inactive"
                     style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; border-radius: var(--radius-md); padding: 5px 6px; font-family: var(--sans); font-size: 13px; width: 210px; box-shadow: var(--shadow-card); background: var(--type-card-background); border: 1px solid var(--border-subtle); color: var(--type-card-font-color);">
                     <span style="display: flex; align-items: center; gap: 4px;">
@@ -706,8 +721,9 @@
                 </div>
             </div>
             <!-- Card: Hover / Mouse-Over -->
-            <div class="demo-col">
-                <span class="demo-label" data-id="card-label-hover"></span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span data-id="card-label-hover"
+                    style="font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary);"></span>
                 <div data-id="card-hover"
                     style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; border-radius: var(--radius-md); padding: 5px 6px; font-family: var(--sans); font-size: 13px; width: 210px; box-shadow: var(--shadow-lg); background: var(--type-card-background); border: 1px solid var(--border-subtle); color: var(--type-card-font-color);">
                     <span style="display: flex; align-items: center; gap: 4px;">
@@ -720,8 +736,9 @@
                 </div>
             </div>
             <!-- Card: Focus -->
-            <div class="demo-col">
-                <span class="demo-label" data-id="card-label-focus"></span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span data-id="card-label-focus"
+                    style="font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary);"></span>
                 <div data-id="card-focus"
                     style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; border-radius: var(--radius-md); padding: 5px 6px; font-family: var(--sans); font-size: 13px; width: 210px; box-shadow: 0 0 0 2px var(--type-card-background); background: var(--type-card-background); border: 2px solid var(--type-card-background); color: var(--type-card-font-color);">
                     <span style="display: flex; align-items: center; gap: 4px;">
@@ -734,8 +751,9 @@
                 </div>
             </div>
             <!-- Card: Active -->
-            <div class="demo-col">
-                <span class="demo-label" data-id="card-label-active"></span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span data-id="card-label-active"
+                    style="font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary);"></span>
                 <div data-id="card-active"
                     style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; border-radius: var(--radius-md); padding: 5px 6px; font-family: var(--sans); font-size: 13px; width: 210px; box-shadow: var(--shadow-card); background: var(--type-card-background); border: 2px solid var(--type-card-background); color: var(--type-card-font-color); font-weight: 600;">
                     <span style="display: flex; align-items: center; gap: 4px;">
@@ -750,10 +768,12 @@
         </div>
 
         <!-- ── 2 Panel States Row ──────────────────────────────── -->
-        <div class="demo-row" style="gap: 24px; flex-wrap: wrap; margin-bottom: 16px;">
+        <div data-id="panel-states-row"
+            style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; margin-bottom: 16px;">
             <!-- Panel: Inactive -->
-            <div class="demo-col" style="flex: 1; min-width: 280px; max-width: 480px;">
-                <span class="demo-label" data-id="panel-label-inactive"></span>
+            <div style="display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 280px; max-width: 480px;">
+                <span data-id="panel-label-inactive"
+                    style="font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary);"></span>
                 <div data-id="panel-inactive"
                     style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; border-radius: var(--radius-md); overflow: hidden; font-family: var(--sans); width: 100%; box-shadow: var(--shadow-card); border: 1px solid var(--border-subtle); margin-bottom: 10px;">
                     <div data-id="panel-inactive-top"
@@ -772,8 +792,9 @@
                 </div>
             </div>
             <!-- Panel: Active -->
-            <div class="demo-col" style="flex: 1; min-width: 280px; max-width: 480px;">
-                <span class="demo-label" data-id="panel-label-active"></span>
+            <div style="display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 280px; max-width: 480px;">
+                <span data-id="panel-label-active"
+                    style="font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary);"></span>
                 <div data-id="panel-active"
                     style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; border-radius: var(--radius-md); overflow: hidden; font-family: var(--sans); width: 100%; box-shadow: var(--shadow-card); border: 2px solid var(--type-card-background); margin-bottom: 10px;">
                     <div data-id="panel-active-top"
@@ -794,8 +815,9 @@
         </div>
 
         <!-- ── Color Variable Mapping Table ────────────────────── -->
-        <div class="card-surface" style="margin-bottom:28px; border: 2px solid #4CAF50;">
-            <div class="tbl-wrap">
+        <div
+            style="background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden; margin-bottom: 28px; border: 2px solid #4CAF50;">
+            <div style="overflow-x: auto;">
                 <table>
                     <thead>
                         <tr>
@@ -808,18 +830,38 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="t-role" style="color: #D32F2F;">--type-card-background</td>
-                            <td class="t-hex tbl-bg-inactive" style="text-align: center;"></td>
-                            <td class="t-hex tbl-bg-hover" style="text-align: center;"></td>
-                            <td class="t-hex tbl-bg-focus" style="text-align: center;"></td>
-                            <td class="t-hex tbl-bg-active" style="text-align: center;"></td>
+                            <td data-id="tbl-role-bg"
+                                style="color: #D32F2F; font-family: var(--mono); font-weight: 500; font-size: 12px;">
+                                --type-card-background</td>
+                            <td data-id="tbl-bg-inactive"
+                                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em; text-align: center;">
+                            </td>
+                            <td data-id="tbl-bg-hover"
+                                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em; text-align: center;">
+                            </td>
+                            <td data-id="tbl-bg-focus"
+                                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em; text-align: center;">
+                            </td>
+                            <td data-id="tbl-bg-active"
+                                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em; text-align: center;">
+                            </td>
                         </tr>
                         <tr>
-                            <td class="t-role" style="color: #D32F2F;">--type-card-font-color</td>
-                            <td class="t-hex tbl-fc-inactive" style="text-align: center;"></td>
-                            <td class="t-hex tbl-fc-hover" style="text-align: center;"></td>
-                            <td class="t-hex tbl-fc-focus" style="text-align: center;"></td>
-                            <td class="t-hex tbl-fc-active" style="text-align: center;"></td>
+                            <td data-id="tbl-role-fc"
+                                style="color: #D32F2F; font-family: var(--mono); font-weight: 500; font-size: 12px;">
+                                --type-card-font-color</td>
+                            <td data-id="tbl-fc-inactive"
+                                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em; text-align: center;">
+                            </td>
+                            <td data-id="tbl-fc-hover"
+                                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em; text-align: center;">
+                            </td>
+                            <td data-id="tbl-fc-focus"
+                                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em; text-align: center;">
+                            </td>
+                            <td data-id="tbl-fc-active"
+                                style="color: #D97706; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: .04em; text-align: center;">
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -858,23 +900,23 @@
             palette.forEach(color => {
                 // Render Tile
                 const tileNode = tileTmpl.content.cloneNode(true);
-                const block = tileNode.querySelector('.color-block');
+                const block = tileNode.querySelector('[data-id="color-block"]');
                 block.style.background = color.backgroundHex;
                 if (color.borderHex) block.style.border = `1px solid ${color.borderHex}`;
-                tileNode.querySelector('.color-role').textContent = color.role;
-                tileNode.querySelector('.color-hex').textContent = color.hex;
-                tileNode.querySelector('.color-desc').textContent = color.description;
+                tileNode.querySelector('[data-id="color-role"]').textContent = color.role;
+                tileNode.querySelector('[data-id="color-hex"]').textContent = color.hex;
+                tileNode.querySelector('[data-id="color-desc"]').textContent = color.description;
                 gridContainer.appendChild(tileNode);
 
                 // Render Table Row
                 const rowNode = rowTmpl.content.cloneNode(true);
-                const dot = rowNode.querySelector('.swatch-dot');
+                const dot = rowNode.querySelector('[data-id="swatch-cell"] [data-id="swatch-dot"]');
                 dot.style.background = color.backgroundHex;
                 if (color.borderHex) dot.style.borderColor = color.borderHex;
-                rowNode.querySelector('.t-role').textContent = color.role;
-                rowNode.querySelector('.t-hex').textContent = color.hex;
-                rowNode.querySelector('.t-rgb').textContent = color.rgb;
-                rowNode.querySelector('.t-desc').textContent = color.description;
+                rowNode.querySelector('[data-id="t-role"]').textContent = color.role;
+                rowNode.querySelector('[data-id="t-hex"]').textContent = color.hex;
+                rowNode.querySelector('[data-id="t-rgb"]').textContent = color.rgb;
+                rowNode.querySelector('[data-id="t-desc"]').textContent = color.description;
                 tableBody.appendChild(rowNode);
             });
         }
@@ -886,34 +928,45 @@
             fileTypes.forEach(ft => {
                 const node = tmpl.content.cloneNode(true);
 
-                node.querySelector('.icon-cell.s').innerHTML = ft.svgContent;
-                node.querySelector('.icon-cell.m').innerHTML = ft.svgContent;
-                node.querySelector('.icon-cell.l').innerHTML = ft.svgContent;
+                node.querySelector('[data-id="icon-s"]').innerHTML = ft.svgContent;
+                if (node.querySelector('[data-id="icon-s"] svg')) {
+                    node.querySelector('[data-id="icon-s"] svg').style.width = '16px';
+                    node.querySelector('[data-id="icon-s"] svg').style.height = '16px';
+                }
 
-                // For proper scaling, make sure the injected svg has width:100% height:100% or similar
-                // But since CSS '.icon-cell.s svg { width: 16px; ... }' exists, it scales nicely.
+                node.querySelector('[data-id="icon-m"]').innerHTML = ft.svgContent;
+                if (node.querySelector('[data-id="icon-m"] svg')) {
+                    node.querySelector('[data-id="icon-m"] svg').style.width = '24px';
+                    node.querySelector('[data-id="icon-m"] svg').style.height = '24px';
+                }
 
-                node.querySelector('.t-name').textContent = ft.name;
-                node.querySelector('.t-ext code').textContent = ft.ext;
+                node.querySelector('[data-id="icon-l"]').innerHTML = ft.svgContent;
+                if (node.querySelector('[data-id="icon-l"] svg')) {
+                    node.querySelector('[data-id="icon-l"] svg').style.width = '32px';
+                    node.querySelector('[data-id="icon-l"] svg').style.height = '32px';
+                }
+
+                node.querySelector('[data-id="t-name"]').textContent = ft.name;
+                node.querySelector('[data-id="t-ext"] code').textContent = ft.ext;
 
                 const svgSnippet = ft.svgContent.match(/<svg[^>]*>.*?<\/svg>/is);
                 const escapedSvg = ft.svgContent.substring(0, Math.min(60, ft.svgContent.length)) + '...';
                 // Creating a small snippet string
                 let fillMatch = ft.svgContent.match(/fill="([^"]+)"/);
                 let snippetStr = fillMatch ? `<svg ... fill="${fillMatch[1]}"/>` : `<svg ... />`;
-                node.querySelector('.t-code').textContent = snippetStr;
+                node.querySelector('[data-id="t-code"]').textContent = snippetStr;
 
-                const pt = node.querySelector('.swatch-primary .swatch-dot');
+                const pt = node.querySelector('[data-id="swatch-primary"] [data-id="swatch-dot"]');
                 pt.style.background = ft.colors.primaryHex;
 
-                const st = node.querySelector('.swatch-secondary .swatch-dot');
+                const st = node.querySelector('[data-id="swatch-secondary"] [data-id="swatch-dot"]');
                 st.style.background = ft.colors.secondaryHex;
                 if (ft.colors.secondaryBorderHex) {
                     st.style.borderColor = ft.colors.secondaryBorderHex;
                 }
 
-                node.querySelector('.hex-primary').textContent = ft.colors.primaryHex;
-                node.querySelector('.hex-secondary').textContent = ft.colors.secondaryHex;
+                node.querySelector('[data-id="hex-primary"]').textContent = ft.colors.primaryHex;
+                node.querySelector('[data-id="hex-secondary"]').textContent = ft.colors.secondaryHex;
 
                 tbody.appendChild(node);
             });
@@ -933,7 +986,7 @@
                 const sampleFile = `LICENSE${ft.ext}`;
 
                 // ── Header Row ──
-                node.querySelector('.file-title').textContent = ftName;
+                node.querySelector('[data-id="file-title"]').textContent = ftName;
                 const hdrIcon = node.querySelector('[data-id="header-icon"]');
                 hdrIcon.innerHTML = ft.svgContent;
                 const hdrSvg = hdrIcon.querySelector('svg');
@@ -985,8 +1038,8 @@
 
                 // ── Color Variable Mapping Table ──
                 cardStates.forEach(state => {
-                    node.querySelector(`.tbl-bg-${state}`).textContent = 'typeColor1';
-                    node.querySelector(`.tbl-fc-${state}`).textContent = 'typeColor2';
+                    node.querySelector(`[data-id="tbl-bg-${state}"]`).textContent = 'typeColor1';
+                    node.querySelector(`[data-id="tbl-fc-${state}"]`).textContent = 'typeColor2';
                 });
 
                 container.appendChild(node);
