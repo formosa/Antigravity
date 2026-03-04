@@ -618,11 +618,14 @@
         </div>
 
         <!-- ── Inactive per File Type ─────────────────────────────── -->
-        <h3 class="sub">Inactive States — Per File Type</h3>
+        <h3 class="sub">Display States — Per File Type</h3>
         <p class="section-desc" style="margin-top:-4px;">
-            The bottom bar is invariant across all file types: bg <strong>#F9FAFB</strong> · text
-            <strong>#111827</strong> · border-top <strong>#E5E7EB</strong>.
-            Outer container border is always <strong>#E5E7EB</strong>.
+            Each file type derives two color tokens from its icon palette:
+            <strong>typeColor1</strong> (primary) and <strong>typeColor2</strong> (secondary).
+            Cards use <code>--type-card-background: typeColor1</code> and
+            <code>--type-card-font-color: typeColor2</code> across all states.
+            The bottom bar is invariant: bg <strong>#F9FAFB</strong> · text <strong>#111827</strong> · border-top
+            <strong>#E5E7EB</strong>.
         </p>
 
         <div id="inactive-panels-container"></div>
@@ -667,65 +670,156 @@
     </template>
 
     <template id="tmpl-inactive-panel">
+        <!-- ── Header Row ──────────────────────────────────────── -->
         <h4 class="item-title file-title"></h4>
-        <div class="demo-row">
+        <div data-id="header-row" class="demo-row" style="align-items: center; gap: 16px; margin-bottom: 12px;">
+            <div data-id="header-icon" style="width: 32px; height: 32px; flex-shrink: 0;"></div>
+            <span data-id="header-name" style="font-weight: 600; font-size: 14px;"></span>
+            <span data-id="header-ext"
+                style="font-family: var(--mono); font-size: 12px; color: var(--text-secondary);"></span>
+            <span data-id="header-svg-code"
+                style="font-family: var(--mono); font-size: 10.5px; color: #10B981; background: #1F2937; padding: 4px 8px; border-radius: var(--radius-sm); white-space: nowrap;"></span>
+            <span data-id="header-color1-label"
+                style="font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--text-secondary);"></span>
+            <span data-id="header-swatch1" class="swatch-dot"
+                style="width: 22px; height: 22px; border-radius: 4px; display: inline-block; vertical-align: middle;"></span>
+            <span data-id="header-color2-label"
+                style="font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--text-secondary);"></span>
+            <span data-id="header-swatch2" class="swatch-dot"
+                style="width: 22px; height: 22px; border-radius: 4px; display: inline-block; vertical-align: middle;"></span>
+        </div>
+
+        <!-- ── 4 Card States Row ───────────────────────────────── -->
+        <div class="demo-row" style="gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+            <!-- Card: Inactive -->
             <div class="demo-col">
-                <span class="demo-label">Card — Inactive</span>
-                <div data-id="file-card"
-                    style="display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; border-radius: var(--radius-md); padding: 5px 6px; font-family: var(--sans); font-size: 13px; width: 210px; box-shadow: var(--shadow-card); background: var(--card-bg, var(--surface)); border: 1px solid var(--card-border, var(--border-subtle)); color: var(--card-color, var(--text-secondary));">
-                    <span data-id="card-left" style="display: flex; align-items: center; gap: 4px;">
-                        <span data-id="drag-icon"
-                            style="font-size: 18px; font-family: var(--sans); cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x283F;</span>
-                        <span data-id="card-filename"></span>
+                <span class="demo-label" data-id="card-label-inactive"></span>
+                <div data-id="card-inactive"
+                    style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; border-radius: var(--radius-md); padding: 5px 6px; font-family: var(--sans); font-size: 13px; width: 210px; box-shadow: var(--shadow-card); background: var(--type-card-background); border: 1px solid var(--border-subtle); color: var(--type-card-font-color);">
+                    <span style="display: flex; align-items: center; gap: 4px;">
+                        <span
+                            style="font-size: 18px; cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x283F;</span>
+                        <span data-id="card-filename-inactive"></span>
                     </span>
-                    <span data-id="close-icon"
-                        style="font-size: 14px; font-family: var(--sans); cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x2716;</span>
+                    <span
+                        style="font-size: 14px; cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x2716;</span>
+                </div>
+            </div>
+            <!-- Card: Hover / Mouse-Over -->
+            <div class="demo-col">
+                <span class="demo-label" data-id="card-label-hover"></span>
+                <div data-id="card-hover"
+                    style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; border-radius: var(--radius-md); padding: 5px 6px; font-family: var(--sans); font-size: 13px; width: 210px; box-shadow: var(--shadow-lg); background: var(--type-card-background); border: 1px solid var(--border-subtle); color: var(--type-card-font-color);">
+                    <span style="display: flex; align-items: center; gap: 4px;">
+                        <span
+                            style="font-size: 18px; cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x283F;</span>
+                        <span data-id="card-filename-hover"></span>
+                    </span>
+                    <span
+                        style="font-size: 14px; cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x2716;</span>
+                </div>
+            </div>
+            <!-- Card: Focus -->
+            <div class="demo-col">
+                <span class="demo-label" data-id="card-label-focus"></span>
+                <div data-id="card-focus"
+                    style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; border-radius: var(--radius-md); padding: 5px 6px; font-family: var(--sans); font-size: 13px; width: 210px; box-shadow: 0 0 0 2px var(--type-card-background); background: var(--type-card-background); border: 2px solid var(--type-card-background); color: var(--type-card-font-color);">
+                    <span style="display: flex; align-items: center; gap: 4px;">
+                        <span
+                            style="font-size: 18px; cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x283F;</span>
+                        <span data-id="card-filename-focus"></span>
+                    </span>
+                    <span
+                        style="font-size: 14px; cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x2716;</span>
+                </div>
+            </div>
+            <!-- Card: Active -->
+            <div class="demo-col">
+                <span class="demo-label" data-id="card-label-active"></span>
+                <div data-id="card-active"
+                    style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; border-radius: var(--radius-md); padding: 5px 6px; font-family: var(--sans); font-size: 13px; width: 210px; box-shadow: var(--shadow-card); background: var(--type-card-background); border: 2px solid var(--type-card-background); color: var(--type-card-font-color); font-weight: 600;">
+                    <span style="display: flex; align-items: center; gap: 4px;">
+                        <span
+                            style="font-size: 18px; cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x283F;</span>
+                        <span data-id="card-filename-active"></span>
+                    </span>
+                    <span
+                        style="font-size: 14px; cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x2716;</span>
                 </div>
             </div>
         </div>
-        <span class="demo-label">Panel — Inactive</span>
-        <div data-id="file-panel"
-            style="border-radius: var(--radius-md); overflow: hidden; font-family: var(--sans); width: 100%; max-width: 580px; box-shadow: var(--shadow-card); border: 2px solid var(--panel-outer-border, var(--border-subtle)); margin-bottom: 10px;">
-            <div data-id="panel-top"
-                style="display: flex; align-items: center; gap: 8px; padding: 7px 10px; font-size: 12.5px; font-weight: 500; background: var(--panel-top-bg, var(--app-bg)); color: var(--panel-top-text, var(--text-secondary)); border-bottom: 2px solid var(--panel-top-border, var(--border-subtle));">
-                <div data-id="panel-icon" style="width: 18px; height: 18px; flex-shrink: 0;"></div>
-                <span data-id="panel-title" style="flex: 1; font-size: 12px;"></span>
-                <span data-id="close-icon"
-                    style="font-size: 14px; font-family: var(--sans); cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x2716;</span>
+
+        <!-- ── 2 Panel States Row ──────────────────────────────── -->
+        <div class="demo-row" style="gap: 24px; flex-wrap: wrap; margin-bottom: 16px;">
+            <!-- Panel: Inactive -->
+            <div class="demo-col" style="flex: 1; min-width: 280px; max-width: 480px;">
+                <span class="demo-label" data-id="panel-label-inactive"></span>
+                <div data-id="panel-inactive"
+                    style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; border-radius: var(--radius-md); overflow: hidden; font-family: var(--sans); width: 100%; box-shadow: var(--shadow-card); border: 1px solid var(--border-subtle); margin-bottom: 10px;">
+                    <div data-id="panel-inactive-top"
+                        style="display: flex; align-items: center; gap: 8px; padding: 7px 10px; font-size: 12.5px; font-weight: 500; background: var(--type-card-background); color: var(--type-card-font-color); border-bottom: 1px solid var(--border-subtle);">
+                        <div data-id="panel-inactive-icon" style="width: 18px; height: 18px; flex-shrink: 0;"></div>
+                        <span data-id="panel-inactive-title" style="flex: 1; font-size: 12px;"></span>
+                        <span
+                            style="font-size: 14px; cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x2716;</span>
+                    </div>
+                    <div data-id="panel-inactive-body"
+                        style="padding: 18px; font-size: 12px; background: var(--type-card-font-color); color: var(--type-card-background);">
+                    </div>
+                    <div
+                        style="padding: 8px 12px; font-size: 11.5px; background: var(--sidebar-bg); color: var(--text-primary); border-top: 1px solid var(--border-subtle);">
+                        Bottom Bar (inactive)</div>
+                </div>
             </div>
-            <div data-id="panel-body"
-                style="padding: 18px; font-size: 12px; background: var(--panel-body-bg, var(--app-bg)); color: var(--panel-body-text, var(--text-secondary));">
+            <!-- Panel: Active -->
+            <div class="demo-col" style="flex: 1; min-width: 280px; max-width: 480px;">
+                <span class="demo-label" data-id="panel-label-active"></span>
+                <div data-id="panel-active"
+                    style="--type-card-background: #PLACEHOLDER; --type-card-font-color: #PLACEHOLDER; border-radius: var(--radius-md); overflow: hidden; font-family: var(--sans); width: 100%; box-shadow: var(--shadow-card); border: 2px solid var(--type-card-background); margin-bottom: 10px;">
+                    <div data-id="panel-active-top"
+                        style="display: flex; align-items: center; gap: 8px; padding: 7px 10px; font-size: 12.5px; font-weight: 500; background: var(--type-card-background); color: var(--type-card-font-color); border-bottom: 1px solid var(--type-card-background);">
+                        <div data-id="panel-active-icon" style="width: 18px; height: 18px; flex-shrink: 0;"></div>
+                        <span data-id="panel-active-title" style="flex: 1; font-size: 12px;"></span>
+                        <span
+                            style="font-size: 14px; cursor: pointer; color: var(--border-ctrl); line-height: 1;">&#x2716;</span>
+                    </div>
+                    <div data-id="panel-active-body"
+                        style="padding: 18px; font-size: 12px; background: var(--type-card-font-color); color: var(--type-card-background);">
+                    </div>
+                    <div
+                        style="padding: 8px 12px; font-size: 11.5px; background: var(--sidebar-bg); color: var(--text-primary); border-top: 1px solid var(--border-subtle);">
+                        Bottom Bar (active)</div>
+                </div>
             </div>
-            <div data-id="panel-foot"
-                style="padding: 8px 12px; font-size: 11.5px; background: var(--sidebar-bg); color: var(--text-primary); border-top: 2px solid var(--panel-foot-border, var(--border-subtle));">
-                Bottom Bar
-                (inactive)</div>
         </div>
-        <div class="card-surface" style="margin-bottom:28px;">
+
+        <!-- ── Color Variable Mapping Table ────────────────────── -->
+        <div class="card-surface" style="margin-bottom:28px; border: 2px solid #4CAF50;">
             <div class="tbl-wrap">
                 <table>
                     <thead>
                         <tr>
-                            <th>Element</th>
-                            <th>Background</th>
-                            <th>Text</th>
+                            <th></th>
+                            <th style="text-align: center; color: #D32F2F;">inactive</th>
+                            <th style="text-align: center; color: #D32F2F;">hover / mouse-over</th>
+                            <th style="text-align: center; color: #D32F2F;">focus</th>
+                            <th style="text-align: center; color: #D32F2F;">active</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="t-role">Top Bar</td>
-                            <td class="t-hex tb-bg"></td>
-                            <td class="t-hex tb-text"></td>
+                            <td class="t-role" style="color: #D32F2F;">--type-card-background</td>
+                            <td class="t-hex tbl-bg-inactive" style="text-align: center;"></td>
+                            <td class="t-hex tbl-bg-hover" style="text-align: center;"></td>
+                            <td class="t-hex tbl-bg-focus" style="text-align: center;"></td>
+                            <td class="t-hex tbl-bg-active" style="text-align: center;"></td>
                         </tr>
                         <tr>
-                            <td class="t-role">Center Content</td>
-                            <td class="t-hex cb-bg"></td>
-                            <td class="t-hex cb-text"></td>
-                        </tr>
-                        <tr>
-                            <td class="t-role">Bottom Bar</td>
-                            <td class="t-hex">#F9FAFB</td>
-                            <td class="t-hex">#111827</td>
+                            <td class="t-role" style="color: #D32F2F;">--type-card-font-color</td>
+                            <td class="t-hex tbl-fc-inactive" style="text-align: center;"></td>
+                            <td class="t-hex tbl-fc-hover" style="text-align: center;"></td>
+                            <td class="t-hex tbl-fc-focus" style="text-align: center;"></td>
+                            <td class="t-hex tbl-fc-active" style="text-align: center;"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -831,62 +925,69 @@
 
             fileTypes.forEach(ft => {
                 const node = tmpl.content.cloneNode(true);
-                const title = node.querySelector('.file-title');
-                title.textContent = `${ft.name} (${ft.ext})`;
+                // ── Derived tokens ──
+                const c1 = ft.colors.primaryHex;   // typeColor1
+                const c2 = ft.colors.secondaryHex; // typeColor2
+                const ftId = ft.id;                // e.g. "python"
+                const ftName = ft.name;            // e.g. "Python"
+                const sampleFile = `LICENSE${ft.ext}`;
 
-                const cardFilename = node.querySelector('[data-id="card-filename"]');
-                if (cardFilename) {
-                    cardFilename.textContent = `LICENSE${ft.ext}`;
-                }
+                // ── Header Row ──
+                node.querySelector('.file-title').textContent = ftName;
+                const hdrIcon = node.querySelector('[data-id="header-icon"]');
+                hdrIcon.innerHTML = ft.svgContent;
+                const hdrSvg = hdrIcon.querySelector('svg');
+                if (hdrSvg) { hdrSvg.style.width = '100%'; hdrSvg.style.height = '100%'; }
+                node.querySelector('[data-id="header-name"]').textContent = ftName;
+                node.querySelector('[data-id="header-ext"]').textContent = ft.ext;
+                // SVG code snippet — extract first fill attribute
+                const fillMatch = ft.svgContent.match(/fill="([^"]+)"/);
+                node.querySelector('[data-id="header-svg-code"]').textContent =
+                    fillMatch ? `<svg ... fill="${fillMatch[1]}"/>` : `<svg ... fill="none"/>`;
+                node.querySelector('[data-id="header-color1-label"]').textContent = c1;
+                node.querySelector('[data-id="header-swatch1"]').style.background = c1;
+                node.querySelector('[data-id="header-color2-label"]').textContent = c2;
+                const swatch2 = node.querySelector('[data-id="header-swatch2"]');
+                swatch2.style.background = c2;
+                if (ft.colors.secondaryBorderHex) swatch2.style.borderColor = ft.colors.secondaryBorderHex;
 
-                const demoLabels = node.querySelectorAll('.demo-label');
-                if (demoLabels.length >= 2) {
-                    demoLabels[0].textContent = `${ft.name}: Card (inactive)`;
-                    demoLabels[1].textContent = `${ft.name}: Panel (inactive)`;
-                }
-
-                const fileCard = node.querySelector('[data-id="file-card"]');
-                if (fileCard) {
-                    fileCard.style.setProperty('--card-bg', ft.colors.panelTopBg);
-                    fileCard.style.setProperty('--card-color', ft.colors.panelBodyBg);
-                    fileCard.style.setProperty('--card-border', ft.colors.panelTopBg);
-                }
-
-                const panelIcons = node.querySelectorAll('[data-id="panel-icon"]');
-                panelIcons.forEach(icon => {
-                    icon.innerHTML = ft.svgContent;
-                    const svg = icon.querySelector('svg');
-                    if (svg) {
-                        svg.style.width = '100%';
-                        svg.style.height = '100%';
-                    }
+                // ── Cards — set labels, filenames, and CSS variables ──
+                const cardStates = ['inactive', 'hover', 'focus', 'active'];
+                cardStates.forEach(state => {
+                    node.querySelector(`[data-id="card-label-${state}"]`).textContent =
+                        `${ftName}: Card (${state})`;
+                    node.querySelector(`[data-id="card-filename-${state}"]`).textContent = sampleFile;
+                    const card = node.querySelector(`[data-id="card-${state}"]`);
+                    card.style.setProperty('--type-card-background', c1);
+                    card.style.setProperty('--type-card-font-color', c2);
                 });
 
-                const panelTop = node.querySelector('[data-id="panel-top"]');
-                if (panelTop) {
-                    panelTop.style.setProperty('--panel-top-bg', ft.colors.panelTopBg);
-                    panelTop.style.setProperty('--panel-top-text', ft.colors.panelTopText);
-                    panelTop.style.setProperty('--panel-top-border', ft.colors.panelTopBg);
-                }
+                // ── Panels — set labels, icons, titles, bodies, and CSS variables ──
+                const panelStates = ['inactive', 'active'];
+                panelStates.forEach(state => {
+                    node.querySelector(`[data-id="panel-label-${state}"]`).textContent =
+                        `${ftName}: Panel (${state})`;
+                    const panel = node.querySelector(`[data-id="panel-${state}"]`);
+                    panel.style.setProperty('--type-card-background', c1);
+                    panel.style.setProperty('--type-card-font-color', c2);
+                    // Icon
+                    const iconEl = node.querySelector(`[data-id="panel-${state}-icon"]`);
+                    iconEl.innerHTML = ft.svgContent;
+                    const svg = iconEl.querySelector('svg');
+                    if (svg) { svg.style.width = '100%'; svg.style.height = '100%'; }
+                    // Title text
+                    node.querySelector(`[data-id="panel-${state}-title"]`).textContent =
+                        `Top Bar (${state}) — bg: ${c1} · color: ${c2}`;
+                    // Body text
+                    node.querySelector(`[data-id="panel-${state}-body"]`).textContent =
+                        `Center Content (${state}) — bg: ${c2} · color: ${c1}`;
+                });
 
-                const closeIcon = node.querySelector('[data-id="panel-top"] [data-id="close-icon"]');
-                if (ft.colors.panelTopText === '#111827') {
-                    // some top text requires dark colored span overrides... handled by css generally or simple override
-                }
-                node.querySelector('[data-id="panel-title"]').textContent = `Top Bar (inactive) — bg: ${ft.colors.panelTopBg} · color: ${ft.colors.panelTopText}`;
-
-                const panelBody = node.querySelector('[data-id="panel-body"]');
-                if (panelBody) {
-                    panelBody.style.setProperty('--panel-body-bg', ft.colors.panelBodyBg);
-                    panelBody.style.setProperty('--panel-body-text', ft.colors.panelBodyText);
-                    panelBody.textContent = `Center Content (inactive) — bg: ${ft.colors.panelBodyBg} · color: ${ft.colors.panelBodyText}`;
-                }
-
-                node.querySelector('.tb-bg').textContent = ft.colors.panelTopBg;
-                node.querySelector('.tb-text').textContent = ft.colors.panelTopText;
-
-                node.querySelector('.cb-bg').textContent = ft.colors.panelBodyBg;
-                node.querySelector('.cb-text').textContent = ft.colors.panelBodyText;
+                // ── Color Variable Mapping Table ──
+                cardStates.forEach(state => {
+                    node.querySelector(`.tbl-bg-${state}`).textContent = 'typeColor1';
+                    node.querySelector(`.tbl-fc-${state}`).textContent = 'typeColor2';
+                });
 
                 container.appendChild(node);
             });
