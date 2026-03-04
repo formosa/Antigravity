@@ -126,6 +126,6 @@
         "PYTHONIOENCODING": "utf-8"
     },
     "markdown.validate.ignoredLinks": [
-        "../assets/schemas/rule/rule.d.ts"
+        "../schemas/rule/rule.d.ts"
     ]
 }

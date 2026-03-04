@@ -5,7 +5,7 @@
 **Reference Documents:**
 
 - `.agent\assets\proposals\future\documentation_system\27. Antigravity Agent Asset Definition Files.md` (Formatting)
-- `.agent\assets\schemas\` (Modular Schema Definitions, v1.18.3)
+- `.agent\schemas\` (Modular Schema Definitions, v1.18.3)
 
 ---
 
@@ -537,7 +537,7 @@ When converting files from previous formatting structures:
 
 ## 14. Agent Asset Schema Requirements
 
-This section defines the schema requirements for Antigravity agent asset definition files. All agent assets use YAML frontmatter conforming to the interfaces defined in the modular schema definition files located in `.agent/assets/schemas/` (v1.18.3).
+This section defines the schema requirements for Antigravity agent asset definition files. All agent assets use YAML frontmatter conforming to the interfaces defined in the modular schema definition files located in `.agent/schemas/` (v1.18.3).
 
 ### 14.1 Asset Type Overview
 
@@ -560,7 +560,7 @@ This section defines the schema requirements for Antigravity agent asset definit
 
 **Interface:** `GeminiMdConfiguration`
 
-**Schema Source:** `.agent/assets/schemas/gemini/gemini.d.ts`
+**Schema Source:** `.agent/schemas/gemini/gemini.d.ts`
 
 | Frontmatter Property | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -603,7 +603,7 @@ temperature: 0.1
 
 **Interface:** `SkillDefinition`
 
-**Schema Source:** `.agent/assets/schemas/skill/skill.d.ts`
+**Schema Source:** `.agent/schemas/skill/skill.d.ts`
 
 | Frontmatter Property | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -633,7 +633,7 @@ description: "Generate Python code stubs with Numpy-style docstrings from TDD ta
 
 **Interface:** `RuleDefinition`
 
-**Schema Source:** `.agent/assets/schemas/rule/rule.d.ts`
+**Schema Source:** `.agent/schemas/rule/rule.d.ts`
 
 | Frontmatter Property | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -667,7 +667,7 @@ priority: "high"
 
 **Interface:** `SecurityPolicyDefinition`
 
-**Schema Source:** `.agent/assets/schemas/security-policy/security-policy.d.ts`
+**Schema Source:** `.agent/schemas/security-policy/security-policy.d.ts`
 
 | Frontmatter Property | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -701,7 +701,7 @@ priority: "critical"
 
 **Interface:** `WorkflowDefinition`
 
-**Schema Source:** `.agent/assets/schemas/workflow/workflow.d.ts`
+**Schema Source:** `.agent/schemas/workflow/workflow.d.ts`
 
 | Frontmatter Property | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -730,7 +730,7 @@ description: "End-to-end documentation of new system features."
 
 **Interface:** `ImplementationPlanDefinition`
 
-**Schema Source:** `.agent/assets/schemas/implementation-plan/implementation-plan.d.ts`
+**Schema Source:** `.agent/schemas/implementation-plan/implementation-plan.d.ts`
 
 | Frontmatter Property | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -762,7 +762,7 @@ model: "gemini-3.1-pro"
 
 **Interface:** `TaskDefinition`
 
-**Schema Source:** `.agent/assets/schemas/task/task.d.ts`
+**Schema Source:** `.agent/schemas/task/task.d.ts`
 
 | Frontmatter Property | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -800,7 +800,7 @@ target_model: "gemini-3.1-pro"
 
 **Interface:** `WalkthroughDefinition`
 
-**Schema Source:** `.agent/assets/schemas/walkthrough/walkthrough.d.ts`
+**Schema Source:** `.agent/schemas/walkthrough/walkthrough.d.ts`
 
 | Body Content Field | XML Tag | Required | Description |
 | :--- | :--- | :--- | :--- |

@@ -9,7 +9,7 @@ def main():
     args = parser.parse_args()
 
     config_path = Path(__file__).parent.parent / "config.json"
-    schemas_dir = Path("c:/AI/10162025/maggie/Antigravity/.agent/assets/schemas")
+    schemas_dir = Path("c:/AI/10162025/maggie/Antigravity/.agent/schemas")
     if config_path.exists():
         cfg = json.loads(config_path.read_text())
         schemas_dir = Path(cfg.get("default_schema_location", str(schemas_dir)))

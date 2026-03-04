@@ -10,14 +10,14 @@ description: "Protects .agent/assets/ directory from unauthorized modifications.
 
 ## Rule Statement
 
-**Files in `.agent/assets/` are READ-ONLY reference schemas. Modifications require explicit user approval.**
+**Files in `.agent/assets/` and `.agent/schemas/` are READ-ONLY reference files/schemas. Modifications require explicit user approval.**
 
 ## Detection
 
-| Pattern                                  | Location              |
-| :--------------------------------------- | :-------------------- |
-| Edit command targeting `.agent/assets/*` | Any agent tool call   |
-| Overwrite request                        | File write operations |
+| Pattern                                                        | Location              |
+| :------------------------------------------------------------- | :-------------------- |
+| Edit command targeting `.agent/assets/*` or `.agent/schemas/*` | Any agent tool call   |
+| Overwrite request                                              | File write operations |
 
 ## Enforcement
 
@@ -28,7 +28,7 @@ description: "Protects .agent/assets/ directory from unauthorized modifications.
 
 ## Enforcement Protocol
 
-1. Detect any file operation targeting `.agent/assets/`
+1. Detect any file operation targeting `.agent/assets/` or `.agent/schemas/`
 2. HALT execution immediately
 3. List specific files to be changed
 4. Request explicit user approval

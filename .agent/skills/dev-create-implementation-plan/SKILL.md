@@ -121,7 +121,7 @@ If any field cannot be grounded in project evidence, write `UNKNOWN — RFQ requ
 
 <resources_reference>
 
-- `.agent/assets/schemas/implementation-plan/implementation-plan.d.ts`
-- `.agent/assets/schemas/implementation-plan/example.md`
+- `.agent/schemas/implementation-plan/implementation-plan.d.ts`
+- `.agent/schemas/implementation-plan/example.md`
 - `.gemini/antigravity/brain/`
 </resources_reference>

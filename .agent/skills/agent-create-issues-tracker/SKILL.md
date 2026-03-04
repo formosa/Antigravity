@@ -17,7 +17,7 @@ description: Deterministically initializes an Antigravity-compliant Issues Track
    - `AUTHOR_NAME`
 2. Generate `DOCUMENT_ID` in stable format: `ITR-<UUID4>`.
 3. Read template exactly from:
-   - `.agent/assets/schemas/issues-tracker/template.md`
+   - `.agent/schemas/issues-tracker/template.md`
 4. Perform literal placeholder replacement only:
    - `{{SUBJECT_SYSTEM_NAME}}`
    - `{{DOCUMENT_ID}}`
@@ -40,5 +40,5 @@ If required parameters or template are missing/unreadable, halt and return RFQ.
 
 <resources_reference>
 
-- `.agent/assets/schemas/issues-tracker/template.md`
+- `.agent/schemas/issues-tracker/template.md`
 </resources_reference>

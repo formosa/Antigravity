@@ -8,7 +8,7 @@ def main():
     args = parser.parse_args()
 
     config_path = Path(__file__).parent.parent / "config.json"
-    schemas_dir = Path("c:/AI/10162025/maggie/Antigravity/.agent/assets/schemas")
+    schemas_dir = Path("c:/AI/10162025/maggie/Antigravity/.agent/schemas")
     do_validation = True
     if config_path.exists():
         cfg = json.loads(config_path.read_text())

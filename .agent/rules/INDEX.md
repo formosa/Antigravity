@@ -4,7 +4,7 @@
 >
 > **Total Rules**: 3
 >
-> **Schema**: [`rule.d.ts`](../assets/schemas/rule/rule.d.ts)
+> **Schema**: [`rule.d.ts`](../schemas/rule/rule.d.ts)
 >
 > **Parent**: [`.agent/`](..)
 

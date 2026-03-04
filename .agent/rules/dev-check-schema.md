@@ -3,7 +3,7 @@ name: dev-check-schema
 description: "Enforces 100% strict compliance for Antigravity asset definitions using standard hardware-aware validation."
 version: "1.2.0"
 trigger: glob
-globs: ".agent/assets/schemas/**/*.md, .agent/rules/**/*.md"
+globs: ".agent/schemas/**/*.md, .agent/rules/**/*.md"
 priority: critical
 execution_tier: standard
 ---

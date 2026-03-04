@@ -4,7 +4,7 @@ from pathlib import Path
 
 def main():
     config_path = Path(__file__).parent.parent / "config.json"
-    schemas_dir = Path("c:/AI/10162025/maggie/Antigravity/.agent/assets/schemas")
+    schemas_dir = Path("c:/AI/10162025/maggie/Antigravity/.agent/schemas")
     if config_path.exists():
         schemas_dir = Path(json.loads(config_path.read_text()).get("default_schema_location", str(schemas_dir)))
 
