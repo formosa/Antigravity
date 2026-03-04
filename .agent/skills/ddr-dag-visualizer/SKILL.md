@@ -5,11 +5,13 @@ description: Validates DDR YAML and generates deterministic SVG/PNG DAG artifact
 ---
 
 <when_to_use>
+
 - The user asks to visualize, validate, or inspect a DDR DAG from YAML.
 - The user asks to audit DDR node/edge/tier integrity.
 </when_to_use>
 
 <how_to_use>
+
 1. Confirm input YAML path and output directory (default `./ddr_output/`).
 2. Verify prerequisites:
    - `python -m pip install -r .agent/skills/ddr-dag-visualizer/scripts/requirements.txt`
@@ -33,6 +35,7 @@ If input path is missing or unreadable, halt and request it.
 </constraints>
 
 <resources_reference>
+
 - `.agent/skills/ddr-dag-visualizer/scripts/requirements.txt`
 - `.agent/skills/ddr-dag-visualizer/scripts/visualize.py`
 - `.agent/skills/ddr-dag-visualizer/references/ddr_node_schema.yaml`

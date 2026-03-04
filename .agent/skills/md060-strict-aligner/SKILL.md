@@ -5,11 +5,13 @@ description: Deterministically aligns Markdown tables to satisfy MD060 with mini
 ---
 
 <when_to_use>
+
 - The user asks to fix MD060 table alignment violations.
 - Markdown table formatting must be normalized without content rewrites.
 </when_to_use>
 
 <how_to_use>
+
 1. Identify the markdown file(s) and target tables.
 2. Run the aligner script for deterministic formatting.
 3. Re-run lint/check to confirm MD060 passes.
@@ -25,5 +27,6 @@ If the file has malformed table syntax that cannot be safely aligned, halt and r
 </constraints>
 
 <resources_reference>
+
 - `.agent/skills/md060-strict-aligner/align_table.py`
 </resources_reference>

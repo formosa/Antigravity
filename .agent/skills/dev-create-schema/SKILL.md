@@ -5,12 +5,15 @@ description: Creates and updates Antigravity schemas via scaffold, strict valida
 ---
 
 <when_to_use>
+
 - The user asks to create a new `.d.ts` schema from an example.
 - The user asks to update existing schemas or schema index documentation.
 </when_to_use>
 
 <how_to_use>
+
 ## Mode A: Create schema
+
 1. Confirm source example and schema name (`kebab-case`).
 2. Scaffold:
    - `python .agent/skills/dev-create-schema/scripts/scaffold_schema.py --target-file <path_to_example> --name <schema-name>`
@@ -21,6 +24,7 @@ description: Creates and updates Antigravity schemas via scaffold, strict valida
    - `python .agent/skills/dev-create-schema/scripts/update_index.py`
 
 ## Mode B: Update schema(s)
+
 1. Read requested reference changes.
 2. Apply deterministic updates to target schema files.
 3. Append changelog entry in each affected schema README.
@@ -38,6 +42,7 @@ If validation fails, halt, report failure, and fix before proceeding.
 </constraints>
 
 <resources_reference>
+
 - `.agent/skills/dev-create-schema/scripts/scaffold_schema.py`
 - `.agent/skills/dev-create-schema/scripts/validate_schema.py`
 - `.agent/skills/dev-create-schema/scripts/update_index.py`

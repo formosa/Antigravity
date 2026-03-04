@@ -5,18 +5,22 @@ description: Produces a deterministic Antigravity implementation-plan artifact f
 ---
 
 <when_to_use>
+
 - The user asks for an implementation plan before coding.
 - The user asks to refine or regenerate an existing implementation plan artifact.
 - The task has non-trivial scope, dependencies, or risk and needs deterministic execution steps.
 </when_to_use>
 
 <how_to_use>
+
 ## Operating mode
+
 - Planner model: `gemini-3.1-pro` with high reasoning.
 - Executor model target: `gemini-3-flash` (or project default execution model).
 - IDE target: Antigravity v1.18+.
 
 ## Deterministic protocol
+
 1. **Load local context only first**
    - Read user request, referenced files, and relevant project docs.
    - Read decision memory if present: `.gemini/antigravity/brain/`.
@@ -37,7 +41,9 @@ description: Produces a deterministic Antigravity implementation-plan artifact f
    - Require rollback procedure for high-risk steps.
 
 ## Required artifact structure
+
 Use this exact order:
+
 1. YAML frontmatter
 2. `<objective>`
 3. `<phases>` (omit only for truly single-phase work)
@@ -46,6 +52,7 @@ Use this exact order:
 6. `<risks_and_mitigations>` (optional but recommended for non-trivial tasks)
 
 ## Frontmatter (required)
+
 ```yaml
 ---
 task: "<one-sentence measurable objective>"
@@ -54,7 +61,9 @@ model: "gemini-3.1-pro"
 ```
 
 ## Atomic step contract (required fields)
+
 For each step include:
+
 - Step number
 - Target file(s)
 - Component/function/class signature
@@ -69,11 +78,13 @@ For each step include:
 If any field cannot be grounded in project evidence, write `UNKNOWN — RFQ required` and halt.
 
 ## Review policy mapping
+
 - **Always Proceed (low risk):** isolated internal logic, no schema/API surface changes.
 - **Agent Decides (moderate):** refactors or internal structure changes with bounded risk.
 - **Request Review (high):** schema/data migrations, public API changes, dependency/version changes, irreversible side effects.
 
 ## RFQ format (hard halt output)
+
 ```markdown
 ## RFQ — Request for Clarification
 
@@ -88,14 +99,16 @@ If any field cannot be grounded in project evidence, write `UNKNOWN — RFQ requ
 ```
 
 ## Token-efficiency rules
+
 - Prefer concise bullet points over narrative.
 - Do not repeat constraints in every section.
 - Avoid speculative alternatives unless explicitly requested.
 - Include only files/modules in-scope for this task.
 
 ## Anti-hallucination rules
+
 - Ground every technical decision in either local file evidence or cited external docs.
-- Never invent files, APIs, symbols, or test results.
+- Never invent files, APIs, symbols, terminal commands, or test results.
 - If PRE/POST conditions cannot be verified, halt and emit RFQ.
 </how_to_use>
 
@@ -107,6 +120,7 @@ If any field cannot be grounded in project evidence, write `UNKNOWN — RFQ requ
 </constraints>
 
 <resources_reference>
+
 - `.agent/assets/schemas/implementation-plan/implementation-plan.d.ts`
 - `.agent/assets/schemas/implementation-plan/example.md`
 - `.gemini/antigravity/brain/`

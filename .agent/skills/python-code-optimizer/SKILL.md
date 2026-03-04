@@ -5,12 +5,15 @@ description: Optimizes Python code using deterministic AST-first transformations
 ---
 
 <when_to_use>
+
 - The user asks to improve Python quality, maintainability, or style.
 - The user asks for complexity/entropy reduction or Clean Code enforcement.
 </when_to_use>
 
 <how_to_use>
+
 ## Standard workflow
+
 1. Analyze baseline:
    - `python .agent/skills/python-code-optimizer/scripts/analyze_complexity.py --input <file.py>`
    - `python .agent/skills/python-code-optimizer/scripts/analyze_entropy.py <file.py>`
@@ -21,11 +24,13 @@ description: Optimizes Python code using deterministic AST-first transformations
 4. If validation fails, keep original unchanged and report exact failure.
 
 ## Decision policy
+
 - Default level: `balanced`.
 - Use `conservative` for minimal-risk edits.
 - Use `aggressive`/`extreme` only when explicitly requested or when quality targets are unmet after balanced pass.
 
 ## Quality targets
+
 - Cyclomatic complexity: <=10/function
 - Cognitive complexity: <=15/function
 - Maintainability Index: >=75
@@ -34,6 +39,7 @@ description: Optimizes Python code using deterministic AST-first transformations
 - Type hint coverage: >=70%
 
 ## Anti-hallucination safeguards
+
 - Never claim metrics without command output.
 - Never claim API preservation unless validation confirms it.
 - If tooling is missing, report the limitation and run available checks only.
@@ -46,6 +52,7 @@ description: Optimizes Python code using deterministic AST-first transformations
 </constraints>
 
 <resources_reference>
+
 - `.agent/skills/python-code-optimizer/scripts/optimize_python.py`
 - `.agent/skills/python-code-optimizer/scripts/validation_suite.py`
 - `.agent/skills/python-code-optimizer/scripts/analyze_complexity.py`

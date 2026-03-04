@@ -5,11 +5,13 @@ description: Deterministically initializes an Antigravity-compliant Issues Track
 ---
 
 <when_to_use>
+
 - The user asks to create/initialize a new Issues Tracker document.
 - The task needs a fresh defect log for a project/system.
 </when_to_use>
 
 <how_to_use>
+
 1. Resolve required parameters from context:
    - `SUBJECT_SYSTEM_NAME`
    - `AUTHOR_NAME`
@@ -37,5 +39,6 @@ If required parameters or template are missing/unreadable, halt and return RFQ.
 </constraints>
 
 <resources_reference>
+
 - `.agent/assets/schemas/issues-tracker/template.md`
 </resources_reference>
