@@ -98,32 +98,63 @@ This approach uses the existing binary activation model (active/disabled) but ad
 
 * **Citations:** The Git version control model provides precedent: `git stash` (analogous to `SNAPSHOT_POOL`) preserves work-in-progress without committing, and `git stash pop` (analogous to `RESTORE_POOL`) restores it. This pattern is well-understood by practitioners and maps naturally to the Pool preservation use case. The OpenAPI Specification v3.1 documents Extension state management patterns where auxiliary data structures are persisted independently of the primary artifact lifecycle.
 
+#### Option C: Tri-State Lifecycle + Mandatory Persisted Pool Checkpoint (New)
+
+Introduce a composite lifecycle strategy that preserves Option A ergonomics while closing its restart/session durability gap:
+
+1. Keep `active | paused | disabled` activation states.
+2. Define `paused` as **durable** (Pool retained in-memory and persisted to a canonical Extension checkpoint file).
+3. Require automatic checkpoint writes on `active → paused`, periodic checkpointing while paused, and checkpoint load on process restart when state is `paused`.
+4. Keep `disabled` semantics unchanged (Pool discarded on `→ disabled`).
+
+| State      | Inference | Pool Visibility | Pool Preserved (Runtime) | Pool Preserved (Restart) | Promotion Allowed |
+|------------|-----------|-----------------|---------------------------|--------------------------|-------------------|
+| `active`   | Running   | Yes             | Yes                       | Optional                 | Yes               |
+| `paused`   | Halted    | Yes             | Yes                       | **Yes (required)**       | Yes               |
+| `disabled` | Halted    | No              | No                        | No                       | No                |
+
+**Operational semantics:**
+- `active → paused`: stop inference and atomically persist the current Pool to `.agent/state/are_candidate_pool.checkpoint.yaml`.
+- `paused` steady state: allow review/promotion/discard; persist after each mutating action or at bounded intervals.
+- system restart while `paused`: restore checkpoint automatically and keep state as `paused`.
+- `paused → active`: resume inference without data loss; keep checkpointing policy optional.
+- `paused → disabled` or `active → disabled`: delete checkpoint and discard Pool (explicit destruction preserved).
+
+* **Supporting Insights:** This retains the low cognitive load of Option A (single pause control), while providing the durability and audit continuity benefits of Option B without relying on manual snapshot discipline. It also preserves the documented intentional destruction semantics of `disabled` as a clear lifecycle boundary.
+
+* **Citations:** ISO/IEC 42001 and NIST AI RMF controls emphasize resilient operational controls and traceability for AI-assisted workflows; Option C best satisfies both by combining human factors optimization and durable state management.
+
 ### 3. Comparative Analysis and Recommended Strategy
 
 #### Comparative Analysis
 
 Each strategy entails specific cascading tradeoffs relative to DDR System Specification v4.0 invariants:
 
-1. **User Experience and Cognitive Load:** Option A is simpler from the practitioner's perspective — setting ARE to `paused` is a single state change that implicitly preserves the Pool. No file management, snapshot naming, or restoration commands are needed. Option B requires practitioners to remember to snapshot before disabling and restore after re-enabling — introducing a two-step workflow with a manual discipline requirement. If a practitioner forgets to snapshot before disabling ARE, the Pool is lost (same as the current behavior).
+1. **User Experience and Cognitive Load:** Option A and Option C are both low-friction, single-control workflows. Option B has higher cognitive load because it requires explicit save/restore discipline.
 
-2. **Audit and Reproducibility:** Option B provides superior auditability — snapshots are named, timestamped, human-readable files that persist independently of ARE state. Multiple snapshots can capture Pool evolution over time. Option A retains the Pool in memory/runtime state only, with no external audit trail of Pool state at specific points in time.
+2. **Audit and Reproducibility:** Option B and Option C provide persistent artifacts; Option A by itself is weakest unless paired with additional persistence requirements.
 
-3. **Implementation Complexity:** Option A requires modifying the §8.2 Candidate Pool definition, the ARE Extension contract, and the `ddr_node_schema.yaml` schema — three specification touchpoints. Option B requires defining two new Extension-level operations, a snapshot file format specification, and a storage convention — more specification surface area but no modification of existing definitions.
+3. **Implementation Complexity:** Option A has the lowest implementation scope. Option B has the largest API/operation footprint. Option C is moderate: it extends Option A with one canonical checkpoint mechanism, avoiding the multi-snapshot UX and restore conflict surface of Option B.
 
-4. **Multi-Session Persistence:** Option A's `paused` state is a runtime concept — it preserves the Pool while the system is running but does not guarantee persistence across system restarts or session boundaries. Option B's snapshots are file-based and persist across sessions, system restarts, and environment changes. For long-running projects where review may span days or weeks, Option B provides stronger persistence guarantees.
+4. **Multi-Session Persistence:** Option C and Option B support restart/session continuity. Option A does not guarantee this unless further extended.
 
-5. **Specification Precedent Alignment:** Option A aligns with the node lifecycle pattern (`DRAFT → ACTIVE → DIRTY → ...`) where states are implicit in the data model. Option B aligns with the operations pattern (`INSERT`, `MODIFY`, `SUPERSEDE`, ...) where actions are explicit and auditable. Both patterns exist in the specification; neither is more canonical than the other.
+5. **Data-Loss Risk:** Option C is strongest: no manual snapshot prerequisite plus mandatory persistence on pause. Option A avoids immediate loss during temporary halts but still risks loss on restart. Option B is only safe when the user remembers to snapshot.
 
-#### Endorsement and Contextual Justification
+6. **Specification Precedent Alignment:** Option A aligns with lifecycle states. Option B aligns with explicit operations. Option C cleanly composes both paradigms while keeping the Core DAG isolation constraints unchanged.
 
-The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**.
+#### Updated Endorsement and Justification
 
-Option A addresses the primary user need — preserving the Candidate Pool during temporary inference suspension — with the simplest possible mechanism. It avoids the forgetting-to-snapshot failure mode and requires no file management overhead.
+I do **not** agree that Option A alone is the maximally optimized strategy.
 
-**Option A** is recommended because:
+The maximally optimized resolution is **Option C (Updated Recommended Strategy)**, because it preserves the strongest properties of Option A (intuitive pause control, no manual save steps) and adds the durability guarantees identified as a meaningful weakness in the original endorsement.
 
-* **Zero-Discipline Preservation:** The `paused` state automatically preserves the Pool without requiring the practitioner to take any explicit action beyond setting the state. Option B's snapshot workflow introduces a manual step that, if omitted, results in the same data loss the issue identifies. The most robust solution to a data-loss problem is one that prevents data loss implicitly.
-* **Minimal Specification Surface Area:** Option A adds one activation state and six transition rules to the §8.2 definition. Option B adds two operations, a file format specification, a storage convention, and conflict resolution semantics — substantially more specification text for the same functional outcome.
-* **Consistent with Extension Isolation:** The `paused` state is entirely within the Extension boundary and has no Core DAG side-effects. `EXT-R5` is satisfied: pausing ARE leaves Core CLEAN/DIRTY status unchanged. No new operations are added to the Core operations protocol.
-* **Natural Ergonomics:** Practitioners intuitively understand `active/paused/disabled` as a standard three-state control pattern (analogous to media playback controls, service management, and CI/CD pipeline states). The state names are self-documenting and require no explanation beyond the transition table.
-* **Option B Remains Available as a Complement:** The snapshot/restore capability can be added later as an independent enhancement without conflicting with the tri-state model. A future `SNAPSHOT_POOL` operation would work equally well in `active` or `paused` states, making the two options complementary rather than mutually exclusive.
+**Option C** is newly endorsed because:
+
+* **Best Safety/Ergonomics Balance:** Practitioners get one-step pause behavior with automatic durability, eliminating both immediate discard risk and restart-loss risk.
+* **Controlled Specification Expansion:** The added surface area is bounded to one checkpoint convention and deterministic transition behavior, avoiding the broader command lifecycle and naming semantics required by Option B.
+* **Preserved Existing Semantics:** `disabled` continues to mean destructive teardown; no ambiguity is introduced.
+* **Future-Compatible:** If explicit snapshots are later desired for branching review scenarios, Option B-style named snapshots can be layered on top of Option C without changing core lifecycle semantics.
+
+### 4. Concluding Notation
+
+**Reviewer Conclusion:** I have provided an updated endorsement. The recommended strategy for ISSUE-012 is now **Option C: Tri-State Lifecycle + Mandatory Persisted Pool Checkpoint** as the maximally optimized resolution approach.
