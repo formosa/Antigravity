@@ -1,0 +1,100 @@
+---
+document:
+  id:              DDR_v4_Issue-008
+  title:           "Resolution Report for ISSUE-008: UNBUNDLE Rejection Behaviour Is Underspecified"
+  format_version:  "IT-1.0"
+  target_platform: "Google Antigravity >=1.18"
+  target_model:    "Gemini 3.1 Pro"
+  subject:         "DDR System Specification v4.0"
+  created:         "2026-03-19"
+  status:          "OPEN"
+  severity:        "MODERATE"
+  type:            "DESIGN_INADEQUACY"
+---
+
+## Optimized Resolution Strategy for "ISSUE-008"
+
+### Agent Context
+
+```yaml
+id:          ISSUE-008
+status:      OPEN
+severity:    MODERATE
+type:        DESIGN_INADEQUACY
+tier_refs:   [FCL, CL, XPD, SIL, GPCL]
+section_ref: §4, §7.1
+rule_refs:   [AX-3]
+```
+
+### 1. Validation Audit of ISSUE-008
+
+An evaluation of `.agent/assets/proposals/future/DDR System(Opus_v4).md` and `.agent/assets/proposals/active/DDR_v4_Issues_Tracker.md` was conducted to investigate the claims of "ISSUE-008: UNBUNDLE Rejection Behaviour Is Underspecified."
+
+The §4 Consumption Modes section contains the UNBUNDLE Determinism Rule (lines 210–211): *"Within Express Mode groups containing conditionally activatable tiers (G1: XPD + SIL + GPCL; G2: FCL + CL), content must be authored with explicit tier annotations (e.g., `[FCL]` or `[CL]` inline prefixes) to enable deterministic UNBUNDLE allocation. The UNBUNDLE operation must reject content that cannot be unambiguously assigned to a constituent tier."* The rule prescribes rejection as the response to ambiguous content but defines no rejection payload format, no error structure, and no indication of which specific content fragment triggered the rejection. An agent receiving an UNBUNDLE rejection has no machine-parseable information to diagnose or retry.
+
+The §7.1 Core Operations table (line 516) defines UNBUNDLE as: *"Expand Express Mode group into constituent Full Mode tiers"* with a validation trigger of *"Content allocated to correct tiers; `parent_ids` auto-wired."* This description covers only the success path. No failure behaviour, error payload, or post-rejection state is specified in the operations table. The contrast with other operations is notable: INSERT specifies *"Full atomic ruleset; parent existence; DAG cycle detection"* as validation triggers (line 510), and VALIDATE specifies *"Returns pass/fail with specific violated rule IDs"* (line 515) — both define structured failure semantics. UNBUNDLE has no equivalent.
+
+The §4 Express Mode Group Map (lines 203–208) identifies four groups: G1 (XPD + SIL + GPCL), G2 (FCL + CL), G3 (SAL + ICL), G4 (CDL + ISL). Groups G1 and G2 contain conditionally activatable tiers (XPD in G1, CL in G2), making tier annotation essential for unambiguous content allocation. However, the specification states no minimum annotation coverage threshold — there is no rule defining what percentage or count of content fragments must carry explicit `[TIER]` annotations for UNBUNDLE to proceed. An Express Mode group where 90% of content is annotated and 10% is not has no defined UNBUNDLE behaviour: the 10% unannotated content may be contextually unambiguous to a human reader but has no deterministic allocation rule for automated processing.
+
+The `Sonnet-Comprehensive_Knowledge_Resource.md` (lines 725–731) elaborates on UNBUNDLE: *"DIRTY effects. None if UNBUNDLE succeeds. Partial failure (ambiguous content) aborts atomically with no graph modification."* This document claims atomic abort on partial failure, but this claim does not appear in the normative specification (`DDR System(Opus_v4).md`). The normative §4 and §7.1 contain no atomicity statement for UNBUNDLE, no "partial failure" definition, and no guarantee that a failed UNBUNDLE leaves the DAG unchanged. The knowledge resource asserts a behaviour the specification does not mandate.
+
+The independent adversarial audit in `Report.md` (lines 89–105) identifies the same deficiency as item "H-2 · UNBUNDLE 'Reject' Behavior is Undefined" and asks the same critical questions: whether rejection aborts the entire operation atomically, what status the Express Mode node holds after rejection, what error payload the operation returns, and whether rejected content requires manual resolution. The audit recommends defining UNBUNDLE as atomically all-or-nothing and adding an annotation completeness precondition — corroborating the issue's claims independently.
+
+**Findings:**
+
+1. **Undefined Failure Semantics:** The UNBUNDLE operation's success path is specified (content allocation + `parent_ids` auto-wiring), but its failure path is entirely absent from the normative specification. Unlike VALIDATE (which returns *"pass/fail with specific violated rule IDs"*) and INSERT (which specifies validation triggers for failure detection), UNBUNDLE provides no structured error output, no failure state definition, and no recovery guidance. An agent encountering an UNBUNDLE rejection receives no actionable information — violating `AX-3`'s requirement that identical inputs produce *"unambiguous, mechanically verifiable outputs,"* since the rejection output format is implementation-dependent.
+
+2. **Missing Atomicity Guarantee:** The normative specification does not state whether a failed UNBUNDLE is atomic (no state changes) or may leave partial results. The knowledge resource claims atomic abort, but this is not normative. Since UNBUNDLE performs structural mutations (`parent_ids` auto-wiring, content allocation to new tier-specific nodes), a partial failure without atomicity could create orphaned content fragments or partially wired nodes — a structural corruption state analogous to the SUPERSEDE atomicity gap documented in ISSUE-007.
+
+3. **Absent Annotation Coverage Threshold:** The UNBUNDLE Determinism Rule requires *"explicit tier annotations"* for groups with conditionally activatable tiers but specifies no minimum coverage rule. Without a threshold, UNBUNDLE's acceptance or rejection of an Express Mode group becomes implementation-dependent: one implementation may require 100% annotation coverage, another may apply heuristic inference for unannotated fragments. This is a direct `AX-3` violation — identical Express Mode content may produce different UNBUNDLE outcomes across implementations.
+
+4. **Undefined Post-Rejection Node Status:** After a failed UNBUNDLE attempt, the specification does not state what status the Express Mode group node holds. It could remain in `DRAFT`, revert to an unannotated state, or enter an unspecified error condition. Without a defined post-rejection status, subsequent operations on the same node (MODIFY to add annotations, re-attempt UNBUNDLE) have no reliable starting state.
+
+### 2. Suggested Strategies for Optimal Resolution of ISSUE-008
+
+The resolution must define the UNBUNDLE operation's failure path with the same precision as its success path — specifying the rejection payload format, atomicity guarantee, annotation coverage requirements, and post-rejection node status — to satisfy `AX-3` determinism across all DDR implementations and enable agentic workflows to programmatically diagnose and recover from UNBUNDLE failures.
+
+#### Option A: Two-Phase UNBUNDLE with Structured Pre-Flight Scan and Atomic Execution
+
+Decompose UNBUNDLE into two independently invokable phases: `UNBUNDLE_SCAN` (pre-flight analysis) and `UNBUNDLE_EXECUTE` (atomic allocation). `UNBUNDLE_SCAN` traverses the Express Mode group content, identifies all content fragments, and emits a structured scan result for each fragment containing: a fragment identifier, a content preview, the detected tier annotation (if any), an allocation confidence level (`high`, `ambiguous`, or `none`), and an ambiguity reason when confidence is not `high`. `UNBUNDLE_EXECUTE` proceeds only when zero fragments have `ambiguous` or `none` confidence. If any ambiguous fragments remain, `UNBUNDLE_EXECUTE` rejects the operation atomically — the Express Mode group node remains in its current status with no structural mutations applied — and returns the complete `UNBUNDLE_SCAN` result as the rejection payload. `UNBUNDLE_SCAN` is independently invokable as a read-only pre-flight check, enabling agents to diagnose tier annotation gaps before committing to the destructive `UNBUNDLE_EXECUTE` operation. Partial UNBUNDLE is prohibited: the operation is all-or-nothing per Express Mode group. Add to the §7.1 UNBUNDLE validation trigger column: *"If any content fragment cannot be deterministically assigned, operation fails atomically with structured scan result as error payload; Express Mode group node retains pre-UNBUNDLE status."*
+
+* **Supporting Insights:** This approach mirrors the established validate-then-execute pattern already present in the DDR specification: INSERT validates against the *"full atomic ruleset; parent existence; DAG cycle detection"* before committing, and VALIDATE returns *"pass/fail with specific violated rule IDs."* Extending this pattern to UNBUNDLE via a separate scan phase provides the same structured diagnostic output that agents require for autonomous retry. The two-phase decomposition also supports agentic workflows where an agent may invoke `UNBUNDLE_SCAN` multiple times during iterative annotation authoring, checking readiness before committing to the group expansion. The all-or-nothing atomicity guarantee aligns with the recommendation from the independent adversarial audit (Report.md, H-2, line 104) and mirrors the SUPERSEDE atomicity pattern addressed in ISSUE-007.
+
+* **Citations:** The Two-Phase Commit (2PC) protocol, specified in ISO/IEC 14834:1996 (The XA Specification), establishes a prepare-then-commit coordination pattern where Phase 1 (prepare) validates readiness and Phase 2 (commit) executes only upon unanimous readiness confirmation — directly analogous to the `UNBUNDLE_SCAN`/`UNBUNDLE_EXECUTE` decomposition. IEEE Std 830-1984 (IEEE Guide for Software Requirements Specifications) §4.3.1 explicitly mandates that operation specifications include "requirements for degraded operation" and "error handling," confirming that a well-specified operation must define its failure semantics with the same precision as its success semantics. ISO/IEC/IEEE 29148:2018 (Systems and software engineering — Life cycle processes — Requirements engineering) reinforces this requirement, stating that all functional requirements — including error responses — must be unambiguous and testable.
+
+#### Option B: Require Structured Tier Allocation Front Matter in Express Mode Group Nodes
+
+Mandate that every Express Mode group node containing conditionally activatable tiers (G1 and G2) include a structured `EXPRESS_ALLOCATION` comment block as a preamble, explicitly mapping each content fragment to its target tier before UNBUNDLE is invoked. The allocation front matter serves as the authoritative, machine-parseable tier assignment map — UNBUNDLE reads the allocation map directly rather than scanning inline annotations heuristically. If the `EXPRESS_ALLOCATION` block is absent, UNBUNDLE rejects with a structured error: `MISSING_EXPRESS_ALLOCATION`. If the block is present but incomplete (not all content fragments are mapped), UNBUNDLE rejects with `INCOMPLETE_EXPRESS_ALLOCATION` listing the unmapped fragments. If the block maps a fragment to a tier that violates tier rules (e.g., technology-specific content assigned to `[FCL]`), UNBUNDLE's post-allocation VALIDATE detects the violation via the standard atomic ruleset. The front matter format uses a YAML comment block embedded in the node content, listing fragment identifiers and their tier assignments. Add a new rule `EXPR-R1` to §4: *"Express Mode group nodes containing conditionally activatable tiers must include an `EXPRESS_ALLOCATION` block mapping all content fragments to their constituent tiers. UNBUNDLE uses this block as the deterministic allocation map. Nodes without a complete allocation block are ineligible for UNBUNDLE."* Define two structured rejection error types: `MISSING_EXPRESS_ALLOCATION` (no allocation block found) and `INCOMPLETE_EXPRESS_ALLOCATION` (allocation block present but does not cover all content fragments, with a list of unmapped fragment identifiers). In both rejection cases, the Express Mode group node retains its current status with no structural mutations applied.
+
+* **Supporting Insights:** This approach eliminates the fundamental ambiguity in UNBUNDLE by making tier allocation an explicit authoring step rather than a parsing inference. The allocation front matter transforms UNBUNDLE from a content-scanning heuristic operation into a deterministic map-reading operation — the output is fully determined by the input allocation map, satisfying `AX-3` without relying on annotation detection logic. The approach parallels the DDR specification's existing use of structured metadata blocks: `parent_ids` explicitly declare derivation relationships rather than leaving them to be inferred, and `extension_annotations` explicitly namespace Extension metadata rather than embedding it in content. The `EXPRESS_ALLOCATION` block extends this explicit-declaration principle to tier assignment within grouped content. The two structured error types (`MISSING_EXPRESS_ALLOCATION`, `INCOMPLETE_EXPRESS_ALLOCATION`) provide agents with unambiguous diagnostic signals that map directly to corrective actions (author the allocation block, or complete the incomplete block).
+
+* **Citations:** The Resource Description Framework (RDF), standardized as W3C Recommendation (RDF 1.1 Concepts and Abstract Syntax, 2014), establishes the principle that structured metadata declarations are superior to implicit content inference for deterministic processing — the RDF model requires explicit subject-predicate-object triples rather than deriving relationships from unstructured text, paralleling the shift from inline annotation inference to explicit allocation declaration. ISO 15489-1:2016 (Information and documentation — Records management) §8.3.2 requires that classification decisions for records be *"documented, assigned, and maintained"* as explicit metadata rather than inferred from content, directly supporting the front matter allocation approach for tier classification in Express Mode content.
+
+### 3. Comparative Analysis and Recommended Strategy
+
+#### Comparative Analysis
+
+Each strategy entails specific cascading tradeoffs relative to DDR System Specification v4.0 invariants:
+
+1. **Determinism Model:** Option A retains inline tier annotations as the primary allocation mechanism and adds a structured scan to validate allocation completeness before execution. Determinism depends on the scan algorithm's ability to detect annotations and classify ambiguity — which introduces implementation-dependent logic (what constitutes "unambiguous" assignment?). Option B eliminates annotation-scanning ambiguity entirely by requiring an explicit allocation map: UNBUNDLE reads the map and routes content accordingly, with no heuristic interpretation. Option B achieves stronger `AX-3` compliance because the allocation decision is authorial (human or agent authored the map) rather than algorithmic (scanner inferred the allocation).
+
+2. **Authoring Overhead:** Option A preserves the current authoring convention (inline `[TIER]` annotations) and adds no new authoring requirements — the `UNBUNDLE_SCAN` phase is a read-only diagnostic tool. Option B adds a mandatory `EXPRESS_ALLOCATION` front matter block for G1 and G2 groups, requiring authors to construct an explicit tier routing map before UNBUNDLE can proceed. This is a measurable increase in authoring cognitive load and document length, particularly for groups with many content fragments. However, Option B's overhead is upfront and explicit rather than deferred to UNBUNDLE failure diagnosis.
+
+3. **Agentic Recoverability:** Option A provides superior agentic recoverability because the `UNBUNDLE_SCAN` phase emits per-fragment diagnostic data (content preview, detected annotation, confidence level, ambiguity reason) that an agent can programmatically process to add missing annotations and retry. Option B's rejection errors (`MISSING_EXPRESS_ALLOCATION`, `INCOMPLETE_EXPRESS_ALLOCATION`) are structurally simpler — they tell the agent what is missing but not why individual fragments are ambiguous, requiring the agent to construct the allocation map from scratch rather than fixing specific gaps. For iterative, autonomous annotation, Option A's scan-and-fix loop is more efficient.
+
+4. **Backwards Compatibility:** Option A is fully backwards-compatible — existing Express Mode content with inline annotations works unchanged, and `UNBUNDLE_SCAN` is additive. Option B introduces a new mandatory requirement (`EXPR-R1`) that renders all existing Express Mode G1 and G2 group nodes ineligible for UNBUNDLE until an `EXPRESS_ALLOCATION` block is authored. This is a breaking workflow change for projects already using Express Mode with inline annotations only, requiring migration effort for existing content.
+
+5. **Specification Consistency:** Option A aligns with the existing UNBUNDLE description's reliance on inline annotations and extends it with operational precision. Option B introduces a new structural convention (front matter allocation blocks) that has no precedent in the current DDR specification's Express Mode design — it would be the only content-level structural requirement beyond the inline annotation convention. Option A is the more conservative extension of the existing design.
+
+#### Endorsement and Contextual Justification
+
+The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**.
+
+Option A addresses all four deficiencies identified in the audit — rejection payload format, atomicity guarantee, annotation coverage assessment, and post-rejection node status — while preserving full backwards compatibility with existing Express Mode content and the DDR specification's established inline annotation convention.
+
+**Option A** is recommended because:
+
+* **AX-3 Compliance with Minimal Disruption:** The two-phase decomposition (`UNBUNDLE_SCAN` + `UNBUNDLE_EXECUTE`) produces structured, deterministic outputs for both the success path (content allocation + parent wiring) and the failure path (per-fragment diagnostic scan result). Two compliant implementations processing identical Express Mode content will produce identical scan results and identical accept/reject decisions, satisfying `AX-3` without requiring the authoring convention change that Option B mandates.
+* **Agentic Workflow Optimization:** The independently invokable `UNBUNDLE_SCAN` phase enables an iterative diagnose-fix-retry loop that is essential for autonomous agent operation. An agent can invoke `UNBUNDLE_SCAN`, receive per-fragment ambiguity diagnostics, apply targeted MODIFY operations to add missing `[TIER]` annotations, and re-invoke `UNBUNDLE_SCAN` until all fragments reach `high` confidence — all without committing any structural mutations until the final `UNBUNDLE_EXECUTE`. This iterative pattern is not achievable with Option B's binary accept/reject model.
+* **Backwards Compatibility:** Option A introduces no new mandatory authoring requirements. Existing Express Mode content with inline `[TIER]` annotations is directly processable by `UNBUNDLE_SCAN` and `UNBUNDLE_EXECUTE` without migration. Option B would require all existing G1 and G2 Express Mode groups to be retrofitted with `EXPRESS_ALLOCATION` front matter before UNBUNDLE can proceed — a migration burden with no functional benefit for content that is already fully annotated.
+* **Specification Pattern Consistency:** The two-phase scan-then-execute pattern mirrors the DDR specification's existing operational conventions: INSERT validates before committing, VALIDATE returns structured pass/fail diagnostics, and VERIFY returns itemized violations. Option A extends this family of structured-diagnostic operations to UNBUNDLE, while Option B introduces an unprecedented structural metadata convention that departs from the specification's established Express Mode design.
