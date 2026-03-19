@@ -1,0 +1,95 @@
+# Consistent Technical Visualizations with Nano Banana Pro 
+
+
+
+Respond by creating a new code block and populating the content with a prompt designed to be appended to an excerpt from technical documentation and submitted for image generation, with the intent of consistent styling and quality of highly accurate technical visualizations derived from written technical documentation excerpts optimized for the currently available version of Google's Gemini Pro image generation (Nano Banana Pro).
+
+
+
+
+
+## ATTACHMENT: `Sonnet-Comprehensive_Knowledge_Resource.md`
+
+
+
+The attached documentation is a comprehensive description of the DDR System architecture for a software documentation system. 
+
+A large amount of this attached documentation  could be improved with the addition of detailed, accurate, technical visualizations derived from the documentation details would contribute to improved understanding, resulting in a higher level of quality and completeness in the documentation.  
+
+
+
+
+
+## RESEARCH: `Nano Banana Pro version *current* prompt optimization`
+
+
+
+Conduct online research for the latest information from trustworthy, reputable, educational and authoritative sources for standards, recommendations, and proven techniques for prompt optimization for the currently available version of Gemini Pro image generation (Nano Banana Pro) to:
+
+
+
+  - *maximize* technical accuracy
+
+  
+
+  - *minimize* hallucinations
+
+ 
+
+  - *improve* design quality of professional visualizations intended to enhance understanding
+
+
+
+
+
+## OBJECTIVE:
+
+
+
+Create a custom image generation prompt with the following requirements:
+
+
+
+  - the prompt *must* provide guidance and details that produce a consistently styled, professional, and technically accurate visualization based on an excerpt of technical documentation from the attached document.
+
+
+
+  - the prompt *must* be capable of generating the relevant visualization without the need for any additional details
+
+ 
+
+  - the user *must* only provide your generated prompt along with an attached excerpt of documentation to result in a consistently styled, technically accurate, and contextually relevant visualization to be integrated into the source documentation 
+
+
+
+  - the resulting imagery *must* have a highly technical, data analytics styling, with visually interesting design and accurately detailed representations of derived technical concepts
+
+
+
+  - the resulting imagery *must* be generated with the intention of increasing the level of understanding of the source material by an observer/user
+
+
+
+  - utilize knowledge of proven optimization techniques for Nano Banana Pro recently acquired by your research to design the prompt with the intent to increase the accuracy, technical detail, professional styling, and visual appeal of the generated imagery, 
+
+
+
+  - The prompt *must* be designed so that the documentation excerpt is placed above the prompt content.
+
+
+
+
+
+**IMPORTANT:**
+
+
+
+  - The resulting image-generation-prompt template must not be longer than 300 words
+
+ 
+
+ - The resulting imager-generation-prompt *must* implement techniques from recent online trusted, reliable and/or authoritative sources proven to reduce hallucinations, improve instruction following, increase technical accuracy/details, improve stylistic consistency consistence, and improve technical and educational visualization generation quality on Gemini Pro (Nano Banana Pro) text-to-image generation. 
+
+ 
+
+- create a new code block formatted for `plaintext` and populate the content with the COMPLETE and VALIDATED contents of the requested Gemini Pro (Nano Banana Pro) text-to-image prompt
