@@ -117,20 +117,65 @@ Each strategy entails specific cascading tradeoffs relative to DDR System Specif
 
 5. **Compounding Issue (GPCL-R10 Collision):** Both options must address the `ORL-R4`/`ORL-R7` collision at `GPCL-R10`. Option A resolves it as part of the mapping confirmation. Option B documents it as a pending item but does not resolve the collision itself — the `pending_finalization` entry describes the problem without fixing it.
 
+#### Option C: Errata-Driven Hotfix Release (v4.0.1) Without Schema Expansion
+
+Publish an immediate maintenance release (`v4.0.1`) that resolves the migration gap and missing target-rule body directly in the normative artifacts, while leaving the core status schema unchanged. This strategy uses versioned configuration control rather than introducing a new lifecycle enum:
+
+1. **Immediate truthfulness for v4.0:** Reclassify `v4.0.0` metadata status from `Finalized` to `Superseded` once `v4.0.1` is published, with an explicit supersession note: "v4.0.0 contained unresolved migration mapping ORL-R7 and missing GPCL-R10 body."
+2. **Deterministic fix in v4.0.1:** Resolve `ORL-R7` destination by board decision, correct consolidation semantics (`1:1` or `N:1 Consolidated` as applicable), and author the normative rule body for `GPCL-R10`.
+3. **Errata traceability record:** Add an `errata_log` block in the spec metadata for v4.0.1 capturing issue ID, change rationale, decision authority, and migration impact.
+4. **Consumer safety gate:** Add a validator warning/error that blocks migration calculations against `v4.0.0` when ORL-R7 is present and instructs toolchains to upgrade to `v4.0.1`.
+
+This approach keeps schema complexity flat, preserves configuration-history fidelity, and restores determinism through a controlled patch release.
+
+#### Updated Strategy Evaluation Matrix
+
+1. **Time-to-Truthfulness**
+   - **Option A:** Medium (blocked on board confirmation before publication truthfully matches state).
+   - **Option B:** Fast (can be implemented immediately).
+   - **Option C:** Fast-to-medium (publish hotfix quickly; supersede flawed release immediately after).
+
+2. **Deterministic Migration Outcome**
+   - **Option A:** High after completion.
+   - **Option B:** Low-to-medium (documents ambiguity; does not remove it).
+   - **Option C:** High once v4.0.1 ships; additionally prevents unsafe use of v4.0.0.
+
+3. **Architectural/Schema Burden**
+   - **Option A:** Low.
+   - **Option B:** Medium-high (new enum + new structure + ongoing governance overhead).
+   - **Option C:** Low (no schema lifecycle expansion required).
+
+4. **Governance and Auditability**
+   - **Option A:** Good, but weak on immediate disclosure prior to completion.
+   - **Option B:** Good for disclosure, weaker for closure discipline (can normalize unresolved states).
+   - **Option C:** Strongest — combines explicit historical correction (supersession) with finalized corrected release and clear errata provenance.
+
+5. **Long-Term Operational Risk**
+   - **Option A:** Moderate (if delayed, users remain on contradictory "Finalized" document).
+   - **Option B:** Moderate-high (risk of "permanent pending" anti-pattern in future releases).
+   - **Option C:** Low (encourages decisive closure while retaining full traceability of defect and fix).
+
 #### Endorsement and Contextual Justification
 
-The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**, implemented sequentially with Option B as a temporary measure.
+The prior endorsement (Option A with Option B as a prerequisite) is **not** the maximally optimized strategy.
 
-The recommended approach is to implement **Option B immediately** as a truthful status signal, then implement **Option A** when the DDR Architecture Board confirms the `ORL-R7` mapping. Once Option A is complete and the `pending_finalization` array is empty, the status transitions from `Finalized-Pending` to `Finalized`. This two-phase approach provides immediate honesty followed by eventual completeness.
+The maximally optimized strategy is **Option C (Recommended Strategy): Errata-driven hotfix release v4.0.1 without schema expansion**.
 
-**Option A** is the recommended long-term resolution because:
+**Why Option C is superior in this case:**
 
-* **Truthful Finalized Status:** A specification claiming `Finalized` status must have zero unresolved items. Option A is the only strategy that achieves this state. `Finalized-Pending` is a useful interim signal but should not be the permanent state of a published specification version.
-* **Complete Migration Traceability:** Option A resolves the `ORL-R7` mapping, authors the `GPCL-R10` rule body, and addresses the `ORL-R4`/`ORL-R7` destination collision — closing all three gaps identified in the audit. Option B documents these gaps but leaves them open.
-* **Migration Policy Compliance:** The specification's own Appendix B Migration Policy requires *"a complete rule-level cross-reference table with explicit consolidation status."* Only Option A satisfies this self-imposed requirement.
-* **AX-3 Restoration:** The `TBD` annotation is a direct violation of `AX-3` (Determinism) — identical migration inputs (`ORL-R7` content) do not produce unambiguous outputs. Confirming the mapping and authoring the rule body restore determinism to the migration pathway.
+* **Immediate integrity correction without lifecycle bloat:** It restores trust quickly by superseding the flawed finalized artifact, while avoiding permanent schema complexity from introducing `Finalized-Pending`.
+* **Full closure, not managed ambiguity:** It resolves the mapping, resolves the ORL-R4/ORL-R7 consolidation semantics, and defines GPCL-R10 in the same maintenance release.
+* **Configuration-management alignment:** Patch-version supersession and errata logging are established configuration-control practices for correcting finalized baselines.
+* **Tooling safety:** A version-aware validator guard prevents downstream teams from unknowingly relying on an internally contradictory release.
 
-**Option B is recommended as an immediate prerequisite** because:
+**Execution sequence for Option C:**
 
-* **Honest Status Signal Now:** Practitioners consulting the specification today need to know it contains an unresolved item. `Finalized-Pending` communicates this without requiring them to discover the `Audit C-3` note buried in a migration table.
-* **Reusable Infrastructure:** The `Finalized-Pending` status and `pending_finalization` tracking structure benefit all future DDR version publications, establishing a standard lifecycle pattern for specification maturity.
+1. Obtain board ruling on ORL-R7 destination and consolidation semantics.
+2. Author GPCL-R10 normative body and update both YAML + Markdown cross-reference tables.
+3. Publish `v4.0.1` as `Finalized`; mark `v4.0.0` as `Superseded` with explicit reason.
+4. Add validator/version gate to reject ORL-R7 migrations against `v4.0.0`.
+5. Record decision in errata metadata and changelog.
+
+### Concluding Notation
+
+**Updated endorsement provided:** The recommended strategy for ISSUE-011 is now **Option C (Errata-driven v4.0.1 hotfix release)** as the maximally optimized resolution path.
