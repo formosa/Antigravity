@@ -173,7 +173,11 @@ node_schema_fields:
       (default: semantic for backward compatibility when omitted).
   - property: status
     type: Enum
-    description: "DRAFT | ACTIVE | DIRTY | DEPRECATED | SUPERSEDED"
+    description: >
+      DRAFT | ACTIVE | DIRTY | DEPRECATED | SUPERSEDED.
+      See lifecycle.status_transitions for the normative transition
+      listing. That block is the machine-parseable authority for all
+      valid status transitions (DDR System Spec §3.8).
   - property: version
     type: SemVer
     description: "Content version string."
@@ -2011,3 +2015,104 @@ nodes:
       def unbundle(group_id: str, graph) -> list[DdrNode]:
           """[SAL-5.1] Expand Express Mode group; reject ambiguous content; auto-wire parent_ids."""
           ...
+
+# AUTHORITY: This lifecycle block is the machine-parseable authority
+# for DDR node status lifecycle semantics. The Markdown §3.8 table
+# in DDR_System_Opus_v4.md is a human-readable rendering derived
+# from this block. In the event of divergence, this block governs.
+lifecycle:
+  status_transitions:
+    - from: DRAFT
+      to: ACTIVE
+      operation: VALIDATE
+      guards: [gc-001, gc-005]
+    - from: DRAFT
+      to: DELETED
+      operation: DELETE
+      guards: []
+    - from: ACTIVE
+      to: DIRTY
+      operation: "MODIFY|PROPAGATION"
+      guards: []
+      notes: "Covers direct MODIFY and DIRTY propagation side-effects."
+    - from: ACTIVE
+      to: DEPRECATED
+      operation: MODIFY
+      guards: [gc-002]
+    - from: ACTIVE
+      to: SUPERSEDED
+      operation: SUPERSEDE
+      guards: []
+    - from: DIRTY
+      to: ACTIVE
+      operation: "VERIFY+VALIDATE"
+      guards: [gc-001, gc-005, gc-006]
+    - from: DIRTY
+      to: DEPRECATED
+      operation: MODIFY
+      guards: [gc-002]
+    - from: DIRTY
+      to: SUPERSEDED
+      operation: SUPERSEDE
+      guards: []
+    - from: DEPRECATED
+      to: SUPERSEDED
+      operation: SUPERSEDE
+      guards: []
+    - from: DEPRECATED
+      to: DELETED
+      operation: DELETE
+      guards: [gc-003]
+    - from: DEPRECATED
+      to: ACTIVE
+      operation: MODIFY
+      guards: [gc-002, gc-003, gc-004]
+
+  prohibited_transitions:
+    - from: DRAFT
+      to: [DRAFT, DIRTY, DEPRECATED, SUPERSEDED]
+      reason: >
+        DRAFT may only transition to ACTIVE via VALIDATE or to DELETED via
+        DELETE.
+    - from: ACTIVE
+      to: [DRAFT, ACTIVE, DELETED]
+      reason: >
+        ACTIVE may not regress to DRAFT, self-transition, or be directly
+        deleted without first transitioning through an allowed intermediary
+        lifecycle state.
+    - from: DIRTY
+      to: [DRAFT, DIRTY, DELETED]
+      reason: >
+        DIRTY may only transition to ACTIVE, DEPRECATED, or SUPERSEDED under
+        defined operations.
+    - from: DEPRECATED
+      to: [DRAFT, DIRTY, DEPRECATED]
+      reason: >
+        DEPRECATED may only transition to ACTIVE, SUPERSEDED, or DELETED under
+        defined operations.
+    - from: SUPERSEDED
+      to: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED]
+      reason: >
+        SUPERSEDED is a terminal status. No outbound transition is
+        permitted. A new node must be created via INSERT if the
+        superseded content requires revision.
+
+  guard_definitions:
+    - id: gc-001
+      description: "All structural rules for the node pass validation."
+      verification_mode: structural
+    - id: gc-002
+      description: "Deprecation rationale is explicitly documented."
+      verification_mode: manual
+    - id: gc-003
+      description: "Any previously set deprecation sunset date is cleared."
+      verification_mode: manual
+    - id: gc-004
+      description: "Status reversal is logged in the reconciliation manifest."
+      verification_mode: manual
+    - id: gc-005
+      description: "All review items are resolved."
+      verification_mode: structural
+    - id: gc-006
+      description: "Per-node validation scope is explicitly confirmed."
+      verification_mode: structural
