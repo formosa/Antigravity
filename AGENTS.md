@@ -1,43 +1,42 @@
 # DDR System — Codex Agent Constraints
 
-## Project Identity
+## Framework Identity
 
-- Primary specification target: `ddr_system_v4.0.yaml`
-- Reference document: `DDR System(Opus_v4).md`
-- Active issue: `DDR_v4_Issue-005.md`
+- PRIMARY TARGET: `ddr_system_v4_0.yaml`
+- REFERENCE SPEC: `DDR_System_Opus_v4_.md`
+- SPECIFICATION VERSION: DDR System v4.0
 
-## Inviolable DDR Structural Constraints
+## Immutable Structural Invariants (NEVER violate)
 
-The following rules govern ALL modifications to `ddr_system_v4.0.yaml`.
-Violation of any constraint below is a CRITICAL ERROR.
+- §3.5 DAG Invariant: No tier-skipping. Every citation must reference
+  exactly one active tier above in the derivation chain.
+- AX-7: The DAG must remain acyclic. Do not introduce cycles.
+- AX-3: All outputs must be mechanically verifiable. No ambiguous
+  or probabilistic structures.
+- INV-1: Every non-root node must have at least one parent_id.
+- INV-2: SAL is the only permitted merge-node exception (exhaustive).
+  Do not introduce additional merge-node exceptions.
+- Tier derivation chain: XPD → SIL → GPCL → FCL → [CL →] SAL
 
-1. **No rule ID mutation.** Existing rule IDs (GPCL-R1 through GPCL-R10, FCL-R1
-   through FCL-R6, SAL-R1 through SAL-R6, etc.) must NOT be modified, renamed,
-   renumbered, or have their `statement` fields altered in any way.
+## Modification Policy
 
-2. **No tier topology changes.** The derivation chain GPCL → FCL → SAL is
-   invariant (§3.5 INV-2). No modification may introduce a direct GPCL → SAL
-   citation path. No new `dag_invariants` entries may be added.
+- ADDITIVE CHANGES ONLY unless the Issue Report explicitly authorizes
+  modification of existing rule IDs, tier definitions, or schema fields.
+- Do NOT reassign existing rule_id values.
+- Do NOT change node IDs, tier_ids, or edge_type definitions.
+- Do NOT introduce new edge types.
+- Preserve all existing content unless the Issue Report requires removal.
 
-3. **Additive-only modification profile.** ISSUE-005 Option A is strictly
-   additive. The ONLY permitted changes to the file are:
-   a) Insertion of rule `GPCL-FCL-BR1` into GPCL tier `atomic_inclusion_rules`
-   b) Update of `FCL-R6` statement to reference `GPCL-FCL-BR1`
-   c) Addition of a `verify_citation_logic` block to the FCL tier
-   d) Addition of a `MISSING_MEDIATOR` item type to the reconciliation manifest
+## Validation Requirements (run after EVERY modification)
 
-4. **No schema field additions.** Do NOT add new properties to `node_schema_fields`
-   or `edge_type_definitions`.
+- Confirm DAG acyclicity (AX-7) is preserved.
+- Confirm tier adjacency (CIT-R2) is satisfied for all parent_ids.
+- Confirm no existing rule_id has been removed or reassigned.
+- Confirm the GPCL→FCL→SAL derivation path remains uniform.
+- Confirm no new topology exceptions (beyond INV-2) have been introduced.
 
-5. **Preserve all existing node content.** `ddr_system_v4.0.yaml` contains DAG
-   nodes (e.g., GPCL-2.1, FCL-3.1, SAL-5.1). Their `content`, `parent_ids`,
-   `status`, and `version` fields must not be altered.
+## Output Format
 
-6. **YAML validity.** All edits must produce valid YAML. Indentation must
-   conform to the existing file's 2-space standard.
-
-## Validation Protocol
-
-After each modification step, run:
-  python -c "import yaml; yaml.safe_load(open('ddr_system_v4.0.yaml'))"
-to confirm YAML structural integrity before proceeding.
+- All YAML diffs must be minimal — change only what the Issue Report requires.
+- PR commit messages must follow the format:
+  "[ISSUE-XXX Resolution]: <brief description>"
