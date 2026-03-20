@@ -12,8 +12,8 @@
   subject_file:         DDR_System_Opus_v4_.md
   last_updated:         2026-03-20
   total_issues:         13
-  open_issues:          10
-  resolved_issues:      3
+  open_issues:          9
+  resolved_issues:      4
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
   ANTIGRAVITY 1.18 DEPLOYMENT NOTES
@@ -144,7 +144,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 | \[ISSUE-001\](#issue-001-derives-absorbs-cites-destroying-audit-trail-precision)              | `CRITICAL` | `LOGICAL_CONFLICT`  | `RESOLVED` | All            | `derives` absorbs `cites`, destroying audit trail precision         |
 | \[ISSUE-002\](#issue-002-fcl-cl-edge-direction-is-semantically-inverted)                      | `CRITICAL` | `LOGICAL_CONFLICT`  | `RESOLVED` | FCL, CL, SAL   | FCL→CL edge direction is semantically inverted                      |
 | \[ISSUE-003\](#issue-003-dag-invariant-text-contradicts-the-merge-node-topology)              | `MAJOR`    | `LOGICAL_CONFLICT`  | `RESOLVED` | SAL            | DAG invariant text contradicts the merge-node topology              |
-| \[ISSUE-004\](#issue-004-ax-3-determinism-is-violated-by-non-automatable-atomic-rules)        | `MAJOR`    | `AXIOM_VIOLATION`   | `OPEN`     | All            | AX-3 determinism violated by non-automatable atomic rules           |
+| \[ISSUE-004\](#issue-004-ax-3-determinism-is-violated-by-non-automatable-atomic-rules)        | `MAJOR`    | `AXIOM_VIOLATION`   | `RESOLVED` | All            | AX-3 determinism violated by non-automatable atomic rules           |
 | \[ISSUE-005\](#issue-005-gpcl-overloading-creates-an-implicit-fcl-tier-skip)                  | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN`     | GPCL, FCL, SAL | GPCL overloading creates an implicit FCL tier skip                  |
 | \[ISSUE-006\](#issue-006-node-status-lifecycle-lacks-a-formal-state-machine)                  | `MAJOR`    | `LIFECYCLE_GAP`     | `OPEN`     | All            | Node status lifecycle lacks a formal state machine                  |
 | \[ISSUE-007\](#issue-007-supersede-atomicity-and-rollback-are-underspecified)                 | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN`     | All            | SUPERSEDE atomicity and rollback are underspecified                 |
@@ -365,18 +365,18 @@ Option B is the stronger long-term choice for an agentic workflow where the YAML
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-004
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        AXIOM_VIOLATION
 tier_refs:   [XPD, SIL, GPCL, FCL, SAL]
 section_ref: §2 (AX-3, AX-6), §5, §7.1
 rule_refs:   [AX-3, AX-6, FCL-R1, FCL-R2, XPD-R3, SAL-R1, GPCL-R2]
 created:     2026-02-28
-updated:     2026-02-28
-resolved:    null
+updated:     2026-03-20
+resolved:    2026-03-20
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `AXIOM_VIOLATION`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `AXIOM_VIOLATION`
 **Tiers Affected:** `XPD`, `SIL`, `GPCL`, `FCL`, `SAL` | **Spec Section:** §2, §5, §7.1
 
 #### Problem Statement-004
