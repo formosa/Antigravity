@@ -1,50 +1,79 @@
-# AGENTS.md — DDR System Repository
+# DDR System — Codex Agent Configuration
 
-## Project Overview
+## Repository Structure
 
-This repository contains the DDR System Specification v4.0, a formal software
-documentation and requirements traceability framework using a directed acyclic
-graph (DAG) architecture. The authoritative specification file is:
-  `ddr_system_v4_0.yaml`
+- `ddr_system_v4.0.yaml`  — PRIMARY modification target (YAML specification)
+- `DDR System(Opus_v4).md` — Normative Markdown reference; AUTHORITATIVE per document header
+- `ddr_node_schema.yaml`  — JSON Schema 2020-12 validator for all YAML content
+- `DDR_v4_Issue-*.md`     — Issue reports (read-only reference; do NOT modify)
 
-The original Markdown reference document is:
-  `DDR System(Opus_v4).md`
+## Normative Authority Rule
 
-Issue resolution reports are located in:
-  `issues/` (e.g., `DDR_v4_Issue-002.md`)
+The Markdown specification (`DDR System(Opus_v4).md`) is the EXCLUSIVE normative
+specification. The YAML (`ddr_system_v4.0.yaml`) is its machine-parseable encoding.
+In any conflict between the two, the Markdown governs for prose invariants;
+the YAML governs only for machine-verifiable schema constraints.
 
-## Inviolable Axioms (must not be broken by any edit)
+## Mandatory Post-Change Validation Checks
 
-- AX-1: Every node must have a complete, honest, and traceable audit chain.
-- AX-2: Technology and implementation specificity are deferred until logically
-  necessary. Tiers above CL (XPD, SIL, GPCL, FCL) must contain no technology,
-  hardware, or implementation references.
-- AX-3: All VERIFY validation rules must be fully deterministic and mechanically
-  verifiable from node properties alone — no ambiguous checks permitted.
+Run ALL of the following after EVERY file modification, including documentation-only edits:
 
-## Schema Modification Rules
+### Check 1 — YAML Schema Validation
 
-- All changes to `ddr_system_v4_0.yaml` must be backward-compatible unless a
-  version bump is explicitly instructed.
-- New fields added to tier node schemas must include a default value that
-  preserves validity of all pre-existing nodes.
-- New rules must be co-registered in the rules index and the VERIFY logic block.
-- DAG topology (parent/child tier relationships and edge types) must not be
-  altered without an explicit version bump instruction.
+python -c "
+import yaml, jsonschema
+schema = yaml.safe_load(open('ddr_node_schema.yaml'))
+data   = yaml.safe_load(open('ddr_system_v4.0.yaml'))
+jsonschema.validate(data, schema)
+print('SCHEMA: PASS')
+"
 
-## Validation Checklist (run before committing any change)
+### Check 2 — DAG Acyclicity (AX-7)
 
-1. Confirm `constraint_origin` defaults to `derived` in schema — no existing
-   CL nodes require migration.
-2. Confirm `CL-R9` is preserved verbatim for `constraint_origin: derived` nodes.
-3. Confirm `CL-R9-imposed` is added as a new, distinct rule with its own rule ID.
-4. Confirm VERIFY logic branches correctly on `constraint_origin` value.
-5. Confirm no axiom (AX-1, AX-2, AX-3) is violated by the combined changeset.
-6. Confirm version increment: `4.0` → `4.1` (minor, non-breaking).
+python -c "
+import yaml
+data = yaml.safe_load(open('ddr_system_v4.0.yaml'))
+nodes = {n['id']: n for n in data.get('nodes', [])}
+visited, stack = set(), set()
+def dfs(nid):
+    if nid in stack: raise ValueError(f'CYCLE DETECTED at {nid}')
+    if nid in visited: return
+    visited.add(nid); stack.add(nid)
+    for p in nodes.get(nid, {}).get('parent_ids', []):
+        dfs(p['id'])
+    stack.discard(nid)
+for nid in nodes: dfs(nid)
+print('AX-7 ACYCLICITY: PASS')
+"
 
-## PR Instructions
+### Check 3 — INV-2 / §3.5 Markdown–YAML Consistency
 
-- PR title format: `fix(CL): resolve ISSUE-002 — add constraint_origin field`
-- PR description must cite the endorsed resolution strategy (Option B) from
-  `DDR_v4_Issue-002.md` and enumerate every modified YAML node by path.
-- Do not squash commits; preserve the atomic change history.
+# Verify that dag_invariants[id=INV-2] in the YAML cross-references §3.5
+
+# and does NOT encode an independent normative exception that contradicts the Markdown
+
+python -c "
+import yaml, re
+data = yaml.safe_load(open('ddr_system_v4.0.yaml'))
+invs = {i['id']: i for i in data.get('dag_invariants', [])}
+inv2 = invs.get('INV-2', {})
+stmt = inv2.get('statement', '')
+
+# After ISSUE-003 resolution, INV-2 must reference §3.5 as the authority, not override it
+
+assert 'see §3.5' in stmt.lower() or 'refer to §3.5' in stmt.lower() or 'cross-reference' in stmt.lower(), \
+    f'INV-2 still encodes an independent exception instead of cross-referencing §3.5: {stmt}'
+print('INV-2 CROSS-REFERENCE: PASS')
+"
+
+## DDR DAG Invariants (Normative — encode as hard constraints)
+
+- AX-7: The DAG must be strictly acyclic. No circular parent_ids chains permitted.
+- CIT-R2: parent_ids must reference node(s) from the immediately preceding active tier(s).
+  The plural 'tier(s)' accommodates the SAL merge-node design ONLY.
+- SAL MERGE-NODE EXCEPTION: SAL is the ONLY tier that validly carries parent citations
+  from two distinct tiers (FCL via 'derives', CL via 'constrains' when active).
+  This exception is EXHAUSTIVE. No other tier may cite more than one immediately
+  preceding tier. Do NOT apply this exception to any tier other than SAL.
+- INV-2 (post-resolution): Must cross-reference §3.5 in the Markdown; must NOT
+  independently encode the exception text.
