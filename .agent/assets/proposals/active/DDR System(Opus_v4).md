@@ -187,6 +187,42 @@ IDs are **immutable once assigned.** A superseded node retains its original ID w
 | CIT-R4  | An inline `[TIER-N.M]` citation in node content must have a matching entry in `parent_ids`                                                                                                                                    |
 | CIT-R5  | Extension `extends` edges are stored in `extension_annotations` only — never in `parent_ids`                                                                                                                                  |
 
+### 3.8 Node Status Lifecycle
+
+> **Authority Note:** This table is a human-readable rendering of the
+> `lifecycle.status_transitions` block in `ddr_system_v4.0.yaml`.
+> In the event of divergence between this table and the YAML block,
+> the YAML block is authoritative. See §3.8 YAML Authority Policy.
+
+| From | To | Triggering Operation | Guard Conditions | Notes |
+| ---- | -- | -------------------- | ---------------- | ----- |
+| `DRAFT` | `ACTIVE` | `VALIDATE` | `gc-001`, `gc-005` |  |
+| `DRAFT` | `DELETED` | `DELETE` |  |  |
+| `ACTIVE` | `DIRTY` | `MODIFY\|PROPAGATION` |  | Covers direct MODIFY and DIRTY propagation side-effects. |
+| `ACTIVE` | `DEPRECATED` | `MODIFY` | `gc-002` |  |
+| `ACTIVE` | `SUPERSEDED` | `SUPERSEDE` |  |  |
+| `DIRTY` | `ACTIVE` | `VERIFY+VALIDATE` | `gc-001`, `gc-005`, `gc-006` |  |
+| `DIRTY` | `DEPRECATED` | `MODIFY` | `gc-002` |  |
+| `DIRTY` | `SUPERSEDED` | `SUPERSEDE` |  |  |
+| `DEPRECATED` | `SUPERSEDED` | `SUPERSEDE` |  |  |
+| `DEPRECATED` | `DELETED` | `DELETE` | `gc-003` |  |
+| `DEPRECATED` | `ACTIVE` | `MODIFY` | `gc-002`, `gc-003`, `gc-004` |  |
+
+> **Terminal Status:** `SUPERSEDED` is a terminal status. No outbound
+> transition from `SUPERSEDED` is permitted under any operation.
+> Any transition not listed in the table above is prohibited.
+
+| Guard ID | Description | Verification Mode |
+| -------- | ----------- | ----------------- |
+| `gc-001` | All structural rules for the node pass validation. | `structural` |
+| `gc-002` | Deprecation rationale is explicitly documented. | `manual` |
+| `gc-003` | Any previously set deprecation sunset date is cleared. | `manual` |
+| `gc-004` | Status reversal is logged in the reconciliation manifest. | `manual` |
+| `gc-005` | All review items are resolved. | `structural` |
+| `gc-006` | Per-node validation scope is explicitly confirmed. | `structural` |
+
+> **Machine Authority:** `ddr_system_v4.0.yaml` → `lifecycle.status_transitions`
+
 ---
 
 ## 4. Consumption Modes
