@@ -607,6 +607,18 @@ tier_definitions:
       preserving full constraint expressiveness via content sections within a
       single tier. Conflicts between hardware and technology constraints are
       resolved internally within CL nodes.
+    node_schema:
+      constraint_origin:
+        type: enum
+        values: [derived, imposed]
+        default: derived
+        required: true
+        description: >
+          Declares the causal origin of this constraint. 'derived' means the
+          constraint was chosen by the design team in response to FCL functional
+          requirements. 'imposed' means the constraint was externally mandated
+          (procurement, regulatory, legacy infrastructure) independently of any
+          functional capability authoring.
     parent_relationships:
       - tier: FCL
         edge_type: derives
@@ -655,14 +667,32 @@ tier_definitions:
           cloud-agnostic, hybrid, edge).
         violation_consequence: "Architecture incompatible with deployment target."
       - rule_id: CL-R9
+        applies_when: "constraint_origin == 'derived'"
         statement: "Must cite FCL IDs for each constraint."
         violation_consequence: "Constraints untraceable to a business need."
+      - rule_id: CL-R9-imposed
+        applies_when: "constraint_origin == 'imposed'"
+        statement: >
+          Must cite the external authority source (regulatory framework, contract
+          reference, procurement policy, or organizational mandate) that imposes
+          the constraint. FCL citation is not required; an optional FCL
+          cross-reference may be provided for contextual traceability.
+        violation_consequence: >
+          Imposed constraint is untraceable to its originating authority,
+          violating AX-1 audit integrity requirements.
       - rule_id: CL-R10
         statement: >
           Must explicitly document internal reconciliations of conflicting
           hardware and technology constraints.
         violation_consequence: >
           Loss of deterministic traceability for constraint conflicts.
+    verify_citation_logic:
+      branches:
+        - when: "constraint_origin == 'derived'"
+          enforce: CL-R9  # FCL citation required
+        - when: "constraint_origin == 'imposed'"
+          enforce: CL-R9-imposed  # external authority citation required;
+                                   # FCL citation optional
     atomic_exclusion_rules:
       - rule_id: CL-E1
         statement: >
