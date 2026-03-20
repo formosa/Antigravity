@@ -1,42 +1,36 @@
-# DDR System — Codex Agent Constraints
+# DDR System — Codex Invariant Contract
 
-## Framework Identity
+## Project Identity
 
-- PRIMARY TARGET: `ddr_system_v4_0.yaml`
-- REFERENCE SPEC: `DDR_System_Opus_v4_.md`
-- SPECIFICATION VERSION: DDR System v4.0
+This repository contains the DDR System Specification v4.0
+in the location: `.agent\assets\proposals\active\`
+The canonical YAML specification is: `ddr_system_v4.0.yaml`
+The canonical Markdown specification is: `DDR_System_Opus_v4.md`
 
-## Immutable Structural Invariants (NEVER violate)
+## Non-Negotiable Constraints
 
-- §3.5 DAG Invariant: No tier-skipping. Every citation must reference
-  exactly one active tier above in the derivation chain.
-- AX-7: The DAG must remain acyclic. Do not introduce cycles.
-- AX-3: All outputs must be mechanically verifiable. No ambiguous
-  or probabilistic structures.
-- INV-1: Every non-root node must have at least one parent_id.
-- INV-2: SAL is the only permitted merge-node exception (exhaustive).
-  Do not introduce additional merge-node exceptions.
-- Tier derivation chain: XPD → SIL → GPCL → FCL → [CL →] SAL
+1. **AX-3 (Determinism):** Every structural transformation must produce
+   identical outputs for identical inputs. No prose-only lifecycle rules.
+2. **DAG Integrity:** No modification may introduce cycles, orphan nodes,
+   or break parent_id chains.
+3. **Authority Policy for ISSUE-006:**
+   - The `lifecycle.status_transitions` YAML block is the machine-parseable
+     authority for node status lifecycle.
+   - The Markdown §3.8 table is a human-readable RENDERING of the YAML block.
+   - In the event of divergence, the YAML block is authoritative.
+   - This authority policy must be stated explicitly in both files.
+4. **Guard Condition IDs are normative constants.** Never invent new guard
+   condition IDs. Use only those defined in the YAML `guard_definitions` array.
+5. **ISSUE-003 non-regression:** Do not introduce any new instance of
+   Markdown/YAML dual-authority without an explicit declared authority policy.
+6. **Prohibited modifications:** Do not change node IDs, DAG topology, tier
+   definitions, or any section not required by the active issue resolution.
 
-## Modification Policy
+## Validation Commands
 
-- ADDITIVE CHANGES ONLY unless the Issue Report explicitly authorizes
-  modification of existing rule IDs, tier definitions, or schema fields.
-- Do NOT reassign existing rule_id values.
-- Do NOT change node IDs, tier_ids, or edge_type definitions.
-- Do NOT introduce new edge types.
-- Preserve all existing content unless the Issue Report requires removal.
+After any modification, run:
+  python validate_ddr.py --target ddr_system_v4.0.yaml
+If no validator script exists, perform a manual completeness check:
 
-## Validation Requirements (run after EVERY modification)
-
-- Confirm DAG acyclicity (AX-7) is preserved.
-- Confirm tier adjacency (CIT-R2) is satisfied for all parent_ids.
-- Confirm no existing rule_id has been removed or reassigned.
-- Confirm the GPCL→FCL→SAL derivation path remains uniform.
-- Confirm no new topology exceptions (beyond INV-2) have been introduced.
-
-## Output Format
-
-- All YAML diffs must be minimal — change only what the Issue Report requires.
-- PR commit messages must follow the format:
-  "[ISSUE-XXX Resolution]: <brief description>"
+- Every (from, to) status pair is either in status_transitions,
+    prohibited_transitions, or explicitly flagged as undefined.
