@@ -1,36 +1,34 @@
-# DDR System — Codex Invariant Contract
+# DDR System — Codex Agent Configuration
 
-## Project Identity
+## Project Overview
 
-This repository contains the DDR System Specification v4.0
-in the location: `.agent\assets\proposals\active\`
-The canonical YAML specification is: `ddr_system_v4.0.yaml`
-The canonical Markdown specification is: `DDR_System_Opus_v4.md`
+This repository contains the DDR System Specification v4.0. The primary
+specification file is `ddr_system_v4.0.yaml`. The canonical reference is
+`DDR_System_Opus_v4.md`. Issue reports are in `.agent/assets/proposals/active/`.
 
-## Non-Negotiable Constraints
+## Invariants — Codex MUST enforce these at all times
 
-1. **AX-3 (Determinism):** Every structural transformation must produce
-   identical outputs for identical inputs. No prose-only lifecycle rules.
-2. **DAG Integrity:** No modification may introduce cycles, orphan nodes,
-   or break parent_id chains.
-3. **Authority Policy for ISSUE-006:**
-   - The `lifecycle.status_transitions` YAML block is the machine-parseable
-     authority for node status lifecycle.
-   - The Markdown §3.8 table is a human-readable RENDERING of the YAML block.
-   - In the event of divergence, the YAML block is authoritative.
-   - This authority policy must be stated explicitly in both files.
-4. **Guard Condition IDs are normative constants.** Never invent new guard
-   condition IDs. Use only those defined in the YAML `guard_definitions` array.
-5. **ISSUE-003 non-regression:** Do not introduce any new instance of
-   Markdown/YAML dual-authority without an explicit declared authority policy.
-6. **Prohibited modifications:** Do not change node IDs, DAG topology, tier
-   definitions, or any section not required by the active issue resolution.
+- AX-3: All SUPERSEDE operations must produce unambiguous, mechanically
+  verifiable outcomes with no implementation-dependent intermediate states.
+- INV-6 (generalized): SUPERSEDE of ANY node (not only XPD) must be atomic
+  across all three steps: (1) status transition, (2) replacement INSERT,
+  (3) child re-wiring. Partial application is a structural violation.
+- CIT-R1: All non-root nodes must have at least one valid, non-superseded parent_id.
+- CIT-R2: Parent_ids must respect tier adjacency rules.
+- AX-7: The DAG must remain acyclic at all times. No modification may introduce a cycle.
+- Status enum changes must be backward-compatible: existing five-value YAML
+  files must remain valid after any enum extension.
 
-## Validation Commands
+## Programmatic Checks — Run AFTER every modification
 
-After any modification, run:
-  python validate_ddr.py --target ddr_system_v4.0.yaml
-If no validator script exists, perform a manual completeness check:
+1. `python .agent/scripts/validate_yaml_schema.py ddr_system_v4.0.yaml`
+2. `python .agent/scripts/check_dag_acyclicity.py ddr_system_v4.0.yaml`
+3. `python .agent/scripts/check_lifecycle_completeness.py ddr_system_v4.0.yaml`
+4. `python .agent/scripts/check_backward_compat.py ddr_system_v4.0.yaml`
 
-- Every (from, to) status pair is either in status_transitions,
-    prohibited_transitions, or explicitly flagged as undefined.
+## Output Format
+
+- All YAML modifications must be presented as unified diffs.
+- Each diff must include a `# ISSUE-007 Change` header comment citing the
+  specific section modified and the rule it satisfies.
+- Do NOT modify any section not listed in the active issue report.
