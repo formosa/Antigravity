@@ -174,10 +174,26 @@ node_schema_fields:
   - property: status
     type: Enum
     description: >
-      DRAFT | ACTIVE | DIRTY | DEPRECATED | SUPERSEDED.
+      DRAFT | ACTIVE | DIRTY | DEPRECATED | SUPERSEDED | SUPERSEDE_PENDING.
+      SUPERSEDE_PENDING is a transient operational state entered exclusively
+      during an in-flight SUPERSEDE operation and is not a stable lifecycle
+      state reachable by any operation other than SUPERSEDE.
       See lifecycle.status_transitions for the normative transition
       listing. That block is the machine-parseable authority for all
       valid status transitions (DDR System Spec §3.8).
+  - property: prior_status
+    type: "StatusEnum (restricted to [ACTIVE, DEPRECATED, DIRTY])"
+    cardinality: optional
+    semantics: >
+      Write-once field set when a node transitions into SUPERSEDE_PENDING,
+      recording the node's status immediately prior to the SUPERSEDE
+      operation. Cleared (set to null or omitted) when the node exits
+      SUPERSEDE_PENDING via either SUPERSEDE_COMPLETE or
+      SUPERSEDE_ROLLBACK. Must not be set on any node that is not in
+      SUPERSEDE_PENDING status.
+    backward_compatibility: >
+      Existing nodes without prior_status are fully schema-valid. The field
+      is optional and its absence is semantically equivalent to null.
   - property: version
     type: SemVer
     description: "Content version string."
@@ -239,11 +255,15 @@ dag_invariants:
     statement: "When CL is inactive, SAL derives directly from FCL."
   - id: INV-5
     statement: "All non-root nodes must carry at least one parent_id citation."
+  # ISSUE-007 Change (§3.5 INV-6; satisfies AX-3 determinism and generalized INV-6 atomicity)
+  # ISSUE-007 §3 (Option A + B Combined): define universal SUPERSEDE atomicity while preserving XPD-specific guard conditions.
   - id: INV-6
     statement: >
-      At most one XPD node may carry status ACTIVE at any time. SUPERSEDE of an
-      XPD node must atomically set the predecessor to SUPERSEDED before the
-      replacement node can be set to ACTIVE.
+      SUPERSEDE of any node across any tier must be atomic; partial application
+      — defined as any state where step (1), (2), or (3) of the SUPERSEDE
+      sequence has been applied without all three completing — constitutes a
+      structural violation detectable by VERIFY.
+      At most one XPD node may carry status ACTIVE at any time.
 
 # ── §3.6 NODE ID FORMAT ──────────────────────────────────────────────────────
 
@@ -1089,10 +1109,22 @@ operations:
     - name: SUPERSEDE
       description: "Mark node SUPERSEDED; create replacement with new ID."
       validation_trigger: >
-        Old node retains ID; new node validated; children's parent_ids
-        auto-updated to replacement ID then set DIRTY for content
-        re-validation; this auto-update does not cascade DIRTY to
-        grandchildren.
+        (1) Transition source node to SUPERSEDE_PENDING, recording prior_status.
+        (2) Attempt INSERT of replacement node with full atomic ruleset
+        validation, parent existence check, and DAG cycle detection.
+        (3a) On INSERT success: transition source SUPERSEDE_PENDING →
+        SUPERSEDED, re-wire children's parent_ids to replacement ID, set
+        children DIRTY, clear prior_status. Old node retains ID; new node
+        validated; children's parent_ids auto-updated to replacement ID then
+        set DIRTY for content re-validation; this auto-update does not cascade
+        DIRTY to grandchildren. (3b) On INSERT failure: transition source
+        SUPERSEDE_PENDING → prior_status, discard failed replacement, leave
+        children unmodified, log SUPERSEDE_FAILED to reconciliation manifest.
+        (4) If step 3a child re-wiring partially fails: remove replacement
+        node, revert source to prior_status, log SUPERSEDE_FAILED. No partial
+        re-wiring is permitted. VERIFY treats any node found in
+        SUPERSEDE_PENDING as a SUPERSEDE_PENDING_DETECTED manifest item with
+        severity BLOCKING.
     - name: VERIFY
       description: >
         Traverse DAG downward; validate citation chains, edge types, ID
@@ -1155,6 +1187,16 @@ operations:
       remains valid pending the child's own re-validation. This scoped
       propagation is an explicit exception to the general MODIFY cascade rule.
     - >
+      SUPERSEDE_PENDING Handling: A node in SUPERSEDE_PENDING status is treated
+      by VERIFY as a structural advisory of type SUPERSEDE_PENDING_DETECTED with
+      severity BLOCKING. No DIRTY propagation occurs while a node is in
+      SUPERSEDE_PENDING status — propagation is deferred until the operation
+      either commits or rolls back. On commit (SUPERSEDE_PENDING → SUPERSEDED):
+      standard SUPERSEDE DIRTY propagation applies — immediate children are set
+      DIRTY; grandchildren are not cascaded. On rollback (SUPERSEDE_PENDING →
+      prior_status): no propagation occurs; the DAG is restored to its
+      pre-SUPERSEDE state with no DIRTY side-effects.
+    - >
       Supersede-to-MODIFY Interaction: If a DIRTY child's re-validation
       results in a content MODIFY, standard MODIFY cascade rules apply — all
       descendants of the modified child are set DIRTY. This interaction is not
@@ -1188,6 +1230,27 @@ operations:
           Logged when a GPCL performance target (GPCL-R6) has no corresponding
           FCL capability node providing independent behavioral context. Flags
           the direct GPCL→SAL dependency for human review per GPCL-FCL-BR1.
+      - item_type: SUPERSEDE_FAILED
+        description: >
+          Logged when a SUPERSEDE operation fails at step 2 (replacement INSERT
+          validation failure) or step 3 (child re-wiring failure). Records the
+          source node ID, the attempted replacement content (or a stable hash
+          thereof), the failure reason (validation error code or system failure
+          indicator), and a timestamp. Enables VERIFY and reconciliation workflows
+          to diagnose and retry failed SUPERSEDE operations without manual DAG
+          inspection.
+        fields: [source_node_id, attempted_replacement_content_hash, failure_reason, timestamp]
+      - item_type: SUPERSEDE_PENDING_DETECTED
+        description: >
+          Logged by VERIFY when it encounters any node in SUPERSEDE_PENDING status
+          during a DAG traversal. Indicates an in-flight SUPERSEDE operation that
+          has not yet committed or rolled back. Severity is BLOCKING — the DAG
+          cannot be declared CLEAN while any node carries SUPERSEDE_PENDING status.
+          Resolution requires either completing the SUPERSEDE (retry the replacement
+          INSERT) or reverting the source node to its prior_status via
+          SUPERSEDE_ROLLBACK.
+        fields: [node_id, prior_status, detected_at]
+        severity: BLOCKING
 
 # ── §8 EXTENSION SYSTEM ──────────────────────────────────────────────────────
 
@@ -1899,9 +1962,13 @@ nodes:
       What are the structural blueprints of individual components?
 
       DdrNode: id (str, immutable), tier (TierEnum), title (str), status
-      (StatusEnum: DRAFT|ACTIVE|DIRTY|DEPRECATED|SUPERSEDED), version (SemVer),
-      created (datetime), modified (datetime), parent_ids (List[ParentCitation]),
-      content (str), extension_annotations (Dict[str, Any], namespaced).
+      (StatusEnum: DRAFT|ACTIVE|DIRTY|DEPRECATED|SUPERSEDED|SUPERSEDE_PENDING),
+      prior_status (StatusEnum|None; restricted to ACTIVE|DEPRECATED|DIRTY),
+      version (SemVer), created (datetime), modified (datetime),
+      parent_ids (List[ParentCitation]), content (str),
+      extension_annotations (Dict[str, Any], namespaced). SUPERSEDE_PENDING is
+      a transient operational state entered only during in-flight SUPERSEDE and
+      is not a stable lifecycle state outside SUPERSEDE execution.
       ParentCitation: id (str), edge_type (EdgeTypeEnum),
       derivation_mode (DerivationModeEnum|None; applies only to derives;
       default semantic when absent).
@@ -1939,9 +2006,12 @@ nodes:
           SAL="SAL"; ICL="ICL"; CDL="CDL"; ISL="ISL"
 
       class StatusEnum(str, Enum):
-          # [ICL-6.1] Valid statuses — transitions enforced by operation protocol
+          # [ICL-6.1] Valid statuses — transitions enforced by operation protocol.
+          # SUPERSEDE_PENDING is transient: entered only during in-flight
+          # SUPERSEDE and not a stable lifecycle state outside SUPERSEDE.
           DRAFT="DRAFT"; ACTIVE="ACTIVE"; DIRTY="DIRTY"
           DEPRECATED="DEPRECATED"; SUPERSEDED="SUPERSEDED"
+          SUPERSEDE_PENDING="SUPERSEDE_PENDING"
 
       class EdgeTypeEnum(str, Enum):
           # [ICL-6.1] 4-type edge vocabulary (§3.2)
@@ -2009,7 +2079,7 @@ nodes:
           ...
 
       def supersede(node_id: str, replacement_spec: dict, graph) -> DdrNode:
-          """[SAL-5.1] Mark SUPERSEDED; create replacement; re-wire children parent_ids."""
+          """[SAL-5.1] SUPERSEDE sequence: source status enters SUPERSEDE_PENDING with prior_status recorded (gc-007); replacement INSERT validates atomically; on success SUPERSEDE_COMPLETE transitions source to SUPERSEDED, re-wires immediate children parent_ids, marks those children DIRTY, and clears prior_status (gc-008); on failure SUPERSEDE_ROLLBACK reverts source to prior_status, preserves prior parent_ids when INSERT fails or removes replacement if re-wiring fails, logs SUPERSEDE_FAILED, and clears prior_status (gc-009)."""
           ...
 
       def unbundle(group_id: str, graph) -> list[DdrNode]:
@@ -2040,9 +2110,9 @@ lifecycle:
       operation: MODIFY
       guards: [gc-002]
     - from: ACTIVE
-      to: SUPERSEDED
+      to: SUPERSEDE_PENDING
       operation: SUPERSEDE
-      guards: []
+      guards: [gc-007]
     - from: DIRTY
       to: ACTIVE
       operation: "VERIFY+VALIDATE"
@@ -2052,13 +2122,26 @@ lifecycle:
       operation: MODIFY
       guards: [gc-002]
     - from: DIRTY
-      to: SUPERSEDED
+      to: SUPERSEDE_PENDING
       operation: SUPERSEDE
-      guards: []
+      guards: [gc-007]
     - from: DEPRECATED
-      to: SUPERSEDED
+      to: SUPERSEDE_PENDING
       operation: SUPERSEDE
-      guards: []
+      guards: [gc-007]
+    - from: SUPERSEDE_PENDING
+      to: SUPERSEDED
+      operation: SUPERSEDE_COMPLETE
+      guards: [gc-008]
+      notes: "All three SUPERSEDE steps completed. prior_status cleared."
+    - from: SUPERSEDE_PENDING
+      to: "{prior_status}"
+      operation: SUPERSEDE_ROLLBACK
+      guards: [gc-009]
+      notes: >
+        Source node reverts to its recorded prior_status value. prior_status
+        field cleared. No replacement node created. No parent_ids modified.
+        SUPERSEDE_FAILED logged to reconciliation manifest.
     - from: DEPRECATED
       to: DELETED
       operation: DELETE
@@ -2083,19 +2166,29 @@ lifecycle:
     - from: DIRTY
       to: [DRAFT, DIRTY, DELETED]
       reason: >
-        DIRTY may only transition to ACTIVE, DEPRECATED, or SUPERSEDED under
+        DIRTY may only transition to ACTIVE, DEPRECATED, or SUPERSEDE_PENDING
+        under
         defined operations.
     - from: DEPRECATED
       to: [DRAFT, DIRTY, DEPRECATED]
       reason: >
-        DEPRECATED may only transition to ACTIVE, SUPERSEDED, or DELETED under
+        DEPRECATED may only transition to ACTIVE, SUPERSEDE_PENDING, or DELETED
+        under
         defined operations.
     - from: SUPERSEDED
-      to: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED]
+      to: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED, SUPERSEDE_PENDING]
       reason: >
         SUPERSEDED is a terminal status. No outbound transition is
         permitted. A new node must be created via INSERT if the
         superseded content requires revision.
+    # ISSUE-007 Auto-Repair: AX-3 — remove rollback-target statuses from prohibited list so SUPERSEDE_ROLLBACK to prior_status is deterministic and valid.
+    - from: SUPERSEDE_PENDING
+      to: [DRAFT, DELETED]
+      reason: >
+        SUPERSEDE_PENDING may only exit to SUPERSEDED (on success, via
+        SUPERSEDE_COMPLETE) or to the node's recorded prior_status (on failure,
+        via SUPERSEDE_ROLLBACK). All other transitions from SUPERSEDE_PENDING
+        are prohibited.
 
   guard_definitions:
     - id: gc-001
@@ -2115,4 +2208,24 @@ lifecycle:
       verification_mode: structural
     - id: gc-006
       description: "Per-node validation scope is explicitly confirmed."
+      verification_mode: structural
+    - id: gc-007
+      description: >
+        Before entering SUPERSEDE_PENDING, the node's current status must be
+        recorded in prior_status. The prior_status value must be one of
+        [ACTIVE, DEPRECATED, DIRTY]. Transition is rejected if prior_status
+        cannot be set (e.g., node already in SUPERSEDE_PENDING).
+      verification_mode: structural
+    - id: gc-008
+      description: >
+        Replacement node has been successfully INSERTed and validated. All
+        children's parent_ids have been re-wired to the replacement ID. All
+        children are set DIRTY. prior_status is cleared from the source node.
+      verification_mode: structural
+    - id: gc-009
+      description: >
+        Replacement INSERT failed validation, OR child re-wiring failed after
+        successful INSERT. Source node reverts to its prior_status. If INSERT
+        succeeded before re-wiring failed, the replacement node is removed from
+        the DAG. SUPERSEDE_FAILED is logged with failure_reason.
       verification_mode: structural
