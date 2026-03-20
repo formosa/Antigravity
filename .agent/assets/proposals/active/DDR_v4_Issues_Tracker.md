@@ -12,8 +12,8 @@
   subject_file:         DDR_System_Opus_v4_.md
   last_updated:         2026-03-20
   total_issues:         13
-  open_issues:          11
-  resolved_issues:      2
+  open_issues:          10
+  resolved_issues:      3
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
   ANTIGRAVITY 1.18 DEPLOYMENT NOTES
@@ -143,7 +143,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 | --------------------------------------------------------------------------------------------- | ---------- | ------------------- | ---------- | -------------- | ------------------------------------------------------------------- |
 | \[ISSUE-001\](#issue-001-derives-absorbs-cites-destroying-audit-trail-precision)              | `CRITICAL` | `LOGICAL_CONFLICT`  | `RESOLVED` | All            | `derives` absorbs `cites`, destroying audit trail precision         |
 | \[ISSUE-002\](#issue-002-fcl-cl-edge-direction-is-semantically-inverted)                      | `CRITICAL` | `LOGICAL_CONFLICT`  | `RESOLVED` | FCL, CL, SAL   | FCL→CL edge direction is semantically inverted                      |
-| \[ISSUE-003\](#issue-003-dag-invariant-text-contradicts-the-merge-node-topology)              | `MAJOR`    | `LOGICAL_CONFLICT`  | `OPEN`     | SAL            | DAG invariant text contradicts the merge-node topology              |
+| \[ISSUE-003\](#issue-003-dag-invariant-text-contradicts-the-merge-node-topology)              | `MAJOR`    | `LOGICAL_CONFLICT`  | `RESOLVED` | SAL            | DAG invariant text contradicts the merge-node topology              |
 | \[ISSUE-004\](#issue-004-ax-3-determinism-is-violated-by-non-automatable-atomic-rules)        | `MAJOR`    | `AXIOM_VIOLATION`   | `OPEN`     | All            | AX-3 determinism violated by non-automatable atomic rules           |
 | \[ISSUE-005\](#issue-005-gpcl-overloading-creates-an-implicit-fcl-tier-skip)                  | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN`     | GPCL, FCL, SAL | GPCL overloading creates an implicit FCL tier skip                  |
 | \[ISSUE-006\](#issue-006-node-status-lifecycle-lacks-a-formal-state-machine)                  | `MAJOR`    | `LIFECYCLE_GAP`     | `OPEN`     | All            | Node status lifecycle lacks a formal state machine                  |
@@ -308,18 +308,18 @@ Option A is the structurally correct solution but requires topology changes. Opt
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-003
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        LOGICAL_CONFLICT
 tier_refs:   [SAL]
 section_ref: §3.5
 rule_refs:   [INV-2, SAL-R6, CIT-R2]
 created:     2026-02-28
-updated:     2026-02-28
-resolved:    null
+updated:     2026-03-20
+resolved:    2026-03-20
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `LOGICAL_CONFLICT`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `LOGICAL_CONFLICT`
 **Tiers Affected:** `SAL` | **Spec Section:** §3.5 DAG Invariants
 
 #### Problem Statement-003
