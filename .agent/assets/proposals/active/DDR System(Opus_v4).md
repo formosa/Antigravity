@@ -162,7 +162,7 @@ This specification was designed under three governing constraints:
 ### 3.5 DAG Invariants
 
 - No cycles permitted at any path length
-- No tier-skipping: each citation references exactly one active tier above in the derivation path
+- No tier-skipping: each citation references the immediately preceding active tier(s) in the derivation path. Exception: SAL is a merge node (§3.4) that simultaneously derives from FCL and is constrained by CL when active. SAL is therefore the ONLY tier that validly carries parent citations from two distinct tiers. This exception is exhaustive; no other tier may carry citations from more than one immediately preceding tier.
 - XPD and CL are conditionally activatable; the Core is valid and complete without them
 - When CL is inactive, SAL derives directly from FCL
 - All non-root nodes must carry at least one `parent_id` citation
