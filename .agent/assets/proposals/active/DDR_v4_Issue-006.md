@@ -7,7 +7,7 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System Specification v4.0"
   created:         "2026-03-19"
-  status:          "OPEN"
+  status:          "RESOLVED"
   severity:        "MAJOR"
   type:            "LIFECYCLE_GAP"
 ---
@@ -18,7 +18,7 @@ document:
 
 ```yaml
 id:          ISSUE-006
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        LIFECYCLE_GAP
 tier_refs:   [ALL]
