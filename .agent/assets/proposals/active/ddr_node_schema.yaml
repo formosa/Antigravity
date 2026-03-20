@@ -35,8 +35,8 @@ properties:
 
   ddr_version:
     type: string
-    const: "4.0"
-    description: "Locks the definition to DDR v4.0. Must be the string '4.0'."
+    const: "4.1"
+    description: "Locks the definition to DDR v4.1. Must be the string '4.1'."
 
   active_tiers:
     type: array

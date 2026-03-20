@@ -7,7 +7,7 @@
 # Conforms to: ddr_node_schema.yaml (JSON Schema 2020-12)
 # Source reference: DDR System Specification v4.0 (2026-02-26)
 
-ddr_version: "4.0"
+ddr_version: "4.1"
 
 project:
   name: "DDR System v4.0 — Authoritative Specification"
@@ -222,9 +222,9 @@ dag_invariants:
     statement: "No cycles permitted at any path length."
   - id: INV-2
     statement: >
-      No tier-skipping: each citation references exactly one active tier above
-      in the derivation path. Exception: FCL→SAL derives edge is always valid
-      regardless of CL activation state (SAL merge-node design; see §3.4, Audit C-2).
+      No tier-skipping: citations must reference the immediately preceding active tier(s).
+      SAL is the only permitted merge-node exception (exhaustive). See §3.5 of the
+      Markdown specification for the complete normative definition.
   - id: INV-3
     statement: >
       XPD and CL are conditionally activatable; the Core is valid and complete
