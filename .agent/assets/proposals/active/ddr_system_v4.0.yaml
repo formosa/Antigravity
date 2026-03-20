@@ -163,8 +163,12 @@ node_schema_fields:
     type: Text
     description: "Body constrained by the tier's atomic ruleset."
   - property: parent_ids
-    type: "List[String]"
-    description: "≥1 for all non-root nodes; typed by edge."
+    type: "List[ParentCitation]"
+    description: >
+      ≥1 for all non-root nodes; each entry is a typed edge reference:
+      {id, edge_type, derivation_mode?}. For edge_type='derives',
+      derivation_mode MAY be supplied as semantic|traceability
+      (default: semantic for backward compatibility when omitted).
   - property: status
     type: Enum
     description: "DRAFT | ACTIVE | DIRTY | DEPRECATED | SUPERSEDED"
@@ -194,8 +198,10 @@ edge_type_definitions:
     - type: derives
       symbol: "──derives──▶"
       semantics: >
-        Child content derived from parent requirements or references parent
-        for traceability.
+        Supports two semantic modes via optional derivation_mode annotation:
+        semantic = child content is derived from parent requirements;
+        traceability = parent is cited as authoritative lineage linkage.
+        If omitted, derivation_mode defaults to semantic.
     - type: constrains
       symbol: "╌╌constrains╌▶"
       semantics: >
@@ -256,7 +262,9 @@ citation_rules:
   - rule_id: CIT-R2
     statement: >
       parent_ids must reference node(s) from the immediately preceding active
-      tier(s) in the DAG topology.
+      tier(s) in the DAG topology. For edge_type='derives',
+      derivation_mode may be provided as semantic|traceability; if omitted,
+      default is semantic.
   - rule_id: CIT-R3
     statement: >
       CL→SAL constraint edges are recorded in parent_ids with edge type
@@ -269,6 +277,10 @@ citation_rules:
     statement: >
       Extension extends edges are stored in extension_annotations only —
       never in parent_ids.
+  - rule_id: CIT-R6
+    statement: >
+      Any derives edge used as an authority linkage (traceability citation)
+      MUST set derivation_mode to 'traceability'.
 
 # ── §4 CONSUMPTION MODES ─────────────────────────────────────────────────────
 
@@ -1576,6 +1588,7 @@ nodes:
     parent_ids:
       - id: XPD-0.1
         edge_type: derives
+        derivation_mode: semantic
     content: |
       Why does this system exist, and what business outcomes must it achieve?
 
@@ -1599,6 +1612,7 @@ nodes:
     parent_ids:
       - id: SIL-1.1
         edge_type: derives
+        derivation_mode: traceability
     content: |
       What non-negotiable external mandates, regulatory obligations, policy
       constraints, and measurable quality thresholds govern this system?
@@ -1621,6 +1635,7 @@ nodes:
     parent_ids:
       - id: GPCL-2.1
         edge_type: derives
+        derivation_mode: semantic
     content: |
       What externally observable behaviors and user-facing capabilities must
       the system provide?
@@ -1645,6 +1660,7 @@ nodes:
     parent_ids:
       - id: FCL-3.1
         edge_type: derives
+        derivation_mode: semantic
     content: |
       What are the declared technology selections, hardware envelopes, and
       infrastructure ceilings that bound the system's implementation?
@@ -1667,6 +1683,7 @@ nodes:
     parent_ids:
       - id: FCL-3.1
         edge_type: derives
+        derivation_mode: semantic
       - id: CL-4.1
         edge_type: constrains
     content: |
@@ -1696,6 +1713,7 @@ nodes:
     parent_ids:
       - id: SAL-5.1
         edge_type: derives
+        derivation_mode: semantic
     content: |
       What are the formal, machine-verifiable contracts governing data exchange
       between system boundaries?
@@ -1703,7 +1721,9 @@ nodes:
       Node schema contract: ddr_node_schema.yaml (JSON Schema 2020-12); fields
       id, tier, title, status, version, created, modified required; parent_ids
       and content optional with defined defaults. Edge schema: {id: string
-      (pattern TIER-N.M), edge_type: enum[derives|constrains|implements|extends]}.
+      (pattern TIER-N.M), edge_type: enum[derives|constrains|implements|extends],
+      derivation_mode?: enum[semantic|traceability] (valid only when
+      edge_type='derives'; default='semantic' when omitted)}.
       VERIFY contract: input DiGraph → output {clean: bool, violations:
       [{rule_id, node_id, description, severity}]}. VALIDATE contract: input
       node_id → output {pass: bool, violated_rules: [rule_id]}. INSERT contract:
@@ -1729,7 +1749,9 @@ nodes:
       (StatusEnum: DRAFT|ACTIVE|DIRTY|DEPRECATED|SUPERSEDED), version (SemVer),
       created (datetime), modified (datetime), parent_ids (List[ParentCitation]),
       content (str), extension_annotations (Dict[str, Any], namespaced).
-      ParentCitation: id (str), edge_type (EdgeTypeEnum).
+      ParentCitation: id (str), edge_type (EdgeTypeEnum),
+      derivation_mode (DerivationModeEnum|None; applies only to derives;
+      default semantic when absent).
       Violation: rule_id (str), node_id (str), description (str), severity (str).
       VerifyResult: clean (bool), violations (List[Violation]), node_count (int),
       tier_counts (Dict), status_counts (Dict).
@@ -1756,7 +1778,7 @@ nodes:
       from enum import Enum
       from datetime import datetime
       from dataclasses import dataclass, field
-      from typing import Any
+      from typing import Any, Optional
 
       class TierEnum(str, Enum):
           # [GPCL-2.1] 9 canonical tiers — AX-4 universality enforced
@@ -1773,11 +1795,16 @@ nodes:
           DERIVES="derives"; CONSTRAINS="constrains"
           IMPLEMENTS="implements"; EXTENDS="extends"
 
+      class DerivationModeEnum(str, Enum):
+          # [§3.2/CIT-R2] derives subtype annotation (backward compatible)
+          SEMANTIC="semantic"; TRACEABILITY="traceability"
+
       @dataclass
       class ParentCitation:
           # [ICL-6.1] Typed parent reference — CIT-R1 through CIT-R4
           id: str          # immutable node ID — pattern TIER-N.M
           edge_type: EdgeTypeEnum
+          derivation_mode: Optional[DerivationModeEnum] = None
 
       @dataclass
       class DdrNode:
