@@ -517,6 +517,20 @@ tier_definitions:
           concurrency ceilings.
         violation_consequence: "Architecture unable to satisfy operational demands."
         verification_mode: structural
+      - rule_id: GPCL-FCL-BR1
+        statement: >
+          For every quantitative performance target specified under GPCL-R6,
+          there must exist a corresponding FCL node whose semantic contribution
+          is the behavioral context of the governed interaction — not a
+          restatement of the numeric threshold. FCL nodes created solely to
+          satisfy the citation chain without contributing independent behavioral
+          context are prohibited. When no user-facing behavioral dimension exists
+          for a GPCL performance target (e.g., infrastructure-level SLAs with
+          no observable user interaction), the author must log a MISSING_MEDIATOR
+          item to the reconciliation manifest. VERIFY must flag any direct
+          GPCL→SAL dependency lacking an FCL mediator for human review.
+        violation_consequence: "Unmediated GPCL performance targets create hollow FCL mappings or direct GPCL→SAL dependency."
+        verification_mode: semantic
       - rule_id: GPCL-R7
         statement: >
           Must specify reliability and availability targets (SLAs, RTO, RPO).
@@ -1163,6 +1177,13 @@ operations:
     - "Pending items list"
     - "Last full validation timestamp"
     - "Active Extensions and annotation counts"
+  reconciliation_manifest_schema:
+    manifest_item_types:
+      - item_type: MISSING_MEDIATOR
+        description: >
+          Logged when a GPCL performance target (GPCL-R6) has no corresponding
+          FCL capability node providing independent behavioral context. Flags
+          the direct GPCL→SAL dependency for human review per GPCL-FCL-BR1.
 
 # ── §8 EXTENSION SYSTEM ──────────────────────────────────────────────────────
 
