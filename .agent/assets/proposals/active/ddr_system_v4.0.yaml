@@ -118,7 +118,9 @@ axioms:
     statement: >
       Identical inputs produce unambiguous, mechanically verifiable outputs.
     implication: >
-      Automated validation and compliance checking are possible.
+      Automated validation and compliance checking are possible for all
+      structural rules; semantic rules require explicit human disposition
+      before node activation.
   - id: AX-4
     name: Universality
     statement: >
@@ -351,29 +353,35 @@ tier_definitions:
       - rule_id: XPD-R1
         statement: "Must articulate a fundamental human or societal need being addressed."
         violation_consequence: "Downstream tiers lack ethical grounding."
+        verification_mode: structural
       - rule_id: XPD-R2
         statement: >
           Must be immutable across the project lifecycle; changes require a new
           XPD version.
         violation_consequence: "Scope drift; mission confusion."
+        verification_mode: structural
       - rule_id: XPD-R3
         statement: >
           Must be comprehensible to non-technical stakeholders without a
           glossary.
         violation_consequence: "Stakeholder misalignment."
+        verification_mode: semantic
       - rule_id: XPD-R4
         statement: >
           Must establish ethical boundary conditions all subsequent tiers must
           satisfy.
         violation_consequence: "Unethical design without detection."
+        verification_mode: structural
       - rule_id: XPD-R5
         statement: "Must define success criteria independent of implementation metrics."
         violation_consequence: "Wrong success measurement."
+        verification_mode: structural
       - rule_id: XPD-R6
         statement: >
           Must identify populations who could be harmed and the safeguards
           required.
         violation_consequence: "Harm by omission."
+        verification_mode: structural
     atomic_exclusion_rules:
       - rule_id: XPD-E1
         statement: >
@@ -410,23 +418,29 @@ tier_definitions:
       - rule_id: SIL-R1
         statement: "Must define the core business problem or opportunity being addressed."
         violation_consequence: "GPCL will lack strategic anchor."
+        verification_mode: structural
       - rule_id: SIL-R2
         statement: "Must specify strategic objectives with measurable outcomes."
         violation_consequence: "Unmeasurable success criteria."
+        verification_mode: structural
       - rule_id: SIL-R3
         statement: >
           Must identify all stakeholder categories and their value propositions.
         violation_consequence: "Misaligned delivery priorities."
+        verification_mode: structural
       - rule_id: SIL-R4
         statement: >
           Must establish explicit scope boundaries (in-scope and out-of-scope).
         violation_consequence: "Uncontrolled scope creep."
+        verification_mode: structural
       - rule_id: SIL-R5
         statement: "Must define organizational success metrics."
         violation_consequence: "Inability to declare completion."
+        verification_mode: structural
       - rule_id: SIL-R6
         statement: "Must be stable under technology changes."
         violation_consequence: "Technology coupling at the intent level."
+        verification_mode: structural
     atomic_exclusion_rules:
       - rule_id: SIL-E1
         statement: >
@@ -476,41 +490,51 @@ tier_definitions:
           Must enumerate all applicable regulatory frameworks with jurisdiction
           and scope.
         violation_consequence: "Compliance gaps leading to legal exposure."
+        verification_mode: structural
       - rule_id: GPCL-R2
         statement: >
           Must specify enforceable, testable constraints — not aspirational
           targets.
         violation_consequence: "Non-verifiable compliance claims."
+        verification_mode: semantic
       - rule_id: GPCL-R3
         statement: >
           Must identify contractual obligations imposed by third-party
           relationships.
         violation_consequence: "Contract breach by design."
+        verification_mode: structural
       - rule_id: GPCL-R4
         statement: "Must define data sovereignty and residency requirements."
         violation_consequence: "Data law violations."
+        verification_mode: structural
       - rule_id: GPCL-R5
         statement: "Must specify audit and record-retention mandates."
         violation_consequence: "Regulatory audit failure."
+        verification_mode: structural
       - rule_id: GPCL-R6
         statement: >
           Must specify quantifiable performance targets: latency, throughput,
           concurrency ceilings.
         violation_consequence: "Architecture unable to satisfy operational demands."
+        verification_mode: structural
       - rule_id: GPCL-R7
         statement: >
           Must specify reliability and availability targets (SLAs, RTO, RPO).
         violation_consequence: "Unacceptable service degradation."
+        verification_mode: structural
       - rule_id: GPCL-R8
         statement: >
           Must specify security requirements expressed technology-neutrally.
         violation_consequence: "Stale security specification on technology change."
+        verification_mode: structural
       - rule_id: GPCL-R9
         statement: "Must specify scalability and accessibility requirements."
         violation_consequence: "Architecture unable to grow; user exclusion."
+        verification_mode: structural
       - rule_id: GPCL-R10
         statement: "Must cite parent SIL IDs for each constraint."
         violation_consequence: "Orphaned requirements."
+        verification_mode: structural
     atomic_exclusion_rules:
       - rule_id: GPCL-E1
         statement: >
@@ -550,30 +574,36 @@ tier_definitions:
           system.
         violation_consequence: >
           Internal implementation details contaminate the functional spec.
+        verification_mode: semantic
       - rule_id: FCL-R2
         statement: >
           Must specify user workflows end-to-end without naming components,
           classes, or modules.
         violation_consequence: "Premature structural coupling."
+        verification_mode: semantic
       - rule_id: FCL-R3
         statement: >
           Must define event-driven behaviors and conditional business logic
           rules.
         violation_consequence: "Missing behavioral specification."
+        verification_mode: structural
       - rule_id: FCL-R4
         statement: >
           Must specify user-observable state transitions and error conditions.
         violation_consequence: "Incomplete behavioral model."
+        verification_mode: structural
       - rule_id: FCL-R5
         statement: >
           Must be decomposable into sub-capabilities (parent-child FCL nodes)
           for complex features.
         violation_consequence: "Monolithic feature specs that resist traceability."
+        verification_mode: structural
       - rule_id: FCL-R6
         statement: >
           Must cite parent GPCL IDs for capabilities that satisfy a governance
           or quality requirement.
         violation_consequence: "Disconnected functional requirements."
+        verification_mode: structural
     atomic_exclusion_rules:
       - rule_id: FCL-E1
         statement: "Must not name specific classes, modules, APIs, or algorithms."
@@ -632,44 +662,53 @@ tier_definitions:
         statement: >
           Must declare approved programming languages with version constraints.
         violation_consequence: "Incompatible implementations."
+        verification_mode: structural
       - rule_id: CL-R2
         statement: >
           Must declare mandatory frameworks and core libraries with minimum
           version bounds.
         violation_consequence: "Dependency drift."
+        verification_mode: structural
       - rule_id: CL-R3
         statement: >
           Must declare required external service contracts without their
           internal implementation details.
         violation_consequence: "Integration gaps."
+        verification_mode: structural
       - rule_id: CL-R4
         statement: >
           Must declare runtime environment constraints (OS, container runtime,
           execution environment).
         violation_consequence: "Deployment environment incompatibility."
+        verification_mode: structural
       - rule_id: CL-R5
         statement: >
           Must explicitly declare prohibited technologies with rationale.
         violation_consequence: "License compliance violations."
+        verification_mode: structural
       - rule_id: CL-R6
         statement: >
           Must declare hardware envelopes when applicable (CPU class, RAM
           floor, storage, GPU).
         violation_consequence: "Architecture that exceeds target hardware."
+        verification_mode: structural
       - rule_id: CL-R7
         statement: >
           Must declare infrastructure ceilings when applicable (compute
           budget, storage cap, bandwidth cap).
         violation_consequence: "Cost overruns from unconstrained architecture."
+        verification_mode: structural
       - rule_id: CL-R8
         statement: >
           Must specify deployment topology declarations (on-premise,
           cloud-agnostic, hybrid, edge).
         violation_consequence: "Architecture incompatible with deployment target."
+        verification_mode: structural
       - rule_id: CL-R9
         applies_when: "constraint_origin == 'derived'"
         statement: "Must cite FCL IDs for each constraint."
         violation_consequence: "Constraints untraceable to a business need."
+        verification_mode: structural
       - rule_id: CL-R9-imposed
         applies_when: "constraint_origin == 'imposed'"
         statement: >
@@ -680,12 +719,14 @@ tier_definitions:
         violation_consequence: >
           Imposed constraint is untraceable to its originating authority,
           violating AX-1 audit integrity requirements.
+        verification_mode: structural
       - rule_id: CL-R10
         statement: >
           Must explicitly document internal reconciliations of conflicting
           hardware and technology constraints.
         violation_consequence: >
           Loss of deterministic traceability for constraint conflicts.
+        verification_mode: structural
     verify_citation_logic:
       branches:
         - when: "constraint_origin == 'derived'"
@@ -730,25 +771,31 @@ tier_definitions:
         statement: >
           Must define the overarching architectural pattern(s) with rationale.
         violation_consequence: "No structural framework for downstream design."
+        verification_mode: semantic
       - rule_id: SAL-R2
         statement: >
           Must specify system decomposition into major subsystems with
           ownership boundaries.
         violation_consequence: "Ambiguous component responsibilities."
+        verification_mode: structural
       - rule_id: SAL-R3
         statement: "Must specify inter-subsystem communication patterns."
         violation_consequence: "Integration design without architectural mandate."
+        verification_mode: structural
       - rule_id: SAL-R4
         statement: "Must specify concurrency model and data ownership rules."
         violation_consequence: "Race conditions and data integrity violations by design."
+        verification_mode: structural
       - rule_id: SAL-R5
         statement: "Must specify failure isolation and resilience boundaries."
         violation_consequence: "Cascading failure scenarios in the architecture."
+        verification_mode: structural
       - rule_id: SAL-R6
         statement: >
           Must cite all active parent IDs (FCL + CL if active) for each major
           architectural decision.
         violation_consequence: "Architectural decisions without traceable justification."
+        verification_mode: structural
     atomic_exclusion_rules:
       - rule_id: SAL-E1
         statement: >
@@ -785,32 +832,39 @@ tier_definitions:
           Must define all inter-component and external API contracts with
           complete input/output schemas.
         violation_consequence: "Implementations that diverge at integration points."
+        verification_mode: structural
       - rule_id: ICL-R2
         statement: >
           All schemas must be machine-parseable (JSON Schema, Protobuf,
           OpenAPI, or equivalent).
         violation_consequence: "Contracts that cannot be mechanically validated."
+        verification_mode: structural
       - rule_id: ICL-R3
         statement: >
           Must specify serialization formats, encoding standards, and wire
           protocols per contract.
         violation_consequence: "Interoperability failures from encoding mismatches."
+        verification_mode: structural
       - rule_id: ICL-R4
         statement: >
           Must specify mandatory fields, optional fields, type constraints,
           and validation rules.
         violation_consequence: "Runtime failures from malformed payloads."
+        verification_mode: structural
       - rule_id: ICL-R5
         statement: >
           Must specify error response contracts (error codes, payload
           structure, retry behavior).
         violation_consequence: "Undefined failure behavior at system boundaries."
+        verification_mode: structural
       - rule_id: ICL-R6
         statement: "Must specify versioning strategy per contract."
         violation_consequence: "Breaking changes without migration path."
+        verification_mode: structural
       - rule_id: ICL-R7
         statement: "Must cite SAL IDs for each contract."
         violation_consequence: "Contracts without architectural justification."
+        verification_mode: structural
     atomic_exclusion_rules:
       - rule_id: ICL-E1
         statement: >
@@ -846,34 +900,41 @@ tier_definitions:
           Must define component names, logical responsibilities, and ownership
           boundaries.
         violation_consequence: "Ambiguous implementation targets."
+        verification_mode: structural
       - rule_id: CDL-R2
         statement: >
           Must specify all public method/function signatures (name, parameter
           types, return type, exceptions).
         violation_consequence: "Implementations that violate the declared interface."
+        verification_mode: structural
       - rule_id: CDL-R3
         statement: >
           Must specify internal state structures as a logical model — not
           implementation.
         violation_consequence: "Hidden state dependencies between components."
+        verification_mode: structural
       - rule_id: CDL-R4
         statement: >
           Must specify component dependencies (consumed components and ICL
           contracts).
         violation_consequence: "Circular dependencies introduced at implementation."
+        verification_mode: structural
       - rule_id: CDL-R5
         statement: "Must map each component to the ICL contracts it implements."
         violation_consequence: "Components without contractual grounding."
+        verification_mode: structural
       - rule_id: CDL-R6
         statement: >
           Must specify initialization, lifecycle, and teardown contracts for
           stateful components.
         violation_consequence: "Resource leaks and initialization-order bugs."
+        verification_mode: structural
       - rule_id: CDL-R7
         statement: >
           When CL declares multiple target languages, must produce
           language-specific blueprints for each target.
         violation_consequence: "Language constraint not propagated; ISL-R5 compliance gap."
+        verification_mode: structural
     atomic_exclusion_rules:
       - rule_id: CDL-E1
         statement: >
@@ -905,26 +966,32 @@ tier_definitions:
           Must produce syntactically valid structural scaffolding in the
           target language.
         violation_consequence: "Scaffolding that fails to compile or parse."
+        verification_mode: structural
       - rule_id: ISL-R2
         statement: >
           Must embed docstrings or code comments with explicit parent DDR
           node IDs.
         violation_consequence: "Implementations without traceability."
+        verification_mode: structural
       - rule_id: ISL-R3
         statement: "Must include implementation hints as structured comments."
         violation_consequence: "Implementers who lose architectural context."
+        verification_mode: structural
       - rule_id: ISL-R4
         statement: >
           Must define all function/method bodies exclusively as stubs.
         violation_consequence: "Pre-implementation contamination."
+        verification_mode: structural
       - rule_id: ISL-R5
         statement: >
           Must be language-specific — one ISL node per target language/runtime
           when multiple are declared in CL.
         violation_consequence: "Language-ambiguous stubs."
+        verification_mode: structural
       - rule_id: ISL-R6
         statement: "Must cite CDL parent IDs for every stub."
         violation_consequence: "Orphaned scaffolding."
+        verification_mode: structural
     atomic_exclusion_rules:
       - rule_id: ISL-E1
         statement: "Must not contain business logic or complete algorithmic logic."
@@ -1015,8 +1082,20 @@ operations:
       validation_trigger: >
         Returns CLEAN or DIRTY with itemized violations.
     - name: VALIDATE
-      description: "Check single node against its tier's full atomic ruleset."
-      validation_trigger: "Returns pass/fail with specific violated rule IDs."
+      description: >
+        Check single node against its tier's full atomic ruleset.
+        Evaluates all structural rules mechanically and returns pass/fail.
+        For each semantic rule, emits REVIEW_REQUIRED status in the
+        reconciliation manifest's pending_items. A node may not transition
+        from DRAFT to ACTIVE while any REVIEW_REQUIRED item remains
+        unresolved without a recorded human disposition.
+      validation_trigger: >
+        Returns pass/fail with specific violated rule IDs for structural
+        rules. Returns REVIEW_REQUIRED with the rule_id for each semantic
+        rule. Output includes a validation_scope declaration specifying
+        which rule classifications were evaluated. REVIEW_REQUIRED items
+        must carry a human disposition (APPROVED or REJECTED with rationale)
+        before the target node may transition DRAFT → ACTIVE.
     - name: UNBUNDLE
       description: >
         Expand Express Mode group into constituent Full Mode tiers.
@@ -1386,6 +1465,10 @@ compliance_checklist:
     - >
       CDL nodes produce language-specific blueprints when CL declares
       multiple targets (CDL-R7).
+    - >
+      All REVIEW_REQUIRED items in the reconciliation manifest have a
+      recorded human disposition (APPROVED or REJECTED with rationale)
+      before any affected node transitions from DRAFT to ACTIVE.
   extension_validation:
     - "All active Extensions declare compatible contract versions for DDR-Core-4.x."
     - "Extension annotations stored in extension_annotations only."
@@ -1439,10 +1522,25 @@ glossary:
     definition: >
       XPD (if active) or SIL (if XPD inactive); the only node with an empty
       parent_ids list.
+  - term: "REVIEW_REQUIRED"
+    definition: >
+      A VALIDATE output status emitted for each semantic atomic inclusion
+      rule. Indicates that the rule cannot be mechanically evaluated and
+      requires a human disposition (APPROVED or REJECTED with rationale)
+      recorded in the reconciliation manifest's pending_items before the
+      target node may transition from DRAFT to ACTIVE.
   - term: "Tier Contamination"
     definition: >
       Presence of content in a node that violates that tier's atomic
       exclusion rules.
+  - term: "verification_mode"
+    definition: >
+      A required field on every atomic inclusion rule definition.
+      Classifies the rule as structural (mechanically verifiable by
+      pattern matching, schema validation, keyword detection, or
+      citation graph traversal) or semantic (requires human judgment
+      for evaluation). VALIDATE evaluates structural rules automatically
+      and emits REVIEW_REQUIRED for semantic rules.
 
 # ── APPENDIX A: VERSION HISTORY ───────────────────────────────────────────────
 
