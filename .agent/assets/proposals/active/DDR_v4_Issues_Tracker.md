@@ -10,10 +10,10 @@
   document_type:        issues_tracker
   subject_system:       DDR System Specification v4.0
   subject_file:         DDR_System_Opus_v4_.md
-  last_updated:         2026-02-28
+  last_updated:         2026-03-20
   total_issues:         13
-  open_issues:          12
-  resolved_issues:      1
+  open_issues:          11
+  resolved_issues:      2
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
   ANTIGRAVITY 1.18 DEPLOYMENT NOTES
@@ -66,7 +66,7 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System Specification v4.0"
   created:         "2026-02-28"
-  last_modified:   "2026-02-28"
+  last_modified:   "2026-03-20"
   author:          "Anthony Formosa"
   status_values:   [OPEN, IN_REVIEW, RESOLVED, WONT_FIX, DEFERRED]
   severity_values: [CRITICAL, MAJOR, MODERATE, MINOR]
@@ -142,7 +142,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 | ID                                                                                            | Severity   | Type                | Status     | Tiers Affected | Title                                                               |
 | --------------------------------------------------------------------------------------------- | ---------- | ------------------- | ---------- | -------------- | ------------------------------------------------------------------- |
 | \[ISSUE-001\](#issue-001-derives-absorbs-cites-destroying-audit-trail-precision)              | `CRITICAL` | `LOGICAL_CONFLICT`  | `RESOLVED` | All            | `derives` absorbs `cites`, destroying audit trail precision         |
-| \[ISSUE-002\](#issue-002-fcl-cl-edge-direction-is-semantically-inverted)                      | `CRITICAL` | `LOGICAL_CONFLICT`  | `OPEN`     | FCL, CL, SAL   | FCL→CL edge direction is semantically inverted                      |
+| \[ISSUE-002\](#issue-002-fcl-cl-edge-direction-is-semantically-inverted)                      | `CRITICAL` | `LOGICAL_CONFLICT`  | `RESOLVED` | FCL, CL, SAL   | FCL→CL edge direction is semantically inverted                      |
 | \[ISSUE-003\](#issue-003-dag-invariant-text-contradicts-the-merge-node-topology)              | `MAJOR`    | `LOGICAL_CONFLICT`  | `OPEN`     | SAL            | DAG invariant text contradicts the merge-node topology              |
 | \[ISSUE-004\](#issue-004-ax-3-determinism-is-violated-by-non-automatable-atomic-rules)        | `MAJOR`    | `AXIOM_VIOLATION`   | `OPEN`     | All            | AX-3 determinism violated by non-automatable atomic rules           |
 | \[ISSUE-005\](#issue-005-gpcl-overloading-creates-an-implicit-fcl-tier-skip)                  | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN`     | GPCL, FCL, SAL | GPCL overloading creates an implicit FCL tier skip                  |
@@ -237,18 +237,18 @@ Option A is semantically cleaner but introduces a breaking change requiring migr
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-002
-status:      OPEN
+status:      RESOLVED
 severity:    CRITICAL
 type:        LOGICAL_CONFLICT
 tier_refs:   [FCL, CL, SAL]
 section_ref: §3.4, §5 (Tier 4 CL)
 rule_refs:   [CL-R9, AX-2, CIT-R2]
 created:     2026-02-28
-updated:     2026-02-28
-resolved:    null
+updated:     2026-03-20
+resolved:    2026-03-20
 -->
 
-**Status:** `OPEN` | **Severity:** `CRITICAL` | **Type:** `LOGICAL_CONFLICT`
+**Status:** `RESOLVED` | **Severity:** `CRITICAL` | **Type:** `LOGICAL_CONFLICT`
 **Tiers Affected:** `FCL`, `CL`, `SAL` | **Spec Section:** §3.4, §5 Tier 4
 
 #### Problem Statement-002
