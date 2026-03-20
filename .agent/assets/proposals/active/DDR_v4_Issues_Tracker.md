@@ -12,8 +12,8 @@
   subject_file:         DDR_System_Opus_v4_.md
   last_updated:         2026-03-20
   total_issues:         13
-  open_issues:          7
-  resolved_issues:      6
+  open_issues:          6
+  resolved_issues:      7
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
   ANTIGRAVITY 1.18 DEPLOYMENT NOTES
@@ -147,7 +147,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 | \[ISSUE-004\](#issue-004-ax-3-determinism-is-violated-by-non-automatable-atomic-rules)        | `MAJOR`    | `AXIOM_VIOLATION`   | `RESOLVED` | All            | AX-3 determinism violated by non-automatable atomic rules           |
 | \[ISSUE-005\](#issue-005-gpcl-overloading-creates-an-implicit-fcl-tier-skip)                  | `MAJOR`    | `DESIGN_INADEQUACY` | `RESOLVED` | GPCL, FCL, SAL | GPCL overloading creates an implicit FCL tier skip                  |
 | \[ISSUE-006\](#issue-006-node-status-lifecycle-lacks-a-formal-state-machine)                  | `MAJOR`    | `LIFECYCLE_GAP`     | `RESOLVED` | All            | Node status lifecycle lacks a formal state machine                  |
-| \[ISSUE-007\](#issue-007-supersede-atomicity-and-rollback-are-underspecified)                 | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN`     | All            | SUPERSEDE atomicity and rollback are underspecified                 |
+| \[ISSUE-007\](#issue-007-supersede-atomicity-and-rollback-are-underspecified)                 | `MAJOR`    | `DESIGN_INADEQUACY` | `RESOLVED` | All            | SUPERSEDE atomicity and rollback are underspecified                 |
 | \[ISSUE-008\](#issue-008-unbundle-rejection-behaviour-is-underspecified)                      | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN`     | Express Mode   | UNBUNDLE rejection behaviour is underspecified                      |
 | \[ISSUE-009\](#issue-009-are-confidence-score-has-no-normative-rubric)                        | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN`     | ARE (E5)       | ARE confidence score has no normative rubric                        |
 | \[ISSUE-010\](#issue-010-extension_annotations-namespace-enforcement-is-schema-level-absent)  | `MODERATE` | `SCHEMA_DEFECT`     | `OPEN`     | All (schema)   | `extension_annotations` namespace unenforced at schema level        |
@@ -594,18 +594,18 @@ Option B is superior for agentic validation workflows because the state machine 
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-007
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        DESIGN_INADEQUACY
 tier_refs:   [ALL]
 section_ref: §7.1
 rule_refs:   [AX-3, INV-6]
 created:     2026-02-28
-updated:     2026-02-28
-resolved:    null
+updated:     2026-03-20
+resolved:    2026-03-20
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `DESIGN_INADEQUACY`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `DESIGN_INADEQUACY`
 **Tiers Affected:** All | **Spec Section:** §7.1 (SUPERSEDE operation)
 
 #### Problem Statement-007
