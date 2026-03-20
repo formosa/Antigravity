@@ -12,8 +12,8 @@
   subject_file:         DDR_System_Opus_v4_.md
   last_updated:         2026-03-20
   total_issues:         13
-  open_issues:          9
-  resolved_issues:      4
+  open_issues:          8
+  resolved_issues:      5
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
   ANTIGRAVITY 1.18 DEPLOYMENT NOTES
@@ -145,7 +145,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 | \[ISSUE-002\](#issue-002-fcl-cl-edge-direction-is-semantically-inverted)                      | `CRITICAL` | `LOGICAL_CONFLICT`  | `RESOLVED` | FCL, CL, SAL   | FCL→CL edge direction is semantically inverted                      |
 | \[ISSUE-003\](#issue-003-dag-invariant-text-contradicts-the-merge-node-topology)              | `MAJOR`    | `LOGICAL_CONFLICT`  | `RESOLVED` | SAL            | DAG invariant text contradicts the merge-node topology              |
 | \[ISSUE-004\](#issue-004-ax-3-determinism-is-violated-by-non-automatable-atomic-rules)        | `MAJOR`    | `AXIOM_VIOLATION`   | `RESOLVED` | All            | AX-3 determinism violated by non-automatable atomic rules           |
-| \[ISSUE-005\](#issue-005-gpcl-overloading-creates-an-implicit-fcl-tier-skip)                  | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN`     | GPCL, FCL, SAL | GPCL overloading creates an implicit FCL tier skip                  |
+| \[ISSUE-005\](#issue-005-gpcl-overloading-creates-an-implicit-fcl-tier-skip)                  | `MAJOR`    | `DESIGN_INADEQUACY` | `RESOLVED` | GPCL, FCL, SAL | GPCL overloading creates an implicit FCL tier skip                  |
 | \[ISSUE-006\](#issue-006-node-status-lifecycle-lacks-a-formal-state-machine)                  | `MAJOR`    | `LIFECYCLE_GAP`     | `OPEN`     | All            | Node status lifecycle lacks a formal state machine                  |
 | \[ISSUE-007\](#issue-007-supersede-atomicity-and-rollback-are-underspecified)                 | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN`     | All            | SUPERSEDE atomicity and rollback are underspecified                 |
 | \[ISSUE-008\](#issue-008-unbundle-rejection-behaviour-is-underspecified)                      | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN`     | Express Mode   | UNBUNDLE rejection behaviour is underspecified                      |
@@ -440,18 +440,18 @@ Option A (classification at rule definition level) is more transparent and guara
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-005
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        DESIGN_INADEQUACY
 tier_refs:   [GPCL, FCL, SAL]
 section_ref: §5 (Tier 2 GPCL, Tier 3 FCL)
 rule_refs:   [GPCL-R6, GPCL-E2, FCL-R6, SAL-R6]
 created:     2026-02-28
-updated:     2026-02-28
-resolved:    null
+updated:     2026-03-20
+resolved:    2026-03-20
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `DESIGN_INADEQUACY`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `DESIGN_INADEQUACY`
 **Tiers Affected:** `GPCL`, `FCL`, `SAL` | **Spec Section:** §5 Tiers 2–3, §3.5 INV-2
 
 #### Problem Statement-005
