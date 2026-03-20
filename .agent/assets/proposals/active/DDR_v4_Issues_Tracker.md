@@ -12,8 +12,8 @@
   subject_file:         DDR_System_Opus_v4_.md
   last_updated:         2026-02-28
   total_issues:         13
-  open_issues:          13
-  resolved_issues:      0
+  open_issues:          12
+  resolved_issues:      1
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
   ANTIGRAVITY 1.18 DEPLOYMENT NOTES
@@ -139,21 +139,21 @@ a minor variant of Option A — must represent a meaningfully different design d
 > **AGENT INSTRUCTION:** This table is the primary index. Maintain sort order by severity
 > then issue number. Update this table whenever any issue's status or severity changes.
 
-| ID                                                                                            | Severity   | Type                | Status | Tiers Affected | Title                                                               |
-| --------------------------------------------------------------------------------------------- | ---------- | ------------------- | ------ | -------------- | ------------------------------------------------------------------- |
-| \[ISSUE-001\](#issue-001-derives-absorbs-cites-destroying-audit-trail-precision)              | `CRITICAL` | `LOGICAL_CONFLICT`  | `OPEN` | All            | `derives` absorbs `cites`, destroying audit trail precision         |
-| \[ISSUE-002\](#issue-002-fcl-cl-edge-direction-is-semantically-inverted)                      | `CRITICAL` | `LOGICAL_CONFLICT`  | `OPEN` | FCL, CL, SAL   | FCL→CL edge direction is semantically inverted                      |
-| \[ISSUE-003\](#issue-003-dag-invariant-text-contradicts-the-merge-node-topology)              | `MAJOR`    | `LOGICAL_CONFLICT`  | `OPEN` | SAL            | DAG invariant text contradicts the merge-node topology              |
-| \[ISSUE-004\](#issue-004-ax-3-determinism-is-violated-by-non-automatable-atomic-rules)        | `MAJOR`    | `AXIOM_VIOLATION`   | `OPEN` | All            | AX-3 determinism violated by non-automatable atomic rules           |
-| \[ISSUE-005\](#issue-005-gpcl-overloading-creates-an-implicit-fcl-tier-skip)                  | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN` | GPCL, FCL, SAL | GPCL overloading creates an implicit FCL tier skip                  |
-| \[ISSUE-006\](#issue-006-node-status-lifecycle-lacks-a-formal-state-machine)                  | `MAJOR`    | `LIFECYCLE_GAP`     | `OPEN` | All            | Node status lifecycle lacks a formal state machine                  |
-| \[ISSUE-007\](#issue-007-supersede-atomicity-and-rollback-are-underspecified)                 | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN` | All            | SUPERSEDE atomicity and rollback are underspecified                 |
-| \[ISSUE-008\](#issue-008-unbundle-rejection-behaviour-is-underspecified)                      | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN` | Express Mode   | UNBUNDLE rejection behaviour is underspecified                      |
-| \[ISSUE-009\](#issue-009-are-confidence-score-has-no-normative-rubric)                        | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN` | ARE (E5)       | ARE confidence score has no normative rubric                        |
-| \[ISSUE-010\](#issue-010-extension_annotations-namespace-enforcement-is-schema-level-absent)  | `MODERATE` | `SCHEMA_DEFECT`     | `OPEN` | All (schema)   | `extension_annotations` namespace unenforced at schema level        |
-| \[ISSUE-011\](#issue-011-orl-r7-migration-is-unresolved-in-a-finalized-specification)         | `MODERATE` | `MIGRATION_GAP`     | `OPEN` | GPCL           | ORL-R7 migration is unresolved in a "Finalized" specification       |
-| \[ISSUE-012\](#issue-012-candidate-pool-has-no-pause-state)                                   | `MINOR`    | `LIFECYCLE_GAP`     | `OPEN` | ARE (E5)       | Candidate Pool has no pause state                                   |
-| \[ISSUE-013\](#issue-013-dde-upward-fcl-annotation-creates-a-backwards-validation-dependency) | `MINOR`    | `DESIGN_INADEQUACY` | `OPEN` | FCL, DDE (E7)  | DDE upward FCL annotation creates a backwards validation dependency |
+| ID                                                                                            | Severity   | Type                | Status     | Tiers Affected | Title                                                               |
+| --------------------------------------------------------------------------------------------- | ---------- | ------------------- | ---------- | -------------- | ------------------------------------------------------------------- |
+| \[ISSUE-001\](#issue-001-derives-absorbs-cites-destroying-audit-trail-precision)              | `CRITICAL` | `LOGICAL_CONFLICT`  | `RESOLVED` | All            | `derives` absorbs `cites`, destroying audit trail precision         |
+| \[ISSUE-002\](#issue-002-fcl-cl-edge-direction-is-semantically-inverted)                      | `CRITICAL` | `LOGICAL_CONFLICT`  | `OPEN`     | FCL, CL, SAL   | FCL→CL edge direction is semantically inverted                      |
+| \[ISSUE-003\](#issue-003-dag-invariant-text-contradicts-the-merge-node-topology)              | `MAJOR`    | `LOGICAL_CONFLICT`  | `OPEN`     | SAL            | DAG invariant text contradicts the merge-node topology              |
+| \[ISSUE-004\](#issue-004-ax-3-determinism-is-violated-by-non-automatable-atomic-rules)        | `MAJOR`    | `AXIOM_VIOLATION`   | `OPEN`     | All            | AX-3 determinism violated by non-automatable atomic rules           |
+| \[ISSUE-005\](#issue-005-gpcl-overloading-creates-an-implicit-fcl-tier-skip)                  | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN`     | GPCL, FCL, SAL | GPCL overloading creates an implicit FCL tier skip                  |
+| \[ISSUE-006\](#issue-006-node-status-lifecycle-lacks-a-formal-state-machine)                  | `MAJOR`    | `LIFECYCLE_GAP`     | `OPEN`     | All            | Node status lifecycle lacks a formal state machine                  |
+| \[ISSUE-007\](#issue-007-supersede-atomicity-and-rollback-are-underspecified)                 | `MAJOR`    | `DESIGN_INADEQUACY` | `OPEN`     | All            | SUPERSEDE atomicity and rollback are underspecified                 |
+| \[ISSUE-008\](#issue-008-unbundle-rejection-behaviour-is-underspecified)                      | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN`     | Express Mode   | UNBUNDLE rejection behaviour is underspecified                      |
+| \[ISSUE-009\](#issue-009-are-confidence-score-has-no-normative-rubric)                        | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN`     | ARE (E5)       | ARE confidence score has no normative rubric                        |
+| \[ISSUE-010\](#issue-010-extension_annotations-namespace-enforcement-is-schema-level-absent)  | `MODERATE` | `SCHEMA_DEFECT`     | `OPEN`     | All (schema)   | `extension_annotations` namespace unenforced at schema level        |
+| \[ISSUE-011\](#issue-011-orl-r7-migration-is-unresolved-in-a-finalized-specification)         | `MODERATE` | `MIGRATION_GAP`     | `OPEN`     | GPCL           | ORL-R7 migration is unresolved in a "Finalized" specification       |
+| \[ISSUE-012\](#issue-012-candidate-pool-has-no-pause-state)                                   | `MINOR`    | `LIFECYCLE_GAP`     | `OPEN`     | ARE (E5)       | Candidate Pool has no pause state                                   |
+| \[ISSUE-013\](#issue-013-dde-upward-fcl-annotation-creates-a-backwards-validation-dependency) | `MINOR`    | `DESIGN_INADEQUACY` | `OPEN`     | FCL, DDE (E7)  | DDE upward FCL annotation creates a backwards validation dependency |
 
 ---
 
@@ -165,18 +165,18 @@ a minor variant of Option A — must represent a meaningfully different design d
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-001
-status:      OPEN
+status:      RESOLVED
 severity:    CRITICAL
 type:        LOGICAL_CONFLICT
 tier_refs:   [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
 section_ref: §3.2
 rule_refs:   [CIT-R2, AX-3, AX-7]
 created:     2026-02-28
-updated:     2026-02-28
-resolved:    null
+updated:     2026-03-20
+resolved:    2026-03-20
 -->
 
-**Status:** `OPEN` | **Severity:** `CRITICAL` | **Type:** `LOGICAL_CONFLICT`
+**Status:** `RESOLVED` | **Severity:** `CRITICAL` | **Type:** `LOGICAL_CONFLICT`
 **Tiers Affected:** All | **Spec Section:** §3.2 Edge Types
 
 #### Problem Statement-001
