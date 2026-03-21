@@ -29,10 +29,10 @@ active_tiers:
 
 system_metadata:
   status: Finalized
-  date: "2026-02-26"
+  date: "2026-03-21"
   scope: "Systems-, language-, and domain-agnostic"
   authority: "DDR Architecture Board"
-  lineage: "Supersedes DDR v3.1.1 (Claude_v3)"
+  lineage: "Supersedes DDR v4.0.0 (errata: ISSUE-011); Supersedes DDR v3.1.1 (Claude_v3)"
   single_source_of_truth: >
     This document is the exclusive normative specification for the DDR System.
     All prior versions are superseded. No conversation record, partial
@@ -96,6 +96,22 @@ system_metadata:
       prior: "3-tier pricing"
       current: "Removed"
       rationale: "Premature optimization; commercial model is an operational concern, not a specification concern."
+
+errata_log:
+  - issue_id: "ISSUE-011"
+    description: >
+      ORL-R7 was incorrectly mapped to GPCL-R10 with consolidation_status 1:1.
+      GPCL-R10 is already the exclusive 1:1 destination of ORL-R4, creating a
+      destination collision. The notes field contained a TBD annotation,
+      violating AX-3 Determinism in a Finalized artifact.
+    resolution: >
+      Corrected ORL-R7 destination to GPCL-R9.
+      Applied consolidation_status Absorbed.
+      Removed TBD annotation. Destination collision resolved.
+      AX-3 compliance restored.
+    authority: "DDR Architecture Board"
+    version_introduced: "4.0.0"
+    version_fixed: "4.0.1"
 
 # ── §2 FOUNDATIONAL AXIOMS ───────────────────────────────────────────────────
 
@@ -1871,9 +1887,9 @@ tier_migration:
       consolidation_status: "N:1"
       notes: "Consolidated with ORL-R5 into scalability and accessibility rule."
     - from_rule_ids: "ORL-R7"
-      to_rule_ids: "GPCL-R10"
-      consolidation_status: "1:1"
-      notes: "NOTE — Audit C-3: mapping marked TBD in source doc; assigned here pending board confirmation."
+      to_rule_ids: "GPCL-R9"
+      consolidation_status: "Absorbed"
+      notes: "Semantics are subsumed under GPCL-R9 as broader operational governance constraints."
     - from_rule_ids: "HIL-R1, HIL-R2, HIL-R3"
       to_rule_ids: "CL-R6"
       consolidation_status: "N:1 Consolidated"

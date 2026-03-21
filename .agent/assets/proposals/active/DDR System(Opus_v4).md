@@ -900,7 +900,8 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 
 | v3.1.1 Rule ID                | v4.0 Destination                    | Consolidation Status                | Notes                                                |
 | ----------------------------- | ----------------------------------- | ----------------------------------- | ---------------------------------------------------- |
-| ORL-R1 through ORL-R4, ORL-R7 | GPCL-R6, GPCL-R7, GPCL-R8, GPCL-R10 | 1:1 / TBD                           | Existing mapping documented rules                    |
+| ORL-R1 through ORL-R4         | GPCL-R6, GPCL-R7, GPCL-R8, GPCL-R10 | 1:1                                 | Maps to performance, reliability, security, and SIL citation rules |
+| ORL-R7                        | GPCL-R9                             | Absorbed                            | Semantics are subsumed under GPCL-R9 as broader operational governance constraints. |
 | ORL-R5                        | GPCL-R9                             | N:1                                 | Consolidated with ORL-R6                             |
 | ORL-R6                        | GPCL-R9                             | N:1                                 | Consolidated with ORL-R5                             |
 | HIL-R1/R2/R3                  | CL-R6                               | N:1 Consolidated                    | Consolidated into hardware envelopes                 |
