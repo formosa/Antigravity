@@ -793,10 +793,16 @@ $defs:
       extension_annotations:
         type: object
         description: >
-          Read-only Extension metadata (§3.1, §8.1). Keys namespaced by
-          Extension ID (e.g. 'HRE::min_hardware_profile'). Never in parent_ids
+          Read-only Extension metadata (§3.1, §8.1). Keys MUST follow format:
+          EXTENSION_ID::annotation_key (EXT-R3). EXTENSION_ID must be uppercase
+          alphanumeric (e.g. 'HRE'). annotation_key must be lowercase
+          snake_case. Keys named 'content', 'parent_ids', 'status', 'tier',
+          or 'id' are never valid here (AX-6, CIT-R5). Never in parent_ids
           or content (CIT-R5, EXT-R3).
-        additionalProperties: true
+        patternProperties:
+          "^[A-Z][A-Z0-9_]+::[a-z][a-z0-9_]+$":
+            description: "Valid namespaced annotation. Format: EXTENSION_ID::annotation_key"
+        additionalProperties: false
         default: {}
 
   ParentCitation:
