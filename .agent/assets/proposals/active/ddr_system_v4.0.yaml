@@ -664,6 +664,23 @@ tier_definitions:
           or quality requirement.
         violation_consequence: "Disconnected functional requirements."
         verification_mode: structural
+      - rule_id: FCL-R7
+        statement: >
+          For any capability that creates, reads, updates, or deletes
+          persistent data, must enumerate all logical data entities involved
+          by name and their CRUD relationship to the capability (for example:
+          "creates Order, reads Customer, updates OrderItem"). Entity names
+          must be technology-neutral logical identifiers. This rule requires
+          entity names and CRUD verbs only and must not include attribute-level
+          typing detail, storage-structure definitions, key declarations, or
+          integrity-rule definitions; those belong in ICL and are prohibited
+          at FCL level by FCL-E2.
+        violation_consequence: >
+          FCL completeness for data entities becomes dependent on DDE
+          activation, violating AX-5 and AX-6. Data entity gaps surface
+          reactively at ICL authoring time rather than being caught
+          proactively at FCL authoring time.
+        verification_mode: semantic
     atomic_exclusion_rules:
       - rule_id: FCL-E1
         statement: "Must not name specific classes, modules, APIs, or algorithms."
@@ -1636,6 +1653,17 @@ extension_catalog:
         statement: >
           Data lifecycle policies specify retention periods traceable to GPCL
           regulatory requirements.
+      - rule_id: DDE-R5
+        statement: >
+          When annotating FCL nodes, DDE must perform confirmation validation
+          only: verify that each data entity enumerated under FCL-R7 has a
+          corresponding ICL schema definition. DDE must not perform
+          discovery-mode annotation on FCL nodes. Inferring unstated data
+          entities from FCL capability semantics when no FCL-R7 enumeration
+          is present is a Core FCL validation failure and is not a DDE
+          discovery responsibility. FCL nodes lacking FCL-R7 enumeration
+          must be flagged as FCL-R7 violations by VALIDATE, not annotated
+          by DDE.
 
   - id: E8
     name: "Deployment & CI/CD Planner (DCP)"
@@ -1802,7 +1830,7 @@ compliance_checklist:
     - "XPD nodes satisfy XPD-R1 through XPD-R6 and XPD-E1 through XPD-E3."
     - "SIL nodes satisfy SIL-R1 through SIL-R6 and SIL-E1 through SIL-E4."
     - "GPCL nodes satisfy GPCL-R1 through GPCL-R10 and GPCL-E1 through GPCL-E3."
-    - "FCL capabilities are user-observable and free of implementation references."
+    - "FCL capabilities are user-observable and free of implementation references. Data-modifying FCL capabilities enumerate all logical data entities and their CRUD relationships per FCL-R7 without referencing field types, schemas, or table structures (FCL-E2 boundary preserved)."
     - "CL nodes are declarative only; no inference (CL-E1)."
     - "SAL cites all active parent tiers (FCL + CL if active)."
     - "ICL schemas are machine-parseable (ICL-R2)."
