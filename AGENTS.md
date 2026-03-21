@@ -1,217 +1,143 @@
-# AGENTS.md
+# AGENTS.md — DDR System v4.0 | ISSUE-010 Resolution Session
 
-# DDR System v4.0 — Agent Behavioral Contract
+## 1. Project Identity
 
-# Scope: All modifications to .agent\assets\proposals\active\ddr_system_v4.0.yaml
-
-# Issue scope: ISSUE-009 (ARE Confidence Score Scoring Profile)
-
-## Project Identity
-
-This repository contains the DDR System v4.0 Specification: `.agent\assets\proposals\active\`
-
-The PRIMARY modification target is: `.agent\assets\proposals\active\ddr_system_v4.0.yaml`
-
-The REFERENCE specification is: `.agent\assets\proposals\active\DDR System(Opus_v4).md`
-
-The ACTIVE issue report is: `.agent\assets\proposals\active\DDR_v4_Issue-009.md`
-
-`.agent\assets\proposals\active\ddr_system_v4.0.yaml` IS the DDR System specification represented
-
-as its own DAG. Every field in this file carries normative weight.
-
-No field may be renamed, relocated, or removed unless the issue
-
-report explicitly authorizes it.
+This repository contains the **DDR System Specification v4.0** — a formal
+requirements-traceability framework built on a Directed Acyclic Graph (DAG)
+architecture. All schema modifications are subject to the invariants in §3
+of this file. A violation of any invariant is a defect, regardless of
+whether the change passes syntactic or structural validation.
 
 ---
 
-## Foundational Axioms (MUST NEVER BE VIOLATED)
+## 2. Repository Structure
 
-You must never produce output that violates any of the following axioms.
+Locate the following files before taking any action. Do not assume paths —
+search the repository for files matching these names if their location is
+unclear; but, they should be located in: `.agent\assets\proposals\active\`
 
-Check every modification against each axiom before finalizing:
-
-- AX-1 (Traceability): Every non-root node must cite ≥1 parent via a typed edge.
-
-- AX-2 (Abstraction Ordering): Tiers above CL must contain no implementation refs.
-
-- AX-3 (Determinism): Identical inputs produce unambiguous, mechanically verifiable outputs.
-
-→ Any scoring rubric you define MUST enumerate discrete, verifiable input signals.
-
-→ "Source evidence quality" is the defect — do NOT reproduce it.
-
-- AX-4 (Universality): No domain-specific assumptions in any Core tier.
-
-- AX-5 (Extensibility): Advanced capabilities delivered via Extensions only.
-
-- AX-6 (Declarative Integrity): All inference is Extension-only. Core is strictly declarative.
-
-- AX-7 (DAG Acyclicity): No citation chain may produce a cycle.
+| Filename | Role |
+|---|---|
+| `ddr_node_schema.yaml` | **PRIMARY MODIFICATION TARGET.** JSON Schema 2020-12 definition of `DdrNode` and all `$defs` types. |
+| `ddr_system_v4.0.yaml` | Current DDR System specification in YAML. Modify only if explicitly required by the issue report. |
+| `DDR System(Opus_v4).md` | **READ-ONLY.** Original Markdown specification. Never modify this file. |
+| `DDR_v4_Issue-010.md` | **READ-ONLY.** Issue report and endorsed resolution strategy. Treat as the authoritative task specification. |
 
 ---
 
-## Extension System Invariants (MUST NEVER BE VIOLATED)
+## 3. Invariants — Never Violate
 
-- EXT-R1: Extensions must declare contract version compatible with DDR-Core-4.x.
+These rules are derived directly from the DDR System Specification v4.0.
+If any proposed change would violate one of these invariants, **STOP and
+report the conflict** rather than proceeding.
 
-- EXT-R2: Extensions must declare which Core tiers they read and annotate.
+### INV-1 — Closed Schema Convention (project-wide)
+Every object type definition in `ddr_node_schema.yaml` uses
+`additionalProperties: false`. This is an established project-wide
+convention. Any modified or new field definition must preserve this
+convention. An `additionalProperties: true` declaration is never
+acceptable on any object type in this schema.
 
-- EXT-R3: Annotations must be namespaced by Extension ID (e.g., ARE::confidence_score).
+### INV-2 — EXT-R3 Namespace Enforcement
+Every key within `extension_annotations` must conform to the format:
+```
+EXTENSION_ID::annotation_key
+```
 
-- EXT-R4: Extensions update the reconciliation manifest; annotation counts tracked.
+Where:
+- `EXTENSION_ID` is one or more uppercase alphanumeric characters or
+  underscores (e.g., `HRE`, `DGA`)
+- `annotation_key` is lowercase snake_case
 
-- EXT-R5: Disabling an Extension leaves Core CLEAN/DIRTY status unchanged.
+This is the normative constraint being mechanically enforced by this
+resolution. The regex encoding this rule is:
+```
+^[A-Z][A-Z0-9_]+::[a-z][a-z0-9_]+$
+```
 
-- EXT-R6: Extension-internal derived artifact graphs must maintain acyclicity.
+### INV-3 — AX-6 Core Field Protection (Declarative Integrity)
+`extension_annotations` is read-only Extension metadata. Its keys must
+**never** share names with `DdrNode` top-level Core fields (`content`,
+`parent_ids`, `status`, `tier`, `id`). The schema modification in this
+session must make this structurally unenforceable for non-conforming keys.
 
-- EXT-R7: Extension advisories do not mutate Core node status.
+### INV-4 — Patch Scope Restriction
+This is a v4.x patch change. Patch changes:
+- Modify existing field definitions only
+- Do **not** introduce new `$defs` type definitions
+- Do **not** rename, add, or remove any top-level `DdrNode` field
+- Do **not** alter the root `DdrNode` object's `additionalProperties: false`
+  declaration
 
----
-
-## ARE Extension Invariants (E5 — DO NOT BREAK)
-
-- ARE-R1: All inferred nodes placed in the Extension Candidate Pool (§8.2).
-
-Automatic promotion is PROHIBITED.
-
-- ARE-R2 (DEFECTIVE — this is the target of ISSUE-009): Currently reads:
-
-"Each candidate carries ARE::confidence_score (0.0–1.0) derived from source
-
-evidence quality." This phrase is semantically opaque and must be REPLACED,
-
-not supplemented, with a normative scoring profile reference.
-
-- ARE-R3: Promotion into Core DAG requires INSERT with full atomic ruleset validation.
-
-- ARE-R4: ARE must never autonomously create XPD or GPCL nodes.
-
-- ARE-R5 (NEW — to be added): Every ARE deployment must declare a scoring_profile
-
-in its Extension contract. The declared profile must be either a standard profile
-
-(standard_v1, conservative_v1) or a custom profile that explicitly declares all
-
-constituent fields (signals, weights, bands, minimum_surfacing_threshold).
-
----
-
-## ISSUE-009 Resolution Strategy (Option B — MANDATORY)
-
-You MUST implement Option B exclusively from .agent\assets\proposals\active\DDR_v4_Issue-009.md.
-
-Option A is NOT to be implemented.
-
-Option B requires the following changes to .agent\assets\proposals\active\ddr_system_v4.0.yaml:
-
-CHANGE-1: Add a new top-level section `are_scoring_profiles` defining:
-
-- standard_v1 profile (signals, weights, score_bands, minimum_surfacing_threshold: 0.35)
-
-- conservative_v1 profile (stricter thresholds for regulated environments)
-
-- custom profile schema (declaration requirements only; no default values)
-
-CHANGE-2: Replace ARE-R2 statement to reference scoring_profile declaration
-
-instead of the bare "source evidence quality" phrase.
-
-CHANGE-3: Add ARE-R5 to the E5 extension_catalog entry requiring scoring_profile
-
-declaration in the Extension contract.
-
-CHANGE-4: Add `scoring_profile` field to the E5 entry in extension_catalog,
-
-with default value: standard_v1.
-
-CHANGE-5: Extend `candidate_pool.promotion_mechanism` in §8.2 to enforce the
-
-declared profile's minimum_surfacing_threshold. Candidates below this threshold
-
-must carry an explicit `override_flag: true` with a human-authored rationale
-
-to be eligible for INSERT.
-
-CHANGE-6: Update `compliance_checklist.extension_validation` in §11 to add:
-
-"ARE scoring_profile is declared in the E5 contract and is either a standard
-
-profile or a validated custom profile with all fields present."
+### INV-5 — Single-File Modification Boundary
+The only file that requires modification to resolve ISSUE-010 is
+`ddr_node_schema.yaml`. If analysis reveals a required change to any
+other file, **stop and report** before proceeding — do not modify
+additional files without explicit confirmation.
 
 ---
 
-## Hard Constraints (NEVER VIOLATE)
+## 4. Validation Requirements
 
-- Do NOT rename or relocate any existing YAML keys.
+After applying the schema modification, verify the following before
+committing. If Python and PyYAML are available in the environment, use:
+```
+python -c "import yaml; yaml.safe_load(open('ddr_node_schema.yaml'))"
+```
 
-- Do NOT change any existing ARE rules (ARE-R1, ARE-R3, ARE-R4) — only ARE-R2
+If this tooling is not available, perform a structural review manually.
 
-is to be replaced; ARE-R5 is to be added.
+Regardless of tooling availability, confirm all of the following:
 
-- Do NOT modify the `candidate_pool.candidate_status_value`,
-
-`visibility_rule`, `effect_on_core_status`, or `discard_trigger` fields.
-
-- Do NOT introduce new edge types.
-
-- Do NOT modify any Core node IDs.
-
-- Do NOT auto-commit. Every stage requires explicit human review before proceeding.
-
-- Do NOT invent YAML keys that do not appear in the existing schema pattern.
-
-Follow the existing EXT-Rn rule list pattern for ARE-R5.
-
-- Do NOT write explanatory prose inside YAML values unless the existing file
-
-uses the YAML block scalar (`>`) pattern for that field. Follow the existing
-
-formatting convention precisely.
-
-- All new YAML identifiers must use snake_case.
-
-- All score_band labels must use snake_case.
-
-- The `minimum_surfacing_threshold` for standard_v1 must be 0.35.
+1. The `extension_annotations` field contains `patternProperties` with
+   the key `"^[A-Z][A-Z0-9_]+::[a-z][a-z0-9_]+$"` and
+   `additionalProperties: false` — both must be present together.
+2. `additionalProperties: true` does not appear anywhere in
+   `ddr_node_schema.yaml`.
+3. The root `DdrNode` object's `additionalProperties: false` declaration
+   is present and unchanged.
+4. The count of `$defs` type definitions before and after the edit is
+   identical.
+5. No field other than `extension_annotations` was modified.
+6. The canonical example key `HRE::min_hardware_profile` matches the
+   applied regex (manual confirmation acceptable).
 
 ---
 
-## Permissions
+## 5. Prohibited Actions
 
-### Allowed without approval
-
-- Read any file in the repository.
-
-- Write to `.agent\assets\proposals\active\ddr_system_v4.0.yaml` on the `issue-009-are-scoring-profile` branch only.
-
-- Write to `AGENTS.md` on the `issue-009-are-scoring-profile` branch only.
-
-- YAML lint validation (e.g., `yamllint .agent\assets\proposals\active\ddr_system_v4.0.yaml` if available).
-
-### Require explicit human approval before proceeding
-
-- Any git commit.
-
-- Any git push.
-
-- Any modification to `.agent\assets\proposals\active\DDR System(Opus_v4).md`.
-
-- Any modification outside `.agent\assets\proposals\active\ddr_system_v4.0.yaml` and `AGENTS.md`.
-
-- Proceeding past any stage where a validation check reports a failure.
+- Do **not** modify `DDR System(Opus_v4).md` for any reason.
+- Do **not** introduce new `$defs` type definitions.
+- Do **not** alter the `DdrNode` root-level `additionalProperties: false`
+  declaration.
+- Do **not** rename, add, or remove any top-level field of `DdrNode`.
+- Do **not** implement Option B from `DDR_v4_Issue-010.md` — it is a
+  breaking change reserved for a future major version. Option A is the
+  exclusively endorsed strategy for this session.
+- Do **not** modify `ddr_system_v4.0.yaml` to retroactively fix any
+  pre-existing EXT-R3 violations discovered during analysis. Report them
+  separately; do not remediate them in this session.
+- Do **not** silently proceed past a failed validation check. Report
+  failures explicitly before taking any further action.
 
 ---
 
-## Output Format Requirements
+## 6. Commit Message Format
 
-- When producing YAML modifications, output a FULL diff (unified diff format).
+Use the following exact format for the resolution commit:
+```
+ISSUE-010 Resolution: Enforce EXT-R3 namespace convention via patternProperties
 
-- Do NOT produce explanations mixed inline with diff output.
+Problem: extension_annotations used additionalProperties: true, making
+EXT-R3 compliance a prose-only rule with no machine-verifiable enforcement.
+Core field name shadows and namespace-less keys passed schema validation
+without error (AX-6, EXT-R3).
 
-- Separate explanation prose from YAML diff output into clearly labeled sections.
+Solution (Option A): Replaced additionalProperties: true with
+patternProperties + additionalProperties: false using regex
+^[A-Z][A-Z0-9_]+::[a-z][a-z0-9_]+$ on extension_annotations in
+ddr_node_schema.yaml. Non-breaking for all compliant annotations.
 
-- Label each section of output: ANALYSIS, YAML_DIFF, VALIDATION_RESULT,
-
-REGRESSION_RESULT.
+Validation: [list each check result as PASS or FAIL]
+Files changed: ddr_node_schema.yaml (1 field definition, ~5 lines)
+```
