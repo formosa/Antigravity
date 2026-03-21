@@ -1323,7 +1323,78 @@ extension_system:
       placed in an Extension Candidate Pool — a staging area outside the Core
       DAG.
     candidate_status_value: "CANDIDATE (not a Core status value)"
-    visibility_rule: "Visible only when the ARE extension is active."
+    visibility_rule: >
+      Visible when the ARE extension is in `active` or `paused` state.
+      Not visible in `disabled` state.
+    activation_states:
+      active:
+        inference: running
+        pool_visibility: true
+        pool_preserved_runtime: true
+        pool_preserved_restart: optional
+        promotion_allowed: true
+        discard_allowed: true
+      paused:
+        inference: halted
+        pool_visibility: true
+        pool_preserved_runtime: true
+        pool_preserved_restart: true
+        promotion_allowed: true
+        discard_allowed: true
+        checkpoint_behavior: >
+          On transition into `paused`, the Candidate Pool MUST be atomically
+          persisted to the canonical checkpoint path defined in checkpoint_path.
+          Pool state MUST be re-persisted after each mutating Pool action
+          (INSERT promotion, manual discard) while ARE remains in `paused` state.
+          On process restart with ARE state recorded as `paused`, the checkpoint
+          MUST be loaded automatically and state MUST be restored to `paused`
+          without requiring practitioner intervention.
+      disabled:
+        inference: halted
+        pool_visibility: false
+        pool_preserved_runtime: false
+        pool_preserved_restart: false
+        promotion_allowed: false
+        discard_allowed: false
+      transitions:
+        - from: active
+          to: paused
+          effect: >
+            Inference halts. Candidate Pool is atomically persisted to checkpoint
+            path. Existing candidates are retained and remain browsable. INSERT
+            promotion and manual discards remain available.
+        - from: paused
+          to: active
+          effect: >
+            Inference resumes. Existing Pool, confidence scores, and annotations
+            are retained without modification. Checkpoint policy becomes optional.
+        - from: paused
+          to: disabled
+          effect: >
+            Checkpoint file is deleted. Pool is discarded. Outcome is identical
+            to active → disabled in final state.
+        - from: active
+          to: disabled
+          effect: >
+            Pool is discarded. Existing behavior preserved and unchanged.
+        - from: disabled
+          to: active
+          effect: >
+            ARE starts fresh with an empty Candidate Pool.
+            Existing behavior preserved and unchanged.
+        - from: disabled
+          to: paused
+          permitted: false
+          rationale: >
+            No Candidate Pool exists in `disabled` state. This transition is
+            semantically undefined and is explicitly forbidden.
+    checkpoint_path: >
+      Canonical path for the ARE Pool checkpoint:
+      `.agent/state/are_candidate_pool.checkpoint.yaml`.
+      This file is written atomically on `active → paused` and re-written after
+      each mutating Pool action while ARE is in `paused` state. It is deleted
+      atomically on any transition to `disabled`. It is not written while ARE
+      is in `active` state under normal operation.
     effect_on_core_status: "No effect on Core DIRTY/CLEAN status."
     promotion_mechanism: >
       Must be promoted into the Core DAG via INSERT (triggering full
@@ -1332,7 +1403,12 @@ extension_system:
       ineligible for promotion via INSERT unless it carries override_flag: true
       accompanied by a non-empty human_rationale field recorded in the
       reconciliation manifest's pending_items. VERIFY enforces this gate structurally.
-    discard_trigger: "Automatically discarded when ARE is disabled."
+    discard_trigger: >
+      Automatically discarded on any transition to `disabled`, whether from
+      `active` or `paused`. The checkpoint file at
+      `.agent/state/are_candidate_pool.checkpoint.yaml` is deleted atomically
+      alongside Pool discard. No discard occurs on `active → paused` or
+      `paused → active` transitions.
   integration_rules:
     - rule_id: EXT-R1
       statement: "Must declare contract version compatible with DDR-Core-4.x."
@@ -1486,6 +1562,30 @@ extension_catalog:
           Omission of scoring_profile defaults to standard_v1. Custom profiles must declare
           all fields enumerated in are_scoring_profiles.custom.required_fields or the
           Extension contract fails EXT-R1 validation.
+      - rule_id: ARE-R6
+        statement: >
+          The ARE Extension MUST implement a tri-state activation lifecycle:
+          `active` (inference running), `paused` (inference halted, Pool
+          retained), and `disabled` (inference halted, Pool discarded). The
+          transition `disabled → paused` is forbidden. All other transitions
+          are permitted per the state semantics defined in
+          extension_system.candidate_pool.activation_states. Pausing ARE MUST
+          NOT alter any Core node status, annotation, or DIRTY/CLEAN
+          propagation. EXT-R5 applies to all ARE state transitions without
+          exception.
+      - rule_id: ARE-R7
+        statement: >
+          On every `active → paused` transition, the ARE Extension MUST
+          atomically persist the complete Candidate Pool — including all
+          candidate node content, ARE::confidence_score annotations,
+          review_status fields, and practitioner notes — to
+          `.agent/state/are_candidate_pool.checkpoint.yaml`. This file MUST
+          be re-persisted after each mutating Pool action (promotion via
+          INSERT, manual discard) while ARE remains in `paused` state. On
+          process restart with ARE state recorded as `paused`, the checkpoint
+          MUST be automatically loaded and state MUST be restored to `paused`
+          without requiring practitioner intervention. The checkpoint file
+          MUST be deleted on any transition to `disabled`.
 
   - id: E6
     name: "Security & Compliance Engine (SCE)"
