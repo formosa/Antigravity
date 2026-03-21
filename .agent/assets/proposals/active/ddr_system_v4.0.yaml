@@ -1311,7 +1311,11 @@ extension_system:
     effect_on_core_status: "No effect on Core DIRTY/CLEAN status."
     promotion_mechanism: >
       Must be promoted into the Core DAG via INSERT (triggering full
-      validation) to become Core nodes.
+      validation) to become Core nodes. A candidate whose ARE::confidence_score
+      falls below the declared scoring_profile's minimum_surfacing_threshold is
+      ineligible for promotion via INSERT unless it carries override_flag: true
+      accompanied by a non-empty human_rationale field recorded in the
+      reconciliation manifest's pending_items. VERIFY enforces this gate structurally.
     discard_trigger: "Automatically discarded when ARE is disabled."
   integration_rules:
     - rule_id: EXT-R1
@@ -1428,6 +1432,7 @@ extension_catalog:
   - id: E5
     name: "AI Upward Reconstruction Engine (ARE)"
     contract: "ARE-1.0 / DDR-Core-4.x"
+    scoring_profile: standard_v1
     reads: [ISL, CDL, ICL, SAL]
     annotates: [SAL, ICL, CDL, ISL]
     notes: >
@@ -1444,8 +1449,12 @@ extension_catalog:
           automatic promotion prohibited.
       - rule_id: ARE-R2
         statement: >
-          Each candidate carries ARE::confidence_score (0.0–1.0) derived
-          from source evidence quality.
+          Each candidate carries ARE::confidence_score (0.0–1.0) computed according to
+          the scoring_profile declared in the ARE Extension contract. The declared profile
+          must be a standard profile (standard_v1 or conservative_v1) or a custom profile
+          with all required_fields declared per are_scoring_profiles.custom.required_fields.
+          Score computation must be reproducible: identical source evidence inputs must
+          produce identical scores under the same profile (AX-3).
       - rule_id: ARE-R3
         statement: >
           Promotion into Core DAG requires INSERT with full atomic ruleset
@@ -1454,6 +1463,13 @@ extension_catalog:
         statement: >
           ARE must never autonomously create XPD or GPCL nodes — ethical
           and regulatory content requires human authorship.
+      - rule_id: ARE-R5
+        statement: >
+          Every ARE deployment must declare a scoring_profile in its Extension contract.
+          The scoring_profile value must reference a profile defined in are_scoring_profiles.
+          Omission of scoring_profile defaults to standard_v1. Custom profiles must declare
+          all fields enumerated in are_scoring_profiles.custom.required_fields or the
+          Extension contract fails EXT-R1 validation.
 
   - id: E6
     name: "Security & Compliance Engine (SCE)"
@@ -1558,6 +1574,100 @@ extension_catalog:
           risks that require formal governance, it must surface a blocking
           advisory recommending XPD activation.
 
+are_scoring_profiles:
+  standard_v1:
+    input_signals:
+      - signal_id: direct_source_node_count
+        description: "Counts the number of directly cited source nodes supporting the candidate inference."
+        weight_category: high
+      - signal_id: cross_tier_convergence
+        description: "Measures whether evidence converges across multiple adjacent DDR tiers for the same inferred claim."
+        weight_category: high
+      - signal_id: icl_contract_corroboration
+        description: "Checks whether ICL contract definitions corroborate the inferred candidate semantics."
+        weight_category: medium
+      - signal_id: sal_pattern_alignment
+        description: "Evaluates alignment between the inferred candidate and declared SAL architectural patterns."
+        weight_category: medium
+      - signal_id: tier_diversity_index
+        description: "Assesses how many distinct eligible source tiers contribute evidence to the inference."
+        weight_category: low
+    score_bands:
+      - band_id: speculative
+        range: [0.0, 0.4]
+        label: speculative
+        promotion_guidance: "Treat as weak evidence and require substantial human scrutiny before considering promotion."
+      - band_id: probable
+        range: [0.4, 0.7]
+        label: probable
+        promotion_guidance: "Treat as moderate evidence and permit promotion consideration when human review confirms traceability."
+      - band_id: high_confidence
+        range: [0.7, 1.0]
+        label: high_confidence
+        promotion_guidance: "Treat as strong evidence and prioritize for review and potential promotion via INSERT."
+    minimum_surfacing_threshold: 0.35
+    override_policy: >
+      A candidate below minimum_surfacing_threshold may enter the review queue
+      only if it carries override_flag: true with a non-empty human_rationale
+      field.
+
+  conservative_v1:
+    context_note: >
+      Intended for regulated or high-assurance environments where stricter
+      confidence gating is required before human review and promotion actions.
+    input_signals:
+      - signal_id: direct_source_node_count
+        description: "Counts the number of directly cited source nodes supporting the candidate inference."
+        weight_category: high
+      - signal_id: cross_tier_convergence
+        description: "Measures whether evidence converges across multiple adjacent DDR tiers for the same inferred claim."
+        weight_category: high
+      - signal_id: icl_contract_corroboration
+        description: "Checks whether ICL contract definitions corroborate the inferred candidate semantics."
+        weight_category: medium
+      - signal_id: sal_pattern_alignment
+        description: "Evaluates alignment between the inferred candidate and declared SAL architectural patterns."
+        weight_category: medium
+      - signal_id: tier_diversity_index
+        description: "Assesses how many distinct eligible source tiers contribute evidence to the inference."
+        weight_category: low
+    score_bands:
+      - band_id: speculative
+        range: [0.0, 0.4]
+        label: speculative
+        promotion_guidance: "Do not promote under normal conditions and require explicit documented justification for any exception path."
+      - band_id: probable
+        range: [0.4, 0.7]
+        label: probable
+        promotion_guidance: "Permit review only with heightened scrutiny and complete evidence traceability prior to INSERT consideration."
+      - band_id: high_confidence
+        range: [0.7, 1.0]
+        label: high_confidence
+        promotion_guidance: "Treat as the preferred band for promotion decisions after formal reviewer confirmation."
+    minimum_surfacing_threshold: 0.55
+    override_policy: >
+      A candidate below minimum_surfacing_threshold may enter the review queue
+      only if it carries override_flag: true with a non-empty human_rationale
+      field.
+
+  custom:
+    required_fields:
+      - profile_id
+      - input_signals
+      - input_signals.signal_id
+      - input_signals.description
+      - input_signals.weight_category
+      - score_bands
+      - score_bands.band_id
+      - score_bands.range
+      - score_bands.label
+      - score_bands.promotion_guidance
+      - minimum_surfacing_threshold
+      - override_policy
+    validation_note: >
+      Custom profiles that omit any required_fields entry fail extension
+      contract validation under EXT-R1.
+
 # ── §11 COMPLIANCE CHECKLIST ─────────────────────────────────────────────────
 
 compliance_checklist:
@@ -1595,6 +1705,11 @@ compliance_checklist:
     - >
       ARE-generated candidates reviewed and either promoted via INSERT or
       discarded.
+    - >
+      ARE scoring_profile is declared in the E5 Extension contract and references a
+      valid entry in are_scoring_profiles. Custom profiles must satisfy all
+      required_fields. Candidates promoted below minimum_surfacing_threshold carry
+      override_flag: true with a non-empty human_rationale in pending_items.
 
 # ── GLOSSARY ─────────────────────────────────────────────────────────────────
 
