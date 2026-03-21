@@ -342,8 +342,14 @@ express_mode:
     Within Express Mode groups containing conditionally activatable tiers
     (G1: XPD+SIL+GPCL; G2: FCL+CL), content must be authored with explicit
     tier annotations (e.g. [FCL] or [CL] inline prefixes) to enable
-    deterministic UNBUNDLE allocation. The UNBUNDLE operation must reject
-    content that cannot be unambiguously assigned to a constituent tier.
+    deterministic UNBUNDLE allocation. UNBUNDLE_SCAN is independently
+    invokable as a read-only pre-flight check that classifies each content
+    fragment with confidence 'high', 'ambiguous', or 'none'. UNBUNDLE_EXECUTE
+    is the atomic commit phase and may proceed only when all fragments are
+    classified as 'high'. The UNBUNDLE operation must reject content that
+    cannot be unambiguously assigned to a constituent tier. On rejected
+    UNBUNDLE_EXECUTE, the Express Mode group node retains its current status
+    with no structural mutations applied.
 
 # ── §5 TIER DEFINITIONS ──────────────────────────────────────────────────────
 
@@ -1146,12 +1152,37 @@ operations:
         which rule classifications were evaluated. REVIEW_REQUIRED items
         must carry a human disposition (APPROVED or REJECTED with rationale)
         before the target node may transition DRAFT → ACTIVE.
+    - name: UNBUNDLE_SCAN
+      description: >
+        Read-only pre-flight scan of an Express Mode group. Traverses
+        all content fragments and emits a per-fragment diagnostic object
+        containing: fragment_id, content_preview, detected_annotation,
+        confidence (high | ambiguous | none), and ambiguity_reason when
+        confidence is not high. Independently invokable without committing
+        structural mutations. Enables iterative diagnose-annotate-retry
+        workflows before UNBUNDLE_EXECUTE is invoked.
+      validation_trigger: >
+        Returns a structured scan result for every content fragment in
+        the target Express Mode group. No DAG state changes are applied.
+        A fragment reaches confidence 'high' when its [TIER] annotation
+        unambiguously maps it to exactly one constituent tier of the
+        group. Confidence is 'ambiguous' when annotation is present but
+        maps to multiple tiers or conflicts with tier rules. Confidence
+        is 'none' when no annotation is detected.
     - name: UNBUNDLE
       description: >
         Expand Express Mode group into constituent Full Mode tiers.
       validation_trigger: >
         Content allocated to correct tiers; parent_ids auto-wired.
-        Rejects content that cannot be unambiguously assigned.
+        If UNBUNDLE_SCAN detects any fragment with confidence
+        'ambiguous' or 'none', UNBUNDLE_EXECUTE rejects atomically.
+        No structural mutations are applied. The Express Mode group
+        node retains its pre-attempt status. The rejection payload
+        is the complete UNBUNDLE_SCAN result: a list of per-fragment
+        diagnostic objects, each containing fragment_id,
+        content_preview, detected_annotation, confidence
+        (high | ambiguous | none), and ambiguity_reason (when
+        confidence is not 'high').
 
   design_decision_removed_ops: >
     v3.1.1 defined 11 operations. RELOCATE is removed (contradicted ID
@@ -2082,8 +2113,12 @@ nodes:
           """[SAL-5.1] SUPERSEDE sequence: source status enters SUPERSEDE_PENDING with prior_status recorded (gc-007); replacement INSERT validates atomically; on success SUPERSEDE_COMPLETE transitions source to SUPERSEDED, re-wires immediate children parent_ids, marks those children DIRTY, and clears prior_status (gc-008); on failure SUPERSEDE_ROLLBACK reverts source to prior_status, preserves prior parent_ids when INSERT fails or removes replacement if re-wiring fails, logs SUPERSEDE_FAILED, and clears prior_status (gc-009)."""
           ...
 
-      def unbundle(group_id: str, graph) -> list[DdrNode]:
-          """[SAL-5.1] Expand Express Mode group; reject ambiguous content; auto-wire parent_ids."""
+      def unbundle_scan(group_id: str, graph) -> UnbundleScanResult:
+          """[SAL-5.1] Read-only UNBUNDLE pre-flight; no state mutations. Returns UnbundleScanResult: a list of FragmentDiagnostic objects, each with fields fragment_id (str), content_preview (str, ≤80 chars), detected_annotation (str | None), confidence (Literal['high','ambiguous','none']), and ambiguity_reason (str | None). Confidence assignment: high → annotation present and unambiguously maps to exactly one constituent tier; ambiguous → annotation present but maps to multiple tiers or violates tier rules; none → no annotation detected."""
+          ...
+
+      def unbundle_execute(group_id: str, graph) -> list[DdrNode]:
+          """[SAL-5.1] Atomic UNBUNDLE commit phase; invokes unbundle_scan as precondition check and proceeds only when all fragments reach confidence 'high'. On success: allocates content to constituent tier nodes, auto-wires parent_ids, and returns list of new DdrNode objects. On failure: rejects atomically with no graph mutations, Express Mode group node retains pre-attempt status, and raises UnbundleRejectionError containing the full UnbundleScanResult as the structured error payload."""
           ...
 
 # AUTHORITY: This lifecycle block is the machine-parseable authority
