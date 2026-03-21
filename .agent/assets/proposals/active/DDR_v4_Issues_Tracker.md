@@ -12,8 +12,8 @@
   subject_file:         DDR_System_Opus_v4_.md
   last_updated:         2026-03-21
   total_issues:         13
-  open_issues:          4
-  resolved_issues:      9
+  open_issues:          3
+  resolved_issues:      10
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
   ANTIGRAVITY 1.18 DEPLOYMENT NOTES
@@ -150,7 +150,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 | \[ISSUE-007\](#issue-007-supersede-atomicity-and-rollback-are-underspecified)                 | `MAJOR`    | `DESIGN_INADEQUACY` | `RESOLVED` | All            | SUPERSEDE atomicity and rollback are underspecified                 |
 | \[ISSUE-008\](#issue-008-unbundle-rejection-behaviour-is-underspecified)                      | `MODERATE` | `DESIGN_INADEQUACY` | `RESOLVED` | Express Mode   | UNBUNDLE rejection behaviour is underspecified                      |
 | \[ISSUE-009\](#issue-009-are-confidence-score-has-no-normative-rubric)                        | `MODERATE` | `DESIGN_INADEQUACY` | `RESOLVED` | ARE (E5)       | ARE confidence score has no normative rubric                        |
-| \[ISSUE-010\](#issue-010-extension_annotations-namespace-enforcement-is-schema-level-absent)  | `MODERATE` | `SCHEMA_DEFECT`     | `OPEN`     | All (schema)   | `extension_annotations` namespace unenforced at schema level        |
+| \[ISSUE-010\](#issue-010-extension_annotations-namespace-enforcement-is-schema-level-absent)  | `MODERATE` | `SCHEMA_DEFECT`     | `RESOLVED` | All (schema)   | `extension_annotations` namespace unenforced at schema level        |
 | \[ISSUE-011\](#issue-011-orl-r7-migration-is-unresolved-in-a-finalized-specification)         | `MODERATE` | `MIGRATION_GAP`     | `OPEN`     | GPCL           | ORL-R7 migration is unresolved in a "Finalized" specification       |
 | \[ISSUE-012\](#issue-012-candidate-pool-has-no-pause-state)                                   | `MINOR`    | `LIFECYCLE_GAP`     | `OPEN`     | ARE (E5)       | Candidate Pool has no pause state                                   |
 | \[ISSUE-013\](#issue-013-dde-upward-fcl-annotation-creates-a-backwards-validation-dependency) | `MINOR`    | `DESIGN_INADEQUACY` | `OPEN`     | FCL, DDE (E7)  | DDE upward FCL annotation creates a backwards validation dependency |
@@ -812,18 +812,18 @@ Option B provides flexibility for enterprise customization. Option A provides a 
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-010
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        SCHEMA_DEFECT
 tier_refs:   [ALL]
 section_ref: §8, §8.3
 rule_refs:   [EXT-R3, AX-6]
 created:     2026-02-28
-updated:     2026-02-28
-resolved:    null
+updated:     2026-03-21
+resolved:    2026-03-21
 -->
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** All (schema-level) | **Spec Section:** §8, §8.3
 
 #### Problem Statement-010
