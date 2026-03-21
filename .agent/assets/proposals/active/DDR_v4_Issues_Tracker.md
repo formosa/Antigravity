@@ -10,10 +10,10 @@
   document_type:        issues_tracker
   subject_system:       DDR System Specification v4.0
   subject_file:         DDR_System_Opus_v4_.md
-  last_updated:         2026-03-20
+  last_updated:         2026-03-21
   total_issues:         13
-  open_issues:          6
-  resolved_issues:      7
+  open_issues:          5
+  resolved_issues:      8
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
   ANTIGRAVITY 1.18 DEPLOYMENT NOTES
@@ -66,7 +66,7 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System Specification v4.0"
   created:         "2026-02-28"
-  last_modified:   "2026-03-20"
+  last_modified:   "2026-03-21"
   author:          "Anthony Formosa"
   status_values:   [OPEN, IN_REVIEW, RESOLVED, WONT_FIX, DEFERRED]
   severity_values: [CRITICAL, MAJOR, MODERATE, MINOR]
@@ -148,7 +148,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 | \[ISSUE-005\](#issue-005-gpcl-overloading-creates-an-implicit-fcl-tier-skip)                  | `MAJOR`    | `DESIGN_INADEQUACY` | `RESOLVED` | GPCL, FCL, SAL | GPCL overloading creates an implicit FCL tier skip                  |
 | \[ISSUE-006\](#issue-006-node-status-lifecycle-lacks-a-formal-state-machine)                  | `MAJOR`    | `LIFECYCLE_GAP`     | `RESOLVED` | All            | Node status lifecycle lacks a formal state machine                  |
 | \[ISSUE-007\](#issue-007-supersede-atomicity-and-rollback-are-underspecified)                 | `MAJOR`    | `DESIGN_INADEQUACY` | `RESOLVED` | All            | SUPERSEDE atomicity and rollback are underspecified                 |
-| \[ISSUE-008\](#issue-008-unbundle-rejection-behaviour-is-underspecified)                      | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN`     | Express Mode   | UNBUNDLE rejection behaviour is underspecified                      |
+| \[ISSUE-008\](#issue-008-unbundle-rejection-behaviour-is-underspecified)                      | `MODERATE` | `DESIGN_INADEQUACY` | `RESOLVED` | Express Mode   | UNBUNDLE rejection behaviour is underspecified                      |
 | \[ISSUE-009\](#issue-009-are-confidence-score-has-no-normative-rubric)                        | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN`     | ARE (E5)       | ARE confidence score has no normative rubric                        |
 | \[ISSUE-010\](#issue-010-extension_annotations-namespace-enforcement-is-schema-level-absent)  | `MODERATE` | `SCHEMA_DEFECT`     | `OPEN`     | All (schema)   | `extension_annotations` namespace unenforced at schema level        |
 | \[ISSUE-011\](#issue-011-orl-r7-migration-is-unresolved-in-a-finalized-specification)         | `MODERATE` | `MIGRATION_GAP`     | `OPEN`     | GPCL           | ORL-R7 migration is unresolved in a "Finalized" specification       |
@@ -650,18 +650,18 @@ Option A requires transactional semantics from the storage layer (e.g., copy-on-
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-008
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        DESIGN_INADEQUACY
 tier_refs:   [FCL, CL, XPD, SIL, GPCL]
 section_ref: §4, §7.1
 rule_refs:   [AX-3]
 created:     2026-02-28
-updated:     2026-02-28
-resolved:    null
+updated:     2026-03-21
+resolved:    2026-03-21
 -->
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `DESIGN_INADEQUACY`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `DESIGN_INADEQUACY`
 **Tiers Affected:** Express Mode Groups | **Spec Section:** §4, §7.1
 
 #### Problem Statement-008
