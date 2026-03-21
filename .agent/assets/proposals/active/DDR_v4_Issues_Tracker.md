@@ -12,8 +12,8 @@
   subject_file:         DDR_System_Opus_v4_.md
   last_updated:         2026-03-21
   total_issues:         13
-  open_issues:          2
-  resolved_issues:      11
+  open_issues:          1
+  resolved_issues:      12
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
   ANTIGRAVITY 1.18 DEPLOYMENT NOTES
@@ -152,7 +152,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 | \[ISSUE-009\](#issue-009-are-confidence-score-has-no-normative-rubric)                        | `MODERATE` | `DESIGN_INADEQUACY` | `RESOLVED` | ARE (E5)       | ARE confidence score has no normative rubric                        |
 | \[ISSUE-010\](#issue-010-extension_annotations-namespace-enforcement-is-schema-level-absent)  | `MODERATE` | `SCHEMA_DEFECT`     | `RESOLVED` | All (schema)   | `extension_annotations` namespace unenforced at schema level        |
 | \[ISSUE-011\](#issue-011-orl-r7-migration-is-unresolved-in-a-finalized-specification)         | `MODERATE` | `MIGRATION_GAP`     | `RESOLVED` | GPCL           | ORL-R7 migration is unresolved in a "Finalized" specification       |
-| \[ISSUE-012\](#issue-012-candidate-pool-has-no-pause-state)                                   | `MINOR`    | `LIFECYCLE_GAP`     | `OPEN`     | ARE (E5)       | Candidate Pool has no pause state                                   |
+| \[ISSUE-012\](#issue-012-candidate-pool-has-no-pause-state)                                   | `MINOR`    | `LIFECYCLE_GAP`     | `RESOLVED` | ARE (E5)       | Candidate Pool has no pause state                                   |
 | \[ISSUE-013\](#issue-013-dde-upward-fcl-annotation-creates-a-backwards-validation-dependency) | `MINOR`    | `DESIGN_INADEQUACY` | `OPEN`     | FCL, DDE (E7)  | DDE upward FCL annotation creates a backwards validation dependency |
 
 ---
