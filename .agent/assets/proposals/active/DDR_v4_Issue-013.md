@@ -7,7 +7,7 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System Specification v4.0"
   created:         "2026-03-19"
-  status:          "OPEN"
+  status:          "RESOLVED"
   severity:        "MINOR"
   type:            "DESIGN_INADEQUACY"
 ---
@@ -18,7 +18,7 @@ document:
 
 ```yaml
 id:          ISSUE-013
-status:      OPEN
+status:      RESOLVED
 severity:    MINOR
 type:        DESIGN_INADEQUACY
 tier_refs:   [FCL, DDE_E7]
@@ -76,9 +76,9 @@ With FCL-R7 in place, DDE's FCL annotation role changes from **discovery** to **
 
 VALIDATE can check FCL-R7 structurally: any FCL node describing a data-modifying capability that lacks entity enumeration fails validation, regardless of whether DDE is active. This removes the DDE dependency on FCL completeness.
 
-* **Supporting Insights:** The DDR specification's design philosophy (§1) states: *"Every element earns its existence. No tier, edge type, operation, or rule exists without a concrete problem it solves."* DDE's consistent discovery of FCL data entity gaps is evidence that FCL has a concrete problem that warrants a Core rule. The specification's own FCL-R3 (*"Must define event-driven behaviors and conditional business logic rules"*) demonstrates that FCL already enumerates behavioral properties at a logical level without specifying implementation — FCL-R7 applies the same pattern to data entities. Additionally, FCL-E2's prohibition of *"data schemas"* draws a clear line: structural detail belongs in ICL, but logical entity identification is the natural FCL-level complement to behavioral workflow specification (FCL-R2).
+- **Supporting Insights:** The DDR specification's design philosophy (§1) states: *"Every element earns its existence. No tier, edge type, operation, or rule exists without a concrete problem it solves."* DDE's consistent discovery of FCL data entity gaps is evidence that FCL has a concrete problem that warrants a Core rule. The specification's own FCL-R3 (*"Must define event-driven behaviors and conditional business logic rules"*) demonstrates that FCL already enumerates behavioral properties at a logical level without specifying implementation — FCL-R7 applies the same pattern to data entities. Additionally, FCL-E2's prohibition of *"data schemas"* draws a clear line: structural detail belongs in ICL, but logical entity identification is the natural FCL-level complement to behavioral workflow specification (FCL-R2).
 
-* **Citations:** The Zachman Framework for Enterprise Architecture (2008) distinguishes between the "What" column (data entities at a conceptual level) and the "How" column (data schemas at a logical/physical level). FCL operates at the conceptual/contextual row where entity identification is appropriate, while ICL operates at the logical row where schema definition belongs. IEEE 830-1998 (now superseded by ISO/IEC/IEEE 29148:2018, "Requirements Engineering") recommends that functional requirements identify the data objects involved in each function at a logical level, supporting FCL-R7's scope.
+- **Citations:** The Zachman Framework for Enterprise Architecture (2008) distinguishes between the "What" column (data entities at a conceptual level) and the "How" column (data schemas at a logical/physical level). FCL operates at the conceptual/contextual row where entity identification is appropriate, while ICL operates at the logical row where schema definition belongs. IEEE 830-1998 (now superseded by ISO/IEC/IEEE 29148:2018, "Requirements Engineering") recommends that functional requirements identify the data objects involved in each function at a logical level, supporting FCL-R7's scope.
 
 #### Option B: Restrict DDE's FCL Annotation and Route Findings Through Advisories
 
@@ -100,9 +100,9 @@ This preserves DDE's analytical capability (it still reads FCL and ICL to detect
 
 The `UPSTREAM_GAP` advisory type signals to practitioners that a downstream Extension has identified a potential deficiency in an upstream tier — a distinct category from schema consistency violations (DDE-R3) or standard advisories. Reconciliation manifest consumers can filter by `advisory_type` to prioritize upstream gap remediation.
 
-* **Supporting Insights:** The `extension_advisories` mechanism is already normatively defined in the specification — §8.1 permitted actions include *"Add advisories to the reconciliation manifest's extension_advisories section"* (`DDR System(Opus_v4).md`, line 560). Routing DDE's FCL findings through this existing mechanism requires no new specification infrastructure. `EXT-R7` (*"Extension advisories do not mutate Core node status"*) confirms that advisories are the normative channel for Extension-discovered issues that affect Core nodes without directly modifying them.
+- **Supporting Insights:** The `extension_advisories` mechanism is already normatively defined in the specification — §8.1 permitted actions include *"Add advisories to the reconciliation manifest's extension_advisories section"* (`DDR System(Opus_v4).md`, line 560). Routing DDE's FCL findings through this existing mechanism requires no new specification infrastructure. `EXT-R7` (*"Extension advisories do not mutate Core node status"*) confirms that advisories are the normative channel for Extension-discovered issues that affect Core nodes without directly modifying them.
 
-* **Citations:** The TOGAF Architecture Development Method (ADM) Phase H ("Architecture Change Management") distinguishes between direct architecture modifications and change requests that flow through a governance review process. DDE's FCL findings, under Option B, would follow the change request pattern — surfaced as structured advisories requiring practitioner action rather than direct annotation of the upstream artifact. This aligns with the principle that upstream artifacts should only be modified through their own governance channel.
+- **Citations:** The TOGAF Architecture Development Method (ADM) Phase H ("Architecture Change Management") distinguishes between direct architecture modifications and change requests that flow through a governance review process. DDE's FCL findings, under Option B, would follow the change request pattern — surfaced as structured advisories requiring practitioner action rather than direct annotation of the upstream artifact. This aligns with the principle that upstream artifacts should only be modified through their own governance channel.
 
 ### 3. Comparative Analysis and Recommended Strategy
 
@@ -128,12 +128,14 @@ Option A resolves the root cause by making data entity awareness a Core FCL resp
 
 **Option A** is recommended because:
 
-* **Root Cause Resolution:** DDE's FCL gap discovery is symptomatic of a missing Core rule. Adding FCL-R7 makes the specification self-sufficient — FCL completeness for data entities is verifiable by VALIDATE without requiring any Extension. This aligns with `AX-5` (Extensibility: Core remains stable under Extension removal) and `AX-6` (Declarative Integrity: Core is self-contained).
-* **Consistent with FCL's Existing Pattern:** FCL-R3 already requires enumeration of behavioral properties (event-driven behaviors, business logic rules) at a logical level. FCL-R7 applies the identical pattern to data properties — naming entities and their CRUD relationships without schema detail. This is a natural complement, not a conceptual expansion.
-* **FCL-E2 Compatibility:** The distinction is precise: FCL-R7 requires *"data entities by logical name and their relationship to the capability (created, read, updated, deleted)"* — names and CRUD verbs only. FCL-E2 prohibits *"data schemas"* — structural definitions with types, fields, and constraints. These are different levels of abstraction (Zachman row 2 vs. row 3/4) and do not conflict. A normative note at FCL-R7 can reference FCL-E2 to make the boundary explicit.
-* **DDE Elevation from Discovery to Confirmation:** With FCL-R7 in place, DDE's FCL annotation role shifts from gap discovery (reactive, dependent on ICL content) to consistency validation (proactive, confirming that enumerated entities have ICL schemas). This is a more architecturally appropriate use of the Extension annotation mechanism — validation rather than discovery.
-* **VALIDATE-Checkable:** FCL-R7 is structurally verifiable: any FCL node describing a capability with data modification semantics (keywords: create, store, persist, update, delete, record) that lacks entity enumeration can be flagged by automated VALIDATE. This contributes to `AX-3` (Determinism) by adding a mechanically checkable rule.
+- **Root Cause Resolution:** DDE's FCL gap discovery is symptomatic of a missing Core rule. Adding FCL-R7 makes the specification self-sufficient — FCL completeness for data entities is verifiable by VALIDATE without requiring any Extension. This aligns with `AX-5` (Extensibility: Core remains stable under Extension removal) and `AX-6` (Declarative Integrity: Core is self-contained).
+- **Consistent with FCL's Existing Pattern:** FCL-R3 already requires enumeration of behavioral properties (event-driven behaviors, business logic rules) at a logical level. FCL-R7 applies the identical pattern to data properties — naming entities and their CRUD relationships without schema detail. This is a natural complement, not a conceptual expansion.
+- **FCL-E2 Compatibility:** The distinction is precise: FCL-R7 requires *"data entities by logical name and their relationship to the capability (created, read, updated, deleted)"* — names and CRUD verbs only. FCL-E2 prohibits *"data schemas"* — structural definitions with types, fields, and constraints. These are different levels of abstraction (Zachman row 2 vs. row 3/4) and do not conflict. A normative note at FCL-R7 can reference FCL-E2 to make the boundary explicit.
+- **DDE Elevation from Discovery to Confirmation:** With FCL-R7 in place, DDE's FCL annotation role shifts from gap discovery (reactive, dependent on ICL content) to consistency validation (proactive, confirming that enumerated entities have ICL schemas). This is a more architecturally appropriate use of the Extension annotation mechanism — validation rather than discovery.
+- **VALIDATE-Checkable:** FCL-R7 is structurally verifiable: any FCL node describing a capability with data modification semantics (keywords: create, store, persist, update, delete, record) that lacks entity enumeration can be flagged by automated VALIDATE. This contributes to `AX-3` (Determinism) by adding a mechanically checkable rule.
 
-### 4. Concluding Approval Notation
+### 4. Independent Review Conclusion
 
-After reviewing the issue statement, both proposed strategies, and the endorsed recommendation, I confirm that the endorsed strategy (**Option A: Add FCL-R7 to Mandate Data Entity Enumeration**) is the maximally optimized resolution for ISSUE-013 within DDR v4.0's architectural constraints and invariants.
+**Approval Notation:** After reviewing the issue statement, both proposed strategies, and the endorsed recommendation, I confirm that the endorsed strategy (**Option A: Add FCL-R7 to Mandate Data Entity Enumeration**) is the maximally optimized resolution for ISSUE-013 within DDR v4.0's architectural constraints and invariants.
+
+**Conclusion Status:** ✅ Approved — Endorsed recommendation confirmed without modification.
