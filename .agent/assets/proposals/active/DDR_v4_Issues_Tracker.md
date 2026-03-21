@@ -11,8 +11,8 @@
   subject_system:       DDR System Specification v4.0
   subject_file:         DDR_System_Opus_v4_.md
   last_updated:         2026-03-21
-  total_issues:         13
-  open_issues:          0
+  total_issues:         16
+  open_issues:          3
   resolved_issues:      13
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
@@ -154,6 +154,9 @@ a minor variant of Option A — must represent a meaningfully different design d
 | \[ISSUE-011\](#issue-011-orl-r7-migration-is-unresolved-in-a-finalized-specification)         | `MODERATE` | `MIGRATION_GAP`     | `RESOLVED` | GPCL           | ORL-R7 migration is unresolved in a "Finalized" specification       |
 | \[ISSUE-012\](#issue-012-candidate-pool-has-no-pause-state)                                   | `MINOR`    | `LIFECYCLE_GAP`     | `RESOLVED` | ARE (E5)       | Candidate Pool has no pause state                                   |
 | \[ISSUE-013\](#issue-013-dde-upward-fcl-annotation-creates-a-backwards-validation-dependency) | `MINOR`    | `DESIGN_INADEQUACY` | `RESOLVED` | FCL, DDE (E7)  | DDE upward FCL annotation creates a backwards validation dependency |
+| \[ISSUE-014\](#issue-014-ehd-r5-requires-sil-annotation-but-is-contractually-forbidden)       | `MAJOR`    | `LOGICAL_CONFLICT`  | `OPEN`     | EHD (E9), SIL  | EHD-R5 Requires SIL Annotation But Is Contractually Forbidden       |
+| \[ISSUE-015\](#issue-015-cl-r9-imposed-contradicts-cit-r1-and-inv-2-for-parent-requirements)  | `MAJOR`    | `LOGICAL_CONFLICT`  | `OPEN`     | CL             | CL-R9-imposed Contradicts CIT-R1 and INV-2 for Parent Requirements  |
+| \[ISSUE-016\](#issue-016-exemplar-isl-81-node-unlawfully-skips-tiers-in-citations)            | `MODERATE` | `LOGICAL_CONFLICT`  | `OPEN`     | ISL            | Exemplar ISL-8.1 Node Unlawfully Skips Tiers in Citations           |
 
 ---
 
@@ -1102,6 +1105,152 @@ Option A is the architecturally superior choice — it resolves the root cause (
 
 ---
 
+### ISSUE-014: EHD-R5 Requires SIL Annotation But Is Contractually Forbidden
+
+<!-- AGENT_CONTEXT
+id:          ISSUE-014
+status:      OPEN
+severity:    MAJOR
+type:        LOGICAL_CONFLICT
+tier_refs:   [EHD_E9, SIL]
+section_ref: §9 (E9 EHD)
+rule_refs:   [EHD-R5, EXT-R2, EXT-R3]
+created:     2026-03-21
+updated:     2026-03-21
+resolved:    null
+-->
+
+**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `LOGICAL_CONFLICT`
+**Tiers Affected:** `EHD (E9), SIL` | **Spec Section:** §9 Extension Catalog
+
+#### Problem Statement-014
+
+`EHD-R5` requires the Extension to create a "synthetic XPD-equivalent assessment anchored to SIL" when XPD is inactive. However, the EHD Extension contract declares `annotates: [FCL, CDL, SAL]` and explicitly omits SIL. Because `EXT-R2` strictly limits annotation to only those tiers declared in the contract, EHD is structurally prohibited from fulfilling the `EHD-R5` requirement.
+
+#### Evidence & Justification-014
+
+The EHD Extension (E9) defines `annotates: [FCL, CDL, SAL]`. `EXT-R2` states that an extension "must declare which Core tiers it reads and which it annotates". Additionally, §8 Extension System `prohibited_actions` strictly forbids modifying Core node context outside of namespaced annotations on permitted tiers. `EHD-R5` requires that EHD "creates a synthetic XPD-equivalent assessment anchored to SIL." Anchoring via annotation to SIL requires SIL to be in the `annotates` list, which it is not. A rule within an extension cannot require behavior that the system's core extension protocol forbids.
+
+#### Impact Assessment-014
+
+- EHD implementations cannot comply with both their own extension rules and the Core Extension System rules simultaneously.
+- If EHD attempts to annotate `SIL` to anchor the assessment, it violates its `EXT-R2` contract and becomes invalid.
+- If it obeys its contract, the synthetic XPD-equivalent assessment cannot be created, leaving the system functionally non-compliant with `EHD-R5` when XPD is inactive.
+
+#### Resolution-014: Option A — Expand EHD `annotates` Scope
+
+Add `SIL` to EHD's `annotates` list in the Extension Catalog (§9). This allows EHD to legally attach its synthetic assessment annotations to SIL nodes without violating the extension contract bounds.
+
+#### Resolution-014: Option B — Re-anchor the Synthetic Assessment to FCL
+
+Modify `EHD-R5` to anchor the synthetic assessment to `FCL` instead of `SIL` (or `SAL`). Since `FCL` is already included in the `annotates: [FCL, CDL, SAL]` array, the EHD extension can attach the advisory without requiring an expansion of its contractual reach into higher-level intent tiers.
+
+#### Notes-014
+
+Option A correctly anchors the assessment at the intent level (near XPD), which is philosophically sound for an XPD proxy. Option B preserves the limited surface area of the Extension. Option A is recommended for semantic correctness.
+
+---
+
+### ISSUE-015: CL-R9-imposed Contradicts CIT-R1 and INV-2 for Parent Requirements
+
+<!-- AGENT_CONTEXT
+id:          ISSUE-015
+status:      OPEN
+severity:    MAJOR
+type:        LOGICAL_CONFLICT
+tier_refs:   [CL]
+section_ref: §5 (Tier 4 CL)
+rule_refs:   [CL-R9-imposed, CIT-R1, CIT-R2, INV-2, INV-5]
+created:     2026-03-21
+updated:     2026-03-21
+resolved:    null
+-->
+
+**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `LOGICAL_CONFLICT`
+**Tiers Affected:** `CL` | **Spec Section:** §5 Tier Definitions, §3.5 DAG Invariants
+
+#### Problem Statement-015
+
+`CL-R9-imposed` defines that for `imposed` constraints, "FCL citation is not required" and an external authority source must be cited instead. However, omitting the FCL citation creates an unresolvable conflict with DAG invariants: if the CL node has no `parent_ids`, it violates `CIT-R1` and `INV-5`. If it cites the `GPCL` node where the mandate originates, it violates `CIT-R2` and `INV-2` which strictly prohibit tier-skipping (CL must cite the immediately preceding active tier, FCL).
+
+#### Evidence & Justification-015
+
+- `CL-R9-imposed`: "Must cite the external authority source... FCL citation is not required".
+- `CIT-R1` / `INV-5`: "Every non-root node must have ≥1 parent_id."
+- `CIT-R2` / `INV-2`: "No tier-skipping: citations must reference the immediately preceding active tier(s). SAL is the only permitted merge-node exception."
+If FCL is an active tier, the immediately preceding active tier for CL is FCL. If a CL (`imposed`) node drops the FCL citation, it must either have `parent_ids: []` (violating `INV-5` as CL cannot be a root node) or it cites `GPCL` (skipping FCL, violating `INV-2`).
+
+#### Impact Assessment-015
+
+- CL nodes with `constraint_origin == 'imposed'` cannot be authored in a structurally valid way under the current Core invariants.
+- VERIFY operations will deterministically fail on any DAG that utilizes `imposed` constraint origins, either throwing an orphan error or a tier-skip error.
+- The mitigation introduced in ISSUE-002 (adding origin) did not account for the structural invariants governing parent relationships.
+
+#### Resolution-015: Option A — Formalize an Exception to INV-2 for Imposed Constraints
+
+Update `INV-2` and `CIT-R2` to explicitly recognize a second tier-skipping exception: "Exception: A `CL` node with `constraint_origin: imposed` is permitted to skip `FCL` and cite `GPCL` or `SIL` directly, reflecting an external mandate that bypasses functional derivation." This allows the node to maintain a valid `parent_id` (satisfying `CIT-R1`) while legally skipping FCL.
+
+#### Resolution-015: Option B — Redefine Imposed CL Nodes as Conditional Roots
+
+Update `CIT-R1` and `INV-5` to allow conditional roots: "A `CL` node with `constraint_origin: imposed` operates as a secondary root and may have an empty `parent_ids` list." Require the external authority source to be recorded as a textual reference in a dedicated `authority_source` property, rather than as a DAG structural edge.
+
+#### Notes-015
+
+Option A preserves system-wide DAG connectivity to a single root (via GPCL). Option B fractures the DAG into sub-graphs but avoids tier-skipping complexity. Option A is significantly more compatible with existing traversal algorithms.
+
+---
+
+### ISSUE-016: Exemplar ISL-8.1 Node Unlawfully Skips Tiers in Citations
+
+<!-- AGENT_CONTEXT
+id:          ISSUE-016
+status:      OPEN
+severity:    MODERATE
+type:        LOGICAL_CONFLICT
+tier_refs:   [ISL]
+section_ref: §12 Canonical DAG Nodes
+rule_refs:   [CIT-R2, CIT-R4, ISL-R6]
+created:     2026-03-21
+updated:     2026-03-21
+resolved:    null
+-->
+
+**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `LOGICAL_CONFLICT`
+**Tiers Affected:** `ISL` | **Spec Section:** Canonical DAG Nodes
+
+#### Problem Statement-016
+
+The canonical exemplar node `ISL-8.1` contains inline citations (`[SAL-5.1]`, `[ICL-6.1]`, `[GPCL-2.1]`) within its implementation stubs. `CIT-R4` mandates that any inline citation must have a matching entry in `parent_ids`. However, if these citations were added to `ISL-8.1`'s `parent_ids`, it would violate `CIT-R2` (no tier-skipping) and `ISL-R6` (must cite CDL parent IDs). The exemplar DAG contradicts the rules it is meant to represent.
+
+#### Evidence & Justification-016
+
+- In `ISL-8.1` content: `def supersede(...): """[SAL-5.1] SUPERSEDE sequence..."""`.
+- `CIT-R4`: "An inline [TIER-N.M] citation in node content must have a matching entry in parent_ids."
+- `ISL-8.1`'s `parent_ids` correctly only lists `CDL-7.1`. The inline citations (e.g. `[SAL-5.1]`) do not exist in `parent_ids`.
+- `CIT-R2`: "No tier-skipping". ISL may only cite CDL. Therefore, adding `SAL-5.1` to `parent_ids` to satisfy `CIT-R4` is structurally illegal.
+
+#### Impact Assessment-016
+
+- The specification's own canonical example of a validated DAG contains structural violations.
+- Implementers using the canonical DAG will build VERIFY operations that fail on the specification's own exemplar.
+- Contextual references in implementation scaffolding (tracing a method directly to the architectural rule it fulfills) is highly useful in practice but is currently criminalized by the interaction of `CIT-R4` and `CIT-R2`.
+
+#### Resolution-016: Option A — Remove Non-CDL Inline Citations in ISL-8.1
+
+Rewrite the `ISL-8.1` exemplar node content to replace direct citations (`[SAL-5.1]`) with `[CDL-7.1]` citations. Documentation strings in the stubs should reference the immediate blueprint (CDL) leaving deep traceability to automated upward traversal. This strictly complies with existing rules.
+
+#### Resolution-016: Option B — Distinguish Structural vs. Informational Inline Citations
+
+Modify `CIT-R4` to separate structural derivation citations (which require `parent_ids`) from informational cross-references: "An inline `[TIER-N.M]` citation asserts a structural connection and must exist in `parent_ids`. Informational citations that bridge tiers for context must use a non-enforceable syntax, such as `(ref: TIER-N.M)`, and are ignored by VERIFY." Update `ISL-8.1` to use the `(ref: SAL-5.1)` format.
+
+#### Notes-016
+
+Option B is highly recommended as developers frequently require deep-link contextual references in ISL stubs (e.g., tracing a security stub directly to a GPCL policy) without triggering structural tier-skip violations in the formal DAG.
+
+---
+
 *DDR System v4.0 Issues Tracker — IT-1.0*
-*13 issues identified | 13 resolved | Last updated: 2026-03-21*
+*16 issues identified | 13 resolved | Last updated: 2026-03-21*
 *Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*
+
+---
