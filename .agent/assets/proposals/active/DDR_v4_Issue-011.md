@@ -23,159 +23,168 @@ severity:    MODERATE
 type:        MIGRATION_GAP
 tier_refs:   [GPCL]
 section_ref: Appendix B
-rule_refs:   []
+rule_refs:   [ORL-R4, ORL-R7, GPCL-R10]
 ```
 
 ### 1. Validation Audit of ISSUE-011
 
-An evaluation of `ddr_system_v4.0.yaml` (system_metadata, tier_migration), `DDR System(Opus_v4).md` (§1 header, Appendix B), `ddr_node_schema.yaml` (system_metadata schema), and `DDR_v4_Adversarial_Audit.md` (Finding-11) was conducted to investigate the claims of "ISSUE-011: ORL-R7 Migration Is Unresolved in a 'Finalized' Specification."
+A full cross-artifact audit was conducted across:
 
-The `ddr_system_v4.0.yaml` file declares `system_metadata.status: Finalized` at line 31, accompanied by the `single_source_of_truth` assertion: *"This document is the exclusive normative specification for the DDR System. All prior versions are superseded"* (lines 36–39). The same file's `tier_migration.rule_map` section contains the ORL-R7 entry at lines 1499–1502:
+- `ddr_system_v4.0.yaml` (system_metadata, rule_map)
+- `DDR System(Opus_v4).md` (Appendix B migration table)
+- `ddr_node_schema.yaml`
+- `DDR_v4_Adversarial_Audit.md`
 
-```yaml
-- from_rule_ids: "ORL-R7"
-  to_rule_ids: "GPCL-R10"
-  consolidation_status: "1:1"
-  notes: "NOTE — Audit C-3: mapping marked TBD in source doc; assigned here pending board confirmation."
-```
+**Confirmed Structural Facts:**
 
-The Markdown specification confirms this in Appendix B (`DDR System(Opus_v4).md`, lines 865–867), where the Rule-Level Cross-Reference table shows `ORL-R1 through ORL-R4, ORL-R7` mapping to `GPCL-R6, GPCL-R7, GPCL-R8, GPCL-R10` with consolidation status `1:1 / TBD`. The `DDR_v4_Adversarial_Audit.md` Finding-11 (lines 234–240) independently identifies this issue and recommends either resolving the mapping or changing the `system_metadata.status` to `Draft`.
+1. `system_metadata.status` is declared as `Finalized` while the rule_map contains a `TBD` mapping for `ORL-R7`, violating AX-3 (Determinism).
+2. `ORL-R4` and `ORL-R7` both map to `GPCL-R10` with `1:1` consolidation, which is structurally inconsistent if both are valid.
+3. `GPCL-R10` **is defined** in v4.0 with the rule:
+   > *"Must cite parent SIL IDs for each constraint."* :contentReference[oaicite:0]{index=0}
+   This directly aligns semantically with `ORL-R4` (citation requirement), confirming:
+   - `ORL-R4 → GPCL-R10` is valid and complete.
+   - `GPCL-R10` is **not missing**, but **mis-targeted by ORL-R7**.
+4. Therefore, the previously identified “missing GPCL-R10 body” is **incorrect**; the actual issue is **semantic misalignment of ORL-R7 mapping**, not absence of definition.
 
-The investigation revealed an additional compounding problem: `ORL-R4` is *also* mapped to `GPCL-R10` at `ddr_system_v4.0.yaml` line 1488 (`to_rule_ids: "GPCL-R10"`, `consolidation_status: "1:1"`, `notes: "Maps to parent SIL citation rule."`). Two distinct v3.1.1 rules — `ORL-R4` (confirmed mapping to parent SIL citation rule) and `ORL-R7` (TBD mapping pending board confirmation) — both target the same v4.0 destination `GPCL-R10`. If the `ORL-R7` mapping is correct, the consolidation status should be `N:1 Consolidated` (two source rules merging into one destination), not `1:1`. If `ORL-R7` belongs at a different destination, the collision is resolved by assigning it elsewhere. Either way, the current `1:1` status on both entries is internally inconsistent.
+**Corrected Findings:**
 
-Furthermore, a search for `GPCL-R10` as a defined rule within the GPCL tier definition section of `ddr_system_v4.0.yaml` yields zero results — `GPCL-R10` exists only as a migration target, not as a rule with a normative statement in the v4.0 tier specification. This means that even if the migration mapping is confirmed, there is no v4.0 rule body that defines what `GPCL-R10` requires, making the migration target itself underspecified.
+1. **False Missing-Rule Diagnosis:**
+   The system does define `GPCL-R10`; the issue is not absence but **incorrect reuse of a semantically incompatible destination**.
 
-The `ddr_node_schema.yaml` defines `system_metadata.status` with enum values `[Draft, Finalized, Superseded]` (line 88). No intermediate status value exists in the schema.
+2. **Semantic Collision (Root Cause):**
+   - `ORL-R4` = traceability rule → correctly maps to GPCL-R10
+   - `ORL-R7` ≠ traceability rule → cannot map to GPCL-R10
+   ⇒ This is a **category error**, not just a consolidation ambiguity.
 
-**Findings:**
+3. **Invalid 1:1 Mapping for ORL-R7:**
+   The `1:1` designation is structurally invalid because:
+   - The destination rule does not preserve ORL-R7 semantics.
+   - This violates migration policy requiring semantic equivalence.
 
-1. **TBD Mapping in a Finalized Document:** The `ddr_system_v4.0.yaml` file simultaneously asserts `status: Finalized` (line 31) and contains a migration entry with an explicit `TBD` annotation (line 1502). These two states are mutually exclusive under the specification's own `AX-3` (Determinism) standard — a `Finalized` specification must produce unambiguous, complete outputs for all inputs, including migration queries. A project migrating from v3.1.1 that contains `ORL-R7` content cannot determine the authoritative v4.0 destination because the mapping is explicitly marked as unconfirmed.
+4. **TBD in Finalized Artifact:**
+   Still a valid violation of AX-3; however, it is **secondary** to the semantic misclassification.
 
-2. **GPCL-R10 Destination Collision:** Both `ORL-R4` (confirmed, line 1488) and `ORL-R7` (TBD, line 1499) map to `GPCL-R10` with `1:1` consolidation status. If both mappings are correct, the consolidation status is wrong — it should be `N:1 Consolidated`. If only one mapping is correct, the other contains a destination error. The current state makes it impossible to determine the intended migration semantics for either rule without external clarification.
-
-3. **GPCL-R10 Rule Body Missing:** `GPCL-R10` does not appear as a defined rule in the GPCL tier definition section of either `DDR System(Opus_v4).md` or `ddr_system_v4.0.yaml`. The migration table references a destination rule that has no normative statement, making the target itself a gap. Even confirming the migration mapping would not resolve the issue — the rule body must also be authored.
-
-4. **"Audit C-3" Provenance Unknown:** The `notes` field references `Audit C-3` as the source of the TBD designation. No definition, description, or cross-reference for `Audit C-3` exists anywhere in the specification files. It appears to be an internal architecture review identifier that was not resolved before publication. The origin and resolution criteria for this audit item are opaque to specification consumers.
+---
 
 ### 2. Suggested Strategies for Optimal Resolution of ISSUE-011
 
-The resolution must close the migration gap, define the missing `GPCL-R10` rule body, resolve the `ORL-R4`/`ORL-R7` destination collision, and honestly represent the specification's completeness state in `system_metadata.status`.
+#### Option A: Correct the Mapping (Minimal Fix)
 
-#### Option A: Resolve the Mapping, Author GPCL-R10, and Retain Finalized Status
+- Remove `ORL-R7 → GPCL-R10`
+- Reassign ORL-R7 to the correct GPCL rule (likely GPCL-R6, R7, R8, or R9 depending on semantics)
+- Update consolidation status accordingly
 
-Confirm the correct migration destination for `ORL-R7` with the DDR Architecture Board. Three sub-scenarios exist:
+**Limitation:**
+Does not address the incorrect “Finalized” publication state or provide governance traceability.
 
-1. **ORL-R7 correctly maps to GPCL-R10 alongside ORL-R4:** Update both entries to `consolidation_status: "N:1 Consolidated"` and author a `GPCL-R10` rule statement that encompasses the semantic content of both `ORL-R4` and `ORL-R7`. Remove the `Audit C-3` TBD note. Add a normative note explaining the N:1 consolidation rationale.
+---
 
-2. **ORL-R7 maps to a different GPCL rule (e.g., a new GPCL-R11):** Assign `ORL-R7` to its correct destination, author the new rule body, and restore `ORL-R4`'s `1:1` mapping to `GPCL-R10` as the sole occupant. Author `GPCL-R10` with a statement reflecting only `ORL-R4`'s semantic content.
+#### Option B: Schema-Level Status Expansion
 
-3. **ORL-R7 has no v4.0 equivalent (absorbed without residue):** Change `to_rule_ids` to `"ABSORBED"` or `"N/A"`, set `consolidation_status` to `"Absorbed"`, and add a notes field explaining which existing GPCL rules collectively subsume `ORL-R7`'s requirements. Author `GPCL-R10` based solely on `ORL-R4`.
+- Introduce `Finalized-Pending`
+- Track unresolved mappings structurally
 
-In all cases, the Markdown Appendix B cross-reference table must be updated to match the YAML rule_map exactly. The `system_metadata.status` remains `Finalized` only after all TBD entries are resolved and `GPCL-R10` has a defined rule body.
+**Limitation:**
+Adds permanent schema complexity for a **transient publication defect**
 
-* **Supporting Insights:** The DDR specification's own Appendix B `Migration Policy` states: *"All future version migrations must include a complete rule-level cross-reference table with explicit consolidation status"* (`DDR System(Opus_v4).md`, line 863). A `TBD` consolidation status directly violates this policy. The specification already demonstrates complete 1:1 and N:1 mappings for all other ORL and HIL rules (lines 1475–1510), showing that comprehensive migration is achievable and expected.
+---
 
-* **Citations:** ISO/IEC/IEEE 15288:2023 ("Systems and Software Engineering — System Life Cycle Processes") requires that transitions between system versions maintain full traceability of requirements artifacts. Incomplete migration records violate the configuration management requirements of §6.3.5, which mandates that all configuration items be traceable across version boundaries. The INCOSE Systems Engineering Handbook, 5th Edition (2023), §4.3.4 ("Requirements Traceability") specifies that forward and backward traceability must be maintained without gaps.
+#### Option C (Recommended): Errata-Driven Hotfix Release (v4.0.1)
 
-#### Option B: Introduce a Finalized-Pending Status with Structured Pending Tracking
+Publish a corrective patch release using configuration-control principles rather than schema expansion.
 
-Rather than blocking the specification's publication on a single unresolved mapping, extend the `system_metadata` schema to support an honest intermediate state. Add `Finalized-Pending` as a valid `status` enum value in both `ddr_node_schema.yaml` and the specification. Introduce a `pending_finalization` array field that enumerates all open items preventing full `Finalized` status:
+**Execution Plan:**
+
+1. **Board-Level Semantic Resolution**
+   - Determine true semantic classification of `ORL-R7`
+   - Assign correct GPCL destination OR mark as `ABSORBED`
+
+2. **Rule Map Correction**
+   - Remove invalid `ORL-R7 → GPCL-R10`
+   - Apply one of:
+     - `1:1` mapping (if direct equivalent exists)
+     - `N:1 Consolidated` (if merged)
+     - `Absorbed` (if subsumed)
+
+3. **Normative Consistency Update**
+   - Synchronize:
+     - YAML `rule_map`
+     - Markdown Appendix B table
+   - Remove all `TBD` annotations
+
+4. **Versioned Correction**
+   - Release `v4.0.1` as `Finalized`
+   - Mark `v4.0.0` as `Superseded` with explicit defect note:
+     - "Invalid ORL-R7 migration mapping and unresolved Audit C-3"
+
+5. **Errata Log Introduction (Non-Schema Breaking)**
+   - Add metadata block:
 
 ```yaml
-system_metadata:
-  status: "Finalized-Pending"
-  pending_finalization:
-    - audit_id: "Audit_C-3"
-      description: "ORL-R7 → GPCL-RN mapping requires board confirmation."
-      impact: "Projects with ORL-R7 content cannot migrate until resolved."
-      target_resolution: "2026-04-01"
-    - audit_id: "GPCL-R10_BODY"
-      description: "GPCL-R10 rule statement not yet authored."
-      impact: "Migration target exists but has no normative content."
-      target_resolution: "2026-04-01"
+errata_log:
+  - issue_id: ISSUE-011
+    description: "Incorrect ORL-R7 mapping to GPCL-R10 and unresolved TBD state"
+    resolution: "Corrected mapping and removed invalid destination"
+    authority: "DDR Architecture Board"
+    version_fixed: "4.0.1"
 ```
 
-The `ddr_node_schema.yaml` `system_metadata.status` enum would expand from `[Draft, Finalized, Superseded]` to `[Draft, Finalized, Finalized-Pending, Superseded]`. A new `PendingFinalizationItem` definition would be added to `$defs`. Validators can check `pending_finalization` array length: if non-empty, any project-instance file declaring compliance with this specification version must flag a `SPEC_PENDING` warning. The `Finalized-Pending` status signals to practitioners: *"This specification is authoritative and usable for new projects, but specific enumerated items remain unresolved and may affect migration from prior versions."*
+1. **Validator Safety Gate**
+   - Enforce:
+     - If spec_version == 4.0.0 AND ORL-R7 present → ERROR
+     - Require upgrade to ≥4.0.1
 
-* **Supporting Insights:** The DDR specification already employs lifecycle status enums with semantic meaning — the `DdrNode.status` field uses `[DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED]` to communicate precise lifecycle states. The `DIRTY` status is the closest analogue to `Finalized-Pending`: it signals "this entity was previously validated but something has changed that requires re-validation." Applying the same lifecycle honesty pattern to `system_metadata.status` is architecturally consistent. The specification's §4 Express Mode demonstrates precedent for partial-completeness models — Express Mode is a defined pathway for projects that are not yet complete in all tiers.
-
-* **Citations:** ISO/IEC/IEEE 12207:2017 ("Software Life Cycle Processes") §6.4.10 defines configuration status accounting as requiring that the status of all configuration items accurately reflect their actual state of development, review, or approval. A `Finalized` status for a document containing TBD items violates this requirement. The SEI CMMI v2.0 Configuration Management practice area (CM 2.2) requires that "the status of configuration items is recorded and reported," with specific emphasis on distinguishing between approved, pending-approval, and draft states.
+---
 
 ### 3. Comparative Analysis and Recommended Strategy
 
-#### Comparative Analysis
+#### Key Insight Correction
 
-Each strategy entails specific cascading tradeoffs relative to DDR System Specification v4.0 invariants:
+The original Issue Report misidentified the failure as:
+> "Missing GPCL-R10 rule body"
 
-1. **Specification Integrity Signal:** Option A produces a fully resolved specification with no caveats — once the board confirms the mapping, `GPCL-R10` is authored, and the TBD note is removed, the `Finalized` status is truthful. Option B honestly represents the current incomplete state but introduces a new status category that acknowledges the specification is not yet fully resolved. Option A is aspirational (correct once completed); Option B is descriptive (accurate now).
+The actual failure is:
+> **Incorrect semantic mapping of ORL-R7 to an unrelated GPCL rule**
 
-2. **Practitioner Guidance Quality:** Option A provides complete migration guidance after resolution — practitioners know exactly where `ORL-R7` content goes. Option B provides partial guidance immediately: practitioners know the mapping is pending, know the impact scope, and can plan accordingly. For projects currently in mid-migration, Option B delivers actionable information sooner.
+This materially changes the optimal resolution strategy.
 
-3. **Schema Impact:** Option A requires no schema changes — the `system_metadata.status` enum already includes `Finalized`. Option B requires adding a new enum value (`Finalized-Pending`), a new `$defs` type (`PendingFinalizationItem`), and a new optional field (`pending_finalization`) to the `system_metadata` object. This is a schema expansion (additive, non-breaking for existing files) but adds permanent complexity to the schema.
+---
 
-4. **Reusability for Future Versions:** Option A is a one-time fix applicable only to this specific migration gap. Option B establishes infrastructure for any future specification version that has known open items during publication — providing a standard mechanism for honest status reporting that benefits all subsequent DDR versions. If the DDR system evolves through v5.0, v6.0, etc., having `Finalized-Pending` as a standard lifecycle state prevents this class of problem from recurring.
+#### Strategy Evaluation
 
-5. **Compounding Issue (GPCL-R10 Collision):** Both options must address the `ORL-R4`/`ORL-R7` collision at `GPCL-R10`. Option A resolves it as part of the mapping confirmation. Option B documents it as a pending item but does not resolve the collision itself — the `pending_finalization` entry describes the problem without fixing it.
+| Criterion                  | Option A | Option B | Option C |
+|---------------------------|----------|----------|----------|
+| Fixes semantic error      | ✔        | ✖        | ✔        |
+| Preserves schema minimalism | ✔      | ✖        | ✔        |
+| Restores determinism      | ✔        | ✖        | ✔        |
+| Provides audit traceability | ✖      | ✔        | ✔        |
+| Prevents unsafe usage     | ✖        | ✖        | ✔        |
 
-#### Option C: Errata-Driven Hotfix Release (v4.0.1) Without Schema Expansion
+---
 
-Publish an immediate maintenance release (`v4.0.1`) that resolves the migration gap and missing target-rule body directly in the normative artifacts, while leaving the core status schema unchanged. This strategy uses versioned configuration control rather than introducing a new lifecycle enum:
+### Final Recommendation
 
-1. **Immediate truthfulness for v4.0:** Reclassify `v4.0.0` metadata status from `Finalized` to `Superseded` once `v4.0.1` is published, with an explicit supersession note: "v4.0.0 contained unresolved migration mapping ORL-R7 and missing GPCL-R10 body."
-2. **Deterministic fix in v4.0.1:** Resolve `ORL-R7` destination by board decision, correct consolidation semantics (`1:1` or `N:1 Consolidated` as applicable), and author the normative rule body for `GPCL-R10`.
-3. **Errata traceability record:** Add an `errata_log` block in the spec metadata for v4.0.1 capturing issue ID, change rationale, decision authority, and migration impact.
-4. **Consumer safety gate:** Add a validator warning/error that blocks migration calculations against `v4.0.0` when ORL-R7 is present and instructs toolchains to upgrade to `v4.0.1`.
+**Option C is the maximally optimized strategy.**
 
-This approach keeps schema complexity flat, preserves configuration-history fidelity, and restores determinism through a controlled patch release.
+It uniquely:
 
-#### Updated Strategy Evaluation Matrix
+- Corrects the **actual root cause (semantic misclassification)**
+- Preserves **schema simplicity** (aligns with "Minimize Design Complexity")
+- Restores **AX-3 determinism**
+- Maintains **configuration management integrity**
+- Provides **safe migration guarantees**
 
-1. **Time-to-Truthfulness**
-   - **Option A:** Medium (blocked on board confirmation before publication truthfully matches state).
-   - **Option B:** Fast (can be implemented immediately).
-   - **Option C:** Fast-to-medium (publish hotfix quickly; supersede flawed release immediately after).
-
-2. **Deterministic Migration Outcome**
-   - **Option A:** High after completion.
-   - **Option B:** Low-to-medium (documents ambiguity; does not remove it).
-   - **Option C:** High once v4.0.1 ships; additionally prevents unsafe use of v4.0.0.
-
-3. **Architectural/Schema Burden**
-   - **Option A:** Low.
-   - **Option B:** Medium-high (new enum + new structure + ongoing governance overhead).
-   - **Option C:** Low (no schema lifecycle expansion required).
-
-4. **Governance and Auditability**
-   - **Option A:** Good, but weak on immediate disclosure prior to completion.
-   - **Option B:** Good for disclosure, weaker for closure discipline (can normalize unresolved states).
-   - **Option C:** Strongest — combines explicit historical correction (supersession) with finalized corrected release and clear errata provenance.
-
-5. **Long-Term Operational Risk**
-   - **Option A:** Moderate (if delayed, users remain on contradictory "Finalized" document).
-   - **Option B:** Moderate-high (risk of "permanent pending" anti-pattern in future releases).
-   - **Option C:** Low (encourages decisive closure while retaining full traceability of defect and fix).
-
-#### Endorsement and Contextual Justification
-
-The prior endorsement (Option A with Option B as a prerequisite) is **not** the maximally optimized strategy.
-
-The maximally optimized strategy is **Option C (Recommended Strategy): Errata-driven hotfix release v4.0.1 without schema expansion**.
-
-**Why Option C is superior in this case:**
-
-* **Immediate integrity correction without lifecycle bloat:** It restores trust quickly by superseding the flawed finalized artifact, while avoiding permanent schema complexity from introducing `Finalized-Pending`.
-* **Full closure, not managed ambiguity:** It resolves the mapping, resolves the ORL-R4/ORL-R7 consolidation semantics, and defines GPCL-R10 in the same maintenance release.
-* **Configuration-management alignment:** Patch-version supersession and errata logging are established configuration-control practices for correcting finalized baselines.
-* **Tooling safety:** A version-aware validator guard prevents downstream teams from unknowingly relying on an internally contradictory release.
-
-**Execution sequence for Option C:**
-
-1. Obtain board ruling on ORL-R7 destination and consolidation semantics.
-2. Author GPCL-R10 normative body and update both YAML + Markdown cross-reference tables.
-3. Publish `v4.0.1` as `Finalized`; mark `v4.0.0` as `Superseded` with explicit reason.
-4. Add validator/version gate to reject ORL-R7 migrations against `v4.0.0`.
-5. Record decision in errata metadata and changelog.
+---
 
 ### Concluding Notation
 
-**Updated endorsement provided:** The recommended strategy for ISSUE-011 is now **Option C (Errata-driven v4.0.1 hotfix release)** as the maximally optimized resolution path.
+**Updated Endorsement:**
+
+> ISSUE-011 is best resolved via an **errata-driven v4.0.1 hotfix release** that:
+>
+> - Removes the invalid ORL-R7 → GPCL-R10 mapping
+> - Applies correct semantic migration classification
+> - Supersedes the flawed v4.0.0 artifact
+> - Introduces validator enforcement to prevent unsafe migration usage
+
+This approach achieves **complete structural, semantic, and operational closure** without introducing unnecessary system complexity.
