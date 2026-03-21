@@ -1,125 +1,217 @@
-# AGENTS.md — DDR System v4.0
+# AGENTS.md
 
-## Project Overview
+# DDR System v4.0 — Agent Behavioral Contract
 
-This repository contains the DDR (Document-Driven Requirements) System
-specification v4.0. The task assigned to this agent is the resolution of
-**ISSUE-008: UNBUNDLE Rejection Behaviour Is Underspecified**, as documented
-in `.agent\assets\proposals\active\DDR_v4_Issue-008.md`.
+# Scope: All modifications to .agent\assets\proposals\active\ddr_system_v4.0.yaml
 
----
+# Issue scope: ISSUE-009 (ARE Confidence Score Scoring Profile)
 
-## Authoritative Files
+## Project Identity
 
-| File | Role | Editable |
-|---|---|---|
-| `.agent\assets\proposals\active\ddr_system_v4.0.yaml` | Normative specification — PRIMARY TARGET | ✅ Yes |
-| `.agent\assets\proposals\active\DDR System(Opus_v4).md` | Human-readable reference rendering | ❌ No |
-| `.agent\assets\proposals\active\DDR_v4_Issue-008.md` | Issue report and endorsed resolution strategy | ❌ No |
+This repository contains the DDR System v4.0 Specification: `.agent\assets\proposals\active\`
 
-In all cases of divergence between `ddr_system_v4.0.yaml` and
-`DDR System(Opus_v4).mdd`, the YAML governs. Do not modify
-`DDR System(Opus_v4).md` for any reason.
+The PRIMARY modification target is: `.agent\assets\proposals\active\ddr_system_v4.0.yaml`
 
----
+The REFERENCE specification is: `.agent\assets\proposals\active\DDR System(Opus_v4).md`
 
-## Modification Scope — ISSUE-008
+The ACTIVE issue report is: `.agent\assets\proposals\active\DDR_v4_Issue-009.md`
 
-Edits are restricted to **exactly three sections** of `ddr_system_v4.0.yaml`.
-Do NOT modify any content outside these sections.
+`.agent\assets\proposals\active\ddr_system_v4.0.yaml` IS the DDR System specification represented
 
-1. `express_mode.unbundle_determinism_rule` — extend with annotation coverage
-   threshold and post-rejection node status clause.
+as its own DAG. Every field in this file carries normative weight.
 
-2. `operations.core_operations` — update the existing `UNBUNDLE` entry's
-   `validation_trigger`; insert a new `UNBUNDLE_SCAN` operation entry
-   immediately before it.
+No field may be renamed, relocated, or removed unless the issue
 
-3. The `unbundle()` pseudocode stub tagged `[SAL-5.1]` — replace with two
-   stubs: `unbundle_scan()` (read-only pre-flight) and `unbundle_execute()`
-   (atomic commit phase).
-
-If a proposed change falls outside these three sections, do NOT apply it.
-Report the out-of-scope change and await instruction.
+report explicitly authorizes it.
 
 ---
 
-## DDR Invariants — Must Not Be Violated
+## Foundational Axioms (MUST NEVER BE VIOLATED)
 
-The following invariants must be preserved across every edit. If any change
-would violate an invariant, halt and report the conflict before applying it.
+You must never produce output that violates any of the following axioms.
 
-- **AX-3 (Determinism):** Every operation entry in `core_operations` must
-  specify both a success path and a failure path in its `validation_trigger`.
-  Failure path must include: rejection payload format, atomicity guarantee,
-  and post-failure node status. This is the core deficiency ISSUE-008 corrects.
+Check every modification against each axiom before finalizing:
 
-- **AX-7 (DAG Acyclicity):** No edit may alter `parent_ids` wiring rules in
-  a way that could introduce cycles into the node dependency graph.
+- AX-1 (Traceability): Every non-root node must cite ≥1 parent via a typed edge.
 
-- **CIT-R2 (Tier Adjacency):** `parent_ids` must reference only nodes in the
-  immediately superior tier. No edit may relax or redefine this constraint.
+- AX-2 (Abstraction Ordering): Tiers above CL must contain no implementation refs.
 
-- **INV-1 / INV-2:** No edit may introduce orphan nodes or broken parent
-  chains.
+- AX-3 (Determinism): Identical inputs produce unambiguous, mechanically verifiable outputs.
 
----
+→ Any scoring rubric you define MUST enumerate discrete, verifiable input signals.
 
-## ISSUE-008 Resolution — Enforced Constraints
+→ "Source evidence quality" is the defect — do NOT reproduce it.
 
-The endorsed strategy is **Option A: Two-Phase UNBUNDLE with Structured
-Pre-Flight Scan and Atomic Execution**. No other strategy may be implemented.
+- AX-4 (Universality): No domain-specific assumptions in any Core tier.
 
-### What Option A requires
+- AX-5 (Extensibility): Advanced capabilities delivered via Extensions only.
 
-- Two operation semantics must be specified:
-  - `UNBUNDLE_SCAN`: read-only, independently invokable, no DAG state changes.
-    Traverses all content fragments in the target Express Mode group and emits
-    a per-fragment diagnostic for each, covering: fragment identity, detected
-    tier annotation, allocation confidence, and ambiguity reason where
-    confidence is not high. Confidence levels are: `high`, `ambiguous`, `none`.
-  - `UNBUNDLE_EXECUTE`: atomic commit phase. Proceeds only when all fragments
-    reach `high` confidence. On rejection: no structural mutations are applied;
-    the Express Mode group node retains its pre-attempt status; the rejection
-    payload is the complete `UNBUNDLE_SCAN` result.
+- AX-6 (Declarative Integrity): All inference is Extension-only. Core is strictly declarative.
 
-- The existing inline `[TIER]` annotation convention must remain the allocation
-  mechanism. No new mandatory authoring requirement may be added to existing
-  Express Mode group node content.
-
-- All existing Express Mode G1 and G2 group nodes using inline `[TIER]`
-  annotations must remain fully processable without any migration step.
-
-### What Option A prohibits
-
-- **Do not implement Option B.** Do not introduce an `EXPRESS_ALLOCATION` front
-  matter block, an `EXPR-R1` rule, or any equivalent mandatory pre-authoring
-  structure requirement.
-
-- Do not introduce new mandatory content-level requirements on any existing
-  Express Mode group node.
-
-- Do not increase the number of edge types or tier definitions.
+- AX-7 (DAG Acyclicity): No citation chain may produce a cycle.
 
 ---
 
-## General Editing Rules
+## Extension System Invariants (MUST NEVER BE VIOLATED)
 
-- Do not reformat, reorder, or rewrite YAML sections outside the modification
-  scope, even if style improvements appear warranted.
-- Do not change any node IDs, tier identifiers, axiom statements, or citation
-  rules.
-- Do not alter any `core_operations` entry other than `UNBUNDLE` (update only)
-  and `UNBUNDLE_SCAN` (new insertion). All other operations are read-only.
-- Preserve existing YAML scalar styles (`>` block scalars) and indentation
-  conventions consistent with adjacent entries.
-- Produce minimal diffs — change only what ISSUE-008 requires.
+- EXT-R1: Extensions must declare contract version compatible with DDR-Core-4.x.
+
+- EXT-R2: Extensions must declare which Core tiers they read and annotate.
+
+- EXT-R3: Annotations must be namespaced by Extension ID (e.g., ARE::confidence_score).
+
+- EXT-R4: Extensions update the reconciliation manifest; annotation counts tracked.
+
+- EXT-R5: Disabling an Extension leaves Core CLEAN/DIRTY status unchanged.
+
+- EXT-R6: Extension-internal derived artifact graphs must maintain acyclicity.
+
+- EXT-R7: Extension advisories do not mutate Core node status.
 
 ---
 
-## Git Workflow
+## ARE Extension Invariants (E5 — DO NOT BREAK)
 
-- Branch: `issue-008-unbundle-failure-semantics`
-- All changes must be committed to this branch only. Do not commit to `main`.
-- Commit message prefix: `[ISSUE-008]`
-- Preserve per-phase commit history. Do not squash intermediate commits.
+- ARE-R1: All inferred nodes placed in the Extension Candidate Pool (§8.2).
+
+Automatic promotion is PROHIBITED.
+
+- ARE-R2 (DEFECTIVE — this is the target of ISSUE-009): Currently reads:
+
+"Each candidate carries ARE::confidence_score (0.0–1.0) derived from source
+
+evidence quality." This phrase is semantically opaque and must be REPLACED,
+
+not supplemented, with a normative scoring profile reference.
+
+- ARE-R3: Promotion into Core DAG requires INSERT with full atomic ruleset validation.
+
+- ARE-R4: ARE must never autonomously create XPD or GPCL nodes.
+
+- ARE-R5 (NEW — to be added): Every ARE deployment must declare a scoring_profile
+
+in its Extension contract. The declared profile must be either a standard profile
+
+(standard_v1, conservative_v1) or a custom profile that explicitly declares all
+
+constituent fields (signals, weights, bands, minimum_surfacing_threshold).
+
+---
+
+## ISSUE-009 Resolution Strategy (Option B — MANDATORY)
+
+You MUST implement Option B exclusively from .agent\assets\proposals\active\DDR_v4_Issue-009.md.
+
+Option A is NOT to be implemented.
+
+Option B requires the following changes to .agent\assets\proposals\active\ddr_system_v4.0.yaml:
+
+CHANGE-1: Add a new top-level section `are_scoring_profiles` defining:
+
+- standard_v1 profile (signals, weights, score_bands, minimum_surfacing_threshold: 0.35)
+
+- conservative_v1 profile (stricter thresholds for regulated environments)
+
+- custom profile schema (declaration requirements only; no default values)
+
+CHANGE-2: Replace ARE-R2 statement to reference scoring_profile declaration
+
+instead of the bare "source evidence quality" phrase.
+
+CHANGE-3: Add ARE-R5 to the E5 extension_catalog entry requiring scoring_profile
+
+declaration in the Extension contract.
+
+CHANGE-4: Add `scoring_profile` field to the E5 entry in extension_catalog,
+
+with default value: standard_v1.
+
+CHANGE-5: Extend `candidate_pool.promotion_mechanism` in §8.2 to enforce the
+
+declared profile's minimum_surfacing_threshold. Candidates below this threshold
+
+must carry an explicit `override_flag: true` with a human-authored rationale
+
+to be eligible for INSERT.
+
+CHANGE-6: Update `compliance_checklist.extension_validation` in §11 to add:
+
+"ARE scoring_profile is declared in the E5 contract and is either a standard
+
+profile or a validated custom profile with all fields present."
+
+---
+
+## Hard Constraints (NEVER VIOLATE)
+
+- Do NOT rename or relocate any existing YAML keys.
+
+- Do NOT change any existing ARE rules (ARE-R1, ARE-R3, ARE-R4) — only ARE-R2
+
+is to be replaced; ARE-R5 is to be added.
+
+- Do NOT modify the `candidate_pool.candidate_status_value`,
+
+`visibility_rule`, `effect_on_core_status`, or `discard_trigger` fields.
+
+- Do NOT introduce new edge types.
+
+- Do NOT modify any Core node IDs.
+
+- Do NOT auto-commit. Every stage requires explicit human review before proceeding.
+
+- Do NOT invent YAML keys that do not appear in the existing schema pattern.
+
+Follow the existing EXT-Rn rule list pattern for ARE-R5.
+
+- Do NOT write explanatory prose inside YAML values unless the existing file
+
+uses the YAML block scalar (`>`) pattern for that field. Follow the existing
+
+formatting convention precisely.
+
+- All new YAML identifiers must use snake_case.
+
+- All score_band labels must use snake_case.
+
+- The `minimum_surfacing_threshold` for standard_v1 must be 0.35.
+
+---
+
+## Permissions
+
+### Allowed without approval
+
+- Read any file in the repository.
+
+- Write to `.agent\assets\proposals\active\ddr_system_v4.0.yaml` on the `issue-009-are-scoring-profile` branch only.
+
+- Write to `AGENTS.md` on the `issue-009-are-scoring-profile` branch only.
+
+- YAML lint validation (e.g., `yamllint .agent\assets\proposals\active\ddr_system_v4.0.yaml` if available).
+
+### Require explicit human approval before proceeding
+
+- Any git commit.
+
+- Any git push.
+
+- Any modification to `.agent\assets\proposals\active\DDR System(Opus_v4).md`.
+
+- Any modification outside `.agent\assets\proposals\active\ddr_system_v4.0.yaml` and `AGENTS.md`.
+
+- Proceeding past any stage where a validation check reports a failure.
+
+---
+
+## Output Format Requirements
+
+- When producing YAML modifications, output a FULL diff (unified diff format).
+
+- Do NOT produce explanations mixed inline with diff output.
+
+- Separate explanation prose from YAML diff output into clearly labeled sections.
+
+- Label each section of output: ANALYSIS, YAML_DIFF, VALIDATION_RESULT,
+
+REGRESSION_RESULT.
