@@ -7,7 +7,7 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System Specification v4.0"
   created:         "2026-03-19"
-  status:          "OPEN"
+  status:          "RESOLVED"
   severity:        "MODERATE"
   type:            "DESIGN_INADEQUACY"
 ---
@@ -18,7 +18,7 @@ document:
 
 ```yaml
 id:          ISSUE-009
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        DESIGN_INADEQUACY
 tier_refs:   [ARE_E5]
