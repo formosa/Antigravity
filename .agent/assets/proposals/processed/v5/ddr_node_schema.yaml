@@ -27,7 +27,6 @@ required:
   - ddr_version
   - active_tiers
   - nodes
-  - lifecycle
 additionalProperties: false
 
 properties:
@@ -76,14 +75,6 @@ properties:
         type: string
         enum: [full, express]
         description: "Consumption mode (§4). 'full' or 'express'."
-
-  # ── OPTIONAL: ERRATA LOG (§1.2) ─────────────────────────────────────────────
-
-  errata_log:
-    type: array
-    description: "Post-release errata corrections (§1.2). Note: Prior errata matrices are securely archived inside legacy documentation artifacts exclusively."
-    items:
-      $ref: "#/$defs/ErrataEntry"
 
   # ── OPTIONAL: SYSTEM METADATA (§1, §1.1) ───────────────────────────────────
 
@@ -258,15 +249,6 @@ properties:
         type: array
         items:
           type: string
-      reconciliation_manifest_schema:
-        type: object
-        description: "Formalized manifest item types for the reconciliation manifest (§7.4)."
-        additionalProperties: false
-        properties:
-          manifest_item_types:
-            type: array
-            items:
-              $ref: "#/$defs/ManifestItemType"
 
   # ── OPTIONAL: EXTENSION SYSTEM (§8) ────────────────────────────────────────
 
@@ -287,21 +269,13 @@ properties:
           type: string
       candidate_pool:
         type: object
-        description: "Extension Candidate Pool definition (§8.2)."
+        additionalProperties: false
         properties:
           description:
             type: string
           candidate_status_value:
             type: string
           visibility_rule:
-            type: string
-          activation_states:
-            type: object
-            description: >-
-              Tri-state activation lifecycle for the ARE Extension.
-              Defines active, paused, and disabled states with their
-              semantics, transitions, and Pool behavior.
-          checkpoint_path:
             type: string
           effect_on_core_status:
             type: string
@@ -353,52 +327,6 @@ properties:
     description: "Normative definitions of DDR system terminology."
     items:
       $ref: "#/$defs/GlossaryEntry"
-
-  # ── OPTIONAL: ARE SCORING PROFILES ──────────────────────────────────────────
-
-  are_scoring_profiles:
-    type: object
-    description: >-
-      Scoring profile definitions for the ARE Extension (§9 E5). Includes
-      standard_v1, conservative_v1, and custom profile schema.
-    additionalProperties: false
-    properties:
-      standard_v1:
-        $ref: "#/$defs/ScoringProfile"
-      conservative_v1:
-        $ref: "#/$defs/ScoringProfile"
-      custom:
-        type: object
-        additionalProperties: true
-        properties:
-          required_fields:
-            type: array
-            items:
-              type: string
-
-  # ── REQUIRED: NODE STATUS LIFECYCLE ─────────────────────────────────────────
-
-  lifecycle:
-    type: object
-    description: >-
-      Machine-parseable authority for DDR node status lifecycle semantics
-      (§3.8). Contains status_transitions, prohibited_transitions, and
-      guard_definitions.
-    required:
-      - status_transitions
-    properties:
-      status_transitions:
-        type: array
-        items:
-          $ref: "#/$defs/StatusTransition"
-      prohibited_transitions:
-        type: array
-        items:
-          $ref: "#/$defs/ProhibitedTransition"
-      guard_definitions:
-        type: array
-        items:
-          $ref: "#/$defs/GuardDefinition"
 
   # ── OPTIONAL: VERSION HISTORY (Appendix A) ─────────────────────────────────
 
@@ -457,26 +385,6 @@ $defs:
       rationale:
         type: string
 
-  # §1.2 — Errata
-
-  ErrataEntry:
-    type: object
-    required: [issue_id, description, resolution, authority, version_introduced, version_fixed]
-    additionalProperties: false
-    properties:
-      issue_id:
-        type: string
-      description:
-        type: string
-      resolution:
-        type: string
-      authority:
-        type: string
-      version_introduced:
-        type: string
-      version_fixed:
-        type: string
-
   # §2 — Axioms
 
   Axiom:
@@ -498,7 +406,7 @@ $defs:
 
   NodeSchemaField:
     type: object
-    required: [property, type]
+    required: [property, type, description]
     additionalProperties: false
     properties:
       property:
@@ -507,15 +415,6 @@ $defs:
         type: string
       description:
         type: string
-      cardinality:
-        type: string
-        description: "Optional cardinality annotation (e.g. 'optional')."
-      semantics:
-        type: string
-        description: "Detailed semantic description of the field."
-      backward_compatibility:
-        type: string
-        description: "Backward compatibility note for the field."
 
   # §3.2 — Edge Types
 
@@ -590,7 +489,7 @@ $defs:
 
   AtomicInclusionRule:
     type: object
-    required: [rule_id, statement, violation_consequence, verification_mode]
+    required: [rule_id, statement, violation_consequence]
     additionalProperties: false
     properties:
       rule_id:
@@ -599,21 +498,6 @@ $defs:
         type: string
       violation_consequence:
         type: string
-      verification_mode:
-        type: string
-        enum: [structural, semantic]
-        description: >
-          Classifies the rule as structural (mechanically verifiable by
-          pattern matching, schema validation, keyword detection, or
-          citation graph traversal) or semantic (requires human judgment
-          for evaluation). VALIDATE evaluates structural rules
-          automatically and emits REVIEW_REQUIRED for semantic rules.
-      applies_when:
-        type: string
-        description: >
-          Optional conditional guard for when this rule is enforced.
-          Used by tier-specific branching logic (e.g. CL-R9 vs
-          CL-R9-imposed based on constraint_origin value).
 
   AtomicExclusionRule:
     type: object
@@ -667,45 +551,6 @@ $defs:
         type: string
       design_decision:
         type: string
-      node_schema:
-        type: object
-        description: >
-          Tier-specific node schema extensions. Used by CL to declare the
-          constraint_origin field (derived|imposed) that governs citation
-          enforcement branching between CL-R9 and CL-R9-imposed.
-        additionalProperties:
-          type: object
-          properties:
-            type:
-              type: string
-            values:
-              type: array
-              items:
-                type: string
-            default:
-              type: string
-            required:
-              type: boolean
-            description:
-              type: string
-      verify_citation_logic:
-        type: object
-        description: >
-          Tier-specific citation enforcement logic. Used by CL to define
-          branching rules that select the applicable citation rule based
-          on the constraint_origin field value.
-        additionalProperties: false
-        properties:
-          branches:
-            type: array
-            items:
-              type: object
-              required: [when, enforce]
-              properties:
-                when:
-                  type: string
-                enforce:
-                  type: string
       parent_relationships:
         type: array
         items:
@@ -754,24 +599,6 @@ $defs:
       validation_trigger:
         type: string
 
-  ManifestItemType:
-    type: object
-    required: [item_type, description]
-    additionalProperties: false
-    properties:
-      item_type:
-        type: string
-        enum: [MISSING_MEDIATOR, SUPERSEDE_FAILED, SUPERSEDE_PENDING_DETECTED]
-      description:
-        type: string
-      fields:
-        type: array
-        items:
-          type: string
-      severity:
-        type: string
-        enum: [BLOCKING]
-
   DirtyFlagTrigger:
     type: object
     required: [trigger, nodes_affected]
@@ -819,11 +646,6 @@ $defs:
         type: string
       contract:
         type: string
-      scoring_profile:
-        type: string
-        description: >-
-          ARE scoring profile reference. Required for E5 (ARE). Must
-          reference a profile defined in are_scoring_profiles.
       reads:
         type: array
         items:
@@ -837,51 +659,6 @@ $defs:
         items:
           $ref: "#/$defs/ExtensionRule"
       notes:
-        type: string
-
-  # §9 — ARE Scoring Profiles
-
-  ScoringProfile:
-    type: object
-    additionalProperties: false
-    required: [input_signals, score_bands, minimum_surfacing_threshold, override_policy]
-    properties:
-      context_note:
-        type: string
-      input_signals:
-        type: array
-        items:
-          type: object
-          required: [signal_id, description, weight_category]
-          properties:
-            signal_id:
-              type: string
-            description:
-              type: string
-            weight_category:
-              type: string
-              enum: [high, medium, low]
-      score_bands:
-        type: array
-        items:
-          type: object
-          required: [band_id, range, label, promotion_guidance]
-          properties:
-            band_id:
-              type: string
-            range:
-              type: array
-              items:
-                type: number
-              minItems: 2
-              maxItems: 2
-            label:
-              type: string
-            promotion_guidance:
-              type: string
-      minimum_surfacing_threshold:
-        type: number
-      override_policy:
         type: string
 
   # Glossary
@@ -938,54 +715,6 @@ $defs:
       notes:
         type: string
 
-  # §3.8 — Lifecycle Transitions
-
-  StatusTransition:
-    type: object
-    required: [from, to, operation]
-    additionalProperties: false
-    properties:
-      from:
-        type: string
-      to:
-        type: string
-      operation:
-        type: string
-      guards:
-        type: array
-        items:
-          type: string
-      notes:
-        type: string
-
-  ProhibitedTransition:
-    type: object
-    required: [from, to, reason]
-    additionalProperties: false
-    properties:
-      from:
-        type: string
-      to:
-        type: array
-        items:
-          type: string
-      reason:
-        type: string
-
-  GuardDefinition:
-    type: object
-    required: [id, description, verification_mode]
-    additionalProperties: false
-    properties:
-      id:
-        type: string
-        pattern: "^gc-[0-9]+$"
-      description:
-        type: string
-      verification_mode:
-        type: string
-        enum: [structural, manual]
-
   # ── CORE NODE TYPES (§3.1, §3.7) ───────────────────────────────────────────
 
   DdrNode:
@@ -1021,28 +750,14 @@ $defs:
         description: "Human-readable artifact label (§3.1)."
       status:
         type: string
-        enum: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED, SUPERSEDE_PENDING]
+        enum: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED]
         description: >
-          Node lifecycle status (§3.1). The lifecycle block (§3.8) is the
-          normative authority for all valid status transitions.
-      constraint_origin:
-        type: string
-        enum: [derived, imposed]
-        description: >
-          Causal origin of the constraint (v5.0 §5, for CL tier).
-          'derived' = chosen in response to functional requirements.
-          'imposed' = externally mandated authority.
-      prior_status:
-        type: string
-        enum: [ACTIVE, DEPRECATED, DIRTY]
-        description: >
-          Write-once field set when a node transitions into SUPERSEDE_PENDING,
-          recording the node's status immediately prior to the SUPERSEDE
-          operation. Cleared (set to null or omitted) when the node exits
-          SUPERSEDE_PENDING via either SUPERSEDE_COMPLETE or
-          SUPERSEDE_ROLLBACK. Must not be set on any node that is not in
-          SUPERSEDE_PENDING status. Optional; absence is semantically
-          equivalent to null.
+          Node lifecycle status. Valid transitions (§7.1, Audit H-1):
+          DRAFT→ACTIVE (VALIDATE), DRAFT→DELETED (DELETE),
+          ACTIVE→DIRTY (MODIFY/propagation), ACTIVE→DEPRECATED (MODIFY),
+          ACTIVE→SUPERSEDED (SUPERSEDE), DIRTY→ACTIVE (VERIFY+VALIDATE),
+          DIRTY→DEPRECATED (MODIFY), DIRTY→SUPERSEDED (SUPERSEDE),
+          DEPRECATED→SUPERSEDED (SUPERSEDE), DEPRECATED→DELETED (DELETE).
       version:
         type: string
         pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
@@ -1093,7 +808,7 @@ $defs:
   ParentCitation:
     type: object
     title: "Parent Citation"
-    description: "A single typed parent-child citation (§3.7 CIT-R1 through CIT-R6)."
+    description: "A single typed parent-child citation (§3.7 CIT-R1 through CIT-R4)."
     required: [id, edge_type]
     additionalProperties: false
     properties:
@@ -1110,12 +825,3 @@ $defs:
           constrains — parent sets enforceable bounds on child design
           implements — child provides concrete realization of parent spec
           extends    — Extension annotates Core node (Extension use only)
-      derivation_mode:
-        type: string
-        enum: [semantic, traceability]
-        description: >
-          Optional derivation mode annotation (§3.2, CIT-R2, CIT-R6).
-          Valid only when edge_type is 'derives'. 'semantic' means child
-          content is derived from parent requirements. 'traceability' means
-          parent is cited as authoritative lineage linkage. Defaults to
-          'semantic' when omitted.

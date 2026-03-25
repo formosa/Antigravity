@@ -97,7 +97,21 @@ system_metadata:
       current: "Removed"
       rationale: "Premature optimization; commercial model is an operational concern, not a specification concern."
 
-errata_log: []
+errata_log:
+  - issue_id: "ISSUE-011"
+    description: >
+      ORL-R7 was incorrectly mapped to GPCL-R10 with consolidation_status 1:1.
+      GPCL-R10 is already the exclusive 1:1 destination of ORL-R4, creating a
+      destination collision. The notes field contained a TBD annotation,
+      violating AX-3 Determinism in a Finalized artifact.
+    resolution: >
+      Corrected ORL-R7 destination to GPCL-R9.
+      Applied consolidation_status Absorbed.
+      Removed TBD annotation. Destination collision resolved.
+      AX-3 compliance restored.
+    authority: "DDR Architecture Board"
+    version_introduced: "4.0.0"
+    version_fixed: "4.0.1"
 
 # ── §2 FOUNDATIONAL AXIOMS ───────────────────────────────────────────────────
 
@@ -1808,10 +1822,6 @@ compliance_checklist:
     - "No tier-skipping detected."
     - "All inline [TIER-N.M] citations have matching entries in parent_ids."
     - "No node has status DIRTY."
-    - >-
-      No node has status SUPERSEDE_PENDING (indicates an incomplete SUPERSEDE
-      operation; VERIFY flags as SUPERSEDE_PENDING_DETECTED with severity
-      BLOCKING).
     - "Reconciliation manifest shows zero pending items."
     - >
       If any Extension is active, all Extension advisories classified as
@@ -1821,15 +1831,7 @@ compliance_checklist:
     - "SIL nodes satisfy SIL-R1 through SIL-R6 and SIL-E1 through SIL-E4."
     - "GPCL nodes satisfy GPCL-R1 through GPCL-R10 and GPCL-E1 through GPCL-E3."
     - "FCL capabilities are user-observable and free of implementation references. Data-modifying FCL capabilities enumerate all logical data entities and their CRUD relationships per FCL-R7 without referencing field types, schemas, or table structures (FCL-E2 boundary preserved)."
-    - >-
-      Every GPCL-R6 performance target either has a corresponding FCL node
-      providing independent behavioral context, or a MISSING_MEDIATOR item
-      is logged in the reconciliation manifest (GPCL-FCL-BR1).
-    - "CL nodes are declarative only; no inference (CL-E1). Each CL node declares constraint_origin (derived or imposed)."
-    - >-
-      CL nodes with constraint_origin derived cite FCL IDs (CL-R9). CL nodes
-      with constraint_origin imposed cite their external authority source
-      (CL-R9-imposed).
+    - "CL nodes are declarative only; no inference (CL-E1)."
     - "SAL cites all active parent tiers (FCL + CL if active)."
     - "ICL schemas are machine-parseable (ICL-R2)."
     - "ISL stubs contain traceable docstrings citing CDL parent IDs."
@@ -1951,11 +1953,9 @@ version_history:
       with SUPERSEDE_PENDING transient state and prior_status rollback;
       verification_mode on atomic rules; FCL-R7 data entity enumeration;
       ARE tri-state lifecycle with checkpoint persistence; DDE confirmation-
-      only validation (DDE-R5); UNBUNDLE_SCAN/UNBUNDLE two-phase protocol;
+      only validation; UNBUNDLE_SCAN/UNBUNDLE_EXECUTE two-phase protocol;
       GPCL-FCL-BR1 bridge rule; CL constraint_origin and imposed-citation
-      rule CL-R9-imposed; reconciliation manifest schema formalized;
-      derives derivation_mode subtype annotation; CIT-R6 traceability
-      citation rule.
+      rule CL-R9-imposed; reconciliation manifest schema formalized.
 
 # ── APPENDIX B: TIER MIGRATION ────────────────────────────────────────────────
 
@@ -2173,7 +2173,6 @@ nodes:
     version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
-    constraint_origin: derived
     parent_ids:
       - id: FCL-3.1
         edge_type: derives
@@ -2211,7 +2210,7 @@ nodes:
       Subsystem decomposition: (1) Core DAG Engine — node schema management,
       ID assignment, status lifecycle enforcement, parent_ids maintenance;
       (2) Validation Engine — VERIFY (full traversal) and VALIDATE (per-node)
-      with deterministic rule evaluation; (3) Operation Protocol — 8 atomic
+      with deterministic rule evaluation; (3) Operation Protocol — 7 atomic
       operations with pre/post-conditions and DIRTY propagation side-effects;
       (4) Extension Interface — read-only overlay contract, candidate pool
       isolation, annotation namespace enforcement; (5) Reconciliation Manifest —
