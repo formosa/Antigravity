@@ -361,6 +361,20 @@ properties:
     description: >-
       Scoring profile definitions for the ARE Extension (§9 E5). Includes
       standard_v1, conservative_v1, and custom profile schema.
+    additionalProperties: false
+    properties:
+      standard_v1:
+        $ref: "#/$defs/ScoringProfile"
+      conservative_v1:
+        $ref: "#/$defs/ScoringProfile"
+      custom:
+        type: object
+        additionalProperties: true
+        properties:
+          required_fields:
+            type: array
+            items:
+              type: string
 
   # ── REQUIRED: NODE STATUS LIFECYCLE ─────────────────────────────────────────
 
@@ -659,12 +673,39 @@ $defs:
           Tier-specific node schema extensions. Used by CL to declare the
           constraint_origin field (derived|imposed) that governs citation
           enforcement branching between CL-R9 and CL-R9-imposed.
+        additionalProperties:
+          type: object
+          properties:
+            type:
+              type: string
+            values:
+              type: array
+              items:
+                type: string
+            default:
+              type: string
+            required:
+              type: boolean
+            description:
+              type: string
       verify_citation_logic:
         type: object
         description: >
           Tier-specific citation enforcement logic. Used by CL to define
           branching rules that select the applicable citation rule based
           on the constraint_origin field value.
+        additionalProperties: false
+        properties:
+          branches:
+            type: array
+            items:
+              type: object
+              required: [when, enforce]
+              properties:
+                when:
+                  type: string
+                enforce:
+                  type: string
       parent_relationships:
         type: array
         items:
@@ -796,6 +837,51 @@ $defs:
         items:
           $ref: "#/$defs/ExtensionRule"
       notes:
+        type: string
+
+  # §9 — ARE Scoring Profiles
+
+  ScoringProfile:
+    type: object
+    additionalProperties: false
+    required: [input_signals, score_bands, minimum_surfacing_threshold, override_policy]
+    properties:
+      context_note:
+        type: string
+      input_signals:
+        type: array
+        items:
+          type: object
+          required: [signal_id, description, weight_category]
+          properties:
+            signal_id:
+              type: string
+            description:
+              type: string
+            weight_category:
+              type: string
+              enum: [high, medium, low]
+      score_bands:
+        type: array
+        items:
+          type: object
+          required: [band_id, range, label, promotion_guidance]
+          properties:
+            band_id:
+              type: string
+            range:
+              type: array
+              items:
+                type: number
+              minItems: 2
+              maxItems: 2
+            label:
+              type: string
+            promotion_guidance:
+              type: string
+      minimum_surfacing_threshold:
+        type: number
+      override_policy:
         type: string
 
   # Glossary
@@ -937,19 +1023,15 @@ $defs:
         type: string
         enum: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED, SUPERSEDE_PENDING]
         description: >
-          Node lifecycle status. SUPERSEDE_PENDING is a transient operational
-          state entered exclusively during an in-flight SUPERSEDE operation
-          and is not a stable lifecycle state reachable by any operation other
-          than SUPERSEDE. Valid transitions (§3.8, §7.1):
-          DRAFT→ACTIVE (VALIDATE), DRAFT→DELETED (DELETE),
-          ACTIVE→DIRTY (MODIFY/propagation), ACTIVE→DEPRECATED (MODIFY),
-          ACTIVE→SUPERSEDE_PENDING (SUPERSEDE),
-          DIRTY→ACTIVE (VERIFY+VALIDATE),
-          DIRTY→DEPRECATED (MODIFY), DIRTY→SUPERSEDE_PENDING (SUPERSEDE),
-          DEPRECATED→SUPERSEDE_PENDING (SUPERSEDE),
-          DEPRECATED→DELETED (DELETE), DEPRECATED→ACTIVE (MODIFY),
-          SUPERSEDE_PENDING→SUPERSEDED (SUPERSEDE_COMPLETE),
-          SUPERSEDE_PENDING→{prior_status} (SUPERSEDE_ROLLBACK).
+          Node lifecycle status (§3.1). The lifecycle block (§3.8) is the
+          normative authority for all valid status transitions.
+      constraint_origin:
+        type: string
+        enum: [derived, imposed]
+        description: >
+          Causal origin of the constraint (v5.0 §5, for CL tier).
+          'derived' = chosen in response to functional requirements.
+          'imposed' = externally mandated authority.
       prior_status:
         type: string
         enum: [ACTIVE, DEPRECATED, DIRTY]
@@ -1011,7 +1093,7 @@ $defs:
   ParentCitation:
     type: object
     title: "Parent Citation"
-    description: "A single typed parent-child citation (§3.7 CIT-R1 through CIT-R4)."
+    description: "A single typed parent-child citation (§3.7 CIT-R1 through CIT-R6)."
     required: [id, edge_type]
     additionalProperties: false
     properties:
@@ -1036,5 +1118,4 @@ $defs:
           Valid only when edge_type is 'derives'. 'semantic' means child
           content is derived from parent requirements. 'traceability' means
           parent is cited as authoritative lineage linkage. Defaults to
-          'semantic' when omitted. CIT-R6 requires 'traceability' for
-          authority-linkage citations.
+          'semantic' when omitted.

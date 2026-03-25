@@ -2173,6 +2173,7 @@ nodes:
     version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
+    constraint_origin: derived
     parent_ids:
       - id: FCL-3.1
         edge_type: derives
