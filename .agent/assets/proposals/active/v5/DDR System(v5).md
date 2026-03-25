@@ -232,7 +232,7 @@ IDs are **immutable once assigned.** A superseded node retains its original ID w
 | `SUPERSEDE_PENDING` | `{prior_status}`      | `SUPERSEDE_ROLLBACK`  | `gc-009`                     | Source node reverts to its recorded `prior_status` value. `prior_status` field cleared. `SUPERSEDE_FAILED` logged. |
 
 > **Terminal Status:** `SUPERSEDED` is a terminal status. No outbound transition from `SUPERSEDED` is permitted under any operation. Any transition not listed in the table above is prohibited. A new node must be created via INSERT if superseded content requires revision.
-
+>
 > **`SUPERSEDE_PENDING` is transient only.** The only valid exits from `SUPERSEDE_PENDING` are to `SUPERSEDED` (on commit via `SUPERSEDE_COMPLETE`) or to `{prior_status}` (on rollback via `SUPERSEDE_ROLLBACK`). All other transitions from `SUPERSEDE_PENDING` are prohibited.
 
 | Guard ID | Description                                                                                                                                                                                                                                                                        | Verification Mode |
@@ -593,7 +593,7 @@ Higher-priority tiers override lower-priority tiers. An XPD ethical boundary fun
 | **UNBUNDLE**      | Expand Express Mode group into constituent Full Mode tiers (atomic commit phase). Internally enforces UNBUNDLE_SCAN as a precondition; proceeds only when all fragments are classified `high`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Content allocated to correct tiers; `parent_ids` auto-wired. If any fragment carries confidence `ambiguous` or `none`, UNBUNDLE rejects atomically. No structural mutations applied. The Express Mode group node retains its pre-attempt status. The rejection payload is the complete UNBUNDLE_SCAN result: a list of per-fragment diagnostic objects each containing `fragment_id`, `content_preview`, `detected_annotation`, `confidence`, and `ambiguity_reason`.                                     |
 
 > **Design Decision — Removed Operations:** v3.1.1 defined 11 operations. RELOCATE is removed (contradicted ID immutability). ABSTRACT and CONCRETIZE are merged into INSERT with a direction parameter. DETECT_ORPHAN and DETECT_CONTAMINATION are subsumed by VERIFY.
-
+>
 > **v5.0 Operation Count:** v5.0 defines 8 operations (7 from v4.0 + UNBUNDLE_SCAN as a new independently invokable pre-flight operation). UNBUNDLE is retained as the commit-phase operation.
 
 ### 7.2 Dirty Flag Triggers
@@ -687,7 +687,7 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 | `disabled` | `paused`   | **Forbidden.** No Candidate Pool exists in `disabled` state. This transition is semantically undefined and explicitly prohibited.                                                                                                                 |
 
 > **Checkpoint path:** `.agent/state/are_candidate_pool.checkpoint.yaml`. Written atomically on `active → paused` and re-written after each mutating Pool action while ARE is in `paused` state. Deleted atomically on any transition to `disabled`. Not written while ARE is in `active` state under normal operation.
-
+>
 > **Promotion gating:** A candidate whose `ARE::confidence_score` falls below the declared scoring_profile's `minimum_surfacing_threshold` is ineligible for promotion via INSERT unless it carries `override_flag: true` accompanied by a non-empty `human_rationale` field recorded in the reconciliation manifest's `pending_items`. VERIFY enforces this gate structurally.
 
 ### 8.3 Extension Integration Rules
@@ -920,7 +920,6 @@ flowchart TD
     EHD -..->|extends| FCL
     EHD -..->|extends| CDL
     EHD -..->|extends| SAL
-    EHD -..->|extends| XPD
 ```
 
 ---

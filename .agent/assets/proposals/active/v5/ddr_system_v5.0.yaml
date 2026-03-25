@@ -2224,7 +2224,7 @@ nodes:
       Subsystem decomposition: (1) Core DAG Engine — node schema management,
       ID assignment, status lifecycle enforcement, parent_ids maintenance;
       (2) Validation Engine — VERIFY (full traversal) and VALIDATE (per-node)
-      with deterministic rule evaluation; (3) Operation Protocol — 7 atomic
+      with deterministic rule evaluation; (3) Operation Protocol — 8 atomic
       operations with pre/post-conditions and DIRTY propagation side-effects;
       (4) Extension Interface — read-only overlay contract, candidate pool
       isolation, annotation namespace enforcement; (5) Reconciliation Manifest —

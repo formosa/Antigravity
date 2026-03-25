@@ -27,6 +27,7 @@ required:
   - ddr_version
   - active_tiers
   - nodes
+  - lifecycle
 additionalProperties: false
 
 properties:
@@ -75,6 +76,14 @@ properties:
         type: string
         enum: [full, express]
         description: "Consumption mode (§4). 'full' or 'express'."
+
+  # ── OPTIONAL: ERRATA LOG (§1.2) ─────────────────────────────────────────────
+
+  errata_log:
+    type: array
+    description: "Post-release errata corrections (§1.2)."
+    items:
+      $ref: "#/$defs/ErrataEntry"
 
   # ── OPTIONAL: SYSTEM METADATA (§1, §1.1) ───────────────────────────────────
 
@@ -249,6 +258,15 @@ properties:
         type: array
         items:
           type: string
+      reconciliation_manifest_schema:
+        type: object
+        description: "Formalized manifest item types for the reconciliation manifest (§7.4)."
+        additionalProperties: false
+        properties:
+          manifest_item_types:
+            type: array
+            items:
+              $ref: "#/$defs/ManifestItemType"
 
   # ── OPTIONAL: EXTENSION SYSTEM (§8) ────────────────────────────────────────
 
@@ -269,13 +287,21 @@ properties:
           type: string
       candidate_pool:
         type: object
-        additionalProperties: false
+        description: "Extension Candidate Pool definition (§8.2)."
         properties:
           description:
             type: string
           candidate_status_value:
             type: string
           visibility_rule:
+            type: string
+          activation_states:
+            type: object
+            description: >-
+              Tri-state activation lifecycle for the ARE Extension.
+              Defines active, paused, and disabled states with their
+              semantics, transitions, and Pool behavior.
+          checkpoint_path:
             type: string
           effect_on_core_status:
             type: string
@@ -327,6 +353,38 @@ properties:
     description: "Normative definitions of DDR system terminology."
     items:
       $ref: "#/$defs/GlossaryEntry"
+
+  # ── OPTIONAL: ARE SCORING PROFILES ──────────────────────────────────────────
+
+  are_scoring_profiles:
+    type: object
+    description: >-
+      Scoring profile definitions for the ARE Extension (§9 E5). Includes
+      standard_v1, conservative_v1, and custom profile schema.
+
+  # ── REQUIRED: NODE STATUS LIFECYCLE ─────────────────────────────────────────
+
+  lifecycle:
+    type: object
+    description: >-
+      Machine-parseable authority for DDR node status lifecycle semantics
+      (§3.8). Contains status_transitions, prohibited_transitions, and
+      guard_definitions.
+    required:
+      - status_transitions
+    properties:
+      status_transitions:
+        type: array
+        items:
+          $ref: "#/$defs/StatusTransition"
+      prohibited_transitions:
+        type: array
+        items:
+          $ref: "#/$defs/ProhibitedTransition"
+      guard_definitions:
+        type: array
+        items:
+          $ref: "#/$defs/GuardDefinition"
 
   # ── OPTIONAL: VERSION HISTORY (Appendix A) ─────────────────────────────────
 
@@ -385,6 +443,26 @@ $defs:
       rationale:
         type: string
 
+  # §1.2 — Errata
+
+  ErrataEntry:
+    type: object
+    required: [issue_id, description, resolution, authority, version_introduced, version_fixed]
+    additionalProperties: false
+    properties:
+      issue_id:
+        type: string
+      description:
+        type: string
+      resolution:
+        type: string
+      authority:
+        type: string
+      version_introduced:
+        type: string
+      version_fixed:
+        type: string
+
   # §2 — Axioms
 
   Axiom:
@@ -406,7 +484,7 @@ $defs:
 
   NodeSchemaField:
     type: object
-    required: [property, type, description]
+    required: [property, type]
     additionalProperties: false
     properties:
       property:
@@ -415,6 +493,15 @@ $defs:
         type: string
       description:
         type: string
+      cardinality:
+        type: string
+        description: "Optional cardinality annotation (e.g. 'optional')."
+      semantics:
+        type: string
+        description: "Detailed semantic description of the field."
+      backward_compatibility:
+        type: string
+        description: "Backward compatibility note for the field."
 
   # §3.2 — Edge Types
 
@@ -626,6 +713,24 @@ $defs:
       validation_trigger:
         type: string
 
+  ManifestItemType:
+    type: object
+    required: [item_type, description]
+    additionalProperties: false
+    properties:
+      item_type:
+        type: string
+        enum: [MISSING_MEDIATOR, SUPERSEDE_FAILED, SUPERSEDE_PENDING_DETECTED]
+      description:
+        type: string
+      fields:
+        type: array
+        items:
+          type: string
+      severity:
+        type: string
+        enum: [BLOCKING]
+
   DirtyFlagTrigger:
     type: object
     required: [trigger, nodes_affected]
@@ -673,6 +778,11 @@ $defs:
         type: string
       contract:
         type: string
+      scoring_profile:
+        type: string
+        description: >-
+          ARE scoring profile reference. Required for E5 (ARE). Must
+          reference a profile defined in are_scoring_profiles.
       reads:
         type: array
         items:
@@ -742,6 +852,54 @@ $defs:
       notes:
         type: string
 
+  # §3.8 — Lifecycle Transitions
+
+  StatusTransition:
+    type: object
+    required: [from, to, operation]
+    additionalProperties: false
+    properties:
+      from:
+        type: string
+      to:
+        type: string
+      operation:
+        type: string
+      guards:
+        type: array
+        items:
+          type: string
+      notes:
+        type: string
+
+  ProhibitedTransition:
+    type: object
+    required: [from, to, reason]
+    additionalProperties: false
+    properties:
+      from:
+        type: string
+      to:
+        type: array
+        items:
+          type: string
+      reason:
+        type: string
+
+  GuardDefinition:
+    type: object
+    required: [id, description, verification_mode]
+    additionalProperties: false
+    properties:
+      id:
+        type: string
+        pattern: "^gc-[0-9]+$"
+      description:
+        type: string
+      verification_mode:
+        type: string
+        enum: [structural, manual]
+
   # ── CORE NODE TYPES (§3.1, §3.7) ───────────────────────────────────────────
 
   DdrNode:
@@ -777,14 +935,32 @@ $defs:
         description: "Human-readable artifact label (§3.1)."
       status:
         type: string
-        enum: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED]
+        enum: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED, SUPERSEDE_PENDING]
         description: >
-          Node lifecycle status. Valid transitions (§7.1, Audit H-1):
+          Node lifecycle status. SUPERSEDE_PENDING is a transient operational
+          state entered exclusively during an in-flight SUPERSEDE operation
+          and is not a stable lifecycle state reachable by any operation other
+          than SUPERSEDE. Valid transitions (§3.8, §7.1):
           DRAFT→ACTIVE (VALIDATE), DRAFT→DELETED (DELETE),
           ACTIVE→DIRTY (MODIFY/propagation), ACTIVE→DEPRECATED (MODIFY),
-          ACTIVE→SUPERSEDED (SUPERSEDE), DIRTY→ACTIVE (VERIFY+VALIDATE),
-          DIRTY→DEPRECATED (MODIFY), DIRTY→SUPERSEDED (SUPERSEDE),
-          DEPRECATED→SUPERSEDED (SUPERSEDE), DEPRECATED→DELETED (DELETE).
+          ACTIVE→SUPERSEDE_PENDING (SUPERSEDE),
+          DIRTY→ACTIVE (VERIFY+VALIDATE),
+          DIRTY→DEPRECATED (MODIFY), DIRTY→SUPERSEDE_PENDING (SUPERSEDE),
+          DEPRECATED→SUPERSEDE_PENDING (SUPERSEDE),
+          DEPRECATED→DELETED (DELETE), DEPRECATED→ACTIVE (MODIFY),
+          SUPERSEDE_PENDING→SUPERSEDED (SUPERSEDE_COMPLETE),
+          SUPERSEDE_PENDING→{prior_status} (SUPERSEDE_ROLLBACK).
+      prior_status:
+        type: string
+        enum: [ACTIVE, DEPRECATED, DIRTY]
+        description: >
+          Write-once field set when a node transitions into SUPERSEDE_PENDING,
+          recording the node's status immediately prior to the SUPERSEDE
+          operation. Cleared (set to null or omitted) when the node exits
+          SUPERSEDE_PENDING via either SUPERSEDE_COMPLETE or
+          SUPERSEDE_ROLLBACK. Must not be set on any node that is not in
+          SUPERSEDE_PENDING status. Optional; absence is semantically
+          equivalent to null.
       version:
         type: string
         pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
@@ -852,3 +1028,13 @@ $defs:
           constrains — parent sets enforceable bounds on child design
           implements — child provides concrete realization of parent spec
           extends    — Extension annotates Core node (Extension use only)
+      derivation_mode:
+        type: string
+        enum: [semantic, traceability]
+        description: >
+          Optional derivation mode annotation (§3.2, CIT-R2, CIT-R6).
+          Valid only when edge_type is 'derives'. 'semantic' means child
+          content is derived from parent requirements. 'traceability' means
+          parent is cited as authoritative lineage linkage. Defaults to
+          'semantic' when omitted. CIT-R6 requires 'traceability' for
+          authority-linkage citations.
