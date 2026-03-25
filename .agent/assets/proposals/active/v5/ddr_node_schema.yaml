@@ -489,7 +489,7 @@ $defs:
 
   AtomicInclusionRule:
     type: object
-    required: [rule_id, statement, violation_consequence]
+    required: [rule_id, statement, violation_consequence, verification_mode]
     additionalProperties: false
     properties:
       rule_id:
@@ -498,6 +498,21 @@ $defs:
         type: string
       violation_consequence:
         type: string
+      verification_mode:
+        type: string
+        enum: [structural, semantic]
+        description: >
+          Classifies the rule as structural (mechanically verifiable by
+          pattern matching, schema validation, keyword detection, or
+          citation graph traversal) or semantic (requires human judgment
+          for evaluation). VALIDATE evaluates structural rules
+          automatically and emits REVIEW_REQUIRED for semantic rules.
+      applies_when:
+        type: string
+        description: >
+          Optional conditional guard for when this rule is enforced.
+          Used by tier-specific branching logic (e.g. CL-R9 vs
+          CL-R9-imposed based on constraint_origin value).
 
   AtomicExclusionRule:
     type: object
@@ -551,6 +566,18 @@ $defs:
         type: string
       design_decision:
         type: string
+      node_schema:
+        type: object
+        description: >
+          Tier-specific node schema extensions. Used by CL to declare the
+          constraint_origin field (derived|imposed) that governs citation
+          enforcement branching between CL-R9 and CL-R9-imposed.
+      verify_citation_logic:
+        type: object
+        description: >
+          Tier-specific citation enforcement logic. Used by CL to define
+          branching rules that select the applicable citation rule based
+          on the constraint_origin field value.
       parent_relationships:
         type: array
         items:
