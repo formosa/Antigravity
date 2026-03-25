@@ -81,7 +81,7 @@ properties:
 
   errata_log:
     type: array
-    description: "Post-release errata corrections (§1.2)."
+    description: "Post-release errata corrections (§1.2). Note: Prior errata matrices are securely archived inside legacy documentation artifacts exclusively."
     items:
       $ref: "#/$defs/ErrataEntry"
 

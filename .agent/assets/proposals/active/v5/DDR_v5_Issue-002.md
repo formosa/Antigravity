@@ -7,7 +7,7 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System Specification v5.0"
   created:         "2026-03-25"
-  status:          "OPEN"
+  status:          "RESOLVED"
   severity:        "CRITICAL"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +18,15 @@ document:
 
 ```yaml
 id:          ISSUE-002
-status:      OPEN
+status:      RESOLVED
 severity:    CRITICAL
 type:        SCHEMA_DEFECT
 tier_refs:   [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
 section_ref: §3.1 (node_schema_fields), §3.2, §3.7, ParentCitation def
 rule_refs:   [CIT-R2, CIT-R6, AX-3]
 ```
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §3.1, §3.2, §3.7
 
 ### 1. Validation Audit of ISSUE-002
 

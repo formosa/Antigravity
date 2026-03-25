@@ -7,7 +7,7 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System Specification v5.0"
   created:         "2026-03-25"
-  status:          "OPEN"
+  status:          "RESOLVED"
   severity:        "MODERATE"
   type:            "MIGRATION_GAP"
 ---
@@ -18,13 +18,15 @@ document:
 
 ```yaml
 id:          ISSUE-009
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        MIGRATION_GAP
 tier_refs:   [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
 section_ref: §1 (errata_log)
 rule_refs:   [AX-3]
 ```
+
+> **Resolution (2026-03-25):** Option A — Cleared legacy v4 errata log entries and added archival note to schema. §1.2
 
 ### 1. Validation Audit of ISSUE-009
 

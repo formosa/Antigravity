@@ -97,21 +97,7 @@ system_metadata:
       current: "Removed"
       rationale: "Premature optimization; commercial model is an operational concern, not a specification concern."
 
-errata_log:
-  - issue_id: "ISSUE-011"
-    description: >
-      ORL-R7 was incorrectly mapped to GPCL-R10 with consolidation_status 1:1.
-      GPCL-R10 is already the exclusive 1:1 destination of ORL-R4, creating a
-      destination collision. The notes field contained a TBD annotation,
-      violating AX-3 Determinism in a Finalized artifact.
-    resolution: >
-      Corrected ORL-R7 destination to GPCL-R9.
-      Applied consolidation_status Absorbed.
-      Removed TBD annotation. Destination collision resolved.
-      AX-3 compliance restored.
-    authority: "DDR Architecture Board"
-    version_introduced: "4.0.0"
-    version_fixed: "4.0.1"
+errata_log: []
 
 # ── §2 FOUNDATIONAL AXIOMS ───────────────────────────────────────────────────
 

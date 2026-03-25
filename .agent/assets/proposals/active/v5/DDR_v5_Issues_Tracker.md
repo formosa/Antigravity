@@ -12,8 +12,8 @@
   subject_file:         ddr_system_v5.0.yaml
   last_updated:         2026-03-25
   total_issues:         12
-  open_issues:          12
-  resolved_issues:      0
+  open_issues:          1
+  resolved_issues:      11
   load_trigger:         "DDR issue", "track issue", "DDR problem", "DDR review", "DDR assessment"
 
   ANTIGRAVITY 1.18 DEPLOYMENT NOTES
@@ -139,20 +139,20 @@ a minor variant of Option A — must represent a meaningfully different design d
 > **AGENT INSTRUCTION:** This table is the primary index. Maintain sort order by severity
 > then issue number. Update this table whenever any issue's status or severity changes.
 
-| ID                                                                                                        | Severity   | Type                    | Status | Tiers Affected       | Title                                                                        |
-| --------------------------------------------------------------------------------------------------------- | ---------- | ----------------------- | ------ | -------------------- | ---------------------------------------------------------------------------- |
-| \[ISSUE-001\](#issue-001-schema-omits-supersede_pending-from-ddrnode-status-enum)                         | `CRITICAL` | `SCHEMA_DEFECT`         | `OPEN` | All (schema)         | Schema omits SUPERSEDE_PENDING from DdrNode status enum                      |
-| \[ISSUE-002\](#issue-002-schema-missing-derivation_mode-field-on-parentcitation)                          | `CRITICAL` | `SCHEMA_DEFECT`         | `OPEN` | All (schema)         | Schema missing `derivation_mode` field on ParentCitation                     |
-| \[ISSUE-003\](#issue-003-cl-node_schema-property-not-permitted-by-tierdefinition-schema)                  | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | CL (schema)          | CL `node_schema` property not permitted by TierDefinition schema             |
-| \[ISSUE-004\](#issue-004-lifecycle-block-not-covered-by-ddr_node_schema)                                  | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | All (schema)         | `lifecycle` block not covered by ddr_node_schema                             |
-| \[ISSUE-005\](#issue-005-are_scoring_profiles-not-covered-by-ddr_node_schema)                             | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | ARE (schema)         | `are_scoring_profiles` not covered by ddr_node_schema                        |
-| \[ISSUE-006\](#issue-006-errata_log-not-covered-by-ddr_node_schema)                                       | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | All (schema)         | `errata_log` not covered by ddr_node_schema                                  |
-| \[ISSUE-007\](#issue-007-reconciliation_manifest_schema-not-covered-by-ddr_node_schema)                   | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | All (schema)         | `reconciliation_manifest_schema` not covered by ddr_node_schema             |
-| \[ISSUE-008\](#issue-008-verify_citation_logic-not-permitted-by-tierdefinition-schema)                    | `MODERATE` | `SCHEMA_DEFECT`         | `OPEN` | CL (schema)          | `verify_citation_logic` not permitted by TierDefinition schema              |
-| \[ISSUE-009\](#issue-009-errata_log-references-v4-versions-in-a-v5-specification)                         | `MODERATE` | `MIGRATION_GAP`         | `OPEN` | All                  | `errata_log` references v4 versions in a v5 specification                   |
-| \[ISSUE-010\](#issue-010-atomicinclusionrule-schema-missing-verification_mode-and-applies_when-fields)    | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | All (schema)         | AtomicInclusionRule schema missing `verification_mode` and `applies_when`    |
-| \[ISSUE-011\](#issue-011-extensionentry-schema-missing-scoring_profile-property)                          | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | ARE (schema)         | ExtensionEntry schema missing `scoring_profile` property                     |
-| \[ISSUE-012\](#issue-012-candidate_pool-schema-missing-activation_states-and-checkpoint_path)             | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | ARE (schema)         | `candidate_pool` schema missing `activation_states` and `checkpoint_path`    |
+| ID                                                                                                        | Severity   | Type                    | Status     | Tiers Affected       | Title                                                                        |
+| --------------------------------------------------------------------------------------------------------- | ---------- | ----------------------- | ---------- | -------------------- | ---------------------------------------------------------------------------- |
+| \[ISSUE-001\](#issue-001-schema-omits-supersede_pending-from-ddrnode-status-enum)                         | `CRITICAL` | `SCHEMA_DEFECT`         | `RESOLVED` | All (schema)         | Schema omits SUPERSEDE_PENDING from DdrNode status enum                      |
+| \[ISSUE-002\](#issue-002-schema-missing-derivation_mode-field-on-parentcitation)                          | `CRITICAL` | `SCHEMA_DEFECT`         | `RESOLVED` | All (schema)         | Schema missing `derivation_mode` field on ParentCitation                     |
+| \[ISSUE-003\](#issue-003-cl-node_schema-property-not-permitted-by-tierdefinition-schema)                  | `MAJOR`    | `SCHEMA_DEFECT`         | `RESOLVED` | CL (schema)          | CL `node_schema` property not permitted by TierDefinition schema             |
+| \[ISSUE-004\](#issue-004-lifecycle-block-not-covered-by-ddr_node_schema)                                  | `MAJOR`    | `SCHEMA_DEFECT`         | `RESOLVED` | All (schema)         | `lifecycle` block not covered by ddr_node_schema                             |
+| \[ISSUE-005\](#issue-005-are_scoring_profiles-not-covered-by-ddr_node_schema)                             | `MAJOR`    | `SCHEMA_DEFECT`         | `RESOLVED` | ARE (schema)         | `are_scoring_profiles` not covered by ddr_node_schema                        |
+| \[ISSUE-006\](#issue-006-errata_log-not-covered-by-ddr_node_schema)                                       | `MAJOR`    | `SCHEMA_DEFECT`         | `RESOLVED` | All (schema)         | `errata_log` not covered by ddr_node_schema                                  |
+| \[ISSUE-007\](#issue-007-reconciliation_manifest_schema-not-covered-by-ddr_node_schema)                   | `MAJOR`    | `SCHEMA_DEFECT`         | `RESOLVED` | All (schema)         | `reconciliation_manifest_schema` not covered by ddr_node_schema              |
+| \[ISSUE-008\](#issue-008-verify_citation_logic-not-permitted-by-tierdefinition-schema)                    | `MODERATE` | `SCHEMA_DEFECT`         | `RESOLVED` | CL (schema)          | `verify_citation_logic` not permitted by TierDefinition schema               |
+| [ISSUE-009](#issue-009-errata_log-references-v4-versions-in-a-v5-specification)                           | `MODERATE` | `MIGRATION_GAP`         | `RESOLVED` | All                  | `errata_log` references v4 versions in a v5 specification                    |
+| \[ISSUE-010\](#issue-010-atomicinclusionrule-schema-missing-verification_mode-and-applies_when-fields)    | `MAJOR`    | `SCHEMA_DEFECT`         | `RESOLVED` | All (schema)         | AtomicInclusionRule schema missing `verification_mode` and `applies_when`    |
+| \[ISSUE-011\](#issue-011-extensionentry-schema-missing-scoring_profile-property)                          | `MAJOR`    | `SCHEMA_DEFECT`         | `RESOLVED` | ARE (schema)         | ExtensionEntry schema missing `scoring_profile` property                     |
+| \[ISSUE-012\](#issue-012-candidate_pool-schema-missing-activation_states-and-checkpoint_path)             | `MAJOR`    | `SCHEMA_DEFECT`         | `RESOLVED` | ARE (schema)         | `candidate_pool` schema missing `activation_states` and `checkpoint_path`    |
 
 ---
 
@@ -164,7 +164,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-001
-status:      OPEN
+status:      RESOLVED
 severity:    CRITICAL
 type:        SCHEMA_DEFECT
 tier_refs:   [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
@@ -172,11 +172,13 @@ section_ref: §3.1 (node_schema_fields), §7 (operations), lifecycle
 rule_refs:   [AX-3, INV-6]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** All | **Spec Section:** §3.1, §7, lifecycle
+**Status:** `RESOLVED` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** All | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §3.1, §7, lifecycle
 
 #### Problem Statement-001
 
@@ -186,9 +188,9 @@ The `ddr_node_schema.yaml` `DdrNode.status` enum (line 753) lists only 5 values:
 
 - `ddr_node_schema.yaml` line 753: `enum: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED]` — 5 values.
 - `ddr_system_v5.0.yaml` §3.1 `node_schema_fields.status` (line 193): *"DRAFT | ACTIVE | DIRTY | DEPRECATED | SUPERSEDED | SUPERSEDE_PENDING"* — 6 values.
-- `lifecycle.status_transitions` (lines 2416–2448): defines transitions `ACTIVE → SUPERSEDE_PENDING`, `DIRTY → SUPERSEDE_PENDING`, `DEPRECATED → SUPERSEDE_PENDING`, `SUPERSEDE_PENDING → SUPERSEDED`, and `SUPERSEDE_PENDING → {prior_status}`.
-- `CDL-7.1` node content (line 2265): `StatusEnum` includes `SUPERSEDE_PENDING`.
-- `lifecycle.prohibited_transitions` (lines 2489–2495): defines prohibited exits from `SUPERSEDE_PENDING`.
+- `lifecycle.status_transitions` (lines 2412–2470): defines transitions `ACTIVE → SUPERSEDE_PENDING`, `DIRTY → SUPERSEDE_PENDING`, `DEPRECATED → SUPERSEDE_PENDING`, `SUPERSEDE_PENDING → SUPERSEDED`, and `SUPERSEDE_PENDING → {prior_status}`.
+- `CDL-7.1` node content (lines 2279-2280): `StatusEnum` includes `SUPERSEDE_PENDING`.
+- `lifecycle.prohibited_transitions` (lines 2472–2509): defines prohibited exits from `SUPERSEDE_PENDING`.
 
 The specification describes `SUPERSEDE_PENDING` as a normative, machine-verifiable status entered during every SUPERSEDE operation. The schema rejects it. This is a direct contradiction between the two files that are supposed to be co-authoritative.
 
@@ -227,7 +229,7 @@ Option A is the simpler fix but implies that serialized files may contain SUPERS
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-002
-status:      OPEN
+status:      RESOLVED
 severity:    CRITICAL
 type:        SCHEMA_DEFECT
 tier_refs:   [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
@@ -235,11 +237,13 @@ section_ref: §3.1 (node_schema_fields), §3.2, §3.7, ParentCitation def
 rule_refs:   [CIT-R2, CIT-R6, AX-3]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** All | **Spec Section:** §3.1, §3.2, §3.7
+**Status:** `RESOLVED` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** All | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §3.1, §3.2, §3.7
 
 #### Problem Statement-002
 
@@ -248,10 +252,10 @@ The `ddr_node_schema.yaml` `ParentCitation` definition (lines 808–828) require
 #### Evidence & Justification-002
 
 - `ddr_node_schema.yaml` `ParentCitation` (lines 808–828): only `id` and `edge_type` are declared; `additionalProperties: false` blocks any additional fields.
-- `ddr_system_v5.0.yaml` §3.1 `parent_ids` field (line 187–189): *"each entry is a typed edge reference: {id, edge_type, derivation_mode?}. For edge_type='derives', derivation_mode MAY be supplied as semantic|traceability."*
-- `CIT-R2` (line 307–309): *"For edge_type='derives', derivation_mode may be provided as semantic|traceability."*
-- `CIT-R6` (line 324–325): *"Any derives edge used as an authority linkage (traceability citation) MUST set derivation_mode to 'traceability'."*
-- Canonical nodes (e.g., SIL-1.1 at line 2107): `derivation_mode: semantic` is used directly.
+- `ddr_system_v5.0.yaml` §3.1 `parent_ids` field (lines 183-189): *"each entry is a typed edge reference: {id, edge_type, derivation_mode?}. For edge_type='derives', derivation_mode MAY be supplied as semantic|traceability."*
+- `CIT-R2` (line 304-309): *"For edge_type='derives', derivation_mode may be provided as semantic|traceability."*
+- `CIT-R6` (line 322-325): *"Any derives edge used as an authority linkage (traceability citation) MUST set derivation_mode to 'traceability'."*
+- Canonical nodes (e.g., SIL-1.1 at line 2111): `derivation_mode: semantic` is used directly.
 
 The specification treats `derivation_mode` as a normative optional field with a `CIT-R6` mandatory-use condition. The schema completely omits it and actively rejects it.
 
@@ -307,7 +311,7 @@ Option A is strongly preferred. Option B would require re-opening a resolved v4.
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-003
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   [CL]
@@ -315,11 +319,13 @@ section_ref: §5 (Tier 4 CL)
 rule_refs:   [CL-R9, CL-R9-imposed]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** `CL` | **Spec Section:** §5 Tier 4
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** `CL` | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §5 Tier 4
 
 #### Problem Statement-003
 
@@ -386,7 +392,7 @@ Option A is preferred because `constraint_origin` is referenced by `CL-R9`, `CL-
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-004
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
@@ -394,20 +400,22 @@ section_ref: §3.8, lifecycle
 rule_refs:   [AX-3]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** All | **Spec Section:** lifecycle (§3.8)
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** All | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. lifecycle (§3.8)
 
 #### Problem Statement-004
 
-The `ddr_system_v5.0.yaml` contains a top-level `lifecycle` block (lines 2393–2536) defining `status_transitions`, `prohibited_transitions`, and `guard_definitions`. This block carries an authority comment declaring it the *"machine-parseable authority for DDR node status lifecycle semantics."* The `ddr_node_schema.yaml` does not list `lifecycle` as a permitted top-level property and sets `additionalProperties: false` at the root level. The entire lifecycle state machine will fail schema validation.
+The `ddr_system_v5.0.yaml` contains a top-level `lifecycle` block (lines 2411-2550) defining `status_transitions`, `prohibited_transitions`, and `guard_definitions`. This block carries an authority comment declaring it the *"machine-parseable authority for DDR node status lifecycle semantics."* The `ddr_node_schema.yaml` does not list `lifecycle` as a permitted top-level property and sets `additionalProperties: false` at the root level. The entire lifecycle state machine will fail schema validation.
 
 #### Evidence & Justification-004
 
-- `ddr_system_v5.0.yaml` lines 2393–2536: `lifecycle:` block with `status_transitions`, `prohibited_transitions`, `guard_definitions`.
-- `ddr_system_v5.0.yaml` line 2393: Authority comment: *"This lifecycle block is the machine-parseable authority for DDR node status lifecycle semantics."*
+- `ddr_system_v5.0.yaml` lines 2411-2550: `lifecycle:` block with `status_transitions`, `prohibited_transitions`, `guard_definitions`.
+- `ddr_system_v5.0.yaml` line 2407: Authority comment: *"This lifecycle block is the machine-parseable authority for DDR node status lifecycle semantics."*
 - `ddr_node_schema.yaml` line 30: `additionalProperties: false` at root.
 - `ddr_node_schema.yaml` `properties` (lines 32–356): does not include `lifecycle`.
 
@@ -457,7 +465,7 @@ This issue is one of several (ISSUE-004 through ISSUE-007) where the system file
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-005
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   [ARE_E5]
@@ -465,19 +473,21 @@ section_ref: §9 (E5 ARE), are_scoring_profiles
 rule_refs:   [ARE-R2, ARE-R5]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** ARE (E5), schema | **Spec Section:** §9, are_scoring_profiles
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** ARE (E5), schema | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §9, are_scoring_profiles
 
 #### Problem Statement-005
 
-The `ddr_system_v5.0.yaml` contains a top-level `are_scoring_profiles` block (lines 1721–1813) defining `standard_v1`, `conservative_v1`, and `custom` profile schemas including `input_signals`, `score_bands`, `minimum_surfacing_threshold`, and `override_policy`. This block is the normative rubric for `ARE-R2` and `ARE-R5` compliance. The `ddr_node_schema.yaml` does not include `are_scoring_profiles` as a permitted root property, causing schema validation failure.
+The `ddr_system_v5.0.yaml` contains a top-level `are_scoring_profiles` block (lines 1716-1814) defining `standard_v1`, `conservative_v1`, and `custom` profile schemas including `input_signals`, `score_bands`, `minimum_surfacing_threshold`, and `override_policy`. This block is the normative rubric for `ARE-R2` and `ARE-R5` compliance. The `ddr_node_schema.yaml` does not include `are_scoring_profiles` as a permitted root property, causing schema validation failure.
 
 #### Evidence & Justification-005
 
-- `ddr_system_v5.0.yaml` lines 1721–1813: `are_scoring_profiles:` with three profile definitions.
+- `ddr_system_v5.0.yaml` lines 1716-1814: `are_scoring_profiles:` with three profile definitions.
 - `ARE-R5` (line 1577): *"Every ARE deployment must declare a scoring_profile in its Extension contract. The scoring_profile value must reference a profile defined in are_scoring_profiles."*
 - `ddr_node_schema.yaml` root `additionalProperties: false` and no `are_scoring_profiles` property listed.
 
@@ -505,7 +515,7 @@ Option B is more architecturally coherent — scoring profiles are an ARE-specif
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-006
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
@@ -513,11 +523,13 @@ section_ref: §1 (system_metadata)
 rule_refs:   [AX-3]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** All | **Spec Section:** §1
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** All | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §1
 
 #### Problem Statement-006
 
@@ -561,7 +573,7 @@ Option B is more structurally coherent — errata are metadata about the system 
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-007
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
@@ -569,11 +581,13 @@ section_ref: §7 (operations)
 rule_refs:   [AX-3]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** All | **Spec Section:** §7
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** All | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §7
 
 #### Problem Statement-007
 
@@ -607,7 +621,7 @@ Part of the pattern with ISSUE-004, ISSUE-005, ISSUE-006. A batch resolution add
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-008
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        SCHEMA_DEFECT
 tier_refs:   [CL]
@@ -615,11 +629,13 @@ section_ref: §5 (Tier 4 CL)
 rule_refs:   [CL-R9, CL-R9-imposed]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** `CL` | **Spec Section:** §5 Tier 4
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** `CL` | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §5 Tier 4
 
 #### Problem Statement-008
 
@@ -661,11 +677,13 @@ section_ref: §1 (errata_log)
 rule_refs:   [AX-3]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `MIGRATION_GAP`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `MIGRATION_GAP`
 **Tiers Affected:** All | **Spec Section:** §1
+
+> **Resolution (2026-03-25):** Option A — Cleared legacy v4 errata log entries and added archival note to schema. §1.2
 
 #### Problem Statement-009
 
@@ -719,7 +737,7 @@ Option A is cleaner for a v5.0 specification that declares it supersedes v4.0. O
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-010
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
@@ -727,11 +745,13 @@ section_ref: §5, AtomicInclusionRule $def
 rule_refs:   [AX-3, CL-R9]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** All | **Spec Section:** §5
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** All | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §5
 
 #### Problem Statement-010
 
@@ -799,7 +819,7 @@ Option A is simpler and avoids schema type proliferation. Option B is more schem
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-011
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   [ARE_E5]
@@ -807,11 +827,13 @@ section_ref: §9 (E5 ARE)
 rule_refs:   [ARE-R5, EXT-R1]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** ARE (E5), schema | **Spec Section:** §9
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** ARE (E5), schema | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §9
 
 #### Problem Statement-011
 
@@ -865,7 +887,7 @@ Option A is strongly preferred. Option B trades a simple schema addition for a s
 
 <!-- AGENT_CONTEXT
 id:          ISSUE-012
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   [ARE_E5]
@@ -873,11 +895,13 @@ section_ref: §8 (Extension System, candidate_pool)
 rule_refs:   [ARE-R6, ARE-R7, AX-3]
 created:     2026-03-25
 updated:     2026-03-25
-resolved:    null
+resolved:    2026-03-25
 -->
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** ARE (E5), schema | **Spec Section:** §8
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** ARE (E5), schema | **Spec Section:**
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §8
 
 #### Problem Statement-012
 
@@ -987,5 +1011,5 @@ Option A is simpler and consistent with the single-schema approach used elsewher
 ---
 
 *DDR System v5.0 — Issues Tracker — IT-1.0*
-*12 issues identified | 0 resolved | Last updated: 2026-03-25*
-*Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*
+*12 issues identified | 12 resolved | Last updated: 2026-03-25*
+*Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*

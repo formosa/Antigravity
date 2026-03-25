@@ -7,7 +7,7 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System Specification v5.0"
   created:         "2026-03-25"
-  status:          "OPEN"
+  status:          "RESOLVED"
   severity:        "MAJOR"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +18,15 @@ document:
 
 ```yaml
 id:          ISSUE-012
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   [ARE_E5]
 section_ref: §8 (Extension System, candidate_pool)
 rule_refs:   [ARE-R6, ARE-R7, AX-3]
 ```
+
+> **Resolution (2026-03-25):** Option A — Required property successfully added to ddr_node_schema.yaml. §8
 
 ### 1. Validation Audit of ISSUE-012
 
