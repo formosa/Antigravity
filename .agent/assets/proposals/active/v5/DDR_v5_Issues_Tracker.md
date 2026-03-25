@@ -146,7 +146,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 | \[ISSUE-003\](#issue-003-cl-node_schema-property-not-permitted-by-tierdefinition-schema)                  | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | CL (schema)          | CL `node_schema` property not permitted by TierDefinition schema             |
 | \[ISSUE-004\](#issue-004-lifecycle-block-not-covered-by-ddr_node_schema)                                  | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | All (schema)         | `lifecycle` block not covered by ddr_node_schema                             |
 | \[ISSUE-005\](#issue-005-are_scoring_profiles-not-covered-by-ddr_node_schema)                             | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | ARE (schema)         | `are_scoring_profiles` not covered by ddr_node_schema                        |
-| \[ISSUE-006\](#issue-006-errata_log-not-covered-by-ddr_node_schema)                                      | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | All (schema)         | `errata_log` not covered by ddr_node_schema                                  |
+| \[ISSUE-006\](#issue-006-errata_log-not-covered-by-ddr_node_schema)                                       | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | All (schema)         | `errata_log` not covered by ddr_node_schema                                  |
 | \[ISSUE-007\](#issue-007-reconciliation_manifest_schema-not-covered-by-ddr_node_schema)                   | `MAJOR`    | `SCHEMA_DEFECT`         | `OPEN` | All (schema)         | `reconciliation_manifest_schema` not covered by ddr_node_schema             |
 | \[ISSUE-008\](#issue-008-verify_citation_logic-not-permitted-by-tierdefinition-schema)                    | `MODERATE` | `SCHEMA_DEFECT`         | `OPEN` | CL (schema)          | `verify_citation_logic` not permitted by TierDefinition schema              |
 | \[ISSUE-009\](#issue-009-errata_log-references-v4-versions-in-a-v5-specification)                         | `MODERATE` | `MIGRATION_GAP`         | `OPEN` | All                  | `errata_log` references v4 versions in a v5 specification                   |
@@ -969,20 +969,20 @@ Option A is simpler and consistent with the single-schema approach used elsewher
 
 > Issues that share a dependency — resolving one may affect the other.
 
-| Issue     | Depends On        | Nature of Dependency                                                                                      |
-| --------- | ----------------- | --------------------------------------------------------------------------------------------------------- |
-| ISSUE-001 | —                 | Independent; DdrNode status enum fix.                                                                     |
-| ISSUE-002 | —                 | Independent; ParentCitation field addition.                                                                |
-| ISSUE-003 | ISSUE-008         | Both address CL-specific TierDefinition properties. Resolve together for consistency.                     |
+| Issue     | Depends On          | Nature of Dependency                                                                                    |
+| --------- | ------------------- | ------------------------------------------------------------------------------------------------------- |
+| ISSUE-001 | —                   | Independent; DdrNode status enum fix.                                                                   |
+| ISSUE-002 | —                   | Independent; ParentCitation field addition.                                                             |
+| ISSUE-003 | ISSUE-008           | Both address CL-specific TierDefinition properties. Resolve together for consistency.                   |
 | ISSUE-004 | ISSUE-005, 006, 007 | All four are missing top-level schema properties. Can be batch-resolved.                                |
 | ISSUE-005 | ISSUE-004, 006, 007 | Same pattern as ISSUE-004. If Option B is chosen, nesting under extension_system couples it there.      |
 | ISSUE-006 | ISSUE-004, 005, 007 | Same pattern. Option B nests under system_metadata.                                                     |
 | ISSUE-007 | ISSUE-004, 005, 006 | Same pattern. Related to operations schema scope.                                                       |
-| ISSUE-008 | ISSUE-003, 010   | CL tier schema gap; depends on ISSUE-010 if Option B is chosen (relies on applies_when in schema).       |
-| ISSUE-009 | —                 | Independent; errata policy decision.                                                                      |
-| ISSUE-010 | —                 | Independent; ISSUE-008 Option B depends on this issue (applies_when must exist in the schema first).     |
-| ISSUE-011 | —                 | Independent; ExtensionEntry schema gap. Same pattern as ISSUE-004 through ISSUE-007.                     |
-| ISSUE-012 | —                 | Independent; candidate_pool schema gap. Same pattern as ISSUE-004 through ISSUE-007.                     |
+| ISSUE-008 | ISSUE-003, 010      | CL tier schema gap; depends on ISSUE-010 if Option B is chosen (relies on applies_when in schema).      |
+| ISSUE-009 | —                   | Independent; errata policy decision.                                                                    |
+| ISSUE-010 | —                   | Independent; ISSUE-008 Option B depends on this issue (applies_when must exist in the schema first).    |
+| ISSUE-011 | —                   | Independent; ExtensionEntry schema gap. Same pattern as ISSUE-004 through ISSUE-007.                    |
+| ISSUE-012 | —                   | Independent; candidate_pool schema gap. Same pattern as ISSUE-004 through ISSUE-007.                    |
 
 ---
 
