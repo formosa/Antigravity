@@ -1,7 +1,7 @@
-# ddr_node_schema.yaml — DDR System v4.0 YAML Definition Schema
+# ddr_node_schema.yaml — DDR System v5.0 YAML Definition Schema
 # JSON Schema Draft 2020-12 expressed in YAML.
 # Certifies BOTH:
-#   (A) DDR system-definition files (e.g. ddr_system_v4.0.yaml) — all sections
+#   (A) DDR system-definition files (e.g. ddr_system_v5.0.yaml) — all sections
 #   (B) DDR project-instance files — minimum: ddr_version, active_tiers, nodes
 #
 # Validate with:
@@ -13,10 +13,10 @@
 #   "
 
 $schema: "https://json-schema.org/draft/2020-12/schema"
-$id: "ddr-system-v4.0-schema"
-title: "DDR System v4.0 YAML Definition"
+$id: "ddr-system-v5.0-schema"
+title: "DDR System v5.0 YAML Definition"
 description: >
-  Schema for DDR System v4.0 YAML definition files. Covers both project-instance
+  Schema for DDR System v5.0 YAML definition files. Covers both project-instance
   DAGs (individual nodes for a software project) and full system-definition files
   (the DDR specification itself). All sections beyond ddr_version, active_tiers,
   and nodes are optional, enabling lean project-instance files while permitting
@@ -35,8 +35,8 @@ properties:
 
   ddr_version:
     type: string
-    const: "4.1"
-    description: "Locks the definition to DDR v4.1. Must be the string '4.1'."
+    const: "5.0"
+    description: "Locks the definition to DDR v5.0. Must be the string '5.0'."
 
   active_tiers:
     type: array
@@ -340,7 +340,7 @@ properties:
 
   tier_migration:
     type: object
-    description: "v3.1.1 → v4.0 tier and rule migration records (Appendix B)."
+    description: "v3.1.1 → v5.0 tier and rule migration records (Appendix B)."
     additionalProperties: false
     properties:
       policy:

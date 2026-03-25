@@ -1,16 +1,16 @@
-# ddr_system_v4.0.yaml
-# DDR System v4.0 — Authoritative Specification expressed in certified YAML schema
+# ddr_system_v5.0.yaml
+# DDR System v5.0 — Authoritative Specification expressed in certified YAML schema
 # This file IS the DDR System specification represented as its own DAG.
 # The nodes section encodes the canonical 9-tier topology with all DAG edges.
 # All normative sections from the specification document are represented here.
 #
 # Conforms to: ddr_node_schema.yaml (JSON Schema 2020-12)
-# Source reference: DDR System Specification v4.0 (2026-02-26)
+# Source reference: DDR System Specification v5.0 (2026-03-25)
 
-ddr_version: "4.0"
+ddr_version: "5.0"
 
 project:
-  name: "DDR System v4.0 — Authoritative Specification"
+  name: "DDR System v5.0 — Authoritative Specification"
   created: "2026-02-26"
   mode: full
 
@@ -29,10 +29,10 @@ active_tiers:
 
 system_metadata:
   status: Finalized
-  date: "2026-03-21"
+  date: "2026-03-25"
   scope: "Systems-, language-, and domain-agnostic"
   authority: "DDR Architecture Board"
-  lineage: "Supersedes DDR v4.0.0 (errata: ISSUE-011); Supersedes DDR v3.1.1 (Claude_v3)"
+  lineage: "Supersedes DDR v4.0"
   single_source_of_truth: >
     This document is the exclusive normative specification for the DDR System.
     All prior versions are superseded. No conversation record, partial
@@ -1428,7 +1428,7 @@ extension_system:
       `paused → active` transitions.
   integration_rules:
     - rule_id: EXT-R1
-      statement: "Must declare contract version compatible with DDR-Core-4.x."
+      statement: "Must declare contract version compatible with DDR-Core-5.x."
     - rule_id: EXT-R2
       statement: "Must declare which Core tiers it reads and which it annotates."
     - rule_id: EXT-R3
@@ -1457,7 +1457,7 @@ extension_system:
 extension_catalog:
   - id: E1
     name: "Hardware & Resource Intelligence Extension (HRE)"
-    contract: "HRE-1.0 / DDR-Core-4.x"
+    contract: "HRE-1.0 / DDR-Core-5.x"
     reads: [CL, SAL, CDL, ISL]
     annotates: [CL, SAL]
     rules:
@@ -1480,7 +1480,7 @@ extension_catalog:
 
   - id: E2
     name: "Dependency Graph Analyzer (DGA)"
-    contract: "DGA-1.0 / DDR-Core-4.x"
+    contract: "DGA-1.0 / DDR-Core-5.x"
     reads: [CL, ICL, CDL, ISL]
     annotates: [CL, ICL]
     rules:
@@ -1497,7 +1497,7 @@ extension_catalog:
 
   - id: E3
     name: "Lifecycle & Versioning Engine (LVE)"
-    contract: "LVE-1.0 / DDR-Core-4.x"
+    contract: "LVE-1.0 / DDR-Core-5.x"
     reads: [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
     annotates: [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
     rules:
@@ -1520,7 +1520,7 @@ extension_catalog:
 
   - id: E4
     name: "Observability & Runtime Engine (ORE)"
-    contract: "ORE-1.0 / DDR-Core-4.x"
+    contract: "ORE-1.0 / DDR-Core-5.x"
     reads: [GPCL, SAL, ICL, CDL, ISL]
     annotates: [ISL, SAL]
     rules:
@@ -1540,7 +1540,7 @@ extension_catalog:
 
   - id: E5
     name: "AI Upward Reconstruction Engine (ARE)"
-    contract: "ARE-1.0 / DDR-Core-4.x"
+    contract: "ARE-1.0 / DDR-Core-5.x"
     scoring_profile: standard_v1
     reads: [ISL, CDL, ICL, SAL]
     annotates: [SAL, ICL, CDL, ISL]
@@ -1606,7 +1606,7 @@ extension_catalog:
 
   - id: E6
     name: "Security & Compliance Engine (SCE)"
-    contract: "SCE-1.0 / DDR-Core-4.x"
+    contract: "SCE-1.0 / DDR-Core-5.x"
     reads: [GPCL, CL, SAL, ICL]
     annotates: [GPCL, SAL, ICL]
     rules:
@@ -1631,7 +1631,7 @@ extension_catalog:
 
   - id: E7
     name: "Data Domain Extension (DDE)"
-    contract: "DDE-1.0 / DDR-Core-4.x"
+    contract: "DDE-1.0 / DDR-Core-5.x"
     reads: [FCL, GPCL, SAL, ICL, CDL]
     annotates: [ICL, SAL, FCL]
     notes: >
@@ -1667,7 +1667,7 @@ extension_catalog:
 
   - id: E8
     name: "Deployment & CI/CD Planner (DCP)"
-    contract: "DCP-1.0 / DDR-Core-4.x"
+    contract: "DCP-1.0 / DDR-Core-5.x"
     reads: [CL, SAL, ISL]
     annotates: [ISL, SAL]
     rules:
@@ -1688,7 +1688,7 @@ extension_catalog:
 
   - id: E9
     name: "Ethics & Human-Centered Design Extension (EHD)"
-    contract: "EHD-1.0 / DDR-Core-4.x"
+    contract: "EHD-1.0 / DDR-Core-5.x"
     reads: [XPD, SIL, FCL, SAL, CDL]
     annotates: [FCL, CDL, SAL]
     rules:
@@ -1843,7 +1843,7 @@ compliance_checklist:
       recorded human disposition (APPROVED or REJECTED with rationale)
       before any affected node transitions from DRAFT to ACTIVE.
   extension_validation:
-    - "All active Extensions declare compatible contract versions for DDR-Core-4.x."
+    - "All active Extensions declare compatible contract versions for DDR-Core-5.x."
     - "Extension annotations stored in extension_annotations only."
     - "Extension advisories reviewed; non-critical advisories have disposition notes."
     - >
@@ -1946,6 +1946,16 @@ version_history:
       Structural simplification: 11→9 tiers; 6→4 edge types; 11→7 operations;
       fork-join→merge-node; RELOCATE removed; ARE Candidate Pool; Express
       Mode→4 groups; Service Model removed; CRR protocol removed.
+  - version: "5.0"
+    date: "2026-03-25"
+    summary: >
+      Issue-driven refinement: 13 v4.0 issues resolved; SUPERSEDE atomicity
+      with SUPERSEDE_PENDING transient state and prior_status rollback;
+      verification_mode on atomic rules; FCL-R7 data entity enumeration;
+      ARE tri-state lifecycle with checkpoint persistence; DDE confirmation-
+      only validation; UNBUNDLE_SCAN/UNBUNDLE_EXECUTE two-phase protocol;
+      GPCL-FCL-BR1 bridge rule; CL constraint_origin and imposed-citation
+      rule CL-R9-imposed; reconciliation manifest schema formalized.
 
 # ── APPENDIX B: TIER MIGRATION ────────────────────────────────────────────────
 
@@ -2062,7 +2072,7 @@ nodes:
     tier: XPD
     title: "Existential Purpose Document"
     status: ACTIVE
-    version: "4.0.0"
+    version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
     parent_ids: []
@@ -2088,7 +2098,7 @@ nodes:
     tier: SIL
     title: "Strategic Intent Layer"
     status: ACTIVE
-    version: "4.0.0"
+    version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
     parent_ids:
@@ -2112,7 +2122,7 @@ nodes:
     tier: GPCL
     title: "Governance, Policy & Quality Layer"
     status: ACTIVE
-    version: "4.0.0"
+    version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
     parent_ids:
@@ -2135,7 +2145,7 @@ nodes:
     tier: FCL
     title: "Functional Capability Layer"
     status: ACTIVE
-    version: "4.0.0"
+    version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
     parent_ids:
@@ -2160,7 +2170,7 @@ nodes:
     tier: CL
     title: "Constraint Layer"
     status: ACTIVE
-    version: "4.0.0"
+    version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
     parent_ids:
@@ -2183,7 +2193,7 @@ nodes:
     tier: SAL
     title: "System Architecture Layer"
     status: ACTIVE
-    version: "4.0.0"
+    version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
     parent_ids:
@@ -2213,7 +2223,7 @@ nodes:
     tier: ICL
     title: "Interface & Contracts Layer"
     status: ACTIVE
-    version: "4.0.0"
+    version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
     parent_ids:
@@ -2236,13 +2246,13 @@ nodes:
       input node_spec → output DdrNode | ValidationError (atomic). Error codes:
       CIT-R1 (orphan), AX-7 (cycle), INV-TIER-SKIP (tier skip),
       SCHEMA-STATUS (invalid status). Versioning: schema locked to
-      ddr_version: "4.0"; breaking schema changes require ddr_version increment.
+      ddr_version: "5.0"; breaking schema changes require ddr_version increment.
 
   - id: CDL-7.1
     tier: CDL
     title: "Component Design Layer"
     status: ACTIVE
-    version: "4.0.0"
+    version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
     parent_ids:
@@ -2277,7 +2287,7 @@ nodes:
     tier: ISL
     title: "Implementation Scaffold Layer"
     status: ACTIVE
-    version: "4.0.0"
+    version: "5.0.0"
     created: "2026-02-26T00:00:00Z"
     modified: "2026-02-26T00:00:00Z"
     parent_ids:
@@ -2382,7 +2392,7 @@ nodes:
 
 # AUTHORITY: This lifecycle block is the machine-parseable authority
 # for DDR node status lifecycle semantics. The Markdown §3.8 table
-# in DDR_System_Opus_v4.md is a human-readable rendering derived
+# in DDR_System_Opus_v5.md is a human-readable rendering derived
 # from this block. In the event of divergence, this block governs.
 lifecycle:
   status_transitions:
