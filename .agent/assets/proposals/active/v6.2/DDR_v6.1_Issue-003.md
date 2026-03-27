@@ -61,23 +61,17 @@ Define a Core-only citation model for `parent_ids` and preserve the broader four
 
 Each strategy entails specific cascading tradeoffs relative to DDR System v6.1 invariants:
 
-1. **Repair Scope:** Option A is the fastest direct fix because it edits a single enum in place. Option B changes more schema structure, but it eliminates the conceptual ambiguity that allowed the defect to emerge in the first place.
-2. **Cross-Issue Stability:** Option A resolves only the immediate `extends` leak. Option B aligns better with ISSUE-004, where the same `ParentCitation` surface also needs a stronger structural split for `derivation_mode` semantics.
+1. **Repair Scope:** Option A is the smallest correct fix because it removes the single illegal enum member from the exact schema surface where the defect occurs. Option B introduces a broader type split to solve a problem that the current evidence does not require to be solved structurally.
+2. **Cross-Issue Coordination:** Option A can still be landed in the same `ParentCitation` edit window as ISSUE-004 without forcing a citation-type redesign. Option B bundles both issues into a larger refactor, which raises migration cost even though the validated defects are narrower.
 
 #### Endorsement and Contextual Justification
 
-The most balanced and minimally disruptive solution is **Option B (Recommended Strategy)**.
+The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**.
 
-Although Option B is slightly larger than a one-line enum trim, it uses the already-required `ParentCitation` repair window to separate Core storage semantics from broader edge vocabulary semantics. Implemented as a variant split keyed by `edge_type`, it makes the fix more durable without introducing a redundant discriminator and avoids revisiting the same type again when ISSUE-004 is resolved.
+The validated defect is a single forbidden value on a schema type that exists specifically to model `parent_ids`. Removing `extends` from `ParentCitation.edge_type` restores `CIT-R5` exactly where the contract is currently too permissive, and ISSUE-004 can still be coordinated on the same schema surface without broadening this issue into a citation-variant redesign.
 
-**Option B** is recommended because:
+**Option A** is recommended because:
 
-* **Type-System Clarity:** It gives `parent_ids` a Core-only citation contract and lets `edge_type` itself discriminate the legal citation branches instead of relying on prose to explain why one enum member is actually forbidden there.
-* **Cross-Issue Efficiency:** It lets ISSUE-003 and ISSUE-004 be resolved in one coordinated schema redesign rather than in two partially overlapping patches.
-* **Boundary Hardening:** It makes the Core/Extension separation explicit in the schema itself, which lowers the risk of future regressions that leak extension semantics back into the authoritative DAG.
-
-### 4. GPT-5.4 Endorsement
-
-GPT-5.4 endorses the current Recommended Strategy, **Option B**, as the maximally optimized solution for ISSUE-003.
-
-This endorsement is based on the shape of the defect in DDR v6.1: the problem is not only that `extends` appears in one enum, but that a single `ParentCitation` type is carrying both Core DAG semantics and broader conceptual edge vocabulary. Option B fixes the immediate leak and removes the underlying modeling ambiguity in a way that also aligns with ISSUE-004, which makes it more durable than a one-line enum restriction alone.
+* **Direct Rule Alignment:** It makes the schema enforce `CIT-R5` at the point where the violation currently slips through.
+* **Minimal Schema Churn:** Existing validators and consumers keep the same `ParentCitation` shape and only lose an invalid edge value they should never have accepted.
+* **Clearer Core Boundary:** `parent_ids` becomes a reliably Core-only citation channel without requiring a broader type split that the current defect evidence does not demand.

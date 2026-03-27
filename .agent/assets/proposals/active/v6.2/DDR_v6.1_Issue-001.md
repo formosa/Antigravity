@@ -55,38 +55,24 @@ Keep `lifecycle` universally required and rewrite the surrounding contract text 
 * **Supporting Insights:** A single unconditional root shape is simpler to explain to tooling authors, but that simplicity is purchased by expanding every project-instance artifact. The change therefore shifts complexity from the schema to the documents that the schema certifies.
 * **Citations:** [JSON Schema object reference (`required`)](https://json-schema.org/understanding-json-schema/reference/object), [JSON Schema: A Media Type for Describing JSON Documents](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-00).
 
-#### Option C: Define Explicit Root Profiles Using `system_metadata` as the Implicit Discriminator
-
-Refactor the schema root into explicit document profiles, using a shared base plus `oneOf`-selected root contracts for `project-instance` and `system-definition` artifacts. Under this approach, `system_metadata` acts as the implicit discriminator: the `system-definition` branch requires both `system_metadata` and `lifecycle`, while the lean project-instance branch omits `system_metadata` and retains `ddr_version`, `active_tiers`, and `nodes` as its minimum contract. This resolves ISSUE-001 more cleanly than a single conditional because it makes the dual-role schema architecture explicit without adding a new field purely for discrimination. It also creates a durable foundation for future profile-specific rules without repeatedly stretching the root contract with ad hoc conditionals.
-
-* **Supporting Insights:** The schema description already states that one file certifies two distinct document classes, and `system_metadata` is already the de facto signal for the authoritative system-definition form. Promoting that distinction into named root profiles while reusing the existing marker yields the robustness of explicit profiles without introducing a redundant discriminator key.
-* **Citations:** [JSON Schema boolean combination (`oneOf`)](https://json-schema.org/understanding-json-schema/reference/combining), [JSON Schema conditional validation (`if`/`then`/`else`)](https://json-schema.org/understanding-json-schema/reference/conditionals), [JSON Schema object reference (`required`)](https://json-schema.org/understanding-json-schema/reference/object).
-
 ### 3. Comparative Analysis and Recommended Strategy
 
 #### Comparative Analysis
 
 Each strategy entails specific cascading tradeoffs relative to DDR System v6.1 invariants:
 
-1. **Contract Preservation:** Option A preserves the documented dual-role schema design by letting lean project instances remain lean, while Option B resolves the contradiction by changing the contract to match the current stricter validator. Option C preserves the dual-role design more completely by making the two document classes explicit rather than merely conditionally inferred.
-2. **Implementation Blast Radius:** Option A introduces conditional root logic but leaves existing project-instance authoring expectations intact. Option B keeps the schema root simpler, but it pushes a larger migration burden onto every project-instance producer and companion documentation artifact. Option C requires a more deliberate schema refactor, yet it concentrates that complexity in one root redesign rather than in repeated future exceptions.
-3. **Long-Term Schema Stability:** Option A fixes the immediate contradiction and does so with the smallest schema change, but document-class identity still remains somewhat inferred. Option C hardens the schema architecture by giving validators and generators a first-class document-profile model while still reusing the already-present `system_metadata` marker instead of inventing a new discriminator.
+1. **Contract Preservation:** Option A preserves the documented dual-role schema design by letting lean project instances remain lean while still requiring lifecycle authority for system-definition files. Option B resolves the contradiction by rewriting the contract around the stricter current validator and abandoning the published lean-instance promise.
+2. **Implementation Blast Radius:** Option A changes only the root validation rule and can still be expressed with an existing-marker conditional or `oneOf` branch keyed off `system_metadata`. Option B pushes migration cost into every project-instance producer, related documentation artifact, and example file.
+3. **Future Flexibility:** Option A closes the present defect without adding a new discriminator or wider root redesign, while still leaving room for a later explicit profile split if future evidence shows one is necessary. Option B settles the contradiction by making every file heavier, which is harder to reverse later.
 
 #### Endorsement and Contextual Justification
 
-The maximally optimized solution is **Option C (Recommended Strategy)**.
+The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**.
 
-DDR v6.1 already describes two document classes; the deeper defect is that the root assertion layer does not model that distinction as a first-class concept. A simple conditional repair would resolve the immediate contradiction, but an explicit profile split is stronger because it aligns the root contract with the schema's own published architecture and reduces future drift risk. The optimized form of that split should reuse `system_metadata` as the implicit discriminator rather than introducing a new root field.
+The validated defect is a direct contradiction between the root description and the root `required` list. Reusing the existing `system_metadata` marker to make `lifecycle` conditional repairs that contradiction exactly where it occurs without expanding the contract for every project-instance file.
 
-**Option C** is recommended because:
+**Option A** is recommended because:
 
-* **Architectural Explicitness:** It turns the schema's existing two-class design into an explicit machine contract while reusing `system_metadata`, the structural marker the schema already associates with specification-definition files.
-* **Future-Proof Profile Evolution:** It creates a clean place to attach additional system-definition-only or project-instance-only requirements without repeating the same root ambiguity.
-* **Preserved Lean-Instance Semantics:** Lifecycle authority remains mandatory for the authoritative system definition while project instances can continue to inherit that authority rather than redundantly restating it.
-* **Higher Drift Resistance:** Validators, generators, and human readers all gain the same clear root model, which lowers the chance that future edits recreate cross-profile contradictions.
-
-### 4. GPT-5.4 Adjudication
-
-GPT-5.4 does **not** endorse the prior Recommended Strategy (Option A) as the maximally optimized solution. Option A is a valid near-term repair, but it under-specifies the root document-class boundary and leaves the schema vulnerable to renewed cross-profile drift.
-
-GPT-5.4 endorses **Option C** as the maximally optimized strategy because it resolves the immediate `lifecycle` contradiction and repairs the deeper modeling flaw at the same time: DDR v6.1 is a dual-profile schema, and the root contract should say so explicitly. The validated implementation refinement is that the split should be keyed off the already-present `system_metadata` structure, not a newly introduced discriminator field.
+* **Exact Contract Repair:** It makes the machine contract match the published minimum project-instance shape instead of redefining the shape around the defect.
+* **Low Migration Cost:** Existing system-definition files keep mandatory lifecycle authority, while lean project instances stop carrying unnecessary lifecycle data.
+* **Reuse of Existing Structure:** The already-declared `system_metadata` marker is enough to distinguish the authoritative system-definition profile without inventing a new discriminator field.

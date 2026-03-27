@@ -66,7 +66,11 @@ Refactor `DdrNode` into explicit root-capable and non-root variants (or tier-spe
 
 #### Endorsement and Contextual Justification
 
-**Option A (Recommended Strategy)**
+The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**.
+
+The validated defect is a missing cardinality rule on the existing node contract, not evidence that DDR v6.1 requires a new root-node type system. A root-aware conditional repairs the schema/spec mismatch directly while preserving the current node model.
+
+**Option A** is recommended because:
 
 - Provides a direct fix for the verified defect with minimal blast radius.
 - Aligns schema behavior with `INV-5` and `CIT-R1` without redesigning node taxonomy.

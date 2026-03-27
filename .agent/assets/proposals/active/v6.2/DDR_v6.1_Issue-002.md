@@ -77,9 +77,3 @@ DDR v6.1 already has a compact status model and describes `SUPERSEDE_PENDING` as
 * **Lower Consumer Disruption:** Existing status-aware tooling can keep the current six-state model instead of being upgraded for a new global `DELETED` state.
 * **Clearer Operational Semantics:** Delete and rollback remain operations with explicit handling rules rather than ambiguous pseudo-states embedded in the authoritative transition table.
 * **Symmetric Lifecycle Closure:** The same typed boundary can be enforced for both allowed transitions and prohibited-transition lists, which eliminates the current `DELETED` leak from both schema surfaces.
-
-### 4. GPT-5.4 Endorsement
-
-GPT-5.4 endorses the current Recommended Strategy, **Option A**, as the maximally optimized solution for ISSUE-002.
-
-This endorsement is based on the current DDR v6.1 evidence: the authoritative status vocabulary in the system definition and schema is six-state, while the defect is specifically that the lifecycle transition table is allowed to escape that vocabulary through unconstrained string endpoints. Option A repairs that exact break at the smallest semantic surface, restores `INV-8` closure, models rollback as a reference to the node's recorded `prior_status`, and avoids promoting operational effects such as delete into broader persisted-status obligations that the rest of the spec does not support.

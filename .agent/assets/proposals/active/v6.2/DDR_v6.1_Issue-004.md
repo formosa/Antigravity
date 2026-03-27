@@ -62,25 +62,19 @@ Replace the single all-purpose `ParentCitation` definition with explicit variant
 
 Each strategy entails specific cascading tradeoffs relative to DDR System v6.1 invariants:
 
-1. **Immediate Patch Size:** Option A is smaller and easier to land as an isolated fix because it preserves the current object shape. Option B asks for a broader schema edit, but it converts the citation model into explicit structural cases instead of encoded branching logic.
-2. **Cross-Issue Alignment:** Option A repairs only the `derivation_mode` defect. Option B can absorb ISSUE-003 in the same refactor by making non-derives citations and Core-only citation vocabularies explicit, which reduces repeated churn on the same type.
-3. **Enforcement Ceiling:** Neither option can make `CIT-R6` fully self-enforcing because the schema cannot infer why a derives edge exists. Option B still improves the structural baseline more because it removes invalid non-derives cases and clarifies where runtime intent checks must begin.
+1. **Immediate Patch Size:** Option A is smaller and fully addresses the validated defect because it preserves the current `ParentCitation` shape and adds the missing field-placement rule. Option B broadens the change into a type redesign even though the evidence shows a single missing conditional.
+2. **Cross-Issue Alignment:** Option A can still be coordinated with ISSUE-003 in the same `ParentCitation` patch window by tightening the enum and the `derivation_mode` condition together. Option B solves both issues through a larger refactor, but that larger refactor is not required to make either rule enforceable.
+3. **Enforcement Ceiling:** Neither option can make `CIT-R6` fully self-enforcing because the schema cannot infer authorial intent for a derives edge. Option A therefore fixes the exact structural leak without implying a broader architectural rewrite is necessary.
 
 #### Endorsement and Contextual Justification
 
-The most balanced and minimally disruptive solution is **Option B (Recommended Strategy)**.
+The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**.
 
-Option B is the better long-term move because the project already has to revisit `ParentCitation` for ISSUE-003. Using that same edit window to introduce explicit citation variants yields a cleaner model than keeping one permissive object and continuously patching exceptions into it.
+The validated defect is a missing conditional on one optional field, not a demonstrated failure of the entire citation model. Adding the `derivation_mode` guard to the existing `ParentCitation` shape closes the schema gap directly, and it can still be paired with ISSUE-003 in the same edit without introducing new citation variants.
 
-**Option B** is recommended because:
+**Option A** is recommended because:
 
-* **Self-Documenting Structure:** The legal placement of `derivation_mode` becomes obvious from the schema shape itself rather than from prose and conditionals alone.
-* **Combined Remediation:** It addresses the `derivation_mode` defect and the adjacent `extends`-in-`parent_ids` defect through one coordinated type redesign.
-* **Better Tooling Semantics:** Validators, generators, and typed client models can distinguish derives citations from non-derives citations without carrying ad hoc branch logic in every consumer.
-* **Scaffold Consistency:** Updating the canonical `ParentCitation` scaffold in the same change window prevents the published implementation model from reintroducing the same defect in code.
-
-### 4. GPT-5.4 Endorsement
-
-GPT-5.4 endorses the current Recommended Strategy, **Option B**, as the maximally optimized solution for ISSUE-004.
-
-This endorsement is based on the present DDR v6.1 schema surface and scaffold model: the defect is systemic, not merely conditional. A narrow `if`/`then` guard would block one invalid shape, but it would leave the overloaded `ParentCitation` abstraction in place and would not address the scaffold mismatch or the fact that `CIT-R6` intent still needs runtime checking. Option B is stronger because it converts the citation model into explicit structural variants, updates the implementation scaffold in the same window, and complements the ISSUE-003 repair.
+* **Exact Rule Enforcement:** It makes the schema reject `derivation_mode` everywhere the spec already says it is invalid.
+* **Low Migration Cost:** Existing tooling keeps the same citation object shape and only gains the missing constraint.
+* **Coordinated Repair Window:** ISSUE-003 and ISSUE-004 can still be fixed together on the same schema type without turning both defects into a larger redesign.
+* **Future-Compatible:** If a later version accumulates more tiered citation rules, a variant model can still be introduced then, based on demonstrated need rather than on this one conditional gap.

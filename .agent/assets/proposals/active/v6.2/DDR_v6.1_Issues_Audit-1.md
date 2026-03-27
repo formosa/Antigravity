@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-After reviewing all 11 issues in the tracker, I've identified that **most recommended solutions are sound but suboptimal**. Several issues warrant **Option B** (broader redesign) over the conservative Option A fixes, particularly where structural debt accumulates. I've also identified **2 validated new issues** requiring dedicated issue reports, plus **1 candidate issue that does not hold after file-level verification**.
+After reviewing the original 11 tracked issues against the v6.1 normative files, I've validated that the tracker's current Option A recommendations are the strongest fit for the demonstrated defects under the repository's `AGENTS.md` heuristics. I also identified **2 validated new issues** requiring dedicated issue reports, plus **1 candidate issue that does not hold after file-level verification**.
 
 ---
 
@@ -36,8 +36,8 @@ After reviewing all 11 issues in the tracker, I've identified that **most recomm
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Severity**           | MAJOR ✓                                                                                                                                                                                                                               |
 | **Recommended**        | Option A (Remove `extends` from ParentCitation)                                                                                                                                                                                       |
-| **My Assessment**      | **Option A is correct but incomplete** — While removing `extends` from the enum is the minimal fix, this issue reveals a deeper architectural concern: the edge type vocabulary is overloaded.                                        |
-| **Optimization Notes** | The schema should explicitly document that `extends` is valid ONLY in `extension_annotations` context. Consider adding a `$comment` or description annotation to the global edge type definition clarifying this channel restriction. |
+| **My Assessment**      | **Option A is preferred** — The validated defect is a single illegal enum member on a schema type used only for `parent_ids`. Removing `extends` restores `CIT-R5` with the smallest correct patch and no new abstraction.            |
+| **Optimization Notes** | If extra clarity is desired, add a short description or `$comment` noting that `extends` remains valid only in `extension_annotations` contexts.                                                                              |
 
 ---
 
@@ -47,8 +47,8 @@ After reviewing all 11 issues in the tracker, I've identified that **most recomm
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Severity**       | MAJOR ✓                                                                                                                                                                                                                                                                                                                                                            |
 | **Recommended**    | Option A (Add Conditional Constraint)                                                                                                                                                                                                                                                                                                                              |
-| **My Assessment**  | **Option B (Split Citation Variants) is actually superior** — Here's my first major divergence. While Option A is "smaller," it creates a conditional schema that's harder to reason about and maintain. The `oneOf` approach with explicit `DerivesCitation` and `NonDerivesCitation` variants is self-documenting and enables stronger typing in generated code. |
-| **Recommendation** | **Adopt Option B** — The refactor cost is justified by improved clarity and the precedent set by ISSUE-011 (tier-specific variants).                                                                                                                                                                                                                               |
+| **My Assessment**  | **Option A is preferred** — The validated defect is a missing conditional on one optional field. An explicit conditional closes the gap directly and can be coordinated with ISSUE-003 on the same schema surface without introducing citation variants.                                                                                                      |
+| **Recommendation** | **Retain Option A** — Use `if/then` or equivalent `allOf` logic to permit `derivation_mode` only on `derives` edges.                                                                                                                                                                                                                                |
 
 ---
 
@@ -58,8 +58,8 @@ After reviewing all 11 issues in the tracker, I've identified that **most recomm
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Severity**           | MODERATE ✓                                                                                                                                                                                                                         |
 | **Recommended**        | Option A (Explicitly Block Reserved Suffixes)                                                                                                                                                                                      |
-| **My Assessment**      | **Option A is correct** — Use `propertyNames` with a negative pattern (regex lookahead/negative match) to reject `.*::(content|parent_ids|status|tier|id)$`. This preserves the namespacing model while enforcing the safety rule. |
-| **Optimization Notes** | The regex `^[A-Z][A-Z0-9_]+::[a-z][a-z0-9_]+$` should be updated to: `^[A-Z][A-Z0-9_]+::(?!(content|parent_ids|status|tier|id)$)[a-z][a-z0-9_]+$`                                                                                  |
+| **My Assessment**      | **Option A is correct** — Use `propertyNames` plus a `not`-based reserved-suffix check to reject keys whose annotation segment is `content`, `parent_ids`, `status`, `tier`, or `id`. This preserves the namespacing model while enforcing the safety rule. |
+| **Optimization Notes** | Prefer a portable two-part constraint: keep the existing positive namespace pattern and add a second `propertyNames` rule that blocks the reserved suffix set.                                                                                                                                      |
 
 ---
 
@@ -69,8 +69,8 @@ After reviewing all 11 issues in the tracker, I've identified that **most recomm
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Severity**       | MAJOR ✓                                                                                                                                                                                                                                                                                                                                         |
 | **Recommended**    | Option A (Gate by Node Status)                                                                                                                                                                                                                                                                                                                  |
-| **My Assessment**  | **Option B (Split Node Variants) is superior** — This is my second major divergence. The `SUPERSEDE_PENDING` state carries unique semantics (rollback anchor, transient lifecycle). Making this a distinct structural variant rather than a conditional field creates a cleaner type system and prevents an entire class of state-machine bugs. |
-| **Recommendation** | **Adopt Option B** — The `SupersedePendingNode` variant can carry `prior_status` as a required field, while settled nodes simply don't have the field. This eliminates the need for runtime conditional checks.                                                                                                                                 |
+| **My Assessment**  | **Option A is preferred** — `prior_status` is transient rollback metadata scoped to a single lifecycle state. A status-gated conditional restores the contract without broadening node taxonomy.                                                                                                                                                           |
+| **Recommendation** | **Retain Option A** — Permit `prior_status` only when `status == SUPERSEDE_PENDING` and require its absence otherwise.                                                                                                                                                                                                                                |
 
 ---
 
@@ -91,8 +91,8 @@ After reviewing all 11 issues in the tracker, I've identified that **most recomm
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Severity**       | MODERATE ✓                                                                                                                                                                                                                                                                      |
 | **Recommended**    | Option A (Prohibit unless `tier == CL`)                                                                                                                                                                                                                                         |
-| **My Assessment**  | **Option B (Tier-Specific Variants) is superior** — Third major divergence. This field is CL-specific by design. If the schema adopts tier-specific node variants (as recommended for ISSUE-011), the CL variant naturally includes this field while other variants exclude it. |
-| **Recommendation** | **Coordinate with ISSUE-011** — If tier-specific variants are adopted, this becomes a non-issue. If not, Option A is the fallback.                                                                                                                                              |
+| **My Assessment**  | **Option A is preferred** — The validated defect is a CL-only field leaking across tiers, not proof that tier-specific variants are required. A tier gate repairs the documented contract directly.                                                                                                                                                     |
+| **Recommendation** | **Retain Option A** — Allow `constraint_origin` only when `tier == CL`.                                                                                                                                                                                                                                                                            |
 
 ---
 
@@ -124,8 +124,8 @@ After reviewing all 11 issues in the tracker, I've identified that **most recomm
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Severity**       | CRITICAL ✓                                                                                                                                                                                                                                                                                                     |
 | **Recommended**    | Option A (Bind `id` pattern to `tier`)                                                                                                                                                                                                                                                                         |
-| **My Assessment**  | **Option B (Tier-Specific Node Variants) is strongly superior** — This is the fourth and most important divergence. The current schema attempts to validate a semantic relationship (ID prefix indicates tier) through regex alone. Tier-specific variants make this relationship structural and self-evident. |
-| **Recommendation** | **Adopt Option B** — The variant approach enables: (1) tier-specific ID patterns, (2) tier-specific fields (absorbing ISSUE-008), (3) clearer generated code, (4) better error messages. The refactor cost is high but the architectural clarity is worth it.                                                  |
+| **My Assessment**  | **Option A is preferred** — The validated defect is a missing cross-field invariant between `id` and `tier`. Binding the regex by tier closes it directly while preserving the current node shape and compatibility profile.                                                                                                                            |
+| **Recommendation** | **Retain Option A** — Add tier-aware `id` constraints and keep the current `DdrNode` contract.                                                                                                                                                                                                                                                   |
 
 ---
 
@@ -148,10 +148,11 @@ The `DdrNode.parent_ids` field has `default: []`, which allows non-root nodes to
 
 #### Evidence & Justification-012
 
-- `ddr_node_schema.yaml` lines 1152-1158 define `parent_ids` with `default: []` and `minItems` is not specified.
-- `ddr_system_v6.1.yaml` lines 328-331 define `CIT-R1`: "Every non-root node must have ≥1 parent_id."
-- AX-1 (Traceability) states: "Every non-root node must cite at least one parent via a typed edge."
-- A direct `jsonschema` validation probe accepted a node with `tier: SIL`, `id: SIL-1.2`, and `parent_ids: []`.
+- `ddr_node_schema.yaml` lines 1139-1146 define `parent_ids` with `default: []`, while no `minItems` or root-aware conditional is present.
+- `ddr_system_v6.1.yaml` lines 271-272 define `INV-5`: "All non-root nodes must carry at least one parent_id citation."
+- `ddr_system_v6.1.yaml` lines 312-313 define `CIT-R1`: "Every non-root node must have ≥1 parent_id."
+- `ddr_system_v6.1.yaml` lines 116-121 define `AX-1` traceability: every non-root node must cite at least one parent via a typed edge.
+- A direct `jsonschema` validation probe accepted a node with `tier: SAL`, `id: SAL-9.9`, and `parent_ids: []`.
 
 #### Impact Assessment-012
 
@@ -167,7 +168,7 @@ Introduce a `is_root_node` boolean or derive root status from context, then use 
 
 #### Notes-012
 
-Related to ISSUE-011 (tier-specific variants would naturally resolve this by making root nodes a distinct variant).
+Adjacent to ISSUE-011 only in the sense that a future variant refactor could absorb it; the defect is independently valid today.
 
 ---
 
@@ -184,10 +185,10 @@ The `node_schema_fields` array in the system definition provides human-readable 
 
 #### Evidence & Justification-013
 
-- `ddr_system_v6.1.yaml` lines 189-208 enumerate `node_schema_fields` with properties like `id`, `tier`, `title`, etc.
-- `ddr_node_schema.yaml` lines 1079-1202 define the actual `DdrNode` structure.
+- `ddr_system_v6.1.yaml` lines 169-220 enumerate `node_schema_fields` with properties like `id`, `tier`, `title`, `content`, `parent_ids`, and `status`.
+- `ddr_node_schema.yaml` lines 519-538 define the free-form `NodeSchemaField` documentation object, while lines 1072-1202 define the actual `DdrNode` structure.
 - No schema constraint ensures that every field in `node_schema_fields` has a corresponding property in `DdrNode`, or vice versa.
-- The `node_schema_fields` entries include metadata (cardinality, semantics, backward_compatibility) that is not machine-verifiable against the actual schema.
+- A direct validation probe accepted a mutated `node_schema_fields` entry for an `imaginary_field`, demonstrating that documentation drift is not blocked by the schema.
 
 #### Impact Assessment-013
 
@@ -216,50 +217,48 @@ This is a meta-level issue about the specification's own maintainability.
 
 #### Problem Statement-014
 
-The schema tracks which tiers are *defined* in `active_tiers`, but project-instance files have no explicit field tracking which optional tiers (XPD, CL) are actually *activated* for the current project. This forces tooling to infer activation from node presence or context, creating ambiguity.
+A candidate concern was raised that project-instance files might need a second field to track activation state for optional tiers. The validation question is whether the current contract already encodes that information through `active_tiers`.
 
 #### Evidence & Justification-014
 
-- `ddr_system_v6.1.yaml` lines 253-255 define `INV-3`: "XPD and CL are conditionally activatable."
-- `ddr_system_v6.1.yaml` lines 256-258 define `INV-4`: "When CL is inactive, SAL derives directly from FCL."
-- `ddr_node_schema.yaml` lines 19-23 define `active_tiers` as the ordered list of tier identifiers, but this appears to be the *available* tiers, not the *activated* tiers.
-- The `project` object (lines 63-79) has no `activated_tiers` or `tier_states` field.
-- A project with `active_tiers: [XPD, SIL, ...]` and no XPD nodes could be interpreted as either "XPD active but empty" or "XPD present but inactive."
+- `ddr_node_schema.yaml` lines 42-50 define `active_tiers` as the "Ordered list of active tier identifiers."
+- `ddr_system_v6.1.yaml` lines 17-26 use `active_tiers` to enumerate the active tiers in the authoritative v6.1 system definition.
+- `ddr_system_v6.1.yaml` lines 265-270 define `INV-3` and `INV-4` in terms of conditional activation semantics, not a separate activation-state structure.
+- The `project` object at `ddr_node_schema.yaml` lines 64-78 has no `activated_tiers` field because activation is already represented by membership in `active_tiers`.
+- A project that omits `CL` from `active_tiers` already expresses "CL inactive" in the current contract.
 
 #### Impact Assessment-014
 
-DAG traversal logic cannot deterministically apply INV-4 (SAL→FCL direct derivation when CL inactive) without knowing CL's activation state. This creates ambiguity in parent edge validation and tier-skip detection.
+No additional tracker issue is warranted on the current evidence. The remaining implementation challenge is runtime enforcement of topology against `active_tiers`, not absence of an activation-state field in the schema contract.
 
-#### Resolution-014: Option A — Add `tier_activation` Map
+#### Resolution-014: Option A — Keep the Current Contract
 
-Add an optional `tier_activation` object to the `project` metadata with boolean flags for optional tiers (XPD, CL). Default to `true` if present in `active_tiers` and nodes exist, but allow explicit `false` to indicate "present in schema but inactive."
+Do not promote this candidate into the tracker. Treat `active_tiers` as the canonical activation signal, and focus future validation work on ensuring runtime topology checks respect it consistently.
 
-#### Resolution-014: Option B — Infer from Node Presence with Explicit Empty-Tier Marker
+#### Resolution-014: Option B — Re-open Only on Contrary Evidence
 
-Define that tier activation is inferred from node presence, but require an explicit empty-tier marker node (e.g., `XPD-0.0` with status `INACTIVE`) to indicate "tier considered but explicitly skipped." This preserves the lean file principle while making the decision auditable.
+If a concrete consumer ambiguity is demonstrated even when `active_tiers` is handled correctly, capture that as a new issue with a reproducer showing why membership in `active_tiers` is insufficient.
 
 #### Notes-014
 
-This issue affects the deterministic application of DAG invariants and should be resolved before tooling assumes ambiguous behavior.
+Do not promote this candidate absent evidence that `active_tiers` is insufficient in the current contract.
 
 ---
 
 ## Cross-Issue Coordination Recommendations
 
-The dependency map in the tracker is accurate, but I recommend **re-prioritizing the resolution order**:
+The dependency map in the tracker is accurate. After validation, the most efficient implementation order is to group fixes by shared schema surface while retaining the tracker's current Option A resolutions:
 
-| Priority   | Issue                                           | Rationale                                             |
-| ---------- | ----------------------------------------------- | ----------------------------------------------------- |
-| 1          | **ISSUE-011** (Tier-specific variants)          | Foundation for ISSUE-008 and NEW ISSUE-012            |
-| 2          | **ISSUE-008**                                   | Absorbed into ISSUE-011 if variants adopted           |
-| 3          | **ISSUE-006**                                   | Absorbed into ISSUE-011 if variants adopted           |
-| 4          | **ISSUE-004**                                   | Coordinate with citation variant refactoring          |
-| 5          | **ISSUE-003**                                   | Same schema surface as ISSUE-004                      |
-| 6          | **ISSUE-001**                                   | Root-level discriminator depends on variant approach  |
-| 7          | **ISSUE-009**                                   | Root-level conditional, depends on ISSUE-001 approach |
-| 8          | **ISSUE-002, ISSUE-007, ISSUE-010**             | Lifecycle integrity (can proceed in parallel)         |
-| 9          | **ISSUE-005**                                   | Extension isolation (independent)                     |
-| 10         | **NEW ISSUE-012, NEW ISSUE-013**                | Newly identified and validated                        |
+| Priority | Issue Bundle                        | Rationale                                                                 |
+| -------- | ----------------------------------- | ------------------------------------------------------------------------- |
+| 1        | **ISSUE-003 + ISSUE-004**           | Same `ParentCitation` surface; tighten enum and `derivation_mode` together. |
+| 2        | **ISSUE-002 + ISSUE-007 + ISSUE-010** | Same lifecycle authority surface; type transitions, close the object, and constrain guard refs together. |
+| 3        | **ISSUE-001 + ISSUE-009**           | Same root-level conditional surface; coordinate project-instance and express-mode requirements. |
+| 4        | **ISSUE-006**                       | Follow lifecycle cleanup so `prior_status` gating matches the repaired state model. |
+| 5        | **ISSUE-011 + ISSUE-008**           | Same `DdrNode` conditional surface; bind tier/id and restrict the CL-only field. |
+| 6        | **ISSUE-005**                       | Independent extension-annotation hardening.                               |
+| 7        | **NEW ISSUE-012**                   | Independent root/non-root parent-cardinality repair.                      |
+| 8        | **NEW ISSUE-013**                   | Independent documentation/synchronization gap.                            |
 
 ---
 
@@ -270,16 +269,16 @@ The dependency map in the tracker is accurate, but I recommend **re-prioritizing
 | ISSUE-001 | Option A              | **Option A** ✓      | Minimal fix for dual-use schema      |
 | ISSUE-002 | Option A              | **Option A** ✓      | Preserve minimal state model         |
 | ISSUE-003 | Option A              | **Option A** ✓      | Surgical enum fix                    |
-| ISSUE-004 | Option A              | **Option B** ⚠️     | Self-documenting variant structure   |
-| ISSUE-005 | Option A              | **Option A** ✓      | Regex negative lookahead             |
-| ISSUE-006 | Option A              | **Option B** ⚠️     | Transient state as distinct variant  |
+| ISSUE-004 | Option A              | **Option A** ✓      | Exact conditional repair             |
+| ISSUE-005 | Option A              | **Option A** ✓      | Portable reserved-suffix blocking    |
+| ISSUE-006 | Option A              | **Option A** ✓      | Gate transient rollback metadata     |
 | ISSUE-007 | Option A              | **Option A** ✓      | Match existing closed-object pattern |
-| ISSUE-008 | Option A              | **Option B** ⚠️     | Coordinate with ISSUE-011            |
+| ISSUE-008 | Option A              | **Option A** ✓      | Direct tier gate                     |
 | ISSUE-009 | Option A              | **Option A** ✓      | Root-level conditional is clean      |
 | ISSUE-010 | Option A              | **Option A** ✓      | Closed guard set is correct          |
-| ISSUE-011 | Option A              | **Option B** ⚠️     | Structural alignment of ID→tier      |
+| ISSUE-011 | Option A              | **Option A** ✓      | Direct cross-field invariant binding |
 
-**Key Theme:** Issues 004, 006, 008, and 011 all benefit from a **tier-specific node variant** approach. While this represents higher initial refactor cost, it creates a more maintainable, self-documenting schema that prevents entire classes of cross-field validation errors. If the project can absorb this cost, the long-term maintainability gains are substantial.
+**Key Theme:** The validated defects are real, but the evidence supports targeted contract-enforcement repairs rather than a mandatory polymorphic refactor. Under `AGENTS.md`, the smallest correct patch that restores correctness, determinism, and explicitness is the preferred resolution for each currently tracked issue.
 
 Validated conclusion: **ISSUE-012** and **ISSUE-013** are genuine gaps that should be tracked. **Candidate ISSUE-014** should not be promoted because current `active_tiers` semantics already encode active/ inactive optional tiers.
 
@@ -287,31 +286,24 @@ Validated conclusion: **ISSUE-012** and **ISSUE-013** are genuine gaps that shou
 
 ## Third Party Review
 
-This is an exceptionally thorough and architecturally sound analysis. Your pivot toward **Option B (Polymorphic/Tier-Specific Node Variants)** for the core structural issues is the exact right impulse for a mature JSON Schema Draft 2020-12 implementation.
+This is a strong file-level validation pass, especially in how it confirms the existing tracker issues and surfaces two genuine additional gaps. Where the analysis overreaches is in treating several localized schema-enforcement defects as proof that DDR v6.1 must immediately move to a polymorphic node model.
 
-You have correctly identified that relying heavily on `if/then` conditionals or regex patterns to enforce structural boundaries creates a brittle contract. By transitioning to a polymorphic schema (using a discriminated union via `oneOf`), the DDR framework can enforce invariants by *shape* rather than by *rule*.
+The authoritative `AGENTS.md` guidance for this proposal set explicitly prefers the smallest correct patch that preserves determinism, simplicity, explicitness, and backward-compatible stability. On the current evidence, the tracked defects are better understood as missing conditionals and missing cross-field constraints on otherwise coherent existing schema surfaces.
 
-Here is my feedback on your strategic divergences and the newly identified gaps.
+Here is the validated review of the divergences and the newly identified gaps.
 
-### 1. The Push for Polymorphism (Issues 004, 006, 008, 011)
+### 1. Where the Audit Holds
 
-Your recommendation to override the conservative "Option A" fixes in favor of explicit structural variants is the strongest architectural insight here.
+- **NEW ISSUE-012 (Orphaned Non-Root Nodes):** Confirmed. Non-root parent cardinality is documented in `AX-1`, `INV-5`, and `CIT-R1`, but not enforced by the schema.
+- **NEW ISSUE-013 (`node_schema_fields` drift):** Confirmed. The documentation list and the enforceable `DdrNode` schema can drift independently with no machine check.
+- **Candidate ISSUE-014:** Correctly rejected after validation. `active_tiers` already names active tiers in the current contract.
 
-If we refactor `DdrNode` into specific variants (e.g., `XpdNode`, `SilNode`, `ClNode`, `SupersedePendingNode`), multiple issues resolve themselves simultaneously:
+### 2. Where the Audit Overreaches
 
-- **ISSUE-011 (IDs):** The `ClNode` variant strictly requires `pattern: "^CL-[0-9]+\.[0-9]+$"`. Regexes no longer have to carry the weight of semantic tier matching.
-- **ISSUE-008 (`constraint_origin`):** This field simply becomes a `required` property on the `ClNode` variant and is entirely omitted from the others.
-- **ISSUE-006 (`prior_status`):** This aligns perfectly with the vulnerability I flagged previously. A dedicated `SupersedePendingNode` variant guarantees `prior_status` is present, while standard active nodes structurally reject it.
-- **ISSUE-004 (`derivation_mode`):** Applying this same polymorphic logic to `ParentCitation` (splitting into `DerivesCitation` vs. `NonDerivesCitation`) cleanly eliminates the illegal `extends` edge (ISSUE-003) and isolates the derivation mode logic.
+For ISSUE-004, ISSUE-006, ISSUE-008, and ISSUE-011, the validated defects are missing conditionals or cross-field constraints on the existing schema, not demonstrated failures of the entire node model. Option A resolves each defect directly, preserves the current contract surface, and better matches the repository's preference for the smallest correct patch set.
 
-### 2. Analysis of New Issues (012, 013, 014)
+A polymorphic schema may become appropriate in a future version if multiple new constraints accumulate and cannot be expressed cleanly inside the present structure. That threshold is not demonstrated by the current evidence set.
 
-Your newly identified issues represent genuine blind spots in the current v6.1 schema that threaten deterministic validation.
+### 3. Strategic Next Step
 
-- **NEW ISSUE-012 (Orphaned Non-Root Nodes):** Excellent catch. The `default: []` on `parent_ids` is a classic schema trap. If a node is not a root node, `minItems: 1` must be strictly enforced. If we adopt the polymorphic node variants, this is easily solved: the `XpdNode` (and `SilNode` when root) permits `maxItems: 0`, while all other tier variants mandate `minItems: 1`.
-- **NEW ISSUE-013 (`node_schema_fields` drift):** You are spot on. Maintaining a parallel documentation array creates guaranteed drift. JSON Schema's native metadata keywords (`description`, `title`, etc.) within the `properties` block should entirely replace the `node_schema_fields` array. The schema must be the single source of truth.
-- **NEW ISSUE-014 (Missing `tier_activation_state`):** This is critical for DAG traversals. Without explicit boolean flags (e.g., `is_xpd_active`, `is_cl_active`) in the `project` metadata, a validator cannot deterministically enforce `INV-4` (SAL derives directly from FCL when CL is inactive). An empty tier could mean "not activated" or simply "activated but missing nodes."
-
-### Consideration for Strategic Next Step
-
-The cascading nature of these issues—particularly the alignment between your findings and the Candidate Pool/`prior_status` vulnerabilities I identified earlier—strongly suggests that patching the monolithic `DdrNode` is no longer viable. The schema requires a structural refactor to a polymorphic model.
+Proceed with grouped Option A repairs by shared schema surface: `ParentCitation`, `lifecycle`, root conditionals, and `DdrNode` conditionals. That sequence resolves the validated defects end-to-end while preserving backward-compatible stability and minimizing churn.

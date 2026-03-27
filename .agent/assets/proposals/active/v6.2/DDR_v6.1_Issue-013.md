@@ -66,7 +66,11 @@ Eliminate the parallel `node_schema_fields` list and make `$defs.DdrNode` the si
 
 #### Endorsement and Contextual Justification
 
-**Option A (Recommended Strategy)**
+The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**.
+
+The validated defect is a missing synchronization mechanism between two already-existing documentation surfaces, not a runtime schema failure that requires an immediate artifact redesign. A deterministic check closes the gap quickly while preserving current consumers and authoring habits.
+
+**Option A** is recommended because:
 
 - Delivers immediate protection against divergence with minimal disruption.
 - Preserves current artifact structure while introducing measurable consistency guarantees.
