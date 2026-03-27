@@ -50,9 +50,9 @@ Narrow `ParentCitation.edge_type` to `[derives, constrains, implements]` and lea
 
 #### Option B: Split Core Citation Types from the Broader Edge Vocabulary
 
-Define a Core-only citation type for `parent_ids` whose edge vocabulary is limited to `derives`, `constrains`, and `implements`, and preserve the broader four-edge vocabulary in a separate type used only where Extension concepts are modeled. If the project also adopts ISSUE-004's citation-variant refactor, this can become a single cohesive `ParentCitation` redesign rather than two overlapping schema edits. This approach is a slightly larger change, but it turns the current implicit distinction into an explicit type boundary that validators and tooling can rely on. It also reduces the risk that future edits accidentally reintroduce `extends` into the Core DAG.
+Define a Core-only citation model for `parent_ids` and preserve the broader four-edge vocabulary in a separate type used only where Extension concepts are modeled. The clean 2020-12 shape is a `oneOf` split in which `DerivesCitation` requires `edge_type: const: derives`, while `CoreCitation` requires `edge_type: enum: [constrains, implements]`; `edge_type` itself becomes the effective discriminator, so no extra tag field is needed. If the project also adopts ISSUE-004's citation-variant refactor, this can become a single cohesive `ParentCitation` redesign rather than two overlapping schema edits. This approach is a slightly larger change, but it turns the current implicit distinction into an explicit type boundary that validators and tooling can rely on.
 
-* **Supporting Insights:** The current defect exists because one enum is doing double duty: it mixes "all conceptual edge types in the system" with "edge types legal in `parent_ids`." Splitting those responsibilities gives the schema a sharper model of the Core/Extension boundary and pairs naturally with the adjacent ISSUE-004 repair.
+* **Supporting Insights:** The current defect exists because one enum is doing double duty: it mixes "all conceptual edge types in the system" with "edge types legal in `parent_ids`." Splitting those responsibilities and using `edge_type` constraints as the branch selector gives the schema a sharper model of the Core/Extension boundary and pairs naturally with the adjacent ISSUE-004 repair.
 * **Citations:** [JSON Schema enumerated values (`enum`)](https://json-schema.org/understanding-json-schema/reference/enum), [JSON Schema boolean combination (`oneOf`)](https://json-schema.org/understanding-json-schema/reference/combining).
 
 ### 3. Comparative Analysis and Recommended Strategy
@@ -68,11 +68,11 @@ Each strategy entails specific cascading tradeoffs relative to DDR System v6.1 i
 
 The most balanced and minimally disruptive solution is **Option B (Recommended Strategy)**.
 
-Although Option B is slightly larger than a one-line enum trim, it uses the already-required `ParentCitation` repair window to separate Core storage semantics from broader edge vocabulary semantics. That makes the fix more durable and avoids revisiting the same type again when ISSUE-004 is resolved.
+Although Option B is slightly larger than a one-line enum trim, it uses the already-required `ParentCitation` repair window to separate Core storage semantics from broader edge vocabulary semantics. Implemented as a variant split keyed by `edge_type`, it makes the fix more durable without introducing a redundant discriminator and avoids revisiting the same type again when ISSUE-004 is resolved.
 
 **Option B** is recommended because:
 
-* **Type-System Clarity:** It gives `parent_ids` a Core-only citation contract instead of relying on prose to explain why one enum member is actually forbidden there.
+* **Type-System Clarity:** It gives `parent_ids` a Core-only citation contract and lets `edge_type` itself discriminate the legal citation branches instead of relying on prose to explain why one enum member is actually forbidden there.
 * **Cross-Issue Efficiency:** It lets ISSUE-003 and ISSUE-004 be resolved in one coordinated schema redesign rather than in two partially overlapping patches.
 * **Boundary Hardening:** It makes the Core/Extension separation explicit in the schema itself, which lowers the risk of future regressions that leak extension semantics back into the authoritative DAG.
 

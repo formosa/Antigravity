@@ -30,12 +30,13 @@ rule_refs:   [CIT-R2, CIT-R6]
 
 An evaluation of `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.1\ddr_system_v6.1.yaml` and `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.1\ddr_node_schema.yaml` was conducted to investigate the claims of "ISSUE-004: `derivation_mode` Rule Is Declared but Not Enforced."
 
-The rule text in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.1\ddr_system_v6.1.yaml:315-319` states that for `edge_type='derives'`, `derivation_mode` may be provided as `semantic|traceability`, and `:332-335` adds that authority-linkage derives edges must set `derivation_mode` to `traceability`. The schema mirrors that intent only in prose: `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.1\ddr_node_schema.yaml:1194-1202` says `derivation_mode` is "Valid only when edge_type is 'derives'." However, the same schema block has no conditional guard, and the canonical scaffold in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.1\ddr_system_v6.1.yaml:2451-2456` gives every `ParentCitation` an optional `derivation_mode` field. A local `jsonschema` validation probe using `{edge_type: "implements", derivation_mode: "traceability"}` inside `parent_ids` returned `VALID`.
+The rule text in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.1\ddr_system_v6.1.yaml:315-319` states that for `edge_type='derives'`, `derivation_mode` may be provided as `semantic|traceability`, and `:332-335` adds that authority-linkage derives edges must set `derivation_mode` to `traceability`. The schema mirrors that intent only in prose: `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.1\ddr_node_schema.yaml:1194-1202` says `derivation_mode` is "Valid only when edge_type is 'derives'." However, the same schema block has no conditional guard, and the canonical scaffold in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.1\ddr_system_v6.1.yaml:2451-2456` gives every `ParentCitation` an optional `derivation_mode` field. A local `jsonschema` validation probe using `{edge_type: "implements", derivation_mode: "traceability"}` inside `parent_ids` returned `VALID`. The evidence also shows an enforcement ceiling: the schema can restrict `derivation_mode` to derives edges, but it cannot tell whether a particular derives edge is being used specifically as an "authority linkage," so `CIT-R6` can only be partially mechanized.
 
 **Findings:**
 
 1. **The Constraint Exists Only as Documentation:** The schema text states the restriction, but the machine-readable contract does not encode it. That means structurally invalid citation shapes currently pass validation even though the spec says they should not exist.
-2. **The Canonical Implementation Scaffold Reinforces the Defect:** The published dataclass model treats `derivation_mode` as universally optional across all edge types. Tool authors who follow that scaffold will reproduce the same invalid state space in code, not just in data.
+2. **`CIT-R6` Cannot Be Fully Solved by Schema Alone:** The schema can enforce that `derivation_mode` is absent on non-derives edges, but it cannot infer whether a derives citation is serving as an "authority linkage" rather than ordinary semantic lineage. The requirement that authority-linkage derives edges use `traceability` therefore remains partly a runtime or review-time obligation.
+3. **The Canonical Implementation Scaffold Reinforces the Defect:** The published dataclass model treats `derivation_mode` as universally optional across all edge types. Tool authors who follow that scaffold will reproduce the same invalid state space in code, not just in data.
 
 ### 2. Suggested Strategies for Optimal Resolution of ISSUE-004
 
@@ -50,9 +51,9 @@ Keep the current `ParentCitation` shape but add JSON Schema conditional logic so
 
 #### Option B: Split `ParentCitation` into Explicit Citation Variants
 
-Replace the single all-purpose `ParentCitation` definition with explicit variants such as `DerivesCitation` and `NonDerivesCitation`, combined with `oneOf`. The derives variant carries the optional `derivation_mode`, while the non-derives variant omits it entirely and can simultaneously enforce ISSUE-003's exclusion of `extends` from `parent_ids`. This is a broader schema refactor than Option A, but it makes the citation model self-documenting and structurally unambiguous. It also aligns the schema type system with how the spec already talks about derives edges as semantically special.
+Replace the single all-purpose `ParentCitation` definition with explicit variants such as `DerivesCitation` and `NonDerivesCitation`, combined with `oneOf`. The derives variant carries the optional `derivation_mode`, while the non-derives variant omits it entirely and can simultaneously enforce ISSUE-003's exclusion of `extends` from `parent_ids`; the canonical scaffold at `ddr_system_v6.1.yaml:2451-2456` should be updated in the same remediation window so the published dataclass model matches the revised schema. This is a broader schema refactor than Option A, but it makes the citation model self-documenting and structurally unambiguous. It also aligns the schema type system with how the spec already talks about derives edges as semantically special, while still acknowledging that `CIT-R6` intent cannot be fully derived from structure alone.
 
-* **Supporting Insights:** ISSUE-003 and ISSUE-004 both point to the same design smell: the current `ParentCitation` object is modeling too many distinct cases in one loose shape. Variant schemas let the project solve both defects with one coherent redesign instead of layering more conditional exceptions onto an already overloaded type.
+* **Supporting Insights:** ISSUE-003 and ISSUE-004 both point to the same design smell: the current `ParentCitation` object is modeling too many distinct cases in one loose shape. Variant schemas let the project solve both defects with one coherent redesign instead of layering more conditional exceptions onto an already overloaded type, but the project should document that "authority linkage" still requires semantic intent checking beyond pure schema validation.
 * **Citations:** [JSON Schema boolean combination (`oneOf`)](https://json-schema.org/understanding-json-schema/reference/combining), [JSON Schema enumerated values (`enum`)](https://json-schema.org/understanding-json-schema/reference/enum).
 
 ### 3. Comparative Analysis and Recommended Strategy
@@ -63,6 +64,7 @@ Each strategy entails specific cascading tradeoffs relative to DDR System v6.1 i
 
 1. **Immediate Patch Size:** Option A is smaller and easier to land as an isolated fix because it preserves the current object shape. Option B asks for a broader schema edit, but it converts the citation model into explicit structural cases instead of encoded branching logic.
 2. **Cross-Issue Alignment:** Option A repairs only the `derivation_mode` defect. Option B can absorb ISSUE-003 in the same refactor by making non-derives citations and Core-only citation vocabularies explicit, which reduces repeated churn on the same type.
+3. **Enforcement Ceiling:** Neither option can make `CIT-R6` fully self-enforcing because the schema cannot infer why a derives edge exists. Option B still improves the structural baseline more because it removes invalid non-derives cases and clarifies where runtime intent checks must begin.
 
 #### Endorsement and Contextual Justification
 
@@ -75,9 +77,10 @@ Option B is the better long-term move because the project already has to revisit
 * **Self-Documenting Structure:** The legal placement of `derivation_mode` becomes obvious from the schema shape itself rather than from prose and conditionals alone.
 * **Combined Remediation:** It addresses the `derivation_mode` defect and the adjacent `extends`-in-`parent_ids` defect through one coordinated type redesign.
 * **Better Tooling Semantics:** Validators, generators, and typed client models can distinguish derives citations from non-derives citations without carrying ad hoc branch logic in every consumer.
+* **Scaffold Consistency:** Updating the canonical `ParentCitation` scaffold in the same change window prevents the published implementation model from reintroducing the same defect in code.
 
 ### 4. GPT-5.4 Endorsement
 
 GPT-5.4 endorses the current Recommended Strategy, **Option B**, as the maximally optimized solution for ISSUE-004.
 
-This endorsement is based on the present DDR v6.1 schema surface and scaffold model: the defect is systemic, not merely conditional. A narrow `if`/`then` guard would block one invalid shape, but it would leave the overloaded `ParentCitation` abstraction in place. Option B is stronger because it converts the citation model into explicit structural variants, which simultaneously solves the `derivation_mode` enforcement gap and complements the ISSUE-003 repair.
+This endorsement is based on the present DDR v6.1 schema surface and scaffold model: the defect is systemic, not merely conditional. A narrow `if`/`then` guard would block one invalid shape, but it would leave the overloaded `ParentCitation` abstraction in place and would not address the scaffold mismatch or the fact that `CIT-R6` intent still needs runtime checking. Option B is stronger because it converts the citation model into explicit structural variants, updates the implementation scaffold in the same window, and complements the ISSUE-003 repair.
