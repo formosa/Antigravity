@@ -4,7 +4,7 @@
 > identified issues with the DDR System v6.1. When processing this document:
 >
 > 1. Parse the `## ISSUE REGISTRY` table first to assess scope.
-> 2. Read only the `` blocks within each issue before reading full content.
+> 2. Read the issue heading plus the `Status`, `Severity`, and `Type` metadata lines before reading full content.
 > 3. Use `STATUS`, `SEVERITY`, and `TYPE` fields for filtering and prioritization.
 > 4. Do NOT infer, create, or modify issues without explicit instruction to do so.
 > 5. When adding a new issue, follow the `## ISSUE SCHEMA` exactly and append to `## ISSUES`.
@@ -25,6 +25,8 @@ document:
   created:         "2026-03-27"
   last_modified:   "2026-03-27"
   author:          "Anthony Formosa"
+  open_issues:     13
+  resolved_issues: 0
   status_values:   [OPEN, IN_REVIEW, RESOLVED, WONT_FIX, DEFERRED]
   severity_values: [CRITICAL, MAJOR, MODERATE, MINOR]
   type_values:
@@ -118,7 +120,7 @@ The schema advertises support for lean project-instance files whose minimum shap
 
 - `ddr_node_schema.yaml` lines 19-23 state that all sections beyond `ddr_version`, `active_tiers`, and `nodes` are optional for project-instance files.
 - `ddr_node_schema.yaml` lines 26-30 require `lifecycle` at the root.
-- A direct `jsonschema_rs` probe using only `ddr_version`, `active_tiers`, and `nodes` fails with: `"lifecycle" is a required property`.
+- A direct `jsonschema` validation probe using only `ddr_version`, `active_tiers`, and `nodes` fails with: `"lifecycle" is a required property`.
 - Because the schema is presented as certifying both system-definition files and project-instance files, the root contract must not contradict its own published minimum shape.
 
 #### Impact Assessment-001
@@ -127,7 +129,7 @@ Lean project-instance DDR files cannot validate even when they satisfy the docum
 
 #### Resolution-001: Option A — Make `lifecycle` Conditional
 
-Remove `lifecycle` from the unconditional root `required` list and require it only for system-definition files. Implement that distinction with a root-level conditional such as presence of `system_metadata`, `tier_definitions`, or another explicit `definition_kind` discriminator. This preserves the published lean project-instance contract while keeping lifecycle mandatory for the authoritative system spec.
+Remove `lifecycle` from the unconditional root `required` list and require it only for system-definition files. Implement that distinction with a root-level conditional keyed to the existing `system_metadata` marker. This preserves the published lean project-instance contract while keeping lifecycle mandatory for the authoritative system spec.
 
 #### Resolution-001: Option B — Rewrite the Project-Instance Contract
 
@@ -188,7 +190,7 @@ The `ParentCitation` schema allows `edge_type: extends`, even though the citatio
 - `ddr_system_v6.1.yaml` lines 328-331 define `CIT-R5`: Extension `extends` edges are stored in `extension_annotations` only and never in `parent_ids`.
 - `ddr_node_schema.yaml` lines 1159-1167 reinforce that Extension metadata belongs in `extension_annotations`, not in `parent_ids`.
 - `ddr_node_schema.yaml` lines 1185-1193 still declare `ParentCitation.edge_type` as `[derives, constrains, implements, extends]`.
-- A direct `jsonschema_rs` probe validated a node whose `parent_ids` contained `{id: "SIL-1.1", edge_type: "extends"}`.
+- A direct `jsonschema` validation probe validated a node whose `parent_ids` contained `{id: "SIL-1.1", edge_type: "extends"}`.
 
 #### Impact Assessment-003
 
@@ -222,7 +224,7 @@ The spec states that `derivation_mode` is valid only for `edge_type='derives'`, 
 - `ddr_system_v6.1.yaml` lines 315-319 define `CIT-R2` so that `derivation_mode` applies to `derives` edges.
 - `ddr_system_v6.1.yaml` lines 332-335 define `CIT-R6`, which depends on the ability to structurally distinguish derives-edge traceability.
 - `ddr_node_schema.yaml` lines 1194-1202 state that `derivation_mode` is "Valid only when edge_type is 'derives'."
-- The same schema block contains no `if/then`, `oneOf`, or other conditional guard, and a direct `jsonschema_rs` probe validated `{edge_type: "implements", derivation_mode: "traceability"}` inside `parent_ids`.
+- The same schema block contains no `if/then`, `oneOf`, or other conditional guard, and a direct `jsonschema` validation probe validated `{edge_type: "implements", derivation_mode: "traceability"}` inside `parent_ids`.
 - `ddr_system_v6.1.yaml` lines 2451-2456 show the canonical scaffold `ParentCitation` dataclass also accepts `derivation_mode` for every edge instance.
 
 #### Impact Assessment-004
@@ -256,7 +258,7 @@ The schema text says that namespaced annotation keys ending in core field names 
 
 - `ddr_node_schema.yaml` lines 1162-1167 say keys named `content`, `parent_ids`, `status`, `tier`, or `id` are never valid in `extension_annotations`.
 - `ddr_node_schema.yaml` lines 1168-1171 permit any key matching `^[A-Z][A-Z0-9_]+::[a-z][a-z0-9_]+$`, which allows values such as `HRE::content`.
-- A direct `jsonschema_rs` probe validated `extension_annotations: {HRE::content: "shadow"}`.
+- A direct `jsonschema` validation probe validated `extension_annotations: {HRE::content: "shadow"}`.
 - Because `extension_annotations` is the sanctioned channel for Extension/Core interaction, its reserved-key guarantees need to be enforceable rather than documentary only.
 
 #### Impact Assessment-005
@@ -265,7 +267,7 @@ Extensions can publish namespaced keys that shadow core field names while still 
 
 #### Resolution-005: Option A — Explicitly Block Reserved Suffixes
 
-Add a `propertyNames` or negative-pattern constraint that rejects keys whose annotation segment after `::` is `content`, `parent_ids`, `status`, `tier`, or `id`. This preserves the existing namespacing model while making the reserved-word rule enforceable.
+Add a `propertyNames`-based reserved-suffix constraint that rejects keys whose annotation segment after `::` is `content`, `parent_ids`, `status`, `tier`, or `id`. This preserves the existing namespacing model while making the reserved-word rule enforceable.
 
 #### Resolution-005: Option B — Relax the Normative Text
 
@@ -513,7 +515,7 @@ Split node typing to make root status structural (for example, `RootNode` vs `No
 
 #### Notes-012
 
-This issue is adjacent to ISSUE-011 because tier-specific variants could absorb root/non-root cardinality as part of a broader structural model.
+This issue is adjacent to ISSUE-011, but it is independently actionable today even without a broader structural refactor.
 
 ---
 

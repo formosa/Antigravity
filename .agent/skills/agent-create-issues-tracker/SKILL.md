@@ -23,6 +23,7 @@ description: Deterministically initializes an Antigravity-compliant Issues Track
    - `{{DOCUMENT_ID}}`
    - `{{YYYY-MM-DD}}` (ISO date)
    - `{{AUTHOR_NAME}}`
+   - `{{OPEN_ISSUES_COUNT}}` -> `0`
    - `{{TOTAL_ISSUES_COUNT}}` -> `0`
    - `{{RESOLVED_ISSUES_COUNT}}` -> `0`
 5. Write the file to the user-requested target path.

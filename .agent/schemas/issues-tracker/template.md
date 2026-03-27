@@ -25,6 +25,8 @@ document:
   created:         "{{YYYY-MM-DD}}"
   last_modified:   "{{YYYY-MM-DD}}"
   author:          "{{AUTHOR_NAME}}"
+  open_issues:     {{OPEN_ISSUES_COUNT}}
+  resolved_issues: {{RESOLVED_ISSUES_COUNT}}
   status_values:   [OPEN, IN_REVIEW, RESOLVED, WONT_FIX, DEFERRED]
   severity_values: [CRITICAL, MAJOR, MODERATE, MINOR]
   type_values:
