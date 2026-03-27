@@ -259,7 +259,7 @@ The dependency map in the tracker is accurate, but I recommend **re-prioritizing
 | 7          | **ISSUE-009**                                   | Root-level conditional, depends on ISSUE-001 approach |
 | 8          | **ISSUE-002, ISSUE-007, ISSUE-010**             | Lifecycle integrity (can proceed in parallel)         |
 | 9          | **ISSUE-005**                                   | Extension isolation (independent)                     |
-| 10         | **NEW ISSUE-012, NEW ISSUE-013**                 | Newly identified and validated                         |
+| 10         | **NEW ISSUE-012, NEW ISSUE-013**                | Newly identified and validated                        |
 
 ---
 
@@ -282,3 +282,36 @@ The dependency map in the tracker is accurate, but I recommend **re-prioritizing
 **Key Theme:** Issues 004, 006, 008, and 011 all benefit from a **tier-specific node variant** approach. While this represents higher initial refactor cost, it creates a more maintainable, self-documenting schema that prevents entire classes of cross-field validation errors. If the project can absorb this cost, the long-term maintainability gains are substantial.
 
 Validated conclusion: **ISSUE-012** and **ISSUE-013** are genuine gaps that should be tracked. **Candidate ISSUE-014** should not be promoted because current `active_tiers` semantics already encode active/ inactive optional tiers.
+
+---
+
+## Third Party Review
+
+This is an exceptionally thorough and architecturally sound analysis. Your pivot toward **Option B (Polymorphic/Tier-Specific Node Variants)** for the core structural issues is the exact right impulse for a mature JSON Schema Draft 2020-12 implementation.
+
+You have correctly identified that relying heavily on `if/then` conditionals or regex patterns to enforce structural boundaries creates a brittle contract. By transitioning to a polymorphic schema (using a discriminated union via `oneOf`), the DDR framework can enforce invariants by *shape* rather than by *rule*.
+
+Here is my feedback on your strategic divergences and the newly identified gaps.
+
+### 1. The Push for Polymorphism (Issues 004, 006, 008, 011)
+
+Your recommendation to override the conservative "Option A" fixes in favor of explicit structural variants is the strongest architectural insight here.
+
+If we refactor `DdrNode` into specific variants (e.g., `XpdNode`, `SilNode`, `ClNode`, `SupersedePendingNode`), multiple issues resolve themselves simultaneously:
+
+- **ISSUE-011 (IDs):** The `ClNode` variant strictly requires `pattern: "^CL-[0-9]+\.[0-9]+$"`. Regexes no longer have to carry the weight of semantic tier matching.
+- **ISSUE-008 (`constraint_origin`):** This field simply becomes a `required` property on the `ClNode` variant and is entirely omitted from the others.
+- **ISSUE-006 (`prior_status`):** This aligns perfectly with the vulnerability I flagged previously. A dedicated `SupersedePendingNode` variant guarantees `prior_status` is present, while standard active nodes structurally reject it.
+- **ISSUE-004 (`derivation_mode`):** Applying this same polymorphic logic to `ParentCitation` (splitting into `DerivesCitation` vs. `NonDerivesCitation`) cleanly eliminates the illegal `extends` edge (ISSUE-003) and isolates the derivation mode logic.
+
+### 2. Analysis of New Issues (012, 013, 014)
+
+Your newly identified issues represent genuine blind spots in the current v6.1 schema that threaten deterministic validation.
+
+- **NEW ISSUE-012 (Orphaned Non-Root Nodes):** Excellent catch. The `default: []` on `parent_ids` is a classic schema trap. If a node is not a root node, `minItems: 1` must be strictly enforced. If we adopt the polymorphic node variants, this is easily solved: the `XpdNode` (and `SilNode` when root) permits `maxItems: 0`, while all other tier variants mandate `minItems: 1`.
+- **NEW ISSUE-013 (`node_schema_fields` drift):** You are spot on. Maintaining a parallel documentation array creates guaranteed drift. JSON Schema's native metadata keywords (`description`, `title`, etc.) within the `properties` block should entirely replace the `node_schema_fields` array. The schema must be the single source of truth.
+- **NEW ISSUE-014 (Missing `tier_activation_state`):** This is critical for DAG traversals. Without explicit boolean flags (e.g., `is_xpd_active`, `is_cl_active`) in the `project` metadata, a validator cannot deterministically enforce `INV-4` (SAL derives directly from FCL when CL is inactive). An empty tier could mean "not activated" or simply "activated but missing nodes."
+
+### Consideration for Strategic Next Step
+
+The cascading nature of these issues—particularly the alignment between your findings and the Candidate Pool/`prior_status` vulnerabilities I identified earlier—strongly suggests that patching the monolithic `DdrNode` is no longer viable. The schema requires a structural refactor to a polymorphic model.
