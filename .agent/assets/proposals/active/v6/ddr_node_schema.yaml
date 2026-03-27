@@ -1,7 +1,7 @@
-# ddr_node_schema.yaml — DDR System v6.0 YAML Definition Schema
+# ddr_node_schema.yaml — DDR System v6.1 YAML Definition Schema
 # JSON Schema Draft 2020-12 expressed in YAML.
 # Certifies BOTH:
-#   (A) DDR system-definition files (e.g. ddr_system_v6.0.yaml) — all sections
+#   (A) DDR system-definition files (e.g. ddr_system_v6.1.yaml) — all sections
 #   (B) DDR project-instance files — minimum: ddr_version, active_tiers, nodes
 #
 # Validate with:
@@ -13,10 +13,10 @@
 #   "
 
 $schema: "https://json-schema.org/draft/2020-12/schema"
-$id: "ddr-system-v6.0-schema"
-title: "DDR System v6.0 YAML Definition"
+$id: "ddr-system-v6.1-schema"
+title: "DDR System v6.1 YAML Definition"
 description: >
-  Schema for DDR System v6.0 YAML definition files. Covers both project-instance
+  Schema for DDR System v6.1 YAML definition files. Covers both project-instance
   DAGs (individual nodes for a software project) and full system-definition files
   (the DDR specification itself). All sections beyond ddr_version, active_tiers,
   and nodes are optional, enabling lean project-instance files while permitting
@@ -36,8 +36,8 @@ properties:
 
   ddr_version:
     type: string
-    const: "6.0"
-    description: "Locks the definition to DDR v6.0. Must be the string '6.0'."
+    const: "6.1"
+    description: "Locks the definition to DDR v6.1. Must be the string '6.1'."
 
   active_tiers:
     type: array
@@ -202,6 +202,8 @@ properties:
           $ref: "#/$defs/ExpressModeGroup"
       unbundle_determinism_rule:
         type: string
+      deferred_fragment_handling:
+        type: string
 
   # ── OPTIONAL: TIER DEFINITIONS (§5) ────────────────────────────────────────
 
@@ -224,9 +226,15 @@ properties:
         type: array
         items:
           $ref: "#/$defs/ConstraintPrecedenceTier"
+      constraint_classes:
+        type: array
+        items:
+          $ref: "#/$defs/ConstraintClass"
       override_principle:
         type: string
       intra_tier_conflict_rule:
+        type: string
+      physical_constraint_rule:
         type: string
       physical_constraint_escalation:
         type: string
@@ -252,8 +260,18 @@ properties:
         type: array
         items:
           type: string
+      dirty_classification:
+        type: array
+        items:
+          $ref: "#/$defs/DirtyClassificationEntry"
+      supersede_dirty_behavior:
+        type: string
       resolution_workflow:
         type: string
+      conflict_resolution_protocol:
+        $ref: "#/$defs/ConflictResolutionProtocol"
+      semantic_consistency_rules:
+        $ref: "#/$defs/SemanticConsistencyRules"
       reconciliation_manifest_tracks:
         type: array
         items:
@@ -267,6 +285,8 @@ properties:
             type: array
             items:
               $ref: "#/$defs/ManifestItemType"
+          semantic_gap_classification:
+            $ref: "#/$defs/SemanticGapClassification"
 
   # ── OPTIONAL: EXTENSION SYSTEM (§8) ────────────────────────────────────────
 
@@ -412,7 +432,7 @@ properties:
 
   tier_migration:
     type: object
-    description: "v3.1.1 → v5.0 tier and rule migration records (Appendix B)."
+    description: "Legacy tier and rule migration records (Appendix B)."
     additionalProperties: false
     properties:
       policy:
@@ -740,6 +760,67 @@ $defs:
       rationale:
         type: string
 
+  ConstraintClass:
+    type: object
+    required: [class, description]
+    additionalProperties: false
+    properties:
+      class:
+        type: string
+        enum: [logical, physical]
+      description:
+        type: string
+
+  DirtyClassificationEntry:
+    type: object
+    required: [type, description]
+    additionalProperties: false
+    properties:
+      type:
+        type: string
+        enum: [structural, semantic]
+      description:
+        type: string
+
+  ConflictResolutionProtocol:
+    type: object
+    required: [steps, audit_requirement]
+    additionalProperties: false
+    properties:
+      steps:
+        type: array
+        items:
+          type: string
+      audit_requirement:
+        type: string
+
+  SemanticConsistencyRules:
+    type: object
+    required: [description, enforcement]
+    additionalProperties: false
+    properties:
+      description:
+        type: string
+      enforcement:
+        type: string
+
+  SemanticGapClassification:
+    type: object
+    required: [description, allowed_types, constraints]
+    additionalProperties: false
+    properties:
+      description:
+        type: string
+      allowed_types:
+        type: array
+        items:
+          type: string
+          enum: [MISSING_MEDIATOR]
+      constraints:
+        type: array
+        items:
+          type: string
+
   # §7 — Operations
 
   Operation:
@@ -1029,7 +1110,7 @@ $defs:
         type: string
         enum: [derived, imposed]
         description: >
-          Causal origin of the constraint (v6.0 §5, for CL tier).
+          Causal origin of the constraint (v6.1 §5, for CL tier).
           'derived' = chosen in response to functional requirements.
           'imposed' = externally mandated authority.
       prior_status:

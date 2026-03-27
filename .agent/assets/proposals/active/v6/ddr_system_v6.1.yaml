@@ -1,16 +1,16 @@
-# ddr_system_v6.0.yaml
-# DDR System v6.0 — Authoritative Specification expressed in certified YAML schema
+# ddr_system_v6.1.yaml
+# DDR System v6.1 — Authoritative Specification expressed in certified YAML schema
 # This file IS the DDR System specification represented as its own DAG.
 # The nodes section encodes the canonical 9-tier topology with all DAG edges.
 # All normative sections from the specification document are represented here.
 #
 # Conforms to: ddr_node_schema.yaml (JSON Schema 2020-12)
-# Source reference: DDR System Specification v6.0 (2026-03-25)
+# Source reference: DDR System Specification v6.1 (2026-03-27)
 
-ddr_version: "6.0"
+ddr_version: "6.1"
 
 project:
-  name: "DDR System v6.0 — Authoritative Specification"
+  name: "DDR System v6.1 — Authoritative Specification"
   created: "2026-02-26"
   mode: full
 
@@ -29,10 +29,10 @@ active_tiers:
 
 system_metadata:
   status: Finalized
-  date: "2026-03-25"
+  date: "2026-03-27"
   scope: "Systems-, language-, and domain-agnostic"
   authority: "DDR Architecture Board"
-  lineage: "Supersedes DDR v5.0"
+  lineage: "Supersedes DDR v6.0"
   single_source_of_truth: >
     This document is the exclusive normative specification for the DDR System.
     All prior versions are superseded. No conversation record, partial
@@ -56,46 +56,57 @@ system_metadata:
         is typed, every mutation is validated. The system is correct by construction.
 
   changes_from_prior:
-    - area: "Tier count"
-      prior: "11 tiers (8 mandatory + 3 optional)"
-      current: "9 tiers (7 mandatory + 2 optional)"
+    - area: "Semantic gap governance"
+      prior: "MISSING_MEDIATOR existed as a manifest item type only"
+      current: "Semantic gap classification formalized with INV-7 accountability rules"
       rationale: >
-        ORL absorbed into GPCL; HIL and TDL unified into CL.
-        Eliminates two tiers without information loss.
-    - area: "Fork-Join"
-      prior: "FCL forks to HIL∥TDL, joins at SAL"
-      current: "FCL optionally constrains a single CL; CL constrains SAL"
-      rationale: "Eliminates fork complexity; single constraint merge point at SAL."
-    - area: "Edge types"
-      prior: "6 types"
-      current: "4 types"
+        Makes explicitly tolerated structural-semantic gaps auditable and
+        bounded without weakening DAG integrity rules.
+    - area: "Constraint conflict handling"
+      prior: "Physical or imposed constraint escalation was described narratively"
+      current: "Constraint classes and a formal physical_constraint_rule are defined"
       rationale: >
-        cites merged into derives (a citation IS a derivation relationship).
-        reads and annotates unified into extends (both describe Extension-to-Core
-        interaction with the same constraint: no Core mutation).
-    - area: "Operations"
-      prior: "11 operations"
-      current: "7 operations"
+        Distinguishes overridable logical precedence from non-overridable
+        imposed or physically blocking constraints.
+    - area: "Dirty state semantics"
+      prior: "Scoped SUPERSEDE DIRTY propagation was described narratively"
+      current: "dirty_classification and supersede_dirty_behavior are formalized"
       rationale: >
-        RELOCATE removed (contradicted ID immutability).
-        ABSTRACT/CONCRETIZE merged into INSERT with direction parameter.
-        DETECT_ORPHAN and DETECT_CONTAMINATION subsumed by VERIFY.
-    - area: "Node ID immutability"
-      prior: "Contradicted by RELOCATE"
-      current: "Absolute — no operation mutates a node ID"
-      rationale: "Resolves the v3.1.1 RELOCATE contradiction definitively."
-    - area: "ARE staging"
-      prior: "Ambiguous DRAFT-in-Core"
-      current: "Extension Candidate Pool — explicitly outside Core DAG"
-      rationale: "Eliminates read-only model tension. ARE-inferred nodes cannot contaminate Core."
-    - area: "Express Mode"
-      prior: "5 groups"
-      current: "4 groups; UNBUNDLE determinism rule added"
-      rationale: "Realigned to new 9-tier structure. UNBUNDLE determinism resolves allocation ambiguity."
-    - area: "Service Model"
-      prior: "3-tier pricing"
-      current: "Removed"
-      rationale: "Premature optimization; commercial model is an operational concern, not a specification concern."
+        Clarifies why structural rewiring does not automatically imply semantic
+        invalidation of all descendants.
+    - area: "Cross-node semantic review"
+      prior: "VERIFY was defined as structural-only"
+      current: "Optional semantic consistency rules may emit REVIEW_REQUIRED items"
+      rationale: >
+        Enables non-blocking detection of cross-node semantic conflicts without
+        introducing a new Core operation.
+    - area: "Express Mode UNBUNDLE"
+      prior: "Any ambiguous fragment blocked atomic UNBUNDLE"
+      current: "Explicit [DEFER] annotation allows deterministic deferred-fragment handling"
+      rationale: >
+        Preserves determinism while reducing authoring brittleness in partial
+        unbundle workflows.
+    - area: "Extension interaction wording"
+      prior: "AX-5 wording implied Core should not expose explicit Extension interfaces"
+      current: "AX-5 now clarifies interface-based, non-mutating Extension interaction"
+      rationale: >
+        Aligns the axiom wording with the existing extension model without
+        broadening Core responsibility.
+    - area: "Conflict resolution workflow"
+      prior: "Resolution workflow existed without a minimal conflict protocol"
+      current: "Conflict resolution protocol formalized with audit requirements"
+      rationale: >
+        Makes escalation and disposition steps explicit for reproducible governance.
+    - area: "Lifecycle completeness"
+      prior: "Lifecycle authority existed without a completeness invariant"
+      current: "INV-8 requires a closed lifecycle state machine"
+      rationale: >
+        Protects determinism by making lifecycle completeness an explicit invariant.
+    - area: "Version coherence"
+      prior: "Parent-version freshness was implied by DIRTY propagation only"
+      current: "CIT-R7 formalizes child re-validation after parent version change"
+      rationale: >
+        Prevents silent reliance on stale parent content after MODIFY or SUPERSEDE.
 
 errata_log: []
 
@@ -136,7 +147,9 @@ axioms:
       Advanced analytical capabilities are delivered exclusively via optional
       Extensions.
     implication: >
-      Core remains stable under Extension addition, modification, or removal.
+      Core structure remains stable and does not depend on Extension behavior.
+      Extensions may interact with Core via explicitly defined, non-mutating
+      interfaces.
   - id: AX-6
     name: Declarative Integrity
     statement: >
@@ -266,6 +279,17 @@ dag_invariants:
       sequence has been applied without all three completing — constitutes a
       structural violation detectable by VERIFY.
       At most one XPD node may carry status ACTIVE at any time.
+  - id: INV-7
+    statement: >
+      Structural validity may coexist with declared semantic gaps only when
+      those gaps are explicitly recorded in the reconciliation manifest under
+      an allowed semantic_gap_classification type, with human rationale and a
+      required resolution or waiver before CLEAN state.
+  - id: INV-8
+    statement: >
+      The lifecycle.status_transitions definition must form a complete and
+      closed state machine: every non-terminal status must have at least one
+      valid outbound transition, and no undefined transitions are permitted.
 
 # ── §3.6 NODE ID FORMAT ──────────────────────────────────────────────────────
 
@@ -309,6 +333,12 @@ citation_rules:
     statement: >
       Any derives edge used as an authority linkage (traceability citation)
       MUST set derivation_mode to 'traceability'.
+  - rule_id: CIT-R7
+    statement: >
+      A child node may remain ACTIVE only while each cited parent remains at
+      the version last validated against. Any parent MODIFY or SUPERSEDE that
+      changes cited parent content requires child re-validation; VERIFY must
+      flag the child DIRTY until that re-validation completes.
 
 # ── §4 CONSUMPTION MODES ─────────────────────────────────────────────────────
 
@@ -347,11 +377,20 @@ express_mode:
     deterministic UNBUNDLE allocation. UNBUNDLE_SCAN is independently
     invokable as a read-only pre-flight check that classifies each content
     fragment with confidence 'high', 'ambiguous', or 'none'. UNBUNDLE_EXECUTE
-    is the atomic commit phase and may proceed only when all fragments are
-    classified as 'high'. The UNBUNDLE operation must reject content that
-    cannot be unambiguously assigned to a constituent tier. On rejected
-    UNBUNDLE_EXECUTE, the Express Mode group node retains its current status
-    with no structural mutations applied.
+    is the atomic commit phase and may proceed only when each fragment is
+    either classified as 'high' or explicitly covered by
+    deferred_fragment_handling. The UNBUNDLE operation must reject content
+    that cannot be unambiguously assigned to a constituent tier and is not
+    explicitly deferred. On rejected UNBUNDLE_EXECUTE, the Express Mode group
+    node retains its current status with no structural mutations applied.
+  deferred_fragment_handling: >
+    Fragments classified as 'ambiguous' or 'none' may be explicitly marked by
+    the author with a [DEFER] annotation and a recorded human rationale in the
+    reconciliation manifest. Deferred fragments are excluded from the current
+    UNBUNDLE execution and retained in the source Express Mode group node.
+    UNBUNDLE_EXECUTE may proceed only when every fragment is either confidence
+    'high' or explicitly deferred; any undeferred ambiguous or unannotated
+    fragment forces atomic rejection.
 
 # ── §5 TIER DEFINITIONS ──────────────────────────────────────────────────────
 
@@ -1095,11 +1134,25 @@ constraint_precedence:
   override_principle: >
     Higher-priority tiers override lower-priority tiers. An XPD ethical
     boundary functions as an absolute veto right over any downstream decision.
+  constraint_classes:
+    - class: logical
+      description: "Governed by the formal tier precedence hierarchy."
+    - class: physical
+      description: >
+        Represents non-negotiable physical realities or externally imposed
+        constraints. These constraints cannot be silently overridden by logical
+        precedence alone.
   intra_tier_conflict_rule: >
     When two or more nodes within the same tier produce conflicting constraints,
     the conflict must be explicitly documented and resolved before any conflicting
     node may transition to status ACTIVE. The VERIFY operation must detect and
     report intra-tier conflicts as structural violations.
+  physical_constraint_rule: >
+    Any CL node declared with constraint_origin='imposed' is treated as a
+    non-overridable physical-or-external constraint for precedence evaluation.
+    Conflicts between higher-priority logical requirements and such imposed
+    constraints must trigger escalation and explicit human resolution; they
+    cannot be silently overridden.
   physical_constraint_escalation: >
     Constraint precedence governs design decisions, not physical impossibilities.
     When a higher-priority tier produces a requirement that is physically
@@ -1153,9 +1206,15 @@ operations:
     - name: VERIFY
       description: >
         Traverse DAG downward; validate citation chains, edge types, ID
-        references, orphans, and contamination.
+        references, orphans, contamination, and any declared cross-node
+        semantic consistency rules.
       validation_trigger: >
-        Returns CLEAN or DIRTY with itemized violations.
+        Returns CLEAN or DIRTY with itemized structural violations. When
+        semantic_consistency_rules are defined, VERIFY may also emit
+        REVIEW_REQUIRED items for non-blocking cross-node semantic conflicts.
+        These findings do not convert a structurally valid graph into a
+        structural violation, but they must receive a recorded human
+        disposition before affected content may be declared CLEAN.
     - name: VALIDATE
       description: >
         Check single node against its tier's full atomic ruleset.
@@ -1194,13 +1253,14 @@ operations:
       validation_trigger: >
         Content allocated to correct tiers; parent_ids auto-wired.
         If UNBUNDLE_SCAN detects any fragment with confidence
-        'ambiguous' or 'none', UNBUNDLE_EXECUTE rejects atomically.
-        No structural mutations are applied. The Express Mode group
-        node retains its pre-attempt status. The rejection payload
-        is the complete UNBUNDLE_SCAN result: a list of per-fragment
-        diagnostic objects, each containing fragment_id,
-        content_preview, detected_annotation, confidence
-        (high | ambiguous | none), and ambiguity_reason (when
+        'ambiguous' or 'none', UNBUNDLE_EXECUTE rejects atomically unless the
+        fragment is explicitly deferred per deferred_fragment_handling. No
+        structural mutations are applied to rejected or deferred fragments.
+        The Express Mode group node retains its pre-attempt status for those
+        deferred fragments. The rejection payload is the complete
+        UNBUNDLE_SCAN result: a list of per-fragment diagnostic objects, each
+        containing fragment_id, content_preview, detected_annotation,
+        confidence (high | ambiguous | none), and ambiguity_reason (when
         confidence is not 'high').
 
   design_decision_removed_ops: >
@@ -1261,11 +1321,44 @@ operations:
       (creating a replacement) or DELETED. DEPRECATED means "scheduled for
       replacement, no replacement yet exists"; SUPERSEDED means "replacement
       exists and children have been re-wired."
+  dirty_classification:
+    - type: structural
+      description: >
+        Indicates a structural change (for example parent_id rewiring) that
+        does not by itself establish semantic invalidation of downstream
+        content.
+    - type: semantic
+      description: >
+        Indicates probable semantic invalidation requiring downstream review or
+        content amendment before CLEAN can be re-established.
+  supersede_dirty_behavior: >
+    Child nodes affected by parent_id rewiring enter DIRTY with classification
+    'structural'. Structural DIRTY does not automatically propagate to
+    descendants. If subsequent VALIDATE or MODIFY activity reveals content
+    drift, the affected node's DIRTY condition is reclassified as 'semantic',
+    and standard downstream propagation rules then apply.
 
   resolution_workflow: >
     DETECT CHANGE → SET DIRTY → SCAN DOWNSTREAM →
     GENERATE PENDING ITEMS (node ID + violated rule ID + suggested operation) →
     EXECUTE OPERATION → VERIFY → SET CLEAN | REPEAT
+  conflict_resolution_protocol:
+    steps:
+      - "Identify conflicting nodes and violated rules."
+      - "Classify conflict type as logical, physical, or semantic."
+      - "Escalate to the designated authoring authority."
+      - "Record the resolution decision and rationale."
+      - "Apply MODIFY, SUPERSEDE, or DELETE as required."
+    audit_requirement: >
+      All conflict resolutions must be recorded in the reconciliation manifest
+      with before/after state references and disposition authority.
+  semantic_consistency_rules:
+    description: >
+      Optional rule set enabling detection of semantic conflicts across nodes
+      within the same tier or across adjacent tiers.
+    enforcement: >
+      Non-blocking structural finding; VERIFY emits REVIEW_REQUIRED items in
+      the reconciliation manifest for human disposition.
 
   reconciliation_manifest_tracks:
     - "Total node count by tier"
@@ -1280,6 +1373,7 @@ operations:
           Logged when a GPCL performance target (GPCL-R6) has no corresponding
           FCL capability node providing independent behavioral context. Flags
           the direct GPCL→SAL dependency for human review per GPCL-FCL-BR1.
+        fields: [gpcl_node_id, message, rationale]
       - item_type: SUPERSEDE_FAILED
         description: >
           Logged when a SUPERSEDE operation fails at step 2 (replacement INSERT
@@ -1301,6 +1395,17 @@ operations:
           SUPERSEDE_ROLLBACK.
         fields: [node_id, prior_status, detected_at]
         severity: BLOCKING
+    semantic_gap_classification:
+      description: >
+        Defines explicitly permitted structural-semantic gaps that do not
+        violate DAG invariants when declared transparently and carried with
+        human accountability.
+      allowed_types:
+        - MISSING_MEDIATOR
+      constraints:
+        - "Must be explicitly logged in the reconciliation manifest."
+        - "Must carry human rationale."
+        - "Must be resolved or explicitly waived before system-wide CLEAN state."
 
 # ── §8 EXTENSION SYSTEM ──────────────────────────────────────────────────────
 
@@ -1814,6 +1919,9 @@ compliance_checklist:
       BLOCKING).
     - "Reconciliation manifest shows zero pending items."
     - >
+      Any declared semantic gap uses an allowed semantic_gap_classification
+      type and is resolved or explicitly waived with rationale before CLEAN.
+    - >
       If any Extension is active, all Extension advisories classified as
       critical or blocking have a recorded disposition note.
   atomic_rule_validation:
@@ -1830,6 +1938,9 @@ compliance_checklist:
       CL nodes with constraint_origin derived cite FCL IDs (CL-R9). CL nodes
       with constraint_origin imposed cite their external authority source
       (CL-R9-imposed).
+    - >
+      Child nodes are re-validated after cited parent version changes and may
+      not remain ACTIVE against stale parent content (CIT-R7).
     - "SAL cites all active parent tiers (FCL + CL if active)."
     - "ICL schemas are machine-parseable (ICL-R2)."
     - "ISL stubs contain traceable docstrings citing CDL parent IDs."
@@ -1962,6 +2073,14 @@ version_history:
       Major version increment: DDR System v6.0. Transition from v5.0 to v6.0.
       All specification files, schema definitions, and meta-details updated
       to satisfy a comprehensive versioning alignment requirement.
+  - version: "6.1"
+    date: "2026-03-27"
+    summary: >
+      Consistency patch release: semantic gap classification and INV-7;
+      AX-5 wording refinement; optional cross-node semantic consistency review
+      under VERIFY; explicit conflict resolution protocol; deferred-fragment
+      handling for UNBUNDLE; lifecycle completeness invariant INV-8; CIT-R7
+      parent-version freshness rule; schema and metadata alignment to v6.1.
 
 # ── APPENDIX B: TIER MIGRATION ────────────────────────────────────────────────
 
@@ -2253,15 +2372,15 @@ nodes:
       input node_spec → output DdrNode | ValidationError (atomic). Error codes:
       CIT-R1 (orphan), AX-7 (cycle), INV-TIER-SKIP (tier skip),
       SCHEMA-STATUS (invalid status). Versioning: schema locked to
-      ddr_version: "5.0"; breaking schema changes require ddr_version increment.
+      ddr_version: "6.1"; breaking schema changes require ddr_version increment.
 
   - id: CDL-7.1
     tier: CDL
     title: "Component Design Layer"
     status: ACTIVE
-    version: "6.0.0"
+    version: "6.1.0"
     created: "2026-02-26T00:00:00Z"
-    modified: "2026-02-26T00:00:00Z"
+    modified: "2026-03-27T00:00:00Z"
     parent_ids:
       - id: ICL-6.1
         edge_type: implements
@@ -2399,7 +2518,7 @@ nodes:
 
 # AUTHORITY: This lifecycle block is the machine-parseable authority
 # for DDR node status lifecycle semantics. The Markdown §3.8 table
-# in DDR_System_Opus_v5.md is a human-readable rendering derived
+# in DDR System(v6).md is a human-readable rendering derived
 # from this block. In the event of divergence, this block governs.
 lifecycle:
   status_transitions:
