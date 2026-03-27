@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "CRITICAL"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-001
-status:      OPEN
+status:      RESOLVED
 severity:    CRITICAL
 type:        SCHEMA_DEFECT
 tier_refs:   ["All project-instance files"]
 section_ref: "Schema Root"
 rule_refs:   []
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Made `lifecycle` conditional for system-definition files keyed by `system_metadata`.
 
 ### 1. Validation Audit of ISSUE-001
 
@@ -76,3 +82,7 @@ The validated defect is a direct contradiction between the root description and 
 * **Exact Contract Repair:** It makes the machine contract match the published minimum project-instance shape instead of redefining the shape around the defect.
 * **Low Migration Cost:** Existing system-definition files keep mandatory lifecycle authority, while lean project instances stop carrying unnecessary lifecycle data.
 * **Reuse of Existing Structure:** The already-declared `system_metadata` marker is enough to distinguish the authoritative system-definition profile without inventing a new discriminator field.
+
+### 4. Implementation Note
+
+Implemented in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` by removing `lifecycle` from the unconditional root `required` list and reintroducing it through a root conditional keyed to `system_metadata`. Resolution was validated by confirming a lean project-instance document without `lifecycle` now passes while `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_system_v6.2.yaml` still validates as a system-definition file.

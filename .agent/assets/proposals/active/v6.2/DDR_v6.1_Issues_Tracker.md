@@ -25,8 +25,8 @@ document:
   created:         "2026-03-27"
   last_modified:   "2026-03-27"
   author:          "Anthony Formosa"
-  open_issues:     13
-  resolved_issues: 0
+  open_issues:     0
+  resolved_issues: 13
   status_values:   [OPEN, IN_REVIEW, RESOLVED, WONT_FIX, DEFERRED]
   severity_values: [CRITICAL, MAJOR, MODERATE, MINOR]
   type_values:
@@ -87,19 +87,19 @@ a minor variant of Option A — must represent a meaningfully different design d
 
 | ID | Severity | Type | Status | Tiers Affected | Title |
 | --- | --- | --- | --- | --- | --- |
-| [ISSUE-001](#issue-001-lifecycle-required-despite-lean-project-instance-contract) | `CRITICAL` | `SCHEMA_DEFECT` | `OPEN` | All project-instance files | `lifecycle` required despite lean project-instance contract |
-| [ISSUE-002](#issue-002-lifecycle-machine-authority-accepts-undefined-states) | `CRITICAL` | `LIFECYCLE_GAP` | `OPEN` | All | Lifecycle machine authority accepts undefined states |
-| [ISSUE-011](#issue-011-node-id-prefix-is-not-bound-to-declared-tier) | `CRITICAL` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | Node ID prefix is not bound to declared tier |
-| [ISSUE-003](#issue-003-parentcitation-permits-forbidden-extends-edges-in-parent_ids) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | ParentCitation permits forbidden `extends` edges in `parent_ids` |
-| [ISSUE-004](#issue-004-derivation_mode-rule-is-declared-but-not-enforced) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | `derivation_mode` rule is declared but not enforced |
-| [ISSUE-006](#issue-006-prior_status-can-be-set-outside-supersede_pending) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | `prior_status` can be set outside `SUPERSEDE_PENDING` |
-| [ISSUE-012](#issue-012-parent_ids-empty-array-default-allows-orphaned-non-root-nodes) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | `parent_ids` empty array default allows orphaned non-root nodes |
-| [ISSUE-005](#issue-005-reserved-extension-annotation-shadow-keys-are-not-schema-blocked) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | All Extensions (schema) | Reserved extension annotation shadow keys are not schema-blocked |
-| [ISSUE-013](#issue-013-node_schema_fields-is-documentation-only-not-machine-enforced) | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN` | System-definition files | `node_schema_fields` is documentation-only, not machine-enforced |
-| [ISSUE-007](#issue-007-lifecycle-object-accepts-arbitrary-keys) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | All lifecycle blocks | `lifecycle` object accepts arbitrary keys |
-| [ISSUE-008](#issue-008-constraint_origin-is-not-restricted-to-cl-nodes) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | Non-CL nodes (schema) | `constraint_origin` is not restricted to CL nodes |
-| [ISSUE-009](#issue-009-express_mode_group-is-not-required-in-express-mode) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | Express-mode project instances | `express_mode_group` is not required in express mode |
-| [ISSUE-010](#issue-010-lifecycle-guard-references-accept-undefined-guard-ids) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | All lifecycle definitions | Lifecycle guard references accept undefined guard IDs |
+| [ISSUE-001](#issue-001-lifecycle-required-despite-lean-project-instance-contract) | `CRITICAL` | `SCHEMA_DEFECT` | `RESOLVED` | All project-instance files | `lifecycle` required despite lean project-instance contract |
+| [ISSUE-002](#issue-002-lifecycle-machine-authority-accepts-undefined-states) | `CRITICAL` | `LIFECYCLE_GAP` | `RESOLVED` | All | Lifecycle machine authority accepts undefined states |
+| [ISSUE-011](#issue-011-node-id-prefix-is-not-bound-to-declared-tier) | `CRITICAL` | `SCHEMA_DEFECT` | `RESOLVED` | All (schema) | Node ID prefix is not bound to declared tier |
+| [ISSUE-003](#issue-003-parentcitation-permits-forbidden-extends-edges-in-parent_ids) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | All (schema) | ParentCitation permits forbidden `extends` edges in `parent_ids` |
+| [ISSUE-004](#issue-004-derivation_mode-rule-is-declared-but-not-enforced) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | All (schema) | `derivation_mode` rule is declared but not enforced |
+| [ISSUE-006](#issue-006-prior_status-can-be-set-outside-supersede_pending) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | All (schema) | `prior_status` can be set outside `SUPERSEDE_PENDING` |
+| [ISSUE-012](#issue-012-parent_ids-empty-array-default-allows-orphaned-non-root-nodes) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | All (schema) | `parent_ids` empty array default allows orphaned non-root nodes |
+| [ISSUE-005](#issue-005-reserved-extension-annotation-shadow-keys-are-not-schema-blocked) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | All Extensions (schema) | Reserved extension annotation shadow keys are not schema-blocked |
+| [ISSUE-013](#issue-013-node_schema_fields-is-documentation-only-not-machine-enforced) | `MODERATE` | `DESIGN_INADEQUACY` | `RESOLVED` | System-definition files | `node_schema_fields` is documentation-only, not machine-enforced |
+| [ISSUE-007](#issue-007-lifecycle-object-accepts-arbitrary-keys) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | All lifecycle blocks | `lifecycle` object accepts arbitrary keys |
+| [ISSUE-008](#issue-008-constraint_origin-is-not-restricted-to-cl-nodes) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | Non-CL nodes (schema) | `constraint_origin` is not restricted to CL nodes |
+| [ISSUE-009](#issue-009-express_mode_group-is-not-required-in-express-mode) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | Express-mode project instances | `express_mode_group` is not required in express mode |
+| [ISSUE-010](#issue-010-lifecycle-guard-references-accept-undefined-guard-ids) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | All lifecycle definitions | Lifecycle guard references accept undefined guard IDs |
 
 ---
 
@@ -109,8 +109,10 @@ a minor variant of Option A — must represent a meaningfully different design d
 
 ### ISSUE-001: `lifecycle` Required Despite Lean Project-Instance Contract
 
-**Status:** `OPEN` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All project-instance files` | **Spec Section:** `Schema Root`
+
+> **Resolution (2026-03-27):** Option A — Made `lifecycle` conditional for system-definition files keyed by `system_metadata`.
 
 #### Problem Statement-001
 
@@ -143,8 +145,10 @@ This issue is independent of lifecycle-state correctness. Even if ISSUE-002 is r
 
 ### ISSUE-002: Lifecycle Machine Authority Accepts Undefined States
 
-**Status:** `OPEN` | **Severity:** `CRITICAL` | **Type:** `LIFECYCLE_GAP`
+**Status:** `RESOLVED` | **Severity:** `CRITICAL` | **Type:** `LIFECYCLE_GAP`
 **Tiers Affected:** `All` | **Spec Section:** `§3.1, §3.8`
+
+> **Resolution (2026-03-27):** Option A — Typed lifecycle endpoints, modeled rollback with `to_node_field`, and removed persisted `DELETED` transitions.
 
 #### Problem Statement-002
 
@@ -178,8 +182,10 @@ This issue interacts with ISSUE-001 because the current root schema already forc
 
 ### ISSUE-003: ParentCitation Permits Forbidden `extends` Edges in `parent_ids`
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All (schema)` | **Spec Section:** `§3.7, §8.1`
+
+> **Resolution (2026-03-27):** Option A — Restricted `ParentCitation.edge_type` to Core citation edges only.
 
 #### Problem Statement-003
 
@@ -212,8 +218,10 @@ This issue shares the same schema surface as ISSUE-004. If `ParentCitation` is r
 
 ### ISSUE-004: `derivation_mode` Rule Is Declared but Not Enforced
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All (schema)` | **Spec Section:** `§3.2, §3.7`
+
+> **Resolution (2026-03-27):** Option A — Gated `derivation_mode` so it is valid only on `derives` edges.
 
 #### Problem Statement-004
 
@@ -247,8 +255,10 @@ This issue is adjacent to ISSUE-003 because both arise from the same `ParentCita
 
 ### ISSUE-005: Reserved Extension Annotation Shadow Keys Are Not Schema-Blocked
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All Extensions (schema)` | **Spec Section:** `§3.1, §8.1`
+
+> **Resolution (2026-03-27):** Option A — Blocked reserved extension annotation shadow-key suffixes at the schema boundary.
 
 #### Problem Statement-005
 
@@ -281,8 +291,10 @@ This issue reinforces the same Core/Extension boundary defended by ISSUE-003. If
 
 ### ISSUE-006: `prior_status` Can Be Set Outside `SUPERSEDE_PENDING`
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All (schema)` | **Spec Section:** `§3.1, §3.8`
+
+> **Resolution (2026-03-27):** Option A — Restricted `prior_status` to nodes in `SUPERSEDE_PENDING`.
 
 #### Problem Statement-006
 
@@ -315,8 +327,10 @@ This issue is tightly coupled to ISSUE-002 because rollback semantics depend on 
 
 ### ISSUE-007: `lifecycle` Object Accepts Arbitrary Keys
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All lifecycle blocks` | **Spec Section:** `Schema Root, §3.8`
+
+> **Resolution (2026-03-27):** Option A — Closed the `lifecycle` object against undeclared keys.
 
 #### Problem Statement-007
 
@@ -348,8 +362,10 @@ This issue complements ISSUE-001 and ISSUE-002: if `lifecycle` remains a core au
 
 ### ISSUE-008: `constraint_origin` Is Not Restricted to CL Nodes
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `Non-CL nodes (schema)` | **Spec Section:** `§3.1, §5`
+
+> **Resolution (2026-03-27):** Option A — Restricted `constraint_origin` to `CL` nodes only.
 
 #### Problem Statement-008
 
@@ -382,8 +398,10 @@ This issue is conceptually independent of ISSUE-004, but both expose places wher
 
 ### ISSUE-009: `express_mode_group` Is Not Required in Express Mode
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `Express-mode project instances` | **Spec Section:** `§4`
+
+> **Resolution (2026-03-27):** Option A — Required `express_mode_group` whenever `project.mode` is `express`.
 
 #### Problem Statement-009
 
@@ -417,8 +435,10 @@ This issue shares architectural themes with ISSUE-001 because both concern root-
 
 ### ISSUE-010: Lifecycle Guard References Accept Undefined Guard IDs
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All lifecycle definitions` | **Spec Section:** `§3.8`
+
+> **Resolution (2026-03-27):** Option A — Closed lifecycle guard references to the declared guard-id set.
 
 #### Problem Statement-010
 
@@ -451,8 +471,10 @@ This issue is adjacent to ISSUE-002 because both concern the integrity of the ma
 
 ### ISSUE-011: Node ID Prefix Is Not Bound to Declared Tier
 
-**Status:** `OPEN` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All (schema)` | **Spec Section:** `§3.1, §3.6`
+
+> **Resolution (2026-03-27):** Option A — Bound node ID prefixes to the declared `tier` value.
 
 #### Problem Statement-011
 
@@ -488,8 +510,10 @@ This issue is closely related to ISSUE-008. If the project adopts tier-specific 
 
 ### ISSUE-012: `parent_ids` Empty Array Default Allows Orphaned Non-Root Nodes
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All (schema)` | **Spec Section:** `§3.1, §3.5, §3.7`
+
+> **Resolution (2026-03-27):** Option A — Enforced root-aware non-root `parent_ids` cardinality.
 
 #### Problem Statement-012
 
@@ -521,8 +545,10 @@ This issue is adjacent to ISSUE-011, but it is independently actionable today ev
 
 ### ISSUE-013: `node_schema_fields` Is Documentation-Only, Not Machine-Enforced
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `DESIGN_INADEQUACY`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `DESIGN_INADEQUACY`
 **Tiers Affected:** `System-definition files` | **Spec Section:** `§3.1`
+
+> **Resolution (2026-03-27):** Option A — Added a deterministic sync validator between `node_schema_fields` and `$defs.DdrNode`.
 
 #### Problem Statement-013
 
@@ -557,7 +583,7 @@ This issue is independent of runtime DAG correctness and focuses on long-term sp
 
 ```plaintext
 1. IDENTIFY issue ID and selected Resolution Option (A or B)
-2. DRAFT the specific changes to .agent\assets\proposals\active\v6.1\ddr_system_v6.1.yaml and .agent\assets\proposals\active\v6.1\ddr_node_schema.yaml and/or associated schemas
+2. DRAFT the specific changes to .agent\assets\proposals\active\v6.2\ddr_system_v6.2.yaml and .agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml and/or associated schemas
 3. VERIFY draft changes do not introduce new issues (check cross-references in Notes fields)
 4. UPDATE the issue entry:
    - Set status: IN_REVIEW
@@ -593,5 +619,5 @@ This issue is independent of runtime DAG correctness and focuses on long-term sp
 ---
 
 *DDR System v6.1 Issues Tracker — IT-1.0*
-*13 issues identified | 0 resolved | Last updated: 2026-03-27*
+*13 issues identified | 13 resolved | Last updated: 2026-03-27*
 *Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*

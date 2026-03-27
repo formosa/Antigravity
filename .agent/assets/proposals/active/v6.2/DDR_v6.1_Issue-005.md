@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "MODERATE"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-005
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        SCHEMA_DEFECT
 tier_refs:   ["All Extensions (schema)"]
 section_ref: "§3.1, §8.1"
 rule_refs:   [AX-6, CIT-R5, EXT-R3]
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Blocked reserved extension annotation shadow-key suffixes at the schema boundary.
 
 ### 1. Validation Audit of ISSUE-005
 
@@ -75,3 +81,7 @@ DDR v6.1 already claims that these shadow keys are invalid, and JSON Schema prov
 * **Spec-to-Schema Alignment:** It makes the machine contract finally enforce the reserved-suffix rule that the prose already declares.
 * **Stronger Extension Isolation:** Extension metadata stays namespaced without being able to mimic Core field names at the schema boundary.
 * **Lower Operational Ambiguity:** Producers get immediate validation feedback, and consumers no longer need private heuristics to detect or sanitize shadow keys.
+
+### 4. Implementation Note
+
+Implemented in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` with a `propertyNames` constraint on `extension_annotations` that blocks reserved suffixes such as `content`, `parent_ids`, `status`, `tier`, and `id`. Post-change validation confirmed that `HRE::content`-style keys now fail while properly namespaced annotations continue to validate.

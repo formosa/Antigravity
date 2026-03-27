@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "CRITICAL"
   type:            "LIFECYCLE_GAP"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-002
-status:      OPEN
+status:      RESOLVED
 severity:    CRITICAL
 type:        LIFECYCLE_GAP
 tier_refs:   ["All"]
 section_ref: "§3.1, §3.8"
 rule_refs:   [INV-8]
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Typed lifecycle endpoints, modeled rollback with `to_node_field`, and removed persisted `DELETED` transitions.
 
 ### 1. Validation Audit of ISSUE-002
 
@@ -77,3 +83,7 @@ DDR v6.1 already has a compact status model and describes `SUPERSEDE_PENDING` as
 * **Lower Consumer Disruption:** Existing status-aware tooling can keep the current six-state model instead of being upgraded for a new global `DELETED` state.
 * **Clearer Operational Semantics:** Delete and rollback remain operations with explicit handling rules rather than ambiguous pseudo-states embedded in the authoritative transition table.
 * **Symmetric Lifecycle Closure:** The same typed boundary can be enforced for both allowed transitions and prohibited-transition lists, which eliminates the current `DELETED` leak from both schema surfaces.
+
+### 4. Implementation Note
+
+Implemented in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` and `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_system_v6.2.yaml` by typing lifecycle endpoints with `StatusEnum`, replacing the literal rollback placeholder with `to_node_field: prior_status`, and removing persisted `DELETED` targets from lifecycle tables. Resolution was validated by proving invalid lifecycle states now fail, typed rollback transitions pass, and the full `ddr_system_v6.2.yaml` document validates against the updated schema.

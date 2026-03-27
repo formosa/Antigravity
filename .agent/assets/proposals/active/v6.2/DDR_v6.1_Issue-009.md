@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "MODERATE"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-009
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        SCHEMA_DEFECT
 tier_refs:   ["Express-mode project instances"]
 section_ref: "§4"
 rule_refs:   []
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Required `express_mode_group` whenever `project.mode` is `express`.
 
 ### 1. Validation Audit of ISSUE-009
 
@@ -75,3 +81,7 @@ The validated defect is a missing express-mode requirement, not a broken mode sy
 * **Directness:** It enforces the exact rule the schema already claims.
 * **Preserved Lean Full Mode:** Full-mode documents do not inherit extra mandatory fields.
 * **Earlier Failure Detection:** Express-mode documents missing group data fail at schema validation instead of at UNBUNDLE time.
+
+### 4. Implementation Note
+
+Implemented in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` with a root conditional that requires `express_mode_group` on every node when `project.mode == express`. Post-change validation confirmed that express-mode documents missing the field now fail while full-mode documents remain unaffected.

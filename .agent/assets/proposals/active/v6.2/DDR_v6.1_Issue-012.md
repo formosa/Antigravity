@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "MAJOR"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-012
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   ["All (schema)"]
 section_ref: "§3.1, §3.5, §3.7"
 rule_refs:   ["INV-5", "CIT-R1", "AX-1"]
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Enforced root-aware non-root `parent_ids` cardinality.
 
 ### 1. Validation Audit of ISSUE-012
 
@@ -76,3 +82,7 @@ The validated defect is a missing cardinality rule on the existing node contract
 - Aligns schema behavior with `INV-5` and `CIT-R1` without redesigning node taxonomy.
 - Preserves independence of issue resolution and established compatibility expectations.
 - Keeps future refactor latitude open if a later tier-variant redesign is approved.
+
+### 4. Implementation Note
+
+Implemented in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` with targeted non-root `parent_ids` cardinality rules that preserve the root exceptions while requiring citations on downstream tiers and on `SIL` when `XPD` is active. Post-change validation confirmed that orphaned non-root nodes now fail and the expected root cases still validate.

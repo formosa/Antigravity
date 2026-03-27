@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "MODERATE"
   type:            "DESIGN_INADEQUACY"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-013
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        DESIGN_INADEQUACY
 tier_refs:   ["System-definition files"]
 section_ref: "§3.1"
 rule_refs:   []
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Added a deterministic sync validator between `node_schema_fields` and `$defs.DdrNode`.
 
 ### 1. Validation Audit of ISSUE-013
 
@@ -76,3 +82,7 @@ The validated defect is a missing synchronization mechanism between two already-
 - Preserves current artifact structure while introducing measurable consistency guarantees.
 - Supports incremental hardening and evidence-based migration planning.
 - Keeps the path open for Option B later if/when consumer and tooling impact is acceptable.
+
+### 4. Implementation Note
+
+Implemented as `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\validate_node_schema_fields_sync.py`, a deterministic validator that compares `node_schema_fields` in `ddr_system_v6.2.yaml` against `$defs.DdrNode` in `ddr_node_schema_v6.2.yaml` and checks the documented conditional-cardinality metadata. The live artifacts now pass this check, and drifted temporary fixtures fail, giving the issue a concrete machine-enforced guard instead of a documentation-only expectation.

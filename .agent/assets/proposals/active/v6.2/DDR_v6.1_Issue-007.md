@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "MODERATE"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-007
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        SCHEMA_DEFECT
 tier_refs:   ["All lifecycle blocks"]
 section_ref: "Schema Root, §3.8"
 rule_refs:   []
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Closed the `lifecycle` object against undeclared keys.
 
 ### 1. Validation Audit of ISSUE-007
 
@@ -75,3 +81,7 @@ Nothing in the current v6.1 lifecycle contract suggests that arbitrary sibling k
 * **Contract Consistency:** It brings `lifecycle` into line with the schema's otherwise closed major-object pattern.
 * **Minimal Blast Radius:** It fixes the defect without redesigning the lifecycle authority surface.
 * **Stronger Validator Signal:** Undeclared lifecycle keys stop passing silently and start failing where the contract is defined.
+
+### 4. Implementation Note
+
+Implemented in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` by adding `additionalProperties: false` to the `lifecycle` object definition. Post-change validation confirmed that undeclared lifecycle keys now fail while the canonical lifecycle block in `ddr_system_v6.2.yaml` remains valid.

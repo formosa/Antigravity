@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "MAJOR"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-003
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   ["All (schema)"]
 section_ref: "§3.7, §8.1"
 rule_refs:   [CIT-R5]
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Restricted `ParentCitation.edge_type` to Core citation edges only.
 
 ### 1. Validation Audit of ISSUE-003
 
@@ -75,3 +81,7 @@ The validated defect is a single forbidden value on a schema type that exists sp
 * **Direct Rule Alignment:** It makes the schema enforce `CIT-R5` at the point where the violation currently slips through.
 * **Minimal Schema Churn:** Existing validators and consumers keep the same `ParentCitation` shape and only lose an invalid edge value they should never have accepted.
 * **Clearer Core Boundary:** `parent_ids` becomes a reliably Core-only citation channel without requiring a broader type split that the current defect evidence does not demand.
+
+### 4. Implementation Note
+
+Resolved in the live `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` citation surface by restricting `ParentCitation.edge_type` to `[derives, constrains, implements]`. Post-change validation confirmed that a `parent_ids` entry using `edge_type: extends` is rejected while the canonical system definition remains schema-valid.

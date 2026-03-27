@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "MAJOR"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-004
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   ["All (schema)"]
 section_ref: "§3.2, §3.7"
 rule_refs:   [CIT-R2, CIT-R6]
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Gated `derivation_mode` so it is valid only on `derives` edges.
 
 ### 1. Validation Audit of ISSUE-004
 
@@ -78,3 +84,7 @@ The validated defect is a missing conditional on one optional field, not a demon
 * **Low Migration Cost:** Existing tooling keeps the same citation object shape and only gains the missing constraint.
 * **Coordinated Repair Window:** ISSUE-003 and ISSUE-004 can still be fixed together on the same schema type without turning both defects into a larger redesign.
 * **Future-Compatible:** If a later version accumulates more tiered citation rules, a variant model can still be introduced then, based on demonstrated need rather than on this one conditional gap.
+
+### 4. Implementation Note
+
+Resolved in the shared `ParentCitation` implementation inside `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` by adding a conditional that permits `derivation_mode` only when `edge_type == derives`. Post-change validation confirmed that non-derives citations carrying `derivation_mode` now fail while derives citations remain valid.

@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "CRITICAL"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-011
-status:      OPEN
+status:      RESOLVED
 severity:    CRITICAL
 type:        SCHEMA_DEFECT
 tier_refs:   ["All (schema)"]
 section_ref: "§3.1, §3.6"
 rule_refs:   []
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Bound node ID prefixes to the declared `tier` value.
 
 ### 1. Validation Audit of ISSUE-011
 
@@ -75,3 +81,7 @@ The validated defect is a missing identity invariant inside an otherwise coheren
 * **Direct Integrity Repair:** It makes the schema reject semantically contradictory `id` and `tier` combinations as soon as they appear.
 * **Low Migration Cost:** Existing tooling can keep the current `DdrNode` shape while gaining a stronger guarantee about tier identity.
 * **Future-Compatible:** A focused conditional repair does not prevent a later move to tier-specific variants if broader tier partitioning becomes desirable.
+
+### 4. Implementation Note
+
+Implemented in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` with tier-aware `id` pattern branches that bind each declared `tier` to its corresponding identifier prefix, including the special `XPD-0.N` rule. Post-change validation confirmed that mismatched `tier` and `id` combinations now fail.

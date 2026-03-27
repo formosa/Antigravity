@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "MODERATE"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-008
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        SCHEMA_DEFECT
 tier_refs:   ["Non-CL nodes (schema)"]
 section_ref: "§3.1, §5"
 rule_refs:   [AX-4]
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Restricted `constraint_origin` to `CL` nodes only.
 
 ### 1. Validation Audit of ISSUE-008
 
@@ -75,3 +81,7 @@ The validated defect is a missing tier gate, not a failure of the entire node mo
 * **Exactness:** It repairs the specific tier leak the evidence demonstrates.
 * **Low Migration Cost:** Existing consumers can keep the current `DdrNode` shape.
 * **Better Tier Discipline:** `constraint_origin` becomes a reliable CL-only signal instead of a globally available hint.
+
+### 4. Implementation Note
+
+Implemented in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` with a `DdrNode` conditional that permits `constraint_origin` only when `tier == CL`. Post-change validation confirmed that non-CL nodes carrying `constraint_origin` now fail while CL nodes in `ddr_system_v6.2.yaml` continue to validate.

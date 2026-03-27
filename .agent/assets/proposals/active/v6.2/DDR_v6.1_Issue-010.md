@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "MODERATE"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-010
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        SCHEMA_DEFECT
 tier_refs:   ["All lifecycle definitions"]
 section_ref: "§3.8"
 rule_refs:   [gc-001, gc-002, gc-003, gc-004, gc-005, gc-006, gc-007, gc-008, gc-009]
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Closed lifecycle guard references to the declared guard-id set.
 
 ### 1. Validation Audit of ISSUE-010
 
@@ -75,3 +81,7 @@ The current v6.1 lifecycle authority already publishes a concrete finite guard s
 * **Stronger Safety Assurance:** Undefined or misspelled guards stop validating immediately.
 * **Versioned Consistency:** References stay aligned with the same closed lifecycle authority that defines the guards.
 * **Clearer Tool Behavior:** Consumers can trust that any validated guard reference resolves to a real declared precondition.
+
+### 4. Implementation Note
+
+Implemented in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` by introducing `GuardIdRef` and reusing it for both guard definitions and transition guard references. Post-change validation confirmed that undefined guard IDs such as `gc-999` now fail while the declared `gc-001` through `gc-009` set remains valid.

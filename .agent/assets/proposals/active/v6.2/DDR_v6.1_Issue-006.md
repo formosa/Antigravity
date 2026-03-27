@@ -7,7 +7,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.1"
   created:         "2026-03-27"
-  status:          "OPEN"
+  updated:         "2026-03-27"
+  resolved:        "2026-03-27"
+  status:          "RESOLVED"
   severity:        "MAJOR"
   type:            "SCHEMA_DEFECT"
 ---
@@ -18,13 +20,17 @@ document:
 
 ```yaml
 id:          ISSUE-006
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   ["All (schema)"]
 section_ref: "§3.1, §3.8"
 rule_refs:   [gc-007, gc-008, gc-009]
+updated:     2026-03-27
+resolved:    2026-03-27
 ```
+
+> **Resolution (2026-03-27):** Option A — Restricted `prior_status` to nodes in `SUPERSEDE_PENDING`.
 
 ### 1. Validation Audit of ISSUE-006
 
@@ -75,3 +81,7 @@ DDR v6.1 already describes `prior_status` as transient rollback metadata rather 
 * **Direct Spec Alignment:** It makes the schema enforce the same `prior_status` scope rule already stated in both the schema and system definition.
 * **Low Consumer Disruption:** Existing tooling that already treats `prior_status` as supersede-only can remain structurally unchanged.
 * **Stronger Rollback Trust:** The presence of `prior_status` becomes a more reliable signal that a node is actually in supersede-pending state.
+
+### 4. Implementation Note
+
+Implemented in `c:\AI\10162025\maggie\Antigravity\.agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml` with a `DdrNode` conditional that requires `prior_status` only when `status == SUPERSEDE_PENDING` and rejects it otherwise. Post-change validation confirmed that settled nodes carrying `prior_status` now fail while the system-definition lifecycle semantics remain intact.
