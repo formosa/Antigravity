@@ -87,6 +87,7 @@ a minor variant of Option A — must represent a meaningfully different design d
 | --- | --- | --- | --- | --- | --- |
 | [ISSUE-001](#issue-001-lifecycle-required-despite-lean-project-instance-contract) | `CRITICAL` | `SCHEMA_DEFECT` | `OPEN` | All project-instance files | `lifecycle` required despite lean project-instance contract |
 | [ISSUE-002](#issue-002-lifecycle-machine-authority-accepts-undefined-states) | `CRITICAL` | `LIFECYCLE_GAP` | `OPEN` | All | Lifecycle machine authority accepts undefined states |
+| [ISSUE-011](#issue-011-node-id-prefix-is-not-bound-to-declared-tier) | `CRITICAL` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | Node ID prefix is not bound to declared tier |
 | [ISSUE-003](#issue-003-parentcitation-permits-forbidden-extends-edges-in-parent_ids) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | ParentCitation permits forbidden `extends` edges in `parent_ids` |
 | [ISSUE-004](#issue-004-derivation_mode-rule-is-declared-but-not-enforced) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | `derivation_mode` rule is declared but not enforced |
 | [ISSUE-006](#issue-006-prior_status-can-be-set-outside-supersede_pending) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | `prior_status` can be set outside `SUPERSEDE_PENDING` |
@@ -444,6 +445,40 @@ This issue is adjacent to ISSUE-002 because both concern the integrity of the ma
 
 ---
 
+### ISSUE-011: Node ID Prefix Is Not Bound to Declared Tier
+
+**Status:** `OPEN` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** `All (schema)` | **Spec Section:** `§3.1, §3.6`
+
+#### Problem Statement-011
+
+The schema validates `id` and `tier` independently, but it does not enforce that the tier prefix embedded in `id` matches the declared `tier` enum value. A node can therefore be structurally valid with `tier: FCL` and `id: SAL-5.1`, producing a semantically contradictory identity.
+
+#### Evidence & Justification-011
+
+- `ddr_node_schema.yaml` lines 1089-1098 define `id` with the broad pattern `^(XPD-0\\.[0-9]+|[A-Z]{2,5}-[0-9]+\\.[0-9]+)$` and `tier` as a separate enum, but no conditional ties the two together.
+- The enclosing `DdrNode` schema at `ddr_node_schema.yaml` lines 1079-1202 contains no `if/then`, `allOf`, `oneOf`, or tier-specific variant that constrains the `id` prefix by `tier`.
+- `ddr_system_v6.1.yaml` lines 2363-2366 describe the node contract and parent edge IDs with the `TIER-N.M` format, reinforcing that the identifier prefix is intended to be semantically meaningful rather than decorative.
+- A direct Draft 2020-12 validation probe accepted an otherwise valid node with `tier: FCL` and `id: SAL-5.1`.
+
+#### Impact Assessment-011
+
+Tier-aware tooling cannot safely trust the node identifier as a routing signal if schema-valid documents may embed mismatched prefixes. Visualization, traversal, and rule-resolution logic can disagree about whether a node belongs to `SAL` or `FCL`, creating inconsistent behavior from a single structurally valid artifact.
+
+#### Resolution-011: Option A — Bind `id` Pattern to `tier`
+
+Keep the current single `DdrNode` shape, but add tier-aware schema constraints so each `tier` value activates the corresponding `id` regex. This can be implemented with `if/then` branches or a compact `allOf` map that enforces `^SIL-[0-9]+\\.[0-9]+$` for `tier: SIL`, `^FCL-[0-9]+\\.[0-9]+$` for `tier: FCL`, and so on, while preserving the special `XPD-0.N` rule. This is the smallest repair because it closes the integrity gap without changing the rest of the node contract.
+
+#### Resolution-011: Option B — Introduce Tier-Specific Node Variants
+
+Refactor `DdrNode` into explicit tier-specific variants so each variant fixes both `tier` and the corresponding `id` pattern at the type level. This is a broader redesign, but it yields stronger typed consumers and can absorb other tier-specific fields such as the `constraint_origin` leak tracked in ISSUE-008. The tradeoff is a larger schema and a wider migration surface for generators, validators, and downstream models.
+
+#### Notes-011
+
+This issue is closely related to ISSUE-008. If the project adopts tier-specific node variants to solve CL-only field leakage, the same refactor can also make prefix-to-tier alignment structurally exact.
+
+---
+
 ## RESOLUTION WORKFLOW
 
 > **AGENT INSTRUCTION:** When a resolution is executed for any issue, follow this workflow
@@ -480,9 +515,10 @@ This issue is adjacent to ISSUE-002 because both concern the integrity of the ma
 | ISSUE-007 | ISSUE-002 | If the lifecycle block remains normative authority, its property surface should be closed while transition semantics are being repaired. |
 | ISSUE-009 | ISSUE-001 | A future root-profile split is a natural place to encode express-mode-only requirements such as mandatory `express_mode_group`. |
 | ISSUE-010 | ISSUE-002 | Lifecycle integrity depends on both valid state targets and valid guard references inside the same authority block. |
+| ISSUE-011 | ISSUE-008 | A tier-specific node-variant refactor would allow both CL-only field scoping and ID-prefix enforcement to be solved in one coordinated schema redesign. |
 
 ---
 
 *DDR System v6.1 Issues Tracker — IT-1.0*
-*10 issues identified | 0 resolved | Last updated: 2026-03-27*
+*11 issues identified | 0 resolved | Last updated: 2026-03-27*
 *Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*
