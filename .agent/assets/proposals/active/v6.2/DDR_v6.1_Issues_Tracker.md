@@ -91,7 +91,9 @@ a minor variant of Option A — must represent a meaningfully different design d
 | [ISSUE-003](#issue-003-parentcitation-permits-forbidden-extends-edges-in-parent_ids) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | ParentCitation permits forbidden `extends` edges in `parent_ids` |
 | [ISSUE-004](#issue-004-derivation_mode-rule-is-declared-but-not-enforced) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | `derivation_mode` rule is declared but not enforced |
 | [ISSUE-006](#issue-006-prior_status-can-be-set-outside-supersede_pending) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | `prior_status` can be set outside `SUPERSEDE_PENDING` |
+| [ISSUE-012](#issue-012-parent_ids-empty-array-default-allows-orphaned-non-root-nodes) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | All (schema) | `parent_ids` empty array default allows orphaned non-root nodes |
 | [ISSUE-005](#issue-005-reserved-extension-annotation-shadow-keys-are-not-schema-blocked) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | All Extensions (schema) | Reserved extension annotation shadow keys are not schema-blocked |
+| [ISSUE-013](#issue-013-node_schema_fields-is-documentation-only-not-machine-enforced) | `MODERATE` | `DESIGN_INADEQUACY` | `OPEN` | System-definition files | `node_schema_fields` is documentation-only, not machine-enforced |
 | [ISSUE-007](#issue-007-lifecycle-object-accepts-arbitrary-keys) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | All lifecycle blocks | `lifecycle` object accepts arbitrary keys |
 | [ISSUE-008](#issue-008-constraint_origin-is-not-restricted-to-cl-nodes) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | Non-CL nodes (schema) | `constraint_origin` is not restricted to CL nodes |
 | [ISSUE-009](#issue-009-express_mode_group-is-not-required-in-express-mode) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | Express-mode project instances | `express_mode_group` is not required in express mode |
@@ -479,6 +481,73 @@ This issue is closely related to ISSUE-008. If the project adopts tier-specific 
 
 ---
 
+
+---
+
+### ISSUE-012: `parent_ids` Empty Array Default Allows Orphaned Non-Root Nodes
+
+**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** `All (schema)` | **Spec Section:** `§3.1, §3.5, §3.7`
+
+#### Problem Statement-012
+
+The `DdrNode.parent_ids` array is documented as empty only for root nodes, but the schema sets `default: []` and does not enforce a minimum cardinality for non-root nodes. This allows orphaned non-root nodes to validate even though both axioms and citation rules require parent linkage.
+
+#### Evidence & Justification-012
+
+- `ddr_node_schema.yaml` describes `parent_ids` as empty only for root nodes and requiring `≥1` for non-root nodes, but no `minItems` or root-aware conditional is present.
+- `ddr_system_v6.1.yaml` defines `INV-5` and `CIT-R1` with the same non-root parent requirement.
+- The current `ParentCitation` contract is applied only when entries exist; therefore an empty `parent_ids` array bypasses citation-level structural checks entirely.
+
+#### Impact Assessment-012
+
+Schema-valid documents can violate core traceability guarantees by admitting orphaned non-root nodes. This weakens deterministic DAG validation and forces runtime tools to compensate for a contract gap that should be blocked at schema level.
+
+#### Resolution-012: Option A — Enforce Non-Root Parent Cardinality with Root-Aware Conditionals
+
+Add an explicit root-aware conditional to `DdrNode` that requires `parent_ids` to have `minItems: 1` for all non-root nodes. Preserve current root semantics: XPD root nodes may remain empty when XPD is active, and SIL root nodes may remain empty only when XPD is inactive. This directly aligns machine validation with `INV-5` and `CIT-R1` without redesigning node identity.
+
+#### Resolution-012: Option B — Introduce Explicit Root Node Variant(s)
+
+Split node typing to make root status structural (for example, `RootNode` vs `NonRootNode`, or tier-specific variants that encode root behavior). In this model, root variants allow empty `parent_ids`, while non-root variants require at least one citation. This yields clearer typing and error messages but introduces broader schema refactor cost.
+
+#### Notes-012
+
+This issue is adjacent to ISSUE-011 because tier-specific variants could absorb root/non-root cardinality as part of a broader structural model.
+
+---
+
+### ISSUE-013: `node_schema_fields` Is Documentation-Only, Not Machine-Enforced
+
+**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `DESIGN_INADEQUACY`
+**Tiers Affected:** `System-definition files` | **Spec Section:** `§3.1`
+
+#### Problem Statement-013
+
+The system definition publishes `node_schema_fields` as a canonical list of node properties, but no machine constraint links this list to the actual `$defs.DdrNode` schema. As a result, schema and documentation can drift independently while still validating.
+
+#### Evidence & Justification-013
+
+- `ddr_system_v6.1.yaml` includes a rich `node_schema_fields` section describing node properties and semantics.
+- `ddr_node_schema.yaml` separately defines the enforceable `DdrNode` contract.
+- No synchronization rule, validation hook, or schema-level assertion ensures that field names or semantics remain aligned between these artifacts.
+
+#### Impact Assessment-013
+
+Specification consumers may rely on stale or divergent documentation metadata for generation, linting, or governance workflows. Over time, this increases maintenance risk and can produce tooling behavior that conflicts with the true schema contract.
+
+#### Resolution-013: Option A — Add Automated Synchronization Validation
+
+Introduce a deterministic CI check that compares `node_schema_fields` entries against the actual `DdrNode` properties and fails on drift. This preserves current document structure while creating a machine-enforced consistency guard. It is process-oriented, minimally invasive, and independently deployable.
+
+#### Resolution-013: Option B — Consolidate Documentation into the Enforceable Schema
+
+Retire the parallel `node_schema_fields` list and encode authoritative field documentation directly inside `DdrNode` metadata (`title`, `description`, deprecation tags, and related annotations). This reduces duplication and drift risk at the source, but requires migration for any tools currently consuming `node_schema_fields`.
+
+#### Notes-013
+
+This issue is independent of runtime DAG correctness and focuses on long-term specification maintainability.
+
 ## RESOLUTION WORKFLOW
 
 > **AGENT INSTRUCTION:** When a resolution is executed for any issue, follow this workflow
@@ -516,9 +585,11 @@ This issue is closely related to ISSUE-008. If the project adopts tier-specific 
 | ISSUE-009 | ISSUE-001 | A future root-profile split is a natural place to encode express-mode-only requirements such as mandatory `express_mode_group`. |
 | ISSUE-010 | ISSUE-002 | Lifecycle integrity depends on both valid state targets and valid guard references inside the same authority block. |
 | ISSUE-011 | ISSUE-008 | A tier-specific node-variant refactor would allow both CL-only field scoping and ID-prefix enforcement to be solved in one coordinated schema redesign. |
+| ISSUE-012 | ISSUE-011 | If tier-specific variants are adopted, root/non-root parent cardinality can be encoded structurally within those variants. |
+| ISSUE-013 | (none) | Documentation/synchronization concern; can be resolved independently through process checks or schema-doc consolidation. |
 
 ---
 
 *DDR System v6.1 Issues Tracker — IT-1.0*
-*11 issues identified | 0 resolved | Last updated: 2026-03-27*
+*13 issues identified | 0 resolved | Last updated: 2026-03-27*
 *Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*

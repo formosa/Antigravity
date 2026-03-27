@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-After reviewing all 11 issues in the tracker, I've identified that **most recommended solutions are sound but suboptimal**. Several issues warrant **Option B** (broader redesign) over the conservative Option A fixes, particularly where structural debt accumulates. I've also identified **3 new critical issues** requiring dedicated issue reports.
+After reviewing all 11 issues in the tracker, I've identified that **most recommended solutions are sound but suboptimal**. Several issues warrant **Option B** (broader redesign) over the conservative Option A fixes, particularly where structural debt accumulates. I've also identified **2 validated new issues** requiring dedicated issue reports, plus **1 candidate issue that does not hold after file-level verification**.
 
 ---
 
@@ -131,7 +131,7 @@ After reviewing all 11 issues in the tracker, I've identified that **most recomm
 
 ## New Issues Identified
 
-After comprehensive analysis, I've identified **3 additional issues** requiring dedicated issue reports:
+After comprehensive analysis and file-level validation, I identified **2 additional issues** that should be tracked, plus one candidate that should be rejected:
 
 ---
 
@@ -139,6 +139,8 @@ After comprehensive analysis, I've identified **3 additional issues** requiring 
 
 **Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All` | **Spec Section:** `§3.1, §3.7`
+
+**Validation Verdict:** ✅ Confirmed against schema and spec files.
 
 #### Problem Statement-012
 
@@ -174,6 +176,8 @@ Related to ISSUE-011 (tier-specific variants would naturally resolve this by mak
 **Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `DESIGN_INADEQUACY`
 **Tiers Affected:** `System-definition files` | **Spec Section:** `§3.1`
 
+**Validation Verdict:** ✅ Confirmed as a maintainability/design gap.
+
 #### Problem Statement-013
 
 The `node_schema_fields` array in the system definition provides human-readable documentation of node properties, but there is no machine-enforced linkage between these field definitions and the actual `DdrNode` schema. The schema and its documentation can drift independently.
@@ -203,10 +207,12 @@ This is a meta-level issue about the specification's own maintainability.
 
 ---
 
-### **NEW ISSUE-014: Missing `tier_activation_state` Tracking in Project Instances**
+### **CANDIDATE ISSUE-014: Missing `tier_activation_state` Tracking in Project Instances**
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `DESIGN_INADEQUACY`
+**Status:** `REJECTED` | **Severity:** `N/A` | **Type:** `NOT_AN_ISSUE`
 **Tiers Affected:** `Project-instance files` | **Spec Section:** `§3.5, INV-3, INV-4`
+
+**Validation Verdict:** ❌ Not confirmed. `active_tiers` already models activation in the current contract.
 
 #### Problem Statement-014
 
@@ -253,7 +259,7 @@ The dependency map in the tracker is accurate, but I recommend **re-prioritizing
 | 7          | **ISSUE-009**                                   | Root-level conditional, depends on ISSUE-001 approach |
 | 8          | **ISSUE-002, ISSUE-007, ISSUE-010**             | Lifecycle integrity (can proceed in parallel)         |
 | 9          | **ISSUE-005**                                   | Extension isolation (independent)                     |
-| 10         | **NEW ISSUE-012, NEW ISSUE-013, NEW ISSUE-014** | Newly identified                                      |
+| 10         | **NEW ISSUE-012, NEW ISSUE-013**                 | Newly identified and validated                         |
 
 ---
 
@@ -275,4 +281,4 @@ The dependency map in the tracker is accurate, but I recommend **re-prioritizing
 
 **Key Theme:** Issues 004, 006, 008, and 011 all benefit from a **tier-specific node variant** approach. While this represents higher initial refactor cost, it creates a more maintainable, self-documenting schema that prevents entire classes of cross-field validation errors. If the project can absorb this cost, the long-term maintainability gains are substantial.
 
-The 3 newly identified issues (012-014) represent genuine gaps in the current specification that should be addressed to ensure deterministic validation and tooling behavior.
+Validated conclusion: **ISSUE-012** and **ISSUE-013** are genuine gaps that should be tracked. **Candidate ISSUE-014** should not be promoted because current `active_tiers` semantics already encode active/ inactive optional tiers.
