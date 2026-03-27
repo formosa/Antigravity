@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-27  
 **Driver:** `.agent\assets\proposals\active\AGENTS.md`  
-**Primary targets:** `.agent\assets\proposals\active\v6\ddr_system_v6.1.yaml`, `.agent\assets\proposals\active\v6\ddr_node_schema.yaml`
+**Primary targets:** `.agent\assets\proposals\active\v6.1\ddr_system_v6.1.yaml`, `.agent\assets\proposals\active\v6.1\ddr_node_schema.yaml`
 
 ## Objective
 
@@ -80,10 +80,10 @@ concern.
 
 ## Direct Edit Summary
 
-- Updated `.agent\assets\proposals\active\v6\ddr_system_v6.1.yaml` to express true
+- Updated `.agent\assets\proposals\active\v6.1\ddr_system_v6.1.yaml` to express true
   v6.1 metadata, carry the missing v6 audit refinements, and preserve alignment
   with inherited v4/v5 fixes.
-- Updated `.agent\assets\proposals\active\v6\ddr_node_schema.yaml` so the new
+- Updated `.agent\assets\proposals\active\v6.1\ddr_node_schema.yaml` so the new
   v6.1 structures are schema-representable and the definition remains
   self-validating.
 - Limited direct repairs to the YAML artifacts named by the task brief. The
