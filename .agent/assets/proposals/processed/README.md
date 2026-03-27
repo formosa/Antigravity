@@ -1,6 +1,6 @@
 # PROCESSED PROPOSALS
 
-This directory contains processed proposals that have been evaluated and processed.
+This directory contains RESOLVED proposals resulting in a versioning increment after being evaluated and implemented.
 
 ## WARNING: Reference and Research Context ONLY
 
