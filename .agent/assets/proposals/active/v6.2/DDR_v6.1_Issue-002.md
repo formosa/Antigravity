@@ -75,3 +75,9 @@ DDR v6.1 already has a compact status model and describes `SUPERSEDE_PENDING` as
 * **Closed-State Compliance:** It directly repairs the `INV-8` defect by forcing lifecycle endpoints back into the declared status set.
 * **Lower Consumer Disruption:** Existing status-aware tooling can keep the current six-state model instead of being upgraded for a new global `DELETED` state.
 * **Clearer Operational Semantics:** Delete and rollback remain operations with explicit handling rules rather than ambiguous pseudo-states embedded in the authoritative transition table.
+
+### 4. GPT-5.4 Endorsement
+
+GPT-5.4 endorses the current Recommended Strategy, **Option A**, as the maximally optimized solution for ISSUE-002.
+
+This endorsement is based on the current DDR v6.1 evidence: the authoritative status vocabulary in the system definition and schema is six-state, while the defect is specifically that the lifecycle transition table is allowed to escape that vocabulary through unconstrained string endpoints. Option A repairs that exact break at the smallest semantic surface, restores `INV-8` closure, and avoids promoting operational effects such as delete into broader persisted-status obligations that the rest of the spec does not support.

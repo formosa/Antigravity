@@ -75,3 +75,9 @@ Option B is the better long-term move because the project already has to revisit
 * **Self-Documenting Structure:** The legal placement of `derivation_mode` becomes obvious from the schema shape itself rather than from prose and conditionals alone.
 * **Combined Remediation:** It addresses the `derivation_mode` defect and the adjacent `extends`-in-`parent_ids` defect through one coordinated type redesign.
 * **Better Tooling Semantics:** Validators, generators, and typed client models can distinguish derives citations from non-derives citations without carrying ad hoc branch logic in every consumer.
+
+### 4. GPT-5.4 Endorsement
+
+GPT-5.4 endorses the current Recommended Strategy, **Option B**, as the maximally optimized solution for ISSUE-004.
+
+This endorsement is based on the present DDR v6.1 schema surface and scaffold model: the defect is systemic, not merely conditional. A narrow `if`/`then` guard would block one invalid shape, but it would leave the overloaded `ParentCitation` abstraction in place. Option B is stronger because it converts the citation model into explicit structural variants, which simultaneously solves the `derivation_mode` enforcement gap and complements the ISSUE-003 repair.

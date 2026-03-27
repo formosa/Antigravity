@@ -75,3 +75,9 @@ Although Option B is slightly larger than a one-line enum trim, it uses the alre
 * **Type-System Clarity:** It gives `parent_ids` a Core-only citation contract instead of relying on prose to explain why one enum member is actually forbidden there.
 * **Cross-Issue Efficiency:** It lets ISSUE-003 and ISSUE-004 be resolved in one coordinated schema redesign rather than in two partially overlapping patches.
 * **Boundary Hardening:** It makes the Core/Extension separation explicit in the schema itself, which lowers the risk of future regressions that leak extension semantics back into the authoritative DAG.
+
+### 4. GPT-5.4 Endorsement
+
+GPT-5.4 endorses the current Recommended Strategy, **Option B**, as the maximally optimized solution for ISSUE-003.
+
+This endorsement is based on the shape of the defect in DDR v6.1: the problem is not only that `extends` appears in one enum, but that a single `ParentCitation` type is carrying both Core DAG semantics and broader conceptual edge vocabulary. Option B fixes the immediate leak and removes the underlying modeling ambiguity in a way that also aligns with ISSUE-004, which makes it more durable than a one-line enum restriction alone.

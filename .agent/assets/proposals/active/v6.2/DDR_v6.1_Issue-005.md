@@ -75,3 +75,9 @@ DDR v6.1 already claims that these shadow keys are invalid, and JSON Schema prov
 * **Spec-to-Schema Alignment:** It makes the machine contract finally enforce the reserved-suffix rule that the prose already declares.
 * **Stronger Extension Isolation:** Extension metadata stays namespaced without being able to mimic Core field names at the schema boundary.
 * **Lower Operational Ambiguity:** Producers get immediate validation feedback, and consumers no longer need private heuristics to detect or sanitize shadow keys.
+
+### 4. GPT-5.4 Endorsement
+
+GPT-5.4 endorses the current Recommended Strategy, **Option A**, as the maximally optimized solution for ISSUE-005.
+
+This endorsement is based on the current DDR v6.1 contract boundary: the issue is a missing schema-level prohibition on already-identified reserved suffixes inside `extension_annotations`. Option A restores that guarantee exactly where the spec says it should live, with minimal blast radius and without weakening AX-6, CIT-R5, or EXT-R3 by delegating collision handling to downstream tooling.
