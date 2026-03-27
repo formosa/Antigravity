@@ -23,4 +23,3 @@ Strict visual rules (for perfect consistency across all images):
 
 
 Every single visual element must map 1:1 to the excerpt. Output only the image.
-

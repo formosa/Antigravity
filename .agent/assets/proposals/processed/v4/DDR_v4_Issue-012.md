@@ -64,11 +64,11 @@ The resolution must provide a mechanism for practitioners to halt ARE inference 
 
 Extend the ARE Extension lifecycle with a three-state activation model: `active | paused | disabled`. Define the semantics of each state and the permitted transitions:
 
-| State      | Inference | Pool Visibility | Pool Preserved | Promotion Allowed | Discard Allowed |
-|------------|-----------|-----------------|----------------|-------------------|-----------------|
-| `active`   | Running   | Yes             | Yes            | Yes               | Yes             |
-| `paused`   | Halted    | Yes             | Yes            | Yes               | Yes             |
-| `disabled` | Halted    | No              | No             | No                | N/A (auto-discarded) |
+| State        | Inference   | Pool Visibility   | Pool Preserved   | Promotion Allowed   | Discard Allowed      |
+| ------------ | ----------- | ----------------- | ---------------- | ------------------- | -------------------- |
+| `active`     | Running     | Yes               | Yes              | Yes                 | Yes                  |
+| `paused`     | Halted      | Yes               | Yes              | Yes                 | Yes                  |
+| `disabled`   | Halted      | No                | No               | No                  | N/A (auto-discarded) |
 
 **Transition rules:**
 - `active → paused`: Inference halts immediately. Existing Candidate Pool is retained and browsable. INSERT promotion and manual discards remain available. No new candidates are generated.
@@ -107,11 +107,11 @@ Introduce a composite lifecycle strategy that preserves Option A ergonomics whil
 3. Require automatic checkpoint writes on `active → paused`, periodic checkpointing while paused, and checkpoint load on process restart when state is `paused`.
 4. Keep `disabled` semantics unchanged (Pool discarded on `→ disabled`).
 
-| State      | Inference | Pool Visibility | Pool Preserved (Runtime) | Pool Preserved (Restart) | Promotion Allowed |
-|------------|-----------|-----------------|---------------------------|--------------------------|-------------------|
-| `active`   | Running   | Yes             | Yes                       | Optional                 | Yes               |
-| `paused`   | Halted    | Yes             | Yes                       | **Yes (required)**       | Yes               |
-| `disabled` | Halted    | No              | No                        | No                       | No                |
+| State        | Inference   | Pool Visibility   | Pool Preserved (Runtime)    | Pool Preserved (Restart)   | Promotion Allowed   |
+| ------------ | ----------- | ----------------- | --------------------------- | -------------------------- | ------------------- |
+| `active`     | Running     | Yes               | Yes                         | Optional                   | Yes                 |
+| `paused`     | Halted      | Yes               | Yes                         | **Yes (required)**         | Yes                 |
+| `disabled`   | Halted      | No                | No                          | No                         | No                  |
 
 **Operational semantics:**
 - `active → paused`: stop inference and atomically persist the current Pool to `.agent/state/are_candidate_pool.checkpoint.yaml`.

@@ -153,13 +153,13 @@ This materially changes the optimal resolution strategy.
 
 #### Strategy Evaluation
 
-| Criterion                  | Option A | Option B | Option C |
-|---------------------------|----------|----------|----------|
-| Fixes semantic error      | ✔        | ✖        | ✔        |
-| Preserves schema minimalism | ✔      | ✖        | ✔        |
-| Restores determinism      | ✔        | ✖        | ✔        |
-| Provides audit traceability | ✖      | ✔        | ✔        |
-| Prevents unsafe usage     | ✖        | ✖        | ✔        |
+| Criterion                   | Option A   | Option B   | Option C   |
+| --------------------------- | ---------- | ---------- | ---------- |
+| Fixes semantic error        | ✔          | ✖          | ✔          |
+| Preserves schema minimalism | ✔          | ✖          | ✔          |
+| Restores determinism        | ✔          | ✖          | ✔          |
+| Provides audit traceability | ✖          | ✔          | ✔          |
+| Prevents unsafe usage       | ✖          | ✖          | ✔          |
 
 ---
 

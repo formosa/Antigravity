@@ -240,22 +240,22 @@ These issues represent internal inconsistencies in policy or missing normative c
 
 ## Summary Table
 
-| ID | Severity | Section(s) | Issue |
-|----|----------|------------|-------|
-| C-1 | ⛔ Critical | §1.1 | HIL absorption misstatement in change rationale |
-| C-2 | ⛔ Critical | §3.5, §3.4, FCL, SAL-R6 | No-tier-skipping invariant conflicts with FCL→SAL always-edge |
-| C-3 | ⛔ Critical | Appendix B | ORL rule count mismatch + TBD in a Finalized document |
-| H-1 | 🔴 High | §3.1, §7.1, §7.2 | No formal status state transition model |
-| H-2 | 🔴 High | §4, §7.1 | UNBUNDLE "reject" behavior undefined |
-| H-3 | 🔴 High | §7.2 | DRAFT node DIRTY propagation unspecified |
-| H-4 | 🔴 High | §3.7, §7.1 | CIT-R4 stale inline citations post-DELETE unaddressed |
-| M-1 | 🟡 Moderate | §8.1, §8.3, §9 E5/E7 | Inconsistent Extension annotation scope policy (ARE vs. DDE) |
-| M-2 | 🟡 Moderate | §10, §8.3 EXT-R2 | Mermaid diagram conflates reads/annotates in extends edges |
-| M-3 | 🟡 Moderate | §5 FCL, §5 CL | No FCL rule governs FCL→CL derivation conditions |
-| M-4 | 🟡 Moderate | §7.1, §7.2 | SUPERSEDE on DRAFT/DIRTY/DEPRECATED nodes unspecified |
-| L-1 | 🟢 Low | §4 | UNBUNDLE examples omit G1 tier annotation guidance |
-| L-2 | 🟢 Low | §6 | "Authoring authority" undefined; escalation not manifest-tracked |
-| L-3 | 🟢 Low | GPCL-R6, CL-E3, CL-R7 | Ambiguous boundary between performance ceiling and cost model |
+| ID   | Severity    | Section(s)              | Issue                                                            |
+| ---- | ----------- | ----------------------- | ---------------------------------------------------------------- |
+| C-1  | ⛔ Critical | §1.1                    | HIL absorption misstatement in change rationale                  |
+| C-2  | ⛔ Critical | §3.5, §3.4, FCL, SAL-R6 | No-tier-skipping invariant conflicts with FCL→SAL always-edge    |
+| C-3  | ⛔ Critical | Appendix B              | ORL rule count mismatch + TBD in a Finalized document            |
+| H-1  | 🔴 High     | §3.1, §7.1, §7.2        | No formal status state transition model                          |
+| H-2  | 🔴 High     | §4, §7.1                | UNBUNDLE "reject" behavior undefined                             |
+| H-3  | 🔴 High     | §7.2                    | DRAFT node DIRTY propagation unspecified                         |
+| H-4  | 🔴 High     | §3.7, §7.1              | CIT-R4 stale inline citations post-DELETE unaddressed            |
+| M-1  | 🟡 Moderate | §8.1, §8.3, §9 E5/E7    | Inconsistent Extension annotation scope policy (ARE vs. DDE)     |
+| M-2  | 🟡 Moderate | §10, §8.3 EXT-R2        | Mermaid diagram conflates reads/annotates in extends edges       |
+| M-3  | 🟡 Moderate | §5 FCL, §5 CL           | No FCL rule governs FCL→CL derivation conditions                 |
+| M-4  | 🟡 Moderate | §7.1, §7.2              | SUPERSEDE on DRAFT/DIRTY/DEPRECATED nodes unspecified            |
+| L-1  | 🟢 Low      | §4                      | UNBUNDLE examples omit G1 tier annotation guidance               |
+| L-2  | 🟢 Low      | §6                      | "Authoring authority" undefined; escalation not manifest-tracked |
+| L-3  | 🟢 Low      | GPCL-R6, CL-E3, CL-R7   | Ambiguous boundary between performance ceiling and cost model    |
 
 ---
 

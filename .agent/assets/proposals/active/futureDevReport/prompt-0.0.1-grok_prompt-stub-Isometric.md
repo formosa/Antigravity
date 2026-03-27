@@ -11,4 +11,3 @@ Step-by-step internal reasoning (do not show): 1) Extract core concepts, tiers, 
 
 
 Output only the diagram optimized for seamless integration into technical documentation to maximize observer understanding.
-

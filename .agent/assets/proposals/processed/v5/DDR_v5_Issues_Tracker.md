@@ -1012,4 +1012,4 @@ Option A is simpler and consistent with the single-schema approach used elsewher
 
 *DDR System v5.0 — Issues Tracker — IT-1.0*
 *12 issues identified | 12 resolved | Last updated: 2026-03-25*
-*Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*
+*Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*

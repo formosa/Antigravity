@@ -83,11 +83,11 @@ XPD (Optional Root) ──derives──▶ SIL ──derives──▶ GPCL ─�
 
 The DDR System makes three irreversible architectural commitments that every enhancement must respect:
 
-| Commitment | Statement | Architectural Consequence |
-|---|---|---|
-| Minimize Complexity | Every element earns its existence | No tier, rule, or operation added without a concrete problem it solves |
-| Avoid Premature Optimization | Core is minimum viable graph | All inference, recommendation, and analytical intelligence delivered exclusively via Extensions |
-| Maximize Structural Integrity | DAG is single source of truth | Every node traceable, every edge typed, every mutation validated; correct by construction |
+| Commitment                    | Statement                         | Architectural Consequence                                                                       |
+| ----------------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Minimize Complexity           | Every element earns its existence | No tier, rule, or operation added without a concrete problem it solves                          |
+| Avoid Premature Optimization  | Core is minimum viable graph      | All inference, recommendation, and analytical intelligence delivered exclusively via Extensions |
+| Maximize Structural Integrity | DAG is single source of truth     | Every node traceable, every edge typed, every mutation validated; correct by construction       |
 
 ---
 
@@ -195,26 +195,26 @@ The **Node Schema** defines the canonical data structure of every DDR System art
 
 ### 4.2 Schema Field Inventory
 
-| Field | Type | Required | Mutability | Description and DDR Function |
-|---|---|---|---|---|
-| `id` | `TIER-N.M` (String, pattern-constrained) | Yes | **Immutable** on assignment | The unique, permanent identifier of the node. Pattern: `[TIER]-[SECTION].[ITEM]` for standard tiers; `XPD-0.N` for XPD nodes (no sections). Immutability enforced at the architectural level — no Core operation may alter an assigned ID. Superseded nodes retain their original ID with `status: SUPERSEDED`. |
-| `tier` | Enum: `{XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL}` | Yes | Immutable | The tier classification of the node. Determines which Atomic Inclusion and Exclusion Rules apply, which parent tier is valid for citation, and which child tier this node may parent. |
-| `title` | String | Yes | Mutable | Human-readable artifact label. Not subject to tier-specific content rules but must be present and non-empty. |
-| `content` | Text | Yes | Mutable (MODIFY) | The body of the node's documentation artifact. Governed by the tier's Atomic Inclusion and Exclusion Rules. MODIFY increments `version` and propagates DIRTY to all descendants. |
-| `parent_ids` | `List[ParentCitation]` | Yes (≥1 for non-root) | Mutable (MODIFY, SUPERSEDE auto-update) | Typed parent references. Each entry carries the parent node's `id` and the `edge_type` of the relationship. CIT-R1 requires ≥1 entry for all non-root nodes. CIT-R5 requires that Extension `extends` edges appear in `extension_annotations`, never here. |
-| `status` | Enum: `{DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED}` | Yes | Mutable | The lifecycle state of the node. Governs inclusion in VERIFY, compliance checks, and CLEAN determination. See §10 for full state transition semantics. |
-| `version` | SemVer (String) | Yes | Mutable (auto-incremented by MODIFY) | Content version string. Incremented on every MODIFY operation. Initial value at INSERT: `1.0.0`. |
-| `created` | ISO 8601 (String) | Yes | Immutable | Creation timestamp. Set at INSERT; never modified. |
-| `modified` | ISO 8601 (String) | Yes | Mutable (auto-set by MODIFY) | Last modification timestamp. Updated on every MODIFY operation. |
-| `extension_annotations` | `Map[String, Any]` (namespaced keys) | No (empty Map default) | Mutable by Extensions only | Read-only from Core perspective. Extension metadata stored here, never in `content` or `parent_ids`. Keys must be namespaced by Extension ID (e.g., `HRE::min_hardware_profile`). Core operations must not read or interpret these values. |
+| Field                   | Type                                                   | Required               | Mutability                              | Description and DDR Function                                                                                                                                                                                                                                                                                    |
+| ----------------------- | ------------------------------------------------------ | ---------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                    | `TIER-N.M` (String, pattern-constrained)               | Yes                    | **Immutable** on assignment             | The unique, permanent identifier of the node. Pattern: `[TIER]-[SECTION].[ITEM]` for standard tiers; `XPD-0.N` for XPD nodes (no sections). Immutability enforced at the architectural level — no Core operation may alter an assigned ID. Superseded nodes retain their original ID with `status: SUPERSEDED`. |
+| `tier`                  | Enum: `{XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL}`  | Yes                    | Immutable                               | The tier classification of the node. Determines which Atomic Inclusion and Exclusion Rules apply, which parent tier is valid for citation, and which child tier this node may parent.                                                                                                                           |
+| `title`                 | String                                                 | Yes                    | Mutable                                 | Human-readable artifact label. Not subject to tier-specific content rules but must be present and non-empty.                                                                                                                                                                                                    |
+| `content`               | Text                                                   | Yes                    | Mutable (MODIFY)                        | The body of the node's documentation artifact. Governed by the tier's Atomic Inclusion and Exclusion Rules. MODIFY increments `version` and propagates DIRTY to all descendants.                                                                                                                                |
+| `parent_ids`            | `List[ParentCitation]`                                 | Yes (≥1 for non-root)  | Mutable (MODIFY, SUPERSEDE auto-update) | Typed parent references. Each entry carries the parent node's `id` and the `edge_type` of the relationship. CIT-R1 requires ≥1 entry for all non-root nodes. CIT-R5 requires that Extension `extends` edges appear in `extension_annotations`, never here.                                                      |
+| `status`                | Enum: `{DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED}` | Yes                    | Mutable                                 | The lifecycle state of the node. Governs inclusion in VERIFY, compliance checks, and CLEAN determination. See §10 for full state transition semantics.                                                                                                                                                          |
+| `version`               | SemVer (String)                                        | Yes                    | Mutable (auto-incremented by MODIFY)    | Content version string. Incremented on every MODIFY operation. Initial value at INSERT: `1.0.0`.                                                                                                                                                                                                                |
+| `created`               | ISO 8601 (String)                                      | Yes                    | Immutable                               | Creation timestamp. Set at INSERT; never modified.                                                                                                                                                                                                                                                              |
+| `modified`              | ISO 8601 (String)                                      | Yes                    | Mutable (auto-set by MODIFY)            | Last modification timestamp. Updated on every MODIFY operation.                                                                                                                                                                                                                                                 |
+| `extension_annotations` | `Map[String, Any]` (namespaced keys)                   | No (empty Map default) | Mutable by Extensions only              | Read-only from Core perspective. Extension metadata stored here, never in `content` or `parent_ids`. Keys must be namespaced by Extension ID (e.g., `HRE::min_hardware_profile`). Core operations must not read or interpret these values.                                                                      |
 
 ### 4.3 ParentCitation Sub-Schema
 
 Each entry in `parent_ids` is a `ParentCitation` object:
 
-| Field | Type | Description |
-|---|---|---|
-| `id` | String | The `id` of the parent node. Must reference a non-SUPERSEDED node. |
+| Field       | Type                                               | Description                                                                                                                       |
+| ----------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `id`        | String                                             | The `id` of the parent node. Must reference a non-SUPERSEDED node.                                                                |
 | `edge_type` | Enum: `{derives, constrains, implements, extends}` | The typed semantic relationship. `extends` edges are prohibited in `parent_ids` (CIT-R5); they belong in `extension_annotations`. |
 
 ### 4.4 Status State Machine
@@ -254,14 +254,14 @@ Every edge in the Core DAG must carry exactly one of the four typed labels. An u
 
 **Valid tier combinations.**
 
-| Parent Tier | Child Tier | Condition |
-|---|---|---|
-| XPD | SIL | When XPD is active |
-| SIL | GPCL | Always |
-| GPCL | FCL | Always |
-| FCL | CL | When CL is active |
-| FCL | SAL | Always (even when CL is also active) |
-| SAL | ICL | Always |
+| Parent Tier | Child Tier | Condition                            |
+| ----------- | ---------- | ------------------------------------ |
+| XPD         | SIL        | When XPD is active                   |
+| SIL         | GPCL       | Always                               |
+| GPCL        | FCL        | Always                               |
+| FCL         | CL         | When CL is active                    |
+| FCL         | SAL        | Always (even when CL is also active) |
+| SAL         | ICL        | Always                               |
 
 **Interaction with operations.** MODIFY on a parent node with `derives` edges propagates DIRTY to all `derives` children and their descendants. SUPERSEDE auto-updates child `parent_ids` from the superseded node's ID to the replacement's ID for all `derives` edges. VERIFY checks that all `derives` edges respect tier ordering (no tier-skipping, no upward derivation).
 
@@ -273,9 +273,9 @@ Every edge in the Core DAG must carry exactly one of the four typed labels. An u
 
 **Valid tier combinations.**
 
-| Parent Tier | Child Tier | Condition |
-|---|---|---|
-| CL | SAL | When CL is active |
+| Parent Tier | Child Tier | Condition         |
+| ----------- | ---------- | ----------------- |
+| CL          | SAL        | When CL is active |
 
 **Interaction with the SAL merge node.** The `constrains` edge from CL to SAL makes SAL the sole merge point where `derives` from FCL and `constrains` from CL converge. SAL-R6 requires that SAL nodes cite both parent sources. VERIFY must confirm that every major SAL architectural decision has a `parent_id` citing a CL node (with edge_type `constrains`) when CL is active.
 
@@ -290,9 +290,9 @@ Every edge in the Core DAG must carry exactly one of the four typed labels. An u
 **Valid tier combinations.**
 
 | Parent Tier | Child Tier | Condition |
-|---|---|---|
-| ICL | CDL | Always |
-| CDL | ISL | Always |
+| ----------- | ---------- | --------- |
+| ICL         | CDL        | Always    |
+| CDL         | ISL        | Always    |
 
 **Operational significance.** The shift from `derives` to `implements` at the ICL→CDL→ISL chain marks the point where the documentation moves from *what the system does and is* to *how the system is built*. VERIFY checks that every `implements` edge connects a CDL node to an ICL node it formally satisfies, and every ISL stub to the CDL blueprint it scaffolds.
 
@@ -335,22 +335,22 @@ Seven tiers are mandatory when activated; two (XPD and CL) are conditionally act
 
 **Atomic Inclusion Rules.**
 
-| Rule | Requirement | Violation Consequence |
-|---|---|---|
-| XPD-R1 | Articulate a fundamental human or societal need | Downstream tiers lack ethical grounding |
-| XPD-R2 | Be immutable across project lifecycle; changes require new XPD version | Scope drift; mission confusion |
-| XPD-R3 | Be comprehensible to non-technical stakeholders without a glossary | Stakeholder misalignment |
-| XPD-R4 | Establish ethical boundary conditions all subsequent tiers must satisfy | Unethical design without detection |
-| XPD-R5 | Define success criteria independent of implementation metrics | Wrong success measurement |
-| XPD-R6 | Identify populations who could be harmed and required safeguards | Harm by omission |
+| Rule   | Requirement                                                             | Violation Consequence                   |
+| ------ | ----------------------------------------------------------------------- | --------------------------------------- |
+| XPD-R1 | Articulate a fundamental human or societal need                         | Downstream tiers lack ethical grounding |
+| XPD-R2 | Be immutable across project lifecycle; changes require new XPD version  | Scope drift; mission confusion          |
+| XPD-R3 | Be comprehensible to non-technical stakeholders without a glossary      | Stakeholder misalignment                |
+| XPD-R4 | Establish ethical boundary conditions all subsequent tiers must satisfy | Unethical design without detection      |
+| XPD-R5 | Define success criteria independent of implementation metrics           | Wrong success measurement               |
+| XPD-R6 | Identify populations who could be harmed and required safeguards        | Harm by omission                        |
 
 **Atomic Exclusion Rules.**
 
-| Rule | Prohibition |
-|---|---|
+| Rule   | Prohibition                                                         |
+| ------ | ------------------------------------------------------------------- |
 | XPD-E1 | No solution concepts, technology references, or architectural ideas |
-| XPD-E2 | No quantitative performance targets (→ GPCL) |
-| XPD-E3 | No regulatory or legal constraints (→ GPCL) |
+| XPD-E2 | No quantitative performance targets (→ GPCL)                        |
+| XPD-E3 | No regulatory or legal constraints (→ GPCL)                         |
 
 **Interaction with Extension EHD (E9).** When XPD is inactive, EHD-R5 creates a synthetic XPD-equivalent assessment anchored to SIL. This synthetic artifact carries no precedence weight, cannot be cited in Core `parent_ids`, and does not substitute for a human-authored XPD. If EHD identifies risks requiring formal governance, it surfaces a blocking advisory recommending XPD activation.
 
@@ -366,23 +366,23 @@ Seven tiers are mandatory when activated; two (XPD and CL) are conditionally act
 
 **Atomic Inclusion Rules.**
 
-| Rule | Requirement | Violation Consequence |
-|---|---|---|
-| SIL-R1 | Define core business problem or opportunity | GPCL will lack strategic anchor |
-| SIL-R2 | Specify strategic objectives with measurable outcomes | Unmeasurable success criteria |
-| SIL-R3 | Identify all stakeholder categories and their value propositions | Misaligned delivery priorities |
-| SIL-R4 | Establish explicit scope boundaries (in-scope and out-of-scope) | Uncontrolled scope creep |
-| SIL-R5 | Define organizational success metrics | Inability to declare completion |
-| SIL-R6 | Be stable under technology changes | Technology coupling at the intent level |
+| Rule   | Requirement                                                      | Violation Consequence                   |
+| ------ | ---------------------------------------------------------------- | --------------------------------------- |
+| SIL-R1 | Define core business problem or opportunity                      | GPCL will lack strategic anchor         |
+| SIL-R2 | Specify strategic objectives with measurable outcomes            | Unmeasurable success criteria           |
+| SIL-R3 | Identify all stakeholder categories and their value propositions | Misaligned delivery priorities          |
+| SIL-R4 | Establish explicit scope boundaries (in-scope and out-of-scope)  | Uncontrolled scope creep                |
+| SIL-R5 | Define organizational success metrics                            | Inability to declare completion         |
+| SIL-R6 | Be stable under technology changes                               | Technology coupling at the intent level |
 
 **Atomic Exclusion Rules.**
 
-| Rule | Prohibition |
-|---|---|
-| SIL-E1 | No hardware, technology stacks, frameworks, or languages |
+| Rule   | Prohibition                                                |
+| ------ | ---------------------------------------------------------- |
+| SIL-E1 | No hardware, technology stacks, frameworks, or languages   |
 | SIL-E2 | No regulatory mandates or compliance requirements (→ GPCL) |
-| SIL-E3 | No architectural patterns or implementation strategies |
-| SIL-E4 | No quantitative performance metrics (→ GPCL) |
+| SIL-E3 | No architectural patterns or implementation strategies     |
+| SIL-E4 | No quantitative performance metrics (→ GPCL)               |
 
 ---
 
@@ -396,26 +396,26 @@ Seven tiers are mandatory when activated; two (XPD and CL) are conditionally act
 
 **Atomic Inclusion Rules.**
 
-| Rule | Requirement | Violation Consequence |
-|---|---|---|
-| GPCL-R1 | Enumerate all applicable regulatory frameworks with jurisdiction and scope | Compliance gaps leading to legal exposure |
-| GPCL-R2 | Specify enforceable, testable constraints — not aspirational targets | Non-verifiable compliance claims |
-| GPCL-R3 | Identify contractual obligations from third-party relationships | Contract breach by design |
-| GPCL-R4 | Define data sovereignty and residency requirements | Data law violations |
-| GPCL-R5 | Specify audit and record-retention mandates | Regulatory audit failure |
-| GPCL-R6 | Specify quantifiable performance targets: latency, throughput, concurrency | Architecture unable to satisfy operational demands |
-| GPCL-R7 | Specify reliability and availability targets (SLAs, RTO, RPO) | Unacceptable service degradation |
-| GPCL-R8 | Specify security requirements expressed technology-neutrally | Stale security specification on technology change |
-| GPCL-R9 | Specify scalability and accessibility requirements | Architecture unable to grow; user exclusion |
-| GPCL-R10 | Cite parent SIL IDs for each constraint | Orphaned requirements |
+| Rule     | Requirement                                                                | Violation Consequence                              |
+| -------- | -------------------------------------------------------------------------- | -------------------------------------------------- |
+| GPCL-R1  | Enumerate all applicable regulatory frameworks with jurisdiction and scope | Compliance gaps leading to legal exposure          |
+| GPCL-R2  | Specify enforceable, testable constraints — not aspirational targets       | Non-verifiable compliance claims                   |
+| GPCL-R3  | Identify contractual obligations from third-party relationships            | Contract breach by design                          |
+| GPCL-R4  | Define data sovereignty and residency requirements                         | Data law violations                                |
+| GPCL-R5  | Specify audit and record-retention mandates                                | Regulatory audit failure                           |
+| GPCL-R6  | Specify quantifiable performance targets: latency, throughput, concurrency | Architecture unable to satisfy operational demands |
+| GPCL-R7  | Specify reliability and availability targets (SLAs, RTO, RPO)              | Unacceptable service degradation                   |
+| GPCL-R8  | Specify security requirements expressed technology-neutrally               | Stale security specification on technology change  |
+| GPCL-R9  | Specify scalability and accessibility requirements                         | Architecture unable to grow; user exclusion        |
+| GPCL-R10 | Cite parent SIL IDs for each constraint                                    | Orphaned requirements                              |
 
 **Atomic Exclusion Rules.**
 
-| Rule | Prohibition |
-|---|---|
+| Rule    | Prohibition                                                           |
+| ------- | --------------------------------------------------------------------- |
 | GPCL-E1 | No technology frameworks, library choices, or hardware specifications |
-| GPCL-E2 | No functional system behaviors (→ FCL) |
-| GPCL-E3 | No business objectives or success metrics (→ SIL) |
+| GPCL-E2 | No functional system behaviors (→ FCL)                                |
+| GPCL-E3 | No business objectives or success metrics (→ SIL)                     |
 
 ---
 
@@ -429,22 +429,22 @@ Seven tiers are mandatory when activated; two (XPD and CL) are conditionally act
 
 **Atomic Inclusion Rules.**
 
-| Rule | Requirement | Violation Consequence |
-|---|---|---|
-| FCL-R1 | Describe capabilities from user or external system perspective | Implementation details contaminate functional spec |
-| FCL-R2 | Specify user workflows end-to-end without naming components, classes, or modules | Premature structural coupling |
-| FCL-R3 | Define event-driven behaviors and conditional business logic rules | Missing behavioral specification |
-| FCL-R4 | Specify user-observable state transitions and error conditions | Incomplete behavioral model |
-| FCL-R5 | Be decomposable into sub-capabilities (parent-child FCL nodes) for complex features | Monolithic feature specs resist traceability |
-| FCL-R6 | Cite parent GPCL IDs for capabilities satisfying a governance or quality requirement | Disconnected functional requirements |
+| Rule   | Requirement                                                                          | Violation Consequence                              |
+| ------ | ------------------------------------------------------------------------------------ | -------------------------------------------------- |
+| FCL-R1 | Describe capabilities from user or external system perspective                       | Implementation details contaminate functional spec |
+| FCL-R2 | Specify user workflows end-to-end without naming components, classes, or modules     | Premature structural coupling                      |
+| FCL-R3 | Define event-driven behaviors and conditional business logic rules                   | Missing behavioral specification                   |
+| FCL-R4 | Specify user-observable state transitions and error conditions                       | Incomplete behavioral model                        |
+| FCL-R5 | Be decomposable into sub-capabilities (parent-child FCL nodes) for complex features  | Monolithic feature specs resist traceability       |
+| FCL-R6 | Cite parent GPCL IDs for capabilities satisfying a governance or quality requirement | Disconnected functional requirements               |
 
 **Atomic Exclusion Rules.**
 
-| Rule | Prohibition |
-|---|---|
-| FCL-E1 | No specific classes, modules, APIs, or algorithms |
+| Rule   | Prohibition                                                  |
+| ------ | ------------------------------------------------------------ |
+| FCL-E1 | No specific classes, modules, APIs, or algorithms            |
 | FCL-E2 | No network protocols, serialization formats, or data schemas |
-| FCL-E3 | No hardware requirements or infrastructure topology |
+| FCL-E3 | No hardware requirements or infrastructure topology          |
 
 ---
 
@@ -458,26 +458,26 @@ Seven tiers are mandatory when activated; two (XPD and CL) are conditionally act
 
 **Atomic Inclusion Rules.**
 
-| Rule | Requirement | Violation Consequence |
-|---|---|---|
-| CL-R1 | Declare approved programming languages with version constraints | Incompatible implementations |
-| CL-R2 | Declare mandatory frameworks and core libraries with minimum version bounds | Dependency drift |
-| CL-R3 | Declare required external service contracts without internal implementation details | Integration gaps |
-| CL-R4 | Declare runtime environment constraints (OS, container runtime, execution environment) | Deployment environment incompatibility |
-| CL-R5 | Explicitly declare prohibited technologies with rationale | License compliance violations |
-| CL-R6 | Declare hardware envelopes when applicable (CPU class, RAM floor, storage, GPU) | Architecture that exceeds target hardware |
-| CL-R7 | Declare infrastructure ceilings when applicable (compute, storage, bandwidth cap) | Cost overruns from unconstrained architecture |
-| CL-R8 | Specify deployment topology declarations (on-premise, cloud-agnostic, hybrid, edge) | Architecture incompatible with deployment target |
-| CL-R9 | Cite FCL IDs for each constraint | Constraints untraceable to business need |
-| CL-R10 | Document internal reconciliations of conflicting hardware and technology constraints | Loss of deterministic traceability for constraint conflicts |
+| Rule   | Requirement                                                                            | Violation Consequence                                       |
+| ------ | -------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| CL-R1  | Declare approved programming languages with version constraints                        | Incompatible implementations                                |
+| CL-R2  | Declare mandatory frameworks and core libraries with minimum version bounds            | Dependency drift                                            |
+| CL-R3  | Declare required external service contracts without internal implementation details    | Integration gaps                                            |
+| CL-R4  | Declare runtime environment constraints (OS, container runtime, execution environment) | Deployment environment incompatibility                      |
+| CL-R5  | Explicitly declare prohibited technologies with rationale                              | License compliance violations                               |
+| CL-R6  | Declare hardware envelopes when applicable (CPU class, RAM floor, storage, GPU)        | Architecture that exceeds target hardware                   |
+| CL-R7  | Declare infrastructure ceilings when applicable (compute, storage, bandwidth cap)      | Cost overruns from unconstrained architecture               |
+| CL-R8  | Specify deployment topology declarations (on-premise, cloud-agnostic, hybrid, edge)    | Architecture incompatible with deployment target            |
+| CL-R9  | Cite FCL IDs for each constraint                                                       | Constraints untraceable to business need                    |
+| CL-R10 | Document internal reconciliations of conflicting hardware and technology constraints   | Loss of deterministic traceability for constraint conflicts |
 
 **Atomic Exclusion Rules.**
 
-| Rule | Prohibition |
-|---|---|
+| Rule  | Prohibition                                                             |
+| ----- | ----------------------------------------------------------------------- |
 | CL-E1 | No auto-derived, inferred, or recommended configurations (→ Extensions) |
-| CL-E2 | No functional system behaviors (→ FCL) |
-| CL-E3 | No cost models or TCO calculations (→ Extensions) |
+| CL-E2 | No functional system behaviors (→ FCL)                                  |
+| CL-E3 | No cost models or TCO calculations (→ Extensions)                       |
 
 ---
 
@@ -491,21 +491,21 @@ Seven tiers are mandatory when activated; two (XPD and CL) are conditionally act
 
 **Atomic Inclusion Rules.**
 
-| Rule | Requirement | Violation Consequence |
-|---|---|---|
-| SAL-R1 | Define overarching architectural pattern(s) with rationale | No structural framework for downstream design |
-| SAL-R2 | Specify system decomposition into major subsystems with ownership boundaries | Ambiguous component responsibilities |
-| SAL-R3 | Specify inter-subsystem communication patterns | Integration design without architectural mandate |
-| SAL-R4 | Specify concurrency model and data ownership rules | Race conditions and data integrity violations by design |
-| SAL-R5 | Specify failure isolation and resilience boundaries | Cascading failure scenarios in the architecture |
+| Rule   | Requirement                                                                           | Violation Consequence                                   |
+| ------ | ------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| SAL-R1 | Define overarching architectural pattern(s) with rationale                            | No structural framework for downstream design           |
+| SAL-R2 | Specify system decomposition into major subsystems with ownership boundaries          | Ambiguous component responsibilities                    |
+| SAL-R3 | Specify inter-subsystem communication patterns                                        | Integration design without architectural mandate        |
+| SAL-R4 | Specify concurrency model and data ownership rules                                    | Race conditions and data integrity violations by design |
+| SAL-R5 | Specify failure isolation and resilience boundaries                                   | Cascading failure scenarios in the architecture         |
 | SAL-R6 | Cite all active parent IDs (FCL + CL if active) for each major architectural decision | Architectural decisions without traceable justification |
 
 **Atomic Exclusion Rules.**
 
-| Rule | Prohibition |
-|---|---|
-| SAL-E1 | No exact data schemas or payload definitions (→ ICL) |
-| SAL-E2 | No class-level component blueprints (→ CDL) |
+| Rule   | Prohibition                                                                    |
+| ------ | ------------------------------------------------------------------------------ |
+| SAL-E1 | No exact data schemas or payload definitions (→ ICL)                           |
+| SAL-E2 | No class-level component blueprints (→ CDL)                                    |
 | SAL-E3 | No executable code, algorithm implementations, or procedural logic (→ CDL/ISL) |
 
 ---
@@ -520,23 +520,23 @@ Seven tiers are mandatory when activated; two (XPD and CL) are conditionally act
 
 **Atomic Inclusion Rules.**
 
-| Rule | Requirement | Violation Consequence |
-|---|---|---|
-| ICL-R1 | Define all inter-component and external API contracts with complete I/O schemas | Implementations diverge at integration points |
-| ICL-R2 | All schemas machine-parseable (JSON Schema, Protobuf, OpenAPI, or equivalent) | Contracts cannot be mechanically validated |
+| Rule   | Requirement                                                                        | Violation Consequence                              |
+| ------ | ---------------------------------------------------------------------------------- | -------------------------------------------------- |
+| ICL-R1 | Define all inter-component and external API contracts with complete I/O schemas    | Implementations diverge at integration points      |
+| ICL-R2 | All schemas machine-parseable (JSON Schema, Protobuf, OpenAPI, or equivalent)      | Contracts cannot be mechanically validated         |
 | ICL-R3 | Specify serialization formats, encoding standards, and wire protocols per contract | Interoperability failures from encoding mismatches |
-| ICL-R4 | Specify mandatory fields, optional fields, type constraints, and validation rules | Runtime failures from malformed payloads |
-| ICL-R5 | Specify error response contracts (error codes, payload structure, retry behavior) | Undefined failure behavior at system boundaries |
-| ICL-R6 | Specify versioning strategy per contract | Breaking changes without migration path |
-| ICL-R7 | Cite SAL IDs for each contract | Contracts without architectural justification |
+| ICL-R4 | Specify mandatory fields, optional fields, type constraints, and validation rules  | Runtime failures from malformed payloads           |
+| ICL-R5 | Specify error response contracts (error codes, payload structure, retry behavior)  | Undefined failure behavior at system boundaries    |
+| ICL-R6 | Specify versioning strategy per contract                                           | Breaking changes without migration path            |
+| ICL-R7 | Cite SAL IDs for each contract                                                     | Contracts without architectural justification      |
 
 **Atomic Exclusion Rules.**
 
-| Rule | Prohibition |
-|---|---|
+| Rule   | Prohibition                                              |
+| ------ | -------------------------------------------------------- |
 | ICL-E1 | No internal component state management or business logic |
-| ICL-E2 | No architectural routing patterns (→ SAL) |
-| ICL-E3 | No class or module blueprints (→ CDL) |
+| ICL-E2 | No architectural routing patterns (→ SAL)                |
+| ICL-E3 | No class or module blueprints (→ CDL)                    |
 
 ---
 
@@ -550,23 +550,23 @@ Seven tiers are mandatory when activated; two (XPD and CL) are conditionally act
 
 **Atomic Inclusion Rules.**
 
-| Rule | Requirement | Violation Consequence |
-|---|---|---|
-| CDL-R1 | Define component names, logical responsibilities, and ownership boundaries | Ambiguous implementation targets |
-| CDL-R2 | Specify all public method/function signatures (name, parameter types, return type, exceptions) | Implementations violate declared interface |
-| CDL-R3 | Specify internal state structures as a logical model — not implementation | Hidden state dependencies between components |
-| CDL-R4 | Specify component dependencies (consumed components and ICL contracts) | Circular dependencies introduced at implementation |
-| CDL-R5 | Map each component to the ICL contracts it implements | Components without contractual grounding |
-| CDL-R6 | Specify initialization, lifecycle, and teardown contracts for stateful components | Resource leaks and initialization-order bugs |
-| CDL-R7 | When CL declares multiple target languages, produce language-specific blueprints for each | Language constraint not propagated; ISL-R5 compliance gap |
+| Rule   | Requirement                                                                                    | Violation Consequence                                     |
+| ------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| CDL-R1 | Define component names, logical responsibilities, and ownership boundaries                     | Ambiguous implementation targets                          |
+| CDL-R2 | Specify all public method/function signatures (name, parameter types, return type, exceptions) | Implementations violate declared interface                |
+| CDL-R3 | Specify internal state structures as a logical model — not implementation                      | Hidden state dependencies between components              |
+| CDL-R4 | Specify component dependencies (consumed components and ICL contracts)                         | Circular dependencies introduced at implementation        |
+| CDL-R5 | Map each component to the ICL contracts it implements                                          | Components without contractual grounding                  |
+| CDL-R6 | Specify initialization, lifecycle, and teardown contracts for stateful components              | Resource leaks and initialization-order bugs              |
+| CDL-R7 | When CL declares multiple target languages, produce language-specific blueprints for each      | Language constraint not propagated; ISL-R5 compliance gap |
 
 **Atomic Exclusion Rules.**
 
-| Rule | Prohibition |
-|---|---|
+| Rule   | Prohibition                                            |
+| ------ | ------------------------------------------------------ |
 | CDL-E1 | No executable code bodies or algorithm implementations |
-| CDL-E2 | No system-wide architectural patterns (→ SAL) |
-| CDL-E3 | No data serialization schemas (→ ICL) |
+| CDL-E2 | No system-wide architectural patterns (→ SAL)          |
+| CDL-E3 | No data serialization schemas (→ ICL)                  |
 
 ---
 
@@ -580,21 +580,21 @@ Seven tiers are mandatory when activated; two (XPD and CL) are conditionally act
 
 **Atomic Inclusion Rules.**
 
-| Rule | Requirement | Violation Consequence |
-|---|---|---|
-| ISL-R1 | Produce syntactically valid structural scaffolding in target language | Scaffolding fails to compile or parse |
-| ISL-R2 | Embed docstrings or code comments with explicit parent DDR node IDs | Implementations without traceability |
-| ISL-R3 | Include implementation hints as structured comments | Implementers lose architectural context |
-| ISL-R4 | Define all function/method bodies exclusively as stubs | Pre-implementation contamination |
-| ISL-R5 | Language-specific — one ISL node per target language when multiple declared in CL | Language-ambiguous stubs |
-| ISL-R6 | Cite CDL parent IDs for every stub | Orphaned scaffolding |
+| Rule   | Requirement                                                                       | Violation Consequence                   |
+| ------ | --------------------------------------------------------------------------------- | --------------------------------------- |
+| ISL-R1 | Produce syntactically valid structural scaffolding in target language             | Scaffolding fails to compile or parse   |
+| ISL-R2 | Embed docstrings or code comments with explicit parent DDR node IDs               | Implementations without traceability    |
+| ISL-R3 | Include implementation hints as structured comments                               | Implementers lose architectural context |
+| ISL-R4 | Define all function/method bodies exclusively as stubs                            | Pre-implementation contamination        |
+| ISL-R5 | Language-specific — one ISL node per target language when multiple declared in CL | Language-ambiguous stubs                |
+| ISL-R6 | Cite CDL parent IDs for every stub                                                | Orphaned scaffolding                    |
 
 **Atomic Exclusion Rules.**
 
-| Rule | Prohibition |
-|---|---|
+| Rule   | Prohibition                                     |
+| ------ | ----------------------------------------------- |
 | ISL-E1 | No business logic or complete algorithmic logic |
-| ISL-E2 | No infrastructure configuration (→ Extensions) |
+| ISL-E2 | No infrastructure configuration (→ Extensions)  |
 
 ---
 
@@ -606,13 +606,13 @@ Seven tiers are mandatory when activated; two (XPD and CL) are conditionally act
 
 ### 7.2 Citation Rule Inventory
 
-| Rule | Statement | Enforced By |
-|---|---|---|
-| CIT-R1 | Every non-root node must have ≥1 `parent_id` | VERIFY (orphan detection); INSERT (validation trigger) |
+| Rule   | Statement                                                                                             | Enforced By                                                   |
+| ------ | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| CIT-R1 | Every non-root node must have ≥1 `parent_id`                                                          | VERIFY (orphan detection); INSERT (validation trigger)        |
 | CIT-R2 | `parent_ids` must reference node(s) from the immediately preceding active tier(s) in the DAG topology | VERIFY (tier-skip detection); INSERT (parent existence check) |
-| CIT-R3 | CL → SAL constraint edges are recorded in `parent_ids` with edge type `constrains` | VERIFY (edge type validation at SAL merge node) |
-| CIT-R4 | An inline `[TIER-N.M]` citation in node content must have a matching entry in `parent_ids` | VERIFY (content-citation consistency check) |
-| CIT-R5 | Extension `extends` edges are stored in `extension_annotations` only — never in `parent_ids` | VERIFY (Extension edge placement validation) |
+| CIT-R3 | CL → SAL constraint edges are recorded in `parent_ids` with edge type `constrains`                    | VERIFY (edge type validation at SAL merge node)               |
+| CIT-R4 | An inline `[TIER-N.M]` citation in node content must have a matching entry in `parent_ids`            | VERIFY (content-citation consistency check)                   |
+| CIT-R5 | Extension `extends` edges are stored in `extension_annotations` only — never in `parent_ids`          | VERIFY (Extension edge placement validation)                  |
 
 ### 7.3 CIT-R2 Special Cases
 
@@ -632,17 +632,17 @@ The "immediately preceding active tier" rule has two conditional interpretations
 
 ### 8.2 Precedence Table
 
-| Priority | Tier | Rationale |
-|---|---|---|
-| 1 | XPD | Ethical boundary conditions are inviolable |
-| 2 | SIL | Strategic intent defines the purpose of all design decisions |
-| 3 | GPCL | External regulatory mandates and quality thresholds are non-negotiable |
-| 4 | FCL | Functional requirements operate within the constraint envelope |
-| 5 | CL | Technology, hardware, and infrastructure constraints are externally imposed |
-| 6 | SAL | Architecture is bounded by all above |
-| 7 | ICL | Contracts derive from architecture |
-| 8 | CDL | Design derives from contracts |
-| 9 | ISL | Scaffolding derives from design |
+| Priority | Tier | Rationale                                                                   |
+| -------- | ---- | --------------------------------------------------------------------------- |
+| 1        | XPD  | Ethical boundary conditions are inviolable                                  |
+| 2        | SIL  | Strategic intent defines the purpose of all design decisions                |
+| 3        | GPCL | External regulatory mandates and quality thresholds are non-negotiable      |
+| 4        | FCL  | Functional requirements operate within the constraint envelope              |
+| 5        | CL   | Technology, hardware, and infrastructure constraints are externally imposed |
+| 6        | SAL  | Architecture is bounded by all above                                        |
+| 7        | ICL  | Contracts derive from architecture                                          |
+| 8        | CDL  | Design derives from contracts                                               |
+| 9        | ISL  | Scaffolding derives from design                                             |
 
 ### 8.3 Special Resolution Rules
 
@@ -740,13 +740,13 @@ The **Dirty Flag System** is the DDR System's change propagation mechanism. When
 
 ### 10.2 DIRTY Trigger Inventory
 
-| Trigger | Nodes Affected | Rationale |
-|---|---|---|
-| Node MODIFIED | Modified node + all descendants | Content change may propagate semantic violations downstream |
-| Node DELETED | All former children of the deleted node | Children may have lost their only valid `parent_id` |
-| Parent → SUPERSEDED (auto-update of child `parent_ids`) | Immediate children only | Structural re-wiring; grandchild content remains valid pending child re-validation |
-| CL constraint added or modified | SAL + all SAL descendants | Constraint changes invalidate the entire downstream architecture |
-| XPD ethical boundary modified | All tiers (full re-validation required) | XPD has priority 1 constraint precedence; any change may invalidate all downstream decisions |
+| Trigger                                                 | Nodes Affected                          | Rationale                                                                                    |
+| ------------------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Node MODIFIED                                           | Modified node + all descendants         | Content change may propagate semantic violations downstream                                  |
+| Node DELETED                                            | All former children of the deleted node | Children may have lost their only valid `parent_id`                                          |
+| Parent → SUPERSEDED (auto-update of child `parent_ids`) | Immediate children only                 | Structural re-wiring; grandchild content remains valid pending child re-validation           |
+| CL constraint added or modified                         | SAL + all SAL descendants               | Constraint changes invalidate the entire downstream architecture                             |
+| XPD ethical boundary modified                           | All tiers (full re-validation required) | XPD has priority 1 constraint precedence; any change may invalidate all downstream decisions |
 
 ### 10.3 Reconciliation Workflow
 
@@ -783,12 +783,12 @@ The reconciliation manifest is the live operational dashboard of DDR System stat
 
 ### 11.2 Express Mode Group Map
 
-| Group | Tiers Bundled | Label | Conditional Tiers |
-|---|---|---|---|
-| G1 | XPD + SIL + GPCL | Purpose, Strategy & Governance | XPD is optional |
-| G2 | FCL + CL | Capabilities & Constraints | CL is optional |
-| G3 | SAL + ICL | Architecture & Contracts | Neither optional |
-| G4 | CDL + ISL | Design & Scaffolding | Neither optional |
+| Group | Tiers Bundled    | Label                          | Conditional Tiers |
+| ----- | ---------------- | ------------------------------ | ----------------- |
+| G1    | XPD + SIL + GPCL | Purpose, Strategy & Governance | XPD is optional   |
+| G2    | FCL + CL         | Capabilities & Constraints     | CL is optional    |
+| G3    | SAL + ICL        | Architecture & Contracts       | Neither optional  |
+| G4    | CDL + ISL        | Design & Scaffolding           | Neither optional  |
 
 ### 11.3 UNBUNDLE Determinism Rule
 
@@ -826,15 +826,15 @@ The Extension Candidate Pool is a staging area *outside the Core DAG* specifical
 
 ### 12.4 Extension Integration Rules
 
-| Rule | Statement |
-|---|---|
-| EXT-R1 | Must declare contract version compatible with DDR-Core-4.x |
+| Rule   | Statement                                                                                                            |
+| ------ | -------------------------------------------------------------------------------------------------------------------- |
+| EXT-R1 | Must declare contract version compatible with DDR-Core-4.x                                                           |
 | EXT-R2 | Must declare which Core tiers it reads and which it annotates (not "all Core tiers" — explicit enumeration required) |
-| EXT-R3 | Annotations must be namespaced by Extension ID (e.g., `HRE::min_hardware_profile`) |
-| EXT-R4 | Extensions update the reconciliation manifest; annotation counts tracked |
-| EXT-R5 | Disabling an Extension leaves Core CLEAN/DIRTY status unchanged |
-| EXT-R6 | Extension-internal derived artifact graphs must maintain their own acyclicity |
-| EXT-R7 | Extension advisories do not mutate Core node status |
+| EXT-R3 | Annotations must be namespaced by Extension ID (e.g., `HRE::min_hardware_profile`)                                   |
+| EXT-R4 | Extensions update the reconciliation manifest; annotation counts tracked                                             |
+| EXT-R5 | Disabling an Extension leaves Core CLEAN/DIRTY status unchanged                                                      |
+| EXT-R6 | Extension-internal derived artifact graphs must maintain their own acyclicity                                        |
+| EXT-R7 | Extension advisories do not mutate Core node status                                                                  |
 
 ---
 
@@ -1004,12 +1004,12 @@ Formally: `H = (V, E)` where `V` is the node set and `E ⊆ 2^V × 2^V × T` (T 
 
 #### Integration Benefits for DDR
 
-| DDR Requirement | Hypergraph Benefit |
-|---|---|
-| SAL merge node semantics | Merge hyperedge makes conjunction first-class; VERIFY validates hyperedge satisfaction |
+| DDR Requirement               | Hypergraph Benefit                                                                                 |
+| ----------------------------- | -------------------------------------------------------------------------------------------------- |
+| SAL merge node semantics      | Merge hyperedge makes conjunction first-class; VERIFY validates hyperedge satisfaction             |
 | Multi-node rationale (SAL-R6) | `derives:conjunction` hyperedges replace multi-entry `parent_ids` with explicit conjunction intent |
-| Intra-tier conflict detection | Hyperedges between same-tier nodes can model conflict relationships explicitly |
-| VERIFY completeness | Hypercycle detection catches structural violations that binary-edge cycle detection misses |
+| Intra-tier conflict detection | Hyperedges between same-tier nodes can model conflict relationships explicitly                     |
+| VERIFY completeness           | Hypercycle detection catches structural violations that binary-edge cycle detection misses         |
 
 #### Dimensional Assessment
 
@@ -1041,12 +1041,12 @@ A **Galois connection** between posets `(A, ≤_A)` and `(B, ≤_B)` is a pair o
 
 #### Integration Benefits for DDR
 
-| DDR Requirement | Lattice/Galois Benefit |
-|---|---|
-| Constraint precedence (§6) | Precedence as lattice ordering; override as join computation |
-| Intra-tier conflict detection | Conflict as infeasible meet (result = ⊥) |
-| AX-2 enforcement | Abstraction function α makes tier placement mechanically verifiable |
-| VERIFY optimization | Lattice consistency check replaces rule enumeration for large DAGs |
+| DDR Requirement                | Lattice/Galois Benefit                                                                |
+| ------------------------------ | ------------------------------------------------------------------------------------- |
+| Constraint precedence (§6)     | Precedence as lattice ordering; override as join computation                          |
+| Intra-tier conflict detection  | Conflict as infeasible meet (result = ⊥)                                              |
+| AX-2 enforcement               | Abstraction function α makes tier placement mechanically verifiable                   |
+| VERIFY optimization            | Lattice consistency check replaces rule enumeration for large DAGs                    |
 | Physical Constraint Escalation | Physically impossible constraint: meet of FCL requirement and CL hardware ceiling = ⊥ |
 
 #### Dimensional Assessment
@@ -1080,12 +1080,12 @@ A **Galois connection** between posets `(A, ≤_A)` and `(B, ≤_B)` is a pair o
 
 #### Integration Benefits for DDR
 
-| DDR Requirement | Categorical Benefit |
-|---|---|
-| SAL merge node | Pushout: uniqueness and universal property proven, not stipulated |
-| Extension semantic isolation | Natural transformation: Extension commutativity is the isolation invariant |
-| AX-7 (acyclicity) | Category theory prohibits cycles by construction in a well-formed category |
-| VERIFY completeness | Type-checking: sound and complete for the declared type system |
+| DDR Requirement               | Categorical Benefit                                                              |
+| ----------------------------- | -------------------------------------------------------------------------------- |
+| SAL merge node                | Pushout: uniqueness and universal property proven, not stipulated                |
+| Extension semantic isolation  | Natural transformation: Extension commutativity is the isolation invariant       |
+| AX-7 (acyclicity)             | Category theory prohibits cycles by construction in a well-formed category       |
+| VERIFY completeness           | Type-checking: sound and complete for the declared type system                   |
 | DDR specification correctness | Entire spec verifiable via categorical axioms — eliminates rule enumeration bugs |
 
 #### Dimensional Assessment
@@ -1364,13 +1364,13 @@ The mutation protocol (INSERT, DELETE, MODIFY, SUPERSEDE) is implemented as even
 
 ### 18.4 Upgrade Path from DDR v4.0
 
-| Phase | Change | Impact |
-|---|---|---|
-| Phase 1 | Event Sourcing + CQRS for operational protocol | Zero practitioner impact; LVE Extension becomes projection |
-| Phase 2 | Property Graph storage (Neo4j/TinkerPop) replacing in-memory DAG | Zero practitioner impact; VERIFY as Cypher queries |
-| Phase 3 | Typed Hypergraph layer (hyperedges for SAL merge, conjunction citations) | Minimal practitioner impact; backward-compatible |
-| Phase 4 | Lattice constraint resolution replacing rule-enumerated override | Zero practitioner impact; VERIFY produces richer output |
-| Phase 5 | Categorical foundation for Core Engine | Zero practitioner impact; proven correctness guarantees |
+| Phase   | Change                                                                   | Impact                                                     |
+| ------- | ------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| Phase 1 | Event Sourcing + CQRS for operational protocol                           | Zero practitioner impact; LVE Extension becomes projection |
+| Phase 2 | Property Graph storage (Neo4j/TinkerPop) replacing in-memory DAG         | Zero practitioner impact; VERIFY as Cypher queries         |
+| Phase 3 | Typed Hypergraph layer (hyperedges for SAL merge, conjunction citations) | Minimal practitioner impact; backward-compatible           |
+| Phase 4 | Lattice constraint resolution replacing rule-enumerated override         | Zero practitioner impact; VERIFY produces richer output    |
+| Phase 5 | Categorical foundation for Core Engine                                   | Zero practitioner impact; proven correctness guarantees    |
 
 ---
 
@@ -1388,19 +1388,19 @@ The mutation protocol (INSERT, DELETE, MODIFY, SUPERSEDE) is implemented as even
 
 ### 19.2 Technology Stack Reference
 
-| Component | Technology | License | Official Documentation |
-|---|---|---|---|
-| Graph Database | [Neo4j Community Edition 5.x](https://neo4j.com/) | Apache 2.0 | [Neo4j Docs](https://neo4j.com/docs/) |
-| Python Graph Library | [NetworkX 3.x](https://networkx.org/) | BSD-3 | [NetworkX Docs](https://networkx.org/documentation/stable/) |
-| Hypergraph Library | [HyperNetX 2.x](https://hypernetx.readthedocs.io/) | MIT (Pacific Northwest National Lab) | [HyperNetX Docs](https://hypernetx.readthedocs.io/en/latest/) |
-| SHACL Validation | [TopBraid SHACL (Python)](https://github.com/TopQuadrant/shacl) | Apache 2.0 | [PyShacl](https://github.com/RDFLib/pySHACL) |
-| RDF/OWL Layer | [RDFLib](https://rdflib.readthedocs.io/) | BSD-3 | [RDFLib Docs](https://rdflib.readthedocs.io/en/stable/) |
-| Event Log | [Apache Kafka](https://kafka.apache.org/) | Apache 2.0 | [Kafka Docs](https://kafka.apache.org/documentation/) |
-| Reactive Streams | [RxPY 4.x](https://rxpy.readthedocs.io/) | MIT | [RxPY Docs](https://rxpy.readthedocs.io/en/latest/) |
-| REST API | [FastAPI](https://fastapi.tiangolo.com/) | MIT | [FastAPI Docs](https://fastapi.tiangolo.com/) |
-| Graph Query | [py2neo](https://py2neo.org/) | Apache 2.0 | [py2neo Docs](https://py2neo.org/2021.1/) |
-| Schema Validation | [jsonschema](https://python-jsonschema.readthedocs.io/) | MIT | [jsonschema Docs](https://python-jsonschema.readthedocs.io/en/latest/) |
-| CSP Engine | [Google OR-Tools](https://developers.google.com/optimization/) | Apache 2.0 | [OR-Tools Docs](https://developers.google.com/optimization/reference) |
+| Component            | Technology                                                      | License                              | Official Documentation                                                 |
+| -------------------- | --------------------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------- |
+| Graph Database       | [Neo4j Community Edition 5.x](https://neo4j.com/)               | Apache 2.0                           | [Neo4j Docs](https://neo4j.com/docs/)                                  |
+| Python Graph Library | [NetworkX 3.x](https://networkx.org/)                           | BSD-3                                | [NetworkX Docs](https://networkx.org/documentation/stable/)            |
+| Hypergraph Library   | [HyperNetX 2.x](https://hypernetx.readthedocs.io/)              | MIT (Pacific Northwest National Lab) | [HyperNetX Docs](https://hypernetx.readthedocs.io/en/latest/)          |
+| SHACL Validation     | [TopBraid SHACL (Python)](https://github.com/TopQuadrant/shacl) | Apache 2.0                           | [PyShacl](https://github.com/RDFLib/pySHACL)                           |
+| RDF/OWL Layer        | [RDFLib](https://rdflib.readthedocs.io/)                        | BSD-3                                | [RDFLib Docs](https://rdflib.readthedocs.io/en/stable/)                |
+| Event Log            | [Apache Kafka](https://kafka.apache.org/)                       | Apache 2.0                           | [Kafka Docs](https://kafka.apache.org/documentation/)                  |
+| Reactive Streams     | [RxPY 4.x](https://rxpy.readthedocs.io/)                        | MIT                                  | [RxPY Docs](https://rxpy.readthedocs.io/en/latest/)                    |
+| REST API             | [FastAPI](https://fastapi.tiangolo.com/)                        | MIT                                  | [FastAPI Docs](https://fastapi.tiangolo.com/)                          |
+| Graph Query          | [py2neo](https://py2neo.org/)                                   | Apache 2.0                           | [py2neo Docs](https://py2neo.org/2021.1/)                              |
+| Schema Validation    | [jsonschema](https://python-jsonschema.readthedocs.io/)         | MIT                                  | [jsonschema Docs](https://python-jsonschema.readthedocs.io/en/latest/) |
+| CSP Engine           | [Google OR-Tools](https://developers.google.com/optimization/)  | Apache 2.0                           | [OR-Tools Docs](https://developers.google.com/optimization/reference)  |
 
 ---
 
@@ -1884,21 +1884,21 @@ class DdrEventLog:
 
 ### 20.2 Technology Stack Reference
 
-| Component | Technology | License | Official Documentation |
-|---|---|---|---|
-| Event Store | [EventStoreDB](https://www.eventstore.com/) | Apache 2.0 | [EventStoreDB Docs](https://developers.eventstore.com/) |
-| Temporal PostgreSQL | [PostgreSQL + temporal_tables](https://github.com/arkhipov/temporal_tables) | PostgreSQL License (permissive) | [Temporal Tables](https://github.com/arkhipov/temporal_tables) |
-| Schema Validation | [Pydantic v2](https://docs.pydantic.dev/) | MIT | [Pydantic Docs](https://docs.pydantic.dev/latest/) |
-| Type Enforcement | [beartype](https://github.com/beartype/beartype) | MIT | [beartype Docs](https://beartype.readthedocs.io/) |
-| Formal Verification | [Alloy Analyzer 6](https://alloytools.org/) | MIT | [Alloy Docs](https://alloytools.org/documentation.html) |
-| Temporal Verification | [TLA+ Tools](https://lamport.azurewebsites.net/tla/tools.html) | MIT | [TLA+ Docs](https://lamport.azurewebsites.net/tla/tla.html) |
-| Async Python | [asyncio](https://docs.python.org/3/library/asyncio.html) | PSF (permissive) | [asyncio Docs](https://docs.python.org/3/library/asyncio.html) |
-| Graph Analysis | [NetworkX 3.x](https://networkx.org/) | BSD-3 | [NetworkX Docs](https://networkx.org/documentation/stable/) |
-| ORM (async) | [SQLAlchemy 2.x](https://docs.sqlalchemy.org/) | MIT | [SQLAlchemy Docs](https://docs.sqlalchemy.org/en/20/) |
-| HTTP Framework | [FastAPI](https://fastapi.tiangolo.com/) | MIT | [FastAPI Docs](https://fastapi.tiangolo.com/) |
-| Reactive Streams | [RxPY 4.x](https://rxpy.readthedocs.io/) | MIT | [RxPY Docs](https://rxpy.readthedocs.io/en/latest/) |
-| Categorical Python | [catgrad](https://github.com/statusfailed/catgrad) | MIT | [catgrad GitHub](https://github.com/statusfailed/catgrad) |
-| Constraint Solver | [Z3 Theorem Prover](https://github.com/Z3Prover/z3) | MIT | [Z3 Docs](https://z3prover.github.io/api/html/) |
+| Component             | Technology                                                                  | License                         | Official Documentation                                         |
+| --------------------- | --------------------------------------------------------------------------- | ------------------------------- | -------------------------------------------------------------- |
+| Event Store           | [EventStoreDB](https://www.eventstore.com/)                                 | Apache 2.0                      | [EventStoreDB Docs](https://developers.eventstore.com/)        |
+| Temporal PostgreSQL   | [PostgreSQL + temporal_tables](https://github.com/arkhipov/temporal_tables) | PostgreSQL License (permissive) | [Temporal Tables](https://github.com/arkhipov/temporal_tables) |
+| Schema Validation     | [Pydantic v2](https://docs.pydantic.dev/)                                   | MIT                             | [Pydantic Docs](https://docs.pydantic.dev/latest/)             |
+| Type Enforcement      | [beartype](https://github.com/beartype/beartype)                            | MIT                             | [beartype Docs](https://beartype.readthedocs.io/)              |
+| Formal Verification   | [Alloy Analyzer 6](https://alloytools.org/)                                 | MIT                             | [Alloy Docs](https://alloytools.org/documentation.html)        |
+| Temporal Verification | [TLA+ Tools](https://lamport.azurewebsites.net/tla/tools.html)              | MIT                             | [TLA+ Docs](https://lamport.azurewebsites.net/tla/tla.html)    |
+| Async Python          | [asyncio](https://docs.python.org/3/library/asyncio.html)                   | PSF (permissive)                | [asyncio Docs](https://docs.python.org/3/library/asyncio.html) |
+| Graph Analysis        | [NetworkX 3.x](https://networkx.org/)                                       | BSD-3                           | [NetworkX Docs](https://networkx.org/documentation/stable/)    |
+| ORM (async)           | [SQLAlchemy 2.x](https://docs.sqlalchemy.org/)                              | MIT                             | [SQLAlchemy Docs](https://docs.sqlalchemy.org/en/20/)          |
+| HTTP Framework        | [FastAPI](https://fastapi.tiangolo.com/)                                    | MIT                             | [FastAPI Docs](https://fastapi.tiangolo.com/)                  |
+| Reactive Streams      | [RxPY 4.x](https://rxpy.readthedocs.io/)                                    | MIT                             | [RxPY Docs](https://rxpy.readthedocs.io/en/latest/)            |
+| Categorical Python    | [catgrad](https://github.com/statusfailed/catgrad)                          | MIT                             | [catgrad GitHub](https://github.com/statusfailed/catgrad)      |
+| Constraint Solver     | [Z3 Theorem Prover](https://github.com/Z3Prover/z3)                         | MIT                             | [Z3 Docs](https://z3prover.github.io/api/html/)                |
 
 ---
 
@@ -2297,17 +2297,17 @@ class DdrCommandHandler:
 
 ### 20.5 Comparison: Methodology A vs. Methodology B
 
-| Dimension | Methodology A | Methodology B |
-|---|---|---|
-| **Mathematical foundation** | Typed hypergraph + lattice | Category theory (provable correctness) |
-| **Storage** | Neo4j property graph | EventStoreDB + PostgreSQL temporal |
-| **Validation** | SHACL shapes (pySHACL) | Alloy Analyzer + Z3 + Pydantic |
-| **Operational model** | CQRS + Kafka event log | Event sourcing + pure functional handlers |
-| **Practitioner API complexity** | Low — REST + familiar graph concepts | Medium — requires understanding of event sourcing |
-| **Correctness guarantees** | High (SHACL formal, hypergraph structural) | Highest (categorically proven, TLA+ verified) |
-| **Enterprise scalability** | High (Neo4j clustering, Kafka partitioning) | High (EventStoreDB clustering) |
-| **Time-to-first-prototype** | Moderate (Neo4j setup, SHACL authoring) | High (categorical scaffolding, TLA+ spec) |
-| **Ideal for** | Commercial product with broad user base | Research-grade or mission-critical DDR implementations |
+| Dimension                       | Methodology A                               | Methodology B                                          |
+| ------------------------------- | ------------------------------------------- | ------------------------------------------------------ |
+| **Mathematical foundation**     | Typed hypergraph + lattice                  | Category theory (provable correctness)                 |
+| **Storage**                     | Neo4j property graph                        | EventStoreDB + PostgreSQL temporal                     |
+| **Validation**                  | SHACL shapes (pySHACL)                      | Alloy Analyzer + Z3 + Pydantic                         |
+| **Operational model**           | CQRS + Kafka event log                      | Event sourcing + pure functional handlers              |
+| **Practitioner API complexity** | Low — REST + familiar graph concepts        | Medium — requires understanding of event sourcing      |
+| **Correctness guarantees**      | High (SHACL formal, hypergraph structural)  | Highest (categorically proven, TLA+ verified)          |
+| **Enterprise scalability**      | High (Neo4j clustering, Kafka partitioning) | High (EventStoreDB clustering)                         |
+| **Time-to-first-prototype**     | Moderate (Neo4j setup, SHACL authoring)     | High (categorical scaffolding, TLA+ spec)              |
+| **Ideal for**                   | Commercial product with broad user base     | Research-grade or mission-critical DDR implementations |
 
 ---
 
@@ -2315,45 +2315,45 @@ class DdrCommandHandler:
 
 > All technologies listed carry licenses permitting integration into proprietary commercial products intended for sale without source disclosure obligations.
 
-| Technology | Version | License | Primary DDR Use | Official Link |
-|---|---|---|---|---|
-| [Neo4j Community Edition](https://neo4j.com/download/) | 5.x | Apache 2.0 | Property graph storage | [neo4j.com/docs](https://neo4j.com/docs/) |
-| [NetworkX](https://networkx.org/) | 3.x | BSD-3 | DAG ops, cycle detection | [networkx.org/documentation](https://networkx.org/documentation/stable/) |
-| [HyperNetX](https://hypernetx.readthedocs.io/) | 2.x | MIT | Hypergraph operations | [hypernetx.readthedocs.io](https://hypernetx.readthedocs.io/en/latest/) |
-| [pySHACL](https://github.com/RDFLib/pySHACL) | 0.25+ | Apache 2.0 | Atomic Rule enforcement | [github.com/RDFLib/pySHACL](https://github.com/RDFLib/pySHACL) |
-| [RDFLib](https://rdflib.readthedocs.io/) | 7.x | BSD-3 | RDF/OWL ontology layer | [rdflib.readthedocs.io](https://rdflib.readthedocs.io/en/stable/) |
-| [Apache Kafka](https://kafka.apache.org/) | 3.x | Apache 2.0 | Event log (CQRS write) | [kafka.apache.org/documentation](https://kafka.apache.org/documentation/) |
-| [EventStoreDB](https://www.eventstore.com/) | 23.x | Apache 2.0 | Event sourcing store | [developers.eventstore.com](https://developers.eventstore.com/) |
-| [RxPY](https://rxpy.readthedocs.io/) | 4.x | MIT | Reactive DIRTY propagation | [rxpy.readthedocs.io](https://rxpy.readthedocs.io/en/latest/) |
-| [FastAPI](https://fastapi.tiangolo.com/) | 0.111+ | MIT | REST API layer | [fastapi.tiangolo.com](https://fastapi.tiangolo.com/) |
-| [Pydantic v2](https://docs.pydantic.dev/) | 2.x | MIT | Schema validation | [docs.pydantic.dev](https://docs.pydantic.dev/latest/) |
-| [Google OR-Tools](https://developers.google.com/optimization/) | 9.x | Apache 2.0 | CSP-based VERIFY | [developers.google.com/optimization](https://developers.google.com/optimization/) |
-| [Z3 Theorem Prover](https://github.com/Z3Prover/z3) | 4.x | MIT | Formal constraint solving | [z3prover.github.io](https://z3prover.github.io/api/html/) |
-| [Alloy Analyzer 6](https://alloytools.org/) | 6.x | MIT | Structural spec verification | [alloytools.org/documentation](https://alloytools.org/documentation.html) |
-| [TLA+ Tools](https://lamport.azurewebsites.net/tla/tools.html) | 1.8 | MIT | Operational spec verification | [lamport.azurewebsites.net/tla](https://lamport.azurewebsites.net/tla/tla.html) |
-| [SQLAlchemy](https://docs.sqlalchemy.org/) | 2.x | MIT | Async persistence layer | [docs.sqlalchemy.org](https://docs.sqlalchemy.org/en/20/) |
-| [pgmpy](https://pgmpy.org/) | 0.1.x | MIT | Bayesian network (ARE confidence) | [pgmpy.org](https://pgmpy.org/) |
-| [py2neo](https://py2neo.org/) | 2021.x | Apache 2.0 | Neo4j Python client | [py2neo.org](https://py2neo.org/2021.1/) |
-| [catgrad](https://github.com/statusfailed/catgrad) | 0.x | MIT | Categorical computation | [github.com/statusfailed/catgrad](https://github.com/statusfailed/catgrad) |
+| Technology                                                     | Version | License    | Primary DDR Use                   | Official Link                                                                     |
+| -------------------------------------------------------------- | ------- | ---------- | --------------------------------- | --------------------------------------------------------------------------------- |
+| [Neo4j Community Edition](https://neo4j.com/download/)         | 5.x     | Apache 2.0 | Property graph storage            | [neo4j.com/docs](https://neo4j.com/docs/)                                         |
+| [NetworkX](https://networkx.org/)                              | 3.x     | BSD-3      | DAG ops, cycle detection          | [networkx.org/documentation](https://networkx.org/documentation/stable/)          |
+| [HyperNetX](https://hypernetx.readthedocs.io/)                 | 2.x     | MIT        | Hypergraph operations             | [hypernetx.readthedocs.io](https://hypernetx.readthedocs.io/en/latest/)           |
+| [pySHACL](https://github.com/RDFLib/pySHACL)                   | 0.25+   | Apache 2.0 | Atomic Rule enforcement           | [github.com/RDFLib/pySHACL](https://github.com/RDFLib/pySHACL)                    |
+| [RDFLib](https://rdflib.readthedocs.io/)                       | 7.x     | BSD-3      | RDF/OWL ontology layer            | [rdflib.readthedocs.io](https://rdflib.readthedocs.io/en/stable/)                 |
+| [Apache Kafka](https://kafka.apache.org/)                      | 3.x     | Apache 2.0 | Event log (CQRS write)            | [kafka.apache.org/documentation](https://kafka.apache.org/documentation/)         |
+| [EventStoreDB](https://www.eventstore.com/)                    | 23.x    | Apache 2.0 | Event sourcing store              | [developers.eventstore.com](https://developers.eventstore.com/)                   |
+| [RxPY](https://rxpy.readthedocs.io/)                           | 4.x     | MIT        | Reactive DIRTY propagation        | [rxpy.readthedocs.io](https://rxpy.readthedocs.io/en/latest/)                     |
+| [FastAPI](https://fastapi.tiangolo.com/)                       | 0.111+  | MIT        | REST API layer                    | [fastapi.tiangolo.com](https://fastapi.tiangolo.com/)                             |
+| [Pydantic v2](https://docs.pydantic.dev/)                      | 2.x     | MIT        | Schema validation                 | [docs.pydantic.dev](https://docs.pydantic.dev/latest/)                            |
+| [Google OR-Tools](https://developers.google.com/optimization/) | 9.x     | Apache 2.0 | CSP-based VERIFY                  | [developers.google.com/optimization](https://developers.google.com/optimization/) |
+| [Z3 Theorem Prover](https://github.com/Z3Prover/z3)            | 4.x     | MIT        | Formal constraint solving         | [z3prover.github.io](https://z3prover.github.io/api/html/)                        |
+| [Alloy Analyzer 6](https://alloytools.org/)                    | 6.x     | MIT        | Structural spec verification      | [alloytools.org/documentation](https://alloytools.org/documentation.html)         |
+| [TLA+ Tools](https://lamport.azurewebsites.net/tla/tools.html) | 1.8     | MIT        | Operational spec verification     | [lamport.azurewebsites.net/tla](https://lamport.azurewebsites.net/tla/tla.html)   |
+| [SQLAlchemy](https://docs.sqlalchemy.org/)                     | 2.x     | MIT        | Async persistence layer           | [docs.sqlalchemy.org](https://docs.sqlalchemy.org/en/20/)                         |
+| [pgmpy](https://pgmpy.org/)                                    | 0.1.x   | MIT        | Bayesian network (ARE confidence) | [pgmpy.org](https://pgmpy.org/)                                                   |
+| [py2neo](https://py2neo.org/)                                  | 2021.x  | Apache 2.0 | Neo4j Python client               | [py2neo.org](https://py2neo.org/2021.1/)                                          |
+| [catgrad](https://github.com/statusfailed/catgrad)             | 0.x     | MIT        | Categorical computation           | [github.com/statusfailed/catgrad](https://github.com/statusfailed/catgrad)        |
 
 ---
 
 ## 22. Cross-Reference: Mathematical Structure to DDR Axiom Mapping
 
-| Mathematical Structure | AX-1 | AX-2 | AX-3 | AX-4 | AX-5 | AX-6 | AX-7 | Primary DDR Problem Solved |
-|---|---|---|---|---|---|---|---|---|
-| Typed Hypergraph | ✓ | — | ✓ | ✓ | — | ✓ | ✓ | SAL merge conjunction semantics |
-| Lattice + Galois | ✓ | ✓✓ | ✓ | — | — | ✓ | — | Constraint precedence + AX-2 mechanization |
-| Category Theory | ✓✓ | ✓✓ | ✓✓ | ✓ | ✓✓ | ✓✓ | ✓✓ | Entire DDR spec correctness by construction |
-| Property Graph | ✓ | — | ✓ | — | ✓ | — | — | Temporal versioning; LVE replacement |
-| OWL + SHACL | ✓✓ | ✓✓ | ✓✓ | — | ✓ | ✓ | — | Atomic Rules as machine-enforced shapes |
-| CSP Framework | ✓ | — | ✓✓ | — | — | ✓ | — | Precise DIRTY propagation |
-| Alloy + TLA+ | — | — | ✓✓ | ✓ | ✓ | ✓ | ✓✓ | DDR specification self-verification |
-| Bayesian Network | — | — | — | — | ✓ | — | — | ARE confidence propagation |
-| MDE / MOF | ✓✓ | — | ✓ | — | ✓ | ✓ | — | CDL→ISL as executable transformation |
-| Event Sourcing + CQRS | ✓✓ | — | ✓✓ | ✓ | ✓ | — | — | Temporal audit; LVE replacement; atomicity |
-| Abstract Interpretation | — | ✓✓ | ✓ | — | ✓ | ✓ | — | Sound contamination detection |
-| Reactive Dataflow | ✓ | — | ✓ | — | ✓ | — | — | Live DIRTY propagation; authoring UX |
+| Mathematical Structure  | AX-1 | AX-2 | AX-3 | AX-4 | AX-5 | AX-6 | AX-7 | Primary DDR Problem Solved                  |
+| ----------------------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ------------------------------------------- |
+| Typed Hypergraph        | ✓    | —    | ✓    | ✓    | —    | ✓    | ✓    | SAL merge conjunction semantics             |
+| Lattice + Galois        | ✓    | ✓✓   | ✓    | —    | —    | ✓    | —    | Constraint precedence + AX-2 mechanization  |
+| Category Theory         | ✓✓   | ✓✓   | ✓✓   | ✓    | ✓✓   | ✓✓   | ✓✓   | Entire DDR spec correctness by construction |
+| Property Graph          | ✓    | —    | ✓    | —    | ✓    | —    | —    | Temporal versioning; LVE replacement        |
+| OWL + SHACL             | ✓✓   | ✓✓   | ✓✓   | —    | ✓    | ✓    | —    | Atomic Rules as machine-enforced shapes     |
+| CSP Framework           | ✓    | —    | ✓✓   | —    | —    | ✓    | —    | Precise DIRTY propagation                   |
+| Alloy + TLA+            | —    | —    | ✓✓   | ✓    | ✓    | ✓    | ✓✓   | DDR specification self-verification         |
+| Bayesian Network        | —    | —    | —    | —    | ✓    | —    | —    | ARE confidence propagation                  |
+| MDE / MOF               | ✓✓   | —    | ✓    | —    | ✓    | ✓    | —    | CDL→ISL as executable transformation        |
+| Event Sourcing + CQRS   | ✓✓   | —    | ✓✓   | ✓    | ✓    | —    | —    | Temporal audit; LVE replacement; atomicity  |
+| Abstract Interpretation | —    | ✓✓   | ✓    | —    | ✓    | ✓    | —    | Sound contamination detection               |
+| Reactive Dataflow       | ✓    | —    | ✓    | —    | ✓    | —    | —    | Live DIRTY propagation; authoring UX        |
 
 > **Legend:** ✓ = addresses this axiom; ✓✓ = primary/strongest contribution to this axiom; — = no material contribution
 

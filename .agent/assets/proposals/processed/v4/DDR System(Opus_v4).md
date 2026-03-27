@@ -194,32 +194,32 @@ IDs are **immutable once assigned.** A superseded node retains its original ID w
 > In the event of divergence between this table and the YAML block,
 > the YAML block is authoritative. See §3.8 YAML Authority Policy.
 
-| From | To | Triggering Operation | Guard Conditions | Notes |
-| ---- | -- | -------------------- | ---------------- | ----- |
-| `DRAFT` | `ACTIVE` | `VALIDATE` | `gc-001`, `gc-005` |  |
-| `DRAFT` | `DELETED` | `DELETE` |  |  |
-| `ACTIVE` | `DIRTY` | `MODIFY\|PROPAGATION` |  | Covers direct MODIFY and DIRTY propagation side-effects. |
-| `ACTIVE` | `DEPRECATED` | `MODIFY` | `gc-002` |  |
-| `ACTIVE` | `SUPERSEDED` | `SUPERSEDE` |  |  |
-| `DIRTY` | `ACTIVE` | `VERIFY+VALIDATE` | `gc-001`, `gc-005`, `gc-006` |  |
-| `DIRTY` | `DEPRECATED` | `MODIFY` | `gc-002` |  |
-| `DIRTY` | `SUPERSEDED` | `SUPERSEDE` |  |  |
-| `DEPRECATED` | `SUPERSEDED` | `SUPERSEDE` |  |  |
-| `DEPRECATED` | `DELETED` | `DELETE` | `gc-003` |  |
-| `DEPRECATED` | `ACTIVE` | `MODIFY` | `gc-002`, `gc-003`, `gc-004` |  |
+| From         | To           | Triggering Operation  | Guard Conditions             | Notes                                                    |
+| ------------ | ------------ | --------------------- | ---------------------------- | -------------------------------------------------------- |
+| `DRAFT`      | `ACTIVE`     | `VALIDATE`            | `gc-001`, `gc-005`           |                                                          |
+| `DRAFT`      | `DELETED`    | `DELETE`              |                              |                                                          |
+| `ACTIVE`     | `DIRTY`      | `MODIFY\|PROPAGATION` |                              | Covers direct MODIFY and DIRTY propagation side-effects. |
+| `ACTIVE`     | `DEPRECATED` | `MODIFY`              | `gc-002`                     |                                                          |
+| `ACTIVE`     | `SUPERSEDED` | `SUPERSEDE`           |                              |                                                          |
+| `DIRTY`      | `ACTIVE`     | `VERIFY+VALIDATE`     | `gc-001`, `gc-005`, `gc-006` |                                                          |
+| `DIRTY`      | `DEPRECATED` | `MODIFY`              | `gc-002`                     |                                                          |
+| `DIRTY`      | `SUPERSEDED` | `SUPERSEDE`           |                              |                                                          |
+| `DEPRECATED` | `SUPERSEDED` | `SUPERSEDE`           |                              |                                                          |
+| `DEPRECATED` | `DELETED`    | `DELETE`              | `gc-003`                     |                                                          |
+| `DEPRECATED` | `ACTIVE`     | `MODIFY`              | `gc-002`, `gc-003`, `gc-004` |                                                          |
 
 > **Terminal Status:** `SUPERSEDED` is a terminal status. No outbound
 > transition from `SUPERSEDED` is permitted under any operation.
 > Any transition not listed in the table above is prohibited.
 
-| Guard ID | Description | Verification Mode |
-| -------- | ----------- | ----------------- |
-| `gc-001` | All structural rules for the node pass validation. | `structural` |
-| `gc-002` | Deprecation rationale is explicitly documented. | `manual` |
-| `gc-003` | Any previously set deprecation sunset date is cleared. | `manual` |
-| `gc-004` | Status reversal is logged in the reconciliation manifest. | `manual` |
-| `gc-005` | All review items are resolved. | `structural` |
-| `gc-006` | Per-node validation scope is explicitly confirmed. | `structural` |
+| Guard ID | Description                                               | Verification Mode |
+| -------- | --------------------------------------------------------- | ----------------- |
+| `gc-001` | All structural rules for the node pass validation.        | `structural`      |
+| `gc-002` | Deprecation rationale is explicitly documented.           | `manual`          |
+| `gc-003` | Any previously set deprecation sunset date is cleared.    | `manual`          |
+| `gc-004` | Status reversal is logged in the reconciliation manifest. | `manual`          |
+| `gc-005` | All review items are resolved.                            | `structural`      |
+| `gc-006` | Per-node validation scope is explicitly confirmed.        | `structural`      |
 
 > **Machine Authority:** `ddr_system_v4.0.yaml` → `lifecycle.status_transitions`
 
@@ -898,20 +898,20 @@ A DDR project may not be declared `CLEAN` and production-ready until all items a
 
 > **Migration Policy:** All future version migrations must include a complete rule-level cross-reference table with explicit consolidation status.
 
-| v3.1.1 Rule ID                | v4.0 Destination                    | Consolidation Status                | Notes                                                |
-| ----------------------------- | ----------------------------------- | ----------------------------------- | ---------------------------------------------------- |
-| ORL-R1 through ORL-R4         | GPCL-R6, GPCL-R7, GPCL-R8, GPCL-R10 | 1:1                                 | Maps to performance, reliability, security, and SIL citation rules |
+| v3.1.1 Rule ID                | v4.0 Destination                    | Consolidation Status                | Notes                                                                               |
+| ----------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------- |
+| ORL-R1 through ORL-R4         | GPCL-R6, GPCL-R7, GPCL-R8, GPCL-R10 | 1:1                                 | Maps to performance, reliability, security, and SIL citation rules                  |
 | ORL-R7                        | GPCL-R9                             | Absorbed                            | Semantics are subsumed under GPCL-R9 as broader operational governance constraints. |
-| ORL-R5                        | GPCL-R9                             | N:1                                 | Consolidated with ORL-R6                             |
-| ORL-R6                        | GPCL-R9                             | N:1                                 | Consolidated with ORL-R5                             |
-| HIL-R1/R2/R3                  | CL-R6                               | N:1 Consolidated                    | Consolidated into hardware envelopes                 |
-| HIL-R4                        | CL-R7                               | 1:1                                 | —                                                    |
-| HIL-R5                        | CL-R8                               | 1:1                                 | —                                                    |
-| TDL-R1                        | CL-R1                               | 1:1                                 | —                                                    |
-| TDL-R2/R6                     | CL-R2                               | N:1 Consolidated                    | Consolidated into minimum version bounds             |
-| TDL-R3                        | CL-R3                               | 1:1                                 | —                                                    |
-| TDL-R4                        | CL-R4                               | 1:1                                 | —                                                    |
-| TDL-R5                        | CL-R5                               | 1:1                                 | —                                                    |
+| ORL-R5                        | GPCL-R9                             | N:1                                 | Consolidated with ORL-R6                                                            |
+| ORL-R6                        | GPCL-R9                             | N:1                                 | Consolidated with ORL-R5                                                            |
+| HIL-R1/R2/R3                  | CL-R6                               | N:1 Consolidated                    | Consolidated into hardware envelopes                                                |
+| HIL-R4                        | CL-R7                               | 1:1                                 | —                                                                                   |
+| HIL-R5                        | CL-R8                               | 1:1                                 | —                                                                                   |
+| TDL-R1                        | CL-R1                               | 1:1                                 | —                                                                                   |
+| TDL-R2/R6                     | CL-R2                               | N:1 Consolidated                    | Consolidated into minimum version bounds                                            |
+| TDL-R3                        | CL-R3                               | 1:1                                 | —                                                                                   |
+| TDL-R4                        | CL-R4                               | 1:1                                 | —                                                                                   |
+| TDL-R5                        | CL-R5                               | 1:1                                 | —                                                                                   |
 
 ---
 

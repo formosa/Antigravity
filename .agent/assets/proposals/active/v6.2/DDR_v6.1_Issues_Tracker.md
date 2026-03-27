@@ -85,21 +85,21 @@ a minor variant of Option A — must represent a meaningfully different design d
 > **AGENT INSTRUCTION:** This table is the primary index. Maintain sort order by severity
 > then issue number. Update this table whenever any issue's status or severity changes.
 
-| ID | Severity | Type | Status | Tiers Affected | Title |
-| --- | --- | --- | --- | --- | --- |
-| [ISSUE-001](#issue-001-lifecycle-required-despite-lean-project-instance-contract) | `CRITICAL` | `SCHEMA_DEFECT` | `RESOLVED` | All project-instance files | `lifecycle` required despite lean project-instance contract |
-| [ISSUE-002](#issue-002-lifecycle-machine-authority-accepts-undefined-states) | `CRITICAL` | `LIFECYCLE_GAP` | `RESOLVED` | All | Lifecycle machine authority accepts undefined states |
-| [ISSUE-011](#issue-011-node-id-prefix-is-not-bound-to-declared-tier) | `CRITICAL` | `SCHEMA_DEFECT` | `RESOLVED` | All (schema) | Node ID prefix is not bound to declared tier |
-| [ISSUE-003](#issue-003-parentcitation-permits-forbidden-extends-edges-in-parent_ids) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | All (schema) | ParentCitation permits forbidden `extends` edges in `parent_ids` |
-| [ISSUE-004](#issue-004-derivation_mode-rule-is-declared-but-not-enforced) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | All (schema) | `derivation_mode` rule is declared but not enforced |
-| [ISSUE-006](#issue-006-prior_status-can-be-set-outside-supersede_pending) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | All (schema) | `prior_status` can be set outside `SUPERSEDE_PENDING` |
-| [ISSUE-012](#issue-012-parent_ids-empty-array-default-allows-orphaned-non-root-nodes) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | All (schema) | `parent_ids` empty array default allows orphaned non-root nodes |
-| [ISSUE-005](#issue-005-reserved-extension-annotation-shadow-keys-are-not-schema-blocked) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | All Extensions (schema) | Reserved extension annotation shadow keys are not schema-blocked |
-| [ISSUE-013](#issue-013-node_schema_fields-is-documentation-only-not-machine-enforced) | `MODERATE` | `DESIGN_INADEQUACY` | `RESOLVED` | System-definition files | `node_schema_fields` is documentation-only, not machine-enforced |
-| [ISSUE-007](#issue-007-lifecycle-object-accepts-arbitrary-keys) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | All lifecycle blocks | `lifecycle` object accepts arbitrary keys |
-| [ISSUE-008](#issue-008-constraint_origin-is-not-restricted-to-cl-nodes) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | Non-CL nodes (schema) | `constraint_origin` is not restricted to CL nodes |
-| [ISSUE-009](#issue-009-express_mode_group-is-not-required-in-express-mode) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | Express-mode project instances | `express_mode_group` is not required in express mode |
-| [ISSUE-010](#issue-010-lifecycle-guard-references-accept-undefined-guard-ids) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | All lifecycle definitions | Lifecycle guard references accept undefined guard IDs |
+| ID                                                                                       | Severity   | Type                | Status     | Tiers Affected                 | Title                                                            |
+| ---------------------------------------------------------------------------------------- | ---------- | ------------------- | ---------- | ------------------------------ | ---------------------------------------------------------------- |
+| [ISSUE-001](#issue-001-lifecycle-required-despite-lean-project-instance-contract)        | `CRITICAL` | `SCHEMA_DEFECT`     | `RESOLVED` | All project-instance files     | `lifecycle` required despite lean project-instance contract      |
+| [ISSUE-002](#issue-002-lifecycle-machine-authority-accepts-undefined-states)             | `CRITICAL` | `LIFECYCLE_GAP`     | `RESOLVED` | All                            | Lifecycle machine authority accepts undefined states             |
+| [ISSUE-011](#issue-011-node-id-prefix-is-not-bound-to-declared-tier)                     | `CRITICAL` | `SCHEMA_DEFECT`     | `RESOLVED` | All (schema)                   | Node ID prefix is not bound to declared tier                     |
+| [ISSUE-003](#issue-003-parentcitation-permits-forbidden-extends-edges-in-parent_ids)     | `MAJOR`    | `SCHEMA_DEFECT`     | `RESOLVED` | All (schema)                   | ParentCitation permits forbidden `extends` edges in `parent_ids` |
+| [ISSUE-004](#issue-004-derivation_mode-rule-is-declared-but-not-enforced)                | `MAJOR`    | `SCHEMA_DEFECT`     | `RESOLVED` | All (schema)                   | `derivation_mode` rule is declared but not enforced              |
+| [ISSUE-006](#issue-006-prior_status-can-be-set-outside-supersede_pending)                | `MAJOR`    | `SCHEMA_DEFECT`     | `RESOLVED` | All (schema)                   | `prior_status` can be set outside `SUPERSEDE_PENDING`            |
+| [ISSUE-012](#issue-012-parent_ids-empty-array-default-allows-orphaned-non-root-nodes)    | `MAJOR`    | `SCHEMA_DEFECT`     | `RESOLVED` | All (schema)                   | `parent_ids` empty array default allows orphaned non-root nodes  |
+| [ISSUE-005](#issue-005-reserved-extension-annotation-shadow-keys-are-not-schema-blocked) | `MODERATE` | `SCHEMA_DEFECT`     | `RESOLVED` | All Extensions (schema)        | Reserved extension annotation shadow keys are not schema-blocked |
+| [ISSUE-013](#issue-013-node_schema_fields-is-documentation-only-not-machine-enforced)    | `MODERATE` | `DESIGN_INADEQUACY` | `RESOLVED` | System-definition files        | `node_schema_fields` is documentation-only, not machine-enforced |
+| [ISSUE-007](#issue-007-lifecycle-object-accepts-arbitrary-keys)                          | `MODERATE` | `SCHEMA_DEFECT`     | `RESOLVED` | All lifecycle blocks           | `lifecycle` object accepts arbitrary keys                        |
+| [ISSUE-008](#issue-008-constraint_origin-is-not-restricted-to-cl-nodes)                  | `MODERATE` | `SCHEMA_DEFECT`     | `RESOLVED` | Non-CL nodes (schema)          | `constraint_origin` is not restricted to CL nodes                |
+| [ISSUE-009](#issue-009-express_mode_group-is-not-required-in-express-mode)               | `MODERATE` | `SCHEMA_DEFECT`     | `RESOLVED` | Express-mode project instances | `express_mode_group` is not required in express mode             |
+| [ISSUE-010](#issue-010-lifecycle-guard-references-accept-undefined-guard-ids)            | `MODERATE` | `SCHEMA_DEFECT`     | `RESOLVED` | All lifecycle definitions      | Lifecycle guard references accept undefined guard IDs            |
 
 ---
 
@@ -603,18 +603,18 @@ This issue is independent of runtime DAG correctness and focuses on long-term sp
 
 > Issues that share a dependency — resolving one may affect the other.
 
-| Issue | Depends On | Nature of Dependency |
-| --- | --- | --- |
-| ISSUE-002 | ISSUE-001 | If `lifecycle` remains globally required, its machine-authoritative state model must be fully self-consistent across both system-definition and project-instance files. |
-| ISSUE-004 | ISSUE-003 | Both issues require changes to `ParentCitation`; resolving them together avoids repeated schema churn and inconsistent citation semantics. |
-| ISSUE-005 | ISSUE-003 | Both tighten the Core/Extension boundary and should be regression-tested together against existing annotation consumers. |
-| ISSUE-006 | ISSUE-002 | Rollback semantics are only trustworthy if `prior_status` is both correctly typed in the lifecycle machine and absent outside `SUPERSEDE_PENDING`. |
-| ISSUE-007 | ISSUE-002 | If the lifecycle block remains normative authority, its property surface should be closed while transition semantics are being repaired. |
-| ISSUE-009 | ISSUE-001 | A future root-profile split is a natural place to encode express-mode-only requirements such as mandatory `express_mode_group`. |
-| ISSUE-010 | ISSUE-002 | Lifecycle integrity depends on both valid state targets and valid guard references inside the same authority block. |
-| ISSUE-011 | ISSUE-008 | A tier-specific node-variant refactor would allow both CL-only field scoping and ID-prefix enforcement to be solved in one coordinated schema redesign. |
-| ISSUE-012 | ISSUE-011 | If tier-specific variants are adopted, root/non-root parent cardinality can be encoded structurally within those variants. |
-| ISSUE-013 | (none) | Documentation/synchronization concern; can be resolved independently through process checks or schema-doc consolidation. |
+| Issue     | Depends On | Nature of Dependency                                                                                                                                                    |
+| --------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ISSUE-002 | ISSUE-001  | If `lifecycle` remains globally required, its machine-authoritative state model must be fully self-consistent across both system-definition and project-instance files. |
+| ISSUE-004 | ISSUE-003  | Both issues require changes to `ParentCitation`; resolving them together avoids repeated schema churn and inconsistent citation semantics.                              |
+| ISSUE-005 | ISSUE-003  | Both tighten the Core/Extension boundary and should be regression-tested together against existing annotation consumers.                                                |
+| ISSUE-006 | ISSUE-002  | Rollback semantics are only trustworthy if `prior_status` is both correctly typed in the lifecycle machine and absent outside `SUPERSEDE_PENDING`.                      |
+| ISSUE-007 | ISSUE-002  | If the lifecycle block remains normative authority, its property surface should be closed while transition semantics are being repaired.                                |
+| ISSUE-009 | ISSUE-001  | A future root-profile split is a natural place to encode express-mode-only requirements such as mandatory `express_mode_group`.                                         |
+| ISSUE-010 | ISSUE-002  | Lifecycle integrity depends on both valid state targets and valid guard references inside the same authority block.                                                     |
+| ISSUE-011 | ISSUE-008  | A tier-specific node-variant refactor would allow both CL-only field scoping and ID-prefix enforcement to be solved in one coordinated schema redesign.                 |
+| ISSUE-012 | ISSUE-011  | If tier-specific variants are adopted, root/non-root parent cardinality can be encoded structurally within those variants.                                              |
+| ISSUE-013 | (none)     | Documentation/synchronization concern; can be resolved independently through process checks or schema-doc consolidation.                                                |
 
 ---
 
