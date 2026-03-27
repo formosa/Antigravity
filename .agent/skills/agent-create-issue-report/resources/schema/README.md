@@ -1,48 +1,75 @@
-# DESIGN_JUSTIFICATION: Antigravity Skill Assets v1.18.3
+# Resolution Report Format
 
-<document_purpose>
-This document serves as the verified, single-source-of-truth reference for the architectural design of Skill assets within the Antigravity IDE v1.18.3 ecosystem. It is formatted explicitly for ingestion by Gemini 3.1 Pro and Gemini 3 Flash models to establish the correct parsing logic for progressive disclosure capabilities.
-</document_purpose>
+This package documents the current Resolution Report contract used by
+`agent-create-issue-report`.
 
-<schema_evaluation_and_justification>
+## Canonical Profile
 
-- **Progressive Disclosure & Semantic Routing:** The IDE v1.18.3 routing engine does not load all capabilities at startup. Instead, it relies strictly on the `description` parameter in the YAML frontmatter to semantically match user intent and dynamically load the skill into the LLM's context window only when relevant.
-- **Architectural Cleanup:** Legacy parameters such as `scope` and `priority` have been eliminated from the frontmatter. A skill's scope is dictated by its physical directory installation, and priority sorting is reserved exclusively for the Rules engine.
-- **Context-First XML Fencing:** The `<when_to_use>` block acts as a secondary, silent verification step for Gemini 3.1 Pro before it executes the `<how_to_use>` payload, preventing the model from utilizing the skill out of context.
-- **Resource Referencing:** The `<resources_reference>` block establishes strict paths for the LLM to access auxiliary scripts, few-shot examples, or code templates securely isolated within the skill's specific subdirectory.
-</schema_evaluation_and_justification>
+New reports must follow the `v6.1`-style canonical shape represented by:
 
-<authoritative_reference_repository>
+- `.agent/assets/proposals/active/v6.2/DDR_v6.1_Issue-001.md` for lineage
+- `.agent/skills/agent-create-issue-report/resources/report-template.md` for structure
+- `.agent/skills/agent-create-issue-report/resources/schema/example.md` for a golden example
 
-1. [Google Antigravity - Wikipedia](https://en.wikipedia.org/wiki/Google_Antigravity)
-   - Details the Antigravity v1.18.3 release on February 19, 2026. Identifies the IDE's agent-first paradigm and the necessity of progressive disclosure for skill loading.
+The canonical profile has these properties:
 
-2. [Authoring Google Antigravity Skills - Google Codelabs](https://codelabs.developers.google.com/getting-started-with-antigravity-skills)
-   - Official documentation confirming that skill assets require precise `description` YAML frontmatter for trigger definitions, and establishing the exact directory structures required for custom capabilities.
+- YAML frontmatter includes `created`, `updated`, and conditional `resolved`
+- `### Agent Context` is always a fenced YAML block synthesized from tracker data
+- Exactly two options: `Option A` and `Option B`
+- Required top-level sections:
+  - `### 1. Validation Audit of ISSUE-XXX`
+  - `### 2. Suggested Strategies for Optimal Resolution of ISSUE-XXX`
+  - `### 3. Comparative Analysis and Recommended Strategy`
+  - `### 4. Implementation Note`
+- New reports should use repo-relative evidence paths with line spans
 
-3. [Build with Google Antigravity](https://developers.googleblog.com/build-with-google-antigravity-our-new-agentic-development-platform/)
-   - Outlines the shift to autonomous task orchestration and details how custom skills extend the baseline model via modular tool integration.
+## Legacy Profiles
 
-4. [Gemini 3.1 Pro - Model Card - Google DeepMind](https://deepmind.google/models/model-cards/gemini-3-1-pro/)
-   - Defines Gemini 3.1 Pro as state-of-the-art for reasoning and agentic coding, requiring explicit and structured formatting to maximize its 1M-token context window without hallucinating operations.
+Historical `v4` and `v5` reports remain valid repository artifacts, but they are not the
+generation target for new reports.
 
-5. [Gemini 3.1 Pro Preview API is now live on APIYI: Analysis of 6 major core upgrades](https://help.apiyi.com/en/gemini-3-1-pro-preview-api-available-apiyi-guide-en.html)
-   - Confirms Gemini 3.1 Pro's doubled reasoning scores on the ARC-AGI-2 benchmark (77.1%), highlighting its architectural enhancements for processing multi-step execution steps found within `<how_to_use>` blocks.
+- `v4` lineage:
+  - may include `Option C`
+  - may end with `### 4. Independent Review Conclusion`
+- `v5` lineage:
+  - uses two options only
+  - does not include `updated`, `resolved`, or `### 4. Implementation Note`
 
-6. [Prompt design strategies | Gemini API - Google AI for Developers](https://ai.google.dev/gemini-api/docs/prompting-strategies)
-   - Official documentation confirming the optimal use of XML-style delimiters (e.g., `<when_to_use>`, `<how_to_use>`) to isolate situational triggers from active generation instructions.
+The validator supports these formats in `legacy` mode or `auto` mode so existing reports can
+be classified and checked without being rewritten.
 
-7. [Antigravity IDE v1.18.3 Architecture & Schemas - Google Open Source](https://google.github.io/adk-docs/architecture-v1-18)
-   - Explicitly details the structural separation of machine-parseable YAML metadata (for the semantic router) and XML-delimited body content (for the LLM), rejecting flat-file structures.
+## Validation
 
-8. [Progressive Disclosure and Semantic Routing in Antigravity - Zeabur](https://zeabur.com/blogs/google-antigravity-routing-engine)
-   - Explains how Antigravity handles capabilities via the unified background router, confirming that agents should semantically trigger dynamic module loading via `SKILL.md` descriptions rather than explicitly spawning sub-agents.
-</authoritative_reference_repository>
+Canonical validation:
 
-<modification_history>
+```powershell
+python .agent/skills/agent-create-issue-report/scripts/validate_issue_report.py .agent/skills/agent-create-issue-report/resources/schema/example.md --mode canonical
+python .agent/skills/agent-create-issue-report/scripts/validate_issue_report.py .agent/assets/proposals/active/v6.2/DDR_v6.1_Issue-001.md --mode canonical
+```
 
-| Date | Version | Classification | Description |
-| :--- | :--- | :--- | :--- |
-| 2026-03-01 | v1.1.0 | Optimization | Enhanced `skill.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework. |
+Legacy validation:
 
-</modification_history>
+```powershell
+python .agent/skills/agent-create-issue-report/scripts/validate_issue_report.py .agent/assets/proposals/processed/v4/DDR_v4_Issue-001.md --mode legacy
+python .agent/skills/agent-create-issue-report/scripts/validate_issue_report.py .agent/assets/proposals/processed/v5/DDR_v5_Issue-001.md --mode legacy
+```
+
+## Design Basis
+
+The current package follows a small-contract, validator-first approach:
+
+- Precise skill descriptions drive routing.  
+  Source: https://codelabs.developers.google.com/getting-started-with-antigravity-skills
+- Critical instructions should be explicit, front-loaded, and validated after generation.  
+  Source: https://ai.google.dev/gemini-api/docs/prompting-strategies
+- Small, relevant examples and consistent tagged structure improve reliability.  
+  Source: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#structure-prompts-with-xml-tags
+- Stable prompt prefixes and evaluation loops improve efficiency and iteration quality.  
+  Sources:
+  - https://developers.openai.com/api/docs/guides/prompting
+  - https://developers.openai.com/api/docs/guides/prompt-caching
+  - https://developers.openai.com/api/docs/guides/prompt-optimizer
+- Formal contracts and post-generation validation improve interoperability.  
+  Sources:
+  - https://json-schema.org/overview/what-is-jsonschema
+  - https://json-schema.org/understanding-json-schema

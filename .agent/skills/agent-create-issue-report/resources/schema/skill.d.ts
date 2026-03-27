@@ -1,29 +1,67 @@
-// Antigravity Agent Asset Configuration Schema (v1.18.3)
-// OPTIMIZED FOR GEMINI 3.1 PRO AND GEMINI 3 FLASH
-// INSTRUCTION FOR AGENTS: Parse this file to understand the strict schema requirements for generating valid YAML frontmatter and XML-delimited body content in .md asset files.
+// issue-report.d.ts
+// Canonical Resolution Report contract used by agent-create-issue-report.
 
-/** SKILL DEFINITION
- * File Pattern: .agent/skills/<skill-name>/SKILL.md
- * Purpose: Defines progressive disclosure capabilities, executable memory modules, and tools loaded on-demand.
+type IssueStatus = 'OPEN' | 'IN_REVIEW' | 'RESOLVED' | 'WONT_FIX' | 'DEFERRED';
+type IssueSeverity = 'CRITICAL' | 'MAJOR' | 'MODERATE' | 'MINOR';
+
+interface ResolutionOption {
+    label: string;
+    description: string;
+    supporting_insights: string;
+    citations: string;
+}
+
+/**
+ * Current generation target.
+ * Legacy v4/v5 reports remain valid repository artifacts but are intentionally not represented
+ * as the primary output contract here.
  */
-interface SkillDefinition {
-    /** Encoded as standard YAML frontmatter block (---) at the top of the file. */
-    frontmatter: {
-        /** Kebab-case identifier. Optional; defaults to the directory name if omitted. */
-        name?: string;
-        /** Schema version for tracking modifications (e.g., "1.1.0"). */
-        version: string;
-        /** CRITICAL: Functions as the primary "trigger condition". Must be highly precise for the semantic router to discover the skill. */
-        description: string;
+interface CanonicalIssueReportDefinition {
+    document: {
+        id: string;
+        title: string;
+        format_version: 'IT-1.0';
+        target_platform: string;
+        target_model: string;
+        subject: string;
+        /** ISO 8601 date string: YYYY-MM-DD */
+        created: string;
+        /** ISO 8601 date string: YYYY-MM-DD */
+        updated: string;
+        /** Present only when status is RESOLVED. */
+        resolved?: string;
+        status: IssueStatus;
+        severity: IssueSeverity | string;
+        type: string;
     };
-    body_content: {
-        /** Bullet list of exact scenarios where the agent should use this skill. Must be wrapped in XML tags (e.g., `<when_to_use>`). */
-        when_to_use: string;
-        /** Step-by-step silent reasoning, verification checklist, and expected output format. Must be wrapped in XML tags (e.g., `<how_to_use>`). */
-        how_to_use: string;
-        /** Hard safety guardrails and critical "Do Not" rules. Must be wrapped in XML tags (e.g., `<constraints>`). */
-        constraints?: string;
-        /** Paths to scripts, examples, or documentation relative to the skill folder. Must be wrapped in XML tags (e.g., `<resources_reference>`). */
-        resources_reference?: string;
+    agent_context: {
+        id: string;
+        status: IssueStatus;
+        severity: IssueSeverity | string;
+        type: string;
+        tier_refs: string[];
+        section_ref: string;
+        rule_refs: string[];
+        /** ISO 8601 date string: YYYY-MM-DD */
+        updated: string;
+        /** Present only when status is RESOLVED. */
+        resolved?: string;
     };
+    resolution_callout?: string;
+    validation_audit: {
+        source_summary: string;
+        narrative: string;
+        findings: [string, string, ...string[]];
+    };
+    strategies: {
+        option_a: ResolutionOption;
+        option_b: ResolutionOption;
+    };
+    comparative_analysis: {
+        tradeoffs: [string, string, ...string[]];
+        recommended_option: 'Option A' | 'Option B';
+        endorsement_rationale: string;
+        justifications: [string, string, string, ...string[]];
+    };
+    implementation_note: string;
 }

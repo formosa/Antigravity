@@ -1,119 +1,87 @@
 ---
 name: agent-create-issue-report
-version: 1.0.0
-description: Investigates a user-identified issue from an Issues Tracker, audits the project for evidence, and produces a deterministic Resolution Report with validation findings, two optimized resolution strategies, comparative analysis, and an endorsed recommendation.
+description: Generates a standalone v6.1-style Resolution Report for one issue from an Antigravity Issues Tracker by validating tracker context, auditing local evidence, comparing exactly two distinct strategies, and writing a validator-checked report artifact.
 ---
 
 <when_to_use>
 
-- The user asks to investigate, analyze, or produce a report for a specific issue from an Issues Tracker.
-- The user references an issue ID (e.g., "ISSUE-003") and requests a resolution strategy, audit, or deep analysis.
-- The task requires generating a standalone Resolution Report artifact for a tracked issue.
+- The user asks to investigate a tracked issue and produce a Resolution Report artifact.
+- The request identifies or implies a single `ISSUE_ID` plus an Issues Tracker document.
+- Use this skill for report authoring only, not for fixing the issue or editing the tracker.
 </when_to_use>
 
 <how_to_use>
 
-## Phase 1: Parameter Resolution
-
-1. Resolve required parameters from user context or prompt for clarification (RFQ) if missing:
-   - `ISSUE_ID`: The target issue identifier (e.g., `ISSUE-003`).
-   - `ISSUES_TRACKER_PATH`: Path to the Issues Tracker document (e.g., `.agent/assets/proposals/active/DDR_v4_Issues_Tracker.md`).
-   - `OUTPUT_PATH`: Target directory for the report (default: same directory as the Issues Tracker).
-2. Parse the Issues Tracker at `ISSUES_TRACKER_PATH`:
-   - **IF** the file is unreadable or missing, **THEN** halt and return RFQ with the exact error.
-   - **IF** `ISSUE_ID` is not found in the `## ISSUE REGISTRY` table, **THEN** halt and return RFQ listing all valid issue IDs.
-
-## Phase 2: Issue Context Extraction
-
-3. Extract the full issue block for `ISSUE_ID` from the `## ISSUES` section of the tracker, including:
-   - `AGENT_CONTEXT` YAML block (id, status, severity, type, tier_refs, section_ref, rule_refs).
-   - Problem Statement, Evidence & Justification, Impact Assessment, Resolution Options, and Notes.
-4. Extract the `## DOCUMENT METADATA` YAML block to resolve:
-   - `SUBJECT_SYSTEM_NAME` (from `document.subject`).
-   - `FORMAT_VERSION` (from `document.format_version`).
-   - `TARGET_PLATFORM` (from `document.target_platform` or default `"Google Antigravity >=1.18"`).
-   - `TARGET_MODEL` (from `document.target_model` or default `"Gemini 3.1 Pro"`).
-
-## Phase 3: Project Investigation
-
-5. Conduct a comprehensive investigation of the project to gather evidence relevant to `ISSUE_ID`:
-   - **IF** `section_ref` references a specification file, **THEN** locate and read the referenced sections.
-   - **IF** `rule_refs` lists rule IDs, **THEN** search the project for all occurrences and definitions of those rules.
-   - Search for YAML schemas, configuration files, or code artifacts directly affected by the issue.
-   - Document every finding with exact file paths, line numbers, and quoted content.
-6. **Silent Verification:** Before proceeding to Phase 4, silently confirm:
-   - At least one primary source file was located and read.
-   - The issue claims from the tracker have been cross-referenced against project files.
-   - **IF** no project evidence is found, **THEN** state this explicitly in the Validation Audit and proceed with tracker-only evidence.
-
-## Phase 4: Report Generation
-
-7. Read the reference template exactly from:
+1. Resolve parameters from context:
+   - Required: `ISSUE_ID`, `ISSUES_TRACKER_PATH`, `OUTPUT_PATH`
+   - Optional: `OVERWRITE_EXISTING` (default `false`)
+2. Run pre-flight checks before reading deeply:
+   - If any required parameter is missing, halt and return `RFQ` naming the missing field(s).
+   - If `ISSUES_TRACKER_PATH` is unreadable, halt and return `RFQ` with the exact error.
+   - If `OUTPUT_PATH` already exists and overwrite was not explicitly requested, halt and return `RFQ` requesting overwrite approval.
+3. Parse the tracker in this order:
+   - Read `## ISSUE REGISTRY` first and confirm `ISSUE_ID` exists. If not, halt and return `RFQ` listing valid issue IDs.
+   - Read `## DOCUMENT METADATA` and resolve `subject`, `format_version`, `target_platform`, and `target_model`.
+   - Read the target issue block from `## ISSUES`.
+   - Support both tracker layouts:
+     - Canonical `v6.x`: issue heading, `Status/Severity/Type` metadata line, `Tiers Affected/Spec Section` metadata line, numbered subsections, and optional resolution callout.
+     - Legacy `v4/v5`: same issue content plus `AGENT_CONTEXT` YAML when present.
+4. Synthesize canonical Agent Context for the report:
+   - Always include `id`, `status`, `severity`, `type`, `tier_refs`, `section_ref`, `rule_refs`, and `updated`.
+   - Set `updated` to the report generation date.
+   - Include `resolved` only when the issue status is `RESOLVED`. Prefer the date from the tracker resolution callout; otherwise fall back to `updated`.
+5. Investigate only the smallest decisive set of local files needed to validate the issue:
+   - Start with the files and sections named by the tracker.
+   - Cite repo-relative paths with line spans, not absolute machine paths.
+   - Quote only the minimum text needed to support each finding.
+   - If no corroborating project files are found, say so explicitly and rely on tracker evidence only.
+6. Read these resources before drafting:
    - `.agent/skills/agent-create-issue-report/resources/report-template.md`
-8. Generate the Resolution Report by composing each section in order:
+   - `.agent/skills/agent-create-issue-report/resources/reference.md`
+7. Generate the report exactly from the shared template:
+   - Use the canonical `v6.1` report shape with exactly two options: `Option A` and `Option B`.
+   - Frontmatter must include `created`, `updated`, and conditional `resolved`.
+   - `### Agent Context` must be a fenced YAML block using the synthesized canonical fields.
+   - Keep the optional tracker resolution callout only when the tracker provides one.
+   - Keep a `* **Citations:**` line under both options. If no authoritative source materially supports an option, use the exact sentence `No authoritative external reference identified for this specific claim.`
+   - `### 4. Implementation Note` is always required:
+     - If the issue is `RESOLVED`, summarize the implemented change and the validation evidence that confirms the resolution.
+     - Otherwise, state clearly that implementation remains pending and that the report itself did not apply a repository patch.
+8. Use authoritative external research only when it materially improves the strategy comparison:
+   - Prefer official standards, RFCs, formal specifications, or vendor documentation.
+   - Keep to 1-2 primary citations per option when possible.
+9. Write the report to `OUTPUT_PATH`, then validate it with:
+   - `python .agent/skills/agent-create-issue-report/scripts/validate_issue_report.py <OUTPUT_PATH> --mode canonical`
+10. If validation fails, halt and return `RFQ` with the exact validator failure.
+11. Return one concise success line including the written path.
 
-   **a. YAML Frontmatter:**
-   - `id`: Constructed as `{SUBJECT_SYSTEM_SHORT_ID}_Issue-{NNN}` (e.g., `DDR_v4_Issue-003`).
-   - `title`: `"Resolution Report for {ISSUE_ID}: {Issue Title from Tracker}"`.
-   - `format_version`: From tracker metadata.
-   - `target_platform`: From tracker metadata.
-   - `target_model`: From tracker metadata.
-   - `subject`: From tracker metadata `SUBJECT_SYSTEM_NAME`.
-   - `created`: Current date in ISO 8601 format (`YYYY-MM-DD`).
-   - `status`: Copied from the issue's current status.
-   - `severity`: Copied from the issue's current severity.
-   - `type`: Copied from the issue's current type.
+Examples:
 
-   **b. Title:** `## Optimized Resolution Strategy for "{ISSUE_ID}"`
-
-   **c. Agent Context:** Render the issue's `AGENT_CONTEXT` fields as a `yaml` fenced code block.
-
-   **d. Section 1 — Validation Audit of {ISSUE_ID}:**
-   - Open with a statement identifying the source files investigated.
-   - Present the audit confirmation or refutation of the issue's claims, citing exact file paths and quoted evidence.
-   - Close with a `**Findings:**` block containing numbered findings. Each finding must:
-     - Have a bold label (e.g., `**Semantic Conflation:**`).
-     - State the validated fact and its implications in 2–4 sentences.
-
-   **e. Section 2 — Suggested Strategies for Optimal Resolution of {ISSUE_ID}:**
-   - Open with a brief statement of the resolution goals.
-   - Present exactly **two** resolution options: **Option A** and **Option B**.
-   - Each option MUST include:
-     - A `####` heading: `Option A: {Descriptive Short Label}` / `Option B: {Descriptive Short Label}`.
-     - A prose description of the approach (3–6 sentences).
-     - A `* **Supporting Insights:**` paragraph grounding the approach in project context, domain knowledge, or architectural principles.
-     - A `* **Citations:**` paragraph referencing credible external sources (standards, RFCs, official documentation, peer-reviewed publications). Conduct web research if needed to identify current, authoritative references.
-   - **Option A and Option B MUST be distinctly different strategies**, not minor variants of each other.
-
-   **f. Section 3 — Comparative Analysis and Recommended Strategy:**
-   - `#### Comparative Analysis`: Evaluate both options against specific tradeoff dimensions relevant to the issue (e.g., breaking changes, complexity, backwards compatibility, compliance, implementation cost). Use numbered points.
-   - `#### Endorsement and Contextual Justification`: State the recommended option clearly (e.g., `**Option B (Recommended Strategy)**`). Provide 3–5 bullet points justifying the endorsement with measurable or observable criteria.
-
-9. Write the completed report to `{OUTPUT_PATH}/{DOCUMENT_ID}.md`.
-10. Return a concise success message: `✅ Resolution Report generated: {output_file_path}`
-
-## Anti-Hallucination Safeguards
-
-- Never fabricate file paths, line numbers, or quoted content. All evidence must be verifiable.
-- Never claim a finding without citing the source file and location.
-- Never invent standards or citations. If a credible source cannot be found, state: `"No authoritative external reference identified for this specific claim."`
-- If web research yields no relevant results, omit the citations line for that option rather than fabricating references.
+- Success:
+  - Request: `Generate a report for ISSUE-001 from .agent/assets/proposals/active/v6.2/DDR_v6.1_Issues_Tracker.md and write it to .agent/assets/proposals/active/v6.2/DDR_v6.1_Issue-001.md.`
+  - Result: `Resolution Report generated: .agent/assets/proposals/active/v6.2/DDR_v6.1_Issue-001.md`
+- RFQ / refusal:
+  - Request: `Regenerate ISSUE-001 at .agent/assets/proposals/active/v6.2/DDR_v6.1_Issue-001.md.`
+  - Result: `RFQ: Target file already exists. Explicit overwrite approval is required before replacing it.`
 </how_to_use>
 
 <constraints>
-- Adhere exactly to the document structure demonstrated by the reference template. Do not add, remove, or reorder sections.
+
 - Do not modify the source Issues Tracker document.
-- Do not fabricate evidence, citations, or project findings.
-- Exactly two resolution strategies (Option A and Option B) must be presented. Not one, not three.
-- The report must be a self-contained artifact readable without the Issues Tracker.
-- Keep token output concise: avoid unnecessary preambles, summaries, or repetition of the problem statement across sections.
-- All external citations must reference real, verifiable sources. Prefer ISO standards, IETF RFCs, IEEE publications, official vendor documentation, and peer-reviewed research.
+- Do not implement the fix while generating the report.
+- Do not fabricate evidence, line numbers, citations, or project findings.
+- Do not emit `Option C` or any extra top-level section beyond the canonical template.
+- Do not emit unresolved placeholders.
+- Prefer repo-relative paths in the audit narrative and implementation note.
+- Keep the report self-contained, evidence-first, and concise.
 </constraints>
 
 <resources_reference>
 
 - `.agent/skills/agent-create-issue-report/resources/report-template.md`
-- `.agent/skills/agent-create-issue-report/resources/schema/skill.d.ts`
+- `.agent/skills/agent-create-issue-report/resources/reference.md`
 - `.agent/skills/agent-create-issue-report/resources/schema/README.md`
 - `.agent/skills/agent-create-issue-report/resources/schema/example.md`
+- `.agent/skills/agent-create-issue-report/resources/schema/skill.d.ts`
+- `.agent/skills/agent-create-issue-report/scripts/validate_issue_report.py`
 </resources_reference>
