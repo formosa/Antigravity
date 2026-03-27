@@ -1,30 +1,82 @@
-# DESIGN_JUSTIFICATION: Antigravity Issues Tracker Assets v1.18.3
+# Issues Tracker Format
 
-<document_purpose>
-This document establishes the verified architectural pattern for implementing Issues Trackers as referenceable assets within the Antigravity IDE v1.18.3 ecosystem, specifically designed to support the DDR System Specification v4.0.
-</document_purpose>
+This package defines the current blank Issues Tracker contract used by
+`agent-create-issues-tracker`.
 
-<schema_evaluation_and_justification>
+## Canonical Profile
 
-- **Progressive Disclosure Context:** By utilizing a structured table (`ISSUE REGISTRY`) as an index and individual `<!-- AGENT_CONTEXT -->` blocks within each issue, the schema manages Gemini 3.1 Pro's context budget efficiently, allowing the agent to parse the scope before deep-diving into specific issues.
-- **Standalone Artifact Rendering:** The `ISSUE-[NNN]` layout natively maps to Antigravity Artifact outputs, enabling standalone presentation of discrete issues for human review, mirroring Google-Doc-style comment feedback.
-- **Strict Typing and State Tracking:** Explicit `STATUS`, `SEVERITY`, and `TYPE` field enums constrain permissible values, allowing for deterministic metrics and state machines across the workspace.
+New trackers must follow the lean visible-metadata format represented by:
 
-</schema_evaluation_and_justification>
+- `.agent/assets/proposals/active/v6.2/DDR_v6.1_Issues_Tracker.md` for structure lineage
+- `.agent/schemas/issues-tracker/template.md` for blank initialization
+- `.agent/schemas/issues-tracker/example.md` for the canonical initialized example
 
-<authoritative_reference_repository>
+The canonical profile has these properties:
 
-1. [Agent Context Management - Google Antigravity Documentation](https://antigravity.google/docs/context-management)
-   - Confirms that progressive disclosure and explicit parsing blocks significantly decrease token bloat for large analytical documents.
-2. \[DDR System Specification v4.0 - Formosa/Antigravity\]
-   - The authoritative specification establishing the requirement for deterministic tracking of systemic constraints and ambiguities.
+- No HTML parser header at the top of the file
+- No per-issue `AGENT_CONTEXT` blocks
+- Required sections:
+  - `DOCUMENT METADATA`
+  - `ISSUE SCHEMA`
+  - `ISSUE REGISTRY`
+  - `ISSUES`
+  - `RESOLUTION WORKFLOW`
+  - `APPENDIX: CROSS-ISSUE DEPENDENCY MAP`
+- Blank initialization state:
+  - `open_issues: 0`
+  - `resolved_issues: 0`
+  - zero `### ISSUE-` entries
+  - exactly one empty registry row
+  - footer counts equal `0 issues identified | 0 resolved`
 
-</authoritative_reference_repository>
+## Legacy Profiles
 
-<modification_history>
+Historical `v4` and `v5` trackers remain valid repository artifacts, but they are not the
+generation target for new trackers.
 
-| Date       | Version | Classification  | Description                                                                                                                                                          |
-| :--------- | :------ | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-03-01 | v1.0.0  | Initial Release | Constructed `issues-tracker.d.ts` per Antigravity v1.18.3 schema standards with strict typing and JSDoc annotations to maximize Gemini 3.1 Pro agentic optimization. |
+- Legacy markers:
+  - HTML `AGENT PARSING HEADER`
+  - per-issue `AGENT_CONTEXT` blocks
+- Historical references:
+  - `.agent/assets/proposals/processed/v4/DDR_v4_Issues_Tracker.md`
+  - `.agent/assets/proposals/processed/v5/DDR_v5_Issues_Tracker.md`
 
-</modification_history>
+The validator supports these formats in `legacy` mode or `auto` mode so they can be
+classified and checked without being rewritten.
+
+## Validation
+
+Canonical initialization validation:
+
+```powershell
+python .agent/skills/agent-create-issues-tracker/scripts/validate_issues_tracker.py .agent/schemas/issues-tracker/example.md --mode canonical
+```
+
+Legacy validation:
+
+```powershell
+python .agent/skills/agent-create-issues-tracker/scripts/validate_issues_tracker.py .agent/assets/proposals/processed/v4/DDR_v4_Issues_Tracker.md --mode legacy
+python .agent/skills/agent-create-issues-tracker/scripts/validate_issues_tracker.py .agent/assets/proposals/processed/v5/DDR_v5_Issues_Tracker.md --mode legacy
+```
+
+## Design Basis
+
+The current package follows a small-contract, validator-first approach:
+
+- Precise skill descriptions drive routing.  
+  Source: https://codelabs.developers.google.com/getting-started-with-antigravity-skills
+- Static heavy text belongs in resource files, not the hot-path skill prompt.  
+  Source: https://codelabs.developers.google.com/getting-started-with-antigravity-skills
+- Clear structure, explicit parameters, and validate-after-generate checks improve reliability.  
+  Source: https://ai.google.dev/gemini-api/docs/prompting-strategies
+- Small, relevant examples and consistent XML/tag structure improve instruction following.  
+  Source: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#structure-prompts-with-xml-tags
+- Stable prompt prefixes and evaluation loops improve efficiency and iteration quality.  
+  Sources:
+  - https://developers.openai.com/api/docs/guides/prompt-caching
+  - https://developers.openai.com/api/docs/guides/prompting
+  - https://developers.openai.com/api/docs/guides/prompt-optimizer
+- Formal schema contracts and post-generation validation improve interoperability.  
+  Sources:
+  - https://json-schema.org/overview/what-is-jsonschema
+  - https://json-schema.org/understanding-json-schema

@@ -1,82 +1,84 @@
 // issues-tracker.d.ts
-// Antigravity Agent Asset Configuration Schema (v1.18.3)
-// OPTIMIZED FOR GEMINI 3.1 PRO
+// Canonical Issues Tracker contract for blank initialization and populated trackers
+// generated from the lean v6-style format used by agent-create-issues-tracker.
 
-/** ISSUES TRACKER DEFINITION
- * File Pattern: DDR_v4_Issues_Tracker.md or issues-tracker/*.md
- * Purpose: Authoritative single source of truth for all identified issues with DDR System Specifications.
+type IssueStatus = 'OPEN' | 'IN_REVIEW' | 'RESOLVED' | 'WONT_FIX' | 'DEFERRED';
+type IssueSeverity = 'CRITICAL' | 'MAJOR' | 'MODERATE' | 'MINOR';
+type IssueType =
+    | 'LOGICAL_CONFLICT'
+    | 'DESIGN_INADEQUACY'
+    | 'UNNECESSARY_COMPLEXITY'
+    | 'AXIOM_VIOLATION'
+    | 'SCHEMA_DEFECT'
+    | 'MIGRATION_GAP'
+    | 'LIFECYCLE_GAP';
+
+/**
+ * This file documents the current canonical format.
+ * Legacy v4/v5 validation is handled by the validator and is intentionally not the
+ * generation target represented by this interface.
  */
-interface IssuesTrackerDefinition {
-    /**
-     * Encoded as an HTML comment block at the top of the file: `<!-- AGENT PARSING HEADER ... -->`
-     * Note: This deviates from standard YAML frontmatter to prevent rendering in standard markdown readers.
-     */
-    frontmatter: {
-        skill: string;
-        version: string;
-        target_agent: string;
-        platform: string;
-        context_mode: string;
-        schema_version: string;
-        document_type: string;
-        subject_system: string;
-        subject_file: string;
-        last_updated: string;
-        total_issues: number;
+interface CanonicalIssuesTrackerDefinition {
+    document_metadata: {
+        id: string;
+        title: string;
+        format_version: 'IT-1.0';
+        target_platform: string;
+        target_model: string;
+        subject: string;
+        /** ISO 8601 date string: YYYY-MM-DD */
+        created: string;
+        /** ISO 8601 date string: YYYY-MM-DD */
+        last_modified: string;
+        author: string;
         open_issues: number;
         resolved_issues: number;
-        load_trigger: string;
-        [key: string]: any;
+        status_values: IssueStatus[];
+        severity_values: IssueSeverity[];
+        type_values: IssueType[];
     };
-    body_content: {
-        /** Encoded as a YAML block ```yaml inside the ## DOCUMENT METADATA section. */
-        document_metadata: {
-            id: string;
-            title: string;
-            format_version: string;
-            target_platform: string;
-            target_model: string;
-            subject: string;
-            created: string;
-            /** ISO 8601 Date format YYYY-MM-DD */
-            last_modified: string;
-            author: string;
-            status_values: string[];
-            severity_values: string[];
-            type_values: string[];
-        };
-        /** Raw markdown text defining the expected schema. */
-        issue_schema: string;
-        /** Markdown table serving as the primary index of all issues. Maintains sort order by severity then issue number. */
-        issue_registry: string;
-        /** Collection of discrete issues, demarcated by `### ISSUE-[NNN]:` headers. */
-        issues: Array<{
-            issue_id: string;
-            title: string;
-            /** Parsed from the `<!-- AGENT_CONTEXT ... -->` block within the issue section. */
-            agent_context: {
-                id: string;
-                status: 'OPEN' | 'IN_REVIEW' | 'RESOLVED' | 'WONT_FIX' | 'DEFERRED';
-                severity: 'CRITICAL' | 'MAJOR' | 'MODERATE' | 'MINOR';
-                /** Constrained to exact values defined in document_metadata.type_values */
-                type: 'LOGICAL_CONFLICT' | 'DESIGN_INADEQUACY' | 'UNNECESSARY_COMPLEXITY' | 'AXIOM_VIOLATION' | 'SCHEMA_DEFECT' | 'MIGRATION_GAP' | 'LIFECYCLE_GAP';
-                tier_refs: string[];
-                section_ref: string;
-                rule_refs: string[];
-                /** ISO 8601 Date format YYYY-MM-DD */
-                created: string;
-                /** ISO 8601 Date format YYYY-MM-DD */
-                updated: string;
-                resolved: string | null;
-            };
-            problem_statement: string;
-            evidence_and_justification: string;
-            impact_assessment: string;
-            resolutions: Array<{
-                option_label: string;
-                description: string;
-            }>;
-            notes?: string;
-        }>;
+    issue_schema_markdown: string;
+    /**
+     * A blank initialized tracker contains exactly one empty row in this table and zero issue
+     * entries. Populated trackers replace the empty row with real issue rows.
+     */
+    issue_registry_rows: Array<{
+        id: string;
+        severity: IssueSeverity;
+        type: IssueType;
+        status: IssueStatus;
+        tiers_affected: string;
+        title: string;
+    }>;
+    issues: CanonicalIssueEntry[];
+    resolution_workflow_markdown: string;
+    cross_issue_dependency_map: Array<{
+        issue: string;
+        depends_on: string;
+        nature_of_dependency: string;
+    }>;
+    footer_summary: {
+        total_issues: number;
+        resolved_issues: number;
+        /** ISO 8601 date string: YYYY-MM-DD */
+        last_updated: string;
     };
+}
+
+interface CanonicalIssueEntry {
+    issue_id: string;
+    title: string;
+    status: IssueStatus;
+    severity: IssueSeverity;
+    type: IssueType;
+    tiers_affected: string;
+    spec_section: string;
+    /** Optional one-line note inserted when a resolved issue records its chosen fix. */
+    resolution_note?: string;
+    problem_statement: string;
+    evidence_and_justification: string;
+    impact_assessment: string;
+    resolution_a: string;
+    resolution_b: string;
+    notes: string;
 }
