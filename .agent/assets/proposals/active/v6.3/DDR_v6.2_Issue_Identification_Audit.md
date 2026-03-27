@@ -49,7 +49,7 @@ Bottom line: **v6.2 is good and feels close to a stable baseline**. The design i
 
 Reviewing the DDR System v6.2 specification and its accompanying schema, I see a mature, philosophically rigorous requirements engineering framework. Below is structured feedback across architectural, operational, and practical dimensions.
 
-### Overall Assessment
+### Audit 2: Assessment
 
 The specification demonstrates **institutional-grade rigor**. The progression from v1.0 through v6.2 shows thoughtful consolidation (11→9 tiers, 6→4 edge types, removal of RELOCATE, unification of HIL/TDL into CL). The schema successfully encodes complex invariants—particularly the lifecycle state machine with `SUPERSEDE_PENDING` rollback semantics and the CL-tier `constraint_origin` branching logic.
 
@@ -57,7 +57,7 @@ The specification demonstrates **institutional-grade rigor**. The progression fr
 **Operational Readiness**: ★★★☆☆
 **Adoption Ergonomics**: ★★★☆☆
 
-### Strengths
+### Audit 2: Strengths
 
 ### 1. Machine-Authoritative Lifecycle Design
 
@@ -75,9 +75,9 @@ The strict separation of Core from Extensions via `extension_annotations` (with 
 
 The `UNBUNDLE_SCAN`/`UNBUNDLE_EXECUTE` two-phase protocol with confidence classification (`high`/`ambiguous`/`none`) and deferred fragment handling prevents the "silent data loss" problem common in bundled requirement formats.
 
-### Critical Recommendations
+### Audit 2: Recommendations
 
-### A. Schema & Validation Layer
+#### Audit 2 (Recommendations): Schema & Validation Layer
 
 **1. Add Computed Field Constraints for Citation Freshness**
 While CIT-R7 requires child nodes to be DIRTY when parent content changes, the schema cannot enforce this statically. **Recommendation**: Add a `last_validated_parent_versions` map to `DdrNode` that records the SemVer of each parent at last validation. This enables mechanical detection of stale citations without full graph traversal.
@@ -98,7 +98,7 @@ The schema currently embeds tier logic via `if/then` conditionals (e.g., `if tie
 **3. Hardcoded Checkpoint Path**
 The ARE checkpoint path `.agent/state/are_candidate_pool.checkpoint.yaml` is hardcoded in the specification. **Recommendation**: Make this configurable via `system_metadata.checkpoint_config` while keeping the default.
 
-### B. Operational Protocol
+#### Audit 2 (Recommendations): Operational Protocol
 
 **4. Incremental VERIFY for Large DAGs**
 The current VERIFY specification implies full graph traversal. For enterprise-scale DAGs (10,000+ nodes), this is prohibitively expensive. **Recommendation**: Add a `VERIFY_INCREMENTAL` operation that accepts a `changed_node_id` list and validates only the affected subgraph plus boundary checks.
@@ -109,7 +109,7 @@ GPCL-FCL-BR1 requires manual logging of `MISSING_MEDIATOR` items. **Recommendati
 **6. SUPERSEDE_ATOMICITY_DURATION_LIMIT**
 The `SUPERSEDE_PENDING` state risks indefinite orphaning if a client crashes mid-operation. **Recommendation**: Add a `supersede_timeout_hours` field to `system_metadata` (default: 24h). VERIFY should auto-rollback `SUPERSEDE_PENDING` nodes older than this threshold via `SUPERSEDE_ROLLBACK`.
 
-### C. Extension & Tooling
+#### Audit 2 (Recommendations): Extension & Tooling
 
 **7. ARE Scoring Profile Validation**
 While `are_scoring_profiles` defines custom profile schemas, there's no mechanism to validate that an Extension's declared profile actually matches the schema. **Recommendation**: Add a `validate_profile` operation to the Extension contract that checks profile conformance against `are_scoring_profiles.custom.required_fields`.
@@ -120,7 +120,7 @@ The reconciliation manifest tracks pending items, but querying it requires ad-ho
 **9. Extension Dependency Resolution**
 Extensions (E1-E9) currently have no declared inter-dependencies. If E5 (ARE) relies on E7 (DDE) for data entity validation, this should be declared. **Recommendation**: Add `depends_on: [E7]` to Extension contracts, with version constraints.
 
-### D. Migration & Compatibility
+#### Audit 2 (Recommendations): Migration & Compatibility
 
 **10. Version Compatibility Layer**
 The schema uses `const: "6.2"` which rejects forward-compatible documents. **Recommendation**: Replace with `enum: ["6.2"]` for now, but design a `ddr_version_compatibility` field that accepts `["6.2", "6.3"]` arrays during transition periods, with explicit migration hooks.
@@ -137,7 +137,7 @@ rule_transformations:
     auto_migrate: true  # Enables automated migration tooling
 ```
 
-### Risk Considerations
+### Audit 2: Risk Considerations
 
 **Semantic vs. Structural Verification Mode**
 The distinction between `structural` and `semantic` verification modes is powerful but dangerous. A rule marked `verification_mode: semantic` requires human disposition before `DRAFT→ACTIVE` transition. However, the schema cannot enforce that humans actually review it—only that the `REVIEW_REQUIRED` item exists in the manifest. **Mitigation**: Require `reviewer_did` and `review_timestamp` fields in the manifest for semantic rule dispositions, not just `APPROVED/REJECTED`.
@@ -148,7 +148,7 @@ XPD is optional, making SIL the root when XPD is inactive. This creates two vali
 **UNBUNDLE Ambiguity Handling**
 The `deferred_fragment_handling` allows `[DEFER]` annotations to bypass confidence checks. **Risk**: Deferred fragments accumulate indefinitely, creating "zombie" content. **Mitigation**: Add a `max_deferred_ratio` constraint (e.g., no more than 20% of fragments in a group may be deferred).
 
-### Immediate Action Items (Priority Order)
+### Audit 2: Immediate Action Items
 
 1. **High**: Add `citation_freshness` tracking to enable CIT-R7 mechanical enforcement
 2. **High**: Implement `SUPERSEDE_PENDING` timeout rollback to prevent indefinite locks
@@ -156,7 +156,7 @@ The `deferred_fragment_handling` allows `[DEFER]` annotations to bypass confiden
 4. **Medium**: Create formal `RuleTransformation` schema for Appendix B migration tooling
 5. **Low**: Design manifest query DSL for operational tooling
 
-### Conclusion
+### Audit 2: Conclusion
 
 DDR v6.2 is a **reference-grade specification** for requirements traceability. The schema successfully encodes constraints that typically live only in prose (AX-1 orphan rules, CIT-R7 freshness, INV-6 supercede atomicity).
 
@@ -172,19 +172,19 @@ This is an incredibly rigorous and elegant system design. Defining the DDR (Dire
 
 Here are my insights, feedback, and recommendations based on the provided v6.2 YAML definitions.
 
-### System Architecture Insights
+### Audit 3: System Architecture Insights
 
 * **Self-Hosting Specification:** The `ddr_system_v6.2.yaml` file is the exclusive normative specification for the DDR System and supersedes all prior versions. By successfully conforming to the `ddr_node_schema_v6.2.yaml` schema, the specification proves its own structural viability.
 * **Declarative Integrity (AX-6):** The system firmly separates core structural invariants from analytical logic. Extensions are strictly read-only overlays that can annotate nodes but are prohibited from modifying core content, parent citations, or status.
 * **Express Mode Determinism:** Express Mode groups adjacent tiers into four presentation groups (G1 through G4). The two-phase `UNBUNDLE_SCAN` and `UNBUNDLE_EXECUTE` protocol ensures that content allocation is deterministic and completely rejects un-annotated or ambiguous fragments.
 
-### Strengths and Structural Feedback
+### Audit 3: Strengths and Structural Feedback
 
 * **Robust Lifecycle Atomicity:** The addition of the transient `SUPERSEDE_PENDING` state is a massive operational improvement. By utilizing a write-once `prior_status` field to record the previous state, the system allows for clean rollbacks if the replacement node fails validation or child re-wiring fails.
 * **Rigorous Citation Constraints:** The restriction of `parent_ids` to only allow `derives`, `constrains`, and `implements` edge types prevents structural contamination. Relegating `extends` edges exclusively to `extension_annotations` successfully enforces the boundary between the core DAG and optional extensions.
 * **Stateful AI Extension Handling:** The AI Upward Reconstruction Engine (ARE) is handled with impressive caution. Forcing inferred nodes into a separate Candidate Pool and implementing a strict tri-state lifecycle (`active`, `paused`, `disabled`) with canonical checkpointing (`.agent/state/are_candidate_pool.checkpoint.yaml`) ensures AI hallucination cannot silently mutate the system's baseline.
 
-### Suggestions for Refinement
+### Audit 3: Suggestions for Refinement
 
 * **Error Code Discrepancy:** In the canonical `ICL-6.1` node, the content states that the `VERIFY` contract outputs error codes including `INV-TIER-SKIP`. However, the actual DAG invariant governing tier-skipping is designated as `INV-2`. Aligning the error code output to exactly match the invariant ID (`INV-2`) would improve programmatic cross-referencing.
 * **Schema Node ID Regex Redundancy:** The general pattern for node IDs in the schema is `^(XPD-0\\.[0-9]+|[A-Z]{2,5}-[0-9]+\\.[0-9]+)$`. While functionally correct, the `allOf` conditional blocks later enforce strict tier-specific prefixes (e.g., `^SIL-[0-9]+\\.[0-9]+$`). The initial broad regex acts as an effective first-pass filter, but you may want to document that the `allOf` constraints are the ultimate authority for ID validation.
@@ -194,11 +194,11 @@ Here are my insights, feedback, and recommendations based on the provided v6.2 Y
 
 ## Audit 4: Claude 3.5 Sonnet
 
-### Audit 4: Overall Assessment
+### Audit 4: Assessment
 
 This is an exceptionally mature and internally consistent specification. The v6.2 hardening release represents a decisive step: constraints that were previously prose-only invariants are now structurally machine-enforced. The self-referential exemplar DAG is particularly elegant — the system documenting itself is both a design demonstration and a live correctness proof. The SUPERSEDE atomicity model (prior_status / gc-007/008/009) is one of the strongest features of the spec, and the lifecycle block as a closed state machine is exactly the right approach. What follows are the observations worth tracking.
 
-#### Schema (`ddr_node_schema_v6_2.yaml`)
+#### Audit 4 (Assessment): Schema (`ddr_node_schema_v6_2.yaml`)
 
 **1. `active_tiers` mandatory set is prose-only — moderate gap**
 
@@ -244,7 +244,7 @@ The property uses `propertyNames`, `patternProperties`, and `additionalPropertie
 
 Express Mode Group G1 bundles `[XPD, SIL, GPCL]`. XPD is `is_optional: true`. There is no schema-level or rule-level statement about what UNBUNDLE does when XPD is inactive for a given project — does G1 unbundle to two tiers or three? The `deferred_fragment_handling` covers authoring ambiguity at content level, but the structural outcome when XPD is absent is specified only in prose. Consider an explicit rule or manifest item type for this scenario.
 
-#### System (`ddr_system_v6_2.yaml`)
+#### Audit 4 (Assessment): System (`ddr_system_v6_2.yaml`)
 
 **7. Node version heterogeneity — technically valid but pedagogically confusing**
 
@@ -299,7 +299,7 @@ v6.2 closes a significant portion of the structural debt carried from earlier ve
 
 ## Audit 5: Grok 4.20 Experts
 
-### Audit 5: Insights on DDR v6.2
+### Audit 5: Insights
 
 This is a remarkably sophisticated, **self-referential requirements & architecture framework**. The `ddr_system_v6.2.yaml` file *is* the authoritative specification *and* a valid instance of its own schema — the canonical 9-tier DAG (XPD → ISL) is literally encoded as the `nodes` array using the exact same `DdrNode` structure and citation rules it defines. That dogfooding is elegant and proves the system’s viability.
 
