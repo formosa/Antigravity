@@ -2,12 +2,12 @@
 document:
   id:              DDR_v6.2_Issue-001
   title:           "Resolution Report for ISSUE-001: Require the Full System-Definition Normative Surface"
-  format_version:  "IT-1.0"
+  format_version:  "IT-1.1"
   target_platform: "Google Antigravity >=1.18"
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.2"
-  created:         "2026-03-27"
-  updated:         "2026-03-27"
+  created:         "2026-03-28"
+  updated:         "2026-03-28"
   status:          "OPEN"
   severity:        "CRITICAL"
   type:            "SCHEMA_DEFECT"
@@ -23,39 +23,39 @@ status:      OPEN
 severity:    CRITICAL
 type:        SCHEMA_DEFECT
 tier_refs:   ["System-definition files"]
-section_ref: "Schema Root, §5-§9"
+section_ref: "Schema Root, \u00a75-\u00a79"
 rule_refs:   []
-updated:     2026-03-27
+updated:     2026-03-28
 ```
 
 ### 1. Validation Audit of ISSUE-001
 
-An evaluation of `.agent/assets/proposals/active/v6.2/ddr_node_schema_v6.2.yaml:27-36`, `.agent/assets/proposals/active/v6.2/ddr_node_schema_v6.2.yaml:205-289`, and `.agent/assets/proposals/active/v6.2/ddr_node_schema_v6.2.yaml:247-252` was conducted to investigate the claims of "ISSUE-001: Require the Full System-Definition Normative Surface."
+An evaluation of `.agent/assets/proposals/active/v6.2/ddr_node_schema_v6.2.yaml:27-36`, `.agent/assets/proposals/active/v6.2/ddr_node_schema_v6.2.yaml:205-289`, and `.agent/assets/proposals/active/v6.2/ddr_system_v6.2.yaml:1-6` was conducted to investigate the claims of "ISSUE-001: Require the Full System-Definition Normative Surface".
 
-The root contract only adds `lifecycle` when `system_metadata` is present at `.agent/assets/proposals/active/v6.2/ddr_node_schema_v6.2.yaml:27-36`. The same schema still exposes `dag_invariants`, `citation_rules`, `tier_definitions`, `constraint_precedence`, and `operations` as top-level authority sections at `.agent/assets/proposals/active/v6.2/ddr_node_schema_v6.2.yaml:205-289`, and `tier_definitions` explicitly says it is required for system-definition files at `.agent/assets/proposals/active/v6.2/ddr_node_schema_v6.2.yaml:247-252`. A local `jsonschema` probe accepted a document containing only `ddr_version`, the mandatory seven active tiers, one minimal node, `system_metadata`, and `lifecycle`, confirming that the published schema still treats the rest of the normative system-definition surface as optional.
+The root schema recognizes system-definition intent, but it only hard-requires `lifecycle`. The authoritative system file simultaneously claims to represent the full normative specification, so the schema currently under-enforces the very artifact it is supposed to certify.
 
 **Findings:**
 
-1. **System-Definition Admission Is Under-Specified:** The schema has a structural marker for system-definition files but uses it to require only `lifecycle`. That leaves the rest of the claimed authoritative surface unenforced at the schema root.
-2. **Authoritative Files Can Validate While Incomplete:** A system-definition artifact can present itself as authoritative and still omit major governing sections without failing validation. That weakens the self-hosting contract of DDR v6.2 at the exact boundary the schema is supposed to protect.
+1. **Root Closure Is Incomplete:** System-definition files are identifiable but not required to carry the full authoritative surface.
+2. **Authority Can Be Claimed While Incomplete:** A system-definition artifact can validate while omitting major governing sections.
 
 ### 2. Suggested Strategies for Optimal Resolution of ISSUE-001
 
-The resolution goal is to make the root schema tell the truth about what a valid DDR v6.2 system-definition artifact must contain.
+The resolution goal is to make authoritative document intent explicit enough that incomplete system-definition artifacts cannot validate.
 
-#### Option A: Add a Definition Profile Conditional
+#### Option A: Introduce Explicit Document Profiles
 
-Keep the current implicit document split, but extend the root conditional keyed to `system_metadata` so it requires the minimum authoritative section set for a system-definition file. At minimum that set should include `lifecycle`, `tier_definitions`, `dag_invariants`, `citation_rules`, `constraint_precedence`, and `operations`, with any other sections the project treats as normative added to the same branch. This repairs the defect with the smallest contract change because it reuses the schema's existing discriminator rather than inventing a second document-class mechanism.
+Add a root-level `document_profile` enum such as `project_instance | system_definition` and split root requirements by profile rather than inferring profile from `system_metadata`. This is a larger refactor, but it makes document intent explicit and gives future versions a cleaner place to encode profile-specific obligations.
 
-* **Supporting Insights:** The schema already distinguishes project-instance versus system-definition intent through `system_metadata`. Reusing that marker keeps the repair local to the root contract and preserves the lean project-instance story for files that are not acting as specification authority.
-* **Citations:** [JSON Schema object reference](https://json-schema.org/understanding-json-schema/reference/object), [JSON Schema conditionals](https://json-schema.org/understanding-json-schema/reference/conditionals)
+* **Supporting Insights:** An explicit profile field gives future root requirements one durable branching point.
+* **Citations:** [JSON Schema conditionals](https://json-schema.org/understanding-json-schema/reference/conditionals), [JSON Schema structuring](https://json-schema.org/understanding-json-schema/structuring)
 
-#### Option B: Introduce Explicit Document Profiles
+#### Option B: Add a Definition Profile Conditional
 
-Add a root-level `document_profile` enum such as `project_instance | system_definition` and split root requirements by that explicit profile instead of inferring intent from `system_metadata`. This is a broader redesign, but it makes author intent machine-explicit and creates a durable place to encode profile-specific obligations as the DDR system evolves. It also gives future efforts such as ARE authority hardening a cleaner root hook than incidental inference from one metadata block.
+Add an explicit root conditional keyed to `system_metadata` that requires the minimum normative section set for a system-definition artifact. At minimum this should cover `lifecycle`, `tier_definitions`, `dag_invariants`, `citation_rules`, `constraint_precedence`, and `operations`, with any other sections the project considers authoritative for self-hosting spec files.
 
-* **Supporting Insights:** Explicit profiles make the schema's two roles visible instead of implicit, which improves explainability for tooling authors and future maintainers. The tradeoff is a wider migration because every authoritative document would need to declare its profile and align to the new root rules.
-* **Citations:** [JSON Schema conditionals](https://json-schema.org/understanding-json-schema/reference/conditionals), [JSON Schema structuring with `$defs`](https://json-schema.org/understanding-json-schema/structuring)
+* **Supporting Insights:** Reusing `system_metadata` repairs the current schema with a smaller migration surface.
+* **Citations:** [JSON Schema conditionals](https://json-schema.org/understanding-json-schema/reference/conditionals), [JSON Schema object reference](https://json-schema.org/understanding-json-schema/reference/object)
 
 ### 3. Comparative Analysis and Recommended Strategy
 
@@ -63,21 +63,20 @@ Add a root-level `document_profile` enum such as `project_instance | system_defi
 
 Each strategy entails specific cascading tradeoffs relative to DDR System v6.2 invariants:
 
-1. **Repair Scope:** Option A closes the critical defect directly at the existing root conditional, while Option B introduces a broader schema redesign centered on explicit document profiles.
-2. **Contract Explicitness:** Option A preserves the current implicit split between project-instance and system-definition files; Option B makes that split first-class and easier to reason about across future schema growth.
-3. **Migration Cost:** Option A has the smaller blast radius because existing authoritative files already carry `system_metadata`; Option B requires new profile declarations and wider downstream adoption.
+1. **Explicitness:** Option A makes document role first-class; Option B still infers it from one metadata block.
+2. **Migration:** Option A asks all authoritative documents to adopt a profile field; Option B is the smaller patch.
 
 #### Endorsement and Contextual Justification
 
 The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**.
 
-The validated defect is that the current schema already has enough information to recognize a system-definition file but does not enforce the full normative surface once it does. Reusing that existing marker fixes the critical gap without expanding the document model before the project has proven it needs a new explicit profile field.
+The updated tracker now prefers explicit document profiles because this is not just a missing required-list problem. DDR needs a durable, in-band way to declare what kind of root document is being authored.
 
 **Option A** is recommended because:
 
-* **Uses Existing Intent Signals:** `system_metadata` already marks the authoritative file class, so the fix can stay local to the current root contract.
-* **Closes the Critical Gap Quickly:** The schema can stop admitting incomplete system-definition artifacts without forcing a broader migration of all DDR documents.
-* **Preserves Future Flexibility:** If later versions need explicit profiles, Option A still leaves that path open after the immediate contract defect is repaired.
+* **Machine-Explicit Intent:** Validators no longer infer authoritative status indirectly.
+* **Future-Proof Root Contract:** Later profile-specific rules get one stable branching surface.
+* **Single Canonical Schema:** The model stays self-describing inside one schema artifact.
 
 ### 4. Implementation Note
 
