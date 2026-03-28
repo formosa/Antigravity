@@ -7,7 +7,7 @@
 # Validate with:
 #   python -c "
 #     import yaml, jsonschema
-#     schema = yaml.safe_load(open('references/ddr_node_schema_v6.3.yaml'))
+#     schema = yaml.safe_load(open('.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml'))
 #     data   = yaml.safe_load(open('your_ddr_file.yaml'))
 #     jsonschema.validate(data, schema)
 #   "

@@ -2509,6 +2509,7 @@ nodes:
         edge_type: implements
     content: |
       # [CDL-7.1] DdrNode scaffold — Python target (CL-4.1: Python 3.10+)
+      from __future__ import annotations
       from enum import Enum
       from datetime import datetime
       from dataclasses import dataclass, field
@@ -2541,7 +2542,7 @@ nodes:
           DERIVED="derived"; IMPOSED="imposed"
 
       class ExpressModeGroupEnum(str, Enum):
-          # [§4] Required on every node when project.mode == "express"
+          # [§4] Required on every node when document_profile=project_instance_express
           G1="G1"; G2="G2"; G3="G3"; G4="G4"
 
       class DerivationModeEnum(str, Enum):
@@ -2562,11 +2563,11 @@ nodes:
           tier: TierEnum
           title: str
           status: StatusEnum
-          constraint_origin: Optional[ConstraintOriginEnum] = None
-          prior_status: Optional[StatusEnum] = None
           version: str          # SemVer
           created: datetime
           modified: datetime
+          constraint_origin: Optional[ConstraintOriginEnum] = None
+          prior_status: Optional[StatusEnum] = None
           parent_ids: list[ParentCitation] = field(default_factory=list)
           content: str = ""
           express_mode_group: Optional[ExpressModeGroupEnum] = None
