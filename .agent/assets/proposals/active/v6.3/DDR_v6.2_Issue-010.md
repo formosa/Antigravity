@@ -8,7 +8,8 @@ document:
   subject:         "DDR System v6.2"
   created:         "2026-03-28"
   updated:         "2026-03-28"
-  status:          "OPEN"
+  resolved:        "2026-03-28"
+  status:          "RESOLVED"
   severity:        "MODERATE"
   type:            "SCHEMA_DEFECT"
 ---
@@ -19,13 +20,14 @@ document:
 
 ```yaml
 id:          ISSUE-010
-status:      OPEN
+status:      RESOLVED
 severity:    MODERATE
 type:        SCHEMA_DEFECT
 tier_refs:   ["Express Mode"]
 section_ref: "\u00a74"
 rule_refs:   []
 updated:     2026-03-28
+resolved:    2026-03-28
 ```
 
 ### 1. Validation Audit of ISSUE-010
@@ -80,4 +82,10 @@ The current defect is that authored Express Mode definitions are too loose, not 
 
 ### 4. Implementation Note
 
-Implementation remains pending. This report documents the validated defect and recommended direction only; it did not apply a repository patch.
+Implemented in `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml`.
+
+The v6.3 schema now machine-closes `express_mode.groups` without changing its array shape by requiring exactly four entries and binding each canonical `group_id` to its fixed tier composition. This makes `G1`, `G2`, `G3`, and `G4` structurally authoritative instead of documentary.
+
+Validation evidence:
+- `.venv\Scripts\python.exe` YAML-parse check succeeded for both v6.3 YAML artifacts.
+- Draft 2020-12 validation of `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml` against `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml` succeeded with the closed Express Mode group contract.

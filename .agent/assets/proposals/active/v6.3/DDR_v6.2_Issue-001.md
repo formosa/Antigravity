@@ -8,7 +8,8 @@ document:
   subject:         "DDR System v6.2"
   created:         "2026-03-28"
   updated:         "2026-03-28"
-  status:          "OPEN"
+  resolved:        "2026-03-28"
+  status:          "RESOLVED"
   severity:        "CRITICAL"
   type:            "SCHEMA_DEFECT"
 ---
@@ -19,13 +20,14 @@ document:
 
 ```yaml
 id:          ISSUE-001
-status:      OPEN
+status:      RESOLVED
 severity:    CRITICAL
 type:        SCHEMA_DEFECT
 tier_refs:   ["System-definition files"]
 section_ref: "Schema Root, \u00a75-\u00a79"
 rule_refs:   []
 updated:     2026-03-28
+resolved:    2026-03-28
 ```
 
 ### 1. Validation Audit of ISSUE-001
@@ -43,19 +45,19 @@ The root schema recognizes system-definition intent, but it only hard-requires `
 
 The resolution goal is to make authoritative document intent explicit enough that incomplete system-definition artifacts cannot validate.
 
-#### Option A: Introduce Explicit Document Profiles
-
-Add a root-level `document_profile` enum such as `project_instance | system_definition` and split root requirements by profile rather than inferring profile from `system_metadata`. This is a larger refactor, but it makes document intent explicit and gives future versions a cleaner place to encode profile-specific obligations.
-
-* **Supporting Insights:** An explicit profile field gives future root requirements one durable branching point.
-* **Citations:** [JSON Schema conditionals](https://json-schema.org/understanding-json-schema/reference/conditionals), [JSON Schema structuring](https://json-schema.org/understanding-json-schema/structuring)
-
-#### Option B: Add a Definition Profile Conditional
+#### Option A: Add a Definition Profile Conditional
 
 Add an explicit root conditional keyed to `system_metadata` that requires the minimum normative section set for a system-definition artifact. At minimum this should cover `lifecycle`, `tier_definitions`, `dag_invariants`, `citation_rules`, `constraint_precedence`, and `operations`, with any other sections the project considers authoritative for self-hosting spec files.
 
 * **Supporting Insights:** Reusing `system_metadata` repairs the current schema with a smaller migration surface.
 * **Citations:** [JSON Schema conditionals](https://json-schema.org/understanding-json-schema/reference/conditionals), [JSON Schema object reference](https://json-schema.org/understanding-json-schema/reference/object)
+
+#### Option B: Introduce Explicit Document Profiles
+
+Add a root-level `document_profile` enum such as `project_instance | system_definition` and split root requirements by profile rather than inferring profile from `system_metadata`. This is a larger refactor, but it makes document intent explicit and gives future versions a cleaner place to encode profile-specific obligations.
+
+* **Supporting Insights:** An explicit profile field gives future root requirements one durable branching point.
+* **Citations:** [JSON Schema conditionals](https://json-schema.org/understanding-json-schema/reference/conditionals), [JSON Schema structuring](https://json-schema.org/understanding-json-schema/structuring)
 
 ### 3. Comparative Analysis and Recommended Strategy
 
@@ -68,7 +70,7 @@ Each strategy entails specific cascading tradeoffs relative to DDR System v6.2 i
 
 #### Endorsement and Contextual Justification
 
-The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**.
+The most balanced and minimally disruptive solution is **Option B (Recommended Strategy)**.
 
 The updated tracker now prefers explicit document profiles because this is not just a missing required-list problem. DDR needs a durable, in-band way to declare what kind of root document is being authored.
 
@@ -80,4 +82,10 @@ The updated tracker now prefers explicit document profiles because this is not j
 
 ### 4. Implementation Note
 
-Implementation remains pending. This report documents the validated defect and recommended direction only; it did not apply a repository patch.
+Implemented in `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml` and `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml`.
+
+The v6.3 schema now introduces an explicit root `document_profile` discriminator with `project_instance`, `project_instance_express`, and `system_definition` branches. The `system_definition` branch requires the authoritative top-level normative surface, and the v6.3 system file now declares `document_profile: system_definition` so the self-hosting specification is validated against that explicit contract.
+
+Validation evidence:
+- `.venv\Scripts\python.exe` YAML-parse check succeeded for both v6.3 YAML artifacts.
+- Draft 2020-12 validation of `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml` against `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml` succeeded after the profile-based root contract was applied.

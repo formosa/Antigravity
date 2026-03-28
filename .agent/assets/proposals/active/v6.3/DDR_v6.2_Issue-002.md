@@ -8,7 +8,8 @@ document:
   subject:         "DDR System v6.2"
   created:         "2026-03-28"
   updated:         "2026-03-28"
-  status:          "OPEN"
+  resolved:        "2026-03-28"
+  status:          "RESOLVED"
   severity:        "MAJOR"
   type:            "SCHEMA_DEFECT"
 ---
@@ -19,13 +20,14 @@ document:
 
 ```yaml
 id:          ISSUE-002
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   ["All files (root topology)"]
 section_ref: "\u00a73.5"
 rule_refs:   ["INV-3"]
 updated:     2026-03-28
+resolved:    2026-03-28
 ```
 
 ### 1. Validation Audit of ISSUE-002
@@ -80,4 +82,10 @@ The current defect is mechanical and well-bounded. DDR says seven specific tiers
 
 ### 4. Implementation Note
 
-Implementation remains pending. This report documents the validated defect and recommended direction only; it did not apply a repository patch.
+Implemented in `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml` and reflected in `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml`.
+
+The v6.3 schema now closes `active_tiers` to canonical ordered variants that always include the mandatory base tier set. That stricter contract subsumes the recommended mandatory-member enforcement by making any omission of `SIL`, `GPCL`, `FCL`, `SAL`, `ICL`, `CDL`, or `ISL` schema-invalid. The v6.3 system file now declares an `active_tiers` array that conforms to that closed topology.
+
+Validation evidence:
+- `.venv\Scripts\python.exe` YAML-parse check succeeded for both v6.3 YAML artifacts.
+- Draft 2020-12 validation of `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml` against `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml` succeeded with the canonical `active_tiers` contract in place.

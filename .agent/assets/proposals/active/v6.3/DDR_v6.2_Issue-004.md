@@ -8,7 +8,8 @@ document:
   subject:         "DDR System v6.2"
   created:         "2026-03-28"
   updated:         "2026-03-28"
-  status:          "OPEN"
+  resolved:        "2026-03-28"
+  status:          "RESOLVED"
   severity:        "MAJOR"
   type:            "SCHEMA_DEFECT"
 ---
@@ -19,13 +20,14 @@ document:
 
 ```yaml
 id:          ISSUE-004
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        SCHEMA_DEFECT
 tier_refs:   ["Extension System", "Extension Catalog", "ARE Scoring Profiles"]
 section_ref: "\u00a78.2, \u00a79 E5"
 rule_refs:   ["ARE-R2", "ARE-R5", "EXT-R1"]
 updated:     2026-03-28
+resolved:    2026-03-28
 ```
 
 ### 1. Validation Audit of ISSUE-004
@@ -43,19 +45,19 @@ ARE has several safety-sensitive contracts in the authoritative system file, but
 
 The resolution goal is to harden the ARE boundary without forcing every higher-order ARE guarantee into plain JSON Schema.
 
-#### Option A: Use a Hybrid Structural Schema plus ARE Conformance Validator
-
-Use JSON Schema to close the structural rules that it expresses well: typed activation states, `E5`-conditional `scoring_profile` presence, machine-typed profile objects, and basic numeric bounds. Then make a deterministic ARE-specific validator authoritative for cross-reference existence, score-band ordering and non-overlap, and any semantic checks that span multiple objects. This intentionally splits enforcement by concern without leaving the schema front door weak.
-
-* **Supporting Insights:** A hybrid split lets the schema reject malformed structures early while a deterministic validator owns cross-object guarantees.
-* **Citations:** [JSON Schema conditionals](https://json-schema.org/understanding-json-schema/reference/conditionals), [JSON Schema numeric reference](https://json-schema.org/understanding-json-schema/reference/numeric)
-
-#### Option B: Promote ARE Contracts into JSON Schema
+#### Option A: Promote ARE Contracts into JSON Schema
 
 Add a typed `activation_states` object with explicit `active`, `paused`, and `disabled` members; add conditional enforcement so `id: E5` requires `scoring_profile`; constrain `scoring_profile` to known or structurally declared profile identifiers; type the custom profile path against `ScoringProfile`; and add numeric bounds for thresholds and range items, with a runtime ordering check if the two-element array form is retained.
 
 * **Supporting Insights:** A schema-only push strengthens early rejection, but some ARE guarantees fit poorly as pure schema rules.
 * **Citations:** [JSON Schema numeric reference](https://json-schema.org/understanding-json-schema/reference/numeric), [JSON Schema object reference](https://json-schema.org/understanding-json-schema/reference/object)
+
+#### Option B: Use a Hybrid Structural Schema plus ARE Conformance Validator
+
+Use JSON Schema to close the structural rules that it expresses well: typed activation states, `E5`-conditional `scoring_profile` presence, machine-typed profile objects, and basic numeric bounds. Then make a deterministic ARE-specific validator authoritative for cross-reference existence, score-band ordering and non-overlap, and any semantic checks that span multiple objects. This intentionally splits enforcement by concern without leaving the schema front door weak.
+
+* **Supporting Insights:** A hybrid split lets the schema reject malformed structures early while a deterministic validator owns cross-object guarantees.
+* **Citations:** [JSON Schema conditionals](https://json-schema.org/understanding-json-schema/reference/conditionals), [JSON Schema numeric reference](https://json-schema.org/understanding-json-schema/reference/numeric)
 
 ### 3. Comparative Analysis and Recommended Strategy
 
@@ -63,16 +65,16 @@ Add a typed `activation_states` object with explicit `active`, `paused`, and `di
 
 Each strategy entails specific cascading tradeoffs relative to DDR System v6.2 invariants:
 
-1. **Coverage vs Fit:** Option A matches enforcement method to rule type; Option B tries to keep more of the contract in schema.
-2. **Early Failure:** Both options improve front-door validation, but Option A avoids overloading JSON Schema with awkward cross-object logic.
+1. **Coverage vs Fit:** Option B matches enforcement method to rule type; Option A tries to keep more of the contract in schema.
+2. **Early Failure:** Both options improve front-door validation, but Option B avoids overloading JSON Schema with awkward cross-object logic.
 
 #### Endorsement and Contextual Justification
 
-The most balanced and minimally disruptive solution is **Option A (Recommended Strategy)**.
+The most balanced and minimally disruptive solution is **Option B (Recommended Strategy)**.
 
 The tracker now prefers the hybrid strategy because ARE has two different classes of obligations: obvious structural rules and higher-order conformance rules. DDR benefits from enforcing both, but not with the same mechanism.
 
-**Option A** is recommended because:
+**Option B** is recommended because:
 
 * **Closes Front-Door Gaps:** Malformed activation states and invalid numeric bounds can fail immediately.
 * **Preserves Deterministic Higher-Order Checks:** Profile resolution and score semantics can stay in a dedicated validator.
@@ -80,4 +82,10 @@ The tracker now prefers the hybrid strategy because ARE has two different classe
 
 ### 4. Implementation Note
 
-Implementation remains pending. This report documents the validated defect and recommended direction only; it did not apply a repository patch.
+Implemented in `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml` and `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml`.
+
+The v6.3 schema now hardens the ARE front door by typing `candidate_pool.activation_states`, requiring `scoring_profile` for `E5`, closing the `custom` scoring-profile contract around `required_fields`, `profile_template`, and `validation_note`, and bounding score endpoints and thresholds within `[0.0, 1.0]`. The v6.3 system file now makes deterministic ARE conformance validation authoritative for profile-reference resolution plus score-band ordering and non-overlap, completing the hybrid enforcement split.
+
+Validation evidence:
+- `.venv\Scripts\python.exe` YAML-parse check succeeded for both v6.3 YAML artifacts.
+- Draft 2020-12 validation of `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml` against `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml` succeeded with the hardened ARE contract.

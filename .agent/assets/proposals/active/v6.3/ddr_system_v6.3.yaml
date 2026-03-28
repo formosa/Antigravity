@@ -1,0 +1,2726 @@
+# ddr_system_v6.3.yaml
+# DDR System v6.3 — Authoritative Specification expressed in certified YAML schema
+# This file IS the DDR System specification represented as its own DAG.
+# The nodes section encodes the canonical 9-tier topology with all DAG edges.
+# All normative sections from the specification document are represented here.
+#
+# Conforms to: ddr_node_schema_v6.3.yaml (JSON Schema 2020-12)
+# Source reference: DDR System Specification v6.3 (2026-03-28)
+
+ddr_version: "6.3"
+
+document_profile: system_definition
+
+project:
+  name: "DDR System v6.3 — Authoritative Specification"
+  created: "2026-02-26"
+  mode: full
+
+active_tiers:
+  - XPD
+  - SIL
+  - GPCL
+  - FCL
+  - CL
+  - SAL
+  - ICL
+  - CDL
+  - ISL
+
+# ── §1 SYSTEM METADATA ───────────────────────────────────────────────────────
+
+system_metadata:
+  status: Finalized
+  date: "2026-03-28"
+  scope: "Systems-, language-, and domain-agnostic"
+  authority: "DDR Architecture Board"
+  lineage: "Supersedes DDR v6.2"
+  single_source_of_truth: >
+    This document is the exclusive normative specification for the DDR System.
+    All prior versions are superseded. No conversation record, partial
+    specification, or derivative document carries normative weight.
+
+  design_philosophy:
+    - principle: "Minimize Design Complexity"
+      description: >
+        Every element earns its existence. No tier, edge type, operation, or rule
+        exists without a concrete problem it solves. The system must be adoptable
+        by a solo developer on day one and scale to enterprise without structural
+        changes.
+    - principle: "Avoid Premature Optimization"
+      description: >
+        The Core defines the minimum viable graph. Advanced analytical capabilities,
+        inference engines, and domain-specific intelligence are delivered exclusively
+        via optional Extensions. The Core never anticipates an Extension.
+    - principle: "Maximize Structural Integrity"
+      description: >
+        The DAG is the single source of truth. Every node is traceable, every edge
+        is typed, every mutation is validated. The system is correct by construction.
+
+  changes_from_prior:
+    - area: "Explicit document profiling"
+      prior: "System-definition intent was inferred indirectly from system_metadata"
+      current: "document_profile explicitly distinguishes project_instance, project_instance_express, and system_definition roots"
+      rationale: >
+        Makes authored document intent machine-explicit and allows the schema to
+        require the authoritative top-level surface only for system-definition artifacts.
+    - area: "Topology closure"
+      prior: "active_tiers enforced membership loosely and left topology consequences to downstream logic"
+      current: "active_tiers are restricted to canonical order variants and system-definition topology obligations are stated as first-class invariants"
+      rationale: >
+        Closes mandatory-tier presence, ordering, and representative-coverage ambiguity
+        without introducing a second competing topology model.
+    - area: "Lifecycle authority simplification"
+      prior: "Lifecycle behavior was split across status_transitions and prohibited_transitions, with composite raw operation tokens"
+      current: "status_transitions are the sole lifecycle authority and transition metadata decomposes canonical operation, phase, side-effect, and prerequisites"
+      rationale: >
+        Removes dual-authority drift and keeps operation identity machine-normalized.
+    - area: "ARE contract hardening"
+      prior: "ARE activation states, E5 scoring_profile requirements, and custom-profile structure were under-typed"
+      current: "ARE activation states are structurally typed, E5 requires scoring_profile, custom profile structure is machine-shaped, and score bounds are constrained"
+      rationale: >
+        Strengthens the schema front door while reserving higher-order profile-resolution
+        and score-band ordering checks for deterministic ARE conformance validation.
+    - area: "Operation namespace normalization"
+      prior: "Operations, lifecycle rows, and scaffold comments mixed canonical names with phase and alias tokens"
+      current: "The canonical operation surface is closed and UNBUNDLE_EXECUTE is the sole commit-phase token"
+      rationale: >
+        Keeps validators, logs, and API-like surfaces aligned to one operation vocabulary.
+    - area: "Rule identifier typing"
+      prior: "Invariant, atomic-rule, and extension-rule identifiers remained partially free-form"
+      current: "Rule-ID families are centralized and typed consistently across the schema"
+      rationale: >
+        Reduces drift risk and makes malformed rule references fail earlier.
+    - area: "Express mode closure"
+      prior: "Express Mode groups and top-level express authority remained under-enforced"
+      current: "Group compositions are fixed structurally and express-capable document profiles require the full express_mode authority block"
+      rationale: >
+        Prevents authored Express Mode files from silently redefining group structure
+        or omitting their governing UNBUNDLE_SCAN / UNBUNDLE_EXECUTE contract.
+
+errata_log: []
+
+# ── §2 FOUNDATIONAL AXIOMS ───────────────────────────────────────────────────
+
+axioms:
+  - id: AX-1
+    name: Traceability
+    statement: >
+      Every non-root node must cite at least one parent via a typed edge.
+    implication: >
+      Complete audit trails from intent to implementation; no orphaned requirements.
+  - id: AX-2
+    name: Abstraction Ordering
+    statement: >
+      Technology and implementation specificity are deferred until logically necessary.
+    implication: >
+      Tiers above CL (XPD, SIL, GPCL, FCL) must contain no technology,
+      hardware, or implementation references.
+  - id: AX-3
+    name: Determinism
+    statement: >
+      Identical inputs produce unambiguous, mechanically verifiable outputs.
+    implication: >
+      Automated validation and compliance checking are possible for all
+      structural rules; semantic rules require explicit human disposition
+      before node activation.
+  - id: AX-4
+    name: Universality
+    statement: >
+      The Core applies to all software systems regardless of domain, scale,
+      or technology.
+    implication: >
+      No domain-specific assumptions in any Core tier.
+  - id: AX-5
+    name: Extensibility
+    statement: >
+      Advanced analytical capabilities are delivered exclusively via optional
+      Extensions.
+    implication: >
+      Core structure remains stable and does not depend on Extension behavior.
+      Extensions may interact with Core via explicitly defined, non-mutating
+      interfaces.
+  - id: AX-6
+    name: Declarative Integrity
+    statement: >
+      The Core is strictly declarative; all inference, optimization, and
+      automated recommendation are Extension-only behaviors.
+    implication: >
+      Core structural invariants cannot be destabilized by analytical logic.
+  - id: AX-7
+    name: DAG Acyclicity
+    statement: >
+      No citation chain may produce a cycle; causality flows in one direction only.
+    implication: >
+      Graph traversal is always terminable.
+
+# ── §3.1 NODE SCHEMA FIELDS ──────────────────────────────────────────────────
+
+node_schema_fields:
+  - property: id
+    type: "TIER-N.M"
+    description: "Immutable on assignment — no operation may change a node ID."
+  - property: tier
+    type: Enum
+    description: "One of: XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL."
+  - property: title
+    type: String
+    description: "Human-readable artifact label."
+  - property: content
+    type: Text
+    description: "Body constrained by the tier's atomic ruleset."
+  - property: parent_ids
+    type: "List[ParentCitation]"
+    description: >
+      ≥1 for all non-root nodes; each entry is a typed Core edge reference:
+      {id, edge_type, derivation_mode?}. Legal edge_type values in parent_ids
+      are derives|constrains|implements. For edge_type='derives',
+      derivation_mode MAY be supplied as semantic|traceability
+      (default: semantic for backward compatibility when omitted).
+  - property: status
+    type: Enum
+    description: >
+      DRAFT | ACTIVE | DIRTY | DEPRECATED | SUPERSEDED | SUPERSEDE_PENDING.
+      SUPERSEDE_PENDING is a transient operational state entered exclusively
+      during an in-flight SUPERSEDE operation and is not a stable lifecycle
+      state reachable by any operation other than SUPERSEDE.
+      See lifecycle.status_transitions for the normative transition
+      listing. That block is the machine-parseable authority for all
+      valid status transitions (DDR System Spec §3.8).
+  - property: constraint_origin
+    type: Enum
+    cardinality: conditional
+    description: "CL-only field. One of: derived, imposed."
+  - property: prior_status
+    type: "StatusEnum (restricted to [ACTIVE, DEPRECATED, DIRTY])"
+    cardinality: conditional
+    semantics: >
+      Write-once field set when a node transitions into SUPERSEDE_PENDING,
+      recording the node's status immediately prior to the SUPERSEDE
+      operation. Cleared (set to null or omitted) when the node exits
+      SUPERSEDE_PENDING via the SUPERSEDE commit or rollback phase. Must not
+      be set on any node that is not in SUPERSEDE_PENDING status.
+    backward_compatibility: >
+      Existing nodes without prior_status are fully schema-valid. The field
+      is optional and its absence is semantically equivalent to null.
+  - property: version
+    type: SemVer
+    description: "Content version string."
+  - property: created
+    type: "ISO 8601"
+    description: "Creation timestamp."
+  - property: modified
+    type: "ISO 8601"
+    description: "Last modification timestamp."
+  - property: express_mode_group
+    type: Enum
+    cardinality: conditional
+    description: >
+      Required on every node when document_profile=project_instance_express;
+      one of G1|G2|G3|G4. If project.mode is present for the same document,
+      it must be express.
+  - property: extension_annotations
+    type: Map
+    description: "Read-only Extension metadata; reserved suffixes matching core field names are invalid."
+
+# ── §3.2 EDGE TYPE DEFINITIONS ───────────────────────────────────────────────
+
+edge_type_definitions:
+  design_decision: >
+    v3.1.1 defined 6 edge types. 'cites' merged into 'derives' (a citation for
+    traceability IS a derivation relationship). 'reads' and 'annotates' unified
+    into 'extends' (both describe Extension-to-Core interaction with the same
+    structural constraint: no Core mutation). Reduces vocabulary from 6 to 4
+    without losing expressiveness.
+  types:
+    - type: derives
+      symbol: "──derives──▶"
+      semantics: >
+        Supports two semantic modes via optional derivation_mode annotation:
+        semantic = child content is derived from parent requirements;
+        traceability = parent is cited as authoritative lineage linkage.
+        If omitted, derivation_mode defaults to semantic.
+    - type: constrains
+      symbol: "╌╌constrains╌▶"
+      semantics: >
+        Parent sets enforceable limits on child's design space.
+    - type: implements
+      symbol: "──implements──▶"
+      semantics: >
+        Child provides concrete realization of parent's abstract specification.
+    - type: extends
+      symbol: "···extends···▶"
+      semantics: >
+        Extension adds metadata to or reads Core node without modifying it.
+
+# ── §3.5 DAG INVARIANTS ──────────────────────────────────────────────────────
+
+dag_invariants:
+  - id: INV-1
+    statement: "No cycles permitted at any path length."
+  - id: INV-2
+    statement: >
+      No tier-skipping: citations must reference the immediately preceding active tier(s).
+      SAL is the only permitted merge-node exception (exhaustive). See §3.5 of the
+      Markdown specification for the complete normative definition.
+  - id: INV-3
+    statement: >
+      active_tiers must be one of four canonical ordered sets only:
+      [SIL, GPCL, FCL, SAL, ICL, CDL, ISL],
+      [XPD, SIL, GPCL, FCL, SAL, ICL, CDL, ISL],
+      [SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL], or
+      [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL].
+      Every node tier must belong to active_tiers, and every
+      system_definition artifact must contain at least one representative node
+      for each active tier.
+  - id: INV-4
+    statement: "When CL is inactive, SAL derives directly from FCL."
+  - id: INV-5
+    statement: "All non-root nodes must carry at least one parent_id citation."
+  # ISSUE-007 Change (§3.5 INV-6; satisfies AX-3 determinism and generalized INV-6 atomicity)
+  # ISSUE-007 §3 (Option A + B Combined): define universal SUPERSEDE atomicity while preserving XPD-specific guard conditions.
+  - id: INV-6
+    statement: >
+      SUPERSEDE of any node across any tier must be atomic; partial application
+      — defined as any state where step (1), (2), or (3) of the SUPERSEDE
+      sequence has been applied without all three completing — constitutes a
+      structural violation detectable by VERIFY.
+      At most one XPD node may carry status ACTIVE at any time.
+  - id: INV-7
+    statement: >
+      Structural validity may coexist with declared semantic gaps only when
+      those gaps are explicitly recorded in the reconciliation manifest under
+      an allowed semantic_gap_classification type, with human rationale and a
+      required resolution or waiver before CLEAN state.
+  - id: INV-8
+    statement: >
+      The lifecycle.status_transitions definition must form a complete and
+      closed state machine: every non-terminal status must have at least one
+      valid outbound transition, and no undefined transitions are permitted.
+
+# ── §3.6 NODE ID FORMAT ──────────────────────────────────────────────────────
+
+node_id_format:
+  general_pattern: "[TIER]-[SECTION].[ITEM]"
+  xpd_pattern: "XPD-0.N  (no sections; section = 0)"
+  examples:
+    - "SIL-1.3"
+    - "GPCL-2.1"
+    - "CDL-12.5"
+    - "XPD-0.1"
+  immutability_rule: >
+    IDs are immutable once assigned. A superseded node retains its original ID
+    with status SUPERSEDED; the replacement receives a new ID. No operation —
+    including relocation — may alter a node's assigned ID.
+
+# ── §3.7 CITATION RULES ──────────────────────────────────────────────────────
+
+citation_rules:
+  - rule_id: CIT-R1
+    statement: "Every non-root node must have ≥1 parent_id; only root nodes may carry an empty parent_ids array."
+  - rule_id: CIT-R2
+    statement: >
+      parent_ids must reference node(s) from the immediately preceding active
+      tier(s) in the DAG topology. For edge_type='derives',
+      derivation_mode may be provided as semantic|traceability; if omitted,
+      default is semantic.
+  - rule_id: CIT-R3
+    statement: >
+      CL→SAL constraint edges are recorded in parent_ids with edge type
+      'constrains'.
+  - rule_id: CIT-R4
+    statement: >
+      An inline [TIER-N.M] citation in node content must have a matching entry
+      in parent_ids.
+  - rule_id: CIT-R5
+    statement: >
+      Extension extends edges are stored in extension_annotations only —
+      never in parent_ids.
+  - rule_id: CIT-R6
+    statement: >
+      Any derives edge used as an authority linkage (traceability citation)
+      MUST set derivation_mode to 'traceability'; non-derives edges must not
+      carry derivation_mode.
+  - rule_id: CIT-R7
+    statement: >
+      A child node may remain ACTIVE only while each cited parent remains at
+      the version last validated against. Any parent MODIFY or SUPERSEDE that
+      changes cited parent content requires child re-validation; VERIFY must
+      flag the child DIRTY until that re-validation completes.
+
+# ── §4 CONSUMPTION MODES ─────────────────────────────────────────────────────
+
+consumption_modes:
+  - mode: "Express (4 Groups)"
+    description: >
+      Adjacent tiers bundled into groups; expandable through the
+      UNBUNDLE_SCAN / UNBUNDLE_EXECUTE protocol.
+    best_fit: "Small-to-medium projects."
+  - mode: "Full (All Active Tiers)"
+    description: "Every active tier independently specified."
+    best_fit: "Complex, regulated, or enterprise systems."
+
+express_mode:
+  description: >
+    Express Mode is not a reduced system — it is Full Mode with grouped
+    presentation. The UNBUNDLE_SCAN / UNBUNDLE_EXECUTE protocol expands any
+    group into its constituent tiers without information loss or invention.
+    When UNBUNDLE_EXECUTE succeeds, parent_ids automatically wire to the
+    immediately superior unbundled tier, satisfying CIT-R2 without manual
+    intervention.
+  groups:
+    - group_id: G1
+      tiers: [XPD, SIL, GPCL]
+      label: "Purpose, Strategy & Governance"
+    - group_id: G2
+      tiers: [FCL, CL]
+      label: "Capabilities & Constraints"
+    - group_id: G3
+      tiers: [SAL, ICL]
+      label: "Architecture & Contracts"
+    - group_id: G4
+      tiers: [CDL, ISL]
+      label: "Design & Scaffolding"
+  unbundle_determinism_rule: >
+    Within Express Mode groups containing conditionally activatable tiers
+    (G1: XPD+SIL+GPCL; G2: FCL+CL), content must be authored with explicit
+    tier annotations (e.g. [FCL] or [CL] inline prefixes) to enable
+    deterministic UNBUNDLE allocation. UNBUNDLE_SCAN is independently
+    invokable as a read-only pre-flight check that classifies each content
+    fragment with confidence 'high', 'ambiguous', or 'none'. UNBUNDLE_EXECUTE
+    is the atomic commit phase and may proceed only when each fragment is
+    either classified as 'high' or explicitly covered by
+    deferred_fragment_handling. The UNBUNDLE_EXECUTE operation must reject
+    content that cannot be unambiguously assigned to a constituent tier and is
+    not explicitly deferred. On rejected UNBUNDLE_EXECUTE, the Express Mode
+    group node retains its current status with no structural mutations applied.
+  deferred_fragment_handling: >
+    Fragments classified as 'ambiguous' or 'none' may be explicitly marked by
+    the author with a [DEFER] annotation and a recorded human rationale in the
+    reconciliation manifest. Deferred fragments are excluded from the current
+    UNBUNDLE_EXECUTE attempt and retained in the source Express Mode group node.
+    UNBUNDLE_EXECUTE may proceed only when every fragment is either confidence
+    'high' or explicitly deferred; any undeferred ambiguous or unannotated
+    fragment forces atomic rejection.
+
+# ── §5 TIER DEFINITIONS ──────────────────────────────────────────────────────
+
+tier_definitions:
+
+  # ── Tier 0: XPD ──────────────────────────────────────────────────────────
+
+  - tier_id: XPD
+    label: "Existential Purpose Document"
+    layer_label: "OPTIONAL ROOT"
+    core_question: >
+      What human or societal need does this system exist to address, and what
+      ethical boundaries govern all downstream decisions?
+    is_optional: true
+    is_terminal_leaf: false
+    is_merge_node: false
+    activation_condition: >
+      ethical_impact ≠ none OR societal_scale > personal. Required for AI/ML,
+      healthcare, civic, and public-facing systems. Skippable for internal
+      tooling with no external effect.
+    root_when: "Always root when active. No parent."
+    parent_relationships:
+      - tier: NONE
+        edge_type: derives
+        condition: none_root
+    child_relationships:
+      - tier: SIL
+        edge_type: derives
+        condition: always
+    atomic_inclusion_rules:
+      - rule_id: XPD-R1
+        statement: "Must articulate a fundamental human or societal need being addressed."
+        violation_consequence: "Downstream tiers lack ethical grounding."
+        verification_mode: structural
+      - rule_id: XPD-R2
+        statement: >
+          Must be immutable across the project lifecycle; changes require a new
+          XPD version.
+        violation_consequence: "Scope drift; mission confusion."
+        verification_mode: structural
+      - rule_id: XPD-R3
+        statement: >
+          Must be comprehensible to non-technical stakeholders without a
+          glossary.
+        violation_consequence: "Stakeholder misalignment."
+        verification_mode: semantic
+      - rule_id: XPD-R4
+        statement: >
+          Must establish ethical boundary conditions all subsequent tiers must
+          satisfy.
+        violation_consequence: "Unethical design without detection."
+        verification_mode: structural
+      - rule_id: XPD-R5
+        statement: "Must define success criteria independent of implementation metrics."
+        violation_consequence: "Wrong success measurement."
+        verification_mode: structural
+      - rule_id: XPD-R6
+        statement: >
+          Must identify populations who could be harmed and the safeguards
+          required.
+        violation_consequence: "Harm by omission."
+        verification_mode: structural
+    atomic_exclusion_rules:
+      - rule_id: XPD-E1
+        statement: >
+          Must not contain solution concepts, technology references, or
+          architectural ideas.
+      - rule_id: XPD-E2
+        statement: "Must not contain quantitative performance targets (→ GPCL)."
+      - rule_id: XPD-E3
+        statement: "Must not contain regulatory or legal constraints (→ GPCL)."
+
+  # ── Tier 1: SIL ──────────────────────────────────────────────────────────
+
+  - tier_id: SIL
+    label: "Strategic Intent Layer"
+    layer_label: "INTENT LAYER"
+    core_question: >
+      Why does this system exist, and what business outcomes must it achieve?
+    is_optional: false
+    is_terminal_leaf: false
+    is_merge_node: false
+    root_when: "Root when XPD is inactive."
+    parent_relationships:
+      - tier: XPD
+        edge_type: derives
+        condition: if_xpd_active
+      - tier: NONE
+        edge_type: derives
+        condition: if_xpd_inactive_then_root
+    child_relationships:
+      - tier: GPCL
+        edge_type: derives
+        condition: always
+    atomic_inclusion_rules:
+      - rule_id: SIL-R1
+        statement: "Must define the core business problem or opportunity being addressed."
+        violation_consequence: "GPCL will lack strategic anchor."
+        verification_mode: structural
+      - rule_id: SIL-R2
+        statement: "Must specify strategic objectives with measurable outcomes."
+        violation_consequence: "Unmeasurable success criteria."
+        verification_mode: structural
+      - rule_id: SIL-R3
+        statement: >
+          Must identify all stakeholder categories and their value propositions.
+        violation_consequence: "Misaligned delivery priorities."
+        verification_mode: structural
+      - rule_id: SIL-R4
+        statement: >
+          Must establish explicit scope boundaries (in-scope and out-of-scope).
+        violation_consequence: "Uncontrolled scope creep."
+        verification_mode: structural
+      - rule_id: SIL-R5
+        statement: "Must define organizational success metrics."
+        violation_consequence: "Inability to declare completion."
+        verification_mode: structural
+      - rule_id: SIL-R6
+        statement: "Must be stable under technology changes."
+        violation_consequence: "Technology coupling at the intent level."
+        verification_mode: structural
+    atomic_exclusion_rules:
+      - rule_id: SIL-E1
+        statement: >
+          Must not reference hardware, technology stacks, frameworks, or
+          languages.
+      - rule_id: SIL-E2
+        statement: >
+          Must not contain regulatory mandates or compliance requirements
+          (→ GPCL).
+      - rule_id: SIL-E3
+        statement: >
+          Must not prescribe architectural patterns or implementation strategies.
+      - rule_id: SIL-E4
+        statement: "Must not contain quantitative performance metrics (→ GPCL)."
+
+  # ── Tier 2: GPCL ─────────────────────────────────────────────────────────
+
+  - tier_id: GPCL
+    label: "Governance, Policy & Quality Layer"
+    layer_label: "GOVERNANCE LAYER"
+    core_question: >
+      What non-negotiable external mandates, regulatory obligations, policy
+      constraints, and measurable quality thresholds govern this system?
+    is_optional: false
+    is_terminal_leaf: false
+    is_merge_node: false
+    design_decision: >
+      ORL Absorption: v3.1.1 separated governance constraints (GPCL) from
+      operational requirements (ORL) as independent tiers. In practice,
+      operational quality thresholds (latency, availability, security) are
+      themselves governance constraints — non-negotiable acceptance criteria
+      imposed by external or organizational authority. Merging eliminates a
+      tier boundary that created pass-through nodes without independent semantic
+      value, while preserving classification distinction via content sections
+      within GPCL.
+    parent_relationships:
+      - tier: SIL
+        edge_type: derives
+        condition: always
+    child_relationships:
+      - tier: FCL
+        edge_type: derives
+        condition: always
+    atomic_inclusion_rules:
+      - rule_id: GPCL-R1
+        statement: >
+          Must enumerate all applicable regulatory frameworks with jurisdiction
+          and scope.
+        violation_consequence: "Compliance gaps leading to legal exposure."
+        verification_mode: structural
+      - rule_id: GPCL-R2
+        statement: >
+          Must specify enforceable, testable constraints — not aspirational
+          targets.
+        violation_consequence: "Non-verifiable compliance claims."
+        verification_mode: semantic
+      - rule_id: GPCL-R3
+        statement: >
+          Must identify contractual obligations imposed by third-party
+          relationships.
+        violation_consequence: "Contract breach by design."
+        verification_mode: structural
+      - rule_id: GPCL-R4
+        statement: "Must define data sovereignty and residency requirements."
+        violation_consequence: "Data law violations."
+        verification_mode: structural
+      - rule_id: GPCL-R5
+        statement: "Must specify audit and record-retention mandates."
+        violation_consequence: "Regulatory audit failure."
+        verification_mode: structural
+      - rule_id: GPCL-R6
+        statement: >
+          Must specify quantifiable performance targets: latency, throughput,
+          concurrency ceilings.
+        violation_consequence: "Architecture unable to satisfy operational demands."
+        verification_mode: structural
+      - rule_id: GPCL-FCL-BR1
+        statement: >
+          For every quantitative performance target specified under GPCL-R6,
+          there must exist a corresponding FCL node whose semantic contribution
+          is the behavioral context of the governed interaction — not a
+          restatement of the numeric threshold. FCL nodes created solely to
+          satisfy the citation chain without contributing independent behavioral
+          context are prohibited. When no user-facing behavioral dimension exists
+          for a GPCL performance target (e.g., infrastructure-level SLAs with
+          no observable user interaction), the author must log a MISSING_MEDIATOR
+          item to the reconciliation manifest. VERIFY must flag any direct
+          GPCL→SAL dependency lacking an FCL mediator for human review.
+        violation_consequence: "Unmediated GPCL performance targets create hollow FCL mappings or direct GPCL→SAL dependency."
+        verification_mode: semantic
+      - rule_id: GPCL-R7
+        statement: >
+          Must specify reliability and availability targets (SLAs, RTO, RPO).
+        violation_consequence: "Unacceptable service degradation."
+        verification_mode: structural
+      - rule_id: GPCL-R8
+        statement: >
+          Must specify security requirements expressed technology-neutrally.
+        violation_consequence: "Stale security specification on technology change."
+        verification_mode: structural
+      - rule_id: GPCL-R9
+        statement: "Must specify scalability and accessibility requirements."
+        violation_consequence: "Architecture unable to grow; user exclusion."
+        verification_mode: structural
+      - rule_id: GPCL-R10
+        statement: "Must cite parent SIL IDs for each constraint."
+        violation_consequence: "Orphaned requirements."
+        verification_mode: structural
+    atomic_exclusion_rules:
+      - rule_id: GPCL-E1
+        statement: >
+          Must not specify technology frameworks, library choices, or hardware
+          specifications.
+      - rule_id: GPCL-E2
+        statement: "Must not describe functional system behaviors (→ FCL)."
+      - rule_id: GPCL-E3
+        statement: "Must not contain business objectives or success metrics (→ SIL)."
+
+  # ── Tier 3: FCL ──────────────────────────────────────────────────────────
+
+  - tier_id: FCL
+    label: "Functional Capability Layer"
+    layer_label: "FUNCTIONAL LAYER"
+    core_question: >
+      What externally observable behaviors and user-facing capabilities must
+      the system provide?
+    is_optional: false
+    is_terminal_leaf: false
+    is_merge_node: false
+    parent_relationships:
+      - tier: GPCL
+        edge_type: derives
+        condition: always
+    child_relationships:
+      - tier: SAL
+        edge_type: derives
+        condition: always
+      - tier: CL
+        edge_type: derives
+        condition: if_cl_active
+    atomic_inclusion_rules:
+      - rule_id: FCL-R1
+        statement: >
+          Must describe capabilities from the perspective of a user or external
+          system.
+        violation_consequence: >
+          Internal implementation details contaminate the functional spec.
+        verification_mode: semantic
+      - rule_id: FCL-R2
+        statement: >
+          Must specify user workflows end-to-end without naming components,
+          classes, or modules.
+        violation_consequence: "Premature structural coupling."
+        verification_mode: semantic
+      - rule_id: FCL-R3
+        statement: >
+          Must define event-driven behaviors and conditional business logic
+          rules.
+        violation_consequence: "Missing behavioral specification."
+        verification_mode: structural
+      - rule_id: FCL-R4
+        statement: >
+          Must specify user-observable state transitions and error conditions.
+        violation_consequence: "Incomplete behavioral model."
+        verification_mode: structural
+      - rule_id: FCL-R5
+        statement: >
+          Must be decomposable into sub-capabilities (parent-child FCL nodes)
+          for complex features.
+        violation_consequence: "Monolithic feature specs that resist traceability."
+        verification_mode: structural
+      - rule_id: FCL-R6
+        statement: >
+          Must cite parent GPCL IDs for capabilities that satisfy a governance
+          or quality requirement.
+        violation_consequence: "Disconnected functional requirements."
+        verification_mode: structural
+      - rule_id: FCL-R7
+        statement: >
+          For any capability that creates, reads, updates, or deletes
+          persistent data, must enumerate all logical data entities involved
+          by name and their CRUD relationship to the capability (for example:
+          "creates Order, reads Customer, updates OrderItem"). Entity names
+          must be technology-neutral logical identifiers. This rule requires
+          entity names and CRUD verbs only and must not include attribute-level
+          typing detail, storage-structure definitions, key declarations, or
+          integrity-rule definitions; those belong in ICL and are prohibited
+          at FCL level by FCL-E2.
+        violation_consequence: >
+          FCL completeness for data entities becomes dependent on DDE
+          activation, violating AX-5 and AX-6. Data entity gaps surface
+          reactively at ICL authoring time rather than being caught
+          proactively at FCL authoring time.
+        verification_mode: semantic
+    atomic_exclusion_rules:
+      - rule_id: FCL-E1
+        statement: "Must not name specific classes, modules, APIs, or algorithms."
+      - rule_id: FCL-E2
+        statement: >
+          Must not specify network protocols, serialization formats, or data
+          schemas.
+      - rule_id: FCL-E3
+        statement: "Must not specify hardware requirements or infrastructure topology."
+
+  # ── Tier 4: CL ───────────────────────────────────────────────────────────
+
+  - tier_id: CL
+    label: "Constraint Layer"
+    layer_label: "CONSTRAINT LAYER"
+    core_question: >
+      What are the declared technology selections, hardware envelopes, and
+      infrastructure ceilings that bound the system's implementation?
+    is_optional: true
+    is_terminal_leaf: false
+    is_merge_node: false
+    activation_condition: >
+      Specific technology, hardware, or infrastructure constraints are
+      non-negotiable. Optional when full freedom is preserved into the
+      architecture phase.
+    design_decision: >
+      HIL/TDL Unification: v3.1.1 modeled hardware constraints (HIL) and
+      technology constraints (TDL) as two independent, parallel tiers forming
+      a fork-join topology. The unified CL eliminates fork-join complexity,
+      the CRR protocol, and the parallel-tier invariant enforcement, while
+      preserving full constraint expressiveness via content sections within a
+      single tier. Conflicts between hardware and technology constraints are
+      resolved internally within CL nodes.
+    node_schema:
+      constraint_origin:
+        type: enum
+        values: [derived, imposed]
+        default: derived
+        required: true
+        description: >
+          Declares the causal origin of this constraint. 'derived' means the
+          constraint was chosen by the design team in response to FCL functional
+          requirements. 'imposed' means the constraint was externally mandated
+          (procurement, regulatory, legacy infrastructure) independently of any
+          functional capability authoring.
+    parent_relationships:
+      - tier: FCL
+        edge_type: derives
+        condition: if_cl_active
+    child_relationships:
+      - tier: SAL
+        edge_type: constrains
+        condition: if_cl_active
+    atomic_inclusion_rules:
+      - rule_id: CL-R1
+        statement: >
+          Must declare approved programming languages with version constraints.
+        violation_consequence: "Incompatible implementations."
+        verification_mode: structural
+      - rule_id: CL-R2
+        statement: >
+          Must declare mandatory frameworks and core libraries with minimum
+          version bounds.
+        violation_consequence: "Dependency drift."
+        verification_mode: structural
+      - rule_id: CL-R3
+        statement: >
+          Must declare required external service contracts without their
+          internal implementation details.
+        violation_consequence: "Integration gaps."
+        verification_mode: structural
+      - rule_id: CL-R4
+        statement: >
+          Must declare runtime environment constraints (OS, container runtime,
+          execution environment).
+        violation_consequence: "Deployment environment incompatibility."
+        verification_mode: structural
+      - rule_id: CL-R5
+        statement: >
+          Must explicitly declare prohibited technologies with rationale.
+        violation_consequence: "License compliance violations."
+        verification_mode: structural
+      - rule_id: CL-R6
+        statement: >
+          Must declare hardware envelopes when applicable (CPU class, RAM
+          floor, storage, GPU).
+        violation_consequence: "Architecture that exceeds target hardware."
+        verification_mode: structural
+      - rule_id: CL-R7
+        statement: >
+          Must declare infrastructure ceilings when applicable (compute
+          budget, storage cap, bandwidth cap).
+        violation_consequence: "Cost overruns from unconstrained architecture."
+        verification_mode: structural
+      - rule_id: CL-R8
+        statement: >
+          Must specify deployment topology declarations (on-premise,
+          cloud-agnostic, hybrid, edge).
+        violation_consequence: "Architecture incompatible with deployment target."
+        verification_mode: structural
+      - rule_id: CL-R9
+        applies_when: "constraint_origin == 'derived'"
+        statement: "Must cite FCL IDs for each constraint."
+        violation_consequence: "Constraints untraceable to a business need."
+        verification_mode: structural
+      - rule_id: CL-R9-imposed
+        applies_when: "constraint_origin == 'imposed'"
+        statement: >
+          Must cite the external authority source (regulatory framework, contract
+          reference, procurement policy, or organizational mandate) that imposes
+          the constraint. FCL citation is not required; an optional FCL
+          cross-reference may be provided for contextual traceability.
+        violation_consequence: >
+          Imposed constraint is untraceable to its originating authority,
+          violating AX-1 audit integrity requirements.
+        verification_mode: structural
+      - rule_id: CL-R10
+        statement: >
+          Must explicitly document internal reconciliations of conflicting
+          hardware and technology constraints.
+        violation_consequence: >
+          Loss of deterministic traceability for constraint conflicts.
+        verification_mode: structural
+    verify_citation_logic:
+      branches:
+        - when: "constraint_origin == 'derived'"
+          enforce: CL-R9  # FCL citation required
+        - when: "constraint_origin == 'imposed'"
+          enforce: CL-R9-imposed  # external authority citation required;
+                                   # FCL citation optional
+    atomic_exclusion_rules:
+      - rule_id: CL-E1
+        statement: >
+          Must not auto-derive, infer, or recommend configurations
+          (→ Extensions).
+      - rule_id: CL-E2
+        statement: "Must not contain functional system behaviors (→ FCL)."
+      - rule_id: CL-E3
+        statement: "Must not contain cost models or TCO calculations (→ Extensions)."
+
+  # ── Tier 5: SAL ──────────────────────────────────────────────────────────
+
+  - tier_id: SAL
+    label: "System Architecture Layer"
+    layer_label: "ARCHITECTURE LAYER"
+    core_question: >
+      How is the system structurally decomposed, and what patterns govern
+      component interaction?
+    is_optional: false
+    is_terminal_leaf: false
+    is_merge_node: true
+    parent_relationships:
+      - tier: FCL
+        edge_type: derives
+        condition: always
+      - tier: CL
+        edge_type: constrains
+        condition: if_cl_active
+    child_relationships:
+      - tier: ICL
+        edge_type: derives
+        condition: always
+    atomic_inclusion_rules:
+      - rule_id: SAL-R1
+        statement: >
+          Must define the overarching architectural pattern(s) with rationale.
+        violation_consequence: "No structural framework for downstream design."
+        verification_mode: semantic
+      - rule_id: SAL-R2
+        statement: >
+          Must specify system decomposition into major subsystems with
+          ownership boundaries.
+        violation_consequence: "Ambiguous component responsibilities."
+        verification_mode: structural
+      - rule_id: SAL-R3
+        statement: "Must specify inter-subsystem communication patterns."
+        violation_consequence: "Integration design without architectural mandate."
+        verification_mode: structural
+      - rule_id: SAL-R4
+        statement: "Must specify concurrency model and data ownership rules."
+        violation_consequence: "Race conditions and data integrity violations by design."
+        verification_mode: structural
+      - rule_id: SAL-R5
+        statement: "Must specify failure isolation and resilience boundaries."
+        violation_consequence: "Cascading failure scenarios in the architecture."
+        verification_mode: structural
+      - rule_id: SAL-R6
+        statement: >
+          Must cite all active parent IDs (FCL + CL if active) for each major
+          architectural decision.
+        violation_consequence: "Architectural decisions without traceable justification."
+        verification_mode: structural
+    atomic_exclusion_rules:
+      - rule_id: SAL-E1
+        statement: >
+          Must not contain exact data schemas or payload definitions (→ ICL).
+      - rule_id: SAL-E2
+        statement: "Must not contain class-level component blueprints (→ CDL)."
+      - rule_id: SAL-E3
+        statement: >
+          Must not contain executable code, algorithm implementations, or
+          procedural logic (→ CDL/ISL).
+
+  # ── Tier 6: ICL ──────────────────────────────────────────────────────────
+
+  - tier_id: ICL
+    label: "Interface & Contracts Layer"
+    layer_label: "CONTRACT LAYER"
+    core_question: >
+      What are the formal, machine-verifiable contracts governing data exchange
+      between system boundaries?
+    is_optional: false
+    is_terminal_leaf: false
+    is_merge_node: false
+    parent_relationships:
+      - tier: SAL
+        edge_type: derives
+        condition: always
+    child_relationships:
+      - tier: CDL
+        edge_type: implements
+        condition: always
+    atomic_inclusion_rules:
+      - rule_id: ICL-R1
+        statement: >
+          Must define all inter-component and external API contracts with
+          complete input/output schemas.
+        violation_consequence: "Implementations that diverge at integration points."
+        verification_mode: structural
+      - rule_id: ICL-R2
+        statement: >
+          All schemas must be machine-parseable (JSON Schema, Protobuf,
+          OpenAPI, or equivalent).
+        violation_consequence: "Contracts that cannot be mechanically validated."
+        verification_mode: structural
+      - rule_id: ICL-R3
+        statement: >
+          Must specify serialization formats, encoding standards, and wire
+          protocols per contract.
+        violation_consequence: "Interoperability failures from encoding mismatches."
+        verification_mode: structural
+      - rule_id: ICL-R4
+        statement: >
+          Must specify mandatory fields, optional fields, type constraints,
+          and validation rules.
+        violation_consequence: "Runtime failures from malformed payloads."
+        verification_mode: structural
+      - rule_id: ICL-R5
+        statement: >
+          Must specify error response contracts (error codes, payload
+          structure, retry behavior).
+        violation_consequence: "Undefined failure behavior at system boundaries."
+        verification_mode: structural
+      - rule_id: ICL-R6
+        statement: "Must specify versioning strategy per contract."
+        violation_consequence: "Breaking changes without migration path."
+        verification_mode: structural
+      - rule_id: ICL-R7
+        statement: "Must cite SAL IDs for each contract."
+        violation_consequence: "Contracts without architectural justification."
+        verification_mode: structural
+    atomic_exclusion_rules:
+      - rule_id: ICL-E1
+        statement: >
+          Must not contain internal component state management or business
+          logic.
+      - rule_id: ICL-E2
+        statement: "Must not specify architectural routing patterns (→ SAL)."
+      - rule_id: ICL-E3
+        statement: "Must not contain class or module blueprints (→ CDL)."
+
+  # ── Tier 7: CDL ──────────────────────────────────────────────────────────
+
+  - tier_id: CDL
+    label: "Component Design Layer"
+    layer_label: "DESIGN LAYER"
+    core_question: >
+      What are the structural blueprints of individual components — their
+      public interfaces, internal state, and responsibilities?
+    is_optional: false
+    is_terminal_leaf: false
+    is_merge_node: false
+    parent_relationships:
+      - tier: ICL
+        edge_type: implements
+        condition: always
+    child_relationships:
+      - tier: ISL
+        edge_type: implements
+        condition: always
+    atomic_inclusion_rules:
+      - rule_id: CDL-R1
+        statement: >
+          Must define component names, logical responsibilities, and ownership
+          boundaries.
+        violation_consequence: "Ambiguous implementation targets."
+        verification_mode: structural
+      - rule_id: CDL-R2
+        statement: >
+          Must specify all public method/function signatures (name, parameter
+          types, return type, exceptions).
+        violation_consequence: "Implementations that violate the declared interface."
+        verification_mode: structural
+      - rule_id: CDL-R3
+        statement: >
+          Must specify internal state structures as a logical model — not
+          implementation.
+        violation_consequence: "Hidden state dependencies between components."
+        verification_mode: structural
+      - rule_id: CDL-R4
+        statement: >
+          Must specify component dependencies (consumed components and ICL
+          contracts).
+        violation_consequence: "Circular dependencies introduced at implementation."
+        verification_mode: structural
+      - rule_id: CDL-R5
+        statement: "Must map each component to the ICL contracts it implements."
+        violation_consequence: "Components without contractual grounding."
+        verification_mode: structural
+      - rule_id: CDL-R6
+        statement: >
+          Must specify initialization, lifecycle, and teardown contracts for
+          stateful components.
+        violation_consequence: "Resource leaks and initialization-order bugs."
+        verification_mode: structural
+      - rule_id: CDL-R7
+        statement: >
+          When CL declares multiple target languages, must produce
+          language-specific blueprints for each target.
+        violation_consequence: "Language constraint not propagated; ISL-R5 compliance gap."
+        verification_mode: structural
+    atomic_exclusion_rules:
+      - rule_id: CDL-E1
+        statement: >
+          Must not contain executable code bodies or algorithm implementations.
+      - rule_id: CDL-E2
+        statement: "Must not contain system-wide architectural patterns (→ SAL)."
+      - rule_id: CDL-E3
+        statement: "Must not contain data serialization schemas (→ ICL)."
+
+  # ── Tier 8: ISL ──────────────────────────────────────────────────────────
+
+  - tier_id: ISL
+    label: "Implementation Scaffold Layer"
+    layer_label: "SCAFFOLD LAYER"
+    core_question: >
+      What is the minimal, structurally valid, traceable scaffolding required
+      to initiate implementation?
+    is_optional: false
+    is_terminal_leaf: true
+    is_merge_node: false
+    parent_relationships:
+      - tier: CDL
+        edge_type: implements
+        condition: always
+    child_relationships: []
+    atomic_inclusion_rules:
+      - rule_id: ISL-R1
+        statement: >
+          Must produce syntactically valid structural scaffolding in the
+          target language.
+        violation_consequence: "Scaffolding that fails to compile or parse."
+        verification_mode: structural
+      - rule_id: ISL-R2
+        statement: >
+          Must embed docstrings or code comments with explicit parent DDR
+          node IDs.
+        violation_consequence: "Implementations without traceability."
+        verification_mode: structural
+      - rule_id: ISL-R3
+        statement: "Must include implementation hints as structured comments."
+        violation_consequence: "Implementers who lose architectural context."
+        verification_mode: structural
+      - rule_id: ISL-R4
+        statement: >
+          Must define all function/method bodies exclusively as stubs.
+        violation_consequence: "Pre-implementation contamination."
+        verification_mode: structural
+      - rule_id: ISL-R5
+        statement: >
+          Must be language-specific — one ISL node per target language/runtime
+          when multiple are declared in CL.
+        violation_consequence: "Language-ambiguous stubs."
+        verification_mode: structural
+      - rule_id: ISL-R6
+        statement: "Must cite CDL parent IDs for every stub."
+        violation_consequence: "Orphaned scaffolding."
+        verification_mode: structural
+    atomic_exclusion_rules:
+      - rule_id: ISL-E1
+        statement: "Must not contain business logic or complete algorithmic logic."
+      - rule_id: ISL-E2
+        statement: "Must not contain infrastructure configuration (→ Extensions)."
+
+# ── §6 CONSTRAINT PRECEDENCE ─────────────────────────────────────────────────
+
+constraint_precedence:
+  tiers:
+    - priority: 1
+      tier: XPD
+      rationale: "Ethical boundary conditions are inviolable."
+    - priority: 2
+      tier: SIL
+      rationale: "Strategic intent defines the purpose of all design decisions."
+    - priority: 3
+      tier: GPCL
+      rationale: "External regulatory mandates and quality thresholds are non-negotiable."
+    - priority: 4
+      tier: FCL
+      rationale: "Functional requirements operate within the constraint envelope."
+    - priority: 5
+      tier: CL
+      rationale: "Technology, hardware, and infrastructure constraints are externally imposed."
+    - priority: 6
+      tier: SAL
+      rationale: "Architecture is bounded by all above."
+    - priority: 7
+      tier: ICL
+      rationale: "Contracts derive from architecture."
+    - priority: 8
+      tier: CDL
+      rationale: "Design derives from contracts."
+    - priority: 9
+      tier: ISL
+      rationale: "Scaffolding derives from design."
+  override_principle: >
+    Higher-priority tiers override lower-priority tiers. An XPD ethical
+    boundary functions as an absolute veto right over any downstream decision.
+  constraint_classes:
+    - class: logical
+      description: "Governed by the formal tier precedence hierarchy."
+    - class: physical
+      description: >
+        Represents non-negotiable physical realities or externally imposed
+        constraints. These constraints cannot be silently overridden by logical
+        precedence alone.
+  intra_tier_conflict_rule: >
+    When two or more nodes within the same tier produce conflicting constraints,
+    the conflict must be explicitly documented and resolved before any conflicting
+    node may transition to status ACTIVE. The VERIFY operation must detect and
+    report intra-tier conflicts as structural violations.
+  physical_constraint_rule: >
+    Any CL node declared with constraint_origin='imposed' is treated as a
+    non-overridable physical-or-external constraint for precedence evaluation.
+    Conflicts between higher-priority logical requirements and such imposed
+    constraints must trigger escalation and explicit human resolution; they
+    cannot be silently overridden.
+  physical_constraint_escalation: >
+    Constraint precedence governs design decisions, not physical impossibilities.
+    When a higher-priority tier produces a requirement that is physically
+    incompatible with a lower-priority tier's declared constraint (e.g. a
+    functional requirement that exceeds declared hardware capacity), the conflict
+    must be escalated to the authoring authority for resolution. The precedence
+    hierarchy does not authorize silently overriding physical or externally
+    imposed constraints.
+
+# ── §7 OPERATIONS PROTOCOL ───────────────────────────────────────────────────
+
+operations:
+  core_operations:
+    - name: INSERT
+      description: >
+        Create node with auto-assigned ID, parent_ids, and tier-compliant
+        content. Supports both forward (parent→child) and reverse
+        (child→inferred parent) direction.
+      validation_trigger: >
+        Full atomic ruleset; parent existence; DAG cycle detection.
+    - name: DELETE
+      description: "Remove node; cascade orphan detection to children."
+      validation_trigger: >
+        Children → DIRTY; orphaned children (zero valid parent_ids) must
+        resolve via MODIFY (re-attach), DELETE (cascade), or SUPERSEDE
+        (replace deleted parent); manifest updated.
+    - name: MODIFY
+      description: "Update content; version incremented."
+      validation_trigger: >
+        Re-validate ruleset; re-check citations; DIRTY propagation to all
+        descendants.
+    - name: SUPERSEDE
+      description: "Mark node SUPERSEDED; create replacement with new ID."
+      validation_trigger: >
+        (1) Transition source node to SUPERSEDE_PENDING, recording prior_status.
+        (2) Attempt INSERT of replacement node with full atomic ruleset
+        validation, parent existence check, and DAG cycle detection.
+        (3a) On INSERT success: transition source SUPERSEDE_PENDING →
+        SUPERSEDED, re-wire children's parent_ids to replacement ID, set
+        children DIRTY, clear prior_status. Old node retains ID; new node
+        validated; children's parent_ids auto-updated to replacement ID then
+        set DIRTY for content re-validation; this auto-update does not cascade
+        DIRTY to grandchildren. (3b) On INSERT failure: transition source
+        SUPERSEDE_PENDING → prior_status, discard failed replacement, leave
+        children unmodified, log SUPERSEDE_FAILED to reconciliation manifest.
+        (4) If step 3a child re-wiring partially fails: remove replacement
+        node, revert source to prior_status, log SUPERSEDE_FAILED. No partial
+        re-wiring is permitted. VERIFY treats any node found in
+        SUPERSEDE_PENDING as a SUPERSEDE_PENDING_DETECTED manifest item with
+        severity BLOCKING.
+    - name: VERIFY
+      description: >
+        Traverse DAG downward; validate citation chains, edge types, ID
+        references, orphans, contamination, and any declared cross-node
+        semantic consistency rules.
+      validation_trigger: >
+        Returns CLEAN or DIRTY with itemized structural violations. When
+        semantic_consistency_rules are defined, VERIFY may also emit
+        REVIEW_REQUIRED items for non-blocking cross-node semantic conflicts.
+        These findings do not convert a structurally valid graph into a
+        structural violation, but they must receive a recorded human
+        disposition before affected content may be declared CLEAN.
+    - name: VALIDATE
+      description: >
+        Check single node against its tier's full atomic ruleset.
+        Evaluates all structural rules mechanically and returns pass/fail.
+        For each semantic rule, emits REVIEW_REQUIRED status in the
+        reconciliation manifest's pending_items. A node may not transition
+        from DRAFT to ACTIVE while any REVIEW_REQUIRED item remains
+        unresolved without a recorded human disposition.
+      validation_trigger: >
+        Returns pass/fail with specific violated rule IDs for structural
+        rules. Returns REVIEW_REQUIRED with the rule_id for each semantic
+        rule. Output includes a validation_scope declaration specifying
+        which rule classifications were evaluated. REVIEW_REQUIRED items
+        must carry a human disposition (APPROVED or REJECTED with rationale)
+        before the target node may transition DRAFT → ACTIVE.
+    - name: UNBUNDLE_SCAN
+      description: >
+        Read-only pre-flight scan of an Express Mode group. Traverses
+        all content fragments and emits a per-fragment diagnostic object
+        containing: fragment_id, content_preview, detected_annotation,
+        confidence (high | ambiguous | none), and ambiguity_reason when
+        confidence is not high. Independently invokable without committing
+        structural mutations. Enables iterative diagnose-annotate-retry
+        workflows before UNBUNDLE_EXECUTE is invoked.
+      validation_trigger: >
+        Returns a structured scan result for every content fragment in
+        the target Express Mode group. No DAG state changes are applied.
+        A fragment reaches confidence 'high' when its [TIER] annotation
+        unambiguously maps it to exactly one constituent tier of the
+        group. Confidence is 'ambiguous' when annotation is present but
+        maps to multiple tiers or conflicts with tier rules. Confidence
+        is 'none' when no annotation is detected.
+    - name: UNBUNDLE_EXECUTE
+      description: >
+        Atomic commit-phase expansion of an Express Mode group into its
+        constituent Full Mode tiers.
+      validation_trigger: >
+        Content allocated to correct tiers; parent_ids auto-wired.
+        If UNBUNDLE_SCAN detects any fragment with confidence
+        'ambiguous' or 'none', UNBUNDLE_EXECUTE rejects atomically unless the
+        fragment is explicitly deferred per deferred_fragment_handling. No
+        structural mutations are applied to rejected or deferred fragments.
+        The Express Mode group node retains its pre-attempt status for those
+        deferred fragments. The rejection payload is the complete
+        UNBUNDLE_SCAN result: a list of per-fragment diagnostic objects, each
+        containing fragment_id, content_preview, detected_annotation,
+        confidence (high | ambiguous | none), and ambiguity_reason (when
+        confidence is not 'high').
+
+  design_decision_removed_ops: >
+    v3.1.1 defined 11 operations. RELOCATE is removed (contradicted ID
+    immutability). ABSTRACT and CONCRETIZE are merged into INSERT with a
+    direction parameter. DETECT_ORPHAN and DETECT_CONTAMINATION are subsumed
+    by VERIFY.
+
+  dirty_flag_triggers:
+    - trigger: "Node modified"
+      nodes_affected: "Modified node + all descendants."
+    - trigger: "Node deleted"
+      nodes_affected: "All former children of the deleted node."
+    - trigger: "Parent → SUPERSEDED (auto-update of child parent_ids)"
+      nodes_affected: >
+        Immediate children only; grandchildren not cascaded (structural
+        re-wiring, not semantic content change).
+    - trigger: "CL constraint added or modified"
+      nodes_affected: "SAL + all SAL descendants."
+    - trigger: "XPD ethical boundary modified"
+      nodes_affected: "All tiers (full re-validation required)."
+
+  dirty_flag_notes:
+    - >
+      Node Insertion: INSERT may produce nodes in one of two modes:
+      (a) validated insertion produces an ACTIVE node synchronously or fails
+      atomically; (b) draft insertion (via validate=false override) produces
+      a DRAFT node. DRAFT nodes must undergo a successful VALIDATE operation
+      to transition to ACTIVE. DRAFT nodes are structurally present in the
+      DAG but excluded from CLEAN compliance checks.
+    - >
+      Supersede Auto-Update: The SUPERSEDE auto-update of child parent_ids
+      is a structural re-wiring operation. The grandchild's inherited content
+      remains valid pending the child's own re-validation. This scoped
+      propagation is an explicit exception to the general MODIFY cascade rule.
+    - >
+      SUPERSEDE_PENDING Handling: A node in SUPERSEDE_PENDING status is treated
+      by VERIFY as a structural advisory of type SUPERSEDE_PENDING_DETECTED with
+      severity BLOCKING. No DIRTY propagation occurs while a node is in
+      SUPERSEDE_PENDING status — propagation is deferred until the operation
+      either commits or rolls back. On commit (SUPERSEDE_PENDING → SUPERSEDED):
+      standard SUPERSEDE DIRTY propagation applies — immediate children are set
+      DIRTY; grandchildren are not cascaded. On rollback (SUPERSEDE_PENDING →
+      prior_status): no propagation occurs; the DAG is restored to its
+      pre-SUPERSEDE state with no DIRTY side-effects.
+    - >
+      Supersede-to-MODIFY Interaction: If a DIRTY child's re-validation
+      results in a content MODIFY, standard MODIFY cascade rules apply — all
+      descendants of the modified child are set DIRTY. This interaction is not
+      an exception to the SUPERSEDE scoped propagation rule; it is a
+      consequence of the child's own MODIFY, which triggers the general cascade
+      independently.
+    - >
+      Deprecation Lifecycle: A node is set to DEPRECATED via MODIFY when it
+      is scheduled for removal or replacement. DEPRECATED nodes remain
+      structurally valid and are included in VERIFY traversals. DEPRECATED is
+      not a terminal state — a DEPRECATED node may subsequently be SUPERSEDED
+      (creating a replacement) or removed via DELETE. DEPRECATED means "scheduled for
+      replacement, no replacement yet exists"; SUPERSEDED means "replacement
+      exists and children have been re-wired."
+  dirty_classification:
+    - type: structural
+      description: >
+        Indicates a structural change (for example parent_id rewiring) that
+        does not by itself establish semantic invalidation of downstream
+        content.
+    - type: semantic
+      description: >
+        Indicates probable semantic invalidation requiring downstream review or
+        content amendment before CLEAN can be re-established.
+  supersede_dirty_behavior: >
+    Child nodes affected by parent_id rewiring enter DIRTY with classification
+    'structural'. Structural DIRTY does not automatically propagate to
+    descendants. If subsequent VALIDATE or MODIFY activity reveals content
+    drift, the affected node's DIRTY condition is reclassified as 'semantic',
+    and standard downstream propagation rules then apply.
+
+  resolution_workflow: >
+    DETECT CHANGE → SET DIRTY → SCAN DOWNSTREAM →
+    GENERATE PENDING ITEMS (node ID + violated rule ID + suggested operation) →
+    EXECUTE OPERATION → VERIFY → SET CLEAN | REPEAT
+  conflict_resolution_protocol:
+    steps:
+      - "Identify conflicting nodes and violated rules."
+      - "Classify conflict type as logical, physical, or semantic."
+      - "Escalate to the designated authoring authority."
+      - "Record the resolution decision and rationale."
+      - "Apply MODIFY, SUPERSEDE, or DELETE as required."
+    audit_requirement: >
+      All conflict resolutions must be recorded in the reconciliation manifest
+      with before/after state references and disposition authority.
+  semantic_consistency_rules:
+    description: >
+      Optional rule set enabling detection of semantic conflicts across nodes
+      within the same tier or across adjacent tiers.
+    enforcement: >
+      Non-blocking structural finding; VERIFY emits REVIEW_REQUIRED items in
+      the reconciliation manifest for human disposition.
+
+  reconciliation_manifest_tracks:
+    - "Total node count by tier"
+    - "ACTIVE / DIRTY / DRAFT / DEPRECATED counts"
+    - "Pending items list"
+    - "Last full validation timestamp"
+    - "Active Extensions and annotation counts"
+  reconciliation_manifest_schema:
+    manifest_item_types:
+      - item_type: MISSING_MEDIATOR
+        description: >
+          Logged when a GPCL performance target (GPCL-R6) has no corresponding
+          FCL capability node providing independent behavioral context. Flags
+          the direct GPCL→SAL dependency for human review per GPCL-FCL-BR1.
+        fields: [gpcl_node_id, message, rationale]
+      - item_type: SUPERSEDE_FAILED
+        description: >
+          Logged when a SUPERSEDE operation fails at step 2 (replacement INSERT
+          validation failure) or step 3 (child re-wiring failure). Records the
+          source node ID, the attempted replacement content (or a stable hash
+          thereof), the failure reason (validation error code or system failure
+          indicator), and a timestamp. Enables VERIFY and reconciliation workflows
+          to diagnose and retry failed SUPERSEDE operations without manual DAG
+          inspection.
+        fields: [source_node_id, attempted_replacement_content_hash, failure_reason, timestamp]
+      - item_type: SUPERSEDE_PENDING_DETECTED
+        description: >
+          Logged by VERIFY when it encounters any node in SUPERSEDE_PENDING status
+          during a DAG traversal. Indicates an in-flight SUPERSEDE operation that
+          has not yet committed or rolled back. Severity is BLOCKING — the DAG
+          cannot be declared CLEAN while any node carries SUPERSEDE_PENDING status.
+          Resolution requires either completing the SUPERSEDE (retry the replacement
+          INSERT) or reverting the source node to its prior_status via the
+          SUPERSEDE rollback phase.
+        fields: [node_id, prior_status, detected_at]
+        severity: BLOCKING
+    semantic_gap_classification:
+      description: >
+        Defines explicitly permitted structural-semantic gaps that do not
+        violate DAG invariants when declared transparently and carried with
+        human accountability.
+      allowed_types:
+        - MISSING_MEDIATOR
+      constraints:
+        - "Must be explicitly logged in the reconciliation manifest."
+        - "Must carry human rationale."
+        - "Must be resolved or explicitly waived before system-wide CLEAN state."
+
+# ── §8 EXTENSION SYSTEM ──────────────────────────────────────────────────────
+
+extension_system:
+  architecture_description: >
+    Extensions are orthogonal read-only overlays attaching to the Core DAG
+    via extends edges. They interact with Core nodes without modifying Core
+    semantics.
+  permitted_actions:
+    - "Read Core node content."
+    - "Annotate Core nodes with namespaced metadata (stored in extension_annotations only)."
+    - "Generate derived external artifacts (reports, IaC, recommendations)."
+    - "Add advisories to the reconciliation manifest's extension_advisories section."
+  prohibited_actions:
+    - "Modify any Core node's content, parent_ids, tier, or status."
+    - "Redefine Core tier semantics or atomic rules."
+    - "Introduce structural cycles."
+    - "Set Core nodes to DIRTY (advisories only; no state mutation)."
+  candidate_pool:
+    description: >
+      The AI Upward Reconstruction Extension (ARE) requires special handling
+      because it infers new nodes. To preserve AX-6, ARE-inferred nodes are
+      placed in an Extension Candidate Pool — a staging area outside the Core
+      DAG.
+    candidate_status_value: "CANDIDATE (not a Core status value)"
+    visibility_rule: >
+      Visible when the ARE extension is in `active` or `paused` state.
+      Not visible in `disabled` state.
+    activation_states:
+      active:
+        inference: running
+        pool_visibility: true
+        pool_preserved_runtime: true
+        pool_preserved_restart: optional
+        promotion_allowed: true
+        discard_allowed: true
+      paused:
+        inference: halted
+        pool_visibility: true
+        pool_preserved_runtime: true
+        pool_preserved_restart: true
+        promotion_allowed: true
+        discard_allowed: true
+        checkpoint_behavior: >
+          On transition into `paused`, the Candidate Pool MUST be atomically
+          persisted to the canonical checkpoint path defined in checkpoint_path.
+          Pool state MUST be re-persisted after each mutating Pool action
+          (INSERT promotion, manual discard) while ARE remains in `paused` state.
+          On process restart with ARE state recorded as `paused`, the checkpoint
+          MUST be loaded automatically and state MUST be restored to `paused`
+          without requiring practitioner intervention.
+      disabled:
+        inference: halted
+        pool_visibility: false
+        pool_preserved_runtime: false
+        pool_preserved_restart: false
+        promotion_allowed: false
+        discard_allowed: false
+      transitions:
+        - from: active
+          to: paused
+          permitted: true
+          effect: >
+            Inference halts. Candidate Pool is atomically persisted to checkpoint
+            path. Existing candidates are retained and remain browsable. INSERT
+            promotion and manual discards remain available.
+        - from: paused
+          to: active
+          permitted: true
+          effect: >
+            Inference resumes. Existing Pool, confidence scores, and annotations
+            are retained without modification. Checkpoint policy becomes optional.
+        - from: paused
+          to: disabled
+          permitted: true
+          effect: >
+            Checkpoint file is deleted. Pool is discarded. Outcome is identical
+            to active → disabled in final state.
+        - from: active
+          to: disabled
+          permitted: true
+          effect: >
+            Pool is discarded. Existing behavior preserved and unchanged.
+        - from: disabled
+          to: active
+          permitted: true
+          effect: >
+            ARE starts fresh with an empty Candidate Pool.
+            Existing behavior preserved and unchanged.
+        - from: disabled
+          to: paused
+          permitted: false
+          rationale: >
+            No Candidate Pool exists in `disabled` state. This transition is
+            semantically undefined and is explicitly forbidden.
+    checkpoint_path: >
+      Canonical path for the ARE Pool checkpoint:
+      `.agent/state/are_candidate_pool.checkpoint.yaml`.
+      This file is written atomically on `active → paused` and re-written after
+      each mutating Pool action while ARE is in `paused` state. It is deleted
+      atomically on any transition to `disabled`. It is not written while ARE
+      is in `active` state under normal operation.
+    effect_on_core_status: "No effect on Core DIRTY/CLEAN status."
+    promotion_mechanism: >
+      Must be promoted into the Core DAG via INSERT (triggering full
+      validation) to become Core nodes. A candidate whose ARE::confidence_score
+      falls below the declared scoring_profile's minimum_surfacing_threshold is
+      ineligible for promotion via INSERT unless it carries override_flag: true
+      accompanied by a non-empty human_rationale field recorded in the
+      reconciliation manifest's pending_items. VERIFY enforces this gate structurally.
+    discard_trigger: >
+      Automatically discarded on any transition to `disabled`, whether from
+      `active` or `paused`. The checkpoint file at
+      `.agent/state/are_candidate_pool.checkpoint.yaml` is deleted atomically
+      alongside Pool discard. No discard occurs on `active → paused` or
+      `paused → active` transitions.
+  integration_rules:
+    - rule_id: EXT-R1
+      statement: "Must declare contract version compatible with DDR-Core-6.x."
+    - rule_id: EXT-R2
+      statement: "Must declare which Core tiers it reads and which it annotates."
+    - rule_id: EXT-R3
+      statement: >
+        Annotations must be namespaced by Extension ID
+        (e.g. 'HRE::min_hardware_profile').
+    - rule_id: EXT-R4
+      statement: >
+        Extensions update the reconciliation manifest; annotation counts
+        tracked.
+    - rule_id: EXT-R5
+      statement: "Disabling an Extension leaves Core CLEAN/DIRTY status unchanged."
+    - rule_id: EXT-R6
+      statement: >
+        Extension-internal derived artifact graphs must maintain their own
+        acyclicity.
+    - rule_id: EXT-R7
+      statement: "Extension advisories do not mutate Core node status."
+  normative_notes:
+    - >
+      'All Core tiers' is not a valid contract declaration. Extensions must
+      enumerate tiers by name to preserve auditability under EXT-R2.
+
+# ── §9 EXTENSION CATALOG ─────────────────────────────────────────────────────
+
+extension_catalog:
+  - id: E1
+    name: "Hardware & Resource Intelligence Extension (HRE)"
+    contract: "HRE-1.0 / DDR-Core-6.x"
+    reads: [CL, SAL, CDL, ISL]
+    annotates: [CL, SAL]
+    rules:
+      - rule_id: HRE-R1
+        statement: >
+          Bottom-up inference produces minimum hardware profiles as
+          CL-compatible declarations.
+      - rule_id: HRE-R2
+        statement: >
+          Cloud recommendations include ≥2 provider-agnostic instance class
+          options.
+      - rule_id: HRE-R3
+        statement: >
+          Top-down enforcement validates SAL patterns do not exceed CL
+          ceilings.
+      - rule_id: HRE-R4
+        statement: >
+          All recommendations are advisory; they do not override CL without
+          explicit MODIFY.
+
+  - id: E2
+    name: "Dependency Graph Analyzer (DGA)"
+    contract: "DGA-1.0 / DDR-Core-6.x"
+    reads: [CL, ICL, CDL, ISL]
+    annotates: [CL, ICL]
+    rules:
+      - rule_id: DGA-R1
+        statement: >
+          Produces a complete directed dependency graph for all CL-declared
+          libraries.
+      - rule_id: DGA-R2
+        statement: "Detects version conflicts with resolution suggestions."
+      - rule_id: DGA-R3
+        statement: >
+          Transitive dependency reports flag all copyleft licenses that could
+          impose constraints.
+
+  - id: E3
+    name: "Lifecycle & Versioning Engine (LVE)"
+    contract: "LVE-1.0 / DDR-Core-6.x"
+    reads: [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
+    annotates: [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
+    rules:
+      - rule_id: LVE-R1
+        statement: >
+          Every node modification produces a version history entry with
+          timestamp, author, and rationale.
+      - rule_id: LVE-R2
+        statement: >
+          Technical debt items classified by tier origin and estimated
+          remediation effort.
+      - rule_id: LVE-R3
+        statement: >
+          Deprecation requires a sunset date and migration path before
+          node → DEPRECATED.
+      - rule_id: LVE-R4
+        statement: >
+          Version control integration maps DDR node IDs to VCS commit
+          hashes.
+
+  - id: E4
+    name: "Observability & Runtime Engine (ORE)"
+    contract: "ORE-1.0 / DDR-Core-6.x"
+    reads: [GPCL, SAL, ICL, CDL, ISL]
+    annotates: [ISL, SAL]
+    rules:
+      - rule_id: ORE-R1
+        statement: >
+          Telemetry stubs derived from GPCL latency and throughput targets.
+      - rule_id: ORE-R2
+        statement: "Alert rules expressed in vendor-agnostic format."
+      - rule_id: ORE-R3
+        statement: >
+          Every SAL component must have ≥1 telemetry point for operational
+          readiness.
+      - rule_id: ORE-R4
+        statement: >
+          Incident-to-design traceability maps runtime anomalies to ISL,
+          CDL, and SAL nodes.
+
+  - id: E5
+    name: "AI Upward Reconstruction Engine (ARE)"
+    contract: "ARE-1.0 / DDR-Core-6.x"
+    scoring_profile: standard_v1
+    reads: [ISL, CDL, ICL, SAL]
+    annotates: [SAL, ICL, CDL, ISL]
+    notes: >
+      ARE annotation is restricted to tiers at or below SAL (SAL, ICL, CDL,
+      ISL). ARE must not annotate XPD, SIL, GPCL, or FCL nodes — these tiers
+      are above the architecture layer and must not receive AI-inferred
+      annotations. Inferred insights pertaining to intent, governance, ethical,
+      or functional dimensions are surfaced as Candidate Pool nodes only,
+      subject to human promotion via INSERT.
+    rules:
+      - rule_id: ARE-R1
+        statement: >
+          All inferred nodes placed in the Extension Candidate Pool (§8.2);
+          automatic promotion prohibited.
+      - rule_id: ARE-R2
+        statement: >
+          Each candidate carries ARE::confidence_score (0.0–1.0) computed according to
+          the scoring_profile declared in the ARE Extension contract. The declared profile
+          must be a standard profile (standard_v1 or conservative_v1) or a custom profile
+          with all required_fields declared per are_scoring_profiles.custom.required_fields.
+          Deterministic ARE conformance validation resolves the scoring_profile reference,
+          confirms score-band ordering and non-overlap, and enforces reproducible scoring:
+          identical source evidence inputs must produce identical scores under the same
+          profile (AX-3).
+      - rule_id: ARE-R3
+        statement: >
+          Promotion into Core DAG requires INSERT with full atomic ruleset
+          validation.
+      - rule_id: ARE-R4
+        statement: >
+          ARE must never autonomously create XPD or GPCL nodes — ethical
+          and regulatory content requires human authorship.
+      - rule_id: ARE-R5
+        statement: >
+          Every ARE deployment must declare a scoring_profile in its Extension contract.
+          The scoring_profile value must reference a profile defined in are_scoring_profiles.
+          Omission of scoring_profile fails the Extension contract. Custom profiles must
+          declare all fields enumerated in are_scoring_profiles.custom.required_fields and
+          conform to are_scoring_profiles.custom.profile_template or the Extension contract
+          fails EXT-R1 validation.
+      - rule_id: ARE-R6
+        statement: >
+          The ARE Extension MUST implement a tri-state activation lifecycle:
+          `active` (inference running), `paused` (inference halted, Pool
+          retained), and `disabled` (inference halted, Pool discarded). The
+          transition `disabled → paused` is forbidden. All other transitions
+          are permitted per the state semantics defined in
+          extension_system.candidate_pool.activation_states. Pausing ARE MUST
+          NOT alter any Core node status, annotation, or DIRTY/CLEAN
+          propagation. EXT-R5 applies to all ARE state transitions without
+          exception.
+      - rule_id: ARE-R7
+        statement: >
+          On every `active → paused` transition, the ARE Extension MUST
+          atomically persist the complete Candidate Pool — including all
+          candidate node content, ARE::confidence_score annotations,
+          review_status fields, and practitioner notes — to
+          `.agent/state/are_candidate_pool.checkpoint.yaml`. This file MUST
+          be re-persisted after each mutating Pool action (promotion via
+          INSERT, manual discard) while ARE remains in `paused` state. On
+          process restart with ARE state recorded as `paused`, the checkpoint
+          MUST be automatically loaded and state MUST be restored to `paused`
+          without requiring practitioner intervention. The checkpoint file
+          MUST be deleted on any transition to `disabled`.
+
+  - id: E6
+    name: "Security & Compliance Engine (SCE)"
+    contract: "SCE-1.0 / DDR-Core-6.x"
+    reads: [GPCL, CL, SAL, ICL]
+    annotates: [GPCL, SAL, ICL]
+    rules:
+      - rule_id: SCE-R1
+        statement: >
+          Threat models expressed in STRIDE format or equivalent structured
+          notation.
+      - rule_id: SCE-R2
+        statement: >
+          Trust boundary violations in SAL flagged as high-priority
+          advisories.
+      - rule_id: SCE-R3
+        statement: >
+          Every ICL contract must have an explicit RBAC access control
+          policy.
+      - rule_id: SCE-R4
+        statement: >
+          PII data flows enumerated in ICL and traceable to GPCL
+          data-residency constraints.
+      - rule_id: SCE-R5
+        statement: "Compliance evidence records are immutable once generated."
+
+  - id: E7
+    name: "Data Domain Extension (DDE)"
+    contract: "DDE-1.0 / DDR-Core-6.x"
+    reads: [FCL, GPCL, SAL, ICL, CDL]
+    annotates: [ICL, SAL, FCL]
+    notes: >
+      DDE annotates FCL to flag functional capabilities that imply data domain
+      schemas not yet formally specified in ICL. This is a forward-reference
+      advisory, not inference about intent.
+    rules:
+      - rule_id: DDE-R1
+        statement: >
+          Canonical ER model expressed in formal notation (ERD, DBML, or
+          equivalent).
+      - rule_id: DDE-R2
+        statement: >
+          Every ICL payload schema validated against the canonical ER model.
+      - rule_id: DDE-R3
+        statement: >
+          Schema consistency violations flagged as blocking advisories.
+      - rule_id: DDE-R4
+        statement: >
+          Data lifecycle policies specify retention periods traceable to GPCL
+          regulatory requirements.
+      - rule_id: DDE-R5
+        statement: >
+          When annotating FCL nodes, DDE must perform confirmation validation
+          only: verify that each data entity enumerated under FCL-R7 has a
+          corresponding ICL schema definition. DDE must not perform
+          discovery-mode annotation on FCL nodes. Inferring unstated data
+          entities from FCL capability semantics when no FCL-R7 enumeration
+          is present is a Core FCL validation failure and is not a DDE
+          discovery responsibility. FCL nodes lacking FCL-R7 enumeration
+          must be flagged as FCL-R7 violations by VALIDATE, not annotated
+          by DDE.
+
+  - id: E8
+    name: "Deployment & CI/CD Planner (DCP)"
+    contract: "DCP-1.0 / DDR-Core-6.x"
+    reads: [CL, SAL, ISL]
+    annotates: [ISL, SAL]
+    rules:
+      - rule_id: DCP-R1
+        statement: >
+          Deployment manifests map every SAL subsystem to a deployment unit.
+      - rule_id: DCP-R2
+        statement: >
+          CI/CD pipeline definitions include at minimum: lint, test, build,
+          deploy stages.
+      - rule_id: DCP-R3
+        statement: >
+          All generated IaC cites the CL nodes from which configuration was
+          derived.
+      - rule_id: DCP-R4
+        statement: >
+          Environment-specific configuration separated from application code.
+
+  - id: E9
+    name: "Ethics & Human-Centered Design Extension (EHD)"
+    contract: "EHD-1.0 / DDR-Core-6.x"
+    reads: [XPD, SIL, FCL, SAL, CDL]
+    annotates: [FCL, CDL, SAL]
+    rules:
+      - rule_id: EHD-R1
+        statement: >
+          Bias impact assessments identify affected demographic groups and
+          potential algorithmic biases.
+      - rule_id: EHD-R2
+        statement: >
+          Accessibility compliance validates FCL capabilities against WCAG
+          2.1 AA or GPCL-declared standard.
+      - rule_id: EHD-R3
+        statement: >
+          Algorithmic accountability maps link each automated CDL decision to
+          a human oversight mechanism.
+      - rule_id: EHD-R4
+        statement: >
+          All EHD assessments cite the XPD ethical boundary conditions being
+          evaluated.
+      - rule_id: EHD-R5
+        statement: >
+          When XPD is inactive, EHD creates a synthetic XPD-equivalent
+          assessment anchored to SIL. The synthetic XPD-equivalent is a
+          risk-flagging artifact only, carries no precedence weight in §6
+          conflict resolution, cannot be cited in Core node parent_ids, and
+          does not substitute for a human-authored XPD node. If it identifies
+          risks that require formal governance, it must surface a blocking
+          advisory recommending XPD activation.
+
+are_scoring_profiles:
+  standard_v1:
+    input_signals:
+      - signal_id: direct_source_node_count
+        description: "Counts the number of directly cited source nodes supporting the candidate inference."
+        weight_category: high
+      - signal_id: cross_tier_convergence
+        description: "Measures whether evidence converges across multiple adjacent DDR tiers for the same inferred claim."
+        weight_category: high
+      - signal_id: icl_contract_corroboration
+        description: "Checks whether ICL contract definitions corroborate the inferred candidate semantics."
+        weight_category: medium
+      - signal_id: sal_pattern_alignment
+        description: "Evaluates alignment between the inferred candidate and declared SAL architectural patterns."
+        weight_category: medium
+      - signal_id: tier_diversity_index
+        description: "Assesses how many distinct eligible source tiers contribute evidence to the inference."
+        weight_category: low
+    score_bands:
+      - band_id: speculative
+        range: [0.0, 0.4]
+        label: speculative
+        promotion_guidance: "Treat as weak evidence and require substantial human scrutiny before considering promotion."
+      - band_id: probable
+        range: [0.4, 0.7]
+        label: probable
+        promotion_guidance: "Treat as moderate evidence and permit promotion consideration when human review confirms traceability."
+      - band_id: high_confidence
+        range: [0.7, 1.0]
+        label: high_confidence
+        promotion_guidance: "Treat as strong evidence and prioritize for review and potential promotion via INSERT."
+    minimum_surfacing_threshold: 0.35
+    override_policy: >
+      A candidate below minimum_surfacing_threshold may enter the review queue
+      only if it carries override_flag: true with a non-empty human_rationale
+      field.
+
+  conservative_v1:
+    context_note: >
+      Intended for regulated or high-assurance environments where stricter
+      confidence gating is required before human review and promotion actions.
+    input_signals:
+      - signal_id: direct_source_node_count
+        description: "Counts the number of directly cited source nodes supporting the candidate inference."
+        weight_category: high
+      - signal_id: cross_tier_convergence
+        description: "Measures whether evidence converges across multiple adjacent DDR tiers for the same inferred claim."
+        weight_category: high
+      - signal_id: icl_contract_corroboration
+        description: "Checks whether ICL contract definitions corroborate the inferred candidate semantics."
+        weight_category: medium
+      - signal_id: sal_pattern_alignment
+        description: "Evaluates alignment between the inferred candidate and declared SAL architectural patterns."
+        weight_category: medium
+      - signal_id: tier_diversity_index
+        description: "Assesses how many distinct eligible source tiers contribute evidence to the inference."
+        weight_category: low
+    score_bands:
+      - band_id: speculative
+        range: [0.0, 0.4]
+        label: speculative
+        promotion_guidance: "Do not promote under normal conditions and require explicit documented justification for any exception path."
+      - band_id: probable
+        range: [0.4, 0.7]
+        label: probable
+        promotion_guidance: "Permit review only with heightened scrutiny and complete evidence traceability prior to INSERT consideration."
+      - band_id: high_confidence
+        range: [0.7, 1.0]
+        label: high_confidence
+        promotion_guidance: "Treat as the preferred band for promotion decisions after formal reviewer confirmation."
+    minimum_surfacing_threshold: 0.55
+    override_policy: >
+      A candidate below minimum_surfacing_threshold may enter the review queue
+      only if it carries override_flag: true with a non-empty human_rationale
+      field.
+
+  custom:
+    required_fields:
+      - profile_id
+      - input_signals
+      - input_signals.signal_id
+      - input_signals.description
+      - input_signals.weight_category
+      - score_bands
+      - score_bands.band_id
+      - score_bands.range
+      - score_bands.label
+      - score_bands.promotion_guidance
+      - minimum_surfacing_threshold
+      - override_policy
+    profile_template:
+      context_note: >
+        Template shape for any custom ARE scoring profile. Implementations may
+        change field values and add more input_signals or score_bands, but the
+        object structure must remain schema-conformant and all bands must remain
+        ordered, non-overlapping, and bounded within [0.0, 1.0].
+      input_signals:
+        - signal_id: custom_signal
+          description: "Documented evidence signal used during custom-profile score computation."
+          weight_category: medium
+      score_bands:
+        - band_id: speculative
+          range: [0.0, 0.4]
+          label: speculative
+          promotion_guidance: "Document the low-confidence handling path before promotion review is permitted."
+        - band_id: probable
+          range: [0.4, 0.7]
+          label: probable
+          promotion_guidance: "Document the medium-confidence review requirements and evidence thresholds."
+        - band_id: high_confidence
+          range: [0.7, 1.0]
+          label: high_confidence
+          promotion_guidance: "Document the strongest evidence band and the required human confirmation before INSERT."
+      minimum_surfacing_threshold: 0.5
+      override_policy: >
+        Candidates below minimum_surfacing_threshold require override_flag:
+        true with a non-empty human_rationale before they may enter review.
+    validation_note: >
+      Custom profiles that omit any required_fields entry fail extension
+      contract validation under EXT-R1. Deterministic ARE conformance
+      validation is additionally responsible for profile-reference resolution,
+      score-band ordering, and score-band non-overlap checks.
+
+# ── §11 COMPLIANCE CHECKLIST ─────────────────────────────────────────────────
+
+compliance_checklist:
+  structural_validation:
+    - "All non-root nodes have ≥1 valid, non-superseded parent_id."
+    - "All parent_ids reference nodes of the correct parent tier."
+    - "No cycles exist in any citation path (VERIFY confirms)."
+    - "Every node tier belongs to active_tiers."
+    - "System-definition artifacts include at least one representative node for every tier listed in active_tiers."
+    - "No tier-skipping detected."
+    - "All inline [TIER-N.M] citations have matching entries in parent_ids."
+    - "No node has status DIRTY."
+    - >-
+      No node has status SUPERSEDE_PENDING (indicates an incomplete SUPERSEDE
+      operation; VERIFY flags as SUPERSEDE_PENDING_DETECTED with severity
+      BLOCKING).
+    - "Reconciliation manifest shows zero pending items."
+    - >
+      Any declared semantic gap uses an allowed semantic_gap_classification
+      type and is resolved or explicitly waived with rationale before CLEAN.
+    - >
+      If any Extension is active, all Extension advisories classified as
+      critical or blocking have a recorded disposition note.
+  atomic_rule_validation:
+    - "XPD nodes satisfy XPD-R1 through XPD-R6 and XPD-E1 through XPD-E3."
+    - "SIL nodes satisfy SIL-R1 through SIL-R6 and SIL-E1 through SIL-E4."
+    - "GPCL nodes satisfy GPCL-R1 through GPCL-R10 and GPCL-E1 through GPCL-E3."
+    - "FCL capabilities are user-observable and free of implementation references. Data-modifying FCL capabilities enumerate all logical data entities and their CRUD relationships per FCL-R7 without referencing field types, schemas, or table structures (FCL-E2 boundary preserved)."
+    - >-
+      Every GPCL-R6 performance target either has a corresponding FCL node
+      providing independent behavioral context, or a MISSING_MEDIATOR item
+      is logged in the reconciliation manifest (GPCL-FCL-BR1).
+    - "CL nodes are declarative only; no inference (CL-E1). Each CL node declares constraint_origin (derived or imposed)."
+    - >-
+      CL nodes with constraint_origin derived cite FCL IDs (CL-R9). CL nodes
+      with constraint_origin imposed cite their external authority source
+      (CL-R9-imposed).
+    - >
+      Child nodes are re-validated after cited parent version changes and may
+      not remain ACTIVE against stale parent content (CIT-R7).
+    - "SAL cites all active parent tiers (FCL + CL if active)."
+    - "ICL schemas are machine-parseable (ICL-R2)."
+    - "ISL stubs contain traceable docstrings citing CDL parent IDs."
+    - >
+      CDL nodes produce language-specific blueprints when CL declares
+      multiple targets (CDL-R7).
+    - >
+      All REVIEW_REQUIRED items in the reconciliation manifest have a
+      recorded human disposition (APPROVED or REJECTED with rationale)
+      before any affected node transitions from DRAFT to ACTIVE.
+  extension_validation:
+    - "All active Extensions declare compatible contract versions for DDR-Core-6.x."
+    - "Extension annotations stored in extension_annotations only."
+    - "Extension advisories reviewed; non-critical advisories have disposition notes."
+    - >
+      ARE-generated candidates reviewed and either promoted via INSERT or
+      discarded.
+    - >
+      ARE scoring_profile is declared in the E5 Extension contract and references a
+      valid entry in are_scoring_profiles. Deterministic ARE conformance
+      validation resolves that reference before any candidate promotion or
+      review surface is considered valid.
+    - >
+      Custom ARE profiles satisfy all required_fields and conform to
+      are_scoring_profiles.custom.profile_template; all score_bands are
+      ordered, non-overlapping, and bounded within [0.0, 1.0].
+    - >
+      Candidates promoted below minimum_surfacing_threshold carry
+      override_flag: true with a non-empty human_rationale in pending_items.
+
+# ── GLOSSARY ─────────────────────────────────────────────────────────────────
+
+glossary:
+  - term: "Atomic Rule"
+    definition: >
+      An inclusion or exclusion constraint on a tier node, individually
+      verifiable without reference to other nodes.
+  - term: "Candidate Pool"
+    definition: >
+      Extension-managed staging area for ARE-inferred nodes; explicitly
+      outside the Core DAG until promoted via INSERT.
+  - term: "DAG"
+    definition: >
+      Directed Acyclic Graph — the DDR System's foundational data structure.
+  - term: "Dirty Flag"
+    definition: >
+      DIRTY status indicating a node requires re-validation following a
+      graph-modifying event.
+  - term: "Edge Type"
+    definition: >
+      One of four typed relationships: derives, constrains, implements,
+      extends.
+  - term: "Express Mode"
+    definition: >
+      A four-group consumption mode; groups are unbundleable to Full Mode
+      tiers through the UNBUNDLE_SCAN / UNBUNDLE_EXECUTE protocol.
+  - term: "Extension"
+    definition: >
+      An optional analytical overlay that reads and annotates Core nodes
+      without modifying Core semantics.
+  - term: "Leaf Node"
+    definition: >
+      A node with no children; ISL nodes are the only valid leaf nodes in a
+      CLEAN Core DAG. During incremental authoring, non-ISL tiers may
+      temporarily be leaf nodes; VERIFY flags them as incomplete.
+  - term: "Merge Node"
+    definition: >
+      SAL — the point where FCL derivations and CL constraints converge.
+  - term: "Orphan"
+    definition: >
+      A non-root node with no valid parent_id — a structural violation.
+  - term: "Root Node"
+    definition: >
+      XPD (if active) or SIL (if XPD inactive); the only node with an empty
+      parent_ids list.
+  - term: "REVIEW_REQUIRED"
+    definition: >
+      A VALIDATE output status emitted for each semantic atomic inclusion
+      rule. Indicates that the rule cannot be mechanically evaluated and
+      requires a human disposition (APPROVED or REJECTED with rationale)
+      recorded in the reconciliation manifest's pending_items before the
+      target node may transition from DRAFT to ACTIVE.
+  - term: "Tier Contamination"
+    definition: >
+      Presence of content in a node that violates that tier's atomic
+      exclusion rules.
+  - term: "verification_mode"
+    definition: >
+      A required field on every atomic inclusion rule definition.
+      Classifies the rule as structural (mechanically verifiable by
+      pattern matching, schema validation, keyword detection, or
+      citation graph traversal) or semantic (requires human judgment
+      for evaluation). VALIDATE evaluates structural rules automatically
+      and emits REVIEW_REQUIRED for semantic rules.
+
+# ── APPENDIX A: VERSION HISTORY ───────────────────────────────────────────────
+
+version_history:
+  - version: "1.0"
+    date: ""
+    summary: >
+      Initial DDR System concept (7-tier linear: BRD→NFR→FSD→SAD→ICD→TDD→ISP).
+  - version: "2.1"
+    date: "2026-02-26"
+    summary: "Refined Core + Extension system."
+  - version: "3.0"
+    date: "2026-02-26"
+    summary: >
+      Complete redesign: fork-join DAG; GPCL isolation; XPD optional root;
+      Z-axis extensions; Express Mode; CRR protocol; 9 Extensions.
+  - version: "3.1.1"
+    date: "2026-02-26"
+    summary: >
+      Structural consolidation: universal node format; 6-edge vocabulary;
+      axiom implications.
+  - version: "4.0"
+    date: "2026-02-26"
+    summary: >
+      Structural simplification: 11→9 tiers; 6→4 edge types; 11→7 operations;
+      fork-join→merge-node; RELOCATE removed; ARE Candidate Pool; Express
+      Mode→4 groups; Service Model removed; CRR protocol removed.
+  - version: "5.0"
+    date: "2026-03-25"
+    summary: >
+      Issue-driven refinement: 13 v4.0 issues resolved; SUPERSEDE atomicity
+      with SUPERSEDE_PENDING transient state and prior_status rollback;
+      verification_mode on atomic rules; FCL-R7 data entity enumeration;
+      ARE tri-state lifecycle with checkpoint persistence; DDE confirmation-
+      only validation (DDE-R5); UNBUNDLE_SCAN/UNBUNDLE_EXECUTE two-phase protocol;
+      GPCL-FCL-BR1 bridge rule; CL constraint_origin and imposed-citation
+      rule CL-R9-imposed; reconciliation manifest schema formalized;
+      derives derivation_mode subtype annotation; CIT-R6 traceability
+      citation rule.
+  - version: "6.0"
+    date: "2026-03-25"
+    summary: >
+      Major version increment: DDR System v6.0. Transition from v5.0 to v6.0.
+      All specification files, schema definitions, and meta-details updated
+      to satisfy a comprehensive versioning alignment requirement.
+  - version: "6.1"
+    date: "2026-03-27"
+    summary: >
+      Consistency patch release: semantic gap classification and INV-7;
+      AX-5 wording refinement; optional cross-node semantic consistency review
+      under VERIFY; explicit conflict resolution protocol; deferred-fragment
+      handling for UNBUNDLE_EXECUTE; lifecycle completeness invariant INV-8; CIT-R7
+      parent-version freshness rule; schema and metadata alignment to v6.1.
+  - version: "6.2"
+    date: "2026-03-27"
+    summary: >
+      Schema hardening release: lifecycle root contract made profile-aware;
+      lifecycle transitions typed and DELETE modeled as an operation sink;
+      guard references closed; ParentCitation restricted to Core edge types;
+      derivation_mode gated to derives; tier/id binding, CL-only
+      constraint_origin, SUPERSEDE_PENDING-only prior_status, express-mode
+      express_mode_group enforcement, and reserved extension shadow-key
+      blocking added to the machine contract.
+  - version: "6.3"
+    date: "2026-03-28"
+    summary: >
+      Issue-resolution release: explicit document_profile root contract;
+      canonical active_tiers closure; status_transitions as the sole
+      lifecycle authority; deterministic ARE contract hardening; normalized
+      operation namespace with UNBUNDLE_EXECUTE as the commit-phase token;
+      centralized rule-ID typing; and structurally closed Express Mode
+      groups and express-profile requirements.
+
+# ── APPENDIX B: TIER MIGRATION ────────────────────────────────────────────────
+
+tier_migration:
+  policy: >
+    All future version migrations must include a complete rule-level
+    cross-reference table with explicit consolidation status.
+  tier_map:
+    - from_tier: XPD
+      to_tier: XPD
+      notes: "Unchanged."
+    - from_tier: SIL
+      to_tier: SIL
+      notes: "Unchanged."
+    - from_tier: GPCL
+      to_tier: GPCL
+      notes: "Expanded to absorb ORL quality/performance content."
+    - from_tier: ORL
+      to_tier: GPCL
+      notes: >
+        ORL-R1 through ORL-R7 become GPCL-R6 through GPCL-R10
+        (ORL-R5 and ORL-R6 consolidated into GPCL-R9).
+    - from_tier: FCL
+      to_tier: FCL
+      notes: "Now derives from GPCL instead of ORL."
+    - from_tier: HIL
+      to_tier: CL
+      notes: "HIL-R1 through HIL-R5 become CL-R6 through CL-R8."
+    - from_tier: TDL
+      to_tier: CL
+      notes: "TDL-R1 through TDL-R6 become CL-R1 through CL-R5."
+    - from_tier: SAL
+      to_tier: SAL
+      notes: "Simplified from fork-join to single merge-node."
+    - from_tier: ICL
+      to_tier: ICL
+      notes: "Unchanged."
+    - from_tier: CDL
+      to_tier: CDL
+      notes: "Unchanged."
+    - from_tier: ISL
+      to_tier: ISL
+      notes: "References CL instead of TDL for language targets."
+  rule_map:
+    - from_rule_ids: "ORL-R1"
+      to_rule_ids: "GPCL-R6"
+      consolidation_status: "1:1"
+      notes: "Maps to quantifiable performance targets rule."
+    - from_rule_ids: "ORL-R2"
+      to_rule_ids: "GPCL-R7"
+      consolidation_status: "1:1"
+      notes: "Maps to reliability and availability targets rule."
+    - from_rule_ids: "ORL-R3"
+      to_rule_ids: "GPCL-R8"
+      consolidation_status: "1:1"
+      notes: "Maps to security requirements rule."
+    - from_rule_ids: "ORL-R4"
+      to_rule_ids: "GPCL-R10"
+      consolidation_status: "1:1"
+      notes: "Maps to parent SIL citation rule."
+    - from_rule_ids: "ORL-R5"
+      to_rule_ids: "GPCL-R9"
+      consolidation_status: "N:1"
+      notes: "Consolidated with ORL-R6 into scalability and accessibility rule."
+    - from_rule_ids: "ORL-R6"
+      to_rule_ids: "GPCL-R9"
+      consolidation_status: "N:1"
+      notes: "Consolidated with ORL-R5 into scalability and accessibility rule."
+    - from_rule_ids: "ORL-R7"
+      to_rule_ids: "GPCL-R9"
+      consolidation_status: "Absorbed"
+      notes: "Semantics are subsumed under GPCL-R9 as broader operational governance constraints."
+    - from_rule_ids: "HIL-R1, HIL-R2, HIL-R3"
+      to_rule_ids: "CL-R6"
+      consolidation_status: "N:1 Consolidated"
+      notes: "Consolidated into hardware envelopes rule."
+    - from_rule_ids: "HIL-R4"
+      to_rule_ids: "CL-R7"
+      consolidation_status: "1:1"
+      notes: ""
+    - from_rule_ids: "HIL-R5"
+      to_rule_ids: "CL-R8"
+      consolidation_status: "1:1"
+      notes: ""
+    - from_rule_ids: "TDL-R1"
+      to_rule_ids: "CL-R1"
+      consolidation_status: "1:1"
+      notes: ""
+    - from_rule_ids: "TDL-R2, TDL-R6"
+      to_rule_ids: "CL-R2"
+      consolidation_status: "N:1 Consolidated"
+      notes: "Consolidated into minimum version bounds rule."
+    - from_rule_ids: "TDL-R3"
+      to_rule_ids: "CL-R3"
+      consolidation_status: "1:1"
+      notes: ""
+    - from_rule_ids: "TDL-R4"
+      to_rule_ids: "CL-R4"
+      consolidation_status: "1:1"
+      notes: ""
+    - from_rule_ids: "TDL-R5"
+      to_rule_ids: "CL-R5"
+      consolidation_status: "1:1"
+      notes: ""
+
+# ── CANONICAL DAG NODES (9-Tier Topology) ────────────────────────────────────
+# These nodes represent the DDR System's own tier structure as the exemplar DAG.
+# Each node encodes its tier's core question as content and its canonical
+# position in the topology via parent_ids.
+
+nodes:
+
+  - id: XPD-0.1
+    tier: XPD
+    title: "Existential Purpose Document"
+    status: ACTIVE
+    version: "6.0.0"
+    created: "2026-02-26T00:00:00Z"
+    modified: "2026-02-26T00:00:00Z"
+    parent_ids: []
+    content: |
+      What human or societal need does this system exist to address, and what
+      ethical boundaries govern all downstream decisions?
+
+      The DDR System addresses the universal need for deterministic, traceable
+      software requirements documentation — ensuring that every implementation
+      decision can be traced to originating human intent. Ethical boundaries:
+      the system must not be used to obscure design decisions, create
+      post-hoc documentation that misrepresents actual system behavior, or
+      suppress evidence of design failures. All downstream tiers must remain
+      honest, complete, and auditable representations of system intent and
+      implementation reality.
+
+      Populations at risk: software practitioners whose systems were built
+      without traceable requirements; end-users of systems whose failure modes
+      were never documented. Safeguards: the structural invariants of the DAG
+      make omission mechanically detectable.
+
+  - id: SIL-1.1
+    tier: SIL
+    title: "Strategic Intent Layer"
+    status: ACTIVE
+    version: "6.0.0"
+    created: "2026-02-26T00:00:00Z"
+    modified: "2026-02-26T00:00:00Z"
+    parent_ids:
+      - id: XPD-0.1
+        edge_type: derives
+        derivation_mode: semantic
+    content: |
+      Why does this system exist, and what business outcomes must it achieve?
+
+      The DDR System exists to eliminate the gap between what a software system
+      is intended to do and what it is documented to do. Strategic objectives:
+      (1) provide a deterministic, layered requirements framework adoptable from
+      solo developer to enterprise scale without structural changes; (2) enable
+      complete audit trails from business intent to implementation stub;
+      (3) make structural violations mechanically detectable, not dependent on
+      reviewer expertise. Scope: all software systems regardless of domain,
+      technology, or scale (AX-4). Out of scope: commercial pricing models,
+      deployment infrastructure, domain-specific extensions (→ Extensions).
+
+  - id: GPCL-2.1
+    tier: GPCL
+    title: "Governance, Policy & Quality Layer"
+    status: ACTIVE
+    version: "6.0.0"
+    created: "2026-02-26T00:00:00Z"
+    modified: "2026-02-26T00:00:00Z"
+    parent_ids:
+      - id: SIL-1.1
+        edge_type: derives
+        derivation_mode: traceability
+    content: |
+      What non-negotiable external mandates, regulatory obligations, policy
+      constraints, and measurable quality thresholds govern this system?
+
+      Governing axioms: AX-1 through AX-7 are non-negotiable structural laws.
+      Quality thresholds: every non-root node must have a traceable parent
+      (AX-1); graph must be acyclic at all path lengths (AX-7); identical
+      inputs must produce unambiguous outputs (AX-3). Constraint precedence is
+      inviolable (§6). Operations must be atomic: partial execution that leaves
+      the DAG in an inconsistent state is prohibited (§7). Extension annotations
+      must never modify Core content (AX-6, §8).
+
+  - id: FCL-3.1
+    tier: FCL
+    title: "Functional Capability Layer"
+    status: ACTIVE
+    version: "6.3.0"
+    created: "2026-02-26T00:00:00Z"
+    modified: "2026-03-28T00:00:00Z"
+    parent_ids:
+      - id: GPCL-2.1
+        edge_type: derives
+        derivation_mode: semantic
+    content: |
+      What externally observable behaviors and user-facing capabilities must
+      the system provide?
+
+      A practitioner using the DDR System must be able to: author nodes at any
+      of the 9 defined tiers with content governed by that tier's atomic
+      ruleset; express parent-child relationships using one of 4 typed edge
+      types; execute VERIFY to traverse the full DAG and receive an itemized
+      violation list; execute VALIDATE on a single node and receive pass/fail
+      with specific rule IDs; author in Express Mode using 4 groups and use
+      the UNBUNDLE_SCAN / UNBUNDLE_EXECUTE protocol to expand any group to
+      its constituent tiers without information loss; activate optional
+      Extensions that annotate nodes without modifying Core content; receive
+      DIRTY propagation automatically when any ancestor node is modified.
+
+  - id: CL-4.1
+    tier: CL
+    title: "Constraint Layer"
+    status: ACTIVE
+    version: "6.0.0"
+    created: "2026-02-26T00:00:00Z"
+    modified: "2026-02-26T00:00:00Z"
+    constraint_origin: derived
+    parent_ids:
+      - id: FCL-3.1
+        edge_type: derives
+        derivation_mode: semantic
+    content: |
+      What are the declared technology selections, hardware envelopes, and
+      infrastructure ceilings that bound the system's implementation?
+
+      Approved data format: YAML (primary), JSON (interchange). Validation
+      contract: JSON Schema Draft 2020-12. Graph library target: networkx 3.x
+      (Python), igraph (R). Rendering engine: Graphviz DOT (system binary
+      required). Prohibited: any implementation that allows Extension writes to
+      Core node content, parent_ids, tier, or status fields. Deployment
+      topology: stateless execution; no persistent server process required for
+      Core operations. Runtime: Python 3.10+ or R 4.0+.
+
+  - id: SAL-5.1
+    tier: SAL
+    title: "System Architecture Layer"
+    status: ACTIVE
+    version: "6.0.0"
+    created: "2026-02-26T00:00:00Z"
+    modified: "2026-02-26T00:00:00Z"
+    parent_ids:
+      - id: FCL-3.1
+        edge_type: derives
+        derivation_mode: semantic
+      - id: CL-4.1
+        edge_type: constrains
+    content: |
+      How is the system structurally decomposed, and what patterns govern
+      component interaction?
+
+      Architectural pattern: layered DAG with typed edges and merge-node at SAL.
+      Subsystem decomposition: (1) Core DAG Engine — node schema management,
+      ID assignment, status lifecycle enforcement, parent_ids maintenance;
+      (2) Validation Engine — VERIFY (full traversal) and VALIDATE (per-node)
+      with deterministic rule evaluation; (3) Operation Protocol — 8 atomic
+      operations with pre/post-conditions and DIRTY propagation side-effects;
+      (4) Extension Interface — read-only overlay contract, candidate pool
+      isolation, annotation namespace enforcement; (5) Reconciliation Manifest —
+      status counters, pending item queue, Extension advisory aggregation.
+      Concurrency: last-write-wins. Failure isolation: each operation is
+      fully atomic; rollback on validation failure. Resilience: VERIFY is
+      always executable regardless of DIRTY count.
+
+  - id: ICL-6.1
+    tier: ICL
+    title: "Interface & Contracts Layer"
+    status: ACTIVE
+    version: "6.3.0"
+    created: "2026-02-26T00:00:00Z"
+    modified: "2026-03-28T00:00:00Z"
+    parent_ids:
+      - id: SAL-5.1
+        edge_type: derives
+        derivation_mode: semantic
+    content: |
+      What are the formal, machine-verifiable contracts governing data exchange
+      between system boundaries?
+
+      Node schema contract: ddr_node_schema_v6.3.yaml (JSON Schema 2020-12); fields
+      id, tier, title, status, version, created, modified required; parent_ids
+      and content optional with defined defaults for the appropriate document
+      profile. Edge schema: {id: string (pattern TIER-N.M), edge_type:
+      enum[derives|constrains|implements], derivation_mode?:
+      enum[semantic|traceability] (valid only when edge_type='derives';
+      default='semantic' when omitted)}. DdrNode conditionals bind the ID
+      prefix to tier, restrict constraint_origin to CL nodes, require
+      prior_status only while status=SUPERSEDE_PENDING, require
+      express_mode_group when document_profile=project_instance_express,
+      and treat project.mode as a consistency check rather than the primary
+      enforcement surface for express documents.
+      VERIFY contract: input DiGraph → output {clean: bool, violations:
+      [{rule_id, node_id, description, severity}]}. VALIDATE contract: input
+      node_id → output {pass: bool, violated_rules: [rule_id]}. INSERT contract:
+      input node_spec → output DdrNode | ValidationError (atomic). Error codes:
+      CIT-R1 (orphan), AX-7 (cycle), INV-2 (tier skip),
+      SCHEMA-STATUS (invalid status). Versioning: schema locked to
+      ddr_version: "6.3"; breaking schema changes require ddr_version increment.
+
+  - id: CDL-7.1
+    tier: CDL
+    title: "Component Design Layer"
+    status: ACTIVE
+    version: "6.2.0"
+    created: "2026-02-26T00:00:00Z"
+    modified: "2026-03-27T00:00:00Z"
+    parent_ids:
+      - id: ICL-6.1
+        edge_type: implements
+    content: |
+      What are the structural blueprints of individual components?
+
+      DdrNode: id (str, immutable), tier (TierEnum), title (str), status
+      (StatusEnum: DRAFT|ACTIVE|DIRTY|DEPRECATED|SUPERSEDED|SUPERSEDE_PENDING),
+      constraint_origin (ConstraintOriginEnum|None; CL only),
+      prior_status (StatusEnum|None; restricted to ACTIVE|DEPRECATED|DIRTY and
+      permitted only while status=SUPERSEDE_PENDING),
+      version (SemVer), created (datetime), modified (datetime),
+      parent_ids (List[ParentCitation]), content (str),
+      express_mode_group (ExpressModeGroupEnum|None; required in express mode),
+      extension_annotations (Dict[str, Any], namespaced, reserved core-name
+      suffixes forbidden). SUPERSEDE_PENDING is a transient operational state
+      entered only during in-flight SUPERSEDE and is not a stable lifecycle
+      state outside SUPERSEDE execution.
+      ParentCitation: id (str), edge_type (ParentCitationEdgeTypeEnum),
+      derivation_mode (DerivationModeEnum|None; applies only to derives;
+      default semantic when absent).
+      Violation: rule_id (str), node_id (str), description (str), severity (str).
+      VerifyResult: clean (bool), violations (List[Violation]), node_count (int),
+      tier_counts (Dict), status_counts (Dict).
+      ReconciliationManifest: node_count_by_tier (Dict), status_counts (Dict),
+      pending_items (List), last_validation_ts (datetime),
+      active_extensions (List), annotation_counts (Dict),
+      extension_advisories (List).
+      Dependencies: DdrNode → ParentCitation (composition); VerifyResult →
+      Violation (composition); ReconciliationManifest → pending_items (list of
+      {node_id, rule_id, suggested_op}).
+
+  - id: ISL-8.1
+    tier: ISL
+    title: "Implementation Scaffold Layer"
+    status: ACTIVE
+    version: "6.3.0"
+    created: "2026-02-26T00:00:00Z"
+    modified: "2026-03-28T00:00:00Z"
+    parent_ids:
+      - id: CDL-7.1
+        edge_type: implements
+    content: |
+      # [CDL-7.1] DdrNode scaffold — Python target (CL-4.1: Python 3.10+)
+      from enum import Enum
+      from datetime import datetime
+      from dataclasses import dataclass, field
+      from typing import Any, Optional
+
+      class TierEnum(str, Enum):
+          # [GPCL-2.1] 9 canonical tiers — AX-4 universality enforced
+          XPD="XPD"; SIL="SIL"; GPCL="GPCL"; FCL="FCL"; CL="CL"
+          SAL="SAL"; ICL="ICL"; CDL="CDL"; ISL="ISL"
+
+      class StatusEnum(str, Enum):
+          # [ICL-6.1] Valid statuses — transitions enforced by operation protocol.
+          # SUPERSEDE_PENDING is transient: entered only during in-flight
+          # SUPERSEDE and not a stable lifecycle state outside SUPERSEDE.
+          DRAFT="DRAFT"; ACTIVE="ACTIVE"; DIRTY="DIRTY"
+          DEPRECATED="DEPRECATED"; SUPERSEDED="SUPERSEDED"
+          SUPERSEDE_PENDING="SUPERSEDE_PENDING"
+
+      class EdgeTypeEnum(str, Enum):
+          # [ICL-6.1] 4-type edge vocabulary (§3.2)
+          DERIVES="derives"; CONSTRAINS="constrains"
+          IMPLEMENTS="implements"; EXTENDS="extends"
+
+      class ParentCitationEdgeTypeEnum(str, Enum):
+          # [ICL-6.1/CIT-R5] Core citation vocabulary for parent_ids only
+          DERIVES="derives"; CONSTRAINS="constrains"; IMPLEMENTS="implements"
+
+      class ConstraintOriginEnum(str, Enum):
+          # [CL-4.1] Valid only for CL nodes
+          DERIVED="derived"; IMPOSED="imposed"
+
+      class ExpressModeGroupEnum(str, Enum):
+          # [§4] Required on every node when project.mode == "express"
+          G1="G1"; G2="G2"; G3="G3"; G4="G4"
+
+      class DerivationModeEnum(str, Enum):
+          # [§3.2/CIT-R2] derives subtype annotation (backward compatible)
+          SEMANTIC="semantic"; TRACEABILITY="traceability"
+
+      @dataclass
+      class ParentCitation:
+          # [ICL-6.1] Typed parent reference — CIT-R1 through CIT-R4
+          id: str          # immutable node ID — pattern TIER-N.M
+          edge_type: ParentCitationEdgeTypeEnum
+          derivation_mode: Optional[DerivationModeEnum] = None
+
+      @dataclass
+      class DdrNode:
+          # [ICL-6.1] Core node — AX-1: parent_ids ≥1 for non-root
+          id: str               # [§3.6] immutable on assignment
+          tier: TierEnum
+          title: str
+          status: StatusEnum
+          constraint_origin: Optional[ConstraintOriginEnum] = None
+          prior_status: Optional[StatusEnum] = None
+          version: str          # SemVer
+          created: datetime
+          modified: datetime
+          parent_ids: list[ParentCitation] = field(default_factory=list)
+          content: str = ""
+          express_mode_group: Optional[ExpressModeGroupEnum] = None
+          extension_annotations: dict[str, Any] = field(default_factory=dict)
+
+      @dataclass
+      class Violation:
+          # [ICL-6.1] VERIFY output unit
+          rule_id: str; node_id: str; description: str; severity: str = "ERROR"
+
+      @dataclass
+      class VerifyResult:
+          # [ICL-6.1] VERIFY return contract
+          clean: bool
+          violations: list[Violation] = field(default_factory=list)
+          node_count: int = 0
+          tier_counts: dict = field(default_factory=dict)
+          status_counts: dict = field(default_factory=dict)
+
+      def verify(graph) -> VerifyResult:
+          """[SAL-5.1] Full DAG traversal — AX-7 cycle, AX-1 orphan,
+          INV-2 tier-skip, edge type, SAL merge-node, status validation."""
+          ...  # implementation hint: use networkx.is_directed_acyclic_graph()
+
+      def validate(node_id: str, graph) -> dict:
+          """[SAL-5.1] Per-node atomic ruleset check — returns {pass, violated_rules}."""
+          ...  # implementation hint: load tier_definitions ruleset from schema
+
+      def insert(node_spec: dict, graph, validate: bool = True) -> DdrNode:
+          """[SAL-5.1] Atomic node creation — fails atomically on validation failure."""
+          ...
+
+      def delete(node_id: str, graph) -> None:
+          """[SAL-5.1] Remove node; propagate DIRTY to all former children."""
+          ...
+
+      def modify(node_id: str, changes: dict, graph) -> DdrNode:
+          """[SAL-5.1] Update content; increment SemVer; propagate DIRTY to descendants."""
+          ...
+
+      def supersede(node_id: str, replacement_spec: dict, graph) -> DdrNode:
+          """[SAL-5.1] SUPERSEDE sequence: source status enters SUPERSEDE_PENDING with prior_status recorded (gc-007); replacement INSERT validates atomically; on SUPERSEDE commit, the source transitions to SUPERSEDED, immediate children parent_ids are re-wired, those children become DIRTY, and prior_status is cleared (gc-008); on SUPERSEDE rollback, the source reverts to prior_status, prior parent_ids are preserved when INSERT fails or the replacement is removed if re-wiring fails, SUPERSEDE_FAILED is logged, and prior_status is cleared (gc-009)."""
+          ...
+
+      def unbundle_scan(group_id: str, graph) -> UnbundleScanResult:
+          """[SAL-5.1] Read-only UNBUNDLE_SCAN pre-flight; no state mutations. Returns UnbundleScanResult: a list of FragmentDiagnostic objects, each with fields fragment_id (str), content_preview (str, ≤80 chars), detected_annotation (str | None), confidence (Literal['high','ambiguous','none']), and ambiguity_reason (str | None). Confidence assignment: high → annotation present and unambiguously maps to exactly one constituent tier; ambiguous → annotation present but maps to multiple tiers or violates tier rules; none → no annotation detected."""
+          ...
+
+      def unbundle_execute(group_id: str, graph) -> list[DdrNode]:
+          """[SAL-5.1] Atomic UNBUNDLE_EXECUTE commit phase; invokes unbundle_scan as precondition check and proceeds only when all fragments reach confidence 'high'. On success: allocates content to constituent tier nodes, auto-wires parent_ids, and returns list of new DdrNode objects. On failure: rejects atomically with no graph mutations, Express Mode group node retains pre-attempt status, and raises UnbundleRejectionError containing the full UnbundleScanResult as the structured error payload."""
+          ...
+
+# AUTHORITY: This lifecycle block is the machine-parseable authority
+# for DDR node status lifecycle semantics. The Markdown §3.8 table
+# in the DDR System v6.3 specification is a human-readable rendering derived
+# from this block. In the event of divergence, this block governs.
+lifecycle:
+  status_transitions:
+    - from: DRAFT
+      to: ACTIVE
+      operation: VALIDATE
+      guards: [gc-001, gc-005]
+    - from: ACTIVE
+      to: DIRTY
+      operation: MODIFY
+      guards: []
+      notes: "Direct MODIFY of an ACTIVE node enters DIRTY pending re-validation."
+    - from: ACTIVE
+      to: DIRTY
+      operation: MODIFY
+      side_effect: propagation
+      guards: []
+      notes: "Covers DIRTY propagation side-effects on descendants after ancestor-side mutations."
+    - from: ACTIVE
+      to: DEPRECATED
+      operation: MODIFY
+      guards: [gc-002]
+    - from: ACTIVE
+      to: SUPERSEDE_PENDING
+      operation: SUPERSEDE
+      guards: [gc-007]
+    - from: DIRTY
+      to: ACTIVE
+      operation: VALIDATE
+      prerequisite_operations: [VERIFY]
+      guards: [gc-001, gc-005, gc-006]
+    - from: DIRTY
+      to: DEPRECATED
+      operation: MODIFY
+      guards: [gc-002]
+    - from: DIRTY
+      to: SUPERSEDE_PENDING
+      operation: SUPERSEDE
+      guards: [gc-007]
+    - from: DEPRECATED
+      to: SUPERSEDE_PENDING
+      operation: SUPERSEDE
+      guards: [gc-007]
+    - from: SUPERSEDE_PENDING
+      to: SUPERSEDED
+      operation: SUPERSEDE
+      phase: commit
+      guards: [gc-008]
+      notes: "All SUPERSEDE steps completed successfully. prior_status cleared."
+    - from: SUPERSEDE_PENDING
+      to_node_field: prior_status
+      operation: SUPERSEDE
+      phase: rollback
+      guards: [gc-009]
+      notes: >
+        Source node reverts to its recorded prior_status value. prior_status
+        field cleared. No replacement node created. No parent_ids modified.
+        SUPERSEDE_FAILED logged to reconciliation manifest.
+    - from: DEPRECATED
+      to: ACTIVE
+      operation: MODIFY
+      guards: [gc-002, gc-003, gc-004]
+
+  guard_definitions:
+    - id: gc-001
+      description: "All structural rules for the node pass validation."
+      verification_mode: structural
+    - id: gc-002
+      description: "Deprecation rationale is explicitly documented."
+      verification_mode: manual
+    - id: gc-003
+      description: "Any previously set deprecation sunset date is cleared."
+      verification_mode: manual
+    - id: gc-004
+      description: "Status reversal is logged in the reconciliation manifest."
+      verification_mode: manual
+    - id: gc-005
+      description: "All review items are resolved."
+      verification_mode: structural
+    - id: gc-006
+      description: "Per-node validation scope is explicitly confirmed."
+      verification_mode: structural
+    - id: gc-007
+      description: >
+        Before entering SUPERSEDE_PENDING, the node's current status must be
+        recorded in prior_status. The prior_status value must be one of
+        [ACTIVE, DEPRECATED, DIRTY]. Transition is rejected if prior_status
+        cannot be set (e.g., node already in SUPERSEDE_PENDING).
+      verification_mode: structural
+    - id: gc-008
+      description: >
+        Replacement node has been successfully INSERTed and validated. All
+        children's parent_ids have been re-wired to the replacement ID. All
+        children are set DIRTY. prior_status is cleared from the source node.
+      verification_mode: structural
+    - id: gc-009
+      description: >
+        Replacement INSERT failed validation, OR child re-wiring failed after
+        successful INSERT. Source node reverts to its prior_status. If INSERT
+        succeeded before re-wiring failed, the replacement node is removed from
+        the DAG. SUPERSEDE_FAILED is logged with failure_reason.
+      verification_mode: structural

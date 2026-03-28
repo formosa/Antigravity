@@ -8,7 +8,8 @@ document:
   subject:         "DDR System v6.2"
   created:         "2026-03-28"
   updated:         "2026-03-28"
-  status:          "OPEN"
+  resolved:        "2026-03-28"
+  status:          "RESOLVED"
   severity:        "MAJOR"
   type:            "LOGICAL_CONFLICT"
 ---
@@ -19,13 +20,14 @@ document:
 
 ```yaml
 id:          ISSUE-009
-status:      OPEN
+status:      RESOLVED
 severity:    MAJOR
 type:        LOGICAL_CONFLICT
 tier_refs:   ["Operations", "lifecycle authority", "ISL scaffold"]
 section_ref: "\u00a77, \u00a73.8, SAL-5.1, ICL-6.1"
 rule_refs:   ["AX-3"]
 updated:     2026-03-28
+resolved:    2026-03-28
 ```
 
 ### 1. Validation Audit of ISSUE-009
@@ -80,4 +82,10 @@ The updated tracker now treats decomposition as the stronger fix because DDR doe
 
 ### 4. Implementation Note
 
-Implementation remains pending. This report documents the validated defect and recommended direction only; it did not apply a repository patch.
+Implemented in `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml` and `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml`.
+
+The v6.3 schema now closes the operation surface around `OperationNameEnum` and decomposes lifecycle transitions into canonical `operation` plus `phase`, `side_effect`, and `prerequisite_operations` metadata. The v6.3 system file now uses that normalized surface in `operations`, `lifecycle.status_transitions`, and the ISL scaffold so raw composite identifiers no longer act as authoritative operation tokens.
+
+Validation evidence:
+- `.venv\Scripts\python.exe` YAML-parse check succeeded for both v6.3 YAML artifacts.
+- Draft 2020-12 validation of `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml` against `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml` succeeded with the normalized operation identifier surface.

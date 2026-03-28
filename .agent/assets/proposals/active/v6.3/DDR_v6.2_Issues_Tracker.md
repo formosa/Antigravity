@@ -25,8 +25,8 @@ document:
   created:         "2026-03-27"
   last_modified:   "2026-03-28"
   author:          "HuggingFormosa"
-  open_issues:     11
-  resolved_issues: 0
+  open_issues:     0
+  resolved_issues: 11
   status_values:   [OPEN, IN_REVIEW, RESOLVED, WONT_FIX, DEFERRED]
   severity_values: [CRITICAL, MAJOR, MODERATE, MINOR]
   type_values:
@@ -98,17 +98,17 @@ document:
 
 | ID | Severity | Type | Status | Tiers Affected | Title |
 | --- | --- | --- | --- | --- | --- |
-| [ISSUE-001](#issue-001-require-the-full-system-definition-normative-surface) | `CRITICAL` | `SCHEMA_DEFECT` | `OPEN` | `System-definition files` | Require the full system-definition normative surface |
-| [ISSUE-002](#issue-002-enforce-the-mandatory-active-tier-set) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | `All files (root topology)` | Enforce the mandatory active tier set |
-| [ISSUE-003](#issue-003-close-supersede_pending-exit-semantics-machine-readably) | `MAJOR` | `LIFECYCLE_GAP` | `OPEN` | `Lifecycle authority` | Close `SUPERSEDE_PENDING` exit semantics machine-readably |
-| [ISSUE-004](#issue-004-harden-are-operational-contracts-in-the-schema) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | `Extension System, Extension Catalog, ARE Scoring Profiles` | Harden ARE operational contracts in the schema |
-| [ISSUE-008](#issue-008-machine-close-active-tier-topology-consistency) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | `All files (root topology, node set)` | Machine-close active-tier topology consistency |
-| [ISSUE-009](#issue-009-close-the-operation-identifier-surface-machine-readably) | `MAJOR` | `LOGICAL_CONFLICT` | `OPEN` | `Operations, lifecycle authority, ISL scaffold` | Close the operation identifier surface machine-readably |
-| [ISSUE-005](#issue-005-normalize-express-mode-unbundle-operation-names) | `MODERATE` | `LOGICAL_CONFLICT` | `OPEN` | `Express Mode, Operations, ISL scaffold` | Normalize Express Mode UNBUNDLE operation names |
-| [ISSUE-006](#issue-006-type-remaining-normative-rule-identifiers) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | `DAG invariants, tier rules, extension rules` | Type remaining normative rule identifiers |
-| [ISSUE-010](#issue-010-lock-express-mode-group-compositions-structurally) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | `Express Mode` | Lock Express Mode group compositions structurally |
-| [ISSUE-011](#issue-011-enforce-top-level-express-mode-contract-for-express-projects) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | `Project instances (express mode)` | Enforce top-level Express Mode contract for express projects |
-| [ISSUE-007](#issue-007-align-the-icl-tier-skip-error-code-with-inv-2) | `MINOR` | `LOGICAL_CONFLICT` | `OPEN` | `ICL-6.1, DAG invariants` | Align the ICL tier-skip error code with `INV-2` |
+| [ISSUE-001](#issue-001-require-the-full-system-definition-normative-surface) | `CRITICAL` | `SCHEMA_DEFECT` | `RESOLVED` | `System-definition files` | Require the full system-definition normative surface |
+| [ISSUE-002](#issue-002-enforce-the-mandatory-active-tier-set) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | `All files (root topology)` | Enforce the mandatory active tier set |
+| [ISSUE-003](#issue-003-close-supersede_pending-exit-semantics-machine-readably) | `MAJOR` | `LIFECYCLE_GAP` | `RESOLVED` | `Lifecycle authority` | Close `SUPERSEDE_PENDING` exit semantics machine-readably |
+| [ISSUE-004](#issue-004-harden-are-operational-contracts-in-the-schema) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | `Extension System, Extension Catalog, ARE Scoring Profiles` | Harden ARE operational contracts in the schema |
+| [ISSUE-008](#issue-008-machine-close-active-tier-topology-consistency) | `MAJOR` | `SCHEMA_DEFECT` | `RESOLVED` | `All files (root topology, node set)` | Machine-close active-tier topology consistency |
+| [ISSUE-009](#issue-009-close-the-operation-identifier-surface-machine-readably) | `MAJOR` | `LOGICAL_CONFLICT` | `RESOLVED` | `Operations, lifecycle authority, ISL scaffold` | Close the operation identifier surface machine-readably |
+| [ISSUE-005](#issue-005-normalize-express-mode-unbundle-operation-names) | `MODERATE` | `LOGICAL_CONFLICT` | `RESOLVED` | `Express Mode, Operations, ISL scaffold` | Normalize Express Mode UNBUNDLE operation names |
+| [ISSUE-006](#issue-006-type-remaining-normative-rule-identifiers) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | `DAG invariants, tier rules, extension rules` | Type remaining normative rule identifiers |
+| [ISSUE-010](#issue-010-lock-express-mode-group-compositions-structurally) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | `Express Mode` | Lock Express Mode group compositions structurally |
+| [ISSUE-011](#issue-011-enforce-top-level-express-mode-contract-for-express-projects) | `MODERATE` | `SCHEMA_DEFECT` | `RESOLVED` | `Project instances (express mode)` | Enforce top-level Express Mode contract for express projects |
+| [ISSUE-007](#issue-007-align-the-icl-tier-skip-error-code-with-inv-2) | `MINOR` | `LOGICAL_CONFLICT` | `RESOLVED` | `ICL-6.1, DAG invariants` | Align the ICL tier-skip error code with `INV-2` |
 
 ---
 
@@ -118,8 +118,10 @@ document:
 
 ### ISSUE-001: Require the Full System-Definition Normative Surface
 
-**Status:** `OPEN` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `CRITICAL` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `System-definition files` | **Spec Section:** `Schema Root, §5-§9`
+
+> Resolution (2026-03-28): Option B - Introduced explicit document profiles and required the full system_definition normative surface in the v6.3 schema.
 
 #### Problem Statement-001
 
@@ -175,8 +177,10 @@ It also keeps the framework single-source and self-describing. Compared with sep
 
 ### ISSUE-002: Enforce the Mandatory Active Tier Set
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All files (root topology)` | **Spec Section:** `§3.5`
+
+> Resolution (2026-03-28): Option A - Closed `active_tiers` to canonical variants that always include the mandatory base tier set.
 
 #### Problem Statement-002
 
@@ -227,8 +231,10 @@ Option A is the best near-term repair because it closes the mandatory-member gap
 
 ### ISSUE-003: Close `SUPERSEDE_PENDING` Exit Semantics Machine-Readably
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `LIFECYCLE_GAP`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `LIFECYCLE_GAP`
 **Tiers Affected:** `Lifecycle authority` | **Spec Section:** `§3.8`
+
+> Resolution (2026-03-28): Option B - Made `status_transitions` the sole lifecycle authority and removed `prohibited_transitions`.
 
 #### Problem Statement-003
 
@@ -283,8 +289,10 @@ The systemic nature of the current omissions makes incremental blacklist repairs
 
 ### ISSUE-004: Harden ARE Operational Contracts in the Schema
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `Extension System, Extension Catalog, ARE Scoring Profiles` | **Spec Section:** `§8.2, §9 E5`
+
+> Resolution (2026-03-28): Option B - Hardened ARE structures in schema and delegated profile-resolution plus score-band semantics to deterministic ARE conformance validation.
 
 #### Problem Statement-004
 
@@ -309,23 +317,23 @@ The ARE extension's promotion gating and pool-lifecycle safeguards cannot be tru
 
 Add a typed `activation_states` object with explicit `active`, `paused`, and `disabled` members; add conditional enforcement so `id: E5` requires `scoring_profile`; constrain `scoring_profile` to known or structurally declared profile identifiers; type the custom profile path against `ScoringProfile`; and add numeric bounds for thresholds and range items, with a runtime ordering check if the two-element array form is retained.
 
-#### Resolution-004: Option B - Pair the Current Schema with a Required ARE Contract Validator
-
-If full cross-reference and range semantics are considered too awkward for pure JSON Schema, declare these ARE rules runtime-authoritative and ship a deterministic validator that checks activation-state topology, `scoring_profile` existence/default behavior, custom profile structural completeness, threshold bounds, and range sanity. This keeps the schema lighter, but it must be explicitly treated as an incomplete front door rather than the whole contract.
-
-#### Resolution-004: Option C - Use a Hybrid Structural Schema plus ARE Conformance Validator
+#### Resolution-004: Option B - Use a Hybrid Structural Schema plus ARE Conformance Validator
 
 Use JSON Schema to close the structural rules that it expresses well: typed activation states, `E5`-conditional `scoring_profile` presence, machine-typed profile objects, and basic numeric bounds. Then make a deterministic ARE-specific validator authoritative for cross-reference existence, score-band ordering and non-overlap, and any semantic checks that span multiple objects. This intentionally splits enforcement by concern without leaving the schema front door weak.
 
+#### Resolution-004: Option C - Pair the Current Schema with a Required ARE Contract Validator
+
+If full cross-reference and range semantics are considered too awkward for pure JSON Schema, declare these ARE rules runtime-authoritative and ship a deterministic validator that checks activation-state topology, `scoring_profile` existence/default behavior, custom profile structural completeness, threshold bounds, and range sanity. This keeps the schema lighter, but it must be explicitly treated as an incomplete front door rather than the whole contract.
+
 #### Comparative Analysis-004
 
-Option A gives the strongest schema boundary, but some ARE obligations are inherently cross-object or mathematical in ways that become awkward in plain JSON Schema. Option B is operationally workable if tooling already exists, yet it leaves too many obvious structural defects undetectable at the first validation boundary. Option C combines the best properties of both approaches by pushing obvious structural failures into schema validation while reserving cross-reference and higher-order checks for a deterministic validator.
+Option A gives the strongest schema boundary, but some ARE obligations are inherently cross-object or mathematical in ways that become awkward in plain JSON Schema. Option C is operationally workable if tooling already exists, yet it leaves too many obvious structural defects undetectable at the first validation boundary. Option B combines the best properties of both approaches by pushing obvious structural failures into schema validation while reserving cross-reference and higher-order checks for a deterministic validator.
 
 #### Recommendation-004
 
-**Endorsed Option:** `Option C`
+**Endorsed Option:** `Option B`
 
-Option C is the best fit for DDR because ARE is both safety-sensitive and structurally rich. The schema should reject malformed activation-state objects, missing `E5` scoring-profile declarations, and out-of-range numeric values as early as possible. But the framework also needs authoritative checks that JSON Schema does not express cleanly, such as profile-reference resolution and ordered, non-overlapping score-band semantics.
+Option B is the best fit for DDR because ARE is both safety-sensitive and structurally rich. The schema should reject malformed activation-state objects, missing `E5` scoring-profile declarations, and out-of-range numeric values as early as possible. But the framework also needs authoritative checks that JSON Schema does not express cleanly, such as profile-reference resolution and ordered, non-overlapping score-band semantics.
 
 This hybrid split preserves early failure, improves interoperability at the schema boundary, and still acknowledges that some ARE guarantees belong in a deterministic validator rather than in awkward schema contortions.
 
@@ -345,8 +353,10 @@ This hybrid split preserves early failure, improves interoperability at the sche
 
 ### ISSUE-005: Normalize Express Mode UNBUNDLE Operation Names
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `LOGICAL_CONFLICT`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `LOGICAL_CONFLICT`
 **Tiers Affected:** `Express Mode, Operations, ISL scaffold` | **Spec Section:** `§4, §7, ISL-8.1`
+
+> Resolution (2026-03-28): Option A - Made `UNBUNDLE_EXECUTE` the sole commit-phase token across the live Express Mode surface.
 
 #### Problem Statement-005
 
@@ -398,8 +408,10 @@ Option A is the best fit for this issue because it resolves the actual naming dr
 
 ### ISSUE-006: Type Remaining Normative Rule Identifiers
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `DAG invariants, tier rules, extension rules` | **Spec Section:** `§3.5, §5, §9`
+
+> Resolution (2026-03-28): Option B - Centralized invariant, atomic-rule, citation-rule, and extension-rule identifier typing in reusable schema definitions.
 
 #### Problem Statement-006
 
@@ -456,8 +468,10 @@ It also preserves the schema as the first-line authority for syntactic rule iden
 
 ### ISSUE-007: Align the ICL Tier-Skip Error Code with `INV-2`
 
-**Status:** `OPEN` | **Severity:** `MINOR` | **Type:** `LOGICAL_CONFLICT`
+**Status:** `RESOLVED` | **Severity:** `MINOR` | **Type:** `LOGICAL_CONFLICT`
 **Tiers Affected:** `ICL-6.1, DAG invariants` | **Spec Section:** `ICL-6.1, §3.5`
+
+> Resolution (2026-03-28): Option A - Replaced the undocumented `INV-TIER-SKIP` alias in `ICL-6.1` with the canonical invariant ID `INV-2`.
 
 #### Problem Statement-007
 
@@ -509,8 +523,10 @@ Option A is the best fit because the existing defect is simple: one authoritativ
 
 ### ISSUE-008: Machine-Close Active-Tier Topology Consistency
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `All files (root topology, node set)` | **Spec Section:** `§3.5, Schema Root`
+
+> Resolution (2026-03-28): Option A - Closed `active_tiers` to canonical topology variants and made representative active-tier coverage normative for system-definition artifacts.
 
 #### Problem Statement-008
 
@@ -566,8 +582,10 @@ This keeps the topology declaration explicit while ensuring it actually governs 
 
 ### ISSUE-009: Close the Operation Identifier Surface Machine-Readably
 
-**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `LOGICAL_CONFLICT`
+**Status:** `RESOLVED` | **Severity:** `MAJOR` | **Type:** `LOGICAL_CONFLICT`
 **Tiers Affected:** `Operations, lifecycle authority, ISL scaffold` | **Spec Section:** `§7, §3.8, SAL-5.1, ICL-6.1`
+
+> Resolution (2026-03-28): Option A - Split canonical operation identity from phase, propagation side-effects, and prerequisite chaining in the v6.3 contract.
 
 #### Problem Statement-009
 
@@ -624,8 +642,10 @@ That decomposition also integrates cleanly with ISSUE-005, which is really one n
 
 ### ISSUE-010: Lock Express Mode Group Compositions Structurally
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `Express Mode` | **Spec Section:** `§4`
+
+> Resolution (2026-03-28): Option A - Bound each canonical Express Mode group ID to its fixed tier composition and required the full four-group set.
 
 #### Problem Statement-010
 
@@ -678,8 +698,10 @@ Option A is the best repair for v6.2 because it gives the framework structural c
 
 ### ISSUE-011: Enforce Top-Level Express Mode Contract for Express Projects
 
-**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Status:** `RESOLVED` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
 **Tiers Affected:** `Project instances (express mode)` | **Spec Section:** `§4, Express Mode`
+
+> Resolution (2026-03-28): Option B - Required the full top-level `express_mode` authority block through the explicit express document profile.
 
 #### Problem Statement-011
 
@@ -737,18 +759,19 @@ Option B best aligns this issue with the broader root-contract direction needed 
 
 ```plaintext
 1. IDENTIFY the issue ID and selected Resolution Option (A/B/C)
-2. DRAFT the specific changes to .agent\assets\proposals\active\v6.2\ddr_system_v6.2.yaml and .agent\assets\proposals\active\v6.2\ddr_node_schema_v6.2.yaml and/or associated schemas
+2. DRAFT and APPLY the specific changes to .agent\assets\proposals\active\v6.3\ddr_system_v6.3.yaml and .agent\assets\proposals\active\v6.3\ddr_node_schema_v6.3.yaml and any directly affected associated artifacts
 3. VERIFY the draft changes do not introduce new issues (check cross-references in Notes fields)
-4. UPDATE the issue entry:
-   - Set status: IN_REVIEW
-   - Refresh comparative analysis, recommendation, and supporting citations if the ranking changed
-5. HUMAN REVIEW of draft changes
-6. On approval:
+4. UPDATE the associated Issue Report immediately:
    - Set status: RESOLVED
+   - Set updated: [date]
    - Set resolved: [date]
+   - Replace the pending implementation note with an implemented-change summary and validation evidence
+5. UPDATE the issue entry in this tracker immediately:
+   - Set status: RESOLVED
    - Record resolution: "Option [A|B|C]: [one-line summary]"
-7. UPDATE the ISSUE REGISTRY table
-8. UPDATE document header metadata (`open_issues`, `resolved_issues`)
+6. UPDATE the ISSUE REGISTRY table
+7. UPDATE document header metadata (`open_issues`, `resolved_issues`, `last_modified`)
+8. VALIDATE the updated Issue Report and Issues Tracker before continuing to the next OPEN issue
 ```
 
 ---
@@ -774,5 +797,5 @@ Option B best aligns this issue with the broader root-contract direction needed 
 ---
 
 *DDR System v6.2 Issues Tracker — IT-1.1*
-*11 issues identified | 0 resolved | Last updated: 2026-03-28*
+*11 issues identified | 11 resolved | Last updated: 2026-03-28*
 *Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*

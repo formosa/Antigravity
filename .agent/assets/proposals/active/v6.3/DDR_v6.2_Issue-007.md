@@ -8,7 +8,8 @@ document:
   subject:         "DDR System v6.2"
   created:         "2026-03-28"
   updated:         "2026-03-28"
-  status:          "OPEN"
+  resolved:        "2026-03-28"
+  status:          "RESOLVED"
   severity:        "MINOR"
   type:            "LOGICAL_CONFLICT"
 ---
@@ -19,13 +20,14 @@ document:
 
 ```yaml
 id:          ISSUE-007
-status:      OPEN
+status:      RESOLVED
 severity:    MINOR
 type:        LOGICAL_CONFLICT
 tier_refs:   ["ICL-6.1", "DAG invariants"]
 section_ref: "ICL-6.1, \u00a73.5"
 rule_refs:   ["INV-2", "INV-TIER-SKIP"]
 updated:     2026-03-28
+resolved:    2026-03-28
 ```
 
 ### 1. Validation Audit of ISSUE-007
@@ -80,4 +82,10 @@ The mismatch is small, localized, and currently undocumented. The cleanest repai
 
 ### 4. Implementation Note
 
-Implementation remains pending. This report documents the validated defect and recommended direction only; it did not apply a repository patch.
+Implemented in `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml`.
+
+The v6.3 system file now replaces `INV-TIER-SKIP` with the canonical invariant identifier `INV-2` in `ICL-6.1` and updates the surrounding version-lock text to the v6.3 contract. The ICL error surface now points directly at the invariant defined in `dag_invariants` instead of relying on an undocumented alias.
+
+Validation evidence:
+- `.venv\Scripts\python.exe` YAML-parse check succeeded for both v6.3 YAML artifacts.
+- Draft 2020-12 validation of `.agent/assets/proposals/active/v6.3/ddr_system_v6.3.yaml` against `.agent/assets/proposals/active/v6.3/ddr_node_schema_v6.3.yaml` succeeded after the ICL rule-reference alignment.
