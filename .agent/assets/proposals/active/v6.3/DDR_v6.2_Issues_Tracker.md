@@ -23,9 +23,9 @@ document:
   target_model:    "Gemini 3.1 Pro"
   subject:         "DDR System v6.2"
   created:         "2026-03-27"
-  last_modified:   "2026-03-27"
+  last_modified:   "2026-03-28"
   author:          "HuggingFormosa"
-  open_issues:     7
+  open_issues:     11
   resolved_issues: 0
   status_values:   [OPEN, IN_REVIEW, RESOLVED, WONT_FIX, DEFERRED]
   severity_values: [CRITICAL, MAJOR, MODERATE, MINOR]
@@ -92,9 +92,13 @@ a minor variant of Option A - must represent a meaningfully different design dec
 | [ISSUE-001](#issue-001-require-the-full-system-definition-normative-surface) | `CRITICAL` | `SCHEMA_DEFECT` | `OPEN` | `System-definition files` | Require the full system-definition normative surface |
 | [ISSUE-002](#issue-002-enforce-the-mandatory-active-tier-set) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | `All files (root topology)` | Enforce the mandatory active tier set |
 | [ISSUE-003](#issue-003-close-supersede_pending-exit-semantics-machine-readably) | `MAJOR` | `LIFECYCLE_GAP` | `OPEN` | `Lifecycle authority` | Close `SUPERSEDE_PENDING` exit semantics machine-readably |
-| [ISSUE-004](#issue-004-harden-are-operational-contracts-in-the-schema) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | `Extension System, Extension Catalog` | Harden ARE operational contracts in the schema |
+| [ISSUE-004](#issue-004-harden-are-operational-contracts-in-the-schema) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | `Extension System, Extension Catalog, ARE Scoring Profiles` | Harden ARE operational contracts in the schema |
+| [ISSUE-008](#issue-008-machine-close-active-tier-topology-consistency) | `MAJOR` | `SCHEMA_DEFECT` | `OPEN` | `All files (root topology, node set)` | Machine-close active-tier topology consistency |
+| [ISSUE-009](#issue-009-close-the-operation-identifier-surface-machine-readably) | `MAJOR` | `LOGICAL_CONFLICT` | `OPEN` | `Operations, lifecycle authority, ISL scaffold` | Close the operation identifier surface machine-readably |
 | [ISSUE-005](#issue-005-normalize-express-mode-unbundle-operation-names) | `MODERATE` | `LOGICAL_CONFLICT` | `OPEN` | `Express Mode, Operations, ISL scaffold` | Normalize Express Mode UNBUNDLE operation names |
 | [ISSUE-006](#issue-006-type-remaining-normative-rule-identifiers) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | `DAG invariants, tier rules, extension rules` | Type remaining normative rule identifiers |
+| [ISSUE-010](#issue-010-lock-express-mode-group-compositions-structurally) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | `Express Mode` | Lock Express Mode group compositions structurally |
+| [ISSUE-011](#issue-011-enforce-top-level-express-mode-contract-for-express-projects) | `MODERATE` | `SCHEMA_DEFECT` | `OPEN` | `Project instances (express mode)` | Enforce top-level Express Mode contract for express projects |
 | [ISSUE-007](#issue-007-align-the-icl-tier-skip-error-code-with-inv-2) | `MINOR` | `LOGICAL_CONFLICT` | `OPEN` | `ICL-6.1, DAG invariants` | Align the ICL tier-skip error code with `INV-2` |
 
 ---
@@ -179,21 +183,21 @@ Replace the current loose array rule with profile-aware tier-set contracts that 
 
 #### Problem Statement-003
 
-The lifecycle authority correctly models two legal exits from `SUPERSEDE_PENDING`, but the prohibition table does not machine-close the rest of the state space. The prose says all other exits are prohibited, while the machine-readable blacklist names only `DRAFT`.
+The lifecycle authority correctly models the legal exits from `SUPERSEDE_PENDING`, but the prohibition table does not machine-close the rest of the state space and exhibits the same incompleteness pattern for other non-terminal statuses. The prose treats undefined transitions as prohibited, while the machine-readable blacklists leave several status pairs unstated.
 
 #### Evidence & Justification-003
 
 - `ddr_system_v6.2.yaml:2591-2603` defines the only legal exits from `SUPERSEDE_PENDING` as `SUPERSEDE_COMPLETE -> SUPERSEDED` and `SUPERSEDE_ROLLBACK -> prior_status`.
-- `ddr_system_v6.2.yaml:2640-2646` lists only `to: [DRAFT]` under `prohibited_transitions` for `SUPERSEDE_PENDING`, even though the reason text says "All other transitions from SUPERSEDE_PENDING are prohibited."
+- `ddr_system_v6.2.yaml:2609-2646` shows that the prohibition table is only partially explicit: `DRAFT` omits `SUPERSEDE_PENDING`, `ACTIVE` omits direct `SUPERSEDED`, `DIRTY` omits direct `SUPERSEDED`, `DEPRECATED` omits direct `SUPERSEDED`, and `SUPERSEDE_PENDING` lists only `DRAFT` even though its reason text says "All other transitions from SUPERSEDE_PENDING are prohibited."
 - `ddr_node_schema_v6.2.yaml:1096-1107` models `ProhibitedTransition.to` as an explicit list of status enums, with no machine-readable way to say "all remaining statuses except the allowed rollback form."
 
 #### Impact Assessment-003
 
-Any consumer that interprets `prohibited_transitions` as a closed blacklist can incorrectly treat `SUPERSEDE_PENDING -> ACTIVE`, `DIRTY`, or `DEPRECATED` as not explicitly prohibited. That opens the door to lifecycle divergence across implementations even though the prose intent is clear.
+Any consumer that interprets `prohibited_transitions` as a closed blacklist can incorrectly treat several undefined edges as not explicitly prohibited, with `SUPERSEDE_PENDING -> ACTIVE|DIRTY|DEPRECATED` as the most visible example. That opens the door to lifecycle divergence across implementations and weakens the claim in `INV-8` that the state machine is complete and closed.
 
-#### Resolution-003: Option A - Add Explicit Closed Exit Metadata
+#### Resolution-003: Option A - Add Explicit Closed Transition Metadata
 
-Augment the lifecycle contract with a machine-readable field such as `allowed_targets`, `allows_prior_status_rollback`, or `closed_exit_set` for `SUPERSEDE_PENDING`. This keeps the current table structure while making the exit space fully deterministic for validators.
+Augment the lifecycle contract with machine-readable fields such as `allowed_targets`, `allows_prior_status_rollback`, or `closed_transition_set` for any status whose blacklist is meant to be exhaustive. At minimum this must close `SUPERSEDE_PENDING`; ideally it should eliminate the current ambiguity for `DRAFT`, `ACTIVE`, `DIRTY`, and `DEPRECATED` at the same time.
 
 #### Resolution-003: Option B - Make Allowed Transitions the Sole Authority
 
@@ -201,19 +205,20 @@ Refactor lifecycle validation so `status_transitions` is the only authoritative 
 
 #### Notes-003
 
-- Confirmed from Audit 4 by comparing the lifecycle authority block against the schema's `ProhibitedTransition` shape.
-- This is a machine-completeness gap, not a disagreement with the intended rollback design itself.
+- Confirmed from the compiled audits and direct comparison of `status_transitions` against `prohibited_transitions`.
+- The broadening beyond `SUPERSEDE_PENDING` strengthens the case for Option B, because hand-maintained blacklists are already drifting across multiple statuses.
+- This remains a machine-completeness gap, not a disagreement with the intended rollback design itself.
 
 ---
 
 ### ISSUE-004: Harden ARE Operational Contracts in the Schema
 
 **Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
-**Tiers Affected:** `Extension System, Extension Catalog` | **Spec Section:** `§8.2, §9 E5`
+**Tiers Affected:** `Extension System, Extension Catalog, ARE Scoring Profiles` | **Spec Section:** `§8.2, §9 E5`
 
 #### Problem Statement-004
 
-Several ARE safety contracts are described normatively in the system file but remain only weakly typed in the schema. The most visible gaps are the candidate-pool activation-state model and the end-to-end scoring-profile contract that governs promotion surfacing.
+Several ARE safety contracts are described normatively in the system file but remain only weakly typed in the schema. The gaps span the candidate-pool activation-state model, `E5` scoring-profile enforcement, custom-profile structural typing, and numeric bounds for score bands and surfacing thresholds.
 
 #### Evidence & Justification-004
 
@@ -221,23 +226,28 @@ Several ARE safety contracts are described normatively in the system file but re
 - A direct `jsonschema` validation probe accepted `activation_states: {banana: {disabled_to_paused: true}}`, showing the tri-state contract is not structurally enforced.
 - `ddr_node_schema_v6.2.yaml:941-945` says `ExtensionEntry.scoring_profile` is "Required for E5 (ARE)" and "Must reference a profile defined in are_scoring_profiles," but the field is typed only as `string`.
 - Direct `jsonschema` probes accepted both an `E5` extension entry with no `scoring_profile` and an `E5` entry with `scoring_profile: does_not_exist`.
-- `ddr_node_schema_v6.2.yaml:983-1002` types `score_bands[].range` as any two-number array and `minimum_surfacing_threshold` as any number; a direct validation probe accepted reversed ranges, overlapping/out-of-band ranges, and `minimum_surfacing_threshold: -0.25`.
+- `ddr_node_schema_v6.2.yaml:423-434` types `standard_v1` and `conservative_v1` as `$ref: "#/$defs/ScoringProfile"` but types `custom` only as a generic `object` with `additionalProperties: true` and a `required_fields` array.
+- `ddr_node_schema_v6.2.yaml:963-1003` defines `ScoringProfile` as requiring `input_signals`, `score_bands`, `minimum_surfacing_threshold`, and `override_policy`, but the `custom` slot does not reference that shape.
+- `ddr_system_v6.2.yaml:1652-1672` makes ARE-R2 and ARE-R5 depend on standard or custom scoring profiles satisfying the declared profile contract, including `required_fields` for custom profiles.
+- A direct `jsonschema` validation probe accepted `are_scoring_profiles: { custom: { required_fields: [] } }`, which leaves the custom profile path structurally empty while still schema-valid.
+- `ddr_node_schema_v6.2.yaml:983-1002` types `score_bands[].range` as any two-number array and `minimum_surfacing_threshold` as any number; direct validation probes accepted reversed ranges, out-of-band values, and `minimum_surfacing_threshold: -0.25`.
 
 #### Impact Assessment-004
 
-The ARE extension's promotion gating and pool-lifecycle safeguards cannot be trusted from the schema boundary alone. Tooling that relies on structural validation may accept impossible activation states, broken scoring references, or mathematically invalid promotion thresholds and only fail much later at runtime.
+The ARE extension's promotion gating and pool-lifecycle safeguards cannot be trusted from the schema boundary alone. Tooling that relies on structural validation may accept impossible activation states, broken scoring references, structurally incomplete custom profiles, or mathematically invalid promotion thresholds and only fail much later at runtime.
 
 #### Resolution-004: Option A - Promote ARE Contracts into JSON Schema
 
-Add a typed `activation_states` object with explicit `active`, `paused`, and `disabled` members; add conditional enforcement so `id: E5` requires `scoring_profile`; and constrain `scoring_profile` to known profile identifiers. Also add numeric bounds for thresholds and any structural bounds the schema can reasonably express for score-band ranges.
+Add a typed `activation_states` object with explicit `active`, `paused`, and `disabled` members; add conditional enforcement so `id: E5` requires `scoring_profile`; constrain `scoring_profile` to known or structurally declared profile identifiers; type `are_scoring_profiles.custom` via `allOf` against `ScoringProfile`; and add numeric bounds for thresholds and range items, with a runtime ordering check if the two-element array form is retained.
 
 #### Resolution-004: Option B - Pair the Current Schema with a Required ARE Contract Validator
 
-If full cross-reference and range semantics are considered too awkward for pure JSON Schema, declare these ARE rules runtime-authoritative and ship a deterministic validator that checks activation-state topology, `scoring_profile` existence, threshold bounds, and range sanity. This keeps the schema lighter, but it must be explicitly treated as an incomplete front door rather than the whole contract.
+If full cross-reference and range semantics are considered too awkward for pure JSON Schema, declare these ARE rules runtime-authoritative and ship a deterministic validator that checks activation-state topology, `scoring_profile` existence/default behavior, custom profile structural completeness, threshold bounds, and range sanity. This keeps the schema lighter, but it must be explicitly treated as an incomplete front door rather than the whole contract.
 
 #### Notes-004
 
-- Confirmed from Audit 1 and Audit 4 with multiple direct schema validation probes.
+- Confirmed from the compiled audits with multiple direct schema validation probes.
+- This issue intentionally absorbs the ARE-specific audit findings about custom profile typing and numeric bounds instead of splitting them into separate tracker entries.
 - If ISSUE-001 is resolved by a system-definition profile, ensure `extension_system`, `extension_catalog`, and `are_scoring_profiles` remain part of the required authoritative surface.
 
 ---
@@ -273,6 +283,7 @@ Keep `UNBUNDLE` as the canonical public operation and rename the prose and scaff
 
 - Confirmed from Audit 1 by aligning the Express Mode prose, operations table, and ISL scaffold.
 - Independent of ISSUE-003: this is naming drift, not a lifecycle-state defect.
+- ISSUE-009 tracks the wider operation-identifier taxonomy problem; ISSUE-005 remains intentionally narrow on the `UNBUNDLE` vs `UNBUNDLE_EXECUTE` conflict.
 
 ---
 
@@ -288,9 +299,10 @@ Several rule-bearing schema objects still accept arbitrary identifier strings ev
 #### Evidence & Justification-006
 
 - `ddr_node_schema_v6.2.yaml:595-603` defines `DagInvariant.id` only as `type: string`.
+- `ddr_node_schema_v6.2.yaml:649-655` defines `AtomicInclusionRule.rule_id` only as `type: string`.
 - `ddr_node_schema_v6.2.yaml:676-683` defines `AtomicExclusionRule.rule_id` only as `type: string`.
 - `ddr_node_schema_v6.2.yaml:919-926` defines `ExtensionRule.rule_id` only as `type: string`, even though `CitationRule.rule_id` and `ExtensionIntegrationRule.rule_id` are pattern-typed elsewhere in the same schema family.
-- A direct `jsonschema` validation probe accepted `dag_invariants: [{id: "tier-skip", statement: "bad id still passes"}]`.
+- Direct `jsonschema` validation probes accepted `dag_invariants: [{id: "tier-skip", statement: "bad id still passes"}]`, malformed `atomic_inclusion_rules[].rule_id` values such as `not-a-rule`, and malformed extension rule IDs such as `wrongprefix-1`.
 
 #### Impact Assessment-006
 
@@ -298,15 +310,16 @@ Malformed or inconsistent rule identifiers can enter authoritative documents wit
 
 #### Resolution-006: Option A - Add Pattern Constraints Per Rule Family
 
-Add explicit regex patterns for each currently untyped rule-ID family, such as `^INV-[0-9]+$` for `DagInvariant.id`, the appropriate `^[A-Z]+-R[0-9]+(?:-imposed)?$` style for atomic rule families, and a typed pattern for extension rules. This is the lowest-blast-radius fix and aligns these families with the stricter rule-ID typing already used elsewhere.
+Add explicit regex patterns for each currently untyped rule-ID family, such as `^INV-[0-9]+$` for `DagInvariant.id`, the appropriate `^[A-Z]+-R[0-9]+(?:-imposed)?$` style for atomic rule families, and either a unified `^[A-Z]{2,3}-R[0-9]+$` pattern or per-extension prefixes for extension rules. This is the lowest-blast-radius fix and aligns these families with the stricter rule-ID typing already used elsewhere.
 
 #### Resolution-006: Option B - Centralize Rule-ID Definitions
 
-Create reusable `$defs` for each rule-ID family and reference them wherever those IDs appear, including any future alias or mapping surfaces. This is a larger cleanup, but it reduces drift and gives the spec one place to evolve identifier formats.
+Create reusable `$defs` for each rule-ID family and reference them wherever those IDs appear, including any future alias or mapping surfaces and any extension-prefix normalization. This is a larger cleanup, but it reduces drift and gives the spec one place to evolve identifier formats.
 
 #### Notes-006
 
-- Confirmed from Audit 4 and extended slightly to include the adjacent `ExtensionRule` gap visible in the same schema cluster.
+- Confirmed from the compiled audits and widened to include `AtomicInclusionRule.rule_id` plus the extension-prefix centralization question.
+- The extension-rule prefix problem is intentionally handled inside ISSUE-006 rather than as a separate tracker entry.
 - ISSUE-007 becomes easier to resolve cleanly if identifier families are centralized here first.
 
 ---
@@ -345,6 +358,150 @@ If the project wants human-readable mnemonics in error payloads, add a small ali
 
 ---
 
+### ISSUE-008: Machine-Close Active-Tier Topology Consistency
+
+**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** `All files (root topology, node set)` | **Spec Section:** `§3.5, Schema Root`
+
+#### Problem Statement-008
+
+The schema treats `active_tiers` as an ordered declaration of the active DDR topology, but it does not fully enforce the consequences of that declaration. Canonical tier ordering, node-tier membership against `active_tiers`, and representative coverage of the declared topology can all drift while remaining schema-valid.
+
+#### Evidence & Justification-008
+
+- `ddr_node_schema_v6.2.yaml:79-88` describes `active_tiers` as an ordered list with mandatory and optional members, but enforces only enum membership, `minItems: 7`, and `uniqueItems: true`.
+- `ddr_node_schema_v6.2.yaml:90-97` describes `nodes` as the instantiated DDR graph and says system-definition files use tier-representative nodes encoding the canonical topology.
+- `ddr_system_v6.2.yaml:4` states that the authoritative specification's nodes section "encodes the canonical 9-tier topology with all DAG edges."
+- `ddr_system_v6.2.yaml:264-266` defines `INV-3`, under which `XPD` and `CL` are conditionally activatable, implying that inactive tiers are absent from the instantiated topology.
+- Direct `jsonschema` validation probes accepted each of the following invalid shapes: a misordered `active_tiers` array, a document with `CL` omitted from `active_tiers` but containing a `CL` node, and a system-definition-shaped document with an empty `nodes` array.
+
+#### Impact Assessment-008
+
+Declared topology and instantiated topology can diverge silently. That weakens any validator, traversal engine, or code generator that derives predecessor logic, root detection, or coverage checks from `active_tiers`, because "schema-valid" no longer guarantees a coherent active graph.
+
+#### Resolution-008: Option A - Add Topology Closure Constraints
+
+Tighten the root contract so `active_tiers` is restricted to the canonical DDR order variants permitted by optional `XPD` and `CL`, then add a deterministic topology validator that enforces node-tier membership against `active_tiers` and, for system-definition files, requires one representative node per active tier. This preserves the current document shape while closing the topology contract.
+
+#### Resolution-008: Option B - Introduce an Explicit Topology Profile Object
+
+Replace the current loose `active_tiers` array contract with a profile-aware topology object that explicitly declares optional-tier activation and drives both allowed node tiers and required representative coverage. This is a broader redesign, but it makes the topology contract first-class instead of inferred from multiple weakly coupled fields.
+
+#### Notes-008
+
+- Complements ISSUE-002 rather than replacing it: ISSUE-002 fixes mandatory tier presence only.
+- If ISSUE-001 is resolved via explicit document profiles, the same mechanism can carry this topology closure cleanly.
+
+---
+
+### ISSUE-009: Close the Operation Identifier Surface Machine-Readably
+
+**Status:** `OPEN` | **Severity:** `MAJOR` | **Type:** `LOGICAL_CONFLICT`
+**Tiers Affected:** `Operations, lifecycle authority, ISL scaffold` | **Spec Section:** `§7, §3.8, SAL-5.1, ICL-6.1`
+
+#### Problem Statement-009
+
+The specification presents a closed set of core operations, but the broader operational surface does not use a single canonical identifier family. The operations table, lifecycle authority, and scaffold guidance expose partially overlapping but non-identical operation names, while the schema types those names only as free strings.
+
+#### Evidence & Justification-009
+
+- `ddr_node_schema_v6.2.yaml:864-870` defines `Operation.name` only as `type: string`.
+- `ddr_node_schema_v6.2.yaml:1062-1075` defines `StatusTransition.operation` only as `type: string`.
+- `ddr_system_v6.2.yaml:1168-1256` defines the 8 core operations as `INSERT`, `DELETE`, `MODIFY`, `SUPERSEDE`, `VERIFY`, `VALIDATE`, `UNBUNDLE_SCAN`, and `UNBUNDLE`.
+- `ddr_system_v6.2.yaml:2557-2607` uses additional lifecycle operation tokens not present in the core-operations table, including `MODIFY|PROPAGATION`, `VERIFY+VALIDATE`, `SUPERSEDE_COMPLETE`, and `SUPERSEDE_ROLLBACK`.
+- `ddr_system_v6.2.yaml:2548-2549` exposes `unbundle_execute(...)` in the scaffold surface, reinforcing the broader naming drift already captured narrowly by ISSUE-005.
+- Direct `jsonschema` validation probes accepted arbitrary operation names such as `BANANA` in both `operations.core_operations[].name` and `lifecycle.status_transitions[].operation`.
+
+#### Impact Assessment-009
+
+Tooling cannot reliably treat operation identifiers as a closed, canonical namespace. Validators, audit logs, generated APIs, CLI surfaces, and test fixtures can disagree about whether they are comparing atomic operations, lifecycle subphases, or composite aliases, which undermines `AX-3` determinism.
+
+#### Resolution-009: Option A - Split Canonical Operation, Phase, and Effect
+
+Introduce a closed `OperationNameEnum` for the true public operation set, then model lifecycle-specific detail separately using fields such as `phase`, `transition_kind`, or `side_effect`. For example, `SUPERSEDE_COMPLETE` and `SUPERSEDE_ROLLBACK` become `operation: SUPERSEDE` plus explicit phase metadata, while `MODIFY|PROPAGATION` becomes `operation: MODIFY` plus a propagation side-effect annotation.
+
+#### Resolution-009: Option B - Add an Authoritative Alias/Taxonomy Layer
+
+Keep the current strings, but add a machine-readable alias map and operation taxonomy that classifies each token as canonical, composite, lifecycle-subphase, or scaffold alias. Validators must normalize all operation identifiers through that authority before comparison. This is less disruptive, but it preserves more conceptual complexity than Option A.
+
+#### Notes-009
+
+- ISSUE-005 should remain narrow and continue to track the specific `UNBUNDLE` vs `UNBUNDLE_EXECUTE` conflict.
+- If Option A is adopted, ISSUE-005 can likely be resolved as part of this broader cleanup.
+
+---
+
+### ISSUE-010: Lock Express Mode Group Compositions Structurally
+
+**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** `Express Mode` | **Spec Section:** `§4`
+
+#### Problem Statement-010
+
+The specification defines a fixed 4-group Express Mode partition, but the schema does not enforce those group compositions. Group IDs are typed, yet the constituent `tiers` arrays remain effectively open.
+
+#### Evidence & Justification-010
+
+- `ddr_system_v6.2.yaml:353-370` defines the canonical Express Mode groups as `G1 = [XPD, SIL, GPCL]`, `G2 = [FCL, CL]`, `G3 = [SAL, ICL]`, and `G4 = [CDL, ISL]`.
+- `ddr_node_schema_v6.2.yaml:229-239` models `express_mode.groups` only as an array of `ExpressModeGroup` items, with no machine-readable rule that all four canonical groups appear exactly once.
+- `ddr_node_schema_v6.2.yaml:632-644` constrains `group_id` to `G1|G2|G3|G4`, but `tiers` remains only an unconstrained array of strings.
+- A direct `jsonschema` validation probe accepted `group_id: G1` with `tiers: [ISL]`.
+
+#### Impact Assessment-010
+
+A document can claim DDR v6.2 Express Mode while redefining the actual group partition. That destabilizes `UNBUNDLE` semantics, group-to-tier allocation logic, and any implementation that assumes the fixed four-group mapping described by the authoritative specification.
+
+#### Resolution-010: Option A - Encode Canonical Group Definitions in the Schema
+
+Constrain `express_mode.groups` so each canonical `group_id` has a fixed `tiers` array and appears exactly once. This is the smallest repair and makes the published G1-G4 partition machine-authoritative.
+
+#### Resolution-010: Option B - Remove Group Definitions from Authored Documents
+
+Treat Express Mode grouping as version-defined system metadata rather than authored content. Documents would declare Express Mode availability, but G1-G4 compositions would be derived from DDR version and therefore not restatable or drift-prone at the document level.
+
+#### Notes-010
+
+- Independent of ISSUE-005: this is a structural-definition defect, not an operation-name defect.
+- ISSUE-011 is synergistic: if express-mode documents must carry the top-level `express_mode` section, its group definitions also need to be machine-closed.
+- If ISSUE-001 introduces a stricter system-definition profile, `express_mode` should remain part of that required authority surface.
+
+---
+
+### ISSUE-011: Enforce Top-Level Express Mode Contract for Express Projects
+
+**Status:** `OPEN` | **Severity:** `MODERATE` | **Type:** `SCHEMA_DEFECT`
+**Tiers Affected:** `Project instances (express mode)` | **Spec Section:** `§4, Express Mode`
+
+#### Problem Statement-011
+
+When `project.mode: express`, the schema correctly forces `express_mode_group` on every node but does not require the top-level `express_mode` object. The section remains entirely optional at the root even though it carries the authoritative `UNBUNDLE` contract.
+
+#### Evidence & Justification-011
+
+- `ddr_node_schema_v6.2.yaml:55-68` adds a conditional requirement for per-node `express_mode_group` when `project.mode` is `express`.
+- `ddr_node_schema_v6.2.yaml:229-242` still defines the top-level `express_mode` block as optional and does not require `groups`, `unbundle_determinism_rule`, or `deferred_fragment_handling` when express mode is declared.
+- `ddr_system_v6.2.yaml:353-391` supplies the full normative Express Mode contract, including the G1-G4 groups, `UNBUNDLE_SCAN` / `UNBUNDLE_EXECUTE` semantics, determinism rules, and deferred-fragment handling.
+- A direct `jsonschema` validation probe accepted a document with `project.mode: express`, nodes carrying `express_mode_group`, and no top-level `express_mode` object.
+
+#### Impact Assessment-011
+
+An Express Mode project-instance can be schema-valid while omitting the authoritative unbundle contract. That breaks deterministic `UNBUNDLE` behavior, validator expectations, and the self-hosting guarantee that every declared consumption mode carries its governing rules.
+
+#### Resolution-011: Option A - Add Explicit Conditional Requirement
+
+Add a root `allOf` clause so `project.mode: express` requires the top-level `express_mode` object, and require at least `groups`, `unbundle_determinism_rule`, and `deferred_fragment_handling` inside that block. This is the minimal targeted repair.
+
+#### Resolution-011: Option B - Leverage Document Profiles
+
+Adopt `document_profile` or another profile-aware root contract, then define an express-capable profile whose required sections include the full `express_mode` authority block by construction. This is the cleaner long-term architecture, especially if ISSUE-001 also moves toward explicit profiles.
+
+#### Notes-011
+
+- Independent of ISSUE-005, but it shares the same operational surface.
+- If ISSUE-001 is resolved via explicit document profiles, this gap can be eliminated there rather than via a standalone conditional.
+
+---
+
 ## RESOLUTION WORKFLOW
 
 > **AGENT INSTRUCTION:** When a resolution is executed for any issue, follow this workflow
@@ -378,12 +535,16 @@ If the project wants human-readable mnemonics in error payloads, add a small ali
 | ISSUE-002 | (none) | Topology defect on the shared root contract; independently actionable. |
 | ISSUE-003 | (none) | Lifecycle machine-completeness defect; independently actionable. |
 | ISSUE-004 | ISSUE-001 | If system-definition profiles are formalized, ensure the ARE authority sections remain required within that profile. |
-| ISSUE-005 | (none) | Naming drift in the operational surface; independently actionable. |
-| ISSUE-006 | (none) | Identifier-typing cleanup; independently actionable. |
+| ISSUE-005 | ISSUE-009 | If operation identifiers are normalized through a closed taxonomy, the narrow `UNBUNDLE` naming conflict may resolve as part of that broader cleanup. |
+| ISSUE-006 | (none) | Identifier-typing cleanup; independently actionable, including extension-prefix normalization. |
 | ISSUE-007 | ISSUE-006 | If identifier families are centralized, align the ICL alias against that same rule-ID authority. |
+| ISSUE-008 | ISSUE-002 | Broader topology-closure companion; ISSUE-002 fixes mandatory tier presence only. |
+| ISSUE-009 | ISSUE-005 | Broader operation-taxonomy defect; may subsume the narrow `UNBUNDLE` naming fix if a canonical identifier model is adopted. |
+| ISSUE-010 | ISSUE-011 | If express-mode documents must carry the top-level `express_mode` block, the group compositions in that block also need to be machine-closed. |
+| ISSUE-011 | ISSUE-001 | If explicit document profiles are introduced, the express-mode profile should require the full `express_mode` authority block. |
 
 ---
 
 *DDR System v6.2 Issues Tracker — IT-1.0*
-*7 issues identified | 0 resolved | Last updated: 2026-03-27*
+*11 issues identified | 0 resolved | Last updated: 2026-03-28*
 *Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*
