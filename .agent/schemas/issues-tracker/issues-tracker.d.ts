@@ -1,6 +1,6 @@
 // issues-tracker.d.ts
-// Canonical Issues Tracker contract for blank initialization and populated trackers
-// generated from the lean v6-style format used by agent-create-issues-tracker.
+// Shared Issues Tracker contracts for blank initialization (`IT-1.0`) and populated
+// maintenance updates (`IT-1.1`).
 
 type IssueStatus = 'OPEN' | 'IN_REVIEW' | 'RESOLVED' | 'WONT_FIX' | 'DEFERRED';
 type IssueSeverity = 'CRITICAL' | 'MAJOR' | 'MODERATE' | 'MINOR';
@@ -12,17 +12,36 @@ type IssueType =
     | 'SCHEMA_DEFECT'
     | 'MIGRATION_GAP'
     | 'LIFECYCLE_GAP';
+type IssuesTrackerFormatVersion = 'IT-1.0' | 'IT-1.1';
+type RecommendedOption = 'A' | 'B' | 'C';
 
-/**
- * This file documents the current canonical format.
- * Legacy v4/v5 validation is handled by the validator and is intentionally not the
- * generation target represented by this interface.
- */
-interface CanonicalIssuesTrackerDefinition {
+interface IssueRegistryRow {
+    id: string;
+    severity: IssueSeverity;
+    type: IssueType;
+    status: IssueStatus;
+    tiers_affected: string;
+    title: string;
+}
+
+interface CrossIssueDependencyRow {
+    issue: string;
+    depends_on: string;
+    nature_of_dependency: string;
+}
+
+interface FooterSummary {
+    total_issues: number;
+    resolved_issues: number;
+    /** ISO 8601 date string: YYYY-MM-DD */
+    last_updated: string;
+}
+
+interface BaseIssuesTrackerDefinition {
     document_metadata: {
         id: string;
         title: string;
-        format_version: 'IT-1.0';
+        format_version: IssuesTrackerFormatVersion;
         target_platform: string;
         target_model: string;
         subject: string;
@@ -38,31 +57,10 @@ interface CanonicalIssuesTrackerDefinition {
         type_values: IssueType[];
     };
     issue_schema_markdown: string;
-    /**
-     * A blank initialized tracker contains exactly one empty row in this table and zero issue
-     * entries. Populated trackers replace the empty row with real issue rows.
-     */
-    issue_registry_rows: Array<{
-        id: string;
-        severity: IssueSeverity;
-        type: IssueType;
-        status: IssueStatus;
-        tiers_affected: string;
-        title: string;
-    }>;
-    issues: CanonicalIssueEntry[];
+    issue_registry_rows: IssueRegistryRow[];
     resolution_workflow_markdown: string;
-    cross_issue_dependency_map: Array<{
-        issue: string;
-        depends_on: string;
-        nature_of_dependency: string;
-    }>;
-    footer_summary: {
-        total_issues: number;
-        resolved_issues: number;
-        /** ISO 8601 date string: YYYY-MM-DD */
-        last_updated: string;
-    };
+    cross_issue_dependency_map: CrossIssueDependencyRow[];
+    footer_summary: FooterSummary;
 }
 
 interface CanonicalIssueEntry {
@@ -82,3 +80,49 @@ interface CanonicalIssueEntry {
     resolution_b: string;
     notes: string;
 }
+
+interface Citation {
+    label: string;
+    url: string;
+    relevance_note: string;
+}
+
+interface UpdatedIssueEntry extends CanonicalIssueEntry {
+    resolution_c: string;
+    comparative_analysis: string;
+    recommendation: {
+        endorsed_option: RecommendedOption;
+        justification: string;
+    };
+    supporting_citations: Citation[];
+}
+
+/**
+ * Blank initialization contract used by agent-create-issues-tracker.
+ */
+interface CanonicalIssuesTrackerDefinition extends BaseIssuesTrackerDefinition {
+    document_metadata: BaseIssuesTrackerDefinition['document_metadata'] & {
+        format_version: 'IT-1.0';
+    };
+    /**
+     * A blank initialized tracker contains exactly one empty row in this table and zero issue
+     * entries. Populated trackers replace the empty row with real issue rows.
+     */
+    issue_registry_rows: IssueRegistryRow[];
+    issues: CanonicalIssueEntry[];
+}
+
+/**
+ * Populated update contract used by agent-update-issues-tracker after an existing tracker is
+ * migrated in place.
+ */
+interface UpdatedIssuesTrackerDefinition extends BaseIssuesTrackerDefinition {
+    document_metadata: BaseIssuesTrackerDefinition['document_metadata'] & {
+        format_version: 'IT-1.1';
+    };
+    issues: UpdatedIssueEntry[];
+}
+
+type AnyIssuesTrackerDefinition =
+    | CanonicalIssuesTrackerDefinition
+    | UpdatedIssuesTrackerDefinition;
