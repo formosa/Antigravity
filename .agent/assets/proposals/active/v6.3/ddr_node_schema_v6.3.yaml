@@ -105,6 +105,19 @@ allOf:
       properties:
         document_profile:
           const: project_instance_express
+  - if:
+      required: [document_profile, project]
+      properties:
+        document_profile:
+          const: project_instance_express
+        project:
+          required: [mode]
+    then:
+      properties:
+        project:
+          properties:
+            mode:
+              const: express
 
 properties:
 
@@ -312,7 +325,7 @@ properties:
 
   consumption_modes:
     type: array
-    description: "Available consumption modes: Full (9 tiers) and Express (§4)."
+    description: "Available consumption modes: Full (all active tiers) and Express (§4)."
     items:
       $ref: "#/$defs/ConsumptionMode"
 
@@ -320,7 +333,7 @@ properties:
 
   express_mode:
     type: object
-    description: "Express Mode group definitions and unbundle rule (§4)."
+    description: "Express Mode group definitions and UNBUNDLE_SCAN / UNBUNDLE_EXECUTE authority (§4)."
     additionalProperties: false
     required: [groups, unbundle_determinism_rule, deferred_fragment_handling]
     properties:
@@ -1438,7 +1451,7 @@ $defs:
         type: string
         enum: [derived, imposed]
         description: >
-          Causal origin of the constraint (v6.2 §5, for CL tier).
+          Causal origin of the constraint for CL-tier nodes (§5).
           'derived' = chosen in response to functional requirements.
           'imposed' = externally mandated authority.
       prior_status:
@@ -1448,10 +1461,9 @@ $defs:
           Write-once field set when a node transitions into SUPERSEDE_PENDING,
           recording the node's status immediately prior to the SUPERSEDE
           operation. Cleared (set to null or omitted) when the node exits
-          SUPERSEDE_PENDING via either SUPERSEDE_COMPLETE or
-          SUPERSEDE_ROLLBACK. Must not be set on any node that is not in
-          SUPERSEDE_PENDING status. Optional; absence is semantically
-          equivalent to null.
+          SUPERSEDE_PENDING via the SUPERSEDE commit or rollback phase. Must
+          not be set on any node that is not in SUPERSEDE_PENDING status.
+          Optional; absence is semantically equivalent to null.
       version:
         type: string
         pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
@@ -1482,8 +1494,10 @@ $defs:
         type: string
         enum: [G1, G2, G3, G4]
         description: >
-          Express Mode group membership (§4). Required when mode=express.
-          Used by UNBUNDLE to determine tier allocation.
+          Express Mode group membership (§4). Required when
+          document_profile=project_instance_express. If project.mode is
+          present, it must be express. Used by the UNBUNDLE_SCAN /
+          UNBUNDLE_EXECUTE protocol to determine tier allocation.
       extension_annotations:
         type: object
         description: >
