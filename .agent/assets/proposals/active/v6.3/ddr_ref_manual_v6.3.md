@@ -1,11 +1,19 @@
 # DDR System v6.3 Reference Manual
 
-This manual is a source-derived reference for DDR System v6.3. All normative DDR facts in this document are grounded in the authoritative v6.3 YAML specification and schema:
+This manual is a source-derived reference for DDR System v6.3. All normative DDR facts in this document are derived from the authoritative v6.3 YAML authority pair:
 
-- `ddr_system_v6.3.yaml`
-- `ddr_node_schema_v6.3.yaml`
+- `ddr_system_v6.3.yaml` - semantic and structural system-definition authority
+- `ddr_node_schema_v6.3.yaml` - machine-contract authority for allowed shapes, conditionals, enums, and validation branching
 
-Interpretive guidance in this manual is limited to explanation and organization. If this manual and the YAML authority ever diverge, the YAML authority wins.
+Interpretive guidance in this manual is limited to explanation and organization. If this manual and the YAML authority ever diverge, the YAML pair controls: the system definition governs semantic content, and the schema governs the allowed validation surface.
+
+**Manual Map**
+
+- Part I - Authority and Orientation: Sections 1-2 establish source basis, scope, metadata, and high-level change framing.
+- Part II - Core Model and Tiers: Sections 3-4 cover the typed DAG model, canonical topology, node contract, and tier-by-tier rule surfaces.
+- Part III - Operations, Modes, and Reconciliation: Sections 5-7 cover lifecycle, operations, Express Mode, precedence, reconciliation, and CLEAN-state logic.
+- Part IV - Extensions and Validation Surface: Sections 8-9 cover the extension system, ARE, and the schema-side machine contract.
+- Part V - Appendices and Crosswalk: Section 10 provides glossary, history, migration, authoritative counts, and source crosswalk material.
 
 ## Table of Contents
 
@@ -21,6 +29,8 @@ Interpretive guidance in this manual is limited to explanation and organization.
 10. [Appendices](#10-appendices)
 
 ## 1. Source Basis, Scope, and How to Use This Manual
+
+This section establishes the authority model for the manual, the scope of the underlying system-definition artifact, the recommended entry points for different readers, and the boundary between normative facts and explanatory organization. Use this section before relying on later sections as reference surfaces.
 
 ### 1.1 Authority model
 
@@ -47,16 +57,13 @@ The specification defines the current DDR System. The schema defines what valid 
 
 ### 1.3 How to use this manual
 
-| Need | Start here |
-| --- | --- |
-| Overall model, axioms, node shape, and topology | Section 3 |
-| What each tier contains | Section 4 |
-| Statuses, transitions, guards, and operations | Section 5 |
-| Express Mode and unbundling | Section 6 |
-| CLEAN-state logic and reconciliation | Section 7 |
-| Extensions and ARE behavior | Section 8 |
-| Exact schema branching and conditional rules | Section 9 |
-| Glossary, version history, migration, and crosswalk | Section 10 |
+| Role | Primary need | Start here |
+| --- | --- | --- |
+| New reader | Understand the authority model, current-state overview, and the core DDR shape before diving into details | Sections 1, 2, then 3 |
+| Tier author / reviewer | Check what each tier must contain and how it interacts with parent, child, and reconciliation rules | Sections 4, 3, and 7 |
+| Validator / tool author | Inspect machine-facing profile rules, schema branches, lifecycle transitions, guards, and validation surfaces | Sections 9, 5, and 3 |
+| Extension implementer | Confirm extension boundaries, ARE behavior, schema-side extension rules, and reconciliation touchpoints | Sections 8, 9, and 7 |
+| Audit / history reader | Trace changes from current-state metadata through version history, migration, counts, and source crosswalk | Sections 2.3, 10.2, 10.3, 10.4, and 10.5 |
 
 ### 1.4 Normative vs explanatory content
 
@@ -65,6 +72,8 @@ The specification defines the current DDR System. The schema defines what valid 
 - `Examples` in this manual are limited to source-native examples already present in the authoritative files, such as representative nodes, canonical tier variants, scoring profiles, lifecycle transitions, and extension catalog entries.
 
 ## 2. System Overview and Design Philosophy
+
+This section covers the current authoritative metadata, the governing design philosophy, the explicit v6.2-to-v6.3 change surface, and the current errata state. Use Section 3 for the operational structure of the Core model and Section 10 for historical and migration context.
 
 ### 2.1 System metadata
 
@@ -95,6 +104,8 @@ The authoritative specification declares itself the exclusive normative source o
 The authoritative `errata_log` is empty. No active errata entries are carried in the v6.3 system-definition artifact.
 
 ## 3. Foundational Axioms and Core Structural Model
+
+This section covers the current-state structural foundation of DDR v6.3: axioms, document profiles, canonical topology, universal node shape, edge semantics, citation rules, and invariants. Use Section 4 for tier-local rule surfaces, Section 5 for operational behavior, and Section 9 for the corresponding schema-side machine contract.
 
 ### 3.1 Foundational axioms
 
@@ -233,7 +244,11 @@ The current edge vocabulary is the four-type surface declared by `edge_type_defi
 | `INV-7` | Structural validity may coexist with declared semantic gaps only when the gap is explicitly logged in the reconciliation manifest under an allowed classification, with human rationale and required resolution or waiver before CLEAN. |
 | `INV-8` | `lifecycle.status_transitions` must form a complete and closed state machine: every non-terminal status has at least one valid outbound transition, and undefined transitions are invalid. |
 
+See also: Section 4, Section 5, Section 9.
+
 ## 4. Tier Reference
+
+This section covers the tier-by-tier current-state contract for DDR v6.3, including representative nodes, parent and child relationships, inclusion rules, exclusion rules, and tier-specific verification notes. Use Section 3 for shared structural rules, Section 5 for lifecycle and operation effects, and Section 7 for reconciliation and CLEAN-state implications.
 
 ### 4.1 `XPD` - Existential Purpose Document
 
@@ -500,7 +515,11 @@ The current edge vocabulary is the four-type surface declared by `edge_type_defi
 | `ISL-E1` | Must not contain business logic or complete algorithmic logic. |
 | `ISL-E2` | Must not contain infrastructure configuration; that belongs in Extensions. |
 
+See also: Section 3, Section 5, Section 7.
+
 ## 5. Lifecycle and Operations
+
+This section covers the operational state machine of DDR v6.3, including statuses, valid transitions, guards, canonical operations, DIRTY behavior, and conflict-resolution flow. Use Section 6 for Express Mode execution rules, Section 7 for reconciliation and CLEAN-state implications, and Section 9 for the schema-side lifecycle contract.
 
 ### 5.1 Status model and lifecycle authority
 
@@ -617,7 +636,11 @@ Resolution workflow:
 
 `DETECT CHANGE -> SET DIRTY -> SCAN DOWNSTREAM -> GENERATE PENDING ITEMS -> EXECUTE OPERATION -> VERIFY -> SET CLEAN OR REPEAT`
 
+See also: Section 6, Section 7, Section 9.
+
 ## 6. Consumption Modes and Express Mode
+
+This section covers the two declared consumption modes, the fixed four-group Express Mode structure, and the deterministic `UNBUNDLE_SCAN` / `UNBUNDLE_EXECUTE` contract. Use Section 5 for the underlying operation model and Section 9 for the express-profile schema rules.
 
 ### 6.1 Consumption modes
 
@@ -680,7 +703,11 @@ Deferred-fragment handling requires:
 - Retention of deferred fragments in the source Express Mode group node
 - Atomic rejection when ambiguous fragments are neither confidently classified nor explicitly deferred
 
+See also: Section 5, Section 9.
+
 ## 7. Constraint Precedence, Reconciliation, and CLEAN State
+
+This section covers how DDR v6.3 resolves conflicting constraints, tracks unresolved conditions, and determines whether a graph may be treated as CLEAN. Use Section 5 for the operation and DIRTY mechanics that feed reconciliation, Section 9 for the machine-validation surface, and Section 10 for glossary and historical appendix context.
 
 ### 7.1 Constraint precedence hierarchy
 
@@ -794,7 +821,11 @@ A DDR graph may be treated as CLEAN only when all of the following are true:
 - Parent-version freshness is preserved.
 - Extension advisories with critical or blocking severity have disposition.
 
+See also: Section 5, Section 9, Section 10.
+
 ## 8. Extension System and ARE
+
+This section covers the optional extension overlay model, integration rules, ARE candidate-pool behavior, scoring profiles, and the v6.3 extension catalog. Use Section 9 for the schema-side extension and ARE contract and Section 10 for crosswalk and historical lookup surfaces.
 
 ### 8.1 Extension architecture
 
@@ -1070,7 +1101,11 @@ Custom-profile contract:
 | `EHD-R4` | All EHD assessments cite the `XPD` ethical boundary conditions being evaluated. |
 | `EHD-R5` | When `XPD` is inactive, EHD creates a synthetic `XPD`-equivalent risk-flagging artifact anchored to `SIL`; it carries no precedence weight, cannot be cited in Core `parent_ids`, and cannot substitute for a human-authored `XPD` node. |
 
+See also: Section 9, Section 10.
+
 ## 9. Schema Contract and Machine Validation Surface
+
+This section covers the machine-contract side of DDR v6.3: profile branching, canonical top-level closures, node and citation schemas, express-specific rules, extension and ARE schema rules, and lifecycle schema requirements. Use Section 3 for the human-readable structural model, Section 5 for lifecycle behavior, Section 6 for Express Mode semantics, and Section 8 for extension semantics.
 
 ### 9.1 Top-level contract by profile
 
@@ -1152,7 +1187,11 @@ The schema's `DdrNode` contract enforces:
 | `StatusTransition` | Always requires `from` and `operation`; requires `to` unless `phase = rollback`, in which case it requires `to_node_field = prior_status` |
 | `GuardDefinition` | Requires `id`, `description`, and `verification_mode` |
 
+See also: Section 3, Section 5, Section 6, Section 8.
+
 ## 10. Appendices
+
+This section collects supporting reference surfaces that remain necessary for auditability and maintenance: glossary, version history, legacy tier migration, authoritative counts, and the final source crosswalk back to the YAML authority pair. Use these appendices when you need historical context, surface counts, or a direct map from manual sections to source sections.
 
 ### 10.1 Glossary
 
@@ -1172,6 +1211,8 @@ The schema's `DdrNode` contract enforces:
 | `REVIEW_REQUIRED` | `VALIDATE` output emitted for semantic atomic inclusion rules. Requires human disposition before the target node may transition from `DRAFT` to `ACTIVE`. |
 | Tier Contamination | Presence of content that violates a tier's atomic exclusion rules. |
 | `verification_mode` | Required field on every atomic inclusion rule, classifying it as `structural` or `semantic`. Structural rules can be checked mechanically; semantic rules require human judgment. |
+
+Historical-scope note: Sections 10.2 and 10.3 preserve legacy tier names, removed operations, and migration mappings strictly for version-history and migration reference. Those historical terms are not part of current-state DDR v6.3 vocabulary outside these appendices.
 
 ### 10.2 Version history
 

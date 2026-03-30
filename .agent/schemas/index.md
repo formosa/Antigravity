@@ -2,6 +2,7 @@
 
 | Schema Name | Version | Description |
 | :--- | :--- | :--- |
+| brainstorm | 1.0.0 | Schema definition. |
 | gemini | 1.0.0 | Schema definition. |
 | implementation-plan | 1.0.0 | Schema definition. |
 | issue | 1.0.0 | Schema definition. |
