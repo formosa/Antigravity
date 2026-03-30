@@ -1054,37 +1054,37 @@ This section covers the operational state machine of DDR v6.3, including statuse
 **Figure 5.1. Lifecycle state machine and rollback authority**
 
 ```mermaid
-flowchart TD
-    DRAFT["DRAFT"]
-    ACTIVE["ACTIVE"]
-    DIRTY["DIRTY"]
-    DEPRECATED["DEPRECATED"]
-    SSP["SUPERSEDE_PENDING<br/>prior_status captured"]
-    SUPERSEDED["SUPERSEDED"]
-    ROLLBACK{"Rollback target"}
-    PRIOR["Restore recorded prior_status"]
+stateDiagram
+    accTitle: Lifecycle state machine and rollback authority
+    accDescr: Shows the closed DDR node status machine, including SUPERSEDE_PENDING as a transactional state that can commit or roll back to the recorded prior_status.
+    direction LR
 
-    DRAFT -->|VALIDATE<br/>gc-001, gc-005| ACTIVE
-    ACTIVE -->|MODIFY| DIRTY
-    ACTIVE -->|MODIFY<br/>gc-002| DEPRECATED
-    ACTIVE -->|SUPERSEDE<br/>gc-007| SSP
-    DIRTY -->|VALIDATE after VERIFY<br/>gc-001, gc-005, gc-006| ACTIVE
-    DIRTY -->|MODIFY<br/>gc-002| DEPRECATED
-    DIRTY -->|SUPERSEDE<br/>gc-007| SSP
-    DEPRECATED -->|MODIFY<br/>gc-002, gc-003, gc-004| ACTIVE
-    DEPRECATED -->|SUPERSEDE<br/>gc-007| SSP
-    SSP -->|SUPERSEDE commit<br/>gc-008| SUPERSEDED
-    SSP -->|SUPERSEDE rollback<br/>gc-009| ROLLBACK --> PRIOR
-    PRIOR -. prior_status = ACTIVE .-> ACTIVE
-    PRIOR -. prior_status = DIRTY .-> DIRTY
-    PRIOR -. prior_status = DEPRECATED .-> DEPRECATED
+    [*] --> DRAFT
+    DRAFT --> ACTIVE: VALIDATE / gc-001, gc-005
+    ACTIVE --> DIRTY: MODIFY
+    ACTIVE --> DEPRECATED: MODIFY / gc-002
+    ACTIVE --> SUPERSEDE_PENDING: SUPERSEDE / gc-007
+    DIRTY --> ACTIVE: VALIDATE after VERIFY / gc-001, gc-005, gc-006
+    DIRTY --> DEPRECATED: MODIFY / gc-002
+    DIRTY --> SUPERSEDE_PENDING: SUPERSEDE / gc-007
+    DEPRECATED --> ACTIVE: MODIFY / gc-002, gc-003, gc-004
+    DEPRECATED --> SUPERSEDE_PENDING: SUPERSEDE / gc-007
+    SUPERSEDE_PENDING --> SUPERSEDED: SUPERSEDE commit / gc-008
+    SUPERSEDE_PENDING --> ROLLBACK: SUPERSEDE rollback / gc-009
+    state ROLLBACK <<choice>>
+    ROLLBACK --> ACTIVE: prior_status = ACTIVE
+    ROLLBACK --> DIRTY: prior_status = DIRTY
+    ROLLBACK --> DEPRECATED: prior_status = DEPRECATED
 
-    classDef status fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef transient fill:#fef3c7,stroke:#d97706,color:#92400e;
-    classDef rollback fill:#fee2e2,stroke:#dc2626,color:#991b1b;
-    class DRAFT,ACTIVE,DIRTY,DEPRECATED,SUPERSEDED status;
-    class SSP transient;
-    class ROLLBACK,PRIOR rollback;
+    note right of SUPERSEDE_PENDING
+      prior_status must be recorded
+      before commit or rollback
+    end note
+
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef transient fill:#fff3e0,stroke:#ef6c00,color:#bf360c,stroke-width:1.5px;
+    class DRAFT,ACTIVE,DIRTY,DEPRECATED,SUPERSEDED normative;
+    class SUPERSEDE_PENDING transient;
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR v6.3 treats lifecycle changes as a closed machine in which `SUPERSEDE` is transactional and rollback is resolved only through the recorded `prior_status` branch.
@@ -1129,26 +1129,33 @@ Guards are declared only as <span class="ddr-badge ddr-check-structural"><strong
 **Figure 5.2. Verification-mode handling across guards and rule review**
 
 ```mermaid
-flowchart TD
-    CHECK["Lifecycle or atomic-rule check"] --> KIND{"verification_mode"}
-    KIND -->|structural| AUTO["Mechanical pass/fail gate"]
-    KIND -->|manual| HUMAN["Documented human action or rationale"]
-    KIND -->|semantic| REVIEW["REVIEW_REQUIRED plus recorded human disposition"]
+flowchart LR
+    accTitle: Verification-mode handling across guards and rule review
+    accDescr: Separates lifecycle guard verification modes from the independent semantic REVIEW_REQUIRED path emitted by VALIDATE or VERIFY.
+    subgraph GUARDS["Lifecycle guard_definitions"]
+        CHECK["GuardDefinition"] --> KIND{"verification_mode"}
+        KIND -->|structural| AUTO["Mechanical pass/fail gate"]
+        KIND -->|manual| HUMAN["Recorded human action or rationale"]
+    end
+    subgraph REVIEW["Separate semantic review path"]
+        VALID["VALIDATE or VERIFY finding"] --> SEM["Semantic tier rule or cross-node review"]
+        SEM --> RR["Emit REVIEW_REQUIRED item"]
+        RR --> DISP["Human disposition recorded before activation or CLEAN"]
+    end
+
     AUTO --> OUT["Transition or activation decision"]
     HUMAN --> OUT
-    REVIEW --> OUT
+    DISP -. resolution required .-> OUT
 
-    classDef structural fill:#ccfbf1,stroke:#0f766e,color:#0f766e;
-    classDef manual fill:#ffedd5,stroke:#92400e,color:#92400e;
-    classDef semantic fill:#fed7aa,stroke:#7c2d12,color:#7c2d12;
-    classDef explanatory fill:#ffedd5,stroke:#92400e,color:#92400e;
-    class CHECK,KIND,OUT explanatory;
-    class AUTO structural;
-    class HUMAN manual;
-    class REVIEW semantic;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    class CHECK,KIND,AUTO,VALID,SEM,RR schema;
+    class HUMAN,DISP caution;
+    class OUT normative;
 ```
 
-<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR separates machine-verifiable, manual, and semantic review obligations so that activation and transition gates remain explicit instead of being hidden in mixed validation prose.
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR separates lifecycle guard verification modes from semantic review obligations so that `guard_definitions` remain closed to `structural` and `manual` while semantic review still stays explicit.
 
 <span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `lifecycle.guard_definitions`, the `VALIDATE` operation contract, and the `verification_mode` glossary definition.
 
@@ -1168,23 +1175,44 @@ flowchart TD
 **Figure 5.3. Canonical operation families**
 
 ```mermaid
-flowchart TB
-    OPS["Canonical operations"] --> MUT["Graph mutation"]
-    OPS --> CHECK["Validation and verification"]
-    OPS --> EXP["Express expansion"]
-    MUT --> INSERT["INSERT"]
-    MUT --> DELETE["DELETE"]
-    MUT --> MODIFY["MODIFY"]
-    MUT --> SUPERSEDE["SUPERSEDE"]
-    CHECK --> VERIFY["VERIFY"]
-    CHECK --> VALIDATE["VALIDATE"]
-    EXP --> SCAN["UNBUNDLE_SCAN"]
-    EXP --> EXEC["UNBUNDLE_EXECUTE"]
+flowchart LR
+    accTitle: Canonical operation families
+    accDescr: Groups the closed DDR operation namespace into mutation, verification, and Express-mode families.
+    OPS["Canonical operations"]
+    subgraph MUT["Graph mutation"]
+        MUTH["Mutation family"]
+        INSERT["INSERT"]
+        DELETE["DELETE"]
+        MODIFY["MODIFY"]
+        SUPERSEDE["SUPERSEDE"]
+        MUTH --> INSERT
+        MUTH --> DELETE
+        MUTH --> MODIFY
+        MUTH --> SUPERSEDE
+    end
+    subgraph CHECK["Validation and verification"]
+        CHECKH["Verification family"]
+        VERIFY["VERIFY"]
+        VALIDATE["VALIDATE"]
+        CHECKH --> VERIFY
+        CHECKH --> VALIDATE
+    end
+    subgraph EXP["Express expansion"]
+        EXPH["Express family"]
+        SCAN["UNBUNDLE_SCAN"]
+        EXEC["UNBUNDLE_EXECUTE"]
+        EXPH --> SCAN
+        EXPH --> EXEC
+    end
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
-    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
-    class OPS,MUT,CHECK,EXP normative;
+    OPS --> MUTH
+    OPS --> CHECKH
+    OPS --> EXPH
+
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    class OPS,MUTH,CHECKH,EXPH normative;
     class INSERT,DELETE,MODIFY,SUPERSEDE caution;
     class VERIFY,VALIDATE,SCAN,EXEC schema;
 ```
@@ -1234,24 +1262,36 @@ The specification also states the following `SUPERSEDE` DIRTY behavior:
 **Figure 5.4. `DIRTY` propagation and reclassification workflow**
 
 ```mermaid
-flowchart TD
-    TRIG["Trigger event"] --> KIND["MODIFY / DELETE / SUPERSEDE / constraint change"]
-    KIND --> MARK["Mark impacted nodes DIRTY"]
+flowchart LR
+    accTitle: DIRTY propagation and reclassification workflow
+    accDescr: Distinguishes structural DIRTY from semantic DIRTY and shows the scoped supersede exception before revalidation.
+    TRIG["Trigger event"] --> MARK["Mark impacted nodes DIRTY"]
     MARK --> CLASS{"DIRTY classification"}
-    CLASS -->|structural| LOCAL["Immediate rewiring or topology impact only"]
-    CLASS -->|semantic| CASCADE["Probable content drift; propagate review downstream"]
-    LOCAL --> VERIFY["VERIFY / VALIDATE"]
-    CASCADE --> VERIFY
-    VERIFY --> RESOLVE["Return to ACTIVE or remain DIRTY"]
 
-    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
-    classDef structural fill:#ccfbf1,stroke:#0f766e,color:#0f766e;
-    classDef semantic fill:#fed7aa,stroke:#7c2d12,color:#7c2d12;
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    class TRIG,KIND,MARK caution;
-    class LOCAL structural;
-    class CASCADE semantic;
-    class VERIFY,RESOLVE normative;
+    subgraph STRUCT["Structural DIRTY path"]
+        LOCAL["Structural DIRTY: rewiring or topology impact only"]
+        SCOPED["Scoped supersede rule: immediate children only"]
+        RECHECK["VERIFY or VALIDATE"]
+        LOCAL --> SCOPED --> RECHECK
+    end
+    subgraph SEMANTIC["Semantic DIRTY path"]
+        CASCADE["Semantic DIRTY: probable content drift"]
+        PROP["Propagate review downstream"]
+        REPAIR["VERIFY, VALIDATE, or MODIFY"]
+        CASCADE --> PROP --> REPAIR
+    end
+
+    CLASS -->|structural| LOCAL
+    CLASS -->|semantic| CASCADE
+    RECHECK --> RESOLVE["Return to ACTIVE or remain DIRTY"]
+    REPAIR --> RESOLVE
+
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    class TRIG,MARK,CLASS schema;
+    class LOCAL,SCOPED,RECHECK,RESOLVE normative;
+    class CASCADE,PROP,REPAIR caution;
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR distinguishes structural rewiring fallout from semantic drift so that not every topology change triggers blind full-depth propagation.
@@ -1289,23 +1329,27 @@ Resolution workflow:
 
 ```mermaid
 sequenceDiagram
+    accTitle: SUPERSEDE transaction with commit and rollback
+    accDescr: Shows the transactional SUPERSEDE sequence, including replacement insertion, child rewiring, DIRTY marking, rollback, and the rule that partial rewiring is forbidden.
     participant A as Authoring action
     participant S as Source node
     participant R as Replacement node
     participant C as Child nodes
     participant M as Manifest
 
+    Note over S,R: No partial child rewiring is permitted.
     A->>S: SUPERSEDE request
-    S->>S: set SUPERSEDE_PENDING and record prior_status
+    S->>S: Set SUPERSEDE_PENDING and record prior_status
     S->>R: INSERT replacement candidate
-    alt replacement validates and rewiring succeeds
-        R->>C: rewire parent_ids to replacement ID
-        C->>C: set DIRTY on affected children
-        S->>S: clear prior_status and set SUPERSEDED
+    alt Replacement validates and rewiring succeeds
+        R->>C: Rewire parent_ids to replacement ID
+        C->>C: Set DIRTY on affected children
+        S->>S: Clear prior_status and set SUPERSEDED
     else INSERT fails or rewiring fails
-        S->>R: discard replacement if created
-        S->>S: revert to prior_status
-        S->>M: log SUPERSEDE_FAILED
+        S->>R: Discard replacement if created
+        S->>S: Revert to prior_status
+        S->>M: Log SUPERSEDE_FAILED
+        Note over S,C: Children remain unchanged on rollback.
     end
 ```
 
@@ -1330,18 +1374,26 @@ This section covers the two declared consumption modes, the fixed four-group Exp
 
 ```mermaid
 flowchart LR
-    DDR["DDR consumption"] --> FULL["Full mode"]
-    DDR --> EXPRESS["Express mode"]
-    FULL --> ALL["Independent active tiers"]
-    EXPRESS --> GROUPS["Fixed groups G1-G4"]
-    GROUPS --> UNBUNDLE["UNBUNDLE_SCAN / UNBUNDLE_EXECUTE"]
-    UNBUNDLE --> ALL
+    accTitle: Full versus Express authority split
+    accDescr: Compares full-mode authoring with Express-mode grouping and the unbundle protocol that expands groups back into independent active tiers.
+    DDR["DDR consumption"]
+    subgraph FULL["Full mode"]
+        ALL["Independent active tiers"]
+    end
+    subgraph EXPRESS["Express mode"]
+        GROUPS["Fixed groups G1-G4"]
+        SCAN["UNBUNDLE_SCAN"]
+        EXEC["UNBUNDLE_EXECUTE"]
+    end
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
-    class DDR,ALL,UNBUNDLE normative;
-    class FULL caution;
-    class EXPRESS,GROUPS caution;
+    DDR --> ALL
+    DDR --> GROUPS
+    GROUPS --> SCAN --> EXEC --> ALL
+
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    class DDR,ALL normative;
+    class GROUPS,SCAN,EXEC caution;
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Express Mode is an alternate presentation and authoring path, not a reduced DDR model; successful unbundling lands back on the same full-tier surface.
@@ -1361,24 +1413,44 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    G1["G1<br/>XPD + SIL + GPCL"]
-    G2["G2<br/>FCL + CL"]
-    G3["G3<br/>SAL + ICL"]
-    G4["G4<br/>CDL + ISL"]
+    accTitle: Fixed G1 through G4 composition
+    accDescr: Shows the four immutable Express Mode groups and the exact tier members assigned to each group.
+    subgraph G1["G1 Purpose, Strategy, and Governance"]
+        G1H["G1"]
+        XPD["XPD"]
+        SIL["SIL"]
+        GPCL["GPCL"]
+        G1H --> XPD
+        G1H --> SIL
+        G1H --> GPCL
+    end
+    subgraph G2["G2 Capabilities and Constraints"]
+        G2H["G2"]
+        FCL["FCL"]
+        CL["CL"]
+        G2H --> FCL
+        G2H --> CL
+    end
+    subgraph G3["G3 Architecture and Contracts"]
+        G3H["G3"]
+        SAL["SAL"]
+        ICL["ICL"]
+        G3H --> SAL
+        G3H --> ICL
+    end
+    subgraph G4["G4 Design and Scaffolding"]
+        G4H["G4"]
+        CDL["CDL"]
+        ISL["ISL"]
+        G4H --> CDL
+        G4H --> ISL
+    end
 
-    G1 --> XPD["XPD"]
-    G1 --> SIL["SIL"]
-    G1 --> GPCL["GPCL"]
-    G2 --> FCL["FCL"]
-    G2 --> CL["CL"]
-    G3 --> SAL["SAL"]
-    G3 --> ICL["ICL"]
-    G4 --> CDL["CDL"]
-    G4 --> ISL["ISL"]
+    G1H --> G2H --> G3H --> G4H
 
-    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    class G1,G2,G3,G4 caution;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    class G1H,G2H,G3H,G4H caution;
     class XPD,SIL,GPCL,FCL,CL,SAL,ICL,CDL,ISL normative;
 ```
 
@@ -1399,12 +1471,15 @@ The authoritative `express_mode` block defines the following:
 
 ```mermaid
 sequenceDiagram
+    accTitle: UNBUNDLE_SCAN and UNBUNDLE_EXECUTE sequence
+    accDescr: Shows the Express Mode scan and execute protocol, including deterministic allocation, deferred rationale recording, and rejection without mutation.
     participant A as Author
     participant G as Express group node
     participant S as UNBUNDLE_SCAN
     participant M as Reconciliation manifest
     participant F as Full-mode tiers
 
+    Note over S,F: Successful execute auto-wires parent_ids to the superior unbundled tier.
     A->>G: request scan
     G->>S: classify fragments
     alt every fragment is high or explicitly deferred
@@ -1413,7 +1488,7 @@ sequenceDiagram
         G->>F: create constituent tier nodes
         F->>F: auto-wire parent_ids
     else ambiguous or unassigned fragment remains undeferred
-        S->>A: reject with diagnostics
+        S->>A: reject with full scan diagnostics
         G->>G: preserve source node without mutation
     end
 ```
@@ -1461,17 +1536,28 @@ If that fragment is not explicitly deferred, `UNBUNDLE_EXECUTE` must reject with
 **Figure 6.4. Deferred-fragment and atomic-rejection workflow**
 
 ```mermaid
-flowchart TD
+flowchart LR
+    accTitle: Deferred-fragment and atomic-rejection workflow
+    accDescr: Shows how UNBUNDLE_SCAN outcomes resolve into immediate execution, explicit deferral, or atomic rejection.
     FRAG["Content fragment"] --> CLASS{"Classification"}
-    CLASS -->|high| READY["Eligible for UNBUNDLE_EXECUTE"]
-    CLASS -->|ambiguous or none| DECIDE{"Explicit [DEFER]?"}
-    DECIDE -->|yes| KEEP["Retain in source group node"]
-    KEEP --> MANIFEST["Record rationale in reconciliation manifest"]
-    DECIDE -->|no| REJECT["Atomic rejection of UNBUNDLE_EXECUTE"]
+    subgraph ACCEPT["Accepted or deferred outcomes"]
+        READY["Eligible for UNBUNDLE_EXECUTE"]
+        KEEP["Retain in source group node"]
+        MANIFEST["Record rationale in reconciliation manifest"]
+    end
+    subgraph REJECTPATH["Atomic rejection path"]
+        DECIDE{"Explicit [DEFER]?"}
+        REJECT["Reject UNBUNDLE_EXECUTE atomically"]
+    end
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
-    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    CLASS -->|high| READY
+    CLASS -->|ambiguous or none| DECIDE
+    DECIDE -->|yes| KEEP --> MANIFEST
+    DECIDE -->|no| REJECT
+
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class FRAG,CLASS,DECIDE caution;
     class READY,KEEP,MANIFEST normative;
     class REJECT alert;
@@ -1505,23 +1591,27 @@ This section covers how DDR v6.3 resolves conflicting constraints, tracks unreso
 
 ```mermaid
 flowchart TD
-    XPD["1 XPD"]
-    SIL["2 SIL"]
-    GPCL["3 GPCL"]
-    FCL["4 FCL"]
-    CL["5 CL"]
-    SAL["6 SAL"]
-    ICL["7 ICL"]
-    CDL["8 CDL"]
-    ISL["9 ISL"]
+    accTitle: Constraint precedence ladder with physical-escalation branch
+    accDescr: Shows the ordered logical precedence ladder, the XPD veto branch, and the escalation path for imposed or physical CL conflicts.
+    subgraph LADDER["Logical precedence ladder"]
+        XPD["1 XPD"]
+        SIL["2 SIL"]
+        GPCL["3 GPCL"]
+        FCL["4 FCL"]
+        CL["5 CL"]
+        SAL["6 SAL"]
+        ICL["7 ICL"]
+        CDL["8 CDL"]
+        ISL["9 ISL"]
+    end
     ESC["Escalate to authoring authority"]
 
     XPD --> SIL --> GPCL --> FCL --> CL --> SAL --> ICL --> CDL --> ISL
     XPD -. ethical veto .-> ESC
     CL -. imposed or physical conflict .-> ESC
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class XPD,SIL,GPCL,FCL,SAL,ICL,CDL,ISL normative;
     class CL,ESC alert;
 ```
@@ -1578,32 +1668,50 @@ Semantic-gap classification:
 **Figure 7.2. Reconciliation manifest tracks and blocking item surfaces**
 
 ```mermaid
-flowchart TD
-    MAN["Reconciliation manifest"]
-    T1["Total node count by tier"]
-    T2["Status distribution"]
-    T3["Pending items list"]
-    T4["Last full validation timestamp"]
-    T5["Active Extensions and annotation counts"]
-    MI["MISSING_MEDIATOR"]
-    SF["SUPERSEDE_FAILED"]
-    SP["SUPERSEDE_PENDING_DETECTED"]
+erDiagram
+    accTitle: Reconciliation manifest tracks and blocking item surfaces
+    accDescr: Shows the reconciliation manifest, its tracked summary records, and the three typed pending-item families that affect CLEAN eligibility.
+    direction LR
 
-    MAN --> T1
-    MAN --> T2
-    MAN --> T3
-    MAN --> T4
-    MAN --> T5
-    T3 --> MI
-    T3 --> SF
-    T3 --> SP
+    RECONCILIATION_MANIFEST ||--|{ TIER_COUNT : tracks
+    RECONCILIATION_MANIFEST ||--|{ STATUS_DISTRIBUTION : summarizes
+    RECONCILIATION_MANIFEST ||--|| EXTENSION_SUMMARY : counts
+    RECONCILIATION_MANIFEST ||--o{ MISSING_MEDIATOR : logs
+    RECONCILIATION_MANIFEST ||--o{ SUPERSEDE_FAILED : logs
+    RECONCILIATION_MANIFEST ||--o{ SUPERSEDE_PENDING_DETECTED : logs
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
-    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
-    class MAN,T1,T2,T4,T5 normative;
-    class T3 caution;
-    class MI,SF,SP alert;
+    RECONCILIATION_MANIFEST {
+        datetime last_full_validation_timestamp
+    }
+    TIER_COUNT {
+        string tier
+        int total_nodes
+    }
+    STATUS_DISTRIBUTION {
+        string status
+        int count
+    }
+    EXTENSION_SUMMARY {
+        int active_extensions
+        int annotation_count
+    }
+    MISSING_MEDIATOR {
+        string gpcl_node_id
+        string message
+        string rationale
+    }
+    SUPERSEDE_FAILED {
+        string source_node_id
+        string attempted_replacement_content_hash
+        string failure_reason
+        datetime timestamp
+    }
+    SUPERSEDE_PENDING_DETECTED {
+        string node_id
+        string prior_status
+        datetime detected_at
+        string severity
+    }
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The reconciliation manifest is not a generic notes bucket; it has a closed track structure and a small set of typed pending-item records that directly affect CLEAN eligibility.
@@ -1694,6 +1802,8 @@ A DDR graph may be treated as CLEAN only when all of the following are true:
 
 ```mermaid
 flowchart TD
+    accTitle: CLEAN-state validation gate
+    accDescr: Shows the ordered checks that must all pass before a DDR graph may be declared CLEAN.
     START["Candidate CLEAN assertion"] --> STATUS{"Any DIRTY or SUPERSEDE_PENDING nodes?"}
     STATUS -->|yes| FAIL["Not CLEAN"]
     STATUS -->|no| TOPO{"Topology and citation rules hold?"}
@@ -1706,8 +1816,8 @@ flowchart TD
     EXT -->|no| FAIL
     EXT -->|yes| CLEAN["CLEAN"]
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class START,TOPO,ATOMIC,MANIFEST,EXT,CLEAN normative;
     class STATUS,FAIL alert;
 ```
@@ -1727,27 +1837,34 @@ This section covers the optional extension overlay model, integration rules, ARE
 **Figure 8.1. Extension overlay architecture**
 
 ```mermaid
-flowchart TD
-    Core["Core DAG"]
-    Ext["Extension"]
-    Ann["extension_annotations"]
-    Manifest["reconciliation manifest advisories"]
-    Pool["ARE Candidate Pool"]
-    Insert["INSERT into Core after validation"]
+flowchart LR
+    accTitle: Extension overlay architecture
+    accDescr: Shows Core DDR surfaces, the extension overlay, manifest advisories, and the ARE candidate pool without using v11-only architecture-beta syntax.
+    subgraph CORE["Core DDR surfaces"]
+        CORENODE["Core DAG"]
+        ANN["extension_annotations"]
+    end
+    subgraph EXT["Extension overlay"]
+        EXTRT["Extension runtime"]
+    end
+    subgraph AUX["Auxiliary surfaces"]
+        MANIFEST["Reconciliation manifest advisories"]
+        POOL["ARE candidate pool"]
+        INSERT["Human-reviewed INSERT into Core"]
+    end
 
-    Ext -->|reads| Core
-    Ext -->|annotates, namespaced only| Ann
-    Ext -->|advisories| Manifest
-    Ext -->|ARE only| Pool
-    Pool -->|human-reviewed promotion| Insert
-    Insert --> Core
+    EXTRT -->|reads| CORENODE
+    EXTRT -->|writes namespaced annotations| ANN
+    EXTRT -->|emits advisories| MANIFEST
+    EXTRT -->|ARE only| POOL
+    POOL -->|promotion via INSERT only| INSERT --> CORENODE
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
-    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
-    class Core,Manifest,Insert normative;
-    class Ext,Ann schema;
-    class Pool caution;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef extension fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c,stroke-width:1.5px;
+    class CORENODE,MANIFEST,INSERT normative;
+    class ANN schema;
+    class EXTRT,POOL extension;
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Extensions remain outside the Core semantics boundary: they may read, annotate, advise, and stage candidates, but only Core operations can mutate the authoritative DAG.
@@ -1788,17 +1905,31 @@ Normative note:
 
 ```mermaid
 flowchart LR
-    EXT["Extension runtime"] --> READ["Read Core node content"]
-    EXT --> ANN["Annotate via extension_annotations"]
-    EXT --> ADV["Advisories to reconciliation manifest"]
-    EXT -.-> MUT["No content, parent_ids, tier, or status mutation"]
-    EXT -.-> REDEF["No redefinition of Core semantics"]
-    EXT -.-> CYCLE["No structural cycles introduced"]
+    accTitle: Extension integration boundary map
+    accDescr: Separates the narrow allowed extension behaviors from the prohibited mutation and semantic redefinition surfaces.
+    EXT["Extension runtime"]
+    subgraph ALLOWED["Allowed behaviors"]
+        READ["Read Core node content"]
+        ANN["Annotate via extension_annotations"]
+        ADV["Advisories to reconciliation manifest"]
+    end
+    subgraph BLOCKED["Blocked behaviors"]
+        MUT["No content, parent_ids, tier, or status mutation"]
+        REDEF["No redefinition of Core semantics"]
+        CYCLE["No structural cycles introduced"]
+    end
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
-    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
-    class EXT schema;
+    EXT --> READ
+    EXT --> ANN
+    EXT --> ADV
+    EXT -. forbidden .-> MUT
+    EXT -. forbidden .-> REDEF
+    EXT -. forbidden .-> CYCLE
+
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef extension fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c,stroke-width:1.5px;
+    classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
+    class EXT extension;
     class READ,ANN,ADV normative;
     class MUT,REDEF,CYCLE alert;
 ```
@@ -1931,27 +2062,50 @@ annotates: [SAL, ICL, CDL, ISL]
 **Figure 8.3. ARE candidate-pool and scoring lifecycle**
 
 ```mermaid
-flowchart TD
-    ACTIVE["ARE active"] --> INFER["Infer candidate"]
-    INFER --> POOL["Candidate Pool"]
-    POOL --> SCORE["Score under declared profile"]
-    SCORE --> THRESH{"Meets threshold or valid override?"}
-    THRESH -->|yes| REVIEW["Human review"]
-    REVIEW --> INSERT["INSERT into Core"]
-    THRESH -->|no| HOLD["Remain candidate or discard"]
-    ACTIVE --> PAUSED["paused"]
-    PAUSED --> CHECK["Checkpoint pool state"]
-    PAUSED --> ACTIVE
-    ACTIVE --> DISABLED["disabled"]
-    PAUSED --> DISABLED
-    DISABLED --> DROP["Discard pool and delete checkpoint"]
+flowchart TB
+    accTitle: ARE candidate-pool and scoring lifecycle
+    accDescr: Separates the ARE activation state machine from the candidate scoring and promotion pipeline, including checkpointing and the forbidden disabled-to-paused transition.
+    subgraph ACT["ARE activation lifecycle"]
+        ACTIVE["active"]
+        PAUSED["paused"]
+        DISABLED["disabled"]
+        CHECKPOINT["Write or reload checkpoint"]
+        DROP["Delete checkpoint and discard pool"]
+        FORBID["disabled -> paused is forbidden"]
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
-    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
-    class ACTIVE,PAUSED,POOL,SCORE,REVIEW,INSERT,CHECK normative;
-    class INFER,THRESH,HOLD caution;
-    class DISABLED,DROP alert;
+        ACTIVE --> PAUSED
+        PAUSED --> ACTIVE
+        ACTIVE --> DISABLED
+        PAUSED --> DISABLED
+        PAUSED --> CHECKPOINT
+        DISABLED --> DROP
+        DISABLED -. no candidate pool exists .-> FORBID
+    end
+    subgraph PIPE["Candidate scoring and promotion pipeline"]
+        INFER["Infer candidate"]
+        POOL["Candidate Pool"]
+        SCORE["Score under declared profile"]
+        THRESH{"Meets threshold or valid override?"}
+        REVIEW["Human review"]
+        INSERT["Promote via INSERT into Core"]
+        HOLD["Remain candidate or discard"]
+
+        INFER --> POOL --> SCORE --> THRESH
+        THRESH -->|yes| REVIEW --> INSERT
+        THRESH -->|no| HOLD
+    end
+
+    ACTIVE --> INFER
+    CHECKPOINT -. preserves pool for restart .-> POOL
+
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
+    classDef extension fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c,stroke-width:1.5px;
+    class ACTIVE,PAUSED,CHECKPOINT,INFER,POOL,SCORE extension;
+    class THRESH,HOLD caution;
+    class REVIEW,INSERT normative;
+    class DISABLED,DROP,FORBID alert;
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> ARE inference, scoring, checkpointing, and promotion are coupled but not identical: candidate generation is extension-local, while promotion remains a human-reviewed Core `INSERT`.
@@ -2139,23 +2293,29 @@ Top-level conditional branches enforced by the schema `allOf` surface:
 **Figure 9.1. Profile root and schema-closure relationship**
 
 ```mermaid
-flowchart TD
-    ROOT["Schema root"]
-    REQ["Always required:<br/>ddr_version, document_profile,<br/>active_tiers, nodes"]
-    NODES["nodes[] -> DdrNode"]
-    PI["project_instance"]
-    PIE["project_instance_express"]
-    SD["system_definition"]
-    EM["express_mode and node express_mode_group"]
-    FULL["Full authoritative top-level surface"]
+flowchart LR
+    accTitle: Profile root and schema-closure relationship
+    accDescr: Shows the shared root contract and the profile-specific closure rules enforced by the schema for project, express, and system-definition artifacts.
+    subgraph SHARED["Shared root contract"]
+        ROOT["Schema root"]
+        REQ["Always required: ddr_version, document_profile, active_tiers, nodes"]
+        NODES["nodes[] -> DdrNode"]
+    end
+    subgraph PROFILE["Profile-specific closure"]
+        PI["project_instance"]
+        PIE["project_instance_express"]
+        SD["system_definition"]
+        EM["Requires express_mode and node express_mode_group"]
+        FULL["Requires full authoritative top-level surface"]
+    end
 
     ROOT --> REQ --> NODES
     ROOT --> PI
     ROOT --> PIE --> EM
     ROOT --> SD --> FULL
 
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
     class ROOT,REQ,NODES,PI,PIE,SD schema;
     class EM,FULL normative;
 ```
@@ -2266,64 +2426,85 @@ Rule-ID families are also typed rather than free-form:
 
 ```mermaid
 classDiagram
-    class RootContract {
-      +ddr_version
-      +document_profile
-      +active_tiers
-      +nodes
+    accTitle: Schema definition map for nodes, citations, extensions, and lifecycle
+    accDescr: Organizes the main schema object types into root, node, lifecycle, and extension clusters and shows the conditional branches that control express-mode, CL, and SUPERSEDE_PENDING fields.
+    namespace Root {
+        class RootContract {
+          +ddr_version: string
+          +document_profile: profile enum
+          +active_tiers: canonical set
+          +nodes: DdrNode[]
+        }
     }
-    class DdrNode {
-      +id
-      +tier
-      +status
-      +parent_ids[]
-      +express_mode_group?
-      +extension_annotations?
+    namespace NodeTypes {
+        class DdrNode {
+          +id: NodeId
+          +tier: TierEnum
+          +status: StatusEnum
+          +constraint_origin?: derived|imposed
+          +prior_status?: ACTIVE|DEPRECATED|DIRTY
+          +parent_ids: ParentCitation[]
+          +express_mode_group?: G1|G2|G3|G4
+          +extension_annotations?: namespaced map
+        }
+        class ParentCitation {
+          +id: NodeId
+          +edge_type: derives|constrains|implements
+          +derivation_mode?: semantic|traceability
+        }
+        class ExpressProfileCondition {
+          +document_profile = project_instance_express
+          +requires: express_mode_group
+        }
+        class ClCondition {
+          +tier = CL
+          +allows: constraint_origin
+        }
+        class SupersedePendingCondition {
+          +status = SUPERSEDE_PENDING
+          +requires: prior_status
+        }
     }
-    class ParentCitation {
-      +id
-      +edge_type
-      +derivation_mode?
+    namespace Lifecycle {
+        class StatusTransition {
+          +from: StatusEnum
+          +to?: StatusEnum
+          +to_node_field?: prior_status
+          +operation: OperationNameEnum
+          +phase?: commit|rollback
+          +guards: GuardIdRef[]
+        }
+        class GuardDefinition {
+          +id: gc-001..gc-009
+          +verification_mode: structural|manual
+          +description: string
+        }
     }
-    class ExpressModeGroup {
-      +G1
-      +G2
-      +G3
-      +G4
-    }
-    class ExtensionEntry {
-      +id
-      +name
-      +contract
-      +reads[]
-      +annotates[]
-      +rules[]
-    }
-    class ScoringProfile {
-      +input_signals[]
-      +score_bands[]
-      +minimum_surfacing_threshold
-      +override_policy
-    }
-    class StatusTransition {
-      +from
-      +to?
-      +to_node_field?
-      +operation
-      +phase?
-      +guards[]
-    }
-    class GuardDefinition {
-      +id
-      +description
-      +verification_mode
+    namespace Extensions {
+        class ExtensionEntry {
+          +id: string
+          +name: string
+          +contract: string
+          +reads: TierEnum[]
+          +annotates: TierEnum[]
+          +rules: rule[]
+          +scoring_profile?: profile ref
+        }
+        class ScoringProfile {
+          +input_signals[]
+          +score_bands[]
+          +minimum_surfacing_threshold
+          +override_policy
+        }
     }
 
-    RootContract --> "0..*" DdrNode : nodes
-    DdrNode --> "0..*" ParentCitation : parent_ids
-    DdrNode ..> ExpressModeGroup : express_mode_group
-    ExtensionEntry ..> ScoringProfile : E5 scoring_profile
-    StatusTransition --> "0..*" GuardDefinition : guards
+    RootContract "0..*" --> DdrNode : nodes
+    DdrNode "0..*" --> "1" ParentCitation : parent_ids
+    DdrNode ..> ExpressProfileCondition : conditional
+    DdrNode ..> ClCondition : conditional
+    DdrNode ..> SupersedePendingCondition : conditional
+    ExtensionEntry "0..1" ..> "1" ScoringProfile : E5 scoring_profile
+    StatusTransition "0..*" --> "1" GuardDefinition : guards
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The schema contract is not a flat property list; it is a graph of typed objects whose conditional relationships mirror the manual's structural, extension, and lifecycle sections.
