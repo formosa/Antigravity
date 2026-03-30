@@ -239,6 +239,10 @@ DDR System.
 | `§II.5` | Extension System Integration | `CAT-EXT` |
 | `§II.6` | AI and Agentic Interface | `CAT-AI` |
 | `§II.7` | Target System Optimization | `CAT-ARCH` |
+| `§II.8` | Workbench and Interaction Architecture | `CAT-UX` |
+| `§II.9` | Data, Search, and Observability | `CAT-STORE` |
+| `§II.10` | Secure Agent Operations and Tutorials | `CAT-AI` |
+| `§II.11` | Collaboration and Delivery Workflows | `CAT-UX` |
 
 ### §II.1 Application Architecture Overview
 
@@ -953,6 +957,597 @@ dependencies:
   - BRAIN-III-018
 ```
 
+### §II.8 Workbench and Interaction Architecture
+
+This section explores the application shell, editing workbench, and navigation surfaces that would
+make a DDR-native software development environment feel credible to experienced developers while
+remaining legible to newcomers.
+
+#### [BRAIN-II-014] Desktop Shell Strategy: Electron 41 vs Qt 6.11
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-014
+title: "Desktop Shell Strategy: Electron 41 vs Qt 6.11"
+category: CAT-ARCH
+priority: HIGH
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Select the desktop shell by explicitly comparing an Electron-first IDE shell
+  against a Qt-first native shell rather than treating the host runtime as an
+  implementation afterthought.
+detail: |-
+  Option A is an Electron 41 shell with a web-native workbench. Electron's March 2026 release line continued the rapid Chromium and Node cadence and added ASAR integrity digest support, which strengthens packaging integrity for a desktop IDE that will likely embed Monaco, browser tools, and agent-facing web views [C11][C12].
+
+  Option B is a Qt 6.11 / Qt 6.9.3 shell. Qt's March 2026 release pages show an actively maintained cross-platform runtime with a clearer support matrix and a more conservative native-desktop compatibility story than a Chromium-bound stack [C17][C18].
+
+  Adversarial Comparative Analysis: Electron maximizes ecosystem leverage because nearly every advanced editor, diff, browser-automation, and agent plugin pattern the product may want already assumes a webview-capable runtime. The downside is higher baseline RAM use, faster security patch churn, and more frequent dependency alignment work. Qt offers stronger native desktop affordances, cleaner OS integration, and a less browser-centric resource profile, but it pushes the team toward a split-stack UI strategy and weaker reuse of modern IDE/editor assets [C11][C12][C17][C18].
+
+  Final Endorsement: endorse Electron for the first commercial DDR workbench, with Qt retained as a contingency path if empirical memory profiling or regulated deployment requirements later show the browser-first runtime is too expensive.
+open_questions:
+  - What memory floor is acceptable once the shell, graph rendering, and optional local AI features run together?
+  - Should the first release prefer installer-driven updates over a background auto-update service?
+  - Is a future Qt companion shell justified for highly locked-down enterprise environments?
+tags:
+  - "#desktop"
+  - "#electron"
+  - "#qt"
+  - "#workbench"
+ddr_relevance:
+  - SAL
+  - ICL
+  - CDL
+  - ISL
+references:
+  - "C11"
+  - "C12"
+  - "C17"
+  - "C18"
+  - "BRAIN-III-047"
+  - "BRAIN-III-010"
+motivation: >-
+  The shell decision will constrain packaging, editor reuse, extension
+  boundaries, update channels, and the cost of delivering a genuinely IDE-like
+  DDR experience.
+prior_art: >-
+  Electron-class developer tools continue to converge on browser-native
+  workbenches with agent tooling, while Qt remains the stronger candidate when
+  native desktop compatibility and long-lived support windows outrank web
+  ecosystem leverage [C1][C2][C17][C18].
+ddr_constraints: >-
+  The shell must remain a presentation concern only; all authoritative DDR
+  lifecycle, validation, and DAG logic must stay isolated behind the service
+  boundary so AX-3, AX-6, and AX-7 remain runtime-agnostic.
+risks: >-
+  Electron can over-consume RAM and impose constant browser-engine upgrade
+  pressure; Qt can slow delivery by forcing a mixed technology stack and weaker
+  reuse of web-first IDE assets.
+dependencies:
+  - BRAIN-II-001
+  - BRAIN-II-007
+  - BRAIN-III-047
+  - BRAIN-III-010
+```
+
+#### [BRAIN-II-015] Monaco-Centered Hybrid Editing Workbench
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-015
+title: Monaco-Centered Hybrid Editing Workbench
+category: CAT-CRUD
+priority: HIGH
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Use a Monaco-centered editing workbench with a schema-aware inspector instead
+  of forcing users into either a raw-text-only or form-only authoring model.
+detail: |-
+  Option A is a Monaco-centered hybrid workbench: raw YAML / Markdown authoring, inline diagnostics, structural breadcrumbs, parent-citation pickers, diff views, and a right-side DDR inspector for lifecycle-only fields. Option B is a form-first editor that generates tier-specific controls and exposes text only as a secondary detail view.
+
+  Adversarial Comparative Analysis: the hybrid Monaco route is superior for expert authoring, copy/paste from specifications, diff-based review, inline citations, AI-assisted edits, and future code-intelligence features such as rename/usages or semantic cross-file navigation. A form-first editor is safer for novices and easier to constrain mechanically, but it hides the real artifact shape, makes bulk edits cumbersome, and tends to collapse under advanced workflows like supersede, unbundle, or large-scale schema migrations. The February and March 2026 VS Code updates reinforced the value of editor-native tools, browser-assisted validation, and created-in-chat skill scaffolding, which aligns more naturally with an IDE-grade workbench than a wizard-only surface [C1][C2][C10].
+
+  Final Endorsement: endorse a Monaco-centered workbench with a hard-guarded DDR inspector. The text view remains the primary artifact, while the inspector becomes the safe path for constrained fields, visual graph actions, and lifecycle transitions.
+open_questions:
+  - Should node metadata be edited inline, in a side inspector, or both with authority rules?
+  - How aggressively should the editor block invalid `parent_ids`, `prior_status`, or `constraint_origin` edits before commit?
+  - What is the minimum viable visual diff experience for SUPERSEDE and UNBUNDLE review?
+tags:
+  - "#editor"
+  - "#monaco"
+  - "#forms"
+  - "#diff"
+ddr_relevance:
+  - FCL
+  - CL
+  - SAL
+  - ICL
+  - CDL
+  - ISL
+references:
+  - "C1"
+  - "C2"
+  - "C10"
+  - "C21"
+  - "BRAIN-III-048"
+  - "BRAIN-III-049"
+motivation: >-
+  DDR artifacts are still authored documents, so the workbench must preserve
+  direct text control while reducing avoidable authoring mistakes.
+prior_art: >-
+  IDE workbenches that combine authoritative text editing with structural side
+  panels, inline diagnostics, diff editors, and schema-aware assistants.
+ddr_constraints: >-
+  The editor may suggest or pre-validate changes, but it must never bypass the
+  authoritative Operations Protocol, lifecycle guards, or schema validation
+  gates.
+risks: >-
+  A Monaco-first surface increases runtime weight and complexity, while a weak
+  inspector design could accidentally create two competing editing authorities.
+dependencies:
+  - BRAIN-II-007
+  - BRAIN-II-009
+  - BRAIN-III-048
+  - BRAIN-III-049
+```
+
+#### [BRAIN-II-016] Semantic Navigation and Refactor Fabric
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-016
+title: Semantic Navigation and Refactor Fabric
+category: CAT-AI
+priority: MED
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Augment plain text search with symbol-aware navigation and meaning-aware
+  retrieval so DDR projects scale beyond grep-and-memory workflows.
+detail: |-
+  Option A is a semantic navigation fabric that combines exact symbol operations (rename, usages, jump-to-definition, structured references) with a meaning-aware retrieval index for broad discovery across large DDR and code artifacts. Option B is a grep-first model that relies on text search plus the DDR graph alone.
+
+  Adversarial Comparative Analysis: grep-first search is simple, local, and easy to trust, but it breaks down when users need cross-file refactors, agent-assisted impact analysis, or discovery of conceptually related material that does not share exact tokens. The 2026 VS Code updates elevated rename/usages tooling in agent flows, and GitHub's March 2026 semantic code search launch demonstrates that large codebases increasingly need both exact and meaning-based retrieval surfaces [C2][C10]. A semantic layer introduces indexing cost and ranking complexity, but it dramatically improves refactor confidence, tutorial discovery, and agent context assembly.
+
+  Final Endorsement: endorse a two-lane navigation system: exact symbol and reference operations for correctness-critical edits, plus optional semantic retrieval for discovery, onboarding, and agent planning.
+open_questions:
+  - Should semantic retrieval remain fully local, or is a remote index acceptable for enterprise installations?
+  - What metadata should be indexed: node titles only, node content, extension annotations, or linked source files too?
+  - How should ranking evidence be surfaced so users can trust semantic matches?
+tags:
+  - "#search"
+  - "#semantic"
+  - "#navigation"
+  - "#refactor"
+ddr_relevance:
+  - GPCL
+  - FCL
+  - SAL
+  - ICL
+  - CDL
+  - ISL
+references:
+  - "C2"
+  - "C10"
+  - "BRAIN-II-015"
+  - "BRAIN-II-017"
+motivation: >-
+  The application should help developers understand downstream impact and
+  related artifacts before they mutate a graph or a tutorial corpus.
+prior_art: >-
+  Language servers, usage graphs, semantic code search, and retrieval-backed
+  IDE assistants.
+ddr_constraints: >-
+  Discovery tooling may rank or suggest, but authoritative parent-child
+  relationships remain the DDR DAG and may not be inferred into the Core
+  without explicit human operations.
+risks: >-
+  Semantic retrieval can mislead users with plausible but incorrect matches if
+  relevance evidence and verification affordances are weak.
+dependencies:
+  - BRAIN-II-015
+  - BRAIN-II-017
+```
+
+### §II.9 Data, Search, and Observability
+
+This section captures acceleration layers and telemetry patterns that improve day-to-day usability
+without displacing the file-system-first DDR source of truth.
+
+#### [BRAIN-II-017] Operational Index: SQLite Sidecar vs DuckDB Mirror
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-017
+title: "Operational Index: SQLite Sidecar vs DuckDB Mirror"
+category: CAT-STORE
+priority: HIGH
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Keep the DDR project file-system-first, but introduce an explicit strategy
+  for query acceleration, text search, and analytical reporting.
+detail: |-
+  Option A is a required SQLite sidecar that stores the node index, reconciliation manifest cache, search tables, and lightweight query accelerators beside the authoritative YAML project. SQLite 3.51.3 added `jsonb_each()` / `jsonb_tree()` and pulled the `carray` and `percentile` extensions into the amalgamation, which makes embedded semi-structured querying more attractive than in prior DDR drafts [C13].
+
+  Option B is an optional DuckDB analytical mirror refreshed from the file-system source and used for lineage analytics, bulk validation reporting, and cross-project trend analysis. DuckDB 1.5.0 introduced a typed `VARIANT`, a `curl`-backed `httpfs` default, and signed extensions, while the release calendar now documents every-other-release LTS support [C14][C15].
+
+  Adversarial Comparative Analysis: SQLite is better suited to the hot path because it is tiny, transactional, embeddable everywhere, and excellent for always-on operational metadata. DuckDB is stronger for heavy scans, ad hoc analytics, and large aggregate reports, but it is a heavier dependency and less appropriate as the default write-path index. Running both as peers would overcomplicate the first release.
+
+  Final Endorsement: endorse SQLite as the mandatory operational sidecar and make DuckDB a generated mirror for optional reporting and portfolio analytics.
+open_questions:
+  - Which data belongs in the sidecar versus recomputed on demand from the YAML graph?
+  - Should the DuckDB mirror live inside the project tree, a cache directory, or be ephemeral?
+  - How should the system recover when the sidecar is stale or corrupted relative to the filesystem SSOT?
+tags:
+  - "#sqlite"
+  - "#duckdb"
+  - "#fts"
+  - "#analytics"
+ddr_relevance:
+  - SAL
+  - ICL
+  - CDL
+  - ISL
+  - E5
+references:
+  - "C13"
+  - "C14"
+  - "C15"
+  - "BRAIN-II-002"
+  - "BRAIN-III-050"
+  - "BRAIN-III-051"
+motivation: >-
+  Large DDR projects need fast search, reporting, and dashboards, but the
+  canonical graph should remain reconstructible from durable authored files.
+prior_art: >-
+  Embedded operational stores paired with optional analytical mirrors in local
+  developer tools and data-centric desktop applications.
+ddr_constraints: >-
+  Neither acceleration layer may become authoritative. The file-system project
+  remains the single write authority, and both indexes must be fully
+  reproducible from Core artifacts.
+risks: >-
+  Sidecars can drift silently if invalidation rules are weak, and a dual-store
+  design can become harder to reason about than the underlying project.
+dependencies:
+  - BRAIN-II-002
+  - BRAIN-II-005
+  - BRAIN-II-009
+  - BRAIN-III-050
+  - BRAIN-III-051
+```
+
+#### [BRAIN-II-018] OpenTelemetry-Native Operation Trace Ledger
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-018
+title: OpenTelemetry-Native Operation Trace Ledger
+category: CAT-LIFE
+priority: MED
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Represent DDR operations, validations, extension calls, and tutorial
+  checkpoints as structured traces rather than ad hoc log lines.
+detail: |-
+  Option A is an OpenTelemetry-native trace ledger: every `INSERT`, `MODIFY`, `SUPERSEDE`, `VALIDATE`, `VERIFY`, `UNBUNDLE_SCAN`, extension run, and tutorial checkpoint emits spans and structured events into a local collector or file sink. OpenTelemetry stabilized the declarative configuration schema and its YAML/JSON schema in March 2026, making a config-first instrumentation strategy safer to standardize across runtimes [C16].
+
+  Option B is a bespoke JSON log format designed only for DDR.
+
+  Adversarial Comparative Analysis: bespoke logs are easy to start with, but they tend to fragment quickly across GUI, CLI, and agent hosts, and they provide little leverage for dashboards, timeline analysis, or cross-runtime debugging. OpenTelemetry imposes vocabulary discipline and collector complexity, but it gives the product a portable event model, local-first observability, and an eventual path to enterprise export or redacted sharing without redesigning the entire audit plane.
+
+  Final Endorsement: endorse OpenTelemetry as the internal operation-trace plane, with remote export disabled by default and a local collector/file pipeline as the first supported deployment mode.
+open_questions:
+  - Which fields require redaction or hashing before traces are stored locally?
+  - How long should trace histories be retained for single-user versus enterprise projects?
+  - Should extension spans be namespaced separately from Core operation spans?
+tags:
+  - "#opentelemetry"
+  - "#tracing"
+  - "#audit"
+  - "#observability"
+ddr_relevance:
+  - GPCL
+  - SAL
+  - ICL
+  - ISL
+  - E9
+references:
+  - "C16"
+  - "BRAIN-III-054"
+motivation: >-
+  A developer application this stateful needs an internal timeline that is
+  strong enough for debugging, support, and future governance reporting.
+prior_art: >-
+  Trace-first operation audit systems and local collector patterns used in
+  developer platforms and platform engineering tooling.
+ddr_constraints: >-
+  Telemetry must remain observational only. It may not mutate the Core graph,
+  and any exported traces must respect project privacy and extension isolation.
+risks: >-
+  Over-instrumentation can overwhelm users and slow the product if cardinality
+  budgets and retention policies are not designed early.
+dependencies:
+  - BRAIN-II-003
+  - BRAIN-II-009
+  - BRAIN-III-054
+```
+
+### §II.10 Secure Agent Operations and Tutorials
+
+This section focuses on portable automation surfaces, prompt-injection-resistant tool execution,
+and onboarding systems that can double as both tutorials and regression harnesses.
+
+#### [BRAIN-II-019] MCP-Native Skills and Plugin Surface
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-019
+title: MCP-Native Skills and Plugin Surface
+category: CAT-EXT
+priority: HIGH
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Favor an MCP-native tool and skill surface for DDR automation instead of
+  inventing a bespoke plugin protocol first.
+detail: |-
+  Option A is an MCP-native surface with DDR-specific tools, skill bundles, and a small permission model layered on top. This now has unusually strong ecosystem momentum: VS Code 1.109 through 1.112 added agent skills, plugins, browser tools, and sandboxed MCP-server controls; OpenAI described deterministic skill-bundle loading inside isolated hosted containers; and GitHub Copilot CLI is now generally available with MCP, plugins, and skills across terminal-centric workflows [C1][C2][C3][C4][C6].
+
+  Option B is a proprietary DDR plugin SDK and RPC protocol that only the DDR application understands.
+
+  Adversarial Comparative Analysis: an MCP-native approach front-loads protocol alignment and permission UX work, but it buys immediate interoperability with the toolchain developers are already adopting. A proprietary SDK would let DDR optimize exactly for its domain vocabulary, yet it would duplicate a rapidly standardizing ecosystem and create needless friction for skill, plugin, and tutorial reuse across hosts.
+
+  Final Endorsement: endorse an MCP-native automation surface with DDR-specific skill bundles and permission scopes, reserving any proprietary contract only for UI-local concerns that do not need cross-host portability.
+open_questions:
+  - Which DDR operations are safe to expose directly as tools versus wrapped in higher-level workflows?
+  - Should skill bundles be stored per-project, per-workspace, or globally with project-scoped overrides?
+  - How should the product version and advertise tool schema evolution?
+tags:
+  - "#mcp"
+  - "#skills"
+  - "#plugins"
+  - "#automation"
+ddr_relevance:
+  - SAL
+  - ICL
+  - ISL
+  - E1
+  - E5
+  - E9
+references:
+  - "C1"
+  - "C2"
+  - "C3"
+  - "C4"
+  - "C6"
+  - "BRAIN-II-012"
+  - "BRAIN-III-052"
+  - "BRAIN-III-053"
+motivation: >-
+  The application should expose structured automations in a way that can be
+  reused by agents, tutorials, and adjacent developer tooling without manual
+  file-edit hacks.
+prior_art: >-
+  MCP servers, skill bundles, plugin manifests, and tool-mediated agent hosts.
+ddr_constraints: >-
+  Tool execution must preserve the authoritative Operations Protocol and may
+  never grant extensions direct write access to protected Core fields.
+risks: >-
+  Cross-host compatibility and permission semantics will evolve quickly, and
+  poorly scoped tools could widen the attack surface.
+dependencies:
+  - BRAIN-II-003
+  - BRAIN-II-012
+  - BRAIN-III-052
+  - BRAIN-III-053
+```
+
+#### [BRAIN-II-020] Sink-Gated Agent Safety Model
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-020
+title: Sink-Gated Agent Safety Model
+category: CAT-AI
+priority: HIGH
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Treat dangerous writes, network egress, promotions, and external side effects
+  as explicit sinks guarded by capability checks instead of relying on a single
+  input filter or AI firewall.
+detail: |-
+  Option A is a sink-gated design: every dangerous action such as filesystem mutation outside the project root, network egress, issue creation, bundle export, promotion from candidate to Core, or cloud handoff requires explicit scopes, structured confirmations, and observable audit events. OpenAI's March 2026 agent-security guidance argues that prompt injection increasingly resembles social engineering and that defenses cannot rely on filtering inputs alone; VS Code 1.112 likewise added finer-grained sandbox permissions for MCP servers and update approvals for plugins [C3][C4][C5].
+
+  Option B is a perimeter-only AI firewall that tries to detect malicious or manipulative prompts before execution and otherwise trusts the agent runtime broadly.
+
+  Adversarial Comparative Analysis: perimeter filtering is attractive because it centralizes policy, but it is brittle against indirect attacks embedded in docs, issues, repos, or retrieved content. Sink-gating assumes attacks will land and minimizes blast radius anyway. Its cost is higher UX design effort and more explicit permission prompts, but that cost is exactly what keeps a developer tool trustworthy.
+
+  Final Endorsement: endorse sink-gated execution with allowlisted egress, scoped secrets, mutation checkpoints, and review requirements on any export or promotion path.
+open_questions:
+  - Which sinks require interactive confirmation every time versus policy-based pre-approval?
+  - How should secrets be scoped so agents never see raw values unless absolutely necessary?
+  - What is the right default behavior for fully offline or air-gapped projects?
+tags:
+  - "#security"
+  - "#prompt-injection"
+  - "#permissions"
+  - "#sinks"
+ddr_relevance:
+  - GPCL
+  - SAL
+  - ICL
+  - ISL
+  - E5
+references:
+  - "C3"
+  - "C4"
+  - "C5"
+  - "BRAIN-II-019"
+motivation: >-
+  A DDR development application will routinely ingest untrusted text and
+  delegate operations to agents, so the product needs a first-class damage
+  containment model.
+prior_art: >-
+  Capability-based security, least-privilege execution, and explicit review
+  gates in agent-enabled developer tools.
+ddr_constraints: >-
+  Any automated suggestion or tool call must remain subordinate to DDR's
+  deterministic validation, lifecycle guards, and human promotion authority.
+risks: >-
+  Too many prompts will train users to click through warnings, while too few
+  controls will make the platform unsafe by design.
+dependencies:
+  - BRAIN-II-003
+  - BRAIN-II-019
+```
+
+#### [BRAIN-II-021] Executable Tutorial Workspaces and Onboarding Compiler
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-021
+title: Executable Tutorial Workspaces and Onboarding Compiler
+category: CAT-UX
+priority: HIGH
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Build tutorials as executable DDR workspaces with checkpoints and automated
+  validation instead of treating onboarding as static documentation only.
+detail: |-
+  Option A is a static tutorial stack: written guides, screenshots, diagrams, and prerecorded videos. Option B is an executable tutorial compiler that emits sandbox DDR projects, step-by-step tasks, checkpoint assertions, sample prompts, and optional browser or agent scripts that verify each milestone. VS Code's 2026 updates added browser tools, in-chat creation of reusable agent customizations, and a stronger skills model; OpenAI and GitHub likewise emphasized portable skill bundles and long-running agent workflows [C2][C4][C6][C7].
+
+  Adversarial Comparative Analysis: static documentation is cheap to publish but expensive to keep truthful, and it cannot prove that a learner has actually succeeded at `VALIDATE`, `SUPERSEDE`, or `UNBUNDLE_EXECUTE`. Executable workspaces cost more to build, yet they become living acceptance tests, reproducible demos, and field-support assets. They also give the DDR team a clean place to stage tutorials for Express Mode, extension authoring, promotion to ADR, and migration from freeform notes into formal node graphs.
+
+  Final Endorsement: endorse executable tutorial workspaces as the primary tutorial medium, with static docs generated from the same source so the documentation and the exercises cannot drift for long.
+open_questions:
+  - Which tutorial tracks should ship first: fundamentals, express mode, extension authoring, or promotion workflows?
+  - How much of tutorial validation should run locally versus through an embedded browser or agent harness?
+  - Should tutorial state reset be implemented as Git resets, copied snapshots, or generated workspaces?
+tags:
+  - "#tutorials"
+  - "#onboarding"
+  - "#workspaces"
+  - "#learning"
+ddr_relevance:
+  - XPD
+  - SIL
+  - GPCL
+  - FCL
+  - CL
+  - SAL
+  - ICL
+  - CDL
+  - ISL
+references:
+  - "C2"
+  - "C4"
+  - "C6"
+  - "C7"
+  - "BRAIN-II-008"
+  - "BRAIN-II-009"
+  - "BRAIN-III-053"
+motivation: >-
+  DDR will be easier to adopt if learning flows are not merely explanatory but
+  demonstrably correct and repeatable.
+prior_art: >-
+  Interactive IDE walkthroughs, kata repositories, docs-as-tests, and
+  reproducible educational sandboxes.
+ddr_constraints: >-
+  Tutorials must teach the real Operations Protocol and file formats rather
+  than a simplified toy abstraction that breaks when users begin real work.
+risks: >-
+  Tutorial compilers can become miniature product variants if their content
+  model is not kept aggressively aligned to the real application.
+dependencies:
+  - BRAIN-II-008
+  - BRAIN-II-009
+  - BRAIN-II-019
+  - BRAIN-III-053
+```
+
+### §II.11 Collaboration and Delivery Workflows
+
+This section covers human-and-agent collaboration patterns, especially where local authority,
+background delegation, and enterprise governance need to coexist without blurring responsibility.
+
+#### [BRAIN-II-022] Hybrid Local/Cloud Delegation Workflow
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-022
+title: Hybrid Local/Cloud Delegation Workflow
+category: CAT-UX
+priority: MED
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Support local-first work with explicit cloud delegation for long-running
+  automation instead of committing prematurely to either a pure-local or
+  pure-cloud workflow model.
+detail: |-
+  Option A is a hybrid workflow: local authoring and local validation remain the authority, but users can delegate bounded tasks such as documentation updates, issue-driven patches, test generation, or repository triage to background cloud agents. GitHub's February and March 2026 updates added CLI handoff, model selection, self-review, built-in scanning, organization-level repository access APIs, and new network requirements for coding-agent infrastructure [C6][C7][C8][C9].
+
+  Option B is a strict local-only model in which every agent and automation runs on the user's machine.
+
+  Adversarial Comparative Analysis: local-only execution is simplest to explain and preserves privacy and offline resilience, but it gives up the main advantage of cloud agents: long-running delegated work, centrally governed repo access, and shared session continuity. A hybrid model is more operationally complex because it requires permissioning, audit trails, and network policy awareness, yet it creates a more realistic collaboration story for software-development teams who want both strong local control and asynchronous background help.
+
+  Final Endorsement: endorse a local-first hybrid model. All authoritative DDR graph mutations must still be revalidated locally before commit, while cloud delegation remains opt-in and limited to bounded tasks whose outputs are reviewed through the same local validation gates.
+open_questions:
+  - Which task classes are safe to allow in cloud sessions on day one?
+  - How should the product behave for air-gapped projects that can never delegate remotely?
+  - Can cloud-generated changes be replayed deterministically enough to satisfy local audit requirements?
+tags:
+  - "#collaboration"
+  - "#delegation"
+  - "#cloud"
+  - "#local-first"
+ddr_relevance:
+  - SAL
+  - ICL
+  - ISL
+  - E5
+references:
+  - "C6"
+  - "C7"
+  - "C8"
+  - "C9"
+  - "BRAIN-II-019"
+  - "BRAIN-II-020"
+motivation: >-
+  A serious software development application should support both solo offline
+  workflows and controlled team automation without forcing the same risk profile
+  onto every user.
+prior_art: >-
+  Local IDE work paired with background coding agents, resumable CLI sessions,
+  and centrally governed repository access controls.
+ddr_constraints: >-
+  Delegated work may propose changes, but the DDR application's local
+  validation, lifecycle enforcement, and human review checkpoints remain the
+  final authority.
+risks: >-
+  The hybrid model can confuse users if the product does not clearly label
+  provenance, capability boundaries, and the revalidation status of delegated
+  outputs.
+dependencies:
+  - BRAIN-II-019
+  - BRAIN-II-020
+```
+
 ## PART III — Open-Source Library Candidates
 
 Part III catalogs open-source libraries under evaluation for inclusion in the DDR App Framework.
@@ -976,6 +1571,10 @@ in exploration until legal viability is clear.
 | `§III.6` | Serialization and Data Modeling | `CAT-STORE` |
 | `§III.7` | CLI Frameworks | `CAT-UX` |
 | `§III.8` | Full Target Subsystem Dependencies | `CAT-AI` |
+| `§III.9` | Desktop Runtime and IDE Workbench Libraries | `CAT-ARCH` |
+| `§III.10` | Embedded Store, Search, and Telemetry | `CAT-STORE` |
+| `§III.11` | MCP, Browser, and Agent Automation Assets | `CAT-AI` |
+| `§III.12` | Citations and References | `CAT-MISC` |
 
 ### §III.1 DAG and Graph Engine Libraries
 
@@ -2784,3 +3383,430 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
+### §III.9 Desktop Runtime and IDE Workbench Libraries
+
+This section captures runtime and editor assets most relevant to turning DDR from a schema-driven
+project format into a credible day-to-day developer workbench.
+
+#### [BRAIN-III-047] Electron
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-047
+title: Electron
+category: CAT-DIST
+priority: HIGH
+status: CANDIDATE
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Cross-platform desktop runtime built from Chromium and Node.js, suitable for
+  a browser-native DDR workbench.
+detail: >-
+  Electron's 2026 release line remains highly active, with v41.1.0 published on
+  2026-03-27 and the v41 family adding ASAR integrity digest support alongside
+  regular Chromium and Node updates [C11][C12]. It is the strongest candidate
+  if the DDR application wants Monaco, browser tooling, and a web-native plugin
+  surface, but it requires disciplined memory and upgrade-budget management.
+open_questions:
+  - Is the Electron memory floor acceptable alongside graph rendering and optional local AI features?
+  - Should the first release disable background updating and rely on installer-driven upgrades?
+tags:
+  - "#electron"
+  - "#desktop"
+  - "#runtime"
+ddr_relevance:
+  - SAL
+  - ICL
+  - ISL
+references:
+  - "C11"
+  - "C12"
+  - "BRAIN-II-014"
+repository: https://github.com/electron/electron
+language: JavaScript
+license: MIT
+commercial_use: YES
+latest_release: v41.1.0 / 2026-03-27
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+
+#### [BRAIN-III-048] Monaco Editor
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-048
+title: Monaco Editor
+category: CAT-CRUD
+priority: HIGH
+status: CANDIDATE
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  The editor core behind VS Code, offering diffing, decorations, inline
+  diagnostics, and rich programmatic editing APIs.
+detail: >-
+  Monaco is the highest-leverage editor candidate if the DDR product adopts an
+  IDE-grade workbench. The repository remains active and the latest stable
+  release visible via GitHub API is v0.55.1, while the GitHub releases page
+  also shows 2026 prerelease activity [C21]. The 2026 VS Code release cadence
+  further reinforces the value of editor-native agent, refactor, and browser
+  validation flows that fit naturally around Monaco [C1][C2].
+open_questions:
+  - Should Monaco remain the authoritative editing surface, or only the expert mode beside structured forms?
+  - What subset of IDE affordances is necessary for v1?
+tags:
+  - "#monaco"
+  - "#editor"
+  - "#ide"
+ddr_relevance:
+  - FCL
+  - CL
+  - SAL
+  - ICL
+  - CDL
+  - ISL
+references:
+  - "C1"
+  - "C2"
+  - "C21"
+  - "BRAIN-II-015"
+repository: https://github.com/microsoft/monaco-editor
+language: JavaScript
+license: MIT
+commercial_use: YES
+latest_release: v0.55.1 / 2025-11-20
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+
+#### [BRAIN-III-049] CodeMirror 6
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-049
+title: CodeMirror 6
+category: CAT-CRUD
+priority: MED
+status: CANDIDATE
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Lightweight, composable text editor stack that competes with Monaco when a
+  smaller, more modular editing surface is preferred.
+detail: >-
+  CodeMirror 6 is the principal lighter-weight counter-option to Monaco. The
+  development repository remains active in 2026, but it is package-driven and
+  does not expose a conventional GitHub releases feed. It is appealing if the
+  DDR application chooses a form-heavy or constrained authoring model, but it
+  gives up some out-of-the-box IDE capabilities that make Monaco attractive.
+open_questions:
+  - Are the performance and bundle-size savings meaningful once DDR-specific tooling is layered in?
+  - Would the team end up rebuilding too many IDE affordances manually?
+tags:
+  - "#codemirror"
+  - "#editor"
+  - "#lightweight"
+ddr_relevance:
+  - FCL
+  - CL
+  - SAL
+  - ICL
+  - CDL
+  - ISL
+references:
+  - "BRAIN-II-015"
+repository: https://github.com/codemirror/dev
+language: JavaScript
+license: Other
+commercial_use: CONDITIONAL
+latest_release: Package-driven monorepo; no GitHub releases feed
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: UNDER_REVIEW
+rejection_reason: ""
+```
+
+### §III.10 Embedded Store, Search, and Telemetry
+
+These assets support search, analytical reporting, and observability without replacing the
+filesystem-first DDR project as the single source of truth.
+
+#### [BRAIN-III-050] SQLite
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-050
+title: SQLite
+category: CAT-STORE
+priority: HIGH
+status: CANDIDATE
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Embedded relational database suitable for a local operational sidecar, search
+  cache, and reconciliation index.
+detail: >-
+  SQLite 3.51.3 was released on 2026-03-13, adding `jsonb_each()`,
+  `jsonb_tree()`, built-in `carray` / `percentile` extension support in the
+  amalgamation, improved FTS5 errors, and other operational improvements [C13].
+  This materially strengthens its suitability as the DDR workbench's embedded
+  operational index.
+open_questions:
+  - Should FTS5 be mandatory in the shipped build, or optional per platform?
+  - Which DDR caches belong in SQLite versus remaining computed in memory only?
+tags:
+  - "#sqlite"
+  - "#fts5"
+  - "#embedded-db"
+ddr_relevance:
+  - SAL
+  - ICL
+  - ISL
+  - E5
+references:
+  - "C13"
+  - "BRAIN-II-017"
+repository: https://sqlite.org/index.html
+language: Other
+license: Other
+commercial_use: YES
+latest_release: 3.51.3 / 2026-03-13
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+
+#### [BRAIN-III-051] DuckDB
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-051
+title: DuckDB
+category: CAT-STORE
+priority: MED
+status: CANDIDATE
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  In-process analytical database that is well suited to reporting, lineage
+  analytics, and cross-project inspection.
+detail: >-
+  DuckDB 1.5.0 shipped on 2026-03-09 with a typed `VARIANT`, a `curl`-backed
+  `httpfs` default, and signed extensions, while the release calendar shows
+  v1.5.1 on 2026-03-23 and a documented LTS cadence [C14][C15]. This makes it
+  a strong candidate for an optional DDR analytics mirror rather than the
+  primary operational write-path store.
+open_questions:
+  - Is a DuckDB mirror worth the extra synchronization logic for single-project workflows?
+  - Should analytics mirrors be generated lazily on demand rather than continuously refreshed?
+tags:
+  - "#duckdb"
+  - "#analytics"
+  - "#olap"
+ddr_relevance:
+  - SAL
+  - ICL
+  - ISL
+references:
+  - "C14"
+  - "C15"
+  - "BRAIN-II-017"
+repository: https://github.com/duckdb/duckdb
+language: Other
+license: MIT
+commercial_use: YES
+latest_release: v1.5.1 / 2026-03-23
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+
+#### [BRAIN-III-052] GitHub MCP Server
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-052
+title: GitHub MCP Server
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Official GitHub-hosted MCP server implementation for repository, issue, and
+  pull request operations.
+detail: >-
+  GitHub's official MCP server is relevant if the DDR application wants
+  first-party repository automation without inventing its own GitHub adapter.
+  The v0.32.0 release on 2026-03-06 emphasized context reduction, clearer
+  confirmations, and better handling around tool execution, which is directly
+  relevant to DDR's proposed MCP-native automation surface [C19].
+open_questions:
+  - Which GitHub operations should be exposed directly in the DDR UX versus mediated through higher-level workflows?
+  - Should GitHub integration ship in the base product or as an optional extension bundle?
+tags:
+  - "#github"
+  - "#mcp"
+  - "#automation"
+ddr_relevance:
+  - SAL
+  - ICL
+  - ISL
+  - E9
+references:
+  - "C6"
+  - "C19"
+  - "BRAIN-II-019"
+repository: https://github.com/github/github-mcp-server
+language: Go
+license: MIT
+commercial_use: YES
+latest_release: v0.32.0 / 2026-03-06
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: STABLE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+
+#### [BRAIN-III-053] Playwright MCP
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-053
+title: Playwright MCP
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Browser-automation MCP server for scripted UI validation, tutorial
+  checkpointing, and agent-visible product verification.
+detail: >-
+  Playwright MCP is a strong candidate for tutorial validation and agent-driven
+  smoke testing because it turns browser actions into structured tools.
+  Microsoft's release page shows rapid 2026 iteration, including incognito-by-
+  default sessions in v0.0.64 and continued updates through v0.0.68 on
+  2026-02-14 [C20]. It pairs especially well with the executable tutorial
+  workspace concept and browser-assisted validation flows already appearing in
+  VS Code [C2].
+open_questions:
+  - Should Playwright MCP be bundled only for tutorials and QA, or also exposed to end-user automation?
+  - How should browser sessions be isolated from sensitive project credentials?
+tags:
+  - "#playwright"
+  - "#mcp"
+  - "#browser"
+  - "#tutorials"
+ddr_relevance:
+  - SAL
+  - ICL
+  - ISL
+references:
+  - "C2"
+  - "C20"
+  - "BRAIN-II-021"
+repository: https://github.com/microsoft/playwright-mcp
+language: JavaScript
+license: Apache-2.0
+commercial_use: YES
+latest_release: v0.0.68 / 2026-02-14
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: STABLE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+
+#### [BRAIN-III-054] opentelemetry-configuration
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-054
+title: opentelemetry-configuration
+category: CAT-LIFE
+priority: MED
+status: CANDIDATE
+authored_by: CODX
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  OpenTelemetry configuration schema and reference implementation surface for
+  config-driven instrumentation.
+detail: >-
+  The repository reached v1.0.0 on 2026-02-27 and the OpenTelemetry project
+  announced declarative configuration stability on 2026-03-05 [C16]. This is
+  valuable to DDR because it reduces the amount of custom telemetry bootstrap
+  code required to make tracing local-first, portable, and governed by a
+  versioned schema.
+open_questions:
+  - Is the configuration schema mature enough to standardize for both desktop and CLI hosts now?
+  - Should DDR expose a user-editable telemetry config or generate one automatically?
+tags:
+  - "#opentelemetry"
+  - "#telemetry"
+  - "#config"
+ddr_relevance:
+  - GPCL
+  - SAL
+  - ISL
+  - E9
+references:
+  - "C16"
+  - "BRAIN-II-018"
+repository: https://github.com/open-telemetry/opentelemetry-configuration
+language: Other
+license: Apache-2.0
+commercial_use: YES
+latest_release: v1.0.0 / 2026-02-27
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: STABLE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+
+### §III.11 MCP, Browser, and Agent Automation Assets
+
+This section is intentionally narrow: it tracks automation assets that could let the DDR
+application speak fluently to modern agent hosts, browsers, and repository systems.
+
+### §III.12 Citations and References
+
+Use these citation IDs from Part II and Part III when referencing recent external sources.
+
+- `C1` Visual Studio Code, "January 2026 (version 1.109)." Release date February 4, 2026. [https://code.visualstudio.com/updates/v1_109](https://code.visualstudio.com/updates/v1_109)
+- `C2` Visual Studio Code, "February 2026 (version 1.110)." Release date March 4, 2026. [https://code.visualstudio.com/updates/v1_110](https://code.visualstudio.com/updates/v1_110)
+- `C3` Visual Studio Code, "Version 1.112." Release date March 18, 2026. [https://code.visualstudio.com/updates/v1_112](https://code.visualstudio.com/updates/v1_112)
+- `C4` OpenAI, "From model to agent: Equipping the Responses API with a computer environment." March 11, 2026. [https://openai.com/index/equip-responses-api-computer-environment/](https://openai.com/index/equip-responses-api-computer-environment/)
+- `C5` OpenAI, "Designing AI agents to resist prompt injection." March 11, 2026. [https://openai.com/index/designing-agents-to-resist-prompt-injection/](https://openai.com/index/designing-agents-to-resist-prompt-injection/)
+- `C6` GitHub Changelog, "GitHub Copilot CLI is now generally available." February 25, 2026. [https://github.blog/changelog/2026-02-25-github-copilot-cli-is-now-generally-available/](https://github.blog/changelog/2026-02-25-github-copilot-cli-is-now-generally-available/)
+- `C7` GitHub Blog, "What's new with GitHub Copilot coding agent." February 26, 2026. [https://github.blog/ai-and-ml/github-copilot/whats-new-with-github-copilot-coding-agent/](https://github.blog/ai-and-ml/github-copilot/whats-new-with-github-copilot-coding-agent/)
+- `C8` GitHub Changelog, "New APIs to manage coding agent repository access are now available." March 24, 2026. [https://github.blog/changelog/2026-03-24-new-apis-to-manage-coding-agent-repository-access-are-now-available/](https://github.blog/changelog/2026-03-24-new-apis-to-manage-coding-agent-repository-access-are-now-available/)
+- `C9` GitHub Changelog, "GitHub Copilot coding agent network configuration changes are now in effect." March 2, 2026. [https://github.blog/changelog/2026-03-02-github-copilot-coding-agent-network-configuration-changes-are-now-in-effect/](https://github.blog/changelog/2026-03-02-github-copilot-coding-agent-network-configuration-changes-are-now-in-effect/)
+- `C10` GitHub Blog, "Introducing semantic code search." March 17, 2026. [https://github.blog/ai-and-ml/github-copilot/introducing-semantic-code-search/](https://github.blog/ai-and-ml/github-copilot/introducing-semantic-code-search/)
+- `C11` Electron Blog, "Electron 41.0.0." March 10, 2026. [https://www.electronjs.org/blog/electron-41-0](https://www.electronjs.org/blog/electron-41-0)
+- `C12` Electron, "Releases" / support schedule pages, current 2026 line and cadence. [https://www.electronjs.org/blog](https://www.electronjs.org/blog)
+- `C13` SQLite, "SQLite Release 3.51.3 On 2026-03-13." March 13, 2026. [https://sqlite.org/releaselog/current.html](https://sqlite.org/releaselog/current.html)
+- `C14` DuckDB, "Announcing DuckDB 1.5.0." March 9, 2026. [https://duckdb.org/2026/03/09/announcing-duckdb-150](https://duckdb.org/2026/03/09/announcing-duckdb-150)
+- `C15` DuckDB, "Release Calendar." Includes v1.5.1 on March 23, 2026 and documented LTS cadence. [https://duckdb.org/release_calendar](https://duckdb.org/release_calendar)
+- `C16` OpenTelemetry Blog, "Declarative configuration is now stable." March 5, 2026. [https://opentelemetry.io/blog/2026/declarative-config-stable/](https://opentelemetry.io/blog/2026/declarative-config-stable/)
+- `C17` Qt, "Qt Framework Latest Releases." Includes Qt 6.11 in March 2026. [https://doc.qt.io/qt-6/latest-releases.html](https://doc.qt.io/qt-6/latest-releases.html)
+- `C18` Qt, "Qt Releases." Current support and release table, including Qt 6.9.3 support through March 31, 2026. [https://doc.qt.io/qt-6/qt-releases.html](https://doc.qt.io/qt-6/qt-releases.html)
+- `C19` GitHub, "github-mcp-server v0.32.0." March 6, 2026. [https://github.com/github/github-mcp-server/releases](https://github.com/github/github-mcp-server/releases)
+- `C20` Microsoft, "playwright-mcp releases." Includes v0.0.64 on February 6, 2026 and v0.0.68 on February 14, 2026. [https://github.com/microsoft/playwright-mcp/releases](https://github.com/microsoft/playwright-mcp/releases)
+- `C21` Microsoft, "monaco-editor releases." 2026 prerelease activity visible on the releases page. [https://github.com/microsoft/monaco-editor/releases](https://github.com/microsoft/monaco-editor/releases)
