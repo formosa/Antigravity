@@ -1,11 +1,62 @@
 # DDR System v6.3 Reference Manual
 
+<style>
+.ddr-badge,
+.ddr-label {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.35rem;
+  border: 1px solid currentColor;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.ddr-label {
+  padding: 0 0.18rem;
+  border: none;
+  border-radius: 0.2rem;
+}
+.ddr-surface-normative { color: #166534; background: #dcfce7; }
+.ddr-surface-schema { color: #1d4ed8; background: #dbeafe; }
+.ddr-surface-explanatory { color: #92400e; background: #ffedd5; }
+.ddr-surface-historical { color: #374151; background: #e5e7eb; }
+.ddr-status-draft { color: #92400e; background: #fef3c7; }
+.ddr-status-active { color: #166534; background: #dcfce7; }
+.ddr-status-dirty { color: #b45309; background: #fde68a; }
+.ddr-status-deprecated { color: #475569; background: #e2e8f0; }
+.ddr-status-superseded { color: #374151; background: #e5e7eb; }
+.ddr-status-supersede-pending { color: #1d4ed8; background: #dbeafe; }
+.ddr-check-structural { color: #0f766e; background: #ccfbf1; }
+.ddr-check-manual { color: #92400e; background: #ffedd5; }
+.ddr-check-semantic { color: #7c2d12; background: #fed7aa; }
+.ddr-mode-full { color: #166534; background: #dcfce7; }
+.ddr-mode-express { color: #92400e; background: #fef3c7; }
+.ddr-constraint-logical { color: #1d4ed8; background: #dbeafe; }
+.ddr-constraint-physical { color: #991b1b; background: #fee2e2; }
+.ddr-edge-derives { color: #166534; background: #dcfce7; }
+.ddr-edge-constrains { color: #991b1b; background: #fee2e2; }
+.ddr-edge-implements { color: #1d4ed8; background: #dbeafe; }
+.ddr-edge-extends { color: #155e75; background: #cffafe; }
+</style>
+
 This manual is a source-derived reference for DDR System v6.3. All normative DDR facts in this document are derived from the authoritative v6.3 YAML authority pair:
 
-- `ddr_system_v6.3.yaml` - semantic and structural system-definition authority
-- `ddr_node_schema_v6.3.yaml` - machine-contract authority for allowed shapes, conditionals, enums, and validation branching
+- <span class="ddr-badge ddr-surface-normative"><strong>Semantic Authority</strong></span> `ddr_system_v6.3.yaml` - semantic and structural system-definition authority
+- <span class="ddr-badge ddr-surface-schema"><strong>Machine Contract</strong></span> `ddr_node_schema_v6.3.yaml` - authority for allowed shapes, conditionals, enums, and validation branching
 
 Interpretive guidance in this manual is limited to explanation and organization. If this manual and the YAML authority ever diverge, the YAML pair controls: the system definition governs semantic content, and the schema governs the allowed validation surface.
+
+**Visual Semantics**
+
+| Category | Semantic badges | Meaning |
+| --- | --- | --- |
+| Authority surfaces | <span class="ddr-badge ddr-surface-normative"><strong>Normative</strong></span> <span class="ddr-badge ddr-surface-schema"><strong>Schema</strong></span> <span class="ddr-badge ddr-surface-explanatory"><strong>Explanatory</strong></span> <span class="ddr-badge ddr-surface-historical"><strong>Historical</strong></span> | Identifies whether a statement is source-controlling, schema-controlling, manual-local explanation, or historical-only |
+| Status semantics | <span class="ddr-badge ddr-status-draft"><strong>DRAFT</strong></span> <span class="ddr-badge ddr-status-active"><strong>ACTIVE</strong></span> <span class="ddr-badge ddr-status-dirty"><strong>DIRTY</strong></span> <span class="ddr-badge ddr-status-deprecated"><strong>DEPRECATED</strong></span> <span class="ddr-badge ddr-status-superseded"><strong>SUPERSEDED</strong></span> <span class="ddr-badge ddr-status-supersede-pending"><strong>SUPERSEDE_PENDING</strong></span> | Marks lifecycle condition and operational intent |
+| Verification semantics | <span class="ddr-badge ddr-check-structural"><strong>structural</strong></span> <span class="ddr-badge ddr-check-manual"><strong>manual</strong></span> <span class="ddr-badge ddr-check-semantic"><strong>semantic</strong></span> | Distinguishes mechanically checkable rules from human-review gates |
+| Mode and constraints | <span class="ddr-badge ddr-mode-full"><strong>Full</strong></span> <span class="ddr-badge ddr-mode-express"><strong>Express</strong></span> <span class="ddr-badge ddr-constraint-logical"><strong>logical</strong></span> <span class="ddr-badge ddr-constraint-physical"><strong>physical</strong></span> | Identifies consumption-mode scope and precedence/escalation semantics |
+| Edge semantics | <span class="ddr-badge ddr-edge-derives"><strong>derives</strong></span> <span class="ddr-badge ddr-edge-constrains"><strong>constrains</strong></span> <span class="ddr-badge ddr-edge-implements"><strong>implements</strong></span> <span class="ddr-badge ddr-edge-extends"><strong>extends</strong></span> | Visually distinguishes the closed relationship vocabulary |
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Diagram convention</strong></span> Each figure visualizes nearby authoritative tables or lists; diagrams aid local comprehension, but the adjacent table or prose remains authoritative.
 
 **Manual Map**
 
@@ -36,8 +87,37 @@ This section establishes the authority model for the manual, the scope of the un
 
 | Source | Role |
 | --- | --- |
-| `ddr_system_v6.3.yaml` | Semantic and structural authority for the DDR System definition |
-| `ddr_node_schema_v6.3.yaml` | Machine-contract authority for allowed shapes, conditionals, enums, and validation branching |
+| `ddr_system_v6.3.yaml` | <span class="ddr-badge ddr-surface-normative"><strong>Semantic Authority</strong></span> Semantic and structural authority for the DDR System definition |
+| `ddr_node_schema_v6.3.yaml` | <span class="ddr-badge ddr-surface-schema"><strong>Machine Contract</strong></span> Authority for allowed shapes, conditionals, enums, and validation branching |
+
+**Figure 1.1. Authority precedence and manual role**
+
+```mermaid
+flowchart TB
+    SYS["ddr_system_v6.3.yaml<br/>semantic and structural authority"]
+    SCH["ddr_node_schema_v6.3.yaml<br/>machine-contract authority"]
+    MAN["This manual<br/>reference lookup and synthesis"]
+    CROSS["DDR System(v6.3).md<br/>presentation cross-check only"]
+    SEM["Normative DDR meaning"]
+    SHAPE["Allowed artifact shapes"]
+
+    SYS --> SEM
+    SCH --> SHAPE
+    SYS --> MAN
+    SCH --> MAN
+    CROSS -.-> MAN
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    classDef explanatory fill:#ffedd5,stroke:#92400e,color:#92400e;
+    class SYS,SEM normative;
+    class SCH,SHAPE schema;
+    class MAN,CROSS explanatory;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The manual depends on both YAML authorities at once: the system definition controls meaning, while the schema controls what valid DDR artifacts may look like.
+
+<span class="ddr-label ddr-surface-schema"><strong>Authority basis</strong></span> Opening authority statement, Section `1.1`, and the root roles described by `ddr_system_v6.3.yaml` and `ddr_node_schema_v6.3.yaml`.
 
 The specification defines the current DDR System. The schema defines what valid DDR artifacts may look like. Both are required to document v6.3 correctly.
 
@@ -65,10 +145,35 @@ The specification defines the current DDR System. The schema defines what valid 
 | Extension implementer | Confirm extension boundaries, ARE behavior, schema-side extension rules, and reconciliation touchpoints | Sections 8, 9, and 7 |
 | Audit / history reader | Trace changes from current-state metadata through version history, migration, counts, and source crosswalk | Sections 2.3, 10.2, 10.3, 10.4, and 10.5 |
 
+**Figure 1.2. Reader routing by technical objective**
+
+```mermaid
+flowchart LR
+    NR["New reader"] --> O12["Sections 1-2<br/>authority and overview"]
+    NR --> C3["Section 3<br/>core structural model"]
+    TA["Tier author / reviewer"] --> T4["Section 4<br/>tier reference"]
+    TA --> R7["Section 7<br/>reconciliation and CLEAN"]
+    VT["Validator / tool author"] --> S9["Section 9<br/>schema contract"]
+    VT --> L5["Section 5<br/>lifecycle and operations"]
+    EI["Extension implementer"] --> E8["Section 8<br/>extension system and ARE"]
+    EI --> S9
+    AH["Audit / history reader"] --> CH["Sections 2.3 and 10.2-10.5<br/>history, migration, counts, crosswalk"]
+
+    classDef explanatory fill:#ffedd5,stroke:#92400e,color:#92400e;
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    class NR,TA,VT,EI,AH explanatory;
+    class O12,C3,T4,R7,S9,L5,E8,CH normative;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The routing matrix is optimized for lookup speed: readers enter through the authority, structure, operational, extension, or history surfaces that match their immediate task.
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Authority basis</strong></span> Section `1.3` role-routing table and the preserved section-family structure of this manual.
+
 ### 1.4 Normative vs explanatory content
 
-- `Normative DDR facts` are taken directly from the authoritative YAML files.
-- `Reference explanations` reorganize or summarize those facts for lookup.
+- <span class="ddr-badge ddr-surface-normative"><strong>Normative DDR facts</strong></span> are taken directly from the authoritative YAML files.
+- <span class="ddr-badge ddr-surface-explanatory"><strong>Reference explanations</strong></span> reorganize or summarize those facts for lookup.
+- <span class="ddr-badge ddr-surface-schema"><strong>Schema-literal constraints</strong></span> remain governed by the schema whenever a rule depends on field shape, enum closure, or conditional validation branching.
 - `Examples` in this manual are limited to source-native examples already present in the authoritative files, such as representative nodes, canonical tier variants, scoring profiles, lifecycle transitions, and extension catalog entries.
 
 ## 2. System Overview and Design Philosophy
@@ -103,6 +208,27 @@ The authoritative specification declares itself the exclusive normative source o
 
 The authoritative `errata_log` is empty. No active errata entries are carried in the v6.3 system-definition artifact.
 
+**Figure 2.1. v6.3 framing surfaces and downstream impact**
+
+```mermaid
+flowchart LR
+    META["system metadata"] --> CORE["Sections 3-4<br/>core model and tiers"]
+    META --> OPS["Sections 5-7<br/>operations, modes, CLEAN"]
+    CHG["v6.3 change surface"] --> PROF["document_profile and active_tiers closure"]
+    CHG --> LIFE["lifecycle and operation normalization"]
+    CHG --> EXP["Express and ARE hardening"]
+    ERR["errata_log = empty"] --> AUD["Section 10.4<br/>counts and errata state"]
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    class META,CORE,OPS,ERR,AUD normative;
+    class CHG,PROF,LIFE,EXP schema;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Section 2 is not introductory filler; it frames the exact v6.3 deltas that explain why later profile, lifecycle, Express, and ARE sections are structured as they are.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `project`, `system_metadata`, `errata_log`, and the Section `2.3` change table sourced from `ddr_system_v6.3.yaml`.
+
 ## 3. Foundational Axioms and Core Structural Model
 
 This section covers the current-state structural foundation of DDR v6.3: axioms, document profiles, canonical topology, universal node shape, edge semantics, citation rules, and invariants. Use Section 4 for tier-local rule surfaces, Section 5 for operational behavior, and Section 9 for the corresponding schema-side machine contract.
@@ -129,6 +255,32 @@ The schema defines three top-level document profiles:
 | `project_instance_express` | Express-mode project artifact | Same lean root plus express obligations; requires `express_mode`, and each node must carry `express_mode_group` |
 | `system_definition` | Authoritative DDR specification artifact | Requires the full normative top-level surface, including metadata, axioms, edge definitions, tier definitions, operations, extension system, compliance, glossary, ARE profiles, and lifecycle |
 
+**Figure 3.1. `document_profile` branching and required-surface split**
+
+```mermaid
+flowchart TD
+    ROOT["Top-level schema root"]
+    PI["project_instance"]
+    PIE["project_instance_express"]
+    SD["system_definition"]
+    LEAN["Required root:<br/>ddr_version<br/>document_profile<br/>active_tiers<br/>nodes"]
+    EXPRESS["Lean root + express_mode<br/>node express_mode_group required"]
+    FULL["Lean root + full authoritative surface<br/>metadata, axioms, operations,<br/>extensions, compliance, glossary, lifecycle"]
+
+    ROOT --> PI --> LEAN
+    ROOT --> PIE --> EXPRESS
+    ROOT --> SD --> FULL
+
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    class ROOT,PI,PIE,SD schema;
+    class LEAN,EXPRESS,FULL normative;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> `document_profile` is the top-level branching key that separates lean project artifacts from the authoritative full-surface system-definition artifact.
+
+<span class="ddr-label ddr-surface-schema"><strong>Authority basis</strong></span> `ddr_node_schema_v6.3.yaml` top-level profile branching and Section `3.2`.
+
 ### 3.3 Canonical `active_tiers` variants
 
 The schema allows exactly four ordered variants:
@@ -140,7 +292,34 @@ The schema allows exactly four ordered variants:
 | Base + `CL` | `SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL` |
 | Base + `XPD` + `CL` | `XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL` |
 
+**Figure 3.2. Canonical `active_tiers` closure**
+
+```mermaid
+flowchart TB
+    SCHEMA["`active_tiers` oneOf closure"]
+    V1["Base 7-tier<br/>SIL -> GPCL -> FCL -> SAL -> ICL -> CDL -> ISL"]
+    V2["Base + XPD<br/>XPD -> SIL -> GPCL -> FCL -> SAL -> ICL -> CDL -> ISL"]
+    V3["Base + CL<br/>SIL -> GPCL -> FCL -> CL -> SAL -> ICL -> CDL -> ISL"]
+    V4["Base + XPD + CL<br/>XPD -> SIL -> GPCL -> FCL -> CL -> SAL -> ICL -> CDL -> ISL"]
+
+    SCHEMA --> V1
+    SCHEMA --> V2
+    SCHEMA --> V3
+    SCHEMA --> V4
+
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    class SCHEMA schema;
+    class V1,V2,V3,V4 normative;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR v6.3 closes `active_tiers` to four legal ordered topologies; arbitrary activation sets and arbitrary orderings are not part of the allowed model.
+
+<span class="ddr-label ddr-surface-schema"><strong>Authority basis</strong></span> `ddr_node_schema_v6.3.yaml` `properties.active_tiers` closure and Section `3.3`.
+
 ### 3.4 Canonical topology and representative nodes
+
+**Figure 3.3. Canonical topology and merge behavior**
 
 ```mermaid
 flowchart TD
@@ -163,7 +342,17 @@ flowchart TD
     SAL -->|derives| ICL
     ICL -->|implements| CDL
     CDL -->|implements| ISL
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    class XPD,SIL,GPCL,FCL,SAL,ICL,CDL,ISL normative;
+    class CL caution;
 ```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> `SAL` is the architectural merge point: capability intent arrives from `FCL`, while declared technology and infrastructure bounds arrive from `CL` through `constrains`.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> Representative `nodes`, `tier_definitions`, and the `CIT-R3` / `INV-4` surfaces summarized in Sections `3.4`, `3.8`, and `3.9`.
 
 The authoritative system-definition artifact includes one representative node for each active tier:
 
@@ -199,6 +388,53 @@ The specification documents 13 node schema fields:
 | `express_mode_group` | enum, conditional | Required when `document_profile = project_instance_express`; one of `G1, G2, G3, G4` |
 | `extension_annotations` | map | Read-only extension metadata with reserved shadow-key blocking |
 
+**Figure 3.4. `DdrNode` and `ParentCitation` conditional structure**
+
+```mermaid
+classDiagram
+    class DdrNode {
+      +id
+      +tier
+      +title
+      +content?
+      +parent_ids[]
+      +status
+      +constraint_origin?
+      +prior_status?
+      +version
+      +created
+      +modified
+      +express_mode_group?
+      +extension_annotations?
+    }
+    class ParentCitation {
+      +id
+      +edge_type
+      +derivation_mode?
+    }
+    class ExpressProfileBranch {
+      +document_profile = project_instance_express
+      +express_mode_group required
+    }
+    class ClBranch {
+      +tier = CL
+      +constraint_origin allowed
+    }
+    class SupersedeBranch {
+      +status = SUPERSEDE_PENDING
+      +prior_status required
+    }
+
+    DdrNode --> "0..*" ParentCitation : parent_ids
+    DdrNode ..> ExpressProfileBranch : conditional
+    DdrNode ..> ClBranch : conditional
+    DdrNode ..> SupersedeBranch : conditional
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The node contract is closed, but several fields are legal only under profile-, tier-, or status-specific branches that the schema enforces explicitly.
+
+<span class="ddr-label ddr-surface-schema"><strong>Authority basis</strong></span> `ddr_node_schema_v6.3.yaml` `$defs.DdrNode`, `$defs.ParentCitation`, and Section `3.5`.
+
 ### 3.6 Node ID format
 
 | Item | Value |
@@ -208,16 +444,43 @@ The specification documents 13 node schema fields:
 | Examples | `SIL-1.3`, `GPCL-2.1`, `CDL-12.5`, `XPD-0.1` |
 | Immutability rule | IDs never change. A superseded node retains its ID; the replacement receives a new ID. |
 
+**Figure 3.5. Node ID grammar decomposition**
+
+```mermaid
+flowchart LR
+    ID["Node ID"]
+    TIER["Tier token<br/>XPD | SIL | GPCL | FCL | CL | SAL | ICL | CDL | ISL"]
+    DASH["-"]
+    SECTION["Section ordinal"]
+    DOT["."]
+    ITEM["Item ordinal"]
+    ROOT["Special root branch<br/>XPD-0.N"]
+
+    ID --> TIER
+    ID --> SECTION
+    TIER --> DASH --> SECTION --> DOT --> ITEM
+    TIER -. XPD only .-> ROOT
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    class ID,TIER,SECTION,ITEM,ROOT normative;
+    class DASH,DOT schema;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The ID format is stable across the system, with `XPD-0.N` as the only special root-pattern branch.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `node_id_format` in `ddr_system_v6.3.yaml` and the Section `3.6` lookup table.
+
 ### 3.7 Edge types
 
 The current edge vocabulary is the four-type surface declared by `edge_type_definitions`. The specification also records the consolidation decision that reduced older edge vocabularies into this set.
 
 | Edge type | Symbol | Semantics |
 | --- | --- | --- |
-| `derives` | `--derives-->` | Child content derives from parent requirements, or parent is cited as authoritative lineage. Optional `derivation_mode` may be `semantic` or `traceability`; omitted means `semantic`. |
-| `constrains` | `--constrains-->` | Parent sets enforceable limits on the child's design space. |
-| `implements` | `--implements-->` | Child provides concrete realization of the parent's abstract specification. |
-| `extends` | `...extends...>` | Extension reads or annotates Core nodes without modifying Core semantics. |
+| <span class="ddr-badge ddr-edge-derives"><strong>derives</strong></span> | `--derives-->` | Child content derives from parent requirements, or parent is cited as authoritative lineage. Optional `derivation_mode` may be `semantic` or `traceability`; omitted means `semantic`. |
+| <span class="ddr-badge ddr-edge-constrains"><strong>constrains</strong></span> | `--constrains-->` | Parent sets enforceable limits on the child's design space. |
+| <span class="ddr-badge ddr-edge-implements"><strong>implements</strong></span> | `--implements-->` | Child provides concrete realization of the parent's abstract specification. |
+| <span class="ddr-badge ddr-edge-extends"><strong>extends</strong></span> | `...extends...>` | Extension reads or annotates Core nodes without modifying Core semantics. |
 
 ### 3.8 Citation rules
 
@@ -230,6 +493,38 @@ The current edge vocabulary is the four-type surface declared by `edge_type_defi
 | `CIT-R5` | Extension `extends` relationships are stored in `extension_annotations` only, never in `parent_ids`. |
 | `CIT-R6` | Any authority-linkage `derives` edge must set `derivation_mode: traceability`; non-`derives` edges must not carry `derivation_mode`. |
 | `CIT-R7` | A child may remain `ACTIVE` only while each cited parent remains at the version last validated against. Any parent `MODIFY` or `SUPERSEDE` that changes cited content forces child re-validation. |
+
+**Figure 3.6. Edge vocabulary and citation-surface separation**
+
+```mermaid
+flowchart TD
+    PARENT["parent_ids[]"]
+    EXTANN["extension_annotations"]
+    DER["derives"]
+    CON["constrains"]
+    IMP["implements"]
+    EXT["extends"]
+    MODE["derivation_mode<br/>semantic | traceability"]
+    FORBID["`extends` forbidden in parent_ids"]
+
+    PARENT --> DER
+    PARENT --> CON
+    PARENT --> IMP
+    DER --> MODE
+    EXTANN --> EXT
+    EXT -.-> FORBID -.-> PARENT
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    class PARENT,EXTANN,MODE normative;
+    class DER,CON,IMP,EXT schema;
+    class FORBID alert;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Core parent citations are closed to three edge types, while `extends` is isolated into extension annotations so that analytical overlays cannot masquerade as Core lineage.
+
+<span class="ddr-label ddr-surface-schema"><strong>Authority basis</strong></span> `edge_type_definitions`, `citation_rules`, `$defs.ParentCitation`, and Sections `3.7-3.8`.
 
 ### 3.9 DAG invariants
 
@@ -249,6 +544,59 @@ See also: Section 4, Section 5, Section 9.
 ## 4. Tier Reference
 
 This section covers the tier-by-tier current-state contract for DDR v6.3, including representative nodes, parent and child relationships, inclusion rules, exclusion rules, and tier-specific verification notes. Use Section 3 for shared structural rules, Section 5 for lifecycle and operation effects, and Section 7 for reconciliation and CLEAN-state implications.
+
+**Figure 4.1. Abstraction descent across active tiers**
+
+```mermaid
+flowchart TD
+    XPD["XPD<br/>ethical purpose"]
+    SIL["SIL<br/>strategic intent"]
+    GPCL["GPCL<br/>governance and quality"]
+    FCL["FCL<br/>functional capability"]
+    CL["CL<br/>declared technology bounds"]
+    SAL["SAL<br/>architecture"]
+    ICL["ICL<br/>contracts and schemas"]
+    CDL["CDL<br/>component design"]
+    ISL["ISL<br/>implementation scaffolding"]
+
+    XPD --> SIL --> GPCL --> FCL --> SAL --> ICL --> CDL --> ISL
+    FCL --> CL
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    class XPD,SIL,GPCL,FCL,SAL,ICL,CDL,ISL normative;
+    class CL caution;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR descends from ethical and strategic abstraction into concrete contracts and scaffolding, while `CL` sits beside the functional path as a declaration of non-negotiable bounds rather than user-facing behavior.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `tier_definitions`, `AX-2`, and the tier reference surfaces in Section `4`.
+
+**Figure 4.2. Constraint injection path from `CL` into downstream design**
+
+```mermaid
+flowchart LR
+    FCL["FCL<br/>capability intent"]
+    CL["CL<br/>declared constraints"]
+    SAL["SAL<br/>architecture synthesis"]
+    ICL["ICL<br/>interfaces and schemas"]
+    CDL["CDL<br/>component blueprints"]
+    ISL["ISL<br/>language scaffolds"]
+
+    FCL --> SAL
+    FCL --> CL
+    CL -->|constrains| SAL
+    SAL --> ICL --> CDL --> ISL
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    class FCL,SAL,ICL,CDL,ISL normative;
+    class CL alert;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> `CL` does not replace functional intent; it injects explicit technology, hardware, and infrastructure bounds into `SAL`, and that constrained architecture then propagates into contracts, design, and scaffolding.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `tier_definitions`, `constraint_precedence`, and the tier-local parent/child relationship tables in Section `4`.
 
 ### 4.1 `XPD` - Existential Purpose Document
 
@@ -527,12 +875,14 @@ This section covers the operational state machine of DDR v6.3, including statuse
 
 | Status | Operational meaning |
 | --- | --- |
-| `DRAFT` | Authored but not yet activated through the validation path |
-| `ACTIVE` | Structurally valid, review-complete, and current |
-| `DIRTY` | Requires re-validation because of direct change or upstream change |
-| `DEPRECATED` | Still present but marked for retirement or replacement |
-| `SUPERSEDED` | Replaced but retained for audit lineage |
-| `SUPERSEDE_PENDING` | Transient state during an in-flight `SUPERSEDE` transaction |
+| <span class="ddr-badge ddr-status-draft"><strong>DRAFT</strong></span> | Authored but not yet activated through the validation path |
+| <span class="ddr-badge ddr-status-active"><strong>ACTIVE</strong></span> | Structurally valid, review-complete, and current |
+| <span class="ddr-badge ddr-status-dirty"><strong>DIRTY</strong></span> | Requires re-validation because of direct change or upstream change |
+| <span class="ddr-badge ddr-status-deprecated"><strong>DEPRECATED</strong></span> | Still present but marked for retirement or replacement |
+| <span class="ddr-badge ddr-status-superseded"><strong>SUPERSEDED</strong></span> | Replaced but retained for audit lineage |
+| <span class="ddr-badge ddr-status-supersede-pending"><strong>SUPERSEDE_PENDING</strong></span> | Transient state during an in-flight `SUPERSEDE` transaction |
+
+**Figure 5.1. Lifecycle state machine and rollback authority**
 
 ```mermaid
 stateDiagram-v2
@@ -552,6 +902,10 @@ stateDiagram-v2
     SUPERSEDE_PENDING --> DEPRECATED: rollback if prior_status=DEPRECATED
     SUPERSEDED --> [*]
 ```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR v6.3 treats lifecycle changes as a closed machine in which `SUPERSEDE` is transactional and rollback is resolved only through the recorded `prior_status` branch.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `lifecycle.status_transitions`, `lifecycle.guard_definitions`, and Sections `5.1-5.2`.
 
 ### 5.2 Status transitions
 
@@ -574,15 +928,43 @@ stateDiagram-v2
 
 | Guard | verification_mode | Description |
 | --- | --- | --- |
-| `gc-001` | structural | All structural rules for the node pass validation. |
-| `gc-002` | manual | Deprecation rationale is explicitly documented. |
-| `gc-003` | manual | Any previously set deprecation sunset date is cleared. |
-| `gc-004` | manual | Status reversal is logged in the reconciliation manifest. |
-| `gc-005` | structural | All review items are resolved. |
-| `gc-006` | structural | Per-node validation scope is explicitly confirmed. |
-| `gc-007` | structural | Before entering `SUPERSEDE_PENDING`, the node's current status must be recorded in `prior_status`, and that value must be one of `ACTIVE`, `DEPRECATED`, or `DIRTY`. |
-| `gc-008` | structural | Replacement node is successfully inserted and validated, children are rewired to the replacement ID, affected children are set `DIRTY`, and `prior_status` is cleared. |
-| `gc-009` | structural | Replacement insert failed or child rewiring failed; source node reverts to `prior_status`, replacement is removed if necessary, and `SUPERSEDE_FAILED` is logged. |
+| `gc-001` | <span class="ddr-badge ddr-check-structural"><strong>structural</strong></span> | All structural rules for the node pass validation. |
+| `gc-002` | <span class="ddr-badge ddr-check-manual"><strong>manual</strong></span> | Deprecation rationale is explicitly documented. |
+| `gc-003` | <span class="ddr-badge ddr-check-manual"><strong>manual</strong></span> | Any previously set deprecation sunset date is cleared. |
+| `gc-004` | <span class="ddr-badge ddr-check-manual"><strong>manual</strong></span> | Status reversal is logged in the reconciliation manifest. |
+| `gc-005` | <span class="ddr-badge ddr-check-structural"><strong>structural</strong></span> | All review items are resolved. |
+| `gc-006` | <span class="ddr-badge ddr-check-structural"><strong>structural</strong></span> | Per-node validation scope is explicitly confirmed. |
+| `gc-007` | <span class="ddr-badge ddr-check-structural"><strong>structural</strong></span> | Before entering `SUPERSEDE_PENDING`, the node's current status must be recorded in `prior_status`, and that value must be one of `ACTIVE`, `DEPRECATED`, or `DIRTY`. |
+| `gc-008` | <span class="ddr-badge ddr-check-structural"><strong>structural</strong></span> | Replacement node is successfully inserted and validated, children are rewired to the replacement ID, affected children are set `DIRTY`, and `prior_status` is cleared. |
+| `gc-009` | <span class="ddr-badge ddr-check-structural"><strong>structural</strong></span> | Replacement insert failed or child rewiring failed; source node reverts to `prior_status`, replacement is removed if necessary, and `SUPERSEDE_FAILED` is logged. |
+
+Guards are declared only as <span class="ddr-badge ddr-check-structural"><strong>structural</strong></span> or <span class="ddr-badge ddr-check-manual"><strong>manual</strong></span> checks. Separate node-level `VALIDATE` logic may also emit <span class="ddr-badge ddr-check-semantic"><strong>semantic</strong></span> `REVIEW_REQUIRED` items for tier-local rule review before activation.
+
+**Figure 5.2. Verification-mode handling across guards and rule review**
+
+```mermaid
+flowchart TD
+    CHECK["Lifecycle or atomic-rule check"] --> KIND{"verification_mode"}
+    KIND -->|structural| AUTO["Mechanical pass/fail gate"]
+    KIND -->|manual| HUMAN["Documented human action or rationale"]
+    KIND -->|semantic| REVIEW["REVIEW_REQUIRED plus recorded human disposition"]
+    AUTO --> OUT["Transition or activation decision"]
+    HUMAN --> OUT
+    REVIEW --> OUT
+
+    classDef structural fill:#ccfbf1,stroke:#0f766e,color:#0f766e;
+    classDef manual fill:#ffedd5,stroke:#92400e,color:#92400e;
+    classDef semantic fill:#fed7aa,stroke:#7c2d12,color:#7c2d12;
+    classDef explanatory fill:#ffedd5,stroke:#92400e,color:#92400e;
+    class CHECK,KIND,OUT explanatory;
+    class AUTO structural;
+    class HUMAN manual;
+    class REVIEW semantic;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR separates machine-verifiable, manual, and semantic review obligations so that activation and transition gates remain explicit instead of being hidden in mixed validation prose.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `lifecycle.guard_definitions`, the `VALIDATE` operation contract, and the `verification_mode` glossary definition.
 
 ### 5.4 Canonical operations
 
@@ -597,6 +979,34 @@ stateDiagram-v2
 | `UNBUNDLE_SCAN` | Read-only pre-flight scan of an Express Mode group. | Produces per-fragment diagnostics with confidence `high`, `ambiguous`, or `none` |
 | `UNBUNDLE_EXECUTE` | Atomic commit-phase expansion of an Express Mode group into constituent full-mode tiers. | Succeeds only when every fragment is confidently assignable or explicitly deferred |
 
+**Figure 5.3. Canonical operation families**
+
+```mermaid
+flowchart TB
+    OPS["Canonical operations"] --> MUT["Graph mutation"]
+    OPS --> CHECK["Validation and verification"]
+    OPS --> EXP["Express expansion"]
+    MUT --> INSERT["INSERT"]
+    MUT --> DELETE["DELETE"]
+    MUT --> MODIFY["MODIFY"]
+    MUT --> SUPERSEDE["SUPERSEDE"]
+    CHECK --> VERIFY["VERIFY"]
+    CHECK --> VALIDATE["VALIDATE"]
+    EXP --> SCAN["UNBUNDLE_SCAN"]
+    EXP --> EXEC["UNBUNDLE_EXECUTE"]
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    class OPS,MUT,CHECK,EXP normative;
+    class INSERT,DELETE,MODIFY,SUPERSEDE caution;
+    class VERIFY,VALIDATE,SCAN,EXEC schema;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The operation namespace is intentionally closed: mutation, validation, and Express expansion each have named entry points rather than informal aliases or mixed phase tokens.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.core_operations` and the normalization changes summarized in Section `2.3`.
+
 ### 5.5 DIRTY triggers and classification
 
 | Trigger | Nodes affected |
@@ -609,14 +1019,41 @@ stateDiagram-v2
 
 | DIRTY classification | Meaning |
 | --- | --- |
-| `structural` | Structural change such as parent rewiring without immediate proof of semantic invalidation |
-| `semantic` | Probable semantic invalidation requiring downstream review or content change before CLEAN can be re-established |
+| <span class="ddr-badge ddr-check-structural"><strong>structural</strong></span> | Structural change such as parent rewiring without immediate proof of semantic invalidation |
+| <span class="ddr-badge ddr-check-semantic"><strong>semantic</strong></span> | Probable semantic invalidation requiring downstream review or content change before CLEAN can be re-established |
 
 The specification also states the following `SUPERSEDE` DIRTY behavior:
 
 - Child nodes affected by parent rewiring enter `DIRTY` with classification `structural`.
 - Structural `DIRTY` does not automatically propagate to descendants.
 - If later validation or modification reveals content drift, the affected node's `DIRTY` condition is reclassified as `semantic`, and normal downstream propagation resumes.
+
+**Figure 5.4. `DIRTY` propagation and reclassification workflow**
+
+```mermaid
+flowchart TD
+    TRIG["Trigger event"] --> KIND["MODIFY / DELETE / SUPERSEDE / constraint change"]
+    KIND --> MARK["Mark impacted nodes DIRTY"]
+    MARK --> CLASS{"DIRTY classification"}
+    CLASS -->|structural| LOCAL["Immediate rewiring or topology impact only"]
+    CLASS -->|semantic| CASCADE["Probable content drift; propagate review downstream"]
+    LOCAL --> VERIFY["VERIFY / VALIDATE"]
+    CASCADE --> VERIFY
+    VERIFY --> RESOLVE["Return to ACTIVE or remain DIRTY"]
+
+    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    classDef structural fill:#ccfbf1,stroke:#0f766e,color:#0f766e;
+    classDef semantic fill:#fed7aa,stroke:#7c2d12,color:#7c2d12;
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    class TRIG,KIND,MARK caution;
+    class LOCAL structural;
+    class CASCADE semantic;
+    class VERIFY,RESOLVE normative;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR distinguishes structural rewiring fallout from semantic drift so that not every topology change triggers blind full-depth propagation.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.dirty_flag_triggers`, `dirty_classification`, `supersede_dirty_behavior`, and Section `5.5`.
 
 ### 5.6 Conflict resolution and resolution workflow
 
@@ -636,6 +1073,34 @@ Resolution workflow:
 
 `DETECT CHANGE -> SET DIRTY -> SCAN DOWNSTREAM -> GENERATE PENDING ITEMS -> EXECUTE OPERATION -> VERIFY -> SET CLEAN OR REPEAT`
 
+**Figure 5.5. `SUPERSEDE` transaction with commit and rollback**
+
+```mermaid
+sequenceDiagram
+    participant A as Authoring action
+    participant S as Source node
+    participant R as Replacement node
+    participant C as Child nodes
+    participant M as Manifest
+
+    A->>S: SUPERSEDE request
+    S->>S: set SUPERSEDE_PENDING and record prior_status
+    S->>R: INSERT replacement candidate
+    alt replacement validates and rewiring succeeds
+        R->>C: rewire parent_ids to replacement ID
+        C->>C: set DIRTY on affected children
+        S->>S: clear prior_status and set SUPERSEDED
+    else INSERT fails or rewiring fails
+        S->>R: discard replacement if created
+        S->>S: revert to prior_status
+        S->>M: log SUPERSEDE_FAILED
+    end
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> `SUPERSEDE` is not a rename; it is a transactional replace-and-rewire operation with an explicit rollback path that forbids partial child rewiring.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.core_operations.SUPERSEDE`, `lifecycle.status_transitions`, `gc-007`, `gc-008`, and `gc-009`.
+
 See also: Section 6, Section 7, Section 9.
 
 ## 6. Consumption Modes and Express Mode
@@ -646,8 +1111,30 @@ This section covers the two declared consumption modes, the fixed four-group Exp
 
 | Mode | Description | Best fit |
 | --- | --- | --- |
-| `Express (4 Groups)` | Adjacent tiers are bundled into fixed groups and later expanded through `UNBUNDLE_SCAN` and `UNBUNDLE_EXECUTE`. | Small-to-medium projects |
-| `Full (All Active Tiers)` | Every active tier is specified independently. | Complex, regulated, or enterprise systems |
+| <span class="ddr-badge ddr-mode-express"><strong>Express (4 Groups)</strong></span> | Adjacent tiers are bundled into fixed groups and later expanded through `UNBUNDLE_SCAN` and `UNBUNDLE_EXECUTE`. | Small-to-medium projects |
+| <span class="ddr-badge ddr-mode-full"><strong>Full (All Active Tiers)</strong></span> | Every active tier is specified independently. | Complex, regulated, or enterprise systems |
+
+**Figure 6.1. Full vs Express authority split**
+
+```mermaid
+flowchart LR
+    DDR["DDR consumption"] --> FULL["Full mode"]
+    DDR --> EXPRESS["Express mode"]
+    FULL --> ALL["Independent active tiers"]
+    EXPRESS --> GROUPS["Fixed groups G1-G4"]
+    GROUPS --> UNBUNDLE["UNBUNDLE_SCAN / UNBUNDLE_EXECUTE"]
+    UNBUNDLE --> ALL
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    class DDR,ALL,UNBUNDLE normative;
+    class FULL caution;
+    class EXPRESS,GROUPS caution;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Express Mode is an alternate presentation and authoring path, not a reduced DDR model; successful unbundling lands back on the same full-tier surface.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `consumption_modes`, `express_mode.description`, and Section `6.1`.
 
 ### 6.2 Express Mode groups
 
@@ -658,26 +1145,34 @@ This section covers the two declared consumption modes, the fixed four-group Exp
 | `G3` | `SAL, ICL` | Architecture & Contracts |
 | `G4` | `CDL, ISL` | Design & Scaffolding |
 
+**Figure 6.2. Fixed `G1-G4` composition**
+
 ```mermaid
 flowchart LR
-    EM["Express Mode group node"]
-    Scan["UNBUNDLE_SCAN"]
-    High["high confidence"]
-    Amb["ambiguous or none"]
-    Def["[DEFER] + manifest rationale"]
-    Exec["UNBUNDLE_EXECUTE"]
-    Full["Full Mode tier nodes"]
-    Reject["Atomic rejection; source group unchanged"]
+    G1["G1<br/>XPD + SIL + GPCL"]
+    G2["G2<br/>FCL + CL"]
+    G3["G3<br/>SAL + ICL"]
+    G4["G4<br/>CDL + ISL"]
 
-    EM --> Scan
-    Scan --> High
-    Scan --> Amb
-    Amb --> Def
-    High --> Exec
-    Def --> Exec
-    Amb --> Reject
-    Exec --> Full
+    G1 --> XPD["XPD"]
+    G1 --> SIL["SIL"]
+    G1 --> GPCL["GPCL"]
+    G2 --> FCL["FCL"]
+    G2 --> CL["CL"]
+    G3 --> SAL["SAL"]
+    G3 --> ICL["ICL"]
+    G4 --> CDL["CDL"]
+    G4 --> ISL["ISL"]
+
+    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    class G1,G2,G3,G4 caution;
+    class XPD,SIL,GPCL,FCL,CL,SAL,ICL,CDL,ISL normative;
 ```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Express grouping is fixed and closed; authors do not invent alternate bundles or reorder tiers inside the group system.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `express_mode.groups` and Section `6.2`.
 
 ### 6.3 Express Mode contract
 
@@ -687,6 +1182,33 @@ The authoritative `express_mode` block defines the following:
 - `UNBUNDLE_SCAN` is a read-only pre-flight classifier.
 - `UNBUNDLE_EXECUTE` is the commit-phase operation and the only canonical commit token in v6.3.
 - On successful unbundling, `parent_ids` auto-wire to the immediately superior unbundled tier, satisfying `CIT-R2` without manual intervention.
+
+**Figure 6.3. `UNBUNDLE_SCAN` / `UNBUNDLE_EXECUTE` sequence**
+
+```mermaid
+sequenceDiagram
+    participant A as Author
+    participant G as Express group node
+    participant S as UNBUNDLE_SCAN
+    participant M as Reconciliation manifest
+    participant F as Full-mode tiers
+
+    A->>G: request scan
+    G->>S: classify fragments
+    alt every fragment is high or explicitly deferred
+        S->>M: record deferred rationale if present
+        A->>G: invoke UNBUNDLE_EXECUTE
+        G->>F: create constituent tier nodes
+        F->>F: auto-wire parent_ids
+    else ambiguous or unassigned fragment remains undeferred
+        S->>A: reject with diagnostics
+        G->>G: preserve source node without mutation
+    end
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Unbundling is deliberately split into a read-only diagnostic phase and an atomic commit phase so that ambiguous fragments cannot silently mutate the graph.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `express_mode.description`, `unbundle_determinism_rule`, and the `UNBUNDLE_SCAN` / `UNBUNDLE_EXECUTE` operation definitions.
 
 ### 6.4 Deterministic unbundling and deferred fragments
 
@@ -702,6 +1224,29 @@ Deferred-fragment handling requires:
 - Recorded human rationale in the reconciliation manifest
 - Retention of deferred fragments in the source Express Mode group node
 - Atomic rejection when ambiguous fragments are neither confidently classified nor explicitly deferred
+
+**Figure 6.4. Deferred-fragment and atomic-rejection workflow**
+
+```mermaid
+flowchart TD
+    FRAG["Content fragment"] --> CLASS{"Classification"}
+    CLASS -->|high| READY["Eligible for UNBUNDLE_EXECUTE"]
+    CLASS -->|ambiguous or none| DECIDE{"Explicit [DEFER]?"}
+    DECIDE -->|yes| KEEP["Retain in source group node"]
+    KEEP --> MANIFEST["Record rationale in reconciliation manifest"]
+    DECIDE -->|no| REJECT["Atomic rejection of UNBUNDLE_EXECUTE"]
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    class FRAG,CLASS,DECIDE caution;
+    class READY,KEEP,MANIFEST normative;
+    class REJECT alert;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Deferred fragments remain traceable and local to the original Express node, while undeferred ambiguity blocks the entire commit so that partial unbundling never becomes authoritative.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `express_mode.unbundle_determinism_rule`, `express_mode.deferred_fragment_handling`, and Section `6.4`.
 
 See also: Section 5, Section 9.
 
@@ -723,6 +1268,35 @@ This section covers how DDR v6.3 resolves conflicting constraints, tracks unreso
 | 8 | `CDL` | Design derives from contracts. |
 | 9 | `ISL` | Scaffolding derives from design. |
 
+**Figure 7.1. Constraint precedence ladder with physical-escalation branch**
+
+```mermaid
+flowchart TD
+    XPD["1 XPD"]
+    SIL["2 SIL"]
+    GPCL["3 GPCL"]
+    FCL["4 FCL"]
+    CL["5 CL"]
+    SAL["6 SAL"]
+    ICL["7 ICL"]
+    CDL["8 CDL"]
+    ISL["9 ISL"]
+    ESC["Escalate to authoring authority"]
+
+    XPD --> SIL --> GPCL --> FCL --> CL --> SAL --> ICL --> CDL --> ISL
+    XPD -. ethical veto .-> ESC
+    CL -. imposed or physical conflict .-> ESC
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    class XPD,SIL,GPCL,FCL,SAL,ICL,CDL,ISL normative;
+    class CL,ESC alert;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The logical override ladder is linear, but it contains explicit non-override branches: `XPD` ethical boundaries and imposed or physically impossible `CL` constraints force escalation instead of silent precedence resolution.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `constraint_precedence.tiers`, `override_principle`, `physical_constraint_rule`, and `physical_constraint_escalation`.
+
 Override principle:
 
 - Higher-priority tiers override lower-priority tiers.
@@ -732,8 +1306,8 @@ Override principle:
 
 | Constraint class | Description |
 | --- | --- |
-| `logical` | Governed by the formal tier precedence hierarchy |
-| `physical` | Represents non-negotiable physical realities or externally imposed constraints that cannot be silently overridden by logical precedence alone |
+| <span class="ddr-badge ddr-constraint-logical"><strong>logical</strong></span> | Governed by the formal tier precedence hierarchy |
+| <span class="ddr-badge ddr-constraint-physical"><strong>physical</strong></span> | Represents non-negotiable physical realities or externally imposed constraints that cannot be silently overridden by logical precedence alone |
 
 Additional precedence rules:
 
@@ -767,6 +1341,41 @@ Semantic-gap classification:
 | --- | --- |
 | Allowed type(s) | `MISSING_MEDIATOR` |
 | Required constraints | Must be logged explicitly; must carry human rationale; must be resolved or explicitly waived before system-wide CLEAN |
+
+**Figure 7.2. Reconciliation manifest tracks and blocking item surfaces**
+
+```mermaid
+flowchart TD
+    MAN["Reconciliation manifest"]
+    T1["Total node count by tier"]
+    T2["Status distribution"]
+    T3["Pending items list"]
+    T4["Last full validation timestamp"]
+    T5["Active Extensions and annotation counts"]
+    MI["MISSING_MEDIATOR"]
+    SF["SUPERSEDE_FAILED"]
+    SP["SUPERSEDE_PENDING_DETECTED"]
+
+    MAN --> T1
+    MAN --> T2
+    MAN --> T3
+    MAN --> T4
+    MAN --> T5
+    T3 --> MI
+    T3 --> SF
+    T3 --> SP
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    class MAN,T1,T2,T4,T5 normative;
+    class T3 caution;
+    class MI,SF,SP alert;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The reconciliation manifest is not a generic notes bucket; it has a closed track structure and a small set of typed pending-item records that directly affect CLEAN eligibility.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.reconciliation_manifest_tracks`, `operations.reconciliation_manifest_schema`, and Section `7.3`.
 
 ### 7.4 Compliance checklist
 
@@ -821,6 +1430,32 @@ A DDR graph may be treated as CLEAN only when all of the following are true:
 - Parent-version freshness is preserved.
 - Extension advisories with critical or blocking severity have disposition.
 
+**Figure 7.3. CLEAN-state validation gate**
+
+```mermaid
+flowchart TD
+    START["Candidate CLEAN assertion"] --> STATUS{"Any DIRTY or SUPERSEDE_PENDING nodes?"}
+    STATUS -->|yes| FAIL["Not CLEAN"]
+    STATUS -->|no| TOPO{"Topology and citation rules hold?"}
+    TOPO -->|no| FAIL
+    TOPO -->|yes| ATOMIC{"Tier atomic rules and review dispositions complete?"}
+    ATOMIC -->|no| FAIL
+    ATOMIC -->|yes| MANIFEST{"Manifest pending items resolved or waived where allowed?"}
+    MANIFEST -->|no| FAIL
+    MANIFEST -->|yes| EXT{"Critical or blocking extension advisories disposed?"}
+    EXT -->|no| FAIL
+    EXT -->|yes| CLEAN["CLEAN"]
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    class START,TOPO,ATOMIC,MANIFEST,EXT,CLEAN normative;
+    class STATUS,FAIL alert;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> CLEAN is a gate condition across status, structure, atomic-rule review, manifest state, and extension-advisory disposition; no single operation can declare it unilaterally.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `compliance_checklist`, `operations.semantic_consistency_rules`, and Section `7.5`.
+
 See also: Section 5, Section 9, Section 10.
 
 ## 8. Extension System and ARE
@@ -828,6 +1463,8 @@ See also: Section 5, Section 9, Section 10.
 This section covers the optional extension overlay model, integration rules, ARE candidate-pool behavior, scoring profiles, and the v6.3 extension catalog. Use Section 9 for the schema-side extension and ARE contract and Section 10 for crosswalk and historical lookup surfaces.
 
 ### 8.1 Extension architecture
+
+**Figure 8.1. Extension overlay architecture**
 
 ```mermaid
 flowchart TD
@@ -844,7 +1481,18 @@ flowchart TD
     Ext -->|ARE only| Pool
     Pool -->|human-reviewed promotion| Insert
     Insert --> Core
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    class Core,Manifest,Insert normative;
+    class Ext,Ann schema;
+    class Pool caution;
 ```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Extensions remain outside the Core semantics boundary: they may read, annotate, advise, and stage candidates, but only Core operations can mutate the authoritative DAG.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `extension_system.architecture_description`, `permitted_actions`, `candidate_pool`, and Section `8.1`.
 
 Permitted actions:
 
@@ -875,6 +1523,29 @@ Normative note:
 | `EXT-R5` | Disabling an Extension leaves Core CLEAN and DIRTY status unchanged. |
 | `EXT-R6` | Extension-internal derived artifact graphs must maintain their own acyclicity. |
 | `EXT-R7` | Extension advisories do not mutate Core node status. |
+
+**Figure 8.2. Extension integration boundary map**
+
+```mermaid
+flowchart LR
+    EXT["Extension runtime"] --> READ["Read Core node content"]
+    EXT --> ANN["Annotate via extension_annotations"]
+    EXT --> ADV["Advisories to reconciliation manifest"]
+    EXT -.-> MUT["No content, parent_ids, tier, or status mutation"]
+    EXT -.-> REDEF["No redefinition of Core semantics"]
+    EXT -.-> CYCLE["No structural cycles introduced"]
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    class EXT schema;
+    class READ,ANN,ADV normative;
+    class MUT,REDEF,CYCLE alert;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The extension contract is intentionally asymmetric: allowed behaviors are narrow and explicit, while prohibited behaviors ring-fence the Core from hidden mutation.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `extension_system.permitted_actions`, `prohibited_actions`, and `EXT-R1` through `EXT-R7`.
 
 ### 8.3 ARE candidate pool and activation states
 
@@ -955,6 +1626,36 @@ Custom-profile contract:
 | Required fields | `profile_id`, `input_signals`, signal subfields, `score_bands`, band subfields, `minimum_surfacing_threshold`, `override_policy` |
 | Template rule | Custom profiles may change field values and add signals or bands, but the object structure must remain conformant |
 | Validation note | Custom profiles fail extension contract validation when required fields are missing; deterministic ARE conformance validation also checks reference resolution, score-band ordering, and non-overlap |
+
+**Figure 8.3. ARE candidate-pool and scoring lifecycle**
+
+```mermaid
+flowchart TD
+    ACTIVE["ARE active"] --> INFER["Infer candidate"]
+    INFER --> POOL["Candidate Pool"]
+    POOL --> SCORE["Score under declared profile"]
+    SCORE --> THRESH{"Meets threshold or valid override?"}
+    THRESH -->|yes| REVIEW["Human review"]
+    REVIEW --> INSERT["INSERT into Core"]
+    THRESH -->|no| HOLD["Remain candidate or discard"]
+    ACTIVE --> PAUSED["paused"]
+    PAUSED --> CHECK["Checkpoint pool state"]
+    PAUSED --> ACTIVE
+    ACTIVE --> DISABLED["disabled"]
+    PAUSED --> DISABLED
+    DISABLED --> DROP["Discard pool and delete checkpoint"]
+
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    class ACTIVE,PAUSED,POOL,SCORE,REVIEW,INSERT,CHECK normative;
+    class INFER,THRESH,HOLD caution;
+    class DISABLED,DROP alert;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> ARE inference, scoring, checkpointing, and promotion are coupled but not identical: candidate generation is extension-local, while promotion remains a human-reviewed Core `INSERT`.
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `extension_system.candidate_pool`, `are_scoring_profiles`, the E5 catalog entry, and Sections `8.3-8.4`.
 
 ### 8.5 Extension catalog
 
@@ -1123,6 +1824,34 @@ Profile-specific requirements:
 | `project_instance_express` | Requires `express_mode`; each node must require `express_mode_group`; must not require `system_metadata` |
 | `system_definition` | Requires `system_metadata`, `axioms`, `edge_type_definitions`, `node_schema_fields`, `node_id_format`, `dag_invariants`, `citation_rules`, `consumption_modes`, `express_mode`, `tier_definitions`, `constraint_precedence`, `operations`, `extension_system`, `extension_catalog`, `compliance_checklist`, `glossary`, `are_scoring_profiles`, and `lifecycle` |
 
+**Figure 9.1. Profile root and schema-closure relationship**
+
+```mermaid
+flowchart TD
+    ROOT["Schema root"]
+    REQ["Always required:<br/>ddr_version, document_profile,<br/>active_tiers, nodes"]
+    NODES["nodes[] -> DdrNode"]
+    PI["project_instance"]
+    PIE["project_instance_express"]
+    SD["system_definition"]
+    EM["express_mode and node express_mode_group"]
+    FULL["Full authoritative top-level surface"]
+
+    ROOT --> REQ --> NODES
+    ROOT --> PI
+    ROOT --> PIE --> EM
+    ROOT --> SD --> FULL
+
+    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    class ROOT,REQ,NODES,PI,PIE,SD schema;
+    class EM,FULL normative;
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The schema root is both closed and profile-aware: every valid artifact shares the same minimal root keys, then branches into express-specific or system-definition-specific obligations.
+
+<span class="ddr-label ddr-surface-schema"><strong>Authority basis</strong></span> `ddr_node_schema_v6.3.yaml` root properties, profile branching, and Section `9.1`.
+
 ### 9.2 `active_tiers` schema closure
 
 The schema enforces:
@@ -1187,6 +1916,74 @@ The schema's `DdrNode` contract enforces:
 | `StatusTransition` | Always requires `from` and `operation`; requires `to` unless `phase = rollback`, in which case it requires `to_node_field = prior_status` |
 | `GuardDefinition` | Requires `id`, `description`, and `verification_mode` |
 
+**Figure 9.2. Schema definition map for nodes, citations, extensions, and lifecycle**
+
+```mermaid
+classDiagram
+    class RootContract {
+      +ddr_version
+      +document_profile
+      +active_tiers
+      +nodes
+    }
+    class DdrNode {
+      +id
+      +tier
+      +status
+      +parent_ids[]
+      +express_mode_group?
+      +extension_annotations?
+    }
+    class ParentCitation {
+      +id
+      +edge_type
+      +derivation_mode?
+    }
+    class ExpressModeGroup {
+      +G1
+      +G2
+      +G3
+      +G4
+    }
+    class ExtensionEntry {
+      +id
+      +name
+      +contract
+      +reads[]
+      +annotates[]
+      +rules[]
+    }
+    class ScoringProfile {
+      +input_signals[]
+      +score_bands[]
+      +minimum_surfacing_threshold
+      +override_policy
+    }
+    class StatusTransition {
+      +from
+      +to?
+      +to_node_field?
+      +operation
+      +phase?
+      +guards[]
+    }
+    class GuardDefinition {
+      +id
+      +description
+      +verification_mode
+    }
+
+    RootContract --> "0..*" DdrNode : nodes
+    DdrNode --> "0..*" ParentCitation : parent_ids
+    DdrNode ..> ExpressModeGroup : express_mode_group
+    ExtensionEntry ..> ScoringProfile : E5 scoring_profile
+    StatusTransition --> "0..*" GuardDefinition : guards
+```
+
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The schema contract is not a flat property list; it is a graph of typed objects whose conditional relationships mirror the manual's structural, extension, and lifecycle sections.
+
+<span class="ddr-label ddr-surface-schema"><strong>Authority basis</strong></span> `ddr_node_schema_v6.3.yaml` root properties, `$defs.DdrNode`, `$defs.ParentCitation`, `$defs.ExpressModeGroup`, `$defs.ExtensionEntry`, `$defs.ScoringProfile`, `$defs.StatusTransition`, and `$defs.GuardDefinition`.
+
 See also: Section 3, Section 5, Section 6, Section 8.
 
 ## 10. Appendices
@@ -1212,7 +2009,7 @@ This section collects supporting reference surfaces that remain necessary for au
 | Tier Contamination | Presence of content that violates a tier's atomic exclusion rules. |
 | `verification_mode` | Required field on every atomic inclusion rule, classifying it as `structural` or `semantic`. Structural rules can be checked mechanically; semantic rules require human judgment. |
 
-Historical-scope note: Sections 10.2 and 10.3 preserve legacy tier names, removed operations, and migration mappings strictly for version-history and migration reference. Those historical terms are not part of current-state DDR v6.3 vocabulary outside these appendices.
+<span class="ddr-badge ddr-surface-historical"><strong>Historical scope</strong></span> Sections 10.2 and 10.3 preserve legacy tier names, removed operations, and migration mappings strictly for version-history and migration reference. Those historical terms are not part of current-state DDR v6.3 vocabulary outside these appendices.
 
 ### 10.2 Version history
 
