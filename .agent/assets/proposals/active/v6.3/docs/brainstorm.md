@@ -238,6 +238,7 @@ DDR System.
 | `§II.4` | Validation and Schema Enforcement | `CAT-VALID` |
 | `§II.5` | Extension System Integration | `CAT-EXT` |
 | `§II.6` | AI and Agentic Interface | `CAT-AI` |
+| `§II.7` | Target System Optimization | `CAT-ARCH` |
 
 ### §II.1 Application Architecture Overview
 
@@ -907,6 +908,51 @@ dependencies:
   - BRAIN-II-003
 ```
 
+### §II.7 Target System Optimization
+
+#### [BRAIN-II-013] Local Offline-First AI Ecosystem on 10GB VRAM Constraint
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-013
+title: Local Offline-First AI Ecosystem on 10GB VRAM Constraint
+category: CAT-ARCH
+priority: HIGH
+status: EXPLORING
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Design the application's AI inference pipeline to operate entirely offline while sharing a strict 10GB VRAM ceiling (RTX 3080).
+detail: >-
+  The target hardware profile (Ryzen 9 5900X, 32GB RAM, RTX 3080 10GB) requires strict VRAM management. The app must dynamically load/unload models or rely on INT4 (Phi-3) and INT8 (Kokoro) quantization via onnxruntime-gpu to ensure the LLM, STT (faster-whisper via ctranslate2), and TTS models can coexist without OOM crashes during heavy DDR graph operations.
+open_questions:
+  - How will the application handle context switching between LLM processing and heavy STT transcription?
+  - Should the AI service layer load models on-demand rather than pooling them at startup?
+tags:
+  - "#hardware"
+  - "#vram"
+  - "#offline"
+  - "#quantization"
+ddr_relevance:
+  - E5
+  - SAL
+  - CDL
+references:
+  - "target-system.txt"
+  - "dependencies.txt"
+motivation: >-
+  Ensure the application remains viable and performant on the designated local hardware footprint without relying on external cloud APIs.
+prior_art: >-
+  Local LLM desktop wrappers (LM Studio, Ollama) using aggressive memory mapping and model offloading.
+ddr_constraints: >-
+  Must ensure that AI memory footprint does not starve the Core Engine of resources needed to maintain AX-7 (acyclicity checking).
+risks: >-
+  Simultaneous voice invocation (pvporcupine), STT processing, and LLM text generation may cause micro-stutters or out-of-memory errors on 10GB VRAM.
+dependencies:
+  - BRAIN-III-017
+  - BRAIN-III-018
+```
+
 ## PART III — Open-Source Library Candidates
 
 Part III catalogs open-source libraries under evaluation for inclusion in the DDR App Framework.
@@ -929,6 +975,7 @@ in exploration until legal viability is clear.
 | `§III.5` | File-System Watching and Event Handling | `CAT-STORE` |
 | `§III.6` | Serialization and Data Modeling | `CAT-STORE` |
 | `§III.7` | CLI Frameworks | `CAT-UX` |
+| `§III.8` | Full Target Subsystem Dependencies | `CAT-AI` |
 
 ### §III.1 DAG and Graph Engine Libraries
 
@@ -1648,6 +1695,1089 @@ language: Python
 license: MIT
 commercial_use: YES
 latest_release: TBD
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+
+### §III.8 Full Target Subsystem Dependencies
+
+#### [BRAIN-III-017] onnxruntime-gpu
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-017
+title: onnxruntime-gpu
+category: CAT-AI
+priority: HIGH
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  ONNX model inference engine (GPU accelerated)
+detail: >-
+  Requires system CUDA 12.1 and cuDNN 8.9.x. Install using the specific command. Primary engine for Phi-3 and Kokoro ONNX models.
+open_questions:
+  - Is "onnxruntime-gpu" viable under offline constraints and commercial licensing?
+tags:
+  - "#onnxruntime-gpu"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/onnxruntime-gpu/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 1.18.0
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-018] ctranslate2
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-018
+title: ctranslate2
+category: CAT-AI
+priority: HIGH
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Fast inference engine for Transformer models (used by faster-whisper)
+detail: >-
+  GPU support relies on system CUDA 12.1 and cuDNN 8.9.x detection. Updated for latest improvements. Consult ctranslate2 docs for specific CUDA wheel commands if runtime GPU detection fails.
+open_questions:
+  - Is "ctranslate2" viable under offline constraints and commercial licensing?
+tags:
+  - "#ctranslate2"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/ctranslate2/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 4.4.0
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-019] torch
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-019
+title: torch
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Core machine learning framework (dependency, utilities, potential model loading)
+detail: >-
+  Install using the specific command for CUDA 12.1 support. Required by many audio/NLP libraries.
+open_questions:
+  - Is "torch" viable under offline constraints and commercial licensing?
+tags:
+  - "#torch"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/torch/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 2.3.0+cu121
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-020] onnx
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-020
+title: onnx
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Core library for ONNX format definition and manipulation
+detail: >-
+  Useful for inspecting or modifying ONNX models directly. Compatible with onnxruntime 1.18.0.
+open_questions:
+  - Is "onnx" viable under offline constraints and commercial licensing?
+tags:
+  - "#onnx"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/onnx/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 1.17.0
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-021] pyzmq
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-021
+title: pyzmq
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Python bindings for ZeroMQ (high-performance asynchronous messaging library)
+detail: >-
+  Common dependency for inter-process communication or advanced networking.
+open_questions:
+  - Is "pyzmq" viable under offline constraints and commercial licensing?
+tags:
+  - "#pyzmq"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/pyzmq/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 27.1.0
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-022] optimum
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-022
+title: optimum
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Hugging Face toolkit for optimizing models for specific hardware/runtimes
+detail: >-
+  Useful for optimizing/validating ONNX models (like Phi-3) for onnxruntime-gpu. The extra '[onnxruntime-gpu]' installs relevant dependencies.
+open_questions:
+  - Is "optimum" viable under offline constraints and commercial licensing?
+tags:
+  - "#optimum"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/optimum/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 1.19.2
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-023] accelerate
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-023
+title: accelerate
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Hugging Face library to simplify running models across devices and with optimizations
+detail: >-
+  Can simplify device mapping (`.to(device)`) and potentially enable mixed-precision inference for models loaded via transformers/torch.
+open_questions:
+  - Is "accelerate" viable under offline constraints and commercial licensing?
+tags:
+  - "#accelerate"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/accelerate/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.30.1
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-024] transformers
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-024
+title: transformers
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Provides models, tokenizers, and pipelines (e.g., for Phi-3 interaction)
+detail: >-
+  Requires 'tokenizers', 'accelerate', potentially 'optimum'. May require Hugging Face token for downloads.
+open_questions:
+  - Is "transformers" viable under offline constraints and commercial licensing?
+tags:
+  - "#transformers"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/transformers/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 4.41.1
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-025] tokenizers
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-025
+title: tokenizers
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Fast text tokenization library used by transformers
+detail: >-
+  Provides core tokenization functionality. Version aligned with transformers 4.41.1.
+open_questions:
+  - Is "tokenizers" viable under offline constraints and commercial licensing?
+tags:
+  - "#tokenizers"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/tokenizers/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.19.1
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-026] faster-whisper
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-026
+title: faster-whisper
+category: CAT-AI
+priority: HIGH
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Faster implementation of OpenAI's Whisper model using CTranslate2
+detail: >-
+  Requires ctranslate2 and Whisper models converted to CTranslate2 format (see ai_models section). Use with converted models for faster inference.
+open_questions:
+  - Is "faster-whisper" viable under offline constraints and commercial licensing?
+tags:
+  - "#faster-whisper"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/faster-whisper/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 1.0.2
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-027] phonemizer
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-027
+title: phonemizer
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Converts text into phonemes, needed for some TTS models like Kokoro/VITS
+detail: >-
+  Requires system installation of eSpeak NG backend and ensures it is in PATH.
+open_questions:
+  - Is "phonemizer" viable under offline constraints and commercial licensing?
+tags:
+  - "#phonemizer"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/phonemizer/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 3.2.1
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-028] kokoro-onnx
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-028
+title: kokoro-onnx
+category: CAT-AI
+priority: HIGH
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Helper library for using the Kokoro ONNX TTS models from thewh1teagle
+detail: >-
+  Intended to simplify loading and running the specific Kokoro ONNX models listed below. Check for updates if needed.
+open_questions:
+  - Is "kokoro-onnx" viable under offline constraints and commercial licensing?
+tags:
+  - "#kokoro-onnx"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/kokoro-onnx/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.4.8
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-029] pvporcupine
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-029
+title: pvporcupine
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Picovoice Porcupine engine for wake word detection
+detail: >-
+  Requires Picovoice Access Key (local file _pvp_access.token) and model file (.ppn) for custom wake words.
+open_questions:
+  - Is "pvporcupine" viable under offline constraints and commercial licensing?
+tags:
+  - "#pvporcupine"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/pvporcupine/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 3.0.5
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-030] sounddevice
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-030
+title: sounddevice
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Provides bindings for PortAudio library for audio input/output
+detail: >-
+  Primary library for microphone access and audio playback. Requires PortAudio system library.
+open_questions:
+  - Is "sounddevice" viable under offline constraints and commercial licensing?
+tags:
+  - "#sounddevice"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/sounddevice/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.4.7
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-031] soundfile
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-031
+title: soundfile
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Library for reading and writing various audio file formats
+detail: >-
+  Dependency for librosa, useful for handling audio data.
+open_questions:
+  - Is "soundfile" viable under offline constraints and commercial licensing?
+tags:
+  - "#soundfile"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/SoundFile/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.12.1
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-032] librosa
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-032
+title: librosa
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Advanced audio analysis library (feature extraction, processing)
+detail: >-
+  Pulls dependencies like numpy, scipy, numba, soundfile. Useful for STT/TTS pre/post-processing.
+open_questions:
+  - Is "librosa" viable under offline constraints and commercial licensing?
+tags:
+  - "#librosa"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/librosa/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.10.2
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-033] qasync
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-033
+title: qasync
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Integration of asyncio event loop with Qt (for GUI process only)
+detail: >-
+  Required ONLY if GUI process uses asyncio.
+open_questions:
+  - Is "qasync" viable under offline constraints and commercial licensing?
+tags:
+  - "#qasync"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/qasync/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.27.1
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-034] transitions
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-034
+title: transitions
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Lightweight object-oriented state machine implementation
+detail: >-
+  Useful for managing application states or conversation flows. Diagram plotting relies on system graphviz and the pygraphviz Python library.
+open_questions:
+  - Is "transitions" viable under offline constraints and commercial licensing?
+tags:
+  - "#transitions"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/transitions/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.9.0
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-035] pygraphviz
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-035
+title: pygraphviz
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Python interface to Graphviz layout algorithms (programmatic graph manipulation)
+detail: >-
+  Requires system installation of Graphviz (binaries in PATH) and potentially build tools (like MSVC redistributable) if wheels are not available for your platform/Python version.
+open_questions:
+  - Is "pygraphviz" viable under offline constraints and commercial licensing?
+tags:
+  - "#pygraphviz"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/pygraphviz/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 1.12
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-036] PyYAML
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-036
+title: PyYAML
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Library for reading and writing YAML files (used for configuration)
+detail: >-
+  Standard library for YAML processing.
+open_questions:
+  - Is "PyYAML" viable under offline constraints and commercial licensing?
+tags:
+  - "#pyyaml"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/PyYAML/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 6.0.1
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-037] loguru
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-037
+title: loguru
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Library for simplified and flexible logging
+detail: >-
+  Provides enhanced logging capabilities.
+open_questions:
+  - Is "loguru" viable under offline constraints and commercial licensing?
+tags:
+  - "#loguru"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/loguru/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.7.2
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-038] requests
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-038
+title: requests
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Elegant and simple HTTP library (dependency for some libraries, potentially for initial model downloads)
+detail: >-
+  Common dependency.
+open_questions:
+  - Is "requests" viable under offline constraints and commercial licensing?
+tags:
+  - "#requests"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/requests/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 2.32.3
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-039] psutil
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-039
+title: psutil
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Cross-platform library for retrieving information on running processes and system utilization (CPU, memory, disks, network)
+detail: >-
+  Useful for monitoring system resources, potentially for GUI indicators.
+open_questions:
+  - Is "psutil" viable under offline constraints and commercial licensing?
+tags:
+  - "#psutil"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/psutil/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 5.9.8
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-040] protobuf
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-040
+title: protobuf
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Protocol buffers - Google's language-neutral, platform-neutral, extensible mechanism for serializing structured data
+detail: >-
+  Required by some libraries, including specific versions of onnxruntime. Version 3.20.3 is specified for compatibility.
+open_questions:
+  - Is "protobuf" viable under offline constraints and commercial licensing?
+tags:
+  - "#protobuf"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/protobuf/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 3.20.3
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-041] numpy
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-041
+title: numpy
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Fundamental package for scientific computing with Python (dependency for many libraries)
+detail: >-
+  Core dependency for numerical operations.
+open_questions:
+  - Is "numpy" viable under offline constraints and commercial licensing?
+tags:
+  - "#numpy"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/numpy/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 1.26.4
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-042] scipy
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-042
+title: scipy
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Library for scientific and technical computing (dependency for librosa)
+detail: >-
+  Dependency for librosa.
+open_questions:
+  - Is "scipy" viable under offline constraints and commercial licensing?
+tags:
+  - "#scipy"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/scipy/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 1.13.0
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-043] numba
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-043
+title: numba
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  JIT compiler for Python that translates Python to optimized machine code (dependency for librosa)
+detail: >-
+  Dependency for librosa.
+open_questions:
+  - Is "numba" viable under offline constraints and commercial licensing?
+tags:
+  - "#numba"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/numba/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.59.1
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-044] tqdm
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-044
+title: tqdm
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Fast, extensible progress bar for loops and iterables
+detail: >-
+  Useful for visualizing progress during long operations (e.g., model loading, processing).
+open_questions:
+  - Is "tqdm" viable under offline constraints and commercial licensing?
+tags:
+  - "#tqdm"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/tqdm/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 4.66.4
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-045] dill
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-045
+title: dill
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Extends python's pickle module for serializing and de-serializing python objects
+detail: >-
+  Can be useful for saving/loading complex Python objects, potentially for state or configuration.
+open_questions:
+  - Is "dill" viable under offline constraints and commercial licensing?
+tags:
+  - "#dill"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/dill/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 0.3.8
+maintenance: ACTIVE
+install_size_kb: TBD
+maturity: MATURE
+verdict: CANDIDATE
+rejection_reason: ""
+```
+#### [BRAIN-III-046] six
+```yaml
+entry_type: LIB
+entry_id: BRAIN-III-046
+title: six
+category: CAT-AI
+priority: MED
+status: CANDIDATE
+authored_by: DDR-AB
+authored_date: 2026-03-30
+revised_date: 2026-03-30
+description: >-
+  Python 2 and 3 compatibility utilities (dependency for some libraries)
+detail: >-
+  Common dependency for libraries supporting both Python 2 and 3.
+open_questions:
+  - Is "six" viable under offline constraints and commercial licensing?
+tags:
+  - "#six"
+  - "#dependency"
+ddr_relevance:
+  - E5
+  - SAL
+references:
+  - "dependencies.txt"
+repository: https://pypi.org/project/six/
+language: Python
+license: MIT
+commercial_use: YES
+latest_release: 1.16.0
 maintenance: ACTIVE
 install_size_kb: TBD
 maturity: MATURE

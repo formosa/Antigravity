@@ -107,14 +107,22 @@ This section establishes the authority model for the manual, the scope of the un
 | `ddr_system_v6.3.yaml` | <span class="ddr-badge ddr-surface-normative"><strong>Semantic Authority</strong></span> Semantic and structural authority for the DDR System definition |
 | `ddr_node_schema_v6.3.yaml` | <span class="ddr-badge ddr-surface-schema"><strong>Machine Contract</strong></span> Authority for allowed shapes, conditionals, enums, and validation branching |
 
+<span class="ddr-label ddr-surface-explanatory"><strong>Mermaid compatibility policy</strong></span> This manual uses a `stable-only` Mermaid subset: `flowchart`, `stateDiagram`, `classDiagram`, `sequenceDiagram`, `erDiagram`, `subgraph`, and `classDef`. Renderer-specific v11-only features such as `architecture-beta`, expanded flowchart shapes, and ELK-only layout directives are intentionally excluded from the committed source.
+
 **Figure 1.1. Authority precedence and manual role**
 
 ```mermaid
 flowchart TB
-    SYS["ddr_system_v6.3.yaml<br/>semantic and structural authority"]
-    SCH["ddr_node_schema_v6.3.yaml<br/>machine-contract authority"]
-    MAN["This manual<br/>reference lookup and synthesis"]
-    CROSS["DDR System(v6.3).md<br/>presentation cross-check only"]
+    accTitle: Authority precedence and manual role
+    accDescr: Shows the authoritative YAML pair, the manual, and the companion markdown document, clarifying which surfaces control meaning and which are derivative reading aids.
+    subgraph SSOT["Authoritative YAML pair"]
+        SYS["ddr_system_v6.3.yaml semantic and structural authority"]
+        SCH["ddr_node_schema_v6.3.yaml machine-contract authority"]
+    end
+    subgraph DERIVED["Derived reading surfaces"]
+        MAN["This manual reference synthesis and lookup"]
+        CROSS["DDR System(v6.3).md presentation cross-check only"]
+    end
     SEM["Normative DDR meaning"]
     SHAPE["Allowed artifact shapes"]
 
@@ -122,14 +130,14 @@ flowchart TB
     SCH --> SHAPE
     SYS --> MAN
     SCH --> MAN
-    CROSS -.-> MAN
+    CROSS -. presentation only .-> MAN
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
-    classDef explanatory fill:#ffedd5,stroke:#92400e,color:#92400e;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
     class SYS,SEM normative;
     class SCH,SHAPE schema;
-    class MAN,CROSS explanatory;
+    class MAN,CROSS caution;
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The manual depends on both YAML authorities at once: the system definition controls meaning, while the schema controls what valid DDR artifacts may look like.
@@ -166,19 +174,39 @@ The specification defines the current DDR System. The schema defines what valid 
 
 ```mermaid
 flowchart LR
-    NR["New reader"] --> O12["Sections 1-2<br/>authority and overview"]
-    NR --> C3["Section 3<br/>core structural model"]
-    TA["Tier author / reviewer"] --> T4["Section 4<br/>tier reference"]
-    TA --> R7["Section 7<br/>reconciliation and CLEAN"]
-    VT["Validator / tool author"] --> S9["Section 9<br/>schema contract"]
-    VT --> L5["Section 5<br/>lifecycle and operations"]
-    EI["Extension implementer"] --> E8["Section 8<br/>extension system and ARE"]
-    EI --> S9
-    AH["Audit / history reader"] --> CH["Sections 2.3 and 10.2-10.5<br/>history, migration, counts, crosswalk"]
+    accTitle: Reader routing by technical objective
+    accDescr: Maps common reader roles to the sections that best answer their immediate technical question.
+    subgraph ROLES["Reader roles"]
+        NR["New reader"]
+        TA["Tier author or reviewer"]
+        VT["Validator or tool author"]
+        EI["Extension implementer"]
+        AH["Audit or history reader"]
+    end
+    subgraph PATHS["Recommended entry points"]
+        O12["Sections 1-2 authority and overview"]
+        C3["Section 3 core structural model"]
+        T4["Section 4 tier reference"]
+        R7["Section 7 reconciliation and CLEAN"]
+        S9["Section 9 schema contract"]
+        L5["Section 5 lifecycle and operations"]
+        E8["Section 8 extension system and ARE"]
+        CH["Sections 2.3 and 10.2-10.5 history, migration, counts, and crosswalk"]
+    end
 
-    classDef explanatory fill:#ffedd5,stroke:#92400e,color:#92400e;
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    class NR,TA,VT,EI,AH explanatory;
+    NR --> O12
+    NR --> C3
+    TA --> T4
+    TA --> R7
+    VT --> S9
+    VT --> L5
+    EI --> E8
+    EI --> S9
+    AH --> CH
+
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    class NR,TA,VT,EI,AH schema;
     class O12,C3,T4,R7,S9,L5,E8,CH normative;
 ```
 
@@ -241,17 +269,34 @@ The authoritative `errata_log` is empty. No active errata entries are carried in
 
 ```mermaid
 flowchart LR
-    META["system metadata"] --> CORE["Sections 3-4<br/>core model and tiers"]
-    META --> OPS["Sections 5-7<br/>operations, modes, CLEAN"]
-    CHG["v6.3 change surface"] --> PROF["document_profile and active_tiers closure"]
-    CHG --> LIFE["lifecycle and operation normalization"]
-    CHG --> EXP["Express and ARE hardening"]
-    ERR["errata_log = empty"] --> AUD["Section 10.4<br/>counts and errata state"]
+    accTitle: v6.3 framing surfaces and downstream impact
+    accDescr: Connects system metadata, the v6.3 change surface, and the empty errata log to the later sections they frame.
+    subgraph BASE["Authoritative framing surfaces"]
+        META["system metadata"]
+        ERR["errata_log is empty"]
+    end
+    subgraph CHANGE["v6.3 change surface"]
+        PROF["document_profile and active_tiers closure"]
+        LIFE["lifecycle and operation normalization"]
+        EXP["Express and ARE hardening"]
+    end
+    subgraph DOWN["Downstream reading surfaces"]
+        CORE["Sections 3-4 core model and tiers"]
+        OPS["Sections 5-7 operations, modes, and CLEAN"]
+        AUD["Section 10.4 counts and errata state"]
+    end
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
-    class META,CORE,OPS,ERR,AUD normative;
-    class CHG,PROF,LIFE,EXP schema;
+    META --> CORE
+    META --> OPS
+    PROF --> CORE
+    LIFE --> OPS
+    EXP --> OPS
+    ERR --> AUD
+
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    class META,ERR,CORE,OPS,AUD normative;
+    class PROF,LIFE,EXP schema;
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Section 2 is not introductory filler; it frames the exact v6.3 deltas that explain why later profile, lifecycle, Express, and ARE sections are structured as they are.
@@ -302,21 +347,27 @@ Authoring examples:
 **Figure 3.1. `document_profile` branching and required-surface split**
 
 ```mermaid
-flowchart TD
+flowchart LR
+    accTitle: document_profile branching and required-surface split
+    accDescr: Shows how the top-level schema root branches into three document profiles and which surface each branch must carry.
     ROOT["Top-level schema root"]
-    PI["project_instance"]
-    PIE["project_instance_express"]
-    SD["system_definition"]
-    LEAN["Required root:<br/>ddr_version<br/>document_profile<br/>active_tiers<br/>nodes"]
-    EXPRESS["Lean root + express_mode<br/>node express_mode_group required"]
-    FULL["Lean root + full authoritative surface<br/>metadata, axioms, operations,<br/>extensions, compliance, glossary, lifecycle"]
+    subgraph PROFILES["document_profile branches"]
+        PI["project_instance"]
+        PIE["project_instance_express"]
+        SD["system_definition"]
+    end
+    subgraph SURFACES["Required surface"]
+        LEAN["Lean root: ddr_version, document_profile, active_tiers, nodes"]
+        EXPRESS["Lean root plus express_mode and node express_mode_group"]
+        FULL["Lean root plus metadata, axioms, operations, extensions, compliance, glossary, and lifecycle"]
+    end
 
     ROOT --> PI --> LEAN
     ROOT --> PIE --> EXPRESS
     ROOT --> SD --> FULL
 
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
     class ROOT,PI,PIE,SD schema;
     class LEAN,EXPRESS,FULL normative;
 ```
@@ -340,19 +391,25 @@ The schema allows exactly four ordered variants:
 
 ```mermaid
 flowchart TB
-    SCHEMA["`active_tiers` oneOf closure"]
-    V1["Base 7-tier<br/>SIL -> GPCL -> FCL -> SAL -> ICL -> CDL -> ISL"]
-    V2["Base + XPD<br/>XPD -> SIL -> GPCL -> FCL -> SAL -> ICL -> CDL -> ISL"]
-    V3["Base + CL<br/>SIL -> GPCL -> FCL -> CL -> SAL -> ICL -> CDL -> ISL"]
-    V4["Base + XPD + CL<br/>XPD -> SIL -> GPCL -> FCL -> CL -> SAL -> ICL -> CDL -> ISL"]
+    accTitle: Canonical active_tiers closure
+    accDescr: Lists the only four ordered tier sets permitted by the schema for active_tiers.
+    SCHEMA["active_tiers oneOf closure"]
+    subgraph CL_OFF["CL inactive variants"]
+        V1["SIL -> GPCL -> FCL -> SAL -> ICL -> CDL -> ISL"]
+        V2["XPD -> SIL -> GPCL -> FCL -> SAL -> ICL -> CDL -> ISL"]
+    end
+    subgraph CL_ON["CL active variants"]
+        V3["SIL -> GPCL -> FCL -> CL -> SAL -> ICL -> CDL -> ISL"]
+        V4["XPD -> SIL -> GPCL -> FCL -> CL -> SAL -> ICL -> CDL -> ISL"]
+    end
 
     SCHEMA --> V1
     SCHEMA --> V2
     SCHEMA --> V3
     SCHEMA --> V4
 
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
     class SCHEMA schema;
     class V1,V2,V3,V4 normative;
 ```
@@ -366,16 +423,24 @@ flowchart TB
 **Figure 3.3. Canonical topology and merge behavior**
 
 ```mermaid
-flowchart TD
-    XPD["XPD"]
-    SIL["SIL"]
-    GPCL["GPCL"]
-    FCL["FCL"]
-    CL["CL"]
-    SAL["SAL"]
-    ICL["ICL"]
-    CDL["CDL"]
-    ISL["ISL"]
+flowchart LR
+    accTitle: Canonical topology and merge behavior
+    accDescr: Shows the representative DDR tier topology, including the CL constraint branch into SAL and the implements chain below ICL.
+    subgraph INTENT["Intent and governance spine"]
+        XPD["XPD"]
+        SIL["SIL"]
+        GPCL["GPCL"]
+        FCL["FCL"]
+    end
+    subgraph BOUNDS["Constraint branch"]
+        CL["CL declared constraints"]
+    end
+    subgraph DELIVERY["Architecture and realization path"]
+        SAL["SAL"]
+        ICL["ICL"]
+        CDL["CDL"]
+        ISL["ISL"]
+    end
 
     XPD -->|derives| SIL
     SIL -->|derives| GPCL
@@ -387,9 +452,8 @@ flowchart TD
     ICL -->|implements| CDL
     CDL -->|implements| ISL
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
-    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
     class XPD,SIL,GPCL,FCL,SAL,ICL,CDL,ISL normative;
     class CL caution;
 ```
@@ -436,43 +500,45 @@ The specification documents 13 node schema fields:
 
 ```mermaid
 classDiagram
+    accTitle: DdrNode and ParentCitation conditional structure
+    accDescr: Shows the closed node contract, the typed parent citation surface, and the conditional branches that activate express-mode, CL-only, and SUPERSEDE_PENDING-only fields.
     class DdrNode {
-      +id
-      +tier
-      +title
-      +content?
-      +parent_ids[]
-      +status
-      +constraint_origin?
-      +prior_status?
-      +version
-      +created
-      +modified
-      +express_mode_group?
-      +extension_annotations?
+      +id: NodeId
+      +tier: TierEnum
+      +title: string
+      +content?: text
+      +parent_ids: ParentCitation[]
+      +status: StatusEnum
+      +constraint_origin?: derived|imposed
+      +prior_status?: ACTIVE|DEPRECATED|DIRTY
+      +version: semver
+      +created: date-time
+      +modified: date-time
+      +express_mode_group?: G1|G2|G3|G4
+      +extension_annotations?: namespaced map
     }
     class ParentCitation {
-      +id
-      +edge_type
-      +derivation_mode?
+      +id: NodeId
+      +edge_type: derives|constrains|implements
+      +derivation_mode?: semantic|traceability
     }
-    class ExpressProfileBranch {
-      +document_profile = project_instance_express
-      +express_mode_group required
+    class ExpressProfileCondition {
+      +applies_when: document_profile = project_instance_express
+      +requires: express_mode_group
     }
-    class ClBranch {
-      +tier = CL
-      +constraint_origin allowed
+    class ClCondition {
+      +applies_when: tier = CL
+      +allows: constraint_origin
     }
-    class SupersedeBranch {
-      +status = SUPERSEDE_PENDING
-      +prior_status required
+    class SupersedePendingCondition {
+      +applies_when: status = SUPERSEDE_PENDING
+      +requires: prior_status
     }
 
-    DdrNode --> "0..*" ParentCitation : parent_ids
-    DdrNode ..> ExpressProfileBranch : conditional
-    DdrNode ..> ClBranch : conditional
-    DdrNode ..> SupersedeBranch : conditional
+    DdrNode "0..*" --> "1" ParentCitation : parent_ids
+    DdrNode ..> ExpressProfileCondition : conditional
+    DdrNode ..> ClCondition : conditional
+    DdrNode ..> SupersedePendingCondition : conditional
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The node contract is closed, but several fields are legal only under profile-, tier-, or status-specific branches that the schema enforces explicitly.
@@ -492,21 +558,24 @@ classDiagram
 
 ```mermaid
 flowchart LR
+    accTitle: Node ID grammar decomposition
+    accDescr: Breaks a DDR node ID into its tier token, punctuation tokens, section ordinal, item ordinal, and the XPD root exception.
     ID["Node ID"]
-    TIER["Tier token<br/>XPD | SIL | GPCL | FCL | CL | SAL | ICL | CDL | ISL"]
-    DASH["-"]
-    SECTION["Section ordinal"]
-    DOT["."]
-    ITEM["Item ordinal"]
-    ROOT["Special root branch<br/>XPD-0.N"]
+    subgraph GENERAL["General form"]
+        TIER["Tier token: XPD|SIL|GPCL|FCL|CL|SAL|ICL|CDL|ISL"]
+        DASH["-"]
+        SECTION["Section ordinal"]
+        DOT["."]
+        ITEM["Item ordinal"]
+    end
+    ROOT["Special root branch: XPD-0.N"]
 
     ID --> TIER
-    ID --> SECTION
     TIER --> DASH --> SECTION --> DOT --> ITEM
     TIER -. XPD only .-> ROOT
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
     class ID,TIER,SECTION,ITEM,ROOT normative;
     class DASH,DOT schema;
 ```
@@ -541,28 +610,35 @@ The current edge vocabulary is the four-type surface declared by `edge_type_defi
 **Figure 3.6. Edge vocabulary and citation-surface separation**
 
 ```mermaid
-flowchart TD
-    PARENT["parent_ids[]"]
-    EXTANN["extension_annotations"]
-    DER["derives"]
-    CON["constrains"]
-    IMP["implements"]
-    EXT["extends"]
-    MODE["derivation_mode<br/>semantic | traceability"]
-    FORBID["`extends` forbidden in parent_ids"]
+flowchart LR
+    accTitle: Edge vocabulary and citation-surface separation
+    accDescr: Distinguishes the three legal Core parent citation edge types from the extension-only extends relationship.
+    subgraph CORE["Core citation surface"]
+        PARENT["parent_ids[]"]
+        DER["derives"]
+        CON["constrains"]
+        IMP["implements"]
+        MODE["derivation_mode: semantic|traceability"]
+    end
+    subgraph EXTENSION["Extension-only surface"]
+        EXTANN["extension_annotations"]
+        EXTEDGE["extends"]
+    end
+    FORBID["ParentCitation.edge_type excludes extends"]
 
     PARENT --> DER
     PARENT --> CON
     PARENT --> IMP
     DER --> MODE
-    EXTANN --> EXT
-    EXT -.-> FORBID -.-> PARENT
+    EXTANN --> EXTEDGE
+    EXTEDGE -. extension overlay only .-> FORBID
+    FORBID -. never stored in .-> PARENT
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef schema fill:#dbeafe,stroke:#1d4ed8,color:#1d4ed8;
-    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class PARENT,EXTANN,MODE normative;
-    class DER,CON,IMP,EXT schema;
+    class DER,CON,IMP,EXTEDGE schema;
     class FORBID alert;
 ```
 
@@ -625,22 +701,30 @@ This section covers the tier-by-tier current-state contract for DDR v6.3, includ
 **Figure 4.1. Abstraction descent across active tiers**
 
 ```mermaid
-flowchart TD
-    XPD["XPD<br/>ethical purpose"]
-    SIL["SIL<br/>strategic intent"]
-    GPCL["GPCL<br/>governance and quality"]
-    FCL["FCL<br/>functional capability"]
-    CL["CL<br/>declared technology bounds"]
-    SAL["SAL<br/>architecture"]
-    ICL["ICL<br/>contracts and schemas"]
-    CDL["CDL<br/>component design"]
-    ISL["ISL<br/>implementation scaffolding"]
+flowchart LR
+    accTitle: Abstraction descent across active tiers
+    accDescr: Groups the DDR tiers into purpose, capability, and realization bands to show the system's downward abstraction path.
+    subgraph WHY["Purpose and direction"]
+        XPD["XPD ethical purpose"]
+        SIL["SIL strategic intent"]
+        GPCL["GPCL governance and quality"]
+    end
+    subgraph WHAT["Capability and bounds"]
+        FCL["FCL functional capability"]
+        CL["CL declared technology bounds"]
+    end
+    subgraph HOW["Architecture and realization"]
+        SAL["SAL architecture"]
+        ICL["ICL contracts and schemas"]
+        CDL["CDL component design"]
+        ISL["ISL implementation scaffolding"]
+    end
 
     XPD --> SIL --> GPCL --> FCL --> SAL --> ICL --> CDL --> ISL
     FCL --> CL
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef caution fill:#fef3c7,stroke:#d97706,color:#92400e;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
     class XPD,SIL,GPCL,FCL,SAL,ICL,CDL,ISL normative;
     class CL caution;
 ```
@@ -653,20 +737,28 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    FCL["FCL<br/>capability intent"]
-    CL["CL<br/>declared constraints"]
-    SAL["SAL<br/>architecture synthesis"]
-    ICL["ICL<br/>interfaces and schemas"]
-    CDL["CDL<br/>component blueprints"]
-    ISL["ISL<br/>language scaffolds"]
+    accTitle: Constraint injection path from CL into downstream design
+    accDescr: Shows CL as a declared constraint surface that bounds SAL and therefore all downstream contracts, design, and scaffolding.
+    subgraph INTENT["Capability intent"]
+        FCL["FCL capability intent"]
+    end
+    subgraph CONSTRAINTS["Declared bounds"]
+        CL["CL declared constraints"]
+    end
+    subgraph DESIGN["Downstream realization"]
+        SAL["SAL architecture synthesis"]
+        ICL["ICL interfaces and schemas"]
+        CDL["CDL component blueprints"]
+        ISL["ISL language scaffolds"]
+    end
 
     FCL --> SAL
     FCL --> CL
-    CL -->|constrains| SAL
+    CL -.->|constrains| SAL
     SAL --> ICL --> CDL --> ISL
 
-    classDef normative fill:#dcfce7,stroke:#166534,color:#166534;
-    classDef alert fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class FCL,SAL,ICL,CDL,ISL normative;
     class CL alert;
 ```
