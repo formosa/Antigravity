@@ -1,16 +1,18 @@
 # DDR SYSTEM
+
 ## Application Framework
+
 ## Brainstorming Compendium
 
-| Property | Value |
-| --- | --- |
-| Document ID | DDR-BRAIN-001 |
-| Base Version | DDR System v6.3 (2026-03-28) |
-| Status | LIVING DOCUMENT - Append-Only Until Promoted |
-| Owner | DDR Architecture Board |
-| Created | 2026-03-30 |
-| Last Revised | 2026-03-30 |
-| Schema | BRAIN-ENTRY-1.0 |
+| Property         | Value                                                                                                         |
+| ---------------- | ------------------------------------------------------------------------------------------------------------- |
+| Document ID      | DDR-BRAIN-001                                                                                                 |
+| Base Version     | DDR System v6.3 (2026-03-28)                                                                                  |
+| Status           | LIVING DOCUMENT - Append-Only Until Promoted                                                                  |
+| Owner            | DDR Architecture Board                                                                                        |
+| Created          | 2026-03-30                                                                                                    |
+| Last Revised     | 2026-03-30                                                                                                    |
+| Schema           | BRAIN-ENTRY-1.0                                                                                               |
 | Reference Source | `C:/AI/10162025/maggie/Antigravity/.agent/skills/codex-brainstorm/resources/DDR_AppFramework_Brainstorm.docx` |
 
 > LIVING DOCUMENT NOTICE: This document is intentionally incomplete. It is a structured collection
@@ -55,26 +57,26 @@ The document is organized into three major Parts. Additional Parts may be added 
 concept categories are identified. Every new Part must be registered in the Part Registry and
 adopt the section and entry conventions defined in §3 before entries are added.
 
-| Part | Title | Purpose |
-| --- | --- | --- |
-| Part I | Document Manifest | Self-description, schema, taxonomy, and governance. |
-| Part II | Application Design Concepts | Architectural ideas and next-step hypotheses for the DDR App Framework. |
-| Part III | Open-Source Library Candidates | Vetted and candidate OSS libraries across relevant problem domains. |
+| Part     | Title                          | Purpose                                                                 |
+| -------- | ------------------------------ | ----------------------------------------------------------------------- |
+| Part I   | Document Manifest              | Self-description, schema, taxonomy, and governance.                     |
+| Part II  | Application Design Concepts    | Architectural ideas and next-step hypotheses for the DDR App Framework. |
+| Part III | Open-Source Library Candidates | Vetted and candidate OSS libraries across relevant problem domains.     |
 
 #### 2.1 Part Registry
 
 All Parts that exist or are planned must be recorded here. Update this table when adding a new
 Part.
 
-| Part ID | Short Title | Status |
-| --- | --- | --- |
-| PART-I | Document Manifest | PERMANENT - DO NOT MODIFY |
-| PART-II | Application Design Concepts | ACTIVE |
-| PART-III | OSS Library Candidates | ACTIVE |
-| PART-IV | [Reserved: UX & Workflow] | RESERVED - Not Yet Opened |
-| PART-V | [Reserved: Data & Persistence] | RESERVED - Not Yet Opened |
-| PART-VI | [Reserved: Deployment & Distribution] | RESERVED - Not Yet Opened |
-| PART-VII | [Reserved: Parking Lot] | RESERVED - Not Yet Opened |
+| Part ID  | Short Title                           | Status                    |
+| -------- | ------------------------------------- | ------------------------- |
+| PART-I   | Document Manifest                     | PERMANENT - DO NOT MODIFY |
+| PART-II  | Application Design Concepts           | ACTIVE                    |
+| PART-III | OSS Library Candidates                | ACTIVE                    |
+| PART-IV  | [Reserved: UX & Workflow]             | RESERVED - Not Yet Opened |
+| PART-V   | [Reserved: Data & Persistence]        | RESERVED - Not Yet Opened |
+| PART-VI  | [Reserved: Deployment & Distribution] | RESERVED - Not Yet Opened |
+| PART-VII | [Reserved: Parking Lot]               | RESERVED - Not Yet Opened |
 
 ### §3 Entry Schema (BRAIN-ENTRY-1.0)
 
@@ -84,86 +86,86 @@ fenced `yaml` block.
 
 #### 3.1 Common Fields (All Entry Types)
 
-| Field | Type / Format | Description |
-| --- | --- | --- |
-| `entry_id` | `BRAIN-{PART#}-{SEQ:3d}` | Immutable identifier such as `BRAIN-II-001`. |
-| `title` | `String (<=80 chars)` | Short, unambiguous label for the idea or candidate. |
-| `category` | `CategoryEnum` | Controlled classification tag from §3.4. |
-| `priority` | `HIGH \| MED \| LOW \| PARKED` | Current urgency for consideration. Not a commitment. |
-| `status` | `StatusEnum` | Lifecycle state from §3.5. |
-| `authored_by` | `String` | Initials or handle of the contributor. |
-| `authored_date` | `YYYY-MM-DD` | Date the entry was first recorded. |
-| `revised_date` | `YYYY-MM-DD` | Date of the most recent revision. |
-| `description` | `Text` | One to three sentence summary of the concept. |
-| `detail` | `Text` | Extended technical description and context. |
-| `open_questions` | `List[String]` | Questions that must be answered before promotion. |
-| `tags` | `List[String]` | Freeform search tags such as `#visualization` or `#E5-ARE`. |
-| `ddr_relevance` | `List[TierEnum \| ExtEnum]` | DDR tiers or extensions directly affected by the entry. |
-| `references` | `List[String]` | URLs, ADR IDs, spec sections, or related brainstorm IDs. |
+| Field            | Type / Format                  | Description                                                 |
+| ---------------- | ------------------------------ | ----------------------------------------------------------- |
+| `entry_id`       | `BRAIN-{PART#}-{SEQ:3d}`       | Immutable identifier such as `BRAIN-II-001`.                |
+| `title`          | `String (<=80 chars)`          | Short, unambiguous label for the idea or candidate.         |
+| `category`       | `CategoryEnum`                 | Controlled classification tag from §3.4.                    |
+| `priority`       | `HIGH \| MED \| LOW \| PARKED` | Current urgency for consideration. Not a commitment.        |
+| `status`         | `StatusEnum`                   | Lifecycle state from §3.5.                                  |
+| `authored_by`    | `String`                       | Initials or handle of the contributor.                      |
+| `authored_date`  | `YYYY-MM-DD`                   | Date the entry was first recorded.                          |
+| `revised_date`   | `YYYY-MM-DD`                   | Date of the most recent revision.                           |
+| `description`    | `Text`                         | One to three sentence summary of the concept.               |
+| `detail`         | `Text`                         | Extended technical description and context.                 |
+| `open_questions` | `List[String]`                 | Questions that must be answered before promotion.           |
+| `tags`           | `List[String]`                 | Freeform search tags such as `#visualization` or `#E5-ARE`. |
+| `ddr_relevance`  | `List[TierEnum \| ExtEnum]`    | DDR tiers or extensions directly affected by the entry.     |
+| `references`     | `List[String]`                 | URLs, ADR IDs, spec sections, or related brainstorm IDs.    |
 
 #### 3.2 Idea Entry (TYPE: IDEA)
 
-| Field | Type / Format | Description |
-| --- | --- | --- |
-| `motivation` | `Text` | Why the idea exists and what problem it solves. |
-| `prior_art` | `Text` | Known existing solutions, patterns, or precedents. |
-| `ddr_constraints` | `Text` | DDR axioms, invariants, or extension contracts the idea must respect. |
-| `risks` | `Text` | Complexity, performance, licensing, or adoption risks. |
-| `dependencies` | `List[String]` | Related brainstorm IDs or external dependencies. |
+| Field             | Type / Format  | Description                                                           |
+| ----------------- | -------------- | --------------------------------------------------------------------- |
+| `motivation`      | `Text`         | Why the idea exists and what problem it solves.                       |
+| `prior_art`       | `Text`         | Known existing solutions, patterns, or precedents.                    |
+| `ddr_constraints` | `Text`         | DDR axioms, invariants, or extension contracts the idea must respect. |
+| `risks`           | `Text`         | Complexity, performance, licensing, or adoption risks.                |
+| `dependencies`    | `List[String]` | Related brainstorm IDs or external dependencies.                      |
 
 #### 3.3 Library Candidate Entry (TYPE: LIB)
 
-| Field | Type / Format | Description |
-| --- | --- | --- |
-| `repository` | `URL or package locator` | Canonical source location. |
-| `language` | `Python \| JavaScript \| Rust \| Go \| Other` | Primary implementation language. |
-| `license` | `MIT \| Apache-2.0 \| BSD-2-Clause \| BSD-3-Clause \| ISC \| MPL-2.0 \| LGPL \| Other` | Primary license classification. |
-| `commercial_use` | `YES \| CONDITIONAL \| NO` | Whether commercial distribution is currently acceptable. |
-| `latest_release` | `String` | Release version/date snapshot or `TBD`. |
-| `maintenance` | `ACTIVE \| MAINTAINED \| SLOW \| ARCHIVED` | Current maintenance signal. |
-| `install_size_kb` | `Integer or TBD` | Approximate footprint. |
-| `maturity` | `EXPERIMENTAL \| STABLE \| MATURE \| LEGACY` | Maturity signal for adoption planning. |
-| `verdict` | `CANDIDATE \| UNDER_REVIEW \| ACCEPTED \| REJECTED \| PARKED` | Current adoption verdict. |
-| `rejection_reason` | `Text` | Required only when `verdict` is `REJECTED`. |
+| Field              | Type / Format                                                                          | Description                                              |
+| ------------------ | -------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `repository`       | `URL or package locator`                                                               | Canonical source location.                               |
+| `language`         | `Python \| JavaScript \| Rust \| Go \| Other`                                          | Primary implementation language.                         |
+| `license`          | `MIT \| Apache-2.0 \| BSD-2-Clause \| BSD-3-Clause \| ISC \| MPL-2.0 \| LGPL \| Other` | Primary license classification.                          |
+| `commercial_use`   | `YES \| CONDITIONAL \| NO`                                                             | Whether commercial distribution is currently acceptable. |
+| `latest_release`   | `String`                                                                               | Release version/date snapshot or `TBD`.                  |
+| `maintenance`      | `ACTIVE \| MAINTAINED \| SLOW \| ARCHIVED`                                             | Current maintenance signal.                              |
+| `install_size_kb`  | `Integer or TBD`                                                                       | Approximate footprint.                                   |
+| `maturity`         | `EXPERIMENTAL \| STABLE \| MATURE \| LEGACY`                                           | Maturity signal for adoption planning.                   |
+| `verdict`          | `CANDIDATE \| UNDER_REVIEW \| ACCEPTED \| REJECTED \| PARKED`                          | Current adoption verdict.                                |
+| `rejection_reason` | `Text`                                                                                 | Required only when `verdict` is `REJECTED`.              |
 
 #### 3.4 Category Taxonomy
 
-| Category ID | Label | Applies To |
-| --- | --- | --- |
-| `CAT-ARCH` | Application Architecture | Structural patterns, layering, module boundaries, deployment topology. |
-| `CAT-DAG` | DAG Engine | Graph construction, traversal, validation, cycle detection, topological sort. |
-| `CAT-VIZ` | Visualization | Graph rendering, node and edge display, tier-map diagrams, diff views. |
-| `CAT-CRUD` | Node CRUD & Editing | Node creation, reading, updating, deletion operations and UI/API surface. |
-| `CAT-VALID` | Validation & Schema | JSON Schema or YAML Schema compliance and structural rule enforcement. |
-| `CAT-STORE` | Data Persistence | File formats, databases, version control integration, export and import. |
-| `CAT-LIFE` | Lifecycle & Operations | Status transitions, SUPERSEDE or DEPRECATE flows, operation protocol. |
-| `CAT-EXT` | Extension System | E1-E9 integration, candidate pool management, ARE scoring. |
-| `CAT-UX` | User Experience | Workflow design, navigation patterns, onboarding, CLI vs GUI. |
-| `CAT-DIST` | Distribution & Packaging | PyPI, installers, Electron, Docker, licensing for commercial sale. |
-| `CAT-AI` | AI / Agentic Integration | LLM tooling, code generation, agentic interfaces, Codex and Claude integration. |
-| `CAT-TEST` | Testing & QA | Unit, integration, and property-based testing strategies. |
-| `CAT-MISC` | Miscellaneous / Uncategorized | Catch-all for entries not yet classified. Re-categorize within two sessions. |
+| Category ID | Label                         | Applies To                                                                      |
+| ----------- | ----------------------------- | ------------------------------------------------------------------------------- |
+| `CAT-ARCH`  | Application Architecture      | Structural patterns, layering, module boundaries, deployment topology.          |
+| `CAT-DAG`   | DAG Engine                    | Graph construction, traversal, validation, cycle detection, topological sort.   |
+| `CAT-VIZ`   | Visualization                 | Graph rendering, node and edge display, tier-map diagrams, diff views.          |
+| `CAT-CRUD`  | Node CRUD & Editing           | Node creation, reading, updating, deletion operations and UI/API surface.       |
+| `CAT-VALID` | Validation & Schema           | JSON Schema or YAML Schema compliance and structural rule enforcement.          |
+| `CAT-STORE` | Data Persistence              | File formats, databases, version control integration, export and import.        |
+| `CAT-LIFE`  | Lifecycle & Operations        | Status transitions, SUPERSEDE or DEPRECATE flows, operation protocol.           |
+| `CAT-EXT`   | Extension System              | E1-E9 integration, candidate pool management, ARE scoring.                      |
+| `CAT-UX`    | User Experience               | Workflow design, navigation patterns, onboarding, CLI vs GUI.                   |
+| `CAT-DIST`  | Distribution & Packaging      | PyPI, installers, Electron, Docker, licensing for commercial sale.              |
+| `CAT-AI`    | AI / Agentic Integration      | LLM tooling, code generation, agentic interfaces, Codex and Claude integration. |
+| `CAT-TEST`  | Testing & QA                  | Unit, integration, and property-based testing strategies.                       |
+| `CAT-MISC`  | Miscellaneous / Uncategorized | Catch-all for entries not yet classified. Re-categorize within two sessions.    |
 
 #### 3.5 Entry Status Vocabulary
 
-| Status | Meaning | Transition Rules |
-| --- | --- | --- |
-| `SEED` | Newly captured, minimally described. | Any entry may start here. |
-| `EXPLORING` | Actively being researched or discussed. | From `SEED` or `PARKED`. |
-| `CANDIDATE` | Sufficiently developed for formal evaluation. | From `EXPLORING`; requires all common fields populated. |
-| `PROMOTED` | Accepted into a formal ADR or specification. | From `CANDIDATE`; requires an ADR reference in `references`. |
-| `REJECTED` | Evaluated and not adopted; retained for record. | From any status; requires `rejection_reason` or equivalent note. |
-| `PARKED` | Deferred indefinitely; may be revisited later. | From any non-`PROMOTED` status. |
-| `SUPERSEDED` | Replaced by a newer entry; ID preserved. | From any status; link the superseding entry in `references`. |
+| Status       | Meaning                                         | Transition Rules                                                 |
+| ------------ | ----------------------------------------------- | ---------------------------------------------------------------- |
+| `SEED`       | Newly captured, minimally described.            | Any entry may start here.                                        |
+| `EXPLORING`  | Actively being researched or discussed.         | From `SEED` or `PARKED`.                                         |
+| `CANDIDATE`  | Sufficiently developed for formal evaluation.   | From `EXPLORING`; requires all common fields populated.          |
+| `PROMOTED`   | Accepted into a formal ADR or specification.    | From `CANDIDATE`; requires an ADR reference in `references`.     |
+| `REJECTED`   | Evaluated and not adopted; retained for record. | From any status; requires `rejection_reason` or equivalent note. |
+| `PARKED`     | Deferred indefinitely; may be revisited later.  | From any non-`PROMOTED` status.                                  |
+| `SUPERSEDED` | Replaced by a newer entry; ID preserved.        | From any status; link the superseding entry in `references`.     |
 
 #### 3.6 Priority Vocabulary
 
-| Priority | Meaning | Guidance |
-| --- | --- | --- |
-| `HIGH` | Actively explore in the current design cycle. | Limit to five `HIGH` entries per Part when possible. |
-| `MED` | Relevant but not blocking. | Default priority for most new entries. |
-| `LOW` | Peripheral; retain without active focus. | Reassess at each review cycle. |
-| `PARKED` | Indefinitely deferred. | Pair with status `PARKED`. |
+| Priority | Meaning                                       | Guidance                                             |
+| -------- | --------------------------------------------- | ---------------------------------------------------- |
+| `HIGH`   | Actively explore in the current design cycle. | Limit to five `HIGH` entries per Part when possible. |
+| `MED`    | Relevant but not blocking.                    | Default priority for most new entries.               |
+| `LOW`    | Peripheral; retain without active focus.      | Reassess at each review cycle.                       |
+| `PARKED` | Indefinitely deferred.                        | Pair with status `PARKED`.                           |
 
 ### §4 Rules for Adding New Sections
 
@@ -230,19 +232,19 @@ DDR System.
 
 ### Part II — Section Index
 
-| Section | Title | Category |
-| --- | --- | --- |
-| `§II.1` | Application Architecture Overview | `CAT-ARCH` |
-| `§II.2` | DAG Engine Design | `CAT-DAG` |
-| `§II.3` | Node CRUD and Editing Surface | `CAT-CRUD` |
-| `§II.4` | Validation and Schema Enforcement | `CAT-VALID` |
-| `§II.5` | Extension System Integration | `CAT-EXT` |
-| `§II.6` | AI and Agentic Interface | `CAT-AI` |
-| `§II.7` | Target System Optimization | `CAT-ARCH` |
-| `§II.8` | Workbench and Interaction Architecture | `CAT-UX` |
-| `§II.9` | Data, Search, and Observability | `CAT-STORE` |
-| `§II.10` | Secure Agent Operations and Tutorials | `CAT-AI` |
-| `§II.11` | Collaboration and Delivery Workflows | `CAT-UX` |
+| Section  | Title                                  | Category    |
+| -------- | -------------------------------------- | ----------- |
+| `§II.1`  | Application Architecture Overview      | `CAT-ARCH`  |
+| `§II.2`  | DAG Engine Design                      | `CAT-DAG`   |
+| `§II.3`  | Node CRUD and Editing Surface          | `CAT-CRUD`  |
+| `§II.4`  | Validation and Schema Enforcement      | `CAT-VALID` |
+| `§II.5`  | Extension System Integration           | `CAT-EXT`   |
+| `§II.6`  | AI and Agentic Interface               | `CAT-AI`    |
+| `§II.7`  | Target System Optimization             | `CAT-ARCH`  |
+| `§II.8`  | Workbench and Interaction Architecture | `CAT-UX`    |
+| `§II.9`  | Data, Search, and Observability        | `CAT-STORE` |
+| `§II.10` | Secure Agent Operations and Tutorials  | `CAT-AI`    |
+| `§II.11` | Collaboration and Delivery Workflows   | `CAT-UX`    |
 
 ### §II.1 Application Architecture Overview
 
@@ -250,6 +252,7 @@ This section captures early thinking about structural decomposition, module boun
 storage, deployment topology, and the application's relationship to the DDR files it manages.
 
 #### [BRAIN-II-001] Three-Layer Application Architecture
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-001
@@ -303,6 +306,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-002] DDR Project as a File-System-First Store
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-002
@@ -356,6 +360,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-003] Unified Operations Protocol API Surface
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-003
@@ -411,6 +416,7 @@ The DAG Engine is the most critical internal component of the DDR App Framework.
 construction, invariant enforcement, topological ordering, cycle detection, and DIRTY propagation.
 
 #### [BRAIN-II-004] Plugin Architecture for DDR Extensions (E1-E9)
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-004
@@ -425,8 +431,8 @@ description: >-
   Implement the DDR Extension System as a first-class plugin architecture with
   discrete loadable plugins and explicit contracts.
 detail: >-
-  A registry would track extension contracts, activation states, reads and
-  annotates manifests, and links to extension-managed state such as the ARE
+  A registry would track extension contracts, activation states, extends
+  manifests, and links to extension-managed state such as the ARE
   candidate pool and checkpointing. Plugins would never mutate core nodes
   directly and would operate only through the sanctioned read or annotate
   interfaces defined by DDR contracts.
@@ -463,6 +469,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-005] In-Memory DAG Representation with Lazy Hydration
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-005
@@ -515,6 +522,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-006] DIRTY Propagation Engine
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-006
@@ -577,6 +585,7 @@ This section covers how users create, read, update, and delete DDR nodes while k
 semantics visible and enforceable in the editing experience.
 
 #### [BRAIN-II-007] Tier-Aware Node Editor with Inline Atomic Rule Guidance
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-007
@@ -630,6 +639,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-008] Express Mode Project Scaffolding Wizard
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-008
@@ -687,6 +697,7 @@ Validation is DDR's primary quality gate. This section explores how VALIDATE is 
 schema and structural conformance remain continuously visible.
 
 #### [BRAIN-II-009] Continuous Background Validation with Severity-Classified Findings
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-009
@@ -746,10 +757,11 @@ dependencies:
 
 ### §II.5 Extension System Integration
 
-The DDR Extension System defines nine named extensions with reads or annotates contracts. This
+The DDR Extension System defines nine named extensions with extends contracts. This
 section explores how they should be integrated into the application layer.
 
 #### [BRAIN-II-010] ARE Candidate Pool Review Interface
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-010
@@ -808,6 +820,7 @@ The DDR App Framework is designed to be used with and by AI agents. This section
 application exposes itself to agentic coding assistants and LLM tooling.
 
 #### [BRAIN-II-011] AGENTS.md Auto-Generation from Active Project
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-011
@@ -862,6 +875,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-012] MCP Server Exposure for DDR Project Operations
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-012
@@ -915,6 +929,7 @@ dependencies:
 ### §II.7 Target System Optimization
 
 #### [BRAIN-II-013] Local Offline-First AI Ecosystem on 10GB VRAM Constraint
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-013
@@ -964,6 +979,7 @@ make a DDR-native software development environment feel credible to experienced 
 remaining legible to newcomers.
 
 #### [BRAIN-II-014] Desktop Shell Strategy: Electron 41 vs Qt 6.11
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-014
@@ -1032,6 +1048,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-015] Monaco-Centered Hybrid Editing Workbench
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-015
@@ -1095,6 +1112,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-016] Semantic Navigation and Refactor Fabric
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-016
@@ -1159,6 +1177,7 @@ This section captures acceleration layers and telemetry patterns that improve da
 without displacing the file-system-first DDR source of truth.
 
 #### [BRAIN-II-017] Operational Index: SQLite Sidecar vs DuckDB Mirror
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-017
@@ -1224,6 +1243,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-018] OpenTelemetry-Native Operation Trace Ledger
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-018
@@ -1287,6 +1307,7 @@ This section focuses on portable automation surfaces, prompt-injection-resistant
 and onboarding systems that can double as both tutorials and regression harnesses.
 
 #### [BRAIN-II-019] MCP-Native Skills and Plugin Surface
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-019
@@ -1353,6 +1374,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-020] Sink-Gated Agent Safety Model
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-020
@@ -1414,6 +1436,7 @@ dependencies:
 ```
 
 #### [BRAIN-II-021] Executable Tutorial Workspaces and Onboarding Compiler
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-021
@@ -1485,6 +1508,7 @@ This section covers human-and-agent collaboration patterns, especially where loc
 background delegation, and enterprise governance need to coexist without blurring responsibility.
 
 #### [BRAIN-II-022] Hybrid Local/Cloud Delegation Workflow
+
 ```yaml
 entry_type: IDEA
 entry_id: BRAIN-II-022
@@ -1561,26 +1585,27 @@ in exploration until legal viability is clear.
 
 ### Part III — Section Index
 
-| Section | Title | Category |
-| --- | --- | --- |
-| `§III.1` | DAG and Graph Engine Libraries | `CAT-DAG` |
-| `§III.2` | Graph Visualization Libraries | `CAT-VIZ` |
-| `§III.3` | YAML / JSON Schema Validation | `CAT-VALID` |
-| `§III.4` | Desktop GUI Frameworks | `CAT-UX` |
-| `§III.5` | File-System Watching and Event Handling | `CAT-STORE` |
-| `§III.6` | Serialization and Data Modeling | `CAT-STORE` |
-| `§III.7` | CLI Frameworks | `CAT-UX` |
-| `§III.8` | Full Target Subsystem Dependencies | `CAT-AI` |
-| `§III.9` | Desktop Runtime and IDE Workbench Libraries | `CAT-ARCH` |
-| `§III.10` | Embedded Store, Search, and Telemetry | `CAT-STORE` |
-| `§III.11` | MCP, Browser, and Agent Automation Assets | `CAT-AI` |
-| `§III.12` | Citations and References | `CAT-MISC` |
+| Section   | Title                                       | Category    |
+| --------- | ------------------------------------------- | ----------- |
+| `§III.1`  | DAG and Graph Engine Libraries              | `CAT-DAG`   |
+| `§III.2`  | Graph Visualization Libraries               | `CAT-VIZ`   |
+| `§III.3`  | YAML / JSON Schema Validation               | `CAT-VALID` |
+| `§III.4`  | Desktop GUI Frameworks                      | `CAT-UX`    |
+| `§III.5`  | File-System Watching and Event Handling     | `CAT-STORE` |
+| `§III.6`  | Serialization and Data Modeling             | `CAT-STORE` |
+| `§III.7`  | CLI Frameworks                              | `CAT-UX`    |
+| `§III.8`  | Full Target Subsystem Dependencies          | `CAT-AI`    |
+| `§III.9`  | Desktop Runtime and IDE Workbench Libraries | `CAT-ARCH`  |
+| `§III.10` | Embedded Store, Search, and Telemetry       | `CAT-STORE` |
+| `§III.11` | MCP, Browser, and Agent Automation Assets   | `CAT-AI`    |
+| `§III.12` | Citations and References                    | `CAT-MISC`  |
 
 ### §III.1 DAG and Graph Engine Libraries
 
 Libraries for constructing, traversing, and analyzing directed acyclic graphs in Python.
 
 #### [BRAIN-III-001] NetworkX
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-001
@@ -1626,6 +1651,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-002] graphlib (stdlib)
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-002
@@ -1669,6 +1695,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-003] rustworkx
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-003
@@ -1715,6 +1742,7 @@ rejection_reason: ""
 Libraries for rendering DDR project graphs as navigable, tier-aware visual diagrams.
 
 #### [BRAIN-III-004] Cytoscape.js
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-004
@@ -1760,6 +1788,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-005] Graphviz + graphviz / PyGraphviz
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-005
@@ -1803,6 +1832,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-006] Mermaid.js
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-006
@@ -1851,6 +1881,7 @@ rejection_reason: ""
 Libraries for enforcing DDR node schema conformance and structural invariant checking.
 
 #### [BRAIN-III-007] jsonschema
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-007
@@ -1898,6 +1929,7 @@ rejection_reason: ""
 Frameworks for the Presentation Layer of the DDR App Framework targeting desktop deployment.
 
 #### [BRAIN-III-008] Pydantic v2
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-008
@@ -1943,6 +1975,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-009] ruamel.yaml
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-009
@@ -1987,6 +2020,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-010] PySide6 (Qt for Python)
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-010
@@ -2033,6 +2067,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-011] Tauri
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-011
@@ -2081,6 +2116,7 @@ rejection_reason: ""
 Libraries for monitoring DDR project directory changes to trigger background validation.
 
 #### [BRAIN-III-012] watchdog
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-012
@@ -2127,6 +2163,7 @@ rejection_reason: ""
 Libraries for data interchange, serialization, and project archive formats.
 
 #### [BRAIN-III-013] msgspec
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-013
@@ -2170,6 +2207,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-014] zipfile / tarfile (stdlib) + zipimport
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-014
@@ -2216,6 +2254,7 @@ rejection_reason: ""
 Libraries for building the DDR App Framework CLI as a first-class delivery surface.
 
 #### [BRAIN-III-015] Typer
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-015
@@ -2260,6 +2299,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-016] Rich
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-016
@@ -2304,6 +2344,7 @@ rejection_reason: ""
 ### §III.8 Full Target Subsystem Dependencies
 
 #### [BRAIN-III-017] onnxruntime-gpu
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-017
@@ -2339,7 +2380,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-018] ctranslate2
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-018
@@ -2375,7 +2418,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-019] torch
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-019
@@ -2411,7 +2456,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-020] onnx
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-020
@@ -2447,7 +2494,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-021] pyzmq
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-021
@@ -2483,7 +2532,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-022] optimum
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-022
@@ -2519,7 +2570,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-023] accelerate
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-023
@@ -2555,7 +2608,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-024] transformers
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-024
@@ -2591,7 +2646,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-025] tokenizers
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-025
@@ -2627,7 +2684,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-026] faster-whisper
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-026
@@ -2663,7 +2722,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-027] phonemizer
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-027
@@ -2699,7 +2760,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-028] kokoro-onnx
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-028
@@ -2735,7 +2798,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-029] pvporcupine
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-029
@@ -2771,7 +2836,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-030] sounddevice
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-030
@@ -2807,7 +2874,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-031] soundfile
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-031
@@ -2843,7 +2912,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-032] librosa
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-032
@@ -2879,7 +2950,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-033] qasync
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-033
@@ -2915,7 +2988,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-034] transitions
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-034
@@ -2951,7 +3026,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-035] pygraphviz
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-035
@@ -2987,7 +3064,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-036] PyYAML
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-036
@@ -3023,7 +3102,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-037] loguru
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-037
@@ -3059,7 +3140,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-038] requests
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-038
@@ -3095,7 +3178,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-039] psutil
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-039
@@ -3131,7 +3216,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-040] protobuf
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-040
@@ -3167,7 +3254,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-041] numpy
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-041
@@ -3203,7 +3292,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-042] scipy
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-042
@@ -3239,7 +3330,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-043] numba
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-043
@@ -3275,7 +3368,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-044] tqdm
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-044
@@ -3311,7 +3406,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-045] dill
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-045
@@ -3347,7 +3444,9 @@ maturity: MATURE
 verdict: CANDIDATE
 rejection_reason: ""
 ```
+
 #### [BRAIN-III-046] six
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-046
@@ -3390,6 +3489,7 @@ This section captures runtime and editor assets most relevant to turning DDR fro
 project format into a credible day-to-day developer workbench.
 
 #### [BRAIN-III-047] Electron
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-047
@@ -3437,6 +3537,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-048] Monaco Editor
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-048
@@ -3489,6 +3590,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-049] CodeMirror 6
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-049
@@ -3542,6 +3644,7 @@ These assets support search, analytical reporting, and observability without rep
 filesystem-first DDR project as the single source of truth.
 
 #### [BRAIN-III-050] SQLite
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-050
@@ -3589,6 +3692,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-051] DuckDB
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-051
@@ -3636,6 +3740,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-052] GitHub MCP Server
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-052
@@ -3684,6 +3789,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-053] Playwright MCP
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-053
@@ -3734,6 +3840,7 @@ rejection_reason: ""
 ```
 
 #### [BRAIN-III-054] opentelemetry-configuration
+
 ```yaml
 entry_type: LIB
 entry_id: BRAIN-III-054
@@ -3810,3 +3917,4 @@ Use these citation IDs from Part II and Part III when referencing recent externa
 - `C19` GitHub, "github-mcp-server v0.32.0." March 6, 2026. [https://github.com/github/github-mcp-server/releases](https://github.com/github/github-mcp-server/releases)
 - `C20` Microsoft, "playwright-mcp releases." Includes v0.0.64 on February 6, 2026 and v0.0.68 on February 14, 2026. [https://github.com/microsoft/playwright-mcp/releases](https://github.com/microsoft/playwright-mcp/releases)
 - `C21` Microsoft, "monaco-editor releases." 2026 prerelease activity visible on the releases page. [https://github.com/microsoft/monaco-editor/releases](https://github.com/microsoft/monaco-editor/releases)
+
