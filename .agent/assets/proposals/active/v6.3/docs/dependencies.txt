@@ -1,0 +1,712 @@
+# YAML representation of dependencies for the local AI assistant project
+# Updated: 2025-05-08
+# Optimized for Target System: Win 11 Pro, Ryzen 9 5900X, 32GB DDR4, RTX 3080 (10GB)
+# IMPORTANT: This project is designed for offline operation; however, all dependencies (Python packages, system tools, AI models) must be downloaded on a machine with internet access before deploying to the target offline system.
+
+system_dependencies:
+  # System Dependencies: Tools and libraries installed at the OS level, required before Python setup.
+  - name: Python
+    version: 3.11.9 (64-bit)
+    description: Core programming language runtime
+    artifacts:
+      page: https://www.python.org/downloads/windows/ 
+      download: https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe 
+      file_location: /_assets/_dependencies/_system
+    notes: Ensure 64-bit version is installed and added to PATH. Python 3.11 recommended for performance improvements and compatibility with listed libraries.
+
+  - name: NVIDIA GPU Driver
+    version: 576.02
+    description: Allows communication between OS and NVIDIA GPU hardware
+    artifacts:
+      page: https://www.nvidia.com/en-us/drivers/
+      download: https://us.download.nvidia.com/Windows/576.02/576.02-desktop-win10-win11-64bit-international-nsd-dch-whql.exe
+      file_location: /_assets/_dependencies/_system
+    notes: Essential for GPU acceleration. Must be compatible with CUDA 12.1. Check driver release notes for compatibility details.
+
+  - name: CUDA Toolkit
+    version: 12.1.1
+    description: NVIDIA parallel computing platform and API model
+    artifacts:
+      page: https://developer.nvidia.com/cuda-toolkit-archive
+      download: https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda_12.1.1_531.14_windows.exe
+      file_location: /_assets/_dependencies/_system
+    notes: Select version 12.1. Required for onnxruntime-gpu, ctranslate2, and torch GPU support. Install system-wide and ensure CUDA_PATH environment variable and PATH are correctly set.
+
+  - name: cuDNN
+    version: 8.9.7
+    description: NVIDIA library for deep neural network acceleration
+    artifacts:
+      page: https://developer.nvidia.com/rdp/cudnn-archive
+      download: https://developer.nvidia.com/downloads/compute/cudnn/secure/8.9.7/local_installers/12.x/cudnn-windows-x86_64-8.9.7.29_cuda12-archive.zip
+      file_location: /_assets/_dependencies/_system
+    notes: Requires free NVIDIA Developer account. Select version compatible with CUDA 12.1 (e.g., 8.9.x). Follow NVIDIA installation guide carefully (copying files to CUDA Toolkit directories).
+
+  - name: Microsoft Visual C++ Redistributable
+    version: 14.42.34438.0
+    description: Runtime libraries for C++ applications/extensions on Windows
+    artifacts:
+      page: https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist
+      download: https://aka.ms/vs/17/release/vc_redist.x64.exe
+      file_location: /_assets/_dependencies/_system
+    notes: Often required by Python packages with compiled components (e.g., pygraphviz if built from source). Install the x64 version.
+
+  - name: Git
+    version: 2.49.0 (64-bit)
+    description: Version control system, needed for cloning repositories or installing packages from source if required
+    artifacts:
+      page: https://git-scm.com/downloads/win
+      download: https://github.com/git-for-windows/git/releases/download/v2.49.0.windows.1/Git-2.49.0-64-bit.exe
+      file_location: /_assets/_dependencies/_system
+    notes: Standard development tool, useful for managing code and potentially models.
+
+  - name: eSpeak NG
+    version: 1.52
+    description: Software speech synthesizer, backend for phonemizer
+    artifacts:
+      page: https://github.com/espeak-ng/espeak-ng/releases
+      download: https://github.com/espeak-ng/espeak-ng/releases/download/1.52.0/espeak-ng.msi
+      file_location: /_assets/_dependencies/_system
+    notes: Required for Kokoro TTS phonemization via phonemizer. Install the Windows version and ensure its installation directory (containing espeak-ng.dll) is accessible via the system PATH.
+
+  - name: Graphviz
+    version: 12.2.1 (64-bit)
+    description: Graph visualization software (layout engine required by graphviz/pygraphviz Python packages)
+    artifacts:
+      page: https://graphviz.org/download/
+      download: https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/12.2.1/windows_10_cmake_Release_graphviz-install-12.2.1-win64.exe
+      file_location: /_assets/_dependencies/_system
+    notes: Install the software and ensure the 'bin' directory containing 'dot.exe' is added to the system PATH. Required for rendering state diagrams.
+
+python_environment:
+  # Environment: Tools for creating and managing the project’s isolated Python environment.
+  - name: Virtual Environment Tool (venv)
+    version: Bundled with Python 3.11+
+    description: Isolates project dependencies
+    usage_command_create: python -m venv .venv
+    usage_command_activate_windows: .\.venv\Scripts\activate
+    notes: Recommended practice for Python development. Create within project directory.
+
+  - name: pip (Package Installer for Python)
+    version: Latest within venv
+    description: Installs Python packages
+    usage_command_upgrade: python -m pip install --upgrade pip
+    notes: Use within the activated virtual environment to install libraries listed below.
+
+python_libraries:
+  # Python Libraries: Packages installed via pip within the virtual environment for core functionality.
+
+  # Core AI Inference & Frameworks (GPU Enabled)
+  - name: onnxruntime-gpu
+    version: 1.18.0
+    description: ONNX model inference engine (GPU accelerated)
+    install_command: pip install onnxruntime-gpu==1.18.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/onnxruntime-cuda-12/pypi/simple/
+    links:
+      - pypi: https://pypi.org/project/onnxruntime-gpu/
+      - wheels: https://pypi.org/project/onnxruntime-gpu/1.18.0/#files
+      - wheel:
+        - https://files.pythonhosted.org/packages/7d/c8/93ceafea519c3860e64a464e45ec9174e78aff2d8dc70033cde1898920ab/onnxruntime_gpu-1.18.0-cp311-cp311-win_amd64.whl
+        - https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/onnxruntime-cuda-12/pypi/download/onnxruntime-gpu/1.18.0/onnxruntime_gpu-1.18.0-cp311-cp311-win_amd64.whl
+    notes: Requires system CUDA 12.1 and cuDNN 8.9.x. Install using the specific command. Primary engine for Phi-3 and Kokoro ONNX models.
+
+  - name: ctranslate2
+    version: 4.4.0
+    description: Fast inference engine for Transformer models (used by faster-whisper)
+    install_command: pip install ctranslate2==4.4.0
+    links:
+      - pypi: https://pypi.org/project/ctranslate2/
+      - wheels: https://pypi.org/project/ctranslate2/4.4.0/#files
+      - wheel: https://files.pythonhosted.org/packages/01/2c/93bb6741ee904b4c43e81b67e1b8b30f14de3c49ac3ac6cf97c54c6fcdcf/ctranslate2-4.4.0-cp311-cp311-win_amd64.whl
+    notes: GPU support relies on system CUDA 12.1 and cuDNN 8.9.x detection. Updated for latest improvements. Consult ctranslate2 docs for specific CUDA wheel commands if runtime GPU detection fails.
+
+  - name: torch
+    version: 2.3.0+cu121
+    description: Core machine learning framework (dependency, utilities, potential model loading)
+    install_command: pip install torch==2.3.0+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
+    links:
+      - pypi: https://pypi.org/project/torch/
+      - wheels:
+        - https://pypi.org/project/torch/#files
+        - https://download.pytorch.org/whl
+      - wheel:
+        - https://download.pytorch.org/whl/cu121/torch-2.3.0%2Bcu121-cp311-cp311-win_amd64.whl
+    notes: Install using the specific command for CUDA 12.1 support. Required by many audio/NLP libraries.
+
+  - name: onnx
+    version: 1.17.0
+    description: Core library for ONNX format definition and manipulation
+    install_command: pip install onnx==1.17.0
+    links:
+      - pypi: https://pypi.org/project/onnx/
+      - wheels: https://pypi.org/project/onnx/1.17.0/#files
+      - wheel: https://files.pythonhosted.org/packages/51/a5/19b0dfcb567b62e7adf1a21b08b23224f0c2d13842aee4d0abc6f07f9cf5/onnx-1.17.0-cp311-cp311-win_amd64.whl
+    notes: Useful for inspecting or modifying ONNX models directly. Compatible with onnxruntime 1.18.0.
+
+  - name: pyzmq
+    version: 27.1.0
+    description: Python bindings for ZeroMQ (high-performance asynchronous messaging library)
+    install_command: pip install pyzmq==27.1.0
+    links:
+      - pypi: https://pypi.org/project/pyzmq/
+      - wheels: https://pypi.org/project/pyzmq/27.1.0/#files
+      - wheel: https://files.pythonhosted.org/packages/4c/9c/f86913c1f0a1c13d7e8e53613b5930e0600a9478f74a9d70c9c7f694e908/pyzmq-27.1.0-cp311-cp311-win_amd64.whl
+    notes: Common dependency for inter-process communication or advanced networking.
+
+  # Optimization & Model Handling Tools
+  - name: optimum
+    version: 1.19.2
+    description: Hugging Face toolkit for optimizing models for specific hardware/runtimes
+    install_command: pip install optimum==1.19.2 optimum[onnxruntime-gpu]
+    links:
+      - pypi: https://pypi.org/project/optimum/
+      - wheels: https://pypi.org/project/optimum/1.19.2/#files
+      - wheel: https://files.pythonhosted.org/packages/d6/e3/57c453bc46cedb577d6bc951bec850cdaf80fc9280c33dccaaa1899b6618/optimum-1.19.2-py3-none-any.whl
+      - huggingface: https://huggingface.co/docs/optimum/index
+    notes: Useful for optimizing/validating ONNX models (like Phi-3) for onnxruntime-gpu. The extra '[onnxruntime-gpu]' installs relevant dependencies.
+
+  - name: accelerate
+    version: 0.30.1
+    description: Hugging Face library to simplify running models across devices and with optimizations
+    install_command: pip install accelerate==0.30.1
+    links:
+      - pypi: https://pypi.org/project/accelerate/
+      - wheels: https://pypi.org/project/accelerate/0.30.1/#files
+      - wheel: https://files.pythonhosted.org/packages/e9/bb/1edd2c836071e91d2bd331b9542bbd592e23d1474645b9c6fd56232caace/accelerate-0.30.1-py3-none-any.whl
+      - huggingface: https://huggingface.co/docs/accelerate/index
+    notes: Can simplify device mapping (`.to(device)`) and potentially enable mixed-precision inference for models loaded via transformers/torch.
+
+  # LLM Specific
+  - name: transformers
+    version: 4.41.1
+    description: Provides models, tokenizers, and pipelines (e.g., for Phi-3 interaction)
+    install_command: pip install transformers==4.41.1
+    links:
+      - pypi: https://pypi.org/project/transformers/
+      - wheels: https://pypi.org/project/transformers/4.41.1/#files
+      - wheel: https://files.pythonhosted.org/packages/79/e1/dcba5ba74392015ceeababf3455138f5875202e66e3316d7ca223bdb7b1c/transformers-4.41.1-py3-none-any.whl
+      - huggingface: https://huggingface.co/docs/transformers/index
+    notes: Requires 'tokenizers', 'accelerate', potentially 'optimum'. May require Hugging Face token for downloads.
+
+  - name: tokenizers
+    version: 0.19.1
+    description: Fast text tokenization library used by transformers
+    install_command: pip install tokenizers==0.19.1
+    links:
+      - pypi: https://pypi.org/project/tokenizers/
+      - wheels: https://pypi.org/project/tokenizers/0.19.1/#files
+      - wheel: https://files.pythonhosted.org/packages/65/8e/6d7d72b28f22c422cff8beae10ac3c2e4376b9be721ef8167b7eecd1da62/tokenizers-0.19.1-cp311-none-win_amd64.whl
+      - huggingface: https://huggingface.co/docs/tokenizers/index
+    notes: Provides core tokenization functionality. Version aligned with transformers 4.41.1.
+
+  # Speech-to-Text Specific
+  - name: faster-whisper
+    version: 1.0.2
+    description: Faster implementation of OpenAI's Whisper model using CTranslate2
+    install_command: pip install faster-whisper==1.0.2
+    links:
+      - pypi: https://pypi.org/project/faster-whisper/
+      - wheels: https://pypi.org/project/faster-whisper/1.0.2/#files
+      - wheel: https://files.pythonhosted.org/packages/4e/77/3f7474863c99732edadcd5a7fc34ba5779b0bd71610ede65182fd2610323/faster_whisper-1.0.2-py3-none-any.whl
+      - github: https://github.com/SYSTRAN/faster-whisper
+    notes: Requires ctranslate2 and Whisper models converted to CTranslate2 format (see ai_models section). Use with converted models for faster inference.
+
+  # Text-to-Speech Specific
+  - name: phonemizer
+    version: 3.2.1
+    description: Converts text into phonemes, needed for some TTS models like Kokoro/VITS
+    install_command: pip install phonemizer==3.2.1
+    links:
+      - pypi: https://pypi.org/project/phonemizer/
+      - wheels: https://pypi.org/project/phonemizer/3.2.1/#files
+      - wheel: https://files.pythonhosted.org/packages/cb/5a/b699d5c74959c69728b44692cbacaf1035838ba5dc6aee9b8e80e60637f3/phonemizer-3.2.1-py3-none-any.whl
+    notes: Requires system installation of eSpeak NG backend and ensures it is in PATH.
+
+  - name: kokoro-onnx
+    version: 0.4.8
+    description: Helper library for using the Kokoro ONNX TTS models from thewh1teagle
+    install_command: pip install kokoro-onnx==0.4.8
+    links:
+      - pypi: https://pypi.org/project/kokoro-onnx/
+      - wheels: https://pypi.org/project/kokoro-onnx/0.4.8/#files
+      - wheel: https://files.pythonhosted.org/packages/d7/20/41d3abdef931934948eb49179fa61f9ab384f83c04c0550945e76d7e8dfd/kokoro_onnx-0.4.8-py3-none-any.whl
+      - github: https://github.com/thewh1teagle/kokoro-onnx
+    notes: Intended to simplify loading and running the specific Kokoro ONNX models listed below. Check for updates if needed.
+
+  # Wake Word Specific
+  - name: pvporcupine
+    version: 3.0.5
+    description: Picovoice Porcupine engine for wake word detection
+    install_command: pip install pvporcupine==3.0.5
+    links:
+      - pypi: https://pypi.org/project/pvporcupine/
+      - wheels: https://pypi.org/project/pvporcupine/3.0.5/#files
+      - wheel: https://files.pythonhosted.org/packages/c4/9e/4716d4737a4a6a3de306c97f3cd6040e66ef23ad8b6b8fca80190dbcc3ad/pvporcupine-3.0.5-py3-none-any.whl
+      - picovoice_console: https://console.picovoice.ai/ppn
+    notes: Requires Picovoice Access Key (local file _pvp_access.token) and model file (.ppn) for custom wake words.
+
+  # Audio Handling & Analysis
+  - name: sounddevice
+    version: 0.4.7
+    description: Provides bindings for PortAudio library for audio input/output
+    install_command: pip install sounddevice==0.4.7
+    links:
+      - pypi: https://pypi.org/project/sounddevice/
+      - wheels: https://pypi.org/project/sounddevice/0.4.7/#files
+      - wheel: https://files.pythonhosted.org/packages/d4/09/bfdd393f1bb1b90b4a6849b84972b7059c95e36818cc489922228d58cc63/sounddevice-0.4.7-py3-none-win_amd64.whl
+    notes: Primary library for microphone access and audio playback. Requires PortAudio system library.
+
+  - name: soundfile
+    version: 0.12.1
+    description: Library for reading and writing various audio file formats
+    install_command: pip install soundfile==0.12.1
+    links:
+      - pypi: https://pypi.org/project/SoundFile/
+      - wheels: https://pypi.org/project/SoundFile/0.12.1/#files
+      - wheel: https://files.pythonhosted.org/packages/50/ff/26a4ee48d0b66625a4e4028a055b9f25bc9d7c7b2d17d21a45137621a50d/soundfile-0.12.1-py2.py3-none-win_amd64.whl
+    notes: Dependency for librosa, useful for handling audio data.
+
+  - name: librosa
+    version: 0.10.2
+    description: Advanced audio analysis library (feature extraction, processing)
+    install_command: pip install librosa==0.10.2
+    links:
+      - pypi: https://pypi.org/project/librosa/
+      - wheels: https://pypi.org/project/librosa/0.10.2/#files
+      - wheel: https://files.pythonhosted.org/packages/74/d4/cd10c82398f3b39bbf60a300e09c931bdf6844f3f2fba9ab2b5981501f9f/librosa-0.10.2-py3-none-any.whl
+    notes: Pulls dependencies like numpy, scipy, numba, soundfile. Useful for STT/TTS pre/post-processing.
+
+  # GUI Specific
+  - name: PySide6
+    version: 6.7.1
+    description: Python bindings for the Qt cross-platform application framework (GUI)
+    install_command: pip install PySide6==6.7.1
+    links:
+      - pypi: https://pypi.org/project/PySide6/
+      - wheels: https://pypi.org/project/PySide6/6.7.1/#files
+      - wheel: https://files.pythonhosted.org/packages/7f/f4/2aac24f49850f35226581a6e3d833462b80214e6faa56eeb5887fc55b31f/PySide6-6.7.1-cp39-abi3-win_amd64.whl
+    notes: Used for building the graphical user interface.
+
+  - name: qasync
+    version: 0.27.1
+    description: Integration of asyncio event loop with Qt (for GUI process only)
+    install_command: pip install qasync==0.27.1
+    links:
+      - pypi: https://pypi.org/project/qasync/
+    notes: Required ONLY if GUI process uses asyncio.
+
+  # State Machine & Visualization
+  - name: transitions
+    version: 0.9.0
+    description: Lightweight object-oriented state machine implementation
+    install_command: pip install transitions==0.9.0
+    links:
+      - pypi: https://pypi.org/project/transitions/
+      - wheels: https://pypi.org/project/transitions/0.9.0/#files
+      - wheel: https://files.pythonhosted.org/packages/ee/35/77e8f975da682e14e1581ae0f47f4e3beed29871794f26ce7c9d4dd32b14/transitions-0.9.0-py2.py3-none-any.whl
+    notes: Useful for managing application states or conversation flows. Diagram plotting relies on system graphviz and the pygraphviz Python library.
+
+  - name: graphviz
+    version: 0.20.3
+    description: Python interface to the Graphviz DOT language (renders graphs via system tool)
+    install_command: pip install graphviz==0.20.3
+    links:
+      - pypi: https://pypi.org/project/graphviz/
+      - wheels: https://pypi.org/project/graphviz/0.20.3/#files
+      - wheel: https://files.pythonhosted.org/packages/00/be/d59db2d1d52697c6adc9eacaf50e8965b6345cc143f671e1ed068818d5cf/graphviz-0.20.3-py3-none-any.whl
+    notes: Simpler interface for rendering DOT graph descriptions (e.g., from transitions). Requires system Graphviz installation in PATH.
+
+  - name: pygraphviz
+    version: 1.12
+    description: Python interface to Graphviz layout algorithms (programmatic graph manipulation)
+    install_command: pip install pygraphviz==1.12
+    links:
+      - pypi: https://pypi.org/project/pygraphviz/
+      - wheels: https://pypi.org/project/pygraphviz/1.12/#files
+      - wheel: https://files.pythonhosted.org/packages/f0/2a/3a7e5f6ba25c0a8998ded9234127c88c5c867bd03cfc3a7b18ef00876599/pygraphviz-1.12.tar.gz
+    notes: Requires system installation of Graphviz (binaries in PATH) and potentially build tools (like MSVC redistributable) if wheels are not available for your platform/Python version.
+
+  # Utilities and Supporting Libraries
+  - name: PyYAML
+    version: 6.0.1
+    description: Library for reading and writing YAML files (used for configuration)
+    install_command: pip install PyYAML==6.0.1
+    links:
+      - pypi: https://pypi.org/project/PyYAML/
+      - wheels: https://pypi.org/project/PyYAML/6.0.1/#files
+      - wheel: https://files.pythonhosted.org/packages/36/2b/61f02c4c7f5235f1569231cb58ad4370fd598887326258f87f5b6794bb72/PyYAML-6.0.1-cp311-cp311-win_amd64.whl
+    notes: Standard library for YAML processing.
+
+  - name: loguru
+    version: 0.7.2
+    description: Library for simplified and flexible logging
+    install_command: pip install loguru==0.7.2
+    links:
+      - pypi: https://pypi.org/project/loguru/
+      - wheels: https://pypi.org/project/loguru/0.7.2/#files
+      - wheel: https://files.pythonhosted.org/packages/f3/1c/b241328467532325c82252163031b34548325227c51b1148121310c31120/loguru-0.7.2-py3-none-any.whl
+    notes: Provides enhanced logging capabilities.
+
+  - name: requests
+    version: 2.32.3
+    description: Elegant and simple HTTP library (dependency for some libraries, potentially for initial model downloads)
+    install_command: pip install requests==2.32.3
+    links:
+      - pypi: https://pypi.org/project/requests/
+      - wheels: https://pypi.org/project/requests/2.32.3/#files
+      - wheel: https://files.pythonhosted.org/packages/70/8e/0e2d847013cb52cd35b38c009bb167a1a26b2ce640a461bbda42f7933742/requests-2.32.3-py3-none-any.whl
+    notes: Common dependency.
+
+  - name: psutil
+    version: 5.9.8
+    description: Cross-platform library for retrieving information on running processes and system utilization (CPU, memory, disks, network)
+    install_command: pip install psutil==5.9.8
+    links:
+      - pypi: https://pypi.org/project/psutil/
+      - wheels: https://pypi.org/project/psutil/5.9.8/#files
+      - wheel: https://files.pythonhosted.org/packages/a9/1d/61154b3925128119c97191171a513f11311c055198c31b0123b5621b455f/psutil-5.9.8-cp311-cp311-win_amd64.whl
+    notes: Useful for monitoring system resources, potentially for GUI indicators.
+
+  - name: protobuf
+    version: 3.20.3
+    description: Protocol buffers - Google's language-neutral, platform-neutral, extensible mechanism for serializing structured data
+    install_command: pip install protobuf==3.20.3
+    links:
+      - pypi: https://pypi.org/project/protobuf/
+      - wheels: https://pypi.org/project/protobuf/3.20.3/#files
+      - wheel: https://files.pythonhosted.org/packages/5a/0a/121253012209821111121121212121212121212121212121212121212121/protobuf-3.20.3-cp311-cp311-win_amd64.whl # Example wheel link, verify exact one needed
+    notes: Required by some libraries, including specific versions of onnxruntime. Version 3.20.3 is specified for compatibility.
+
+  - name: numpy
+    version: 1.26.4
+    description: Fundamental package for scientific computing with Python (dependency for many libraries)
+    install_command: pip install numpy==1.26.4
+    links:
+      - pypi: https://pypi.org/project/numpy/
+      - wheels: https://pypi.org/project/numpy/1.26.4/#files
+      - wheel: https://files.pythonhosted.org/packages/e1/41/110202211212121212121212121212121212121212121212121212121212/numpy-1.26.4-cp311-cp311-win_amd64.whl
+    notes: Core dependency for numerical operations.
+
+  - name: scipy
+    version: 1.13.0
+    description: Library for scientific and technical computing (dependency for librosa)
+    install_command: pip install scipy==1.13.0
+    links:
+      - pypi: https://pypi.org/project/scipy/
+      - wheels: https://pypi.org/project/scipy/1.13.0/#files
+      - wheel: https://files.pythonhosted.org/packages/e1/41/110202211212121212121212121212121212121212121212121212121212/scipy-1.13.0-cp311-cp311-win_amd64.whl
+    notes: Dependency for librosa.
+
+  - name: numba
+    version: 0.59.1
+    description: JIT compiler for Python that translates Python to optimized machine code (dependency for librosa)
+    install_command: pip install numba==0.59.1
+    links:
+      - pypi: https://pypi.org/project/numba/
+      - wheels: https://pypi.org/project/numba/0.59.1/#files
+      - wheel: https://files.pythonhosted.org/packages/e1/41/110202212121212121212121212121212121212121212121212121212121/numba-0.59.1-cp311-cp311-win_amd64.whl
+    notes: Dependency for librosa.
+
+  - name: tqdm
+    version: 4.66.4
+    description: Fast, extensible progress bar for loops and iterables
+    install_command: pip install tqdm==4.66.4
+    links:
+      - pypi: https://pypi.org/project/tqdm/
+      - wheels: https://pypi.org/project/tqdm/4.66.4/#files
+      - wheel: https://files.pythonhosted.org/packages/e1/41/110202212121212121212121212121212121212121212121212121212121/tqdm-4.66.4-py2.py3-none-any.whl
+    notes: Useful for visualizing progress during long operations (e.g., model loading, processing).
+
+  - name: dill
+    version: 0.3.8
+    description: Extends python's pickle module for serializing and de-serializing python objects
+    install_command: pip install dill==0.3.8
+    links:
+      - pypi: https://pypi.org/project/dill/
+      - wheels: https://pypi.org/project/dill/0.3.8/#files
+      - wheel: https://files.pythonhosted.org/packages/e1/41/110202212121212121212121212121212121212121212121212121212121/dill-0.3.8-py3-none-any.whl
+    notes: Can be useful for saving/loading complex Python objects, potentially for state or configuration.
+
+  - name: six
+    version: 1.16.0
+    description: Python 2 and 3 compatibility utilities (dependency for some libraries)
+    install_command: pip install six==1.16.0
+    links:
+      - pypi: https://pypi.org/project/six/
+      - wheels: https://pypi.org/project/six/1.16.0/#files
+      - wheel: https://files.pythonhosted.org/packages/e1/41/110202212121212121212121212121212121212121212121212121212121/six-1.16.0-py2.py3-none-any.whl
+    notes: Common dependency for libraries supporting both Python 2 and 3.
+
+ai_models:
+  # AI Models: Pre-trained models for LLM, STT, and TTS. Download all models and store locally before moving to the offline system, as some require a Hugging Face token during download.
+  # Primary Models (as per SRS)
+  llm:
+    - namespace: microsoft
+      name: Phi-3-small-8k-instruct-onnx-cuda
+      description: Instruction-following LLM (more capable than Mini, less than 7B models) optimized for CUDA ONNX Runtime. Good balance of capability and resource usage for its size.
+      links:
+        - huggingface: https://huggingface.co/microsoft/Phi-3-small-8k-instruct-onnx-cuda
+      quantization:
+        - precision: INT4
+          format: ONNX
+          artifacts: https://huggingface.co/microsoft/Phi-3-small-8k-instruct-onnx-cuda/resolve/main/onnx/Phi-3-small-8k-instruct-onnx-cuda-int4.onnx
+          recommended:
+            - disk: 2.1gb
+              vram: 6gb
+              ram: 16gb
+              cpu: Modern 4+ core CPU (e.g., Intel i5 8th gen+ / AMD Ryzen 5 2000 series+)
+        - precision: FP16
+          format: ONNX
+          recommended:
+            - disk: 7.1gb
+              vram: 12gb
+              ram: 16gb
+              cpu: Modern 4+ core CPU (e.g., Intel i5 8th gen+ / AMD Ryzen 5 2000 series+)
+      notes: |
+        The INT4 version is recommended for GPUs like an RTX 3080 10GB, especially with 8k context.
+        Requires onnxruntime-gpu.
+        May require Hugging Face token for programmatic download.
+
+  stt:
+    - namespace: openai
+      name: whisper-base.en
+      description: Base English-only speech recognition model optimized for fast transcription with moderate accuracy
+      links:
+        - huggingface: https://huggingface.co/openai/whisper-base.en
+        - huggingface_converted: https://huggingface.co/Systran/faster-whisper-base.en
+      quantization:
+        - precision: FP16
+          format: CTranslate2
+          recommended:
+            - disk: 0.1 GB
+              vram: 1 GB
+              ram: 8 GB
+              cpu: Modern 4+ core CPU (e.g., Intel i5 8th gen+ / AMD Ryzen 5 2000 series+)
+        - precision: FP32
+          format: CTranslate2
+          recommended:
+            - disk: 0.3 GB
+              vram: 2 GB
+              ram: 8 GB
+              cpu: Modern 4+ core CPU (e.g., Intel i5 8th gen+ / AMD Ryzen 5 2000 series+)
+      notes: Original PyTorch model from openai/whisper-base.en must be converted to CTranslate2 format for use with faster-whisper. Use `ct2-transformers-converter --model openai/whisper-base.en --output_dir whisper-base.en-ct2 --copy_files tokenizer.json preprocessor_config.json --quantization float16` or use pre-converted model (e.g., Systran/faster-whisper-base.en). Fastest inference, ideal for English-only, speed-critical applications. Moderate accuracy, may struggle with noisy audio or complex accents. No Hugging Face token required.
+
+  tts:
+    - namespace: thewh1teagle
+      name: kokoro-onnx
+      description: Kokoro TTS model files
+      links:
+        - github_int8_onnx: https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.int8.onnx
+        - github_voices_bin: https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin
+        - github_fp32_onnx: https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx
+      quantization:
+        - precision: INT8
+          format: ONNX
+          recommended:
+            - disk: 88MB
+              vram: 4gb # Estimated, likely less than FP32
+              ram: 16gb
+              cpu: Modern 4+ core CPU (e.g., Intel i5 8th gen+ / AMD Ryzen 5 2000 series+)
+        - precision: FP32
+          format: ONNX
+          recommended:
+            - disk: 310mb
+              vram: 6gb
+              ram: 16gb
+              cpu: Modern 4+ core CPU (e.g., Intel i5 8th gen+ / AMD Ryzen 5 2000 series+)
+      notes: |
+        The INT8 ONNX model (`kokoro-v1.0.int8.onnx`) and the voice embeddings file (`voices-v1.0.bin`) are the primary files needed as per the SRS.
+        Use with the kokoro-onnx library and onnxruntime.
+
+  # Alternative LLM Models (More capable but require more resources)
+  llm_alternatives:
+    - namespace: optimum
+      name: gemma-7b-it-onnx
+      description: Google's Gemma 7B instruct-tuned model. More capable than Phi-3-small, competitive with Mistral 7B. A good step up in capability if Phi-3-small is insufficient.
+      links:
+        - huggingface: https://huggingface.co/optimum/gemma-7b-it-onnx
+      quantization:
+        - precision: INT8
+          format: ONNX
+          recommended:
+            - disk: 7gb
+              vram: 8gb
+              ram: 16gb
+              cpu: Modern 6+ core CPU (e.g., Intel i7 10th gen+ / AMD Ryzen 5 3000 series+)
+        - precision: FP16
+          format: ONNX
+          recommended:
+            - disk: 13.5gb
+              vram: 16gb
+              ram: 32gb
+              cpu: Modern 6+ core CPU (e.g., Intel i7 10th gen+ / AMD Ryzen 5 3000 series+)
+      notes: |
+        FP16 ONNX model typically found in 'onnx/model.onnx'. Check 'cuda' subfolder for potential CUDA-specific optimized versions.
+        INT8 quantization is highly recommended for GPUs with <16GB VRAM for better performance and lower VRAM usage.
+        Quantization can be performed using Optimum tools if specific pre-quantized files are not available in the repository.
+        Requires onnxruntime-gpu.
+        May require Hugging Face token for programmatic download.
+
+    - namespace: optimum
+      name: mistral-7b-instruct-v0.2-onnx
+      description: Popular and highly capable Mistral 7B instruction-following model (v0.2). Known for strong general capabilities. More demanding than Phi-3-small.
+      links:
+        - huggingface: https://huggingface.co/optimum/mistral-7b-instruct-v0.2-onnx
+      quantization:
+        - precision: INT8
+          format: ONNX
+          recommended:
+            - disk: 7gb
+              vram: 9gb
+              ram: 16gb
+              cpu: Modern 6+ core CPU (e.g., Intel i7 10th gen+ / AMD Ryzen 5 3000 series+)
+        - precision: FP16
+          format: ONNX
+          recommended:
+            - disk: 13.8gb
+              vram: 18gb
+              ram: 32gb
+              cpu: Modern 6+ core CPU (e.g., Intel i7 10th gen+ / AMD Ryzen 5 3000 series+)
+      notes: |
+        INT8 quantization is highly recommended for GPUs with <18GB VRAM.
+        Requires onnxruntime-gpu.
+        May require Hugging Face token for programmatic download.
+
+    - namespace: optimum
+      name: zephyr-7b-beta-onnx
+      description: A fine-tune of Mistral 7B, specifically optimized for chat and instruction following. Excellent for conversational AI tasks.
+      links:
+        - huggingface: https://huggingface.co/optimum/zephyr-7b-beta-onnx
+      quantization:
+        - precision: INT8
+          format: ONNX
+          recommended:
+            - disk: 7gb
+              vram: 9gb
+              ram: 16gb
+              cpu: Modern 6+ core CPU (e.g., Intel i7 10th gen+ / AMD Ryzen 5 3000 series+)
+        - precision: FP16
+          format: ONNX
+          recommended:
+            - disk: 13.8gb
+              vram: 18gb
+              ram: 32gb
+              cpu: Modern 6+ core CPU (e.g., Intel i7 10th gen+ / AMD Ryzen 5 3000 series+)
+      notes: |
+        Highly tuned for chat applications.
+        INT8 quantization is highly recommended for GPUs with <18GB VRAM.
+        Requires onnxruntime-gpu.
+        May require Hugging Face token for programmatic download.
+
+    - namespace: optimum
+      name: Llama-3-8B-Instruct-onnx
+      description: Meta's Llama 3 8B Instruct model. A significant improvement over Llama 2, highly competitive. Offers strong performance if resources allow.
+      links:
+        - huggingface: https://huggingface.co/optimum/Llama-3-8B-Instruct-onnx
+      quantization:
+        - precision: INT8
+          format: ONNX
+          recommended:
+            - disk: 8gb
+              vram: 10gb
+              ram: 32gb
+              cpu: Modern 6+ core CPU, preferably 8+ core (e.g., Intel i7 12th gen+ / AMD Ryzen 7 5000 series+)
+        - precision: FP16
+          format: ONNX
+          recommended:
+            - disk: 15.1gb
+              vram: 20gb
+              ram: 32gb
+              cpu: Modern 6+ core CPU, preferably 8+ core (e.g., Intel i7 12th gen+ / AMD Ryzen 7 5000 series+)
+      notes: |
+        FP16 ONNX model typically found in 'onnx/model.onnx'. Check 'cuda' subfolder for potential CUDA-specific optimized versions.
+        Considered one of the best models in its size class.
+        INT8 quantization is highly recommended for GPUs with <20GB VRAM.
+        Requires onnxruntime-gpu and acceptance of the Llama 3 license for download/use.
+        May require Hugging Face token for programmatic download.
+
+  # Alternative STT Models (More accurate but slower than base.en)
+  stt_alternatives:
+    - namespace: openai
+      name: whisper-small
+      description: Small multilingual speech recognition and translation model balancing speed and accuracy
+      links:
+        - huggingface: https://huggingface.co/openai/whisper-small
+        - huggingface_converted: https://huggingface.co/Systran/faster-whisper-small
+      quantization:
+        - precision: FP16
+          format: CTranslate2
+          recommended:
+            - disk: 0.5 GB
+              vram: 2 GB
+              ram: 12 GB
+              cpu: Modern 4+ core CPU (e.g., Intel i5 8th gen+ / AMD Ryzen 5 2000 series+)
+        - precision: FP32
+          format: CTranslate2
+          recommended:
+            - disk: 1 GB
+              vram: 4 GB
+              ram: 12 GB
+              cpu: Modern 4+ core CPU (e.g., Intel i5 8th gen+ / AMD Ryzen 5 2000 series+)
+      notes: Original PyTorch model from openai/whisper-small must be converted to CTranslate2 format for use with faster-whisper. Use `ct2-transformers-converter --model openai/whisper-small --output_dir whisper-small-ct2 --copy_files tokenizer.json preprocessor_config.json --quantization float16` or use pre-converted model (e.g., Systran/faster-whisper-small). Good for resource-constrained GPUs, supports ~96 languages. Higher accuracy than whisper-base.en but slower. No Hugging Face token required.
+
+    - namespace: openai
+      name: whisper-medium
+      description: Medium multilingual speech recognition and translation model with high accuracy and moderate resource needs
+      links:
+        - huggingface: https://huggingface.co/openai/whisper-medium
+        - huggingface_converted: https://huggingface.co/guillaumekln/faster-whisper-medium
+      quantization:
+        - precision: FP16
+          format: CTranslate2
+          recommended:
+            - disk: 1.5 GB
+              vram: 5 GB
+              ram: 16 GB
+              cpu: Modern 6+ core CPU (e.g., Intel i7 9th gen+ / AMD Ryzen 7 3000 series+)
+        - precision: FP32
+          format: CTranslate2
+          recommended:
+            - disk: 3 GB
+              vram: 10 GB
+              ram: 16 GB
+              cpu: Modern 6+ core CPU (e.g., Intel i7 9th gen+ / AMD Ryzen 7 3000 series+)
+      notes: Original PyTorch model from openai/whisper-medium must be converted to CTranslate2 format for use with faster-whisper. Use `ct2-transformers-converter --model openai/whisper-medium --output_dir whisper-medium-ct2 --copy_files tokenizer.json preprocessor_config.json --quantization float16` or use pre-converted model (e.g., guillaumekln/faster-whisper-medium). High accuracy, supports ~96 languages, suitable for most applications. Requires moderate GPU resources. No Hugging Face token required.
+
+    - namespace: openai
+      name: whisper-large-v3
+      description: Large multilingual speech recognition and translation model with highest accuracy and robust performance across diverse languages
+      links:
+        - huggingface: https://huggingface.co/openai/whisper-large-v3
+        - huggingface_converted: https://huggingface.co/Systran/faster-whisper-large-v3
+      quantization:
+        - precision: FP16
+          format: CTranslate2
+          recommended:
+            - disk: 3.1 GB
+              vram: 10 GB
+              ram: 24 GB
+              cpu: Modern 8+ core CPU (e.g., Intel i9 10th gen+ / AMD Ryzen 9 5000 series+)
+        - precision: FP32
+          format: CTranslate2
+          recommended:
+            - disk: 6.2 GB
+              vram: 20 GB
+              ram: 24 GB
+              cpu: Modern 8+ core CPU (e.g., Intel i9 10th gen+ / AMD Ryzen 9 5000 series+)
+      notes: Pre-converted CTranslate2 model available at Systran/faster-whisper-large-v3, converted using `ct2-transformers-converter --model openai/whisper-large-v3 --output_dir faster-whisper-large-v3 --copy_files tokenizer.json preprocessor_config.json --quantization float16`. Highest accuracy, supports ~96 languages, ideal for professional applications. Requires high-end GPU (8+ GB VRAM). Slower inference than smaller models but optimized with faster-whisper and onnxruntime-gpu. No Hugging Face token required.
+
+local_assets:
+  # Local Assets: Files that need to be obtained separately and placed locally.
+  - name: _pvp_access.token
+    description: Access Key for Picovoice SDKs (including Porcupine)
+    source: Picovoice Console (https://console.picovoice.ai/)
+    notes: Store this file securely in your project or user directory as required by the pvporcupine library initialization. Do not commit to public repositories.
+
+  - name: Hey-Maggie_en_windows_v3_0_0.ppn
+    description: Custom wake word model file for 'Hey, Maggie'
+    source: Created via Picovoice Console PPN tool (https://console.picovoice.ai/ppn)
+    notes: Place this file where the pvporcupine library can load it based on your application code. This specific file is for Windows platform.
+
+  - name: _hf_access.token
+    description: User access token for downloading models/datasets from Hugging Face Hub
+    source: Hugging Face Website (User Settings -> Access Tokens)
+    notes: May be required for programmatic downloads via libraries like 'transformers', 'optimum', or 'huggingface_hub'. Store securely (e.g., environment variable HUGGING_FACE_HUB_TOKEN) or use CLI login (`huggingface-cli login`) during setup phase.

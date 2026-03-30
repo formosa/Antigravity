@@ -16,7 +16,7 @@ description: Creates, seeds, validates, and updates the DDR App Framework brains
 1. Resolve inputs before editing:
    - Optional: `BRAINSTORM_PATH` (default `brainstorm.md`)
    - Optional: `MODE` (`auto` by default)
-   - Optional: `SOURCE_REFERENCE_PATH` (default `.agent/assets/proposals/active/v6.3/DDR_AppFramework_Brainstorm.docx`)
+   - Optional: `SOURCE_REFERENCE_PATH` (default `.agent/skills/codex-brainstorm/resources/DDR_AppFramework_Brainstorm.docx`)
    - Required for updates: the user-provided idea content or library candidate details
    - Optional for updates: target section, category, status, and priority hints
 2. Run pre-flight checks:
@@ -41,7 +41,7 @@ description: Creates, seeds, validates, and updates the DDR App Framework brains
 Examples:
 
 - Initialize:
-  - `python .agent/skills/codex-brainstorm/scripts/init_brainstorm.py brainstorm.md --source-reference .agent/assets/proposals/active/v6.3/DDR_AppFramework_Brainstorm.docx`
+  - `python .agent/skills/codex-brainstorm/scripts/init_brainstorm.py brainstorm.md --source-reference .agent/skills/codex-brainstorm/resources/DDR_AppFramework_Brainstorm.docx`
 - Validate:
   - `python .agent/skills/codex-brainstorm/scripts/validate_brainstorm.py brainstorm.md`
 </how_to_use>
@@ -63,5 +63,5 @@ Examples:
 - `.agent/schemas/brainstorm/seed.md`
 - `.agent/skills/codex-brainstorm/scripts/init_brainstorm.py`
 - `.agent/skills/codex-brainstorm/scripts/validate_brainstorm.py`
-- `.agent/assets/proposals/active/v6.3/DDR_AppFramework_Brainstorm.docx`
+- `.agent/skills/codex-brainstorm/resources/DDR_AppFramework_Brainstorm.docx`
 </resources_reference>

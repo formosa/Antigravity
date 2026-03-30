@@ -46,6 +46,15 @@ This manual is a source-derived reference for DDR System v6.3. All normative DDR
 
 Interpretive guidance in this manual is limited to explanation and organization. If this manual and the YAML authority ever diverge, the YAML pair controls: the system definition governs semantic content, and the schema governs the allowed validation surface.
 
+**Audit Focus For This Edition**
+
+- `document_profile` branching, `project.mode` coupling, and canonical `active_tiers` closure
+- lifecycle authority, typed transitions, `prior_status`, and `SUPERSEDE_PENDING` rollback semantics
+- canonical operation namespace, `DIRTY` propagation rules, and reconciliation-manifest item structure
+- deterministic Express Mode authoring, scan diagnostics, and atomic `UNBUNDLE_EXECUTE`
+- extension boundary integrity, ARE activation states, checkpointing, and scoring-profile conformance
+- schema conditionals, closed enums, rule-ID typing, and extension-annotation key constraints
+
 **Visual Semantics**
 
 | Category | Semantic badges | Meaning |
@@ -64,7 +73,7 @@ Interpretive guidance in this manual is limited to explanation and organization.
 - Part II - Core Model and Tiers: Sections 3-4 cover the typed DAG model, canonical topology, node contract, and tier-by-tier rule surfaces.
 - Part III - Operations, Modes, and Reconciliation: Sections 5-7 cover lifecycle, operations, Express Mode, precedence, reconciliation, and CLEAN-state logic.
 - Part IV - Extensions and Validation Surface: Sections 8-9 cover the extension system, ARE, and the schema-side machine contract.
-- Part V - Appendices and Crosswalk: Section 10 provides glossary, history, migration, authoritative counts, and source crosswalk material.
+- Part V - Appendices, Quick Reference, and Study Companion: Section 10 provides glossary, history, migration, authoritative counts, source crosswalk material, practitioner quick references, and study aids.
 
 ## Table of Contents
 
@@ -77,7 +86,15 @@ Interpretive guidance in this manual is limited to explanation and organization.
 7. [Constraint Precedence, Reconciliation, and CLEAN State](#7-constraint-precedence-reconciliation-and-clean-state)
 8. [Extension System and ARE](#8-extension-system-and-are)
 9. [Schema Contract and Machine Validation Surface](#9-schema-contract-and-machine-validation-surface)
+   - [9.8 Schema Conditionals, Enums, and Rule-ID Typing](#98-schema-conditionals-enums-and-rule-id-typing)
 10. [Appendices](#10-appendices)
+   - [10.6 Lifecycle and Operation Quick Reference](#106-lifecycle-and-operation-quick-reference)
+   - [10.7 Express Mode Authoring and Unbundling Reference](#107-express-mode-authoring-and-unbundling-reference)
+   - [10.8 ARE and Extension Reference](#108-are-and-extension-reference)
+   - [10.9 Section Summaries](#109-section-summaries)
+   - [10.10 Pro Tips](#1010-pro-tips)
+   - [10.11 Q&A](#1011-qa)
+   - [10.12 Quiz](#1012-quiz)
 
 ## 1. Source Basis, Scope, and How to Use This Manual
 
@@ -182,7 +199,19 @@ This section covers the current authoritative metadata, the governing design phi
 
 ### 2.1 System metadata
 
-The authoritative specification declares itself the exclusive normative source of truth for DDR v6.3. It explicitly states that prior versions are superseded and that no conversation record, partial specification, or derivative document carries normative weight.
+| Surface | Value |
+| --- | --- |
+| `project.name` | `DDR System v6.3 - Authoritative Specification` |
+| `project.created` | `2026-02-26` |
+| `project.mode` | `full` |
+| `system_metadata.status` | `Finalized` |
+| `system_metadata.date` | `2026-03-28` |
+| `system_metadata.scope` | Systems-, language-, and domain-agnostic |
+| `system_metadata.authority` | `DDR Architecture Board` |
+| `system_metadata.lineage` | Supersedes DDR v6.2 |
+| `system_metadata.single_source_of_truth` | This document is the exclusive normative specification for DDR v6.3; prior versions, conversation records, partial specifications, and derivative documents carry no normative weight. |
+
+The authoritative specification does more than identify itself as current. It explicitly closes the authority chain: the YAML system-definition artifact is the normative source of truth, and derivative documents such as this manual are explanatory aids only.
 
 ### 2.2 Design philosophy
 
@@ -254,6 +283,21 @@ The schema defines three top-level document profiles:
 | `project_instance` | Lean full-mode project artifact | Rooted in `ddr_version`, `document_profile`, `active_tiers`, and `nodes`; must not require `system_metadata` |
 | `project_instance_express` | Express-mode project artifact | Same lean root plus express obligations; requires `express_mode`, and each node must carry `express_mode_group` |
 | `system_definition` | Authoritative DDR specification artifact | Requires the full normative top-level surface, including metadata, axioms, edge definitions, tier definitions, operations, extension system, compliance, glossary, ARE profiles, and lifecycle |
+
+Additional machine-enforced coupling rules that matter during authoring:
+
+- If `project.mode = express`, the schema forces `document_profile = project_instance_express`.
+- If `document_profile = project_instance_express` and `project.mode` is present, `project.mode` must equal `express`.
+- If `document_profile = project_instance_express`, every node must carry `express_mode_group`.
+- If `active_tiers` contains `XPD`, `SIL` is no longer schema-legal as a root node and must carry at least one `parent_ids` entry.
+
+Authoring examples:
+
+| Intent | Minimal valid profile posture |
+| --- | --- |
+| Lean full-mode project file | `document_profile: project_instance` plus canonical `active_tiers` and `nodes` |
+| Lean express-mode project file | `document_profile: project_instance_express`, top-level `express_mode`, node-level `express_mode_group`, and `project.mode: express` if `project` is present |
+| Authoritative DDR spec artifact | `document_profile: system_definition` plus the full normative surface required by the schema |
 
 **Figure 3.1. `document_profile` branching and required-surface split**
 
@@ -525,6 +569,39 @@ flowchart TD
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Core parent citations are closed to three edge types, while `extends` is isolated into extension annotations so that analytical overlays cannot masquerade as Core lineage.
 
 <span class="ddr-label ddr-surface-schema"><strong>Authority basis</strong></span> `edge_type_definitions`, `citation_rules`, `$defs.ParentCitation`, and Sections `3.7-3.8`.
+
+Worked citation examples:
+
+```yaml
+# Semantic derivation: the child's design content is derived from the parent's requirements.
+parent_ids:
+  - id: GPCL-2.1
+    edge_type: derives
+    derivation_mode: semantic
+
+# Traceability citation: the parent is cited as lineage authority rather than as source semantics.
+parent_ids:
+  - id: SIL-1.1
+    edge_type: derives
+    derivation_mode: traceability
+
+# Constraint injection into SAL.
+parent_ids:
+  - id: CL-4.1
+    edge_type: constrains
+
+# Implementation realization.
+parent_ids:
+  - id: ICL-6.1
+    edge_type: implements
+```
+
+Common failure cases the YAML pair rejects or treats as non-conformant:
+
+- `derivation_mode` attached to `constrains` or `implements`
+- `extends` authored inside `parent_ids`
+- inline `[TIER-N.M]` citations that do not have a matching `parent_ids` entry
+- children left `ACTIVE` after cited-parent content changes without re-validation under `CIT-R7`
 
 ### 3.9 DAG invariants
 
@@ -885,27 +962,44 @@ This section covers the operational state machine of DDR v6.3, including statuse
 **Figure 5.1. Lifecycle state machine and rollback authority**
 
 ```mermaid
-stateDiagram-v2
-    [*] --> DRAFT
-    DRAFT --> ACTIVE: VALIDATE (gc-001, gc-005)
-    ACTIVE --> DIRTY: MODIFY
-    ACTIVE --> DEPRECATED: MODIFY (gc-002)
-    ACTIVE --> SUPERSEDE_PENDING: SUPERSEDE (gc-007)
-    DIRTY --> ACTIVE: VERIFY + VALIDATE (gc-001, gc-005, gc-006)
-    DIRTY --> DEPRECATED: MODIFY (gc-002)
-    DIRTY --> SUPERSEDE_PENDING: SUPERSEDE (gc-007)
-    DEPRECATED --> ACTIVE: MODIFY (gc-002, gc-003, gc-004)
-    DEPRECATED --> SUPERSEDE_PENDING: SUPERSEDE (gc-007)
-    SUPERSEDE_PENDING --> SUPERSEDED: SUPERSEDE commit (gc-008)
-    SUPERSEDE_PENDING --> ACTIVE: rollback if prior_status=ACTIVE
-    SUPERSEDE_PENDING --> DIRTY: rollback if prior_status=DIRTY
-    SUPERSEDE_PENDING --> DEPRECATED: rollback if prior_status=DEPRECATED
-    SUPERSEDED --> [*]
+flowchart TD
+    DRAFT["DRAFT"]
+    ACTIVE["ACTIVE"]
+    DIRTY["DIRTY"]
+    DEPRECATED["DEPRECATED"]
+    SSP["SUPERSEDE_PENDING<br/>prior_status captured"]
+    SUPERSEDED["SUPERSEDED"]
+    ROLLBACK{"Rollback target"}
+    PRIOR["Restore recorded prior_status"]
+
+    DRAFT -->|VALIDATE<br/>gc-001, gc-005| ACTIVE
+    ACTIVE -->|MODIFY| DIRTY
+    ACTIVE -->|MODIFY<br/>gc-002| DEPRECATED
+    ACTIVE -->|SUPERSEDE<br/>gc-007| SSP
+    DIRTY -->|VALIDATE after VERIFY<br/>gc-001, gc-005, gc-006| ACTIVE
+    DIRTY -->|MODIFY<br/>gc-002| DEPRECATED
+    DIRTY -->|SUPERSEDE<br/>gc-007| SSP
+    DEPRECATED -->|MODIFY<br/>gc-002, gc-003, gc-004| ACTIVE
+    DEPRECATED -->|SUPERSEDE<br/>gc-007| SSP
+    SSP -->|SUPERSEDE commit<br/>gc-008| SUPERSEDED
+    SSP -->|SUPERSEDE rollback<br/>gc-009| ROLLBACK --> PRIOR
+    PRIOR -. prior_status = ACTIVE .-> ACTIVE
+    PRIOR -. prior_status = DIRTY .-> DIRTY
+    PRIOR -. prior_status = DEPRECATED .-> DEPRECATED
+
+    classDef status fill:#dcfce7,stroke:#166534,color:#166534;
+    classDef transient fill:#fef3c7,stroke:#d97706,color:#92400e;
+    classDef rollback fill:#fee2e2,stroke:#dc2626,color:#991b1b;
+    class DRAFT,ACTIVE,DIRTY,DEPRECATED,SUPERSEDED status;
+    class SSP transient;
+    class ROLLBACK,PRIOR rollback;
 ```
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR v6.3 treats lifecycle changes as a closed machine in which `SUPERSEDE` is transactional and rollback is resolved only through the recorded `prior_status` branch.
 
 <span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `lifecycle.status_transitions`, `lifecycle.guard_definitions`, and Sections `5.1-5.2`.
+
+<span class="ddr-label ddr-surface-schema"><strong>Schema note</strong></span> The rollback row is modeled in the schema as `to_node_field: prior_status`, not as three separate transition rows. The diagram expands the restored target states for readability.
 
 ### 5.2 Status transitions
 
@@ -968,16 +1062,16 @@ flowchart TD
 
 ### 5.4 Canonical operations
 
-| Operation | Description | Validation trigger |
-| --- | --- | --- |
-| `INSERT` | Create a node with auto-assigned ID, parent citations, and tier-compliant content. Supports both forward and reverse direction. | Full atomic ruleset validation, parent existence, and cycle detection |
-| `DELETE` | Remove a node and cascade orphan detection to children. | Children become `DIRTY`; orphaned children must be resolved by re-attachment, cascade delete, or superseding replacement |
-| `MODIFY` | Update content and increment version. | Re-validate rule surface, re-check citations, and propagate `DIRTY` to descendants |
-| `SUPERSEDE` | Mark a node as replaced while keeping the old ID for audit. | Transactional entry into `SUPERSEDE_PENDING`, replacement insert, child rewiring, commit or rollback |
-| `VERIFY` | Traverse the DAG downward and validate citations, edges, references, orphans, contamination, and optional cross-node semantic consistency rules. | Returns `CLEAN` or `DIRTY` with itemized findings; may emit non-blocking `REVIEW_REQUIRED` items for semantic conflicts |
-| `VALIDATE` | Check one node against its tier's full atomic ruleset. | Structural rules pass or fail mechanically; semantic rules emit `REVIEW_REQUIRED` items that need human disposition before activation |
-| `UNBUNDLE_SCAN` | Read-only pre-flight scan of an Express Mode group. | Produces per-fragment diagnostics with confidence `high`, `ambiguous`, or `none` |
-| `UNBUNDLE_EXECUTE` | Atomic commit-phase expansion of an Express Mode group into constituent full-mode tiers. | Succeeds only when every fragment is confidently assignable or explicitly deferred |
+| Operation | Mutates DAG | Source-defined behavior | High-signal validation and output details |
+| --- | --- | --- | --- |
+| `INSERT` | Yes | Create a node with auto-assigned ID, `parent_ids`, and tier-compliant content. Supports both forward and reverse direction. | Full atomic ruleset validation, parent existence, and DAG cycle detection. |
+| `DELETE` | Yes | Remove a node and cascade orphan detection to children. | Former children become `DIRTY`; zero-parent cases must resolve through re-attachment, cascade delete, or replacement; manifest is updated. |
+| `MODIFY` | Yes | Update node content and increment version. | Re-validates the ruleset, re-checks citations, and propagates `DIRTY` to all descendants. |
+| `SUPERSEDE` | Yes | Replace a node transactionally while preserving the old ID for audit lineage. | Enters `SUPERSEDE_PENDING`, attempts replacement `INSERT`, re-wires child `parent_ids` on commit, sets immediate children `DIRTY`, or rolls back atomically with `SUPERSEDE_FAILED` logging. |
+| `VERIFY` | No | Traverse the DAG downward and validate citation chains, edge types, ID references, orphan conditions, contamination, and optional cross-node semantic consistency rules. | Returns `CLEAN` or `DIRTY` with itemized structural findings; may also emit non-blocking `REVIEW_REQUIRED` items for semantic consistency review. |
+| `VALIDATE` | No | Check one node against its tier's full atomic ruleset. | Structural rules return pass/fail with violated rule IDs. Semantic rules emit `REVIEW_REQUIRED` items plus a `validation_scope` declaration that records what was evaluated. |
+| `UNBUNDLE_SCAN` | No | Read-only pre-flight scan of an Express Mode group. | Produces one diagnostic object per fragment: `fragment_id`, `content_preview`, `detected_annotation`, `confidence`, and `ambiguity_reason` when confidence is not `high`. |
+| `UNBUNDLE_EXECUTE` | Yes | Atomic commit-phase expansion of an Express Mode group into constituent full-mode tiers. | Succeeds only when every fragment is confidently assignable or explicitly deferred. Rejection payload is the complete `UNBUNDLE_SCAN` result. |
 
 **Figure 5.3. Canonical operation families**
 
@@ -1006,6 +1100,23 @@ flowchart TB
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The operation namespace is intentionally closed: mutation, validation, and Express expansion each have named entry points rather than informal aliases or mixed phase tokens.
 
 <span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.core_operations` and the normalization changes summarized in Section `2.3`.
+
+Operational nuances that are easy to miss if you only read the names:
+
+- `INSERT` can run as validated insertion that yields an `ACTIVE` node synchronously, or as draft insertion via `validate=false` override that yields a `DRAFT` node.
+- `VALIDATE` is node-local and tier-local; `VERIFY` is graph-traversal-oriented and may consider optional cross-node semantic consistency rules.
+- `UNBUNDLE_SCAN` is independently invokable and is not just an internal pre-step of `UNBUNDLE_EXECUTE`.
+- `UNBUNDLE_EXECUTE` does not invent placement for unclear fragments. It either gets deterministic allocation or rejects atomically unless the fragment is explicitly deferred.
+
+Example `UNBUNDLE_SCAN` diagnostic payload:
+
+```yaml
+fragment_id: G2-F03
+content_preview: "[CL] Runtime must be Python 3.10+ and run in Linux containers."
+detected_annotation: CL
+confidence: high
+ambiguity_reason: null
+```
 
 ### 5.5 DIRTY triggers and classification
 
@@ -1054,6 +1165,15 @@ flowchart TD
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR distinguishes structural rewiring fallout from semantic drift so that not every topology change triggers blind full-depth propagation.
 
 <span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.dirty_flag_triggers`, `dirty_classification`, `supersede_dirty_behavior`, and Section `5.5`.
+
+Authoritative DIRTY notes that materially affect implementation behavior:
+
+- A `DRAFT` node created through draft insertion is structurally present in the DAG but excluded from CLEAN compliance checks until successfully validated.
+- While a node is in `SUPERSEDE_PENDING`, `VERIFY` treats that condition as a blocking manifest item rather than as ordinary `DIRTY` propagation.
+- `SUPERSEDE` commit marks immediate children `DIRTY` with classification `structural`; grandchildren do not auto-cascade from the rewiring alone.
+- `SUPERSEDE` rollback restores the source node to `prior_status` and produces no DIRTY side-effects.
+- If a rewired child is later modified during re-validation, ordinary `MODIFY` cascade rules apply from that child downward.
+- `DEPRECATED` nodes remain structurally traversable and are still part of `VERIFY` scope; they are not removed from the graph merely by deprecation.
 
 ### 5.6 Conflict resolution and resolution workflow
 
@@ -1225,6 +1345,27 @@ Deferred-fragment handling requires:
 - Retention of deferred fragments in the source Express Mode group node
 - Atomic rejection when ambiguous fragments are neither confidently classified nor explicitly deferred
 
+Worked `G2` example:
+
+| Fragment | Expected scan result | Reasoning |
+| --- | --- | --- |
+| `[FCL] User uploads an invoice PDF and sees validation errors inline.` | `high -> FCL` | User-observable behavior with explicit tier annotation |
+| `[CL] Runtime must be Python 3.10+ and run in Linux containers.` | `high -> CL` | Declared technology and environment bounds with explicit tier annotation |
+| `Uploads should be fast.` | `none` | No tier annotation and insufficient deterministic allocation surface |
+| `[DEFER] Retention wording pending legal review.` | deferred from current execute attempt | Explicit defer marker plus recorded rationale permits atomic progress on the rest |
+
+Example rejection posture:
+
+```yaml
+fragment_id: G2-F04
+content_preview: "Uploads should be fast."
+detected_annotation: null
+confidence: none
+ambiguity_reason: "No explicit [FCL] or [CL] marker was supplied."
+```
+
+If that fragment is not explicitly deferred, `UNBUNDLE_EXECUTE` must reject with the complete scan result and leave the source group node structurally unchanged.
+
 **Figure 6.4. Deferred-fragment and atomic-rejection workflow**
 
 ```mermaid
@@ -1376,6 +1517,33 @@ flowchart TD
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The reconciliation manifest is not a generic notes bucket; it has a closed track structure and a small set of typed pending-item records that directly affect CLEAN eligibility.
 
 <span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.reconciliation_manifest_tracks`, `operations.reconciliation_manifest_schema`, and Section `7.3`.
+
+Illustrative manifest snippets:
+
+```yaml
+pending_items:
+  - item_type: MISSING_MEDIATOR
+    gpcl_node_id: GPCL-2.7
+    message: "Latency target has no independent FCL behavioral mediator."
+    rationale: "User-visible interaction breakdown has not been authored yet."
+
+  - item_type: SUPERSEDE_FAILED
+    source_node_id: SAL-5.4
+    attempted_replacement_content_hash: "sha256:0d8c..."
+    failure_reason: "replacement_insert_validation_failed"
+    timestamp: "2026-03-28T14:22:31Z"
+
+  - item_type: SUPERSEDE_PENDING_DETECTED
+    node_id: CL-4.2
+    prior_status: ACTIVE
+    detected_at: "2026-03-28T14:24:00Z"
+```
+
+Interpret these three item families differently:
+
+- `MISSING_MEDIATOR` is the only allowed semantic-gap classification in v6.3.
+- `SUPERSEDE_FAILED` records an operational failure that must be diagnosed or retried.
+- `SUPERSEDE_PENDING_DETECTED` is a blocking cleanliness failure, not a waivable semantic gap.
 
 ### 7.4 Compliance checklist
 
@@ -1579,6 +1747,22 @@ Activation transitions:
 | `disabled` | `active` | yes | ARE starts fresh with an empty pool |
 | `disabled` | `paused` | no | Forbidden because no candidate pool exists in `disabled` state |
 
+Operational reading of the activation contract:
+
+- `pool_preserved_runtime` and `pool_preserved_restart` are first-class ARE state semantics, not informal implementation hints.
+- In `active`, restart preservation is explicitly `optional`; in `paused`, restart preservation is mandatory.
+- Entering `paused` creates a durability obligation: the checkpoint must be written atomically on entry and re-written after every mutating pool action while paused.
+- Transitioning to `disabled` deletes the checkpoint and discards the pool regardless of whether the prior state was `active` or `paused`.
+
+Paused-state practitioner sequence:
+
+1. ARE runs in `active` and accumulates candidates.
+2. Transition `active -> paused` halts inference and writes `.agent/state/are_candidate_pool.checkpoint.yaml`.
+3. Promotion by `INSERT` or manual discard remains allowed while paused.
+4. Every paused-state pool mutation re-persists the checkpoint.
+5. Process restart restores the checkpoint automatically and returns ARE to `paused`.
+6. Any transition to `disabled` deletes the checkpoint and discards the pool.
+
 ### 8.4 ARE scoring profiles
 
 Profile summary:
@@ -1626,6 +1810,31 @@ Custom-profile contract:
 | Required fields | `profile_id`, `input_signals`, signal subfields, `score_bands`, band subfields, `minimum_surfacing_threshold`, `override_policy` |
 | Template rule | Custom profiles may change field values and add signals or bands, but the object structure must remain conformant |
 | Validation note | Custom profiles fail extension contract validation when required fields are missing; deterministic ARE conformance validation also checks reference resolution, score-band ordering, and non-overlap |
+
+Important reading of `are_scoring_profiles`:
+
+- `standard_v1` and `conservative_v1` are concrete reusable profiles.
+- `custom` is not a ready-made runtime profile. It is the required-fields contract plus the template shape that any implementation-defined custom profile must satisfy.
+- Threshold gating controls whether low-confidence candidates are surfaced for review, not whether the model is allowed to infer candidates internally.
+
+Example promotion-readiness comparison:
+
+| Candidate score | `standard_v1` (`0.35`) | `conservative_v1` (`0.55`) | Review posture |
+| --- | --- | --- | --- |
+| `0.62` | Above threshold | Above threshold | Reviewable without override under both concrete profiles |
+| `0.40` | Above threshold | Below threshold | Reviewable under `standard_v1`; requires override under `conservative_v1` |
+| `0.30` | Below threshold | Below threshold | Requires `override_flag: true` plus non-empty `human_rationale` under both |
+
+Minimal E5 contract example:
+
+```yaml
+id: E5
+name: AI Upward Reconstruction Engine (ARE)
+contract: ARE-1.0 / DDR-Core-6.x
+scoring_profile: standard_v1
+reads: [ISL, CDL, ICL, SAL]
+annotates: [SAL, ICL, CDL, ISL]
+```
 
 **Figure 8.3. ARE candidate-pool and scoring lifecycle**
 
@@ -1824,6 +2033,17 @@ Profile-specific requirements:
 | `project_instance_express` | Requires `express_mode`; each node must require `express_mode_group`; must not require `system_metadata` |
 | `system_definition` | Requires `system_metadata`, `axioms`, `edge_type_definitions`, `node_schema_fields`, `node_id_format`, `dag_invariants`, `citation_rules`, `consumption_modes`, `express_mode`, `tier_definitions`, `constraint_precedence`, `operations`, `extension_system`, `extension_catalog`, `compliance_checklist`, `glossary`, `are_scoring_profiles`, and `lifecycle` |
 
+Top-level conditional branches enforced by the schema `allOf` surface:
+
+| Condition | Enforced consequence |
+| --- | --- |
+| `document_profile = project_instance` | `system_metadata` must not be required |
+| `document_profile = project_instance_express` | `express_mode` required; each node requires `express_mode_group`; `system_metadata` must not be required |
+| `document_profile = system_definition` | Full authoritative top-level surface required |
+| `active_tiers` contains `XPD` | Any `SIL` node must have at least one parent citation |
+| `project.mode = express` | `document_profile` is forced to `project_instance_express` |
+| `document_profile = project_instance_express` plus `project.mode` present | `project.mode` must equal `express` |
+
 **Figure 9.1. Profile root and schema-closure relationship**
 
 ```mermaid
@@ -1902,19 +2122,53 @@ The schema's `DdrNode` contract enforces:
 
 | Area | Machine rule |
 | --- | --- |
-| `ExtensionEntry` | Requires `id`, `name`, `contract`, `reads`, `annotates`, `rules`; additional properties are forbidden |
+| `ExtensionEntry` | Requires `id`, `name`, `contract`, `reads`, `annotates`, and `rules`; `notes` is optional; `additionalProperties: false` |
 | E5 special case | When `id = E5`, `scoring_profile` is required |
+| `AreActivationState` | Requires `inference`, `pool_visibility`, `pool_preserved_runtime`, `pool_preserved_restart`, `promotion_allowed`, and `discard_allowed`; `checkpoint_behavior` is optional |
+| `AreActivationTransition` | Requires `from` and `to`; if `permitted = false`, `rationale` is required and `effect` is forbidden; otherwise `effect` is required |
+| `AreActivationStates` | Requires `active`, `paused`, `disabled`, and `transitions` |
 | `ScoringProfile` | Requires `input_signals`, `score_bands`, `minimum_surfacing_threshold`, and `override_policy` |
 | Score bands | Each band must provide `band_id`, two-number `range`, `label`, and `promotion_guidance` |
+| Custom profile conformance | Custom profiles must satisfy `required_fields` and the `profile_template` shape; deterministic ARE validation additionally checks reference resolution, band ordering, and non-overlap |
 | Numeric bounds | All score values are constrained to `[0,1]` |
 
 ### 9.7 Lifecycle schema rules
 
 | Area | Machine rule |
 | --- | --- |
-| `lifecycle` | Object with `additionalProperties: false`; requires `status_transitions` |
-| `StatusTransition` | Always requires `from` and `operation`; requires `to` unless `phase = rollback`, in which case it requires `to_node_field = prior_status` |
+| `lifecycle` | Object with `additionalProperties: false`; requires `status_transitions`; `guard_definitions` is optional but typed when present |
+| `StatusTransition` core rule | Always requires `from` and `operation`; requires `to` unless `phase = rollback`, in which case it requires `to_node_field = prior_status` |
+| `phase` | Closed enum: `commit` or `rollback` |
+| `side_effect` | Closed enum: `propagation` |
+| `prerequisite_operations` | Optional unique array whose values must be canonical operation names |
+| `guards` | Optional array closed to `gc-001` through `gc-009` via `GuardIdRef` |
 | `GuardDefinition` | Requires `id`, `description`, and `verification_mode` |
+| Guard `verification_mode` | Closed enum: `structural` or `manual` |
+
+### 9.8 Schema Conditionals, Enums, and Rule-ID Typing
+
+Closed enum and reference surfaces worth keeping at hand:
+
+| Surface | Allowed values or shape |
+| --- | --- |
+| `StatusEnum` | `DRAFT`, `ACTIVE`, `DIRTY`, `DEPRECATED`, `SUPERSEDED`, `SUPERSEDE_PENDING` |
+| `OperationNameEnum` | `INSERT`, `DELETE`, `MODIFY`, `SUPERSEDE`, `VERIFY`, `VALIDATE`, `UNBUNDLE_SCAN`, `UNBUNDLE_EXECUTE` |
+| `TransitionPhase` | `commit`, `rollback` |
+| `TransitionSideEffect` | `propagation` |
+| `GuardIdRef` | `gc-001` through `gc-009` |
+| `ManifestItemType.item_type` | `MISSING_MEDIATOR`, `SUPERSEDE_FAILED`, `SUPERSEDE_PENDING_DETECTED` |
+| `SemanticGapClassification.allowed_types` | `MISSING_MEDIATOR` only |
+| `extension_annotations` key shape | `EXTENSION_ID::annotation_key`, with reserved Core suffixes such as `content`, `parent_ids`, `status`, `tier`, and `id` blocked |
+
+Rule-ID families are also typed rather than free-form:
+
+| Family | Schema pattern | Example |
+| --- | --- | --- |
+| `InvariantId` | `^INV-[0-9]+$` | `INV-7` |
+| `CitationRuleId` | `^CIT-R[0-9]+$` | `CIT-R6` |
+| `AtomicTierRuleId` | `^(?:XPD|SIL|GPCL|FCL|CL|SAL|ICL|CDL|ISL)-(?:R|E)[0-9]+(?:-[a-z]+)?$` | `CL-R9-imposed` |
+| `BridgeRuleId` | `^[A-Z]+-[A-Z]+-BR[0-9]+$` | `GPCL-FCL-BR1` |
+| `ExtensionRuleId` | `^[A-Z]{3,4}-R[0-9]+$` | `ARE-R7` |
 
 **Figure 9.2. Schema definition map for nodes, citations, extensions, and lifecycle**
 
@@ -1988,7 +2242,7 @@ See also: Section 3, Section 5, Section 6, Section 8.
 
 ## 10. Appendices
 
-This section collects supporting reference surfaces that remain necessary for auditability and maintenance: glossary, version history, legacy tier migration, authoritative counts, and the final source crosswalk back to the YAML authority pair. Use these appendices when you need historical context, surface counts, or a direct map from manual sections to source sections.
+This section collects supporting reference surfaces that remain necessary for auditability and maintenance: glossary, version history, legacy tier migration, authoritative counts, source crosswalks, practitioner quick references, and study aids. Use these appendices when you need historical context, surface counts, source-to-manual mapping, or a concise refresher on lifecycle, Express Mode, ARE, and common authoring pitfalls.
 
 ### 10.1 Glossary
 
@@ -2003,11 +2257,11 @@ This section collects supporting reference surfaces that remain necessary for au
 | Extension | An optional analytical overlay that reads and annotates Core nodes without modifying Core semantics. |
 | Leaf Node | A node with no children. `ISL` is the only valid leaf tier in a CLEAN Core DAG; non-`ISL` leaves during authoring are incomplete and are flagged by `VERIFY`. |
 | Merge Node | `SAL`, the point where `FCL` derivations and `CL` constraints converge. |
-| Orphan | A non-root node with no valid parent citation. |
-| Root Node | `XPD` when active, otherwise `SIL`; the only node allowed to have an empty `parent_ids` list. |
-| `REVIEW_REQUIRED` | `VALIDATE` output emitted for semantic atomic inclusion rules. Requires human disposition before the target node may transition from `DRAFT` to `ACTIVE`. |
+| Orphan | A non-root node with no valid `parent_id`; this is a structural violation. |
+| Root Node | `XPD` if active, otherwise `SIL`; the only node allowed to have an empty `parent_ids` list. |
+| `REVIEW_REQUIRED` | A `VALIDATE` output status emitted for each semantic atomic inclusion rule. It requires a human disposition of `APPROVED` or `REJECTED` with rationale before the target node may transition from `DRAFT` to `ACTIVE`. |
 | Tier Contamination | Presence of content that violates a tier's atomic exclusion rules. |
-| `verification_mode` | Required field on every atomic inclusion rule, classifying it as `structural` or `semantic`. Structural rules can be checked mechanically; semantic rules require human judgment. |
+| `verification_mode` | Required field on every atomic inclusion rule. `structural` rules are mechanically verifiable by pattern matching, schema validation, keyword detection, or citation-graph traversal; `semantic` rules require human judgment. |
 
 <span class="ddr-badge ddr-surface-historical"><strong>Historical scope</strong></span> Sections 10.2 and 10.3 preserve legacy tier names, removed operations, and migration mappings strictly for version-history and migration reference. Those historical terms are not part of current-state DDR v6.3 vocabulary outside these appendices.
 
@@ -2110,23 +2364,23 @@ Rule map:
 | `citation_rules` | `3.8` |
 | `nodes` | `3.4`, `4.1-4.9` |
 | `tier_definitions` | `4.1-4.9` |
-| `lifecycle` | `5.1-5.3` |
-| `operations.core_operations` | `5.4` |
-| `operations.dirty_flag_triggers` | `5.5` |
-| `operations.dirty_classification` | `5.5` |
-| `operations.supersede_dirty_behavior` | `5.5` |
+| `lifecycle` | `5.1-5.3`, `10.6` |
+| `operations.core_operations` | `5.4`, `10.6` |
+| `operations.dirty_flag_triggers` | `5.5`, `10.6` |
+| `operations.dirty_classification` | `5.5`, `10.6` |
+| `operations.supersede_dirty_behavior` | `5.5`, `10.6` |
 | `operations.conflict_resolution_protocol` | `5.6`, `7.2` |
 | `operations.resolution_workflow` | `5.6` |
 | `operations.reconciliation_manifest_tracks` | `7.3` |
-| `operations.reconciliation_manifest_schema` | `7.3` |
+| `operations.reconciliation_manifest_schema` | `7.3`, `10.6` |
 | `operations.semantic_consistency_rules` | `5.4`, `7.5` |
-| `consumption_modes` | `6.1` |
-| `express_mode` | `6.2-6.4` |
+| `consumption_modes` | `6.1`, `10.7` |
+| `express_mode` | `6.2-6.4`, `10.7` |
 | `constraint_precedence` | `7.1-7.2` |
 | `compliance_checklist` | `7.4-7.5` |
-| `extension_system` | `8.1-8.4` |
+| `extension_system` | `8.1-8.4`, `10.8` |
 | `extension_catalog` | `8.5` |
-| `are_scoring_profiles` | `8.4` |
+| `are_scoring_profiles` | `8.4`, `10.8` |
 | `glossary` | `10.1` |
 | `version_history` | `10.2` |
 | `tier_migration` | `10.3` |
@@ -2139,3 +2393,133 @@ Rule map:
 | Schema `$defs.ScoringProfile` | `8.4`, `9.6` |
 | Schema `$defs.StatusTransition` | `5.2`, `9.7` |
 | Schema `$defs.GuardDefinition` | `5.3`, `9.7` |
+| Schema enum and ID defs (`StatusEnum`, `OperationNameEnum`, `TransitionPhase`, `TransitionSideEffect`, `GuardIdRef`, `InvariantId`, `CitationRuleId`, `AtomicRuleId`, `ExtensionRuleId`) | `9.8` |
+
+### 10.6 Lifecycle and Operation Quick Reference
+
+| Operation | Primary scope | Mutates graph | Typical manifest or review impact | Common follow-up |
+| --- | --- | --- | --- | --- |
+| `INSERT` | Add one node | Yes | None by default; if inserted as `DRAFT`, later review and validation remain pending | `VALIDATE` if draft-inserted |
+| `DELETE` | Remove one node | Yes | Manifest updated as orphan fallout is detected | `MODIFY`, cascading `DELETE`, or `SUPERSEDE` on affected children |
+| `MODIFY` | Change one node's content | Yes | May lead to `REVIEW_REQUIRED` items after re-validation | `VALIDATE`, then `VERIFY` |
+| `SUPERSEDE` | Transactionally replace one node | Yes | `SUPERSEDE_FAILED` on failed insert or rewire; `SUPERSEDE_PENDING_DETECTED` if incomplete | Retry or rollback, then `VERIFY` |
+| `VERIFY` | Whole-graph traversal | No | May emit structural findings and optional semantic `REVIEW_REQUIRED` items | Resolve findings, then re-run `VERIFY` |
+| `VALIDATE` | Single-node atomic ruleset | No | Emits violated rule IDs and semantic `REVIEW_REQUIRED` items plus `validation_scope` | Human disposition for semantic findings before activation |
+| `UNBUNDLE_SCAN` | One Express group | No | May drive deferred-rationale entries in the manifest | Annotate, defer, or retry |
+| `UNBUNDLE_EXECUTE` | One Express group | Yes | Rejection payload is full scan output; successful execution may record deferred rationale usage | `VERIFY` on resulting full-mode graph |
+
+Status and transition reminders:
+
+- `SUPERSEDE_PENDING` is transient and blocks CLEAN until commit or rollback finishes.
+- `DEPRECATED` is structurally present and traversed by `VERIFY`; it is not equivalent to deleted.
+- `DRAFT` nodes may exist in the DAG but are excluded from CLEAN compliance until validated.
+- `DIRTY` from `SUPERSEDE` rewiring is initially structural and scoped to immediate children.
+
+### 10.7 Express Mode Authoring and Unbundling Reference
+
+| Group | Tiers | Explicit tier tags required by source rule | Authoring implication |
+| --- | --- | --- | --- |
+| `G1` | `XPD`, `SIL`, `GPCL` | Yes | Ethical, strategic, and governance fragments must be explicitly separable for deterministic unbundling |
+| `G2` | `FCL`, `CL` | Yes | Capability behavior must stay separable from declared technology and infrastructure constraints |
+| `G3` | `SAL`, `ICL` | Not explicitly required, but still helpful | Architectural decomposition and machine contracts should stay visually distinct |
+| `G4` | `CDL`, `ISL` | Not explicitly required, but still helpful | Design blueprints and executable scaffolds are easier to audit when pre-tagged |
+
+Authoring checklist:
+
+- Use explicit `[TIER]` markers throughout `G1` and `G2`.
+- Use `[DEFER]` only when you can record a human rationale in the reconciliation manifest.
+- Treat `UNBUNDLE_SCAN` as a workflow tool, not as a one-time gate.
+- Expect `UNBUNDLE_EXECUTE` to reject atomically if any undeferred fragment remains `ambiguous` or `none`.
+
+Illustrative grouped content:
+
+```text
+[FCL] User can export monthly billing reports.
+[CL] Export worker must run in Python 3.10+ on Linux.
+[DEFER] Accessibility wording pending UX review.
+```
+
+### 10.8 ARE and Extension Reference
+
+| Surface | Source-derived rule of thumb | Why it matters |
+| --- | --- | --- |
+| Extension mutation boundary | Extensions read, annotate, advise, and generate artifacts; they do not mutate Core node content, `parent_ids`, `tier`, or `status` | Preserves AX-6 declarative integrity and keeps Core authority local to named operations |
+| Annotation storage | Extension metadata lives in `extension_annotations` only, with namespaced keys | Prevents `extends` from masquerading as Core lineage |
+| Candidate Pool | Only E5 uses a candidate pool, and it stays outside the Core DAG | ARE inference remains reviewable without silently altering authoritative structure |
+| Paused ARE state | Pool must be checkpointed on entry and after every mutating pool action while paused | Restart behavior is part of the contract, not optional implementation polish |
+| Disabled ARE state | Pool is discarded, checkpoint deleted, visibility removed, and promotion/discard actions disabled | Avoids stale candidate carryover after shutdown |
+| Review threshold | Candidates below threshold need `override_flag: true` plus non-empty `human_rationale` | Prevents low-confidence inference from entering review without human accountability |
+| Concrete profiles | `standard_v1` and `conservative_v1` are reusable profiles; `custom` is a template contract | Prevents teams from treating the `custom` template as a pre-approved scoring profile |
+
+### 10.9 Section Summaries
+
+| Section | Core takeaway | Common failure mode | Revisit when... |
+| --- | --- | --- | --- |
+| `1` | The YAML pair is authoritative; this manual is derivative guidance | Treating prose summaries as stronger than source YAML | You need to settle a disagreement between manual text and machine contract |
+| `2` | v6.3 is framed by explicit profiling, lifecycle closure, ARE hardening, and operation normalization | Reading v6.3 as a minor editorial revision instead of a closure release | You need to understand why later sections got stricter |
+| `3` | The Core model is a typed DAG with closed citation and profile rules | Mixing `extends` into Core lineage or skipping tiers | You are authoring topology, IDs, citations, or profile roots |
+| `4` | Each tier has a sharply bounded semantic role and rule surface | Writing implementation detail too early or policy content too low | You are deciding where content belongs |
+| `5` | Lifecycle behavior is a closed machine and operations are named, typed entry points | Treating `SUPERSEDE` as a rename or assuming all `DIRTY` cascades behave the same | You are modifying or replacing nodes |
+| `6` | Express Mode is grouped Full Mode, not a reduced variant | Assuming ambiguous fragments can be auto-placed during execute | You are authoring or unbundling grouped documents |
+| `7` | CLEAN depends on status, topology, rule conformance, manifest state, and advisory disposition | Treating CLEAN as equivalent to “no DIRTY nodes” only | You are asserting readiness or validation completeness |
+| `8` | Extensions are tightly bounded overlays; ARE is special because it stages candidates | Letting extension output blur into Core authority | You are integrating analytical tooling or reviewing ARE output |
+| `9` | The schema is an active contract with conditionals, closed enums, and typed IDs | Reading the schema as passive documentation instead of executable validation logic | You are implementing validators or authoring machine-facing artifacts |
+| `10` | The appendices are operational tools, not just historical leftovers | Skipping quick references and recreating rules from memory | You need fast lookup, study aids, or migration context |
+
+### 10.10 Pro Tips
+
+- Use `derivation_mode: traceability` only when the parent is lineage authority rather than source semantics.
+- Treat `SAL` as the only merge node. If you find yourself inventing another one, the model is drifting.
+- Keep `FCL` behavioral and `CL` declarative. Mixed nodes look efficient at first and create downstream ambiguity later.
+- When `constraint_origin = imposed`, record the external authority source immediately. Retroactive cleanup is expensive.
+- Use `UNBUNDLE_SCAN` early in `G1` and `G2` authoring. Late ambiguity is harder to unwind.
+- Do not treat `DEPRECATED` as inactive. It still participates in graph traversal and audit history.
+- Remember that `SUPERSEDE_PENDING` is blocking. A half-finished supersede is not a tolerable intermediate resting state.
+- Keep extension annotations obviously namespaced and never mirror Core field names after `::`.
+- If an ARE candidate is below threshold, force yourself to write the human rationale before allowing review.
+- Use the reconciliation manifest as structured evidence, not as a miscellaneous note sink.
+- Re-run `VERIFY` after any operation that rewires lineage, not just after obvious content edits.
+- When in doubt about validity, check the schema conditionals in Section `9` before inventing a workflow exception.
+
+### 10.11 Q&A
+
+| Question | Answer |
+| --- | --- |
+| Is Express Mode a simplified DDR model? | No. It is grouped presentation of the same Full Mode structure, with deterministic unbundling rules. |
+| Can `extends` appear in `parent_ids`? | No. `extends` belongs only in extension annotations and never in Core parent citations. |
+| Can `SIL` be a root node when `XPD` is active? | No. If `active_tiers` contains `XPD`, `SIL` must have at least one parent citation. |
+| Is `SUPERSEDE_PENDING` a stable lifecycle destination? | No. It is a transient transactional state that must commit or roll back. |
+| Does `DEPRECATED` remove a node from verification scope? | No. `DEPRECATED` nodes remain structurally present and are traversed by `VERIFY`. |
+| Can ARE promote a candidate directly into the Core DAG? | No. Promotion always goes through `INSERT` with full validation. |
+| Is the `custom` ARE profile usable as-is? | No. It is a template and validation contract for implementation-defined custom profiles. |
+| What happens if `UNBUNDLE_SCAN` returns `none` for a fragment? | `UNBUNDLE_EXECUTE` must reject unless that fragment is explicitly deferred with recorded rationale. |
+| Do structural `DIRTY` flags always cascade to grandchildren? | No. `SUPERSEDE` rewiring creates a scoped structural DIRTY on immediate children only. |
+| Can extensions set Core nodes to `DIRTY`? | No. Extensions may advise, but they do not mutate Core status. |
+| What is the only allowed semantic-gap classification in v6.3? | `MISSING_MEDIATOR`. |
+| Which document profile is required when `project.mode = express`? | `project_instance_express`. |
+
+### 10.12 Quiz
+
+1. Which DDR surface is the sole normative authority for lifecycle transitions in v6.3?
+2. Which edge type is valid in `extension_annotations` but not in `parent_ids`?
+3. What field records the source node's prior lifecycle value during `SUPERSEDE`?
+4. Which two Express groups require explicit tier annotations for deterministic unbundling?
+5. What is the only allowed semantic-gap classification in the reconciliation manifest?
+6. What ARE transition is explicitly forbidden?
+7. Can a `DEPRECATED` node still be traversed by `VERIFY`?
+8. What additional requirement applies to E5 in the schema that does not apply to every other extension entry?
+9. What happens to the ARE checkpoint file on any transition to `disabled`?
+10. Which tier is the only valid merge node in the Core DAG?
+
+Answer key:
+
+1. `lifecycle.status_transitions`
+2. `extends`
+3. `prior_status`
+4. `G1` and `G2`
+5. `MISSING_MEDIATOR`
+6. `disabled -> paused`
+7. Yes
+8. `scoring_profile` is required
+9. It is deleted atomically as the pool is discarded
+10. `SAL`

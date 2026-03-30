@@ -1,0 +1,53 @@
+# Target system specification for a Python application
+# This YAML file describes the hardware and software configuration
+# of the target system on which the Python application is intended to run.
+
+target-system:
+  # CPU details
+  # The CPU is crucial for computational performance, especially for CPU-bound tasks in Python.
+  cpu:
+    brand: AMD  # The manufacturer of the CPU
+    model: Ryzen 9 5900X  # The specific model name
+    cores: 12  # Number of physical CPU cores
+    threads: 24  # Number of threads (logical cores)
+    clock-speed: 4.28 GHz  # The maximum clock speed
+    architecture: x64  # The instruction set architecture
+    # Cache sizes, which can impact performance for certain workloads
+    cache:
+      l1: 768 KB
+      l2: 6 MB
+      l3: 64 MB
+
+  # Motherboard details
+  # The motherboard determines compatibility with CPU, memory, and other components.
+  motherboard:
+    model: MPG X570 GAMING PRO CARBON WIFI  # Specific model name
+    chipset: X570  # Chipset, affects features and compatibility
+    form-factor: ATX  # Form factor, important for case compatibility
+
+  # Memory (RAM) details
+  # Sufficient RAM is important for handling large datasets or running memory-intensive applications in Python.
+  memory:
+    brand: ADATA  # Brand of the memory modules
+    model: XPG D10  # Specific model name
+    size: 32.0 GB  # Total memory size
+    type: DDR4  # Type of memory
+    speed: 3200 MHz  # Memory speed, affects performance
+    modules: 2  # Number of memory modules
+    timings: 16-18-18-38  # Memory timings, which can impact performance
+
+  # GPU details
+  # The GPU is important for applications that use GPU acceleration, such as machine learning with TensorFlow or PyTorch.
+  gpu:
+    brand: NVIDIA  # Brand of the GPU
+    model: GeForce RTX 3080  # Specific model name
+    memory-size: 10 GB  # GPU memory size
+    memory-type: GDDR6X  # Type of GPU memory
+    core-clock: 1440 MHz  # Base core clock speed
+    boost-clock: 1710 MHz  # Boost clock speed
+
+  # Operating system details
+  # The OS and its architecture affect software compatibility and performance.
+  operating-system:
+    name: Windows 11 Pro  # Name and version of the OS
+    architecture: 64-bit  # Architecture, important for running 64-bit applications
