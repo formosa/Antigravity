@@ -7,13 +7,35 @@ from pathlib import Path
 import yaml
 
 
-ASSET_DIR = (
-    Path(__file__).resolve().parents[1]
-    / "assets"
-    / "proposals"
-    / "active"
-    / "v6.3"
+REPO_ROOT = Path(__file__).resolve().parents[2]
+CURRENT_ASSET_DIR = REPO_ROOT / "ddr"
+LEGACY_ASSET_DIR = (
+    REPO_ROOT / ".agent" / "assets" / "proposals" / "active" / "v6.3"
 )
+REQUIRED_ASSET_FILES = (
+    "ddr_system_v6.3.yaml",
+    "ddr_node_schema_v6.3.yaml",
+    "DDR System(v6.3).md",
+)
+
+
+def resolve_asset_dir() -> Path:
+    # Prefer the live `ddr/` root after the refactor; fall back to the
+    # historical proposal path for compatibility with older checkouts.
+    for asset_dir in (CURRENT_ASSET_DIR, LEGACY_ASSET_DIR):
+        if all((asset_dir / name).is_file() for name in REQUIRED_ASSET_FILES):
+            return asset_dir
+
+    checked_dirs = ", ".join(
+        str(path) for path in (CURRENT_ASSET_DIR, LEGACY_ASSET_DIR)
+    )
+    raise FileNotFoundError(
+        "Unable to locate the DDR v6.3 asset directory. Checked: "
+        f"{checked_dirs}"
+    )
+
+
+ASSET_DIR = resolve_asset_dir()
 SYSTEM_YAML = ASSET_DIR / "ddr_system_v6.3.yaml"
 SCHEMA_YAML = ASSET_DIR / "ddr_node_schema_v6.3.yaml"
 MARKDOWN = ASSET_DIR / "DDR System(v6.3).md"

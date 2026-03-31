@@ -811,6 +811,8 @@ Deferred fragment handling: Fragments classified as 'ambiguous' or 'none' may be
 
 Higher-priority tiers override lower-priority tiers. An XPD ethical boundary functions as an absolute veto right over any downstream decision.
 
+_Authority basis for class table: `constraint_precedence.constraint_classes`._
+
 | Class    | Description                                                                                                                                                  |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | logical  | Governed by the formal tier precedence hierarchy.                                                                                                            |
@@ -818,13 +820,19 @@ Higher-priority tiers override lower-priority tiers. An XPD ethical boundary fun
 
 **Intra tier conflict rule**
 
+_Authority basis: `constraint_precedence.intra_tier_conflict_rule`._
+
 When two or more nodes within the same tier produce conflicting constraints, the conflict must be explicitly documented and resolved before any conflicting node may transition to status ACTIVE. The VERIFY operation must detect and report intra-tier conflicts as structural violations.
 
 **Physical constraint rule**
 
+_Authority basis: `constraint_precedence.physical_constraint_rule`._
+
 Any CL node declared with constraint_origin='imposed' is treated as a non-overridable physical-or-external constraint for precedence evaluation. Conflicts between higher-priority logical requirements and such imposed constraints must trigger escalation and explicit human resolution; they cannot be silently overridden.
 
 **Physical constraint escalation**
+
+_Authority basis: `constraint_precedence.physical_constraint_escalation`._
 
 Constraint precedence governs design decisions, not physical impossibilities. When a higher-priority tier produces a requirement that is physically incompatible with a lower-priority tier's declared constraint (e.g. a functional requirement that exceeds declared hardware capacity), the conflict must be escalated to the authoring authority for resolution. The precedence hierarchy does not authorize silently overriding physical or externally imposed constraints.
 
@@ -863,6 +871,8 @@ Constraint precedence governs design decisions, not physical impossibilities. Wh
 - Supersede-to-MODIFY Interaction: If a DIRTY child's re-validation results in a content MODIFY, standard MODIFY cascade rules apply — all descendants of the modified child are set DIRTY. This interaction is not an exception to the SUPERSEDE scoped propagation rule; it is a consequence of the child's own MODIFY, which triggers the general cascade independently.
 - Deprecation Lifecycle: A node is set to DEPRECATED via MODIFY when it is scheduled for removal or replacement. DEPRECATED nodes remain structurally valid and are included in VERIFY traversals. DEPRECATED is not a terminal state — a DEPRECATED node may subsequently be SUPERSEDED (creating a replacement) or removed via DELETE. DEPRECATED means "scheduled for replacement, no replacement yet exists"; SUPERSEDED means "replacement exists and children have been re-wired."
 
+_Authority basis for DIRTY classification table: `operations.dirty_classification`._
+
 | Classification | Description                                                                                                                                   |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | structural     | Indicates a structural change (for example parent_id rewiring) that does not by itself establish semantic invalidation of downstream content. |
@@ -875,6 +885,8 @@ Child nodes affected by parent_id rewiring enter DIRTY with classification 'stru
 DETECT CHANGE → SET DIRTY → SCAN DOWNSTREAM → GENERATE PENDING ITEMS (node ID + violated rule ID + suggested operation) → EXECUTE OPERATION → VERIFY → SET CLEAN | REPEAT
 
 **Conflict resolution protocol**
+
+_Authority basis: `operations.conflict_resolution_protocol`._
 
 1. Identify conflicting nodes and violated rules.
 2. Classify conflict type as logical, physical, or semantic.
@@ -964,7 +976,7 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 | disabled | active   | Yes       | ARE starts fresh with an empty Candidate Pool. Existing behavior preserved and unchanged.                                                                                                 |
 | disabled | paused   | No        | No Candidate Pool exists in `disabled` state. This transition is semantically undefined and is explicitly forbidden.                                                                      |
 
-Checkpoint path: Canonical path for the ARE Pool checkpoint is `.agent/state/are_candidate_pool.checkpoint.yaml`. This file is written atomically on `active → paused` and re-written after each mutating Pool action while ARE remains in `paused` state. It is deleted atomically on any transition to `disabled`. It is not written while ARE is in `active` state under normal operation.
+Checkpoint path (`extension_system.candidate_pool.checkpoint_path`): Canonical path for the ARE Pool checkpoint is `.agent/state/are_candidate_pool.checkpoint.yaml`. This file is written atomically on `active → paused` and re-written after each mutating Pool action while ARE remains in `paused` state. It is deleted atomically on any transition to `disabled`. It is not written while ARE is in `active` state under normal operation.
 
 Pool discard rule: The Candidate Pool is automatically discarded on any transition to `disabled`, whether from `active` or `paused`. No discard occurs on `active → paused` or `paused → active` transitions.
 
@@ -1378,8 +1390,15 @@ This appendix maps the authoritative YAML and schema surfaces to the human-reada
 | `express_mode`, `express_mode_group`, profile coupling | `§0.2`, `§4` |
 | `tier_definitions` | `§5` |
 | `constraint_precedence` | `§6` |
+| `constraint_precedence.constraint_classes` | `§6` class table |
+| `constraint_precedence.intra_tier_conflict_rule` | `§6` under `Intra tier conflict rule` |
+| `constraint_precedence.physical_constraint_rule` | `§6` under `Physical constraint rule` |
+| `constraint_precedence.physical_constraint_escalation` | `§6` under `Physical constraint escalation` |
 | `operations`, `reconciliation_manifest_schema`, semantic consistency hooks | `§7` |
+| `operations.dirty_classification` | `§7.2` DIRTY classification table |
+| `operations.conflict_resolution_protocol` | `§7.3` under `Conflict resolution protocol` |
 | `extension_system`, ARE candidate pool, checkpoint semantics | `§8.1`, `§8.2`, `§8.3` |
+| `extension_system.candidate_pool.checkpoint_path` | `§8.2` checkpoint path paragraph |
 | Schema `extension_annotations` restrictions and shadow-key blocking | `§3.1`, `§8.4` |
 | `extension_catalog` | `§9` |
 | `are_scoring_profiles` | `§9` under `E5 - ARE` |

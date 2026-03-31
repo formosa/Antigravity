@@ -2164,6 +2164,8 @@ Override principle:
 
 ### 7.2 Constraint classes and escalation rules
 
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `constraint_precedence.constraint_classes`, `constraint_precedence.intra_tier_conflict_rule`, `physical_constraint_rule`, and `physical_constraint_escalation`.
+
 | Constraint class                                                                 | Description                                                                                                                                   |
 | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | <span class="ddr-badge ddr-constraint-logical"><strong>logical</strong></span>   | Governed by the formal tier precedence hierarchy                                                                                              |
@@ -2176,6 +2178,8 @@ Additional precedence rules:
 - Physical incompatibilities must be escalated to the authoring authority; precedence does not authorize silently overriding physical or externally imposed constraints.
 
 ### 7.3 Reconciliation manifest
+
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.reconciliation_manifest_tracks`, `operations.reconciliation_manifest_schema`, `operations.reconciliation_manifest_schema.semantic_gap_classification`, `extension_system.permitted_actions`, and `extension_system.integration_rules[rule_id=EXT-R7]`.
 
 Tracked values:
 
@@ -2202,6 +2206,8 @@ Manifest item types:
 | `SUPERSEDE_PENDING_DETECTED` | `node_id`, `prior_status`, `detected_at`                                              | Logged by `VERIFY` when a node remains in `SUPERSEDE_PENDING`; severity is `BLOCKING` |
 
 Semantic-gap classification:
+
+This surface is defined explicitly by `operations.reconciliation_manifest_schema.semantic_gap_classification`, not inferred indirectly from `INV-7`.
 
 | Property             | Value                                                                                                                 |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------- |
@@ -2574,13 +2580,15 @@ flowchart LR
 
 ### 8.3 ARE candidate pool and activation states
 
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `extension_system.candidate_pool` and `extension_system.candidate_pool.checkpoint_path`.
+
 The candidate pool is specific to E5, the AI Upward Reconstruction Engine (`ARE`). It is explicitly outside the Core DAG until promotion through `INSERT`.
 
 | Property               | Value                                                                           |
 | ---------------------- | ------------------------------------------------------------------------------- |
 | Candidate status value | `CANDIDATE` (not a Core status value)                                           |
 | Visibility rule        | Visible when ARE is `active` or `paused`; hidden when `disabled`                |
-| Checkpoint path        | `.agent/state/are_candidate_pool.checkpoint.yaml`                               |
+| Checkpoint path (`extension_system.candidate_pool.checkpoint_path`) | `.agent/state/are_candidate_pool.checkpoint.yaml`                               |
 | Effect on Core status  | No effect on Core DIRTY/CLEAN status                                            |
 | Promotion mechanism    | Promotion into Core requires `INSERT` with full validation; below-threshold candidates require `override_flag: true` plus non-empty `human_rationale` recorded in `pending_items` |
 | Discard trigger        | Any transition to `disabled` discards the pool and deletes the checkpoint file  |
@@ -3353,12 +3361,16 @@ Rule map:
 | `operations.resolution_workflow`                                                                                                                                                         | `5.6`               |
 | `operations.reconciliation_manifest_tracks`                                                                                                                                              | `7.3`               |
 | `operations.reconciliation_manifest_schema`                                                                                                                                              | `7.3`, `10.6`       |
+| `operations.reconciliation_manifest_schema.semantic_gap_classification`                                                                                                                  | `7.3`               |
 | `operations.semantic_consistency_rules`                                                                                                                                                  | `5.4`, `7.5`        |
 | `consumption_modes`                                                                                                                                                                      | `6.1`, `10.7`       |
 | `express_mode`                                                                                                                                                                           | `6.2-6.4`, `10.7`   |
 | `constraint_precedence`                                                                                                                                                                  | `7.1-7.2`           |
+| `constraint_precedence.constraint_classes`                                                                                                                                               | `7.2`               |
+| `constraint_precedence.intra_tier_conflict_rule`                                                                                                                                         | `7.2`               |
 | `compliance_checklist`                                                                                                                                                                   | `7.4-7.5`           |
 | `extension_system`                                                                                                                                                                       | `7.3`, `8.1-8.4`, `10.8` |
+| `extension_system.candidate_pool.checkpoint_path`                                                                                                                                        | `8.3`               |
 | `extension_catalog`                                                                                                                                                                      | `8.5`               |
 | `are_scoring_profiles`                                                                                                                                                                   | `8.4`, `10.8`       |
 | `glossary`                                                                                                                                                                               | `10.1`              |
