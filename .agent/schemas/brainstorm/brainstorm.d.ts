@@ -58,6 +58,14 @@ type BrainstormCommercialUse = 'YES' | 'CONDITIONAL' | 'NO';
 type BrainstormMaintenance = 'ACTIVE' | 'MAINTAINED' | 'SLOW' | 'ARCHIVED';
 type BrainstormMaturity = 'EXPERIMENTAL' | 'STABLE' | 'MATURE' | 'LEGACY';
 type BrainstormVerdict = 'CANDIDATE' | 'UNDER_REVIEW' | 'ACCEPTED' | 'REJECTED' | 'PARKED';
+type BrainstormCitationAuthorityType =
+    | 'OFFICIAL_VENDOR'
+    | 'OFFICIAL_PROJECT'
+    | 'STANDARDS_BODY'
+    | 'GOVERNMENT'
+    | 'ACADEMIC'
+    | 'REPUTABLE_SECONDARY';
+type BrainstormCitationRecency = 'CURRENT' | 'EVERGREEN' | 'HISTORICAL';
 
 interface BrainstormCommonEntry {
     entry_type: BrainstormEntryType;
@@ -76,6 +84,8 @@ interface BrainstormCommonEntry {
     open_questions: string[];
     tags: string[];
     ddr_relevance: BrainstormRelevance[];
+    citation_ids: string[];
+    /** ADR IDs, spec sections, local artifacts, or related brainstorm IDs only. */
     references: string[];
 }
 
@@ -104,6 +114,21 @@ interface BrainstormLibraryEntry extends BrainstormCommonEntry {
 
 type BrainstormEntry = BrainstormIdeaEntry | BrainstormLibraryEntry;
 
+interface BrainstormCitation {
+    citation_id: string;
+    publisher: string;
+    title: string;
+    url: string;
+    /** ISO 8601 date string: YYYY-MM-DD */
+    published_date: string;
+    /** ISO 8601 date string: YYYY-MM-DD */
+    accessed_date: string;
+    authority_type: BrainstormCitationAuthorityType;
+    recency_class: BrainstormCitationRecency;
+    support_note: string;
+    related_entries: string[];
+}
+
 interface PartRegistryRow {
     part_id: string;
     short_title: string;
@@ -128,4 +153,5 @@ interface BrainstormDocument {
     part_registry: PartRegistryRow[];
     part_ii_entries: BrainstormIdeaEntry[];
     part_iii_entries: BrainstormLibraryEntry[];
+    citations: BrainstormCitation[];
 }

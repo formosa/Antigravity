@@ -1,6 +1,6 @@
 ---
 name: codex-brainstorm
-description: Creates, seeds, validates, and updates the DDR App Framework brainstorming compendium in `brainstorm.md` using the governed `BRAIN-ENTRY-1.0` Markdown format. Use when Codex must capture or reorganize DDR App Framework ideas, architectural hypotheses, OSS library candidates, or repair the canonical brainstorm document derived from the v6.3 reference source.
+description: Creates, seeds, validates, and updates the DDR App Framework brainstorming compendium in `brainstorm.md` using the governed `BRAIN-ENTRY-1.1` Markdown format, visual semantics, structured citations, and stable Mermaid diagrams. Use when Codex must capture or reorganize DDR App Framework ideas, architectural hypotheses, OSS library candidates, or repair the canonical brainstorm document derived from the v6.3 reference source.
 ---
 
 <when_to_use>
@@ -8,7 +8,7 @@ description: Creates, seeds, validates, and updates the DDR App Framework brains
 - The user asks to create, initialize, seed, repair, validate, or update `brainstorm.md`.
 - The task is to capture a new DDR App Framework idea, design hypothesis, workflow concept, or library candidate in the governed brainstorm compendium.
 - The brainstorm document is missing and must be created from the canonical DDR App Framework reference source.
-- The brainstorm document exists but needs structural cleanup, ID assignment, section placement, or field completion before new ideas are appended.
+- The brainstorm document exists but needs structural cleanup, ID assignment, section placement, field completion, citation repair, or visual-semantics normalization before new ideas are appended.
 </when_to_use>
 
 <how_to_use>
@@ -25,18 +25,34 @@ description: Creates, seeds, validates, and updates the DDR App Framework brains
    - If the target already exists and initialization was explicitly requested, require overwrite approval before replacing it.
    - Read `## PART I — Document Manifest` before changing any entry content.
    - Read `.agent/schemas/brainstorm/README.md` and `.agent/schemas/brainstorm/brainstorm.d.ts` for the canonical field contract.
-3. Apply update rules:
-   - Treat Part I as governed manifest content. Only update controlled metadata such as `Last Revised` and explicit Part Registry additions.
+3. Run the evidence pass before drafting substantive content:
+   - For every new or materially revised assertion, recommendation, or factual comparison, gather supporting evidence from current online sources.
+   - Prefer this source hierarchy in order:
+     - Official vendor or project documentation, release notes, or repository releases
+     - Standards bodies, government sources, or academic publications
+     - Reputable secondary analysis only as supporting context
+   - Do not use anonymous forums, social threads, or aggregators as the final authority for brainstorm claims.
+   - Treat a source as `CURRENT` only when it was published or materially updated within 183 days of the entry `revised_date`.
+   - Older evergreen sources may supplement a claim, but they must not be the only support for a new recommendation or factual assertion.
+4. Apply update rules:
+   - Treat Part I as governed manifest content. Only update controlled metadata such as `Last Revised`, the Font Color Index, the citation catalog, and explicit Part Registry additions.
    - Add `IDEA` entries only under Part II and `LIB` entries only under Part III.
    - Assign the next sequential `BRAIN-II-###` or `BRAIN-III-###` identifier. Never renumber or delete an existing entry.
    - Preserve canonical seeded entries. Extend the document by appending or revising entries in place.
-   - Populate every required field. Use `TBD` only for genuinely unknown values that cannot yet be resolved.
-4. Validate after every write:
+   - Populate every required field, including `citation_ids`. Use `TBD` only for genuinely unknown values that cannot yet be resolved.
+   - Limit `references` to ADR IDs, spec sections, local artifact paths, or related brainstorm IDs. External bibliography belongs in the citation catalog.
+   - Add inline `[C#]` markers inside long-form prose whenever the entry makes an assumption, assertion, or recommendation.
+   - Use only the governed visual classes: `brain-governance`, `brain-evidence`, `brain-hypothesis`, `brain-recommendation`, and `brain-risk`.
+   - Use `<span class="...">` tags only for short badges, labels, and callouts. Do not wrap entire paragraphs or YAML keys.
+   - Prefer advanced but stable Mermaid blocks: `flowchart`, `sequenceDiagram`, `stateDiagram-v2`, `classDiagram`, and `erDiagram`, with `accTitle` and `accDescr` in every diagram.
+5. Validate after every write:
    - `python .agent/skills/codex-brainstorm/scripts/validate_brainstorm.py <BRAINSTORM_PATH>`
+   - To surface non-fatal quality gaps as warnings, add:
+     - `--audit`
    - If a pre-edit snapshot is available and append-only enforcement is needed, add:
      - `--baseline <PRE_EDIT_PATH>`
    - If validation fails, halt and return the exact validator failure.
-5. Return one concise success line with the updated path after validation passes.
+6. Return one concise success line with the updated path after validation passes. If `--audit` reports warnings, mention that the document passed validation with follow-up recommendations.
 
 Examples:
 
@@ -44,16 +60,20 @@ Examples:
   - `python .agent/skills/codex-brainstorm/scripts/init_brainstorm.py brainstorm.md --source-reference .agent/skills/codex-brainstorm/resources/DDR_AppFramework_Brainstorm.docx`
 - Validate:
   - `python .agent/skills/codex-brainstorm/scripts/validate_brainstorm.py brainstorm.md`
+- Validate with audit:
+  - `python .agent/skills/codex-brainstorm/scripts/validate_brainstorm.py brainstorm.md --audit`
 </how_to_use>
 
 <constraints>
 
 - Do not treat brainstorm entries as authoritative engineering decisions; promoted ideas belong in ADRs or the formal DDR specification.
-- Do not invent category IDs, status values, priority values, tier references, or extension IDs outside the controlled vocabularies.
+- Do not invent category IDs, status values, priority values, tier references, extension IDs, citation IDs, or authority types outside the controlled vocabularies.
 - Do not remove or rename existing `BRAIN-II-###` or `BRAIN-III-###` identifiers.
 - Do not move a `LIB` entry into Part II or an `IDEA` entry into Part III.
 - Do not overwrite an existing brainstorm document during initialization without explicit approval.
-- Do not rewrite Part I prose during routine entry maintenance beyond controlled metadata updates and explicit registry changes.
+- Do not rewrite Part I prose during routine entry maintenance beyond controlled metadata updates, explicit registry changes, the governed citation catalog, and the governed visual-semantics sections.
+- Do not leave a substantive new claim supported only by uncited prose, stale-only evidence, or an external URL embedded directly in `references`.
+- Do not commit renderer-specific Mermaid syntax such as `architecture-beta`, ELK-only directives, or other unstable extensions into the governed document.
 </constraints>
 
 <resources_reference>
