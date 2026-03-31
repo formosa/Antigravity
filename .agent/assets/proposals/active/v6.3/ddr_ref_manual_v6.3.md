@@ -51,8 +51,31 @@
     text-transform: uppercase; letter-spacing: 0.025em; border: 1px solid var(--border-glass);
     background: rgba(255, 255, 255, 0.05); color: var(--accent-glow);
   }
+  .ddr-label {
+    display: inline-block; padding: 0.08rem 0.45rem; border-radius: 0.4rem; font-size: 0.78rem; font-weight: 700;
+    border: 1px solid var(--border-glass); background: rgba(255, 255, 255, 0.05); color: var(--text-main);
+  }
   .ddr-surface-normative { background: rgba(34, 197, 94, 0.1); color: #4ade80 !important; border-color: rgba(34, 197, 94, 0.2); }
   .ddr-surface-schema { background: rgba(59, 130, 246, 0.1); color: #60a5fa !important; border-color: rgba(59, 130, 246, 0.2); }
+  .ddr-surface-explanatory { background: rgba(148, 163, 184, 0.12); color: #cbd5e1 !important; border-color: rgba(148, 163, 184, 0.25); }
+  .ddr-surface-historical { background: rgba(168, 85, 247, 0.12); color: #d8b4fe !important; border-color: rgba(168, 85, 247, 0.25); }
+  .ddr-status-draft { background: rgba(245, 158, 11, 0.12); color: #fbbf24 !important; border-color: rgba(245, 158, 11, 0.25); }
+  .ddr-status-active { background: rgba(34, 197, 94, 0.12); color: #4ade80 !important; border-color: rgba(34, 197, 94, 0.25); }
+  .ddr-status-dirty { background: rgba(239, 68, 68, 0.12); color: #fca5a5 !important; border-color: rgba(239, 68, 68, 0.25); }
+  .ddr-status-deprecated { background: rgba(249, 115, 22, 0.12); color: #fdba74 !important; border-color: rgba(249, 115, 22, 0.25); }
+  .ddr-status-superseded { background: rgba(99, 102, 241, 0.12); color: #a5b4fc !important; border-color: rgba(99, 102, 241, 0.25); }
+  .ddr-status-supersede-pending { background: rgba(234, 179, 8, 0.12); color: #fde047 !important; border-color: rgba(234, 179, 8, 0.25); }
+  .ddr-check-structural { background: rgba(59, 130, 246, 0.12); color: #93c5fd !important; border-color: rgba(59, 130, 246, 0.25); }
+  .ddr-check-manual { background: rgba(249, 115, 22, 0.12); color: #fdba74 !important; border-color: rgba(249, 115, 22, 0.25); }
+  .ddr-check-semantic { background: rgba(16, 185, 129, 0.12); color: #6ee7b7 !important; border-color: rgba(16, 185, 129, 0.25); }
+  .ddr-mode-full { background: rgba(37, 99, 235, 0.12); color: #93c5fd !important; border-color: rgba(37, 99, 235, 0.25); }
+  .ddr-mode-express { background: rgba(14, 165, 233, 0.12); color: #67e8f9 !important; border-color: rgba(14, 165, 233, 0.25); }
+  .ddr-constraint-logical { background: rgba(99, 102, 241, 0.12); color: #c7d2fe !important; border-color: rgba(99, 102, 241, 0.25); }
+  .ddr-constraint-physical { background: rgba(239, 68, 68, 0.12); color: #fda4af !important; border-color: rgba(239, 68, 68, 0.25); }
+  .ddr-edge-derives { background: rgba(34, 197, 94, 0.12); color: #86efac !important; border-color: rgba(34, 197, 94, 0.25); }
+  .ddr-edge-constrains { background: rgba(245, 158, 11, 0.12); color: #fde68a !important; border-color: rgba(245, 158, 11, 0.25); }
+  .ddr-edge-implements { background: rgba(59, 130, 246, 0.12); color: #93c5fd !important; border-color: rgba(59, 130, 246, 0.25); }
+  .ddr-edge-extends { background: rgba(168, 85, 247, 0.12); color: #d8b4fe !important; border-color: rgba(168, 85, 247, 0.25); }
   
   blockquote { border-left: 4px solid var(--border-glass); padding-left: 1.5rem; margin: 2rem 0; color: var(--text-muted); font-style: italic; }
   hr { border: 0; border-top: 1px solid var(--border-glass); margin: 3rem 0; }
@@ -62,7 +85,7 @@
     h1, h2, h3 { color: #0f172a !important; text-shadow: none; border-color: #0f172a; }
     table { box-shadow: none; backdrop-filter: none; page-break-inside: avoid; }
     th { background: #f8fafc; color: #0f172a; }
-    .ddr-badge { border-color: #0f172a; color: #0f172a !important; }
+    .ddr-badge, .ddr-label { border-color: #0f172a; color: #0f172a !important; }
   }
 </style>
 
@@ -208,7 +231,7 @@ The specification defines the current DDR System. The schema defines what valid 
 | ----------------------------------------------------- | ----------------------------------------------- |
 | DDR version                                           | `6.3`                                           |
 | Document profile of the authoritative source artifact | `system_definition`                             |
-| Project name                                          | `DDR System v6.3 - Authoritative Specification` |
+| Project name                                          | `DDR System v6.3 Semantic Authority`            |
 | Project mode                                          | `full`                                          |
 | System status                                         | `Finalized`                                     |
 | System date                                           | `2026-03-28`                                    |
@@ -310,7 +333,7 @@ This section covers the current authoritative metadata, the governing design phi
 
 | Surface                                  | Value                                                                                                                                                                                  |
 | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `project.name`                           | `DDR System v6.3 - Authoritative Specification`                                                                                                                                        |
+| `project.name`                           | `DDR System v6.3 Semantic Authority`                                                                                                                                                   |
 | `project.created`                        | `2026-02-26`                                                                                                                                                                           |
 | `project.mode`                           | `full`                                                                                                                                                                                 |
 | `system_metadata.status`                 | `Finalized`                                                                                                                                                                            |
@@ -318,7 +341,7 @@ This section covers the current authoritative metadata, the governing design phi
 | `system_metadata.scope`                  | Systems-, language-, and domain-agnostic                                                                                                                                               |
 | `system_metadata.authority`              | `DDR Architecture Board`                                                                                                                                                               |
 | `system_metadata.lineage`                | Supersedes DDR v6.2                                                                                                                                                                    |
-| `system_metadata.single_source_of_truth` | This document is the exclusive normative specification for DDR v6.3; prior versions, conversation records, partial specifications, and derivative documents carry no normative weight. |
+| `system_metadata.single_source_of_truth` | This document is the exclusive normative specification for the DDR System. All prior versions are superseded. No conversation record, partial specification, or derivative document carries normative weight. |
 
 The authoritative specification does more than identify itself as current. It explicitly closes the authority chain: the YAML system-definition artifact is the normative source of truth, and derivative documents such as this manual are explanatory aids only.
 
@@ -632,7 +655,7 @@ flowchart LR
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> `SAL` is the architectural merge point: capability intent arrives from `FCL`, while declared technology and infrastructure bounds arrive from `CL` through `constrains`.
 
-<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> Representative `nodes`, `tier_definitions`, and the `CIT-R3` / `INV-4` surfaces summarized in Sections `3.4`, `3.8`, and `3.9`.
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> Representative `nodes`, `tier_definitions`, `citation_rules[rule_id=CIT-R3]`, and `dag_invariants[id=INV-4]`.
 
 The authoritative system-definition artifact includes one representative node for each active tier:
 
@@ -994,7 +1017,7 @@ flowchart LR
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR descends from ethical and strategic abstraction into concrete contracts and scaffolding, while `CL` sits beside the functional path as a declaration of non-negotiable bounds rather than user-facing behavior.
 
-<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `tier_definitions`, `AX-2`, and the tier reference surfaces in Section `4`.
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `tier_definitions`, `axioms[id=AX-2]`, and the tier reference surfaces in Section `4`.
 
 <div style="page-break-inside: avoid;">
 
@@ -1489,7 +1512,7 @@ flowchart LR
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR separates lifecycle guard verification modes from semantic review obligations so that `guard_definitions` remain closed to `structural` and `manual` while semantic review still stays explicit.
 
-<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `lifecycle.guard_definitions`, the `VALIDATE` operation contract, and the `verification_mode` glossary definition.
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `lifecycle.guard_definitions`, `operations.core_operations[name=VALIDATE]`, and the `verification_mode` glossary definition.
 
 ### 5.4 Canonical operations
 
@@ -1753,7 +1776,7 @@ sequenceDiagram
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> `SUPERSEDE` is not a rename; it is a transactional replace-and-rewire operation with an explicit rollback path that forbids partial child rewiring.
 
-<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.core_operations.SUPERSEDE`, `lifecycle.status_transitions`, `gc-007`, `gc-008`, and `gc-009`.
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.core_operations[name=SUPERSEDE]`, `lifecycle.status_transitions`, `lifecycle.guard_definitions[id=gc-007]`, `lifecycle.guard_definitions[id=gc-008]`, and `lifecycle.guard_definitions[id=gc-009]`.
 
 See also: Section 6, Section 7, Section 9.
 
@@ -1962,7 +1985,7 @@ sequenceDiagram
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Unbundling is deliberately split into a read-only diagnostic phase and an atomic commit phase so that ambiguous fragments cannot silently mutate the graph.
 
-<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `express_mode.description`, `unbundle_determinism_rule`, and the `UNBUNDLE_SCAN` / `UNBUNDLE_EXECUTE` operation definitions.
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `express_mode.description`, `express_mode.unbundle_determinism_rule`, `operations.core_operations[name=UNBUNDLE_SCAN]`, and `operations.core_operations[name=UNBUNDLE_EXECUTE]`.
 
 ### 6.4 Deterministic unbundling and deferred fragments
 
@@ -2164,6 +2187,12 @@ Tracked values:
 | Last full validation timestamp                  | Most recent global validation point       |
 | Active Extensions and annotation counts         | Extension overlay inventory               |
 
+Extension advisory surface:
+
+- Extensions may also append advisory records under `extension_advisories`.
+- `extension_advisories` is not one of the three closed `pending_items` families defined by `operations.reconciliation_manifest_schema`; it is an extension-driven advisory list whose presence is authorized by `extension_system.permitted_actions`.
+- CLEAN and compliance logic still require recorded disposition for critical or blocking extension advisories when extensions are active.
+
 Manifest item types:
 
 | Item type                    | Fields                                                                                | Meaning                                                                               |
@@ -2204,7 +2233,7 @@ Semantic-gap classification:
 }%%
 erDiagram
     accTitle: Reconciliation manifest tracks and blocking item surfaces
-    accDescr: Shows the reconciliation manifest, its tracked summary records, and the three typed pending-item families that affect CLEAN eligibility.
+    accDescr: Shows the reconciliation manifest, its tracked summary records, and the three typed pending-item families; extension advisories are handled separately in the surrounding prose because the source defines their role but not a closed field schema.
     direction LR
 
     RECONCILIATION_MANIFEST ||--|{ TIER_COUNT : tracks
@@ -2250,9 +2279,9 @@ erDiagram
 
 </div>
 
-<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The reconciliation manifest is not a generic notes bucket; it has a closed track structure and a small set of typed pending-item records that directly affect CLEAN eligibility.
+<span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The reconciliation manifest is not a generic notes bucket; it combines a closed summary-track structure, a closed set of typed `pending_items` families, and a separate extension advisory surface that still participates in CLEAN-state review.
 
-<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.reconciliation_manifest_tracks`, `operations.reconciliation_manifest_schema`, and Section `7.3`.
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.reconciliation_manifest_tracks`, `operations.reconciliation_manifest_schema`, `extension_system.permitted_actions`, `extension_system.integration_rules[rule_id=EXT-R7]`, and `compliance_checklist`.
 
 Illustrative manifest snippets:
 
@@ -2452,14 +2481,14 @@ flowchart LR
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Extensions remain outside the Core semantics boundary: they may read, annotate, advise, and stage candidates, but only Core operations can mutate the authoritative DAG.
 
-<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `extension_system.architecture_description`, `permitted_actions`, `candidate_pool`, and Section `8.1`.
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `extension_system.architecture_description`, `extension_system.permitted_actions`, `extension_system.candidate_pool`, and Section `8.1`.
 
 Permitted actions:
 
 - Read Core node content.
 - Annotate Core nodes with namespaced metadata stored only in `extension_annotations`.
 - Generate derived external artifacts such as reports, IaC, or recommendations.
-- Add advisories to the reconciliation manifest's extension-advisories surface.
+- Add advisories to the reconciliation manifest's `extension_advisories` surface.
 
 Prohibited actions:
 
@@ -2541,7 +2570,7 @@ flowchart LR
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The extension contract is intentionally asymmetric: allowed behaviors are narrow and explicit, while prohibited behaviors ring-fence the Core from hidden mutation.
 
-<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `extension_system.permitted_actions`, `prohibited_actions`, and `EXT-R1` through `EXT-R7`.
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `extension_system.permitted_actions`, `extension_system.prohibited_actions`, `extension_system.normative_notes`, and `extension_system.integration_rules` (`EXT-R1` through `EXT-R7`).
 
 ### 8.3 ARE candidate pool and activation states
 
@@ -2549,11 +2578,11 @@ The candidate pool is specific to E5, the AI Upward Reconstruction Engine (`ARE`
 
 | Property               | Value                                                                           |
 | ---------------------- | ------------------------------------------------------------------------------- |
-| Candidate status value | `CANDIDATE` (not a Core status)                                                 |
+| Candidate status value | `CANDIDATE` (not a Core status value)                                           |
 | Visibility rule        | Visible when ARE is `active` or `paused`; hidden when `disabled`                |
 | Checkpoint path        | `.agent/state/are_candidate_pool.checkpoint.yaml`                               |
-| Effect on Core status  | No effect on Core CLEAN or DIRTY status                                         |
-| Promotion mechanism    | Promotion into Core requires `INSERT` with full validation and threshold checks |
+| Effect on Core status  | No effect on Core DIRTY/CLEAN status                                            |
+| Promotion mechanism    | Promotion into Core requires `INSERT` with full validation; below-threshold candidates require `override_flag: true` plus non-empty `human_rationale` recorded in `pending_items` |
 | Discard trigger        | Any transition to `disabled` discards the pool and deletes the checkpoint file  |
 
 Activation states:
@@ -2580,6 +2609,7 @@ Operational reading of the activation contract:
 - `pool_preserved_runtime` and `pool_preserved_restart` are first-class ARE state semantics, not informal implementation hints.
 - In `active`, restart preservation is explicitly `optional`; in `paused`, restart preservation is mandatory.
 - Entering `paused` creates a durability obligation: the checkpoint must be written atomically on entry and re-written after every mutating pool action while paused.
+- The paused-state checkpoint is not just a pool-count snapshot; the authoritative E5 contract requires candidate content, `ARE::confidence_score`, `review_status`, and practitioner notes to be persisted.
 - Transitioning to `disabled` deletes the checkpoint and discards the pool regardless of whether the prior state was `active` or `paused`.
 
 Paused-state practitioner sequence:
@@ -2587,7 +2617,7 @@ Paused-state practitioner sequence:
 1. ARE runs in `active` and accumulates candidates.
 2. Transition `active -> paused` halts inference and writes `.agent/state/are_candidate_pool.checkpoint.yaml`.
 3. Promotion by `INSERT` or manual discard remains allowed while paused.
-4. Every paused-state pool mutation re-persists the checkpoint.
+4. Every paused-state pool mutation re-persists the full checkpoint, including candidate content, scores, review status, and practitioner notes.
 5. Process restart restores the checkpoint automatically and returns ARE to `paused`.
 6. Any transition to `disabled` deletes the checkpoint and discards the pool.
 
@@ -2737,7 +2767,7 @@ flowchart TB
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> ARE inference, scoring, checkpointing, and promotion are coupled but not identical: candidate generation is extension-local, while promotion remains a human-reviewed Core `INSERT`.
 
-<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `extension_system.candidate_pool`, `are_scoring_profiles`, the E5 catalog entry, and Sections `8.3-8.4`.
+<span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `extension_system.candidate_pool`, `are_scoring_profiles`, `extension_catalog[id=E5]`, and Sections `8.3-8.4`.
 
 ### 8.5 Extension catalog
 
@@ -2808,17 +2838,17 @@ flowchart TB
 | Scoring profile | `standard_v1`                                                                                                                                                               |
 | Reads           | `ISL, CDL, ICL, SAL`                                                                                                                                                        |
 | Annotates       | `SAL, ICL, CDL, ISL`                                                                                                                                                        |
-| Notes           | ARE annotation is restricted to `SAL`, `ICL`, `CDL`, and `ISL`. Higher-level intent, governance, ethical, or functional insights are surfaced only as candidate-pool items. |
+| Notes           | ARE annotation is restricted to tiers at or below `SAL` (`SAL`, `ICL`, `CDL`, `ISL`). ARE must not annotate `XPD`, `SIL`, `GPCL`, or `FCL` nodes. Inferred intent, governance, ethical, or functional insights are surfaced as Candidate Pool nodes only, subject to human promotion via `INSERT`. |
 
 | Rule     | Statement                                                                                                                                                                                                                                                                                              |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `ARE-R1` | All inferred nodes are placed in the extension candidate pool; automatic promotion is prohibited.                                                                                                                                                                                                      |
-| `ARE-R2` | Every candidate carries `ARE::confidence_score` computed under the declared `scoring_profile`; deterministic conformance validation resolves the profile and enforces reproducible scoring.                                                                                                            |
-| `ARE-R3` | Promotion into the Core DAG requires `INSERT` with full atomic validation.                                                                                                                                                                                                                             |
-| `ARE-R4` | ARE must never autonomously create `XPD` or `GPCL` nodes.                                                                                                                                                                                                                                              |
-| `ARE-R5` | Every ARE deployment must declare a `scoring_profile` that references a profile defined in `are_scoring_profiles`.                                                                                                                                                                                     |
-| `ARE-R6` | ARE must implement the tri-state activation lifecycle `active`, `paused`, and `disabled`, with `disabled -> paused` forbidden.                                                                                                                                                                         |
-| `ARE-R7` | On every `active -> paused` transition, ARE must atomically persist the full candidate pool to `.agent/state/are_candidate_pool.checkpoint.yaml`, re-persist after each mutating pool action while paused, restore paused state on restart, and delete the checkpoint on any transition to `disabled`. |
+| `ARE-R1` | All inferred nodes placed in the Extension Candidate Pool (§8.2); automatic promotion prohibited.                                                                                                                                                                                                      |
+| `ARE-R2` | Each candidate carries `ARE::confidence_score` (`0.0-1.0`) computed according to the `scoring_profile` declared in the ARE Extension contract. The declared profile must be a standard profile (`standard_v1` or `conservative_v1`) or a custom profile with all required fields declared per `are_scoring_profiles.custom.required_fields`. Deterministic ARE conformance validation resolves the `scoring_profile` reference, confirms score-band ordering and non-overlap, and enforces reproducible scoring: identical source evidence inputs must produce identical scores under the same profile (`AX-3`). |
+| `ARE-R3` | Promotion into Core DAG requires `INSERT` with full atomic ruleset validation.                                                                                                                                                                                                                         |
+| `ARE-R4` | ARE must never autonomously create `XPD` or `GPCL` nodes; ethical and regulatory content requires human authorship.                                                                                                                                                                                   |
+| `ARE-R5` | Every ARE deployment must declare a `scoring_profile` in its Extension contract. The `scoring_profile` value must reference a profile defined in `are_scoring_profiles`. Omission of `scoring_profile` fails the Extension contract. Custom profiles must declare all fields enumerated in `are_scoring_profiles.custom.required_fields` and conform to `are_scoring_profiles.custom.profile_template` or the Extension contract fails `EXT-R1` validation. |
+| `ARE-R6` | The ARE Extension must implement a tri-state activation lifecycle: `active` (inference running), `paused` (inference halted, Pool retained), and `disabled` (inference halted, Pool discarded). The transition `disabled -> paused` is forbidden. All other transitions are permitted per the state semantics defined in `extension_system.candidate_pool.activation_states`. Pausing ARE must not alter any Core node status, annotation, or DIRTY/CLEAN propagation. `EXT-R5` applies to all ARE state transitions without exception. |
+| `ARE-R7` | On every `active -> paused` transition, the ARE Extension must atomically persist the complete Candidate Pool, including all candidate node content, `ARE::confidence_score` annotations, `review_status` fields, and practitioner notes, to `.agent/state/are_candidate_pool.checkpoint.yaml`. This file must be re-persisted after each mutating Pool action (promotion via `INSERT`, manual discard) while ARE remains in `paused` state. On process restart with ARE state recorded as `paused`, the checkpoint must be automatically loaded and state must be restored to `paused` without requiring practitioner intervention. The checkpoint file must be deleted on any transition to `disabled`. |
 
 #### `E6` - Security & Compliance Engine (`SCE`)
 
@@ -2843,7 +2873,7 @@ flowchart TB
 | Contract  | `DDE-1.0 / DDR-Core-6.x`                                                                                                |
 | Reads     | `FCL, GPCL, SAL, ICL, CDL`                                                                                              |
 | Annotates | `ICL, SAL, FCL`                                                                                                         |
-| Notes     | When annotating `FCL`, DDE performs confirmation-only validation. It does not infer missing data entities for the Core. |
+| Notes     | DDE annotates `FCL` to flag functional capabilities that imply data domain schemas not yet formally specified in `ICL`. This is a forward-reference advisory, not inference about intent. |
 
 | Rule     | Statement                                                                                                                                                                                             |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -2851,7 +2881,7 @@ flowchart TB
 | `DDE-R2` | Every `ICL` payload schema is validated against the canonical ER model.                                                                                                                               |
 | `DDE-R3` | Schema-consistency violations are flagged as blocking advisories.                                                                                                                                     |
 | `DDE-R4` | Data lifecycle policies specify retention periods traceable to `GPCL` regulatory requirements.                                                                                                        |
-| `DDE-R5` | When annotating `FCL`, DDE verifies only that each entity named under `FCL-R7` has a corresponding `ICL` schema. Missing `FCL-R7` enumeration is a Core validation failure, not a DDE discovery task. |
+| `DDE-R5` | When annotating `FCL` nodes, DDE must perform confirmation validation only: verify that each data entity enumerated under `FCL-R7` has a corresponding `ICL` schema definition. DDE must not perform discovery-mode annotation on `FCL` nodes. Inferring unstated data entities from `FCL` capability semantics when no `FCL-R7` enumeration is present is a Core `FCL` validation failure and is not a DDE discovery responsibility. `FCL` nodes lacking `FCL-R7` enumeration must be flagged as `FCL-R7` violations by `VALIDATE`, not annotated by DDE. |
 
 #### `E8` - Deployment & CI/CD Planner (`DCP`)
 
@@ -3328,7 +3358,7 @@ Rule map:
 | `express_mode`                                                                                                                                                                           | `6.2-6.4`, `10.7`   |
 | `constraint_precedence`                                                                                                                                                                  | `7.1-7.2`           |
 | `compliance_checklist`                                                                                                                                                                   | `7.4-7.5`           |
-| `extension_system`                                                                                                                                                                       | `8.1-8.4`, `10.8`   |
+| `extension_system`                                                                                                                                                                       | `7.3`, `8.1-8.4`, `10.8` |
 | `extension_catalog`                                                                                                                                                                      | `8.5`               |
 | `are_scoring_profiles`                                                                                                                                                                   | `8.4`, `10.8`       |
 | `glossary`                                                                                                                                                                               | `10.1`              |
@@ -3391,15 +3421,17 @@ Illustrative grouped content:
 
 ### 10.8 ARE and Extension Reference
 
-| Surface                     | Source-derived rule of thumb                                                                                                       | Why it matters                                                                          |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Extension mutation boundary | Extensions read, annotate, advise, and generate artifacts; they do not mutate Core node content, `parent_ids`, `tier`, or `status` | Preserves AX-6 declarative integrity and keeps Core authority local to named operations |
-| Annotation storage          | Extension metadata lives in `extension_annotations` only, with namespaced keys                                                     | Prevents `extends` from masquerading as Core lineage                                    |
-| Candidate Pool              | Only E5 uses a candidate pool, and it stays outside the Core DAG                                                                   | ARE inference remains reviewable without silently altering authoritative structure      |
-| Paused ARE state            | Pool must be checkpointed on entry and after every mutating pool action while paused                                               | Restart behavior is part of the contract, not optional implementation polish            |
-| Disabled ARE state          | Pool is discarded, checkpoint deleted, visibility removed, and promotion/discard actions disabled                                  | Avoids stale candidate carryover after shutdown                                         |
-| Review threshold            | Candidates below threshold need `override_flag: true` plus non-empty `human_rationale`                                             | Prevents low-confidence inference from entering review without human accountability     |
-| Concrete profiles           | `standard_v1` and `conservative_v1` are reusable profiles; `custom` is a template contract                                         | Prevents teams from treating the `custom` template as a pre-approved scoring profile    |
+| Surface                     | Source-derived rule of thumb                                                                                                                                         | Why it matters                                                                          |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Extension mutation boundary | Extensions read, annotate, advise, and generate artifacts; they do not mutate Core node content, `parent_ids`, `tier`, or `status`                                   | Preserves AX-6 declarative integrity and keeps Core authority local to named operations |
+| Annotation storage          | Extension metadata lives in `extension_annotations` only, with namespaced keys                                                                               | Prevents `extends` from masquerading as Core lineage                                    |
+| Candidate Pool              | Only E5 uses a Candidate Pool, and it stays outside the Core DAG until human promotion via `INSERT`                                                          | ARE inference remains reviewable without silently altering authoritative structure      |
+| ARE annotation boundary     | ARE may annotate only `SAL`, `ICL`, `CDL`, and `ISL`; higher-tier inferred insights stay in the Candidate Pool pending human review                             | Prevents AI-inferred overlays from mutating intent, governance, or functional surfaces  |
+| Paused ARE state            | Pool must be checkpointed on entry and after every mutating pool action while paused                                                                          | Restart behavior is part of the contract, not optional implementation polish            |
+| Disabled ARE state          | Pool is discarded, checkpoint deleted, visibility removed, and promotion/discard actions disabled                                                             | Avoids stale candidate carryover after shutdown                                         |
+| Review threshold            | Candidates below threshold may not enter review or promotion unless `override_flag: true` and non-empty `human_rationale` are recorded in reconciliation `pending_items` | Prevents low-confidence inference from entering review without human accountability     |
+| Concrete profiles           | `standard_v1` and `conservative_v1` are reusable profiles; `custom` is a template contract                                                                   | Prevents teams from treating the `custom` template as a pre-approved scoring profile    |
+| DDE FCL advisory mode       | DDE FCL annotations are forward-reference advisories and confirmation checks, not discovery-mode inference about missing entities or intent                     | Keeps missing `FCL-R7` enumeration a Core validation failure rather than extension guesswork |
 
 ### 10.9 Section Summaries
 

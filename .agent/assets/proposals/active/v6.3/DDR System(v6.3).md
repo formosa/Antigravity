@@ -1,20 +1,117 @@
 # DDR System v6.3 Canonical Specification
 
-> **Deterministic Design & Requirements System - Authoritative Reference**
+> **Deterministic Design & Requirements System - Canonical Human-Readable Rendering**
 
-| Property  | Value                                    |
-| --------- | ---------------------------------------- |
-| Version   | 6.3                                      |
-| Status    | Finalized                                |
-| Date      | 2026-03-28                               |
-| Scope     | Systems-, language-, and domain-agnostic |
-| Authority | DDR Architecture Board                   |
-| Lineage   | Supersedes DDR v6.2                      |
-| Mode      | full                                     |
+| Property                  | Value                                    |
+| ------------------------- | ---------------------------------------- |
+| ddr_version               | 6.3                                      |
+| document_profile          | system_definition                        |
+| project.name              | DDR System v6.3 Semantic Authority        |
+| project.created           | 2026-02-26                               |
+| project.mode              | full                                     |
+| system_metadata.status    | Finalized                                |
+| system_metadata.date      | 2026-03-28                               |
+| system_metadata.scope     | Systems-, language-, and domain-agnostic |
+| system_metadata.authority | DDR Architecture Board                   |
+| system_metadata.lineage   | Supersedes DDR v6.2                      |
 
 Active tiers: XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL
 
-> Single source of truth. This document is the exclusive normative specification for the DDR System. All prior versions are superseded. No conversation record, partial specification, or derivative document carries normative weight.
+> Authority hierarchy. This Markdown document is the canonical human-readable rendering of the authoritative YAML pair for DDR v6.3. If any conflict occurs, `ddr_system_v6.3.yaml` governs semantic content and `ddr_node_schema_v6.3.yaml` governs allowed structure, conditionals, enums, and validation branching. No conversation record, partial specification, or derivative note overrides the YAML pair.
+
+---
+
+## Table of Contents
+
+- [0. Authority Model and Root Contract](#0-authority-model-and-root-contract)
+- [1. Design Philosophy](#1-design-philosophy)
+- [2. Foundational Axioms](#2-foundational-axioms)
+- [3. DAG Internal Model](#3-dag-internal-model)
+- [4. Consumption Modes](#4-consumption-modes)
+- [5. Tier Specifications](#5-tier-specifications)
+- [6. Constraint Precedence](#6-constraint-precedence)
+- [7. Atomic Operations Protocol](#7-atomic-operations-protocol)
+- [8. Extension System](#8-extension-system)
+- [9. Extension Catalog](#9-extension-catalog)
+- [10. Architecture Diagram](#10-architecture-diagram)
+- [11. Compliance Checklist](#11-compliance-checklist)
+- [Glossary](#glossary)
+- [Appendix A: Version History](#appendix-a-version-history)
+- [Appendix B: Legacy Tier Migration](#appendix-b-legacy-tier-migration)
+- [Appendix C: YAML and Schema Surface Crosswalk](#appendix-c-yaml-and-schema-surface-crosswalk)
+
+## 0. Authority Model and Root Contract
+
+This preamble renders the v6.3 root contract directly from the authoritative YAML pair. It exists to make the entry conditions explicit without renumbering the normative internal model in §3.
+
+### 0.1 Authority Hierarchy
+
+| Surface | Role | Conflict precedence |
+| ------- | ---- | ------------------- |
+| `ddr_system_v6.3.yaml` | Semantic and structural system-definition authority | Governs meaning, topology, operations, Extensions, and normative content |
+| `ddr_node_schema_v6.3.yaml` | Machine-contract authority | Governs allowed shapes, conditionals, enums, required surfaces, and validation branching |
+| `DDR System(v6.3).md` | Canonical human-readable rendering | Explains and renders the authoritative YAML pair; never overrides it |
+
+```mermaid
+flowchart TB
+    accTitle: DDR authority hierarchy
+    accDescr: Shows the authoritative YAML pair and this Markdown rendering, clarifying that semantic conflicts resolve to ddr_system_v6.3.yaml and machine-contract conflicts resolve to ddr_node_schema_v6.3.yaml.
+    SYS["ddr_system_v6.3.yaml\nsemantic and structural authority"]
+    SCH["ddr_node_schema_v6.3.yaml\nmachine-contract authority"]
+    MD["DDR System(v6.3).md\ncanonical human-readable rendering"]
+    SEM["Normative DDR meaning"]
+    VAL["Allowed validation surface"]
+
+    SYS --> SEM
+    SCH --> VAL
+    SYS --> MD
+    SCH --> MD
+```
+
+### 0.2 Root Contract Quick Reference
+
+| Surface | v6.3 rule |
+| ------- | --------- |
+| `ddr_version` | Must be the string `6.3`. |
+| `document_profile` | Must be one of `project_instance`, `project_instance_express`, or `system_definition`. |
+| `project.mode` coupling | If `project.mode=express`, then `document_profile` must be `project_instance_express`. If `document_profile=project_instance_express` and `project.mode` is present, it must be `express`. |
+| `active_tiers` | Must be exactly one of the four canonical ordered sets declared by the schema and INV-3. |
+| Root-node rule | `XPD` is the root when active; otherwise `SIL` is the only root tier. |
+| Express node contract | Every node in `project_instance_express` must carry `express_mode_group`, and the top-level `express_mode` block is required. |
+| System-definition contract | `system_definition` documents must carry the full authoritative top-level surface listed in §0.3. |
+
+```mermaid
+flowchart TD
+    accTitle: DDR root document profile branching
+    accDescr: Shows the three document_profile branches and the additional obligations attached to project_instance_express and system_definition documents.
+    ROOT["document_profile"]
+    PI["project_instance"]
+    PIE["project_instance_express"]
+    SD["system_definition"]
+    PI_RULE["Lean project artifact\nno system_metadata required"]
+    PIE_RULE["express_mode required\nnodes require express_mode_group\nproject.mode, if present, must be express"]
+    SD_RULE["Authoritative top-level surface required"]
+
+    ROOT --> PI
+    ROOT --> PIE
+    ROOT --> SD
+    PI --> PI_RULE
+    PIE --> PIE_RULE
+    SD --> SD_RULE
+```
+
+### 0.3 System-Definition Required Surface
+
+When `document_profile=system_definition`, the schema requires the following top-level authority surface in addition to `ddr_version`, `document_profile`, `active_tiers`, and `nodes`.
+
+| Group | Required surface |
+| ----- | ---------------- |
+| Core metadata | `system_metadata`, `axioms`, `edge_type_definitions`, `node_schema_fields`, `node_id_format` |
+| Structural rules | `dag_invariants`, `citation_rules`, `consumption_modes`, `express_mode`, `tier_definitions` |
+| Operational authority | `constraint_precedence`, `operations`, `lifecycle` |
+| Extension and verification | `extension_system`, `extension_catalog`, `are_scoring_profiles`, `compliance_checklist`, `glossary` |
+
+The current v6.3 authority YAML additionally carries `project`, `errata_log`, `version_history`, and `tier_migration` as authoritative companion surfaces for this specification release.
 
 ---
 
@@ -60,6 +157,8 @@ No active errata entries are carried in the authoritative YAML definition.
 
 ## 3. DAG Internal Model
 
+This section renders the node, edge, citation, and lifecycle machine contract as the human-readable reference surface. Tables remain authoritative; diagrams are explanatory only.
+
 ### 3.1 Node Schema
 
 | Property              | Type                                                   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
@@ -77,6 +176,17 @@ No active errata entries are carried in the authoritative YAML definition.
 | modified              | ISO 8601                                               | Required | Last modification timestamp.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | express_mode_group    | Enum                                                   | Optional | Required on every node when document_profile=project_instance_express; one of G1\|G2\|G3\|G4. If project.mode is present for the same document, it must be express. Cardinality: conditional                                                                                                                                                                                                                                                                                                                                             |
 | extension_annotations | Map                                                    | Optional | Read-only Extension metadata; reserved suffixes matching core field names are invalid.                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+
+### 3.1.1 ParentCitation Contract
+
+`ParentCitation` is a closed machine-contract object used inside `parent_ids`. It exists to keep Core lineage explicit while preventing Extension-only edge semantics from leaking into Core node citations.
+
+| Field | Type | Constraint |
+| ----- | ---- | ---------- |
+| `id` | String | Must match the canonical node-ID family (`XPD-0.N` or `TIER-N.M`) and reference an existing node at runtime. |
+| `edge_type` | Enum | Restricted to `derives`, `constrains`, or `implements`. `extends` is never valid inside `parent_ids`. |
+| `derivation_mode` | Enum | Optional `semantic` or `traceability`. Permitted only when `edge_type='derives'`; omitted values default to `semantic` for backward compatibility. |
+| Additional fields | None | The object is closed by the machine contract; no extra keys are valid. |
 
 ### 3.2 Edge Types
 
@@ -134,6 +244,19 @@ Active tiers: XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL
 | INV-7     | Structural validity may coexist with declared semantic gaps only when those gaps are explicitly recorded in the reconciliation manifest under an allowed semantic_gap_classification type, with human rationale and a required resolution or waiver before CLEAN state.                                                                                                                          |
 | INV-8     | The lifecycle.status_transitions definition must form a complete and closed state machine: every non-terminal status must have at least one valid outbound transition, and no undefined transitions are permitted.                                                                                                                                                                               |
 
+### 3.5.1 Rule-ID Family Closure
+
+v6.3 closes the identifier families used across the specification so malformed references fail earlier and cross-surface drift is easier to detect.
+
+| Family | Closed form |
+| ------ | ----------- |
+| `InvariantId` | `INV-[0-9]+` |
+| `CitationRuleId` | `CIT-R[0-9]+` |
+| `AtomicTierRuleId` | `TIER-(R|E)[0-9]+` with optional suffix for branch-specific rules such as `CL-R9-imposed` |
+| `BridgeRuleId` | `UPPER-UPPER-BR[0-9]+` |
+| `AtomicRuleId` | `AtomicTierRuleId` or `BridgeRuleId` |
+| `ExtensionRuleId` | `^[A-Z]{3,4}-R[0-9]+$` |
+
 ### 3.6 Node ID Format
 
 ```text
@@ -187,9 +310,42 @@ IDs are immutable once assigned. A superseded node retains its original ID with 
 | gc-008   | Replacement node has been successfully INSERTed and validated. All children's parent_ids have been re-wired to the replacement ID. All children are set DIRTY. prior_status is cleared from the source node.                                                                 | structural        |
 | gc-009   | Replacement INSERT failed validation, OR child re-wiring failed after successful INSERT. Source node reverts to its prior_status. If INSERT succeeded before re-wiring failed, the replacement node is removed from the DAG. SUPERSEDE_FAILED is logged with failure_reason. | structural        |
 
+### 3.8.1 Lifecycle Quick Reference
+
+The closed lifecycle model is defined by `lifecycle.status_transitions` plus the guard catalog above. No undefined transition is permitted, and every non-terminal state must have an outbound path per INV-8.
+
+| Surface | Quick reference |
+| ------- | --------------- |
+| Transition authority | `lifecycle.status_transitions` is the sole machine-readable authority for valid status changes. |
+| Structural guards | `gc-001`, `gc-005`, `gc-006`, `gc-007`, `gc-008`, and `gc-009` are mechanically checkable gates. |
+| Manual guards | `gc-002`, `gc-003`, and `gc-004` require explicit human disposition or documentation. |
+| Rollback rule | `SUPERSEDE_PENDING` may revert only to the recorded `prior_status` on `gc-009`; rollback never creates a second stable status. |
+
+```mermaid
+stateDiagram-v2
+    accTitle: DDR node lifecycle state machine
+    accDescr: Shows the allowed DDR node status transitions, including SUPERSEDE entry, successful completion, and rollback to the recorded prior_status.
+    [*] --> DRAFT
+    DRAFT --> ACTIVE: VALIDATE / gc-001 + gc-005
+    ACTIVE --> DIRTY: MODIFY
+    ACTIVE --> DEPRECATED: MODIFY / gc-002
+    ACTIVE --> SUPERSEDE_PENDING: SUPERSEDE / gc-007
+    DIRTY --> ACTIVE: VALIDATE / gc-001 + gc-005 + gc-006
+    DIRTY --> DEPRECATED: MODIFY / gc-002
+    DIRTY --> SUPERSEDE_PENDING: SUPERSEDE / gc-007
+    DEPRECATED --> ACTIVE: MODIFY / gc-002 + gc-003 + gc-004
+    DEPRECATED --> SUPERSEDE_PENDING: SUPERSEDE / gc-007
+    SUPERSEDE_PENDING --> SUPERSEDED: SUPERSEDE / gc-008
+    SUPERSEDE_PENDING --> ACTIVE: SUPERSEDE rollback / gc-009 when prior_status=ACTIVE
+    SUPERSEDE_PENDING --> DIRTY: SUPERSEDE rollback / gc-009 when prior_status=DIRTY
+    SUPERSEDE_PENDING --> DEPRECATED: SUPERSEDE rollback / gc-009 when prior_status=DEPRECATED
+```
+
 ---
 
 ## 4. Consumption Modes
+
+This section covers the closed consumption-mode surface and the deterministic UNBUNDLE protocol. The nearby tables remain normative; the flowchart below visualizes the gate sequence only.
 
 | Mode                    | Description                                                                                           | Best Fit                                   |
 | ----------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------ |
@@ -206,6 +362,31 @@ Express Mode is not a reduced system — it is Full Mode with grouped presentati
 | G2    | FCL, CL        | Capabilities & Constraints     |
 | G3    | SAL, ICL       | Architecture & Contracts       |
 | G4    | CDL, ISL       | Design & Scaffolding           |
+
+```mermaid
+flowchart TD
+    accTitle: DDR Express Mode unbundle flow
+    accDescr: Shows how an Express Mode group moves through UNBUNDLE_SCAN, deferred-fragment handling, and UNBUNDLE_EXECUTE, including rejection when undeferred ambiguous content remains.
+    GROUP["Express Mode group node"]
+    SCAN["UNBUNDLE_SCAN\nclassify fragments"]
+    HIGH["confidence=high"]
+    AMBIG["confidence=ambiguous or none"]
+    DEFER["Author applies [DEFER]\nwith rationale in reconciliation manifest"]
+    READY["All fragments high or explicitly deferred"]
+    EXEC["UNBUNDLE_EXECUTE\natomic commit phase"]
+    REJECT["Reject with no structural mutation"]
+    EXPAND["Expand into constituent tiers\nand re-wire parent_ids"]
+
+    GROUP --> SCAN
+    SCAN --> HIGH
+    SCAN --> AMBIG
+    AMBIG --> DEFER
+    AMBIG --> REJECT
+    HIGH --> READY
+    DEFER --> READY
+    READY --> EXEC
+    EXEC --> EXPAND
+```
 
 Unbundle determinism rule: Within Express Mode groups containing conditionally activatable tiers (G1: XPD+SIL+GPCL; G2: FCL+CL), content must be authored with explicit tier annotations (e.g. [FCL] or [CL] inline prefixes) to enable deterministic UNBUNDLE allocation. UNBUNDLE_SCAN is independently invokable as a read-only pre-flight check that classifies each content fragment with confidence 'high', 'ambiguous', or 'none'. UNBUNDLE_EXECUTE is the atomic commit phase and may proceed only when each fragment is either classified as 'high' or explicitly covered by deferred_fragment_handling. The UNBUNDLE_EXECUTE operation must reject content that cannot be unambiguously assigned to a constituent tier and is not explicitly deferred. On rejected UNBUNDLE_EXECUTE, the Express Mode group node retains its current status with no structural mutations applied.
 
@@ -739,6 +920,8 @@ Allowed types: MISSING_MEDIATOR
 
 ## 8. Extension System
 
+This section covers the non-mutating Extension boundary, ARE candidate-pool behavior, and the schema safeguards that prevent Extension metadata from shadowing Core fields.
+
 ### 8.1 Architecture
 
 Extensions are orthogonal read-only overlays attaching to the Core DAG via extends edges. They interact with Core nodes without modifying Core semantics.
@@ -781,9 +964,9 @@ The AI Upward Reconstruction Extension (ARE) requires special handling because i
 | disabled | active   | Yes       | ARE starts fresh with an empty Candidate Pool. Existing behavior preserved and unchanged.                                                                                                 |
 | disabled | paused   | No        | No Candidate Pool exists in `disabled` state. This transition is semantically undefined and is explicitly forbidden.                                                                      |
 
-Checkpoint path: `Canonical path for the ARE Pool checkpoint:`.agent/state/are_candidate_pool.checkpoint.yaml`. This file is written atomically on`active → paused` and re-written after each mutating Pool action while ARE is in `paused` state. It is deleted atomically on any transition to `disabled`. It is not written while ARE is in`active`state under normal operation.`
+Checkpoint path: Canonical path for the ARE Pool checkpoint is `.agent/state/are_candidate_pool.checkpoint.yaml`. This file is written atomically on `active → paused` and re-written after each mutating Pool action while ARE remains in `paused` state. It is deleted atomically on any transition to `disabled`. It is not written while ARE is in `active` state under normal operation.
 
-Automatically discarded on any transition to `disabled`, whether from `active` or `paused`. The checkpoint file at `.agent/state/are_candidate_pool.checkpoint.yaml` is deleted atomically alongside Pool discard. No discard occurs on `active → paused` or `paused → active` transitions.
+Pool discard rule: The Candidate Pool is automatically discarded on any transition to `disabled`, whether from `active` or `paused`. No discard occurs on `active → paused` or `paused → active` transitions.
 
 ### 8.3 Extension Integration Rules
 
@@ -798,6 +981,17 @@ Automatically discarded on any transition to `disabled`, whether from `active` o
 | EXT-R7 | Extension advisories do not mutate Core node status.                               |
 
 > 'All Core tiers' is not a valid contract declaration. Extensions must enumerate tiers by name to preserve auditability under EXT-R2.
+
+### 8.4 Extension Annotation Safeguards
+
+The machine contract closes the Extension annotation surface so read-only metadata cannot masquerade as Core structure.
+
+| Surface | Constraint |
+| ------- | ---------- |
+| `extension_annotations` key format | Keys must use `EXTENSION_ID::annotation_key`, where the prefix is uppercase alphanumeric and the annotation key is lowercase `snake_case`. |
+| Shadow-key blocking | Keys that reuse Core field identities such as `content`, `parent_ids`, `status`, `tier`, or `id`, and reserved suffixes matching Core field names, are invalid. |
+| Storage boundary | Extension metadata belongs in `extension_annotations` only; never in `parent_ids` or Core content. |
+| Express contract closure | `express_mode_group` is a node-level field required only for `project_instance_express`; it is not an Extension annotation surrogate. |
 
 ---
 
@@ -967,8 +1161,12 @@ Custom profiles that omit any required_fields entry fail extension contract vali
 
 ## 10. Architecture Diagram
 
+This diagram summarizes the nearby topology and Extension attachment rules. The tables in §§3, 8, and 9 remain authoritative if any visual simplification appears ambiguous.
+
 ```mermaid
 flowchart TD
+    accTitle: DDR core topology and extension attachment map
+    accDescr: Shows the canonical core-tier topology from XPD through ISL plus the permitted extension-to-core extends edges used by the named DDR extensions.
     subgraph CORE["Core DDR System"]
         XPD["XPD - Existential Purpose Document (optional)"]
         SIL["SIL - Strategic Intent Layer"]
@@ -1156,3 +1354,36 @@ flowchart TD
 | TDL-R3                 | CL-R3         | 1:1                  | -                                                                                   |
 | TDL-R4                 | CL-R4         | 1:1                  | -                                                                                   |
 | TDL-R5                 | CL-R5         | 1:1                  | -                                                                                   |
+
+---
+
+## Appendix C: YAML and Schema Surface Crosswalk
+
+This appendix maps the authoritative YAML and schema surfaces to the human-readable sections in this Markdown rendering. It is the audit index for parity checks; the YAML pair remains authoritative.
+
+| Authoritative surface | Rendered location in this Markdown |
+| --------------------- | ---------------------------------- |
+| `ddr_version`, `document_profile`, `project`, `active_tiers` | `Title block`, `§0.2`, `§0.3`, `§3.4` |
+| `system_metadata` | `Title block`, `§0.1`, `§1.1`, `§1.2` |
+| `axioms` | `§2` |
+| `edge_type_definitions` | `§3.2` |
+| `node_schema_fields` | `§3.1` |
+| Schema `$defs.ParentCitation` | `§3.1.1`, `§3.7` |
+| `dag_invariants` | `§3.5` |
+| Rule-ID defs (`InvariantId`, `CitationRuleId`, `AtomicRuleId`, `ExtensionRuleId`) | `§3.5.1` |
+| `node_id_format` | `§3.6` |
+| `citation_rules` | `§3.7` |
+| `lifecycle.status_transitions`, guard definitions | `§3.8`, `§3.8.1` |
+| `consumption_modes` | `§4` |
+| `express_mode`, `express_mode_group`, profile coupling | `§0.2`, `§4` |
+| `tier_definitions` | `§5` |
+| `constraint_precedence` | `§6` |
+| `operations`, `reconciliation_manifest_schema`, semantic consistency hooks | `§7` |
+| `extension_system`, ARE candidate pool, checkpoint semantics | `§8.1`, `§8.2`, `§8.3` |
+| Schema `extension_annotations` restrictions and shadow-key blocking | `§3.1`, `§8.4` |
+| `extension_catalog` | `§9` |
+| `are_scoring_profiles` | `§9` under `E5 - ARE` |
+| `compliance_checklist` | `§11` |
+| `glossary` | `Glossary` |
+| `version_history` | `Appendix A` |
+| `tier_migration` | `Appendix B` |
