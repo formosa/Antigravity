@@ -6,7 +6,7 @@
 | ------------------------- | ---------------------------------------- |
 | ddr_version               | 6.3                                      |
 | document_profile          | system_definition                        |
-| project.name              | DDR System v6.3 Semantic Authority        |
+| project.name              | DDR System v6.3 Semantic Authority       |
 | project.created           | 2026-02-26                               |
 | project.mode              | full                                     |
 | system_metadata.status    | Finalized                                |
@@ -46,11 +46,11 @@ This preamble renders the v6.3 root contract directly from the authoritative YAM
 
 ### 0.1 Authority Hierarchy
 
-| Surface | Role | Conflict precedence |
-| ------- | ---- | ------------------- |
-| `ddr_system_v6.3.yaml` | Semantic and structural system-definition authority | Governs meaning, topology, operations, Extensions, and normative content |
-| `ddr_node_schema_v6.3.yaml` | Machine-contract authority | Governs allowed shapes, conditionals, enums, required surfaces, and validation branching |
-| `DDR System(v6.3).md` | Canonical human-readable rendering | Explains and renders the authoritative YAML pair; never overrides it |
+| Surface                     | Role                                                | Conflict precedence                                                                      |
+| --------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `ddr_system_v6.3.yaml`      | Semantic and structural system-definition authority | Governs meaning, topology, operations, Extensions, and normative content                 |
+| `ddr_node_schema_v6.3.yaml` | Machine-contract authority                          | Governs allowed shapes, conditionals, enums, required surfaces, and validation branching |
+| `DDR System(v6.3).md`       | Canonical human-readable rendering                  | Explains and renders the authoritative YAML pair; never overrides it                     |
 
 ```mermaid
 flowchart TB
@@ -70,15 +70,15 @@ flowchart TB
 
 ### 0.2 Root Contract Quick Reference
 
-| Surface | v6.3 rule |
-| ------- | --------- |
-| `ddr_version` | Must be the string `6.3`. |
-| `document_profile` | Must be one of `project_instance`, `project_instance_express`, or `system_definition`. |
-| `project.mode` coupling | If `project.mode=express`, then `document_profile` must be `project_instance_express`. If `document_profile=project_instance_express` and `project.mode` is present, it must be `express`. |
-| `active_tiers` | Must be exactly one of the four canonical ordered sets declared by the schema and INV-3. |
-| Root-node rule | `XPD` is the root when active; otherwise `SIL` is the only root tier. |
-| Express node contract | Every node in `project_instance_express` must carry `express_mode_group`, and the top-level `express_mode` block is required. |
-| System-definition contract | `system_definition` documents must carry the full authoritative top-level surface listed in §0.3. |
+| Surface                    | v6.3 rule                                                                                                                                                                                  |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ddr_version`              | Must be the string `6.3`.                                                                                                                                                                  |
+| `document_profile`         | Must be one of `project_instance`, `project_instance_express`, or `system_definition`.                                                                                                     |
+| `project.mode` coupling    | If `project.mode=express`, then `document_profile` must be `project_instance_express`. If `document_profile=project_instance_express` and `project.mode` is present, it must be `express`. |
+| `active_tiers`             | Must be exactly one of the four canonical ordered sets declared by the schema and INV-3.                                                                                                   |
+| Root-node rule             | `XPD` is the root when active; otherwise `SIL` is the only root tier.                                                                                                                      |
+| Express node contract      | Every node in `project_instance_express` must carry `express_mode_group`, and the top-level `express_mode` block is required.                                                              |
+| System-definition contract | `system_definition` documents must carry the full authoritative top-level surface listed in §0.3.                                                                                          |
 
 ```mermaid
 flowchart TD
@@ -104,11 +104,11 @@ flowchart TD
 
 When `document_profile=system_definition`, the schema requires the following top-level authority surface in addition to `ddr_version`, `document_profile`, `active_tiers`, and `nodes`.
 
-| Group | Required surface |
-| ----- | ---------------- |
-| Core metadata | `system_metadata`, `axioms`, `edge_type_definitions`, `node_schema_fields`, `node_id_format` |
-| Structural rules | `dag_invariants`, `citation_rules`, `consumption_modes`, `express_mode`, `tier_definitions` |
-| Operational authority | `constraint_precedence`, `operations`, `lifecycle` |
+| Group                      | Required surface                                                                                    |
+| -------------------------- | --------------------------------------------------------------------------------------------------- |
+| Core metadata              | `system_metadata`, `axioms`, `edge_type_definitions`, `node_schema_fields`, `node_id_format`        |
+| Structural rules           | `dag_invariants`, `citation_rules`, `consumption_modes`, `express_mode`, `tier_definitions`         |
+| Operational authority      | `constraint_precedence`, `operations`, `lifecycle`                                                  |
 | Extension and verification | `extension_system`, `extension_catalog`, `are_scoring_profiles`, `compliance_checklist`, `glossary` |
 
 The current v6.3 authority YAML additionally carries `project`, `errata_log`, `version_history`, and `tier_migration` as authoritative companion surfaces for this specification release.
@@ -181,12 +181,12 @@ This section renders the node, edge, citation, and lifecycle machine contract as
 
 `ParentCitation` is a closed machine-contract object used inside `parent_ids`. It exists to keep Core lineage explicit while preventing Extension-only edge semantics from leaking into Core node citations.
 
-| Field | Type | Constraint |
-| ----- | ---- | ---------- |
-| `id` | String | Must match the canonical node-ID family (`XPD-0.N` or `TIER-N.M`) and reference an existing node at runtime. |
-| `edge_type` | Enum | Restricted to `derives`, `constrains`, or `implements`. `extends` is never valid inside `parent_ids`. |
-| `derivation_mode` | Enum | Optional `semantic` or `traceability`. Permitted only when `edge_type='derives'`; omitted values default to `semantic` for backward compatibility. |
-| Additional fields | None | The object is closed by the machine contract; no extra keys are valid. |
+| Field             | Type   | Constraint                                                                                                                                         |
+| ----------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`              | String | Must match the canonical node-ID family (`XPD-0.N` or `TIER-N.M`) and reference an existing node at runtime.                                       |
+| `edge_type`       | Enum   | Restricted to `derives`, `constrains`, or `implements`. `extends` is never valid inside `parent_ids`.                                              |
+| `derivation_mode` | Enum   | Optional `semantic` or `traceability`. Permitted only when `edge_type='derives'`; omitted values default to `semantic` for backward compatibility. |
+| Additional fields | None   | The object is closed by the machine contract; no extra keys are valid.                                                                             |
 
 ### 3.2 Edge Types
 
@@ -248,14 +248,14 @@ Active tiers: XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL
 
 v6.3 closes the identifier families used across the specification so malformed references fail earlier and cross-surface drift is easier to detect.
 
-| Family | Closed form |
-| ------ | ----------- |
-| `InvariantId` | `INV-[0-9]+` |
-| `CitationRuleId` | `CIT-R[0-9]+` |
+| Family             | Closed form                                                                               |
+| ------------------ | ----------------------------------------------------------------------------------------- |
+| `InvariantId`      | `INV-[0-9]+`                                                                              |
+| `CitationRuleId`   | `CIT-R[0-9]+`                                                                             |
 | `AtomicTierRuleId` | `TIER-(R|E)[0-9]+` with optional suffix for branch-specific rules such as `CL-R9-imposed` |
-| `BridgeRuleId` | `UPPER-UPPER-BR[0-9]+` |
-| `AtomicRuleId` | `AtomicTierRuleId` or `BridgeRuleId` |
-| `ExtensionRuleId` | `^[A-Z]{3,4}-R[0-9]+$` |
+| `BridgeRuleId`     | `UPPER-UPPER-BR[0-9]+`                                                                    |
+| `AtomicRuleId`     | `AtomicTierRuleId` or `BridgeRuleId`                                                      |
+| `ExtensionRuleId`  | `^[A-Z]{3,4}-R[0-9]+$`                                                                    |
 
 ### 3.6 Node ID Format
 
@@ -314,12 +314,12 @@ IDs are immutable once assigned. A superseded node retains its original ID with 
 
 The closed lifecycle model is defined by `lifecycle.status_transitions` plus the guard catalog above. No undefined transition is permitted, and every non-terminal state must have an outbound path per INV-8.
 
-| Surface | Quick reference |
-| ------- | --------------- |
-| Transition authority | `lifecycle.status_transitions` is the sole machine-readable authority for valid status changes. |
-| Structural guards | `gc-001`, `gc-005`, `gc-006`, `gc-007`, `gc-008`, and `gc-009` are mechanically checkable gates. |
-| Manual guards | `gc-002`, `gc-003`, and `gc-004` require explicit human disposition or documentation. |
-| Rollback rule | `SUPERSEDE_PENDING` may revert only to the recorded `prior_status` on `gc-009`; rollback never creates a second stable status. |
+| Surface              | Quick reference                                                                                                                |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Transition authority | `lifecycle.status_transitions` is the sole machine-readable authority for valid status changes.                                |
+| Structural guards    | `gc-001`, `gc-005`, `gc-006`, `gc-007`, `gc-008`, and `gc-009` are mechanically checkable gates.                               |
+| Manual guards        | `gc-002`, `gc-003`, and `gc-004` require explicit human disposition or documentation.                                          |
+| Rollback rule        | `SUPERSEDE_PENDING` may revert only to the recorded `prior_status` on `gc-009`; rollback never creates a second stable status. |
 
 ```mermaid
 stateDiagram-v2
@@ -998,12 +998,12 @@ Pool discard rule: The Candidate Pool is automatically discarded on any transiti
 
 The machine contract closes the Extension annotation surface so read-only metadata cannot masquerade as Core structure.
 
-| Surface | Constraint |
-| ------- | ---------- |
-| `extension_annotations` key format | Keys must use `EXTENSION_ID::annotation_key`, where the prefix is uppercase alphanumeric and the annotation key is lowercase `snake_case`. |
-| Shadow-key blocking | Keys that reuse Core field identities such as `content`, `parent_ids`, `status`, `tier`, or `id`, and reserved suffixes matching Core field names, are invalid. |
-| Storage boundary | Extension metadata belongs in `extension_annotations` only; never in `parent_ids` or Core content. |
-| Express contract closure | `express_mode_group` is a node-level field required only for `project_instance_express`; it is not an Extension annotation surrogate. |
+| Surface                            | Constraint                                                                                                                                                      |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `extension_annotations` key format | Keys must use `EXTENSION_ID::annotation_key`, where the prefix is uppercase alphanumeric and the annotation key is lowercase `snake_case`.                      |
+| Shadow-key blocking                | Keys that reuse Core field identities such as `content`, `parent_ids`, `status`, `tier`, or `id`, and reserved suffixes matching Core field names, are invalid. |
+| Storage boundary                   | Extension metadata belongs in `extension_annotations` only; never in `parent_ids` or Core content.                                                              |
+| Express contract closure           | `express_mode_group` is a node-level field required only for `project_instance_express`; it is not an Extension annotation surrogate.                           |
 
 ---
 
@@ -1373,36 +1373,36 @@ flowchart TD
 
 This appendix maps the authoritative YAML and schema surfaces to the human-readable sections in this Markdown rendering. It is the audit index for parity checks; the YAML pair remains authoritative.
 
-| Authoritative surface | Rendered location in this Markdown |
-| --------------------- | ---------------------------------- |
-| `ddr_version`, `document_profile`, `project`, `active_tiers` | `Title block`, `§0.2`, `§0.3`, `§3.4` |
-| `system_metadata` | `Title block`, `§0.1`, `§1.1`, `§1.2` |
-| `axioms` | `§2` |
-| `edge_type_definitions` | `§3.2` |
-| `node_schema_fields` | `§3.1` |
-| Schema `$defs.ParentCitation` | `§3.1.1`, `§3.7` |
-| `dag_invariants` | `§3.5` |
-| Rule-ID defs (`InvariantId`, `CitationRuleId`, `AtomicRuleId`, `ExtensionRuleId`) | `§3.5.1` |
-| `node_id_format` | `§3.6` |
-| `citation_rules` | `§3.7` |
-| `lifecycle.status_transitions`, guard definitions | `§3.8`, `§3.8.1` |
-| `consumption_modes` | `§4` |
-| `express_mode`, `express_mode_group`, profile coupling | `§0.2`, `§4` |
-| `tier_definitions` | `§5` |
-| `constraint_precedence` | `§6` |
-| `constraint_precedence.constraint_classes` | `§6` class table |
-| `constraint_precedence.intra_tier_conflict_rule` | `§6` under `Intra tier conflict rule` |
-| `constraint_precedence.physical_constraint_rule` | `§6` under `Physical constraint rule` |
-| `constraint_precedence.physical_constraint_escalation` | `§6` under `Physical constraint escalation` |
-| `operations`, `reconciliation_manifest_schema`, semantic consistency hooks | `§7` |
-| `operations.dirty_classification` | `§7.2` DIRTY classification table |
-| `operations.conflict_resolution_protocol` | `§7.3` under `Conflict resolution protocol` |
-| `extension_system`, ARE candidate pool, checkpoint semantics | `§8.1`, `§8.2`, `§8.3` |
-| `extension_system.candidate_pool.checkpoint_path` | `§8.2` checkpoint path paragraph |
-| Schema `extension_annotations` restrictions and shadow-key blocking | `§3.1`, `§8.4` |
-| `extension_catalog` | `§9` |
-| `are_scoring_profiles` | `§9` under `E5 - ARE` |
-| `compliance_checklist` | `§11` |
-| `glossary` | `Glossary` |
-| `version_history` | `Appendix A` |
-| `tier_migration` | `Appendix B` |
+| Authoritative surface                                                             | Rendered location in this Markdown          |
+| --------------------------------------------------------------------------------- | ------------------------------------------- |
+| `ddr_version`, `document_profile`, `project`, `active_tiers`                      | `Title block`, `§0.2`, `§0.3`, `§3.4`       |
+| `system_metadata`                                                                 | `Title block`, `§0.1`, `§1.1`, `§1.2`       |
+| `axioms`                                                                          | `§2`                                        |
+| `edge_type_definitions`                                                           | `§3.2`                                      |
+| `node_schema_fields`                                                              | `§3.1`                                      |
+| Schema `$defs.ParentCitation`                                                     | `§3.1.1`, `§3.7`                            |
+| `dag_invariants`                                                                  | `§3.5`                                      |
+| Rule-ID defs (`InvariantId`, `CitationRuleId`, `AtomicRuleId`, `ExtensionRuleId`) | `§3.5.1`                                    |
+| `node_id_format`                                                                  | `§3.6`                                      |
+| `citation_rules`                                                                  | `§3.7`                                      |
+| `lifecycle.status_transitions`, guard definitions                                 | `§3.8`, `§3.8.1`                            |
+| `consumption_modes`                                                               | `§4`                                        |
+| `express_mode`, `express_mode_group`, profile coupling                            | `§0.2`, `§4`                                |
+| `tier_definitions`                                                                | `§5`                                        |
+| `constraint_precedence`                                                           | `§6`                                        |
+| `constraint_precedence.constraint_classes`                                        | `§6` class table                            |
+| `constraint_precedence.intra_tier_conflict_rule`                                  | `§6` under `Intra tier conflict rule`       |
+| `constraint_precedence.physical_constraint_rule`                                  | `§6` under `Physical constraint rule`       |
+| `constraint_precedence.physical_constraint_escalation`                            | `§6` under `Physical constraint escalation` |
+| `operations`, `reconciliation_manifest_schema`, semantic consistency hooks        | `§7`                                        |
+| `operations.dirty_classification`                                                 | `§7.2` DIRTY classification table           |
+| `operations.conflict_resolution_protocol`                                         | `§7.3` under `Conflict resolution protocol` |
+| `extension_system`, ARE candidate pool, checkpoint semantics                      | `§8.1`, `§8.2`, `§8.3`                      |
+| `extension_system.candidate_pool.checkpoint_path`                                 | `§8.2` checkpoint path paragraph            |
+| Schema `extension_annotations` restrictions and shadow-key blocking               | `§3.1`, `§8.4`                              |
+| `extension_catalog`                                                               | `§9`                                        |
+| `are_scoring_profiles`                                                            | `§9` under `E5 - ARE`                       |
+| `compliance_checklist`                                                            | `§11`                                       |
+| `glossary`                                                                        | `Glossary`                                  |
+| `version_history`                                                                 | `Appendix A`                                |
+| `tier_migration`                                                                  | `Appendix B`                                |

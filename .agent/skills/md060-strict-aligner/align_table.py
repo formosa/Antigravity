@@ -23,15 +23,15 @@ def align_markdown_table_block(rows: list) -> list:
     parsed_rows = []
     num_cols = 0
 
-    # Prefix capture: captures leading blockquote '>' or spaces
-    prefix_regex = re.compile(r'^([\s>]*)\|(.*)\|[\s]*$')
+    # Prefix capture: captures leading blockquote '>' or spaces, and optional trailing pipe
+    prefix_regex = re.compile(r'^([\s>]*)\|(.*?)(\|?)\s*$')
 
     for row_str in rows:
         match = prefix_regex.match(row_str)
         if not match:
             continue
 
-        prefix, content = match.groups()
+        prefix, content, _ = match.groups()
 
         # Token masking: protect pipes inside backticks and escaped pipes
         # We replace them with a temporary placeholder that won't be split
