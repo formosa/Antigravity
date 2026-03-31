@@ -57,12 +57,20 @@
   blockquote { border-left: 4px solid var(--border-glass); padding-left: 1.5rem; margin: 2rem 0; color: var(--text-muted); font-style: italic; }
   hr { border: 0; border-top: 1px solid var(--border-glass); margin: 3rem 0; }
 
+  @page {
+    margin: 0.6in;
+  }
   @media print {
-    body { font-size: 10.5pt; max-width: none; padding: 0; }
-    h1, h2, h3 { color: #0f172a !important; text-shadow: none; border-color: #0f172a; }
-    table { box-shadow: none; backdrop-filter: none; page-break-inside: avoid; }
-    th { background: #f8fafc; color: #0f172a; }
-    .ddr-badge { border-color: #0f172a; color: #0f172a !important; }
+    body { font-size: 9.5pt; line-height: 1.4; max-width: none; padding: 0; }
+    h1 { font-size: 2.2rem; margin-top: 1rem; margin-bottom: 1rem; color: #0f172a !important; text-shadow: none; border-color: #0f172a; }
+    h2 { font-size: 1.4rem; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #0f172a !important; text-shadow: none; border-color: #0f172a; }
+    h3 { font-size: 1.1rem; margin-top: 1rem; margin-bottom: 0.25rem; color: #0f172a !important; text-shadow: none; border-color: #0f172a; }
+    table { margin: 1rem 0; box-shadow: none; backdrop-filter: none; page-break-inside: avoid; }
+    th { padding: 0.4rem 0.6rem; background: #f8fafc; color: #0f172a; }
+    td { padding: 0.35rem 0.6rem; }
+    p, ul, ol, blockquote { margin-bottom: 0.6rem; margin-top: 0; }
+    .ddr-badge { border-color: #0f172a; color: #0f172a !important; padding: 0.15rem 0.4rem; font-size: 0.7rem; }
+    hr { margin: 1.5rem 0; }
   }
 </style>
 
