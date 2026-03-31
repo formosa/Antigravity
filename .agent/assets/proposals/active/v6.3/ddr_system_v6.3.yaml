@@ -1,6 +1,6 @@
 # ddr_system_v6.3.yaml
-# DDR System v6.3 — Authoritative Specification expressed in certified YAML schema
-# This file IS the DDR System specification represented as its own DAG.
+# DDR System v6.3 Semantic Authority
+# This file IS the DDR System v6.3 specification represented as its own DAG.
 # The nodes section encodes the canonical 9-tier topology with all DAG edges.
 # All normative sections from the specification document are represented here.
 #
@@ -12,7 +12,7 @@ ddr_version: "6.3"
 document_profile: system_definition
 
 project:
-  name: "DDR System v6.3 — Authoritative Specification"
+  name: "DDR System v6.3 Semantic Authority"
   created: "2026-02-26"
   mode: full
 

@@ -1,4 +1,4 @@
-# ddr_node_schema_v6.3.yaml — DDR System v6.3 YAML Definition Schema
+# ddr_node_schema_v6.3.yaml — DDR System v6.3 Machine Contract
 # JSON Schema Draft 2020-12 expressed in YAML.
 # Certifies BOTH:
 #   (A) DDR system-definition files (e.g. ddr_system_v6.3.yaml) — all sections
@@ -14,9 +14,9 @@
 
 $schema: "https://json-schema.org/draft/2020-12/schema"
 $id: "ddr-system-v6.3-schema"
-title: "DDR System v6.3 YAML Definition"
+title: "DDR System v6.3 Machine Contract"
 description: >
-  Schema for DDR System v6.3 YAML definition files. Uses explicit
+  Schema for DDR System v6.3 Machine Contract files. Uses explicit
   document_profile branching to distinguish lean project-instance documents,
   express project-instance documents, and the authoritative system-definition
   artifact. System-definition files require the normative top-level surface,

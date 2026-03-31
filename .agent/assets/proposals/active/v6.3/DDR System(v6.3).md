@@ -1,4 +1,4 @@
-# DDR System Specification v6.3
+# DDR System v6.3 Canonical Specification
 
 > **Deterministic Design & Requirements System - Authoritative Reference**
 
