@@ -8,8 +8,8 @@ Treat this work as **framework architecture and specification engineering**, not
 
 ## Authority Order
 
-1. `.agent\assets\proposals\active\v6.1\ddr_system_v6.1.yaml` is the normative specification.
-2. `.agent\assets\proposals\active\v6.1\ddr_node_schema.yaml` is the normative schema and structural validator.
+1. DDR System v6.3 Machine Contract, `.agent\assets\proposals\active\v6.3\ddr_node_schema_v6.3.yaml`
+2. DDR System v6.3 Semantic Authority, `.agent\assets\proposals\active\v6.3\ddr_system_v6.3.yaml`
 3. If any instruction, proposal, patch, note, or comment conflicts with those files, preserve the normative files and report the conflict explicitly.
 
 ## Primary Objective
@@ -111,7 +111,7 @@ A change is not complete unless it:
 
 - resolves the target issue end-to-end
 - introduces no new contradiction or orphaned rule
-- remains aligned across `ddr_system_v6.1.yaml` and `ddr_node_schema.yaml`
+- remains aligned across `ddr_system_v6.3.yaml` and `ddr_node_schema_v6.3.yaml`
 - preserves the distinction between **system-definition** and **project-instance** semantics
 - removes obsolete text made unnecessary by the change
 - keeps the framework at least as simple as before, unless added complexity is strictly necessary
