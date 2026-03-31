@@ -1,6 +1,43 @@
-.notes/*
-.git
-.venv
-docs/_build
+# .gitignore
+# -----------------------------------------------------------------------------
+# PURPOSE: Prevents tracking of local dependencies, environment artifacts,
+# and system-generated files in the repository.
+# -----------------------------------------------------------------------------
 
-.agent/assets/proposals/.processed/
+# --- CORE ENVIRONMENTS & DEPENDENCIES ---
+.git
+.venv/
+.nodeenv/
+node_modules/
+
+# --- PYTHON ARTIFACTS & TESTING ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.tox/
+
+# --- BUILD & OUTPUTS ---
+docs/_build/
+dist/
+build/
+*.bak
+*.tmp
+tmp/
+
+# --- IDE & EDITOR SETTINGS ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- SYSTEM & AGENT INTERNALS ---
+.gemini/
+.agent/.temp/
+!.agent/.temp/README.md
+.agent/assets/proposals/processed/  # Exclude large historical proposal records if desired
+
+# --- LOCAL ARCHIVES & NOTES ---
+.archive/
+.notes/

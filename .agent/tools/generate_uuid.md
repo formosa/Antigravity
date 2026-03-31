@@ -11,7 +11,7 @@ args: {}
 # Tool: Generate UUID
 
 Generates a single, random Version 4 UUID string.
-This output is primarily intended to be captured by a Workflow to create transient, unique subfolders within the `.agent/.sandbox/` directory, ensuring concurrency safety between parallel agent tasks.
+This output is primarily intended to be captured by a workflow when constructing transient run directories inside `.agent/.temp/`.
 
 ## Configuration
 
@@ -41,8 +41,8 @@ This tool accepts no input arguments.
 ## Operational Protocol
 
 1. **Usage Context:** Use this tool at the beginning of any workflow that requires writing temporary files.
-2. **Path Construction:** Combine the output string with the sandbox root to create safe paths.
-    - *Example Pattern:* `.agent/.sandbox/task-<UUID_OUTPUT>/`
+2. **Path Construction:** Combine a timestamp, the first eight hexadecimal characters of the UUID output, and a short task slug to create a compliant temp path.
+    - *Example Pattern:* `.agent/.temp/20260331-103500-<UUID8>-task-slug/`
 3. **Capture Output:** Ensure the workflow step executing this tool is configured to capture standard output into a variable.
 
 ## Example Usage (Workflow Context)

@@ -2,7 +2,7 @@
 
 > Master lookup for all agent enforcement rules.
 >
-> **Total Rules**: 2
+> **Total Rules**: 3
 >
 > **Schema**: [`rule.d.ts`](../schemas/rule/rule.d.ts)
 >
@@ -12,11 +12,12 @@
 
 | Mode           | Count   | Purpose                                                  |
 | :------------- | ------: | :------------------------------------------------------- |
-| Always On      | 2       | Safety constraints, Execution protocols                  |
+| Always On      | 2       | Execution guardrails and temp artifact hygiene           |
+| Glob           | 1       | Schema compliance enforcement                            |
 
 ## By Category
 
-### System Rules (1) — Always On, Priority 100
+### Schema Rules (1) — Glob, Priority Critical
 
 | File                                                 | Purpose                           |
 | :--------------------------------------------------- | :-------------------------------- |
@@ -24,8 +25,9 @@
 
 ---
 
-### Execution Rules (1) — Always On, Priority 100
+### Execution Rules (2) — Always On, Priority Critical
 
 | File                                                                     | Purpose                              |
 | :----------------------------------------------------------------------- | :----------------------------------- |
 | [POWERSHELL_EXECUTION_GUARDRAILS.md](POWERSHELL_EXECUTION_GUARDRAILS.md) | Shell & Python execution guardrails  |
+| [AGENT_TEMP_ARTIFACT_HYGIENE.md](AGENT_TEMP_ARTIFACT_HYGIENE.md)         | Temp artifact containment and cleanup |

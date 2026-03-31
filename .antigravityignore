@@ -1,9 +1,0 @@
-# Re-include all project folders for agent context
-!**
-
-# Exclude specific folders from agent context
-.git
-.venv
-
-.agent/assets/proposals/.processed/
-.notes

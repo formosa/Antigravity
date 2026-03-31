@@ -7,10 +7,16 @@ from pathlib import Path
 import yaml
 
 
-BASE_DIR = Path(__file__).resolve().parent
-SYSTEM_YAML = BASE_DIR / "ddr_system_v6.3.yaml"
-SCHEMA_YAML = BASE_DIR / "ddr_node_schema_v6.3.yaml"
-MARKDOWN = BASE_DIR / "DDR System(v6.3).md"
+ASSET_DIR = (
+    Path(__file__).resolve().parents[1]
+    / "assets"
+    / "proposals"
+    / "active"
+    / "v6.3"
+)
+SYSTEM_YAML = ASSET_DIR / "ddr_system_v6.3.yaml"
+SCHEMA_YAML = ASSET_DIR / "ddr_node_schema_v6.3.yaml"
+MARKDOWN = ASSET_DIR / "DDR System(v6.3).md"
 
 
 def load_yaml(path: Path) -> dict:
@@ -172,7 +178,9 @@ def collect_failures(markdown_text: str, system_data: dict, schema_data: dict) -
             failures.append(f"Incomplete {label}: missing {missing}")
 
     authoritative_ids = collect_authoritative_ids(system_data)
-    missing_ids = [identifier for identifier in authoritative_ids if identifier not in markdown_text]
+    missing_ids = [
+        identifier for identifier in authoritative_ids if identifier not in markdown_text
+    ]
     if missing_ids:
         failures.append(
             "Missing authoritative identifiers in Markdown: "

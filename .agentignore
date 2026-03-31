@@ -1,5 +1,35 @@
 # .agentignore
-# Use this file to prevent agents from reading sensitive or irrelevant data
-# while keeping the files visible in the Antigravity Explorer.
+# -----------------------------------------------------------------------------
+# PURPOSE: Limits the agent's context window by ignoring irrelevant or large 
+# directories, saving tokens and improving accuracy. These files remain 
+# visible in the explorer but are not indexed for search or reasoning.
+# -----------------------------------------------------------------------------
 
-*.*
+# --- CORE ENVIRONMENTS & DEPENDENCIES ---
+# Agents don't need to read thousands of library files or git metadata.
+.git
+.venv/
+.nodeenv/
+node_modules/
+
+# --- BUILD, CACHE & PERFORMANCE ---
+# Excluding compiled code and testing caches avoids hallucinations of 
+# old or broken logic.
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.vscode/
+.gemini/
+tmp/
+.agent/.temp/
+
+# --- PROJECT-SPECIFIC ARCHIVES ---
+# These are preserved in the directory but removed from the active context.
+.archive/
+.notes/
+.agent/assets/proposals/processed/  # Historical records often lead to context pollution.
+
+# -----------------------------------------------------------------------------
+# NOTES: To re-include a folder for a specific task, edit this file 
+# or use direct file paths in your prompt.
+# -----------------------------------------------------------------------------
