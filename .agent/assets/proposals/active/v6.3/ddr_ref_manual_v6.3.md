@@ -143,9 +143,29 @@ This section establishes the authority model for the manual, the scope of the un
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Mermaid compatibility policy</strong></span> This manual uses a `stable-only` Mermaid subset: `flowchart`, `stateDiagram`, `classDiagram`, `sequenceDiagram`, `erDiagram`, `subgraph`, and `classDef`. Renderer-specific v11-only features such as `architecture-beta`, expanded flowchart shapes, and ELK-only layout directives are intentionally excluded from the committed source.
 
+<div style="page-break-inside: avoid;">
+
 **Figure 1.1. Authority precedence and manual role**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart TB
     accTitle: Authority precedence and manual role
     accDescr: Shows the authoritative YAML pair, the manual, and the companion markdown document, clarifying which surfaces control meaning and which are derivative reading aids.
@@ -166,13 +186,15 @@ flowchart TB
     SCH --> MAN
     CROSS -. presentation only .-> MAN
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
-    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
+    classDef caution fill:rgba(245,158,11,0.1),stroke:rgba(245,158,11,0.5),color:#fbbf24,stroke-width:2px;
     class SYS,SEM normative;
     class SCH,SHAPE schema;
     class MAN,CROSS caution;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The manual depends on both YAML authorities at once: the system definition controls meaning, while the schema controls what valid DDR artifacts may look like.
 
@@ -204,9 +226,29 @@ The specification defines the current DDR System. The schema defines what valid 
 | Extension implementer   | Confirm extension boundaries, ARE behavior, schema-side extension rules, and reconciliation touchpoints       | Sections 8, 9, and 7                     |
 | Audit / history reader  | Trace changes from current-state metadata through version history, migration, counts, and source crosswalk    | Sections 2.3, 10.2, 10.3, 10.4, and 10.5 |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 1.2. Reader routing by technical objective**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Reader routing by technical objective
     accDescr: Maps common reader roles to the sections that best answer their immediate technical question.
@@ -238,11 +280,13 @@ flowchart LR
     EI --> S9
     AH --> CH
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
     class NR,TA,VT,EI,AH schema;
     class O12,C3,T4,R7,S9,L5,E8,CH normative;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The routing matrix is optimized for lookup speed: readers enter through the authority, structure, operational, extension, or history surfaces that match their immediate task.
 
@@ -302,9 +346,29 @@ The authoritative specification does more than identify itself as current. It ex
 
 The authoritative `errata_log` is empty. No active errata entries are carried in the v6.3 system-definition artifact.
 
+<div style="page-break-inside: avoid;">
+
 **Figure 2.1. v6.3 framing surfaces and downstream impact**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: v6.3 framing surfaces and downstream impact
     accDescr: Connects system metadata, the v6.3 change surface, and the empty errata log to the later sections they frame.
@@ -330,11 +394,13 @@ flowchart LR
     EXP --> OPS
     ERR --> AUD
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
     class META,ERR,CORE,OPS,AUD normative;
     class PROF,LIFE,EXP schema;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Section 2 is not introductory filler; it frames the exact v6.3 deltas that explain why later profile, lifecycle, Express, and ARE sections are structured as they are.
 
@@ -384,9 +450,29 @@ Authoring examples:
 | Lean express-mode project file  | `document_profile: project_instance_express`, top-level `express_mode`, node-level `express_mode_group`, and `project.mode: express` if `project` is present |
 | Authoritative DDR spec artifact | `document_profile: system_definition` plus the full normative surface required by the schema                                                                 |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 3.1. `document_profile` branching and required-surface split**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: document_profile branching and required-surface split
     accDescr: Shows how the top-level schema root branches into three document profiles and which surface each branch must carry.
@@ -406,11 +492,13 @@ flowchart LR
     ROOT --> PIE --> EXPRESS
     ROOT --> SD --> FULL
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
     class ROOT,PI,PIE,SD schema;
     class LEAN,EXPRESS,FULL normative;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> `document_profile` is the top-level branching key that separates lean project artifacts from the authoritative full-surface system-definition artifact.
 
@@ -427,9 +515,29 @@ The schema allows exactly four ordered variants:
 | Base + `CL`          | `SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL`      |
 | Base + `XPD` + `CL`  | `XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL` |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 3.2. Canonical `active_tiers` closure**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart TB
     accTitle: Canonical active_tiers closure
     accDescr: Lists the only four ordered tier sets permitted by the schema for active_tiers.
@@ -448,11 +556,13 @@ flowchart TB
     SCHEMA --> V3
     SCHEMA --> V4
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
     class SCHEMA schema;
     class V1,V2,V3,V4 normative;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR v6.3 closes `active_tiers` to four legal ordered topologies; arbitrary activation sets and arbitrary orderings are not part of the allowed model.
 
@@ -460,9 +570,29 @@ flowchart TB
 
 ### 3.4 Canonical topology and representative nodes
 
+<div style="page-break-inside: avoid;">
+
 **Figure 3.3. Canonical topology and merge behavior**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Canonical topology and merge behavior
     accDescr: Shows the representative DDR tier topology, including the CL constraint branch into SAL and the implements chain below ICL.
@@ -492,11 +622,13 @@ flowchart LR
     ICL -->|implements| CDL
     CDL -->|implements| ISL
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef caution fill:rgba(245,158,11,0.1),stroke:rgba(245,158,11,0.5),color:#fbbf24,stroke-width:2px;
     class XPD,SIL,GPCL,FCL,SAL,ICL,CDL,ISL normative;
     class CL caution;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> `SAL` is the architectural merge point: capability intent arrives from `FCL`, while declared technology and infrastructure bounds arrive from `CL` through `constrains`.
 
@@ -536,9 +668,29 @@ The specification documents 13 node schema fields:
 | `express_mode_group`    | enum, conditional               | Required when `document_profile = project_instance_express`; one of `G1, G2, G3, G4`        |
 | `extension_annotations` | map                             | Read-only extension metadata with reserved shadow-key blocking                              |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 3.4. `DdrNode` and `ParentCitation` conditional structure**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 classDiagram
     accTitle: DdrNode and ParentCitation conditional structure
     accDescr: Shows the closed node contract, the typed parent citation surface, and the conditional branches that activate express-mode, CL-only, and SUPERSEDE_PENDING-only fields.
@@ -581,6 +733,8 @@ classDiagram
     DdrNode ..> SupersedePendingCondition : conditional
 ```
 
+</div>
+
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The node contract is closed, but several fields are legal only under profile-, tier-, or status-specific branches that the schema enforces explicitly.
 
 <span class="ddr-label ddr-surface-schema"><strong>Authority basis</strong></span> `ddr_node_schema_v6.3.yaml` `$defs.DdrNode`, `$defs.ParentCitation`, and Section `3.5`.
@@ -594,9 +748,29 @@ classDiagram
 | Examples          | `SIL-1.3`, `GPCL-2.1`, `CDL-12.5`, `XPD-0.1`                                           |
 | Immutability rule | IDs never change. A superseded node retains its ID; the replacement receives a new ID. |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 3.5. Node ID grammar decomposition**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Node ID grammar decomposition
     accDescr: Breaks a DDR node ID into its tier token, punctuation tokens, section ordinal, item ordinal, and the XPD root exception.
@@ -614,11 +788,13 @@ flowchart LR
     TIER --> DASH --> SECTION --> DOT --> ITEM
     TIER -. XPD only .-> ROOT
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
     class ID,TIER,SECTION,ITEM,ROOT normative;
     class DASH,DOT schema;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The ID format is stable across the system, with `XPD-0.N` as the only special root-pattern branch.
 
@@ -647,9 +823,29 @@ The current edge vocabulary is the four-type surface declared by `edge_type_defi
 | `CIT-R6` | Any authority-linkage `derives` edge must set `derivation_mode: traceability`; non-`derives` edges must not carry `derivation_mode`.                                                              |
 | `CIT-R7` | A child may remain `ACTIVE` only while each cited parent remains at the version last validated against. Any parent `MODIFY` or `SUPERSEDE` that changes cited content forces child re-validation. |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 3.6. Edge vocabulary and citation-surface separation**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Edge vocabulary and citation-surface separation
     accDescr: Distinguishes the three legal Core parent citation edge types from the extension-only extends relationship.
@@ -674,13 +870,15 @@ flowchart LR
     EXTEDGE -. extension overlay only .-> FORBID
     FORBID -. never stored in .-> PARENT
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
     classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class PARENT,EXTANN,MODE normative;
     class DER,CON,IMP,EXTEDGE schema;
     class FORBID alert;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Core parent citations are closed to three edge types, while `extends` is isolated into extension annotations so that analytical overlays cannot masquerade as Core lineage.
 
@@ -741,9 +939,29 @@ See also: Section 4, Section 5, Section 9.
 
 This section covers the tier-by-tier current-state contract for DDR v6.3, including representative nodes, parent and child relationships, inclusion rules, exclusion rules, and tier-specific verification notes. Use Section 3 for shared structural rules, Section 5 for lifecycle and operation effects, and Section 7 for reconciliation and CLEAN-state implications.
 
+<div style="page-break-inside: avoid;">
+
 **Figure 4.1. Abstraction descent across active tiers**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Abstraction descent across active tiers
     accDescr: Groups the DDR tiers into purpose, capability, and realization bands to show the system's downward abstraction path.
@@ -766,19 +984,41 @@ flowchart LR
     XPD --> SIL --> GPCL --> FCL --> SAL --> ICL --> CDL --> ISL
     FCL --> CL
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef caution fill:rgba(245,158,11,0.1),stroke:rgba(245,158,11,0.5),color:#fbbf24,stroke-width:2px;
     class XPD,SIL,GPCL,FCL,SAL,ICL,CDL,ISL normative;
     class CL caution;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR descends from ethical and strategic abstraction into concrete contracts and scaffolding, while `CL` sits beside the functional path as a declaration of non-negotiable bounds rather than user-facing behavior.
 
 <span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `tier_definitions`, `AX-2`, and the tier reference surfaces in Section `4`.
 
+<div style="page-break-inside: avoid;">
+
 **Figure 4.2. Constraint injection path from `CL` into downstream design**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Constraint injection path from CL into downstream design
     accDescr: Shows CL as a declared constraint surface that bounds SAL and therefore all downstream contracts, design, and scaffolding.
@@ -800,11 +1040,13 @@ flowchart LR
     CL -.->|constrains| SAL
     SAL --> ICL --> CDL --> ISL
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
     classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class FCL,SAL,ICL,CDL,ISL normative;
     class CL alert;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> `CL` does not replace functional intent; it injects explicit technology, hardware, and infrastructure bounds into `SAL`, and that constrained architecture then propagates into contracts, design, and scaffolding.
 
@@ -1097,9 +1339,29 @@ This section covers the operational state machine of DDR v6.3, including statuse
 | <span class="ddr-badge ddr-status-superseded"><strong>SUPERSEDED</strong></span>               | Replaced but retained for audit lineage                            |
 | <span class="ddr-badge ddr-status-supersede-pending"><strong>SUPERSEDE_PENDING</strong></span> | Transient state during an in-flight `SUPERSEDE` transaction        |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 5.1. Lifecycle state machine and rollback authority**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 stateDiagram
     accTitle: Lifecycle state machine and rollback authority
     accDescr: Shows the closed DDR node status machine, including SUPERSEDE_PENDING as a transactional state that can commit or roll back to the recorded prior_status.
@@ -1127,11 +1389,13 @@ stateDiagram
       before commit or rollback
     end note
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
     classDef transient fill:#fff3e0,stroke:#ef6c00,color:#bf360c,stroke-width:1.5px;
     class DRAFT,ACTIVE,DIRTY,DEPRECATED,SUPERSEDED normative;
     class SUPERSEDE_PENDING transient;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR v6.3 treats lifecycle changes as a closed machine in which `SUPERSEDE` is transactional and rollback is resolved only through the recorded `prior_status` branch.
 
@@ -1172,9 +1436,29 @@ stateDiagram
 
 Guards are declared only as <span class="ddr-badge ddr-check-structural"><strong>structural</strong></span> or <span class="ddr-badge ddr-check-manual"><strong>manual</strong></span> checks. Separate node-level `VALIDATE` logic may also emit <span class="ddr-badge ddr-check-semantic"><strong>semantic</strong></span> `REVIEW_REQUIRED` items for tier-local rule review before activation.
 
+<div style="page-break-inside: avoid;">
+
 **Figure 5.2. Verification-mode handling across guards and rule review**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Verification-mode handling across guards and rule review
     accDescr: Separates lifecycle guard verification modes from the independent semantic REVIEW_REQUIRED path emitted by VALIDATE or VERIFY.
@@ -1193,13 +1477,15 @@ flowchart LR
     HUMAN --> OUT
     DISP -. resolution required .-> OUT
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
-    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
+    classDef caution fill:rgba(245,158,11,0.1),stroke:rgba(245,158,11,0.5),color:#fbbf24,stroke-width:2px;
     class CHECK,KIND,AUTO,VALID,SEM,RR schema;
     class HUMAN,DISP caution;
     class OUT normative;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR separates lifecycle guard verification modes from semantic review obligations so that `guard_definitions` remain closed to `structural` and `manual` while semantic review still stays explicit.
 
@@ -1218,9 +1504,29 @@ flowchart LR
 | `UNBUNDLE_SCAN`    | No          | Read-only pre-flight scan of an Express Mode group.                                                                                                                      | Produces one diagnostic object per fragment: `fragment_id`, `content_preview`, `detected_annotation`, `confidence`, and `ambiguity_reason` when confidence is not `high`.                    |
 | `UNBUNDLE_EXECUTE` | Yes         | Atomic commit-phase expansion of an Express Mode group into constituent full-mode tiers.                                                                                 | Succeeds only when every fragment is confidently assignable or explicitly deferred. Rejection payload is the complete `UNBUNDLE_SCAN` result.                                                |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 5.3. Canonical operation families**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Canonical operation families
     accDescr: Groups the closed DDR operation namespace into mutation, verification, and Express-mode families.
@@ -1255,13 +1561,15 @@ flowchart LR
     OPS --> CHECKH
     OPS --> EXPH
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
-    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
+    classDef caution fill:rgba(245,158,11,0.1),stroke:rgba(245,158,11,0.5),color:#fbbf24,stroke-width:2px;
     class OPS,MUTH,CHECKH,EXPH normative;
     class INSERT,DELETE,MODIFY,SUPERSEDE caution;
     class VERIFY,VALIDATE,SCAN,EXEC schema;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The operation namespace is intentionally closed: mutation, validation, and Express expansion each have named entry points rather than informal aliases or mixed phase tokens.
 
@@ -1305,9 +1613,29 @@ The specification also states the following `SUPERSEDE` DIRTY behavior:
 - Structural `DIRTY` does not automatically propagate to descendants.
 - If later validation or modification reveals content drift, the affected node's `DIRTY` condition is reclassified as `semantic`, and normal downstream propagation resumes.
 
+<div style="page-break-inside: avoid;">
+
 **Figure 5.4. `DIRTY` propagation and reclassification workflow**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: DIRTY propagation and reclassification workflow
     accDescr: Distinguishes structural DIRTY from semantic DIRTY and shows the scoped supersede exception before revalidation.
@@ -1332,13 +1660,15 @@ flowchart LR
     RECHECK --> RESOLVE["Return to ACTIVE or remain DIRTY"]
     REPAIR --> RESOLVE
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
-    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
+    classDef caution fill:rgba(245,158,11,0.1),stroke:rgba(245,158,11,0.5),color:#fbbf24,stroke-width:2px;
     class TRIG,MARK,CLASS schema;
     class LOCAL,SCOPED,RECHECK,RESOLVE normative;
     class CASCADE,PROP,REPAIR caution;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> DDR distinguishes structural rewiring fallout from semantic drift so that not every topology change triggers blind full-depth propagation.
 
@@ -1371,9 +1701,29 @@ Resolution workflow:
 
 `DETECT CHANGE -> SET DIRTY -> SCAN DOWNSTREAM -> GENERATE PENDING ITEMS -> EXECUTE OPERATION -> VERIFY -> SET CLEAN OR REPEAT`
 
+<div style="page-break-inside: avoid;">
+
 **Figure 5.5. `SUPERSEDE` transaction with commit and rollback**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 sequenceDiagram
     accTitle: SUPERSEDE transaction with commit and rollback
     accDescr: Shows the transactional SUPERSEDE sequence, including replacement insertion, child rewiring, DIRTY marking, rollback, and the rule that partial rewiring is forbidden.
@@ -1399,6 +1749,8 @@ sequenceDiagram
     end
 ```
 
+</div>
+
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> `SUPERSEDE` is not a rename; it is a transactional replace-and-rewire operation with an explicit rollback path that forbids partial child rewiring.
 
 <span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `operations.core_operations.SUPERSEDE`, `lifecycle.status_transitions`, `gc-007`, `gc-008`, and `gc-009`.
@@ -1419,9 +1771,29 @@ This section covers the two declared consumption modes, the fixed four-group Exp
 | <span class="ddr-badge ddr-mode-express"><strong>Express (4 Groups)</strong></span>   | Adjacent tiers are bundled into fixed groups and later expanded through `UNBUNDLE_SCAN` and `UNBUNDLE_EXECUTE`. | Small-to-medium projects                  |
 | <span class="ddr-badge ddr-mode-full"><strong>Full (All Active Tiers)</strong></span> | Every active tier is specified independently.                                                                   | Complex, regulated, or enterprise systems |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 6.1. Full vs Express authority split**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Full versus Express authority split
     accDescr: Compares full-mode authoring with Express-mode grouping and the unbundle protocol that expands groups back into independent active tiers.
@@ -1439,11 +1811,13 @@ flowchart LR
     DDR --> GROUPS
     GROUPS --> SCAN --> EXEC --> ALL
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef caution fill:rgba(245,158,11,0.1),stroke:rgba(245,158,11,0.5),color:#fbbf24,stroke-width:2px;
     class DDR,ALL normative;
     class GROUPS,SCAN,EXEC caution;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Express Mode is an alternate presentation and authoring path, not a reduced DDR model; successful unbundling lands back on the same full-tier surface.
 
@@ -1458,9 +1832,29 @@ flowchart LR
 | `G3`  | `SAL, ICL`       | Architecture & Contracts       |
 | `G4`  | `CDL, ISL`       | Design & Scaffolding           |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 6.2. Fixed `G1-G4` composition**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Fixed G1 through G4 composition
     accDescr: Shows the four immutable Express Mode groups and the exact tier members assigned to each group.
@@ -1497,11 +1891,13 @@ flowchart LR
 
     G1H --> G2H --> G3H --> G4H
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef caution fill:rgba(245,158,11,0.1),stroke:rgba(245,158,11,0.5),color:#fbbf24,stroke-width:2px;
     class G1H,G2H,G3H,G4H caution;
     class XPD,SIL,GPCL,FCL,CL,SAL,ICL,CDL,ISL normative;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Express grouping is fixed and closed; authors do not invent alternate bundles or reorder tiers inside the group system.
 
@@ -1516,9 +1912,29 @@ The authoritative `express_mode` block defines the following:
 - `UNBUNDLE_EXECUTE` is the commit-phase operation and the only canonical commit token in v6.3.
 - On successful unbundling, `parent_ids` auto-wire to the immediately superior unbundled tier, satisfying `CIT-R2` without manual intervention.
 
+<div style="page-break-inside: avoid;">
+
 **Figure 6.3. `UNBUNDLE_SCAN` / `UNBUNDLE_EXECUTE` sequence**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 sequenceDiagram
     accTitle: UNBUNDLE_SCAN and UNBUNDLE_EXECUTE sequence
     accDescr: Shows the Express Mode scan and execute protocol, including deterministic allocation, deferred rationale recording, and rejection without mutation.
@@ -1541,6 +1957,8 @@ sequenceDiagram
         G->>G: preserve source node without mutation
     end
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Unbundling is deliberately split into a read-only diagnostic phase and an atomic commit phase so that ambiguous fragments cannot silently mutate the graph.
 
@@ -1582,9 +2000,29 @@ ambiguity_reason: "No explicit [FCL] or [CL] marker was supplied."
 
 If that fragment is not explicitly deferred, `UNBUNDLE_EXECUTE` must reject with the complete scan result and leave the source group node structurally unchanged.
 
+<div style="page-break-inside: avoid;">
+
 **Figure 6.4. Deferred-fragment and atomic-rejection workflow**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Deferred-fragment and atomic-rejection workflow
     accDescr: Shows how UNBUNDLE_SCAN outcomes resolve into immediate execution, explicit deferral, or atomic rejection.
@@ -1604,13 +2042,15 @@ flowchart LR
     DECIDE -->|yes| KEEP --> MANIFEST
     DECIDE -->|no| REJECT
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef caution fill:rgba(245,158,11,0.1),stroke:rgba(245,158,11,0.5),color:#fbbf24,stroke-width:2px;
     classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class FRAG,CLASS,DECIDE caution;
     class READY,KEEP,MANIFEST normative;
     class REJECT alert;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Deferred fragments remain traceable and local to the original Express node, while undeferred ambiguity blocks the entire commit so that partial unbundling never becomes authoritative.
 
@@ -1639,9 +2079,29 @@ This section covers how DDR v6.3 resolves conflicting constraints, tracks unreso
 | 8        | `CDL`  | Design derives from contracts.                                               |
 | 9        | `ISL`  | Scaffolding derives from design.                                             |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 7.1. Constraint precedence ladder with physical-escalation branch**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart TD
     accTitle: Constraint precedence ladder with physical-escalation branch
     accDescr: Shows the ordered logical precedence ladder, the XPD veto branch, and the escalation path for imposed or physical CL conflicts.
@@ -1662,11 +2122,13 @@ flowchart TD
     XPD -. ethical veto .-> ESC
     CL -. imposed or physical conflict .-> ESC
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
     classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class XPD,SIL,GPCL,FCL,SAL,ICL,CDL,ISL normative;
     class CL,ESC alert;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The logical override ladder is linear, but it contains explicit non-override branches: `XPD` ethical boundaries and imposed or physically impossible `CL` constraints force escalation instead of silent precedence resolution.
 
@@ -1717,9 +2179,29 @@ Semantic-gap classification:
 | Allowed type(s)      | `MISSING_MEDIATOR`                                                                                                    |
 | Required constraints | Must be logged explicitly; must carry human rationale; must be resolved or explicitly waived before system-wide CLEAN |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 7.2. Reconciliation manifest tracks and blocking item surfaces**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 erDiagram
     accTitle: Reconciliation manifest tracks and blocking item surfaces
     accDescr: Shows the reconciliation manifest, its tracked summary records, and the three typed pending-item families that affect CLEAN eligibility.
@@ -1765,6 +2247,8 @@ erDiagram
         string severity
     }
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The reconciliation manifest is not a generic notes bucket; it has a closed track structure and a small set of typed pending-item records that directly affect CLEAN eligibility.
 
@@ -1850,9 +2334,29 @@ A DDR graph may be treated as CLEAN only when all of the following are true:
 - Parent-version freshness is preserved.
 - Extension advisories with critical or blocking severity have disposition.
 
+<div style="page-break-inside: avoid;">
+
 **Figure 7.3. CLEAN-state validation gate**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart TD
     accTitle: CLEAN-state validation gate
     accDescr: Shows the ordered checks that must all pass before a DDR graph may be declared CLEAN.
@@ -1868,11 +2372,13 @@ flowchart TD
     EXT -->|no| FAIL
     EXT -->|yes| CLEAN["CLEAN"]
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
     classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class START,TOPO,ATOMIC,MANIFEST,EXT,CLEAN normative;
     class STATUS,FAIL alert;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> CLEAN is a gate condition across status, structure, atomic-rule review, manifest state, and extension-advisory disposition; no single operation can declare it unilaterally.
 
@@ -1889,9 +2395,29 @@ This section covers the optional extension overlay model, integration rules, ARE
 
 ### 8.1 Extension architecture
 
+<div style="page-break-inside: avoid;">
+
 **Figure 8.1. Extension overlay architecture**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Extension overlay architecture
     accDescr: Shows Core DDR surfaces, the extension overlay, manifest advisories, and the ARE candidate pool without using v11-only architecture-beta syntax.
@@ -1914,13 +2440,15 @@ flowchart LR
     EXTRT -->|ARE only| POOL
     POOL -->|promotion via INSERT only| INSERT --> CORENODE
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
     classDef extension fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c,stroke-width:1.5px;
     class CORENODE,MANIFEST,INSERT normative;
     class ANN schema;
     class EXTRT,POOL extension;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> Extensions remain outside the Core semantics boundary: they may read, annotate, advise, and stage candidates, but only Core operations can mutate the authoritative DAG.
 
@@ -1956,9 +2484,29 @@ Normative note:
 | `EXT-R6` | Extension-internal derived artifact graphs must maintain their own acyclicity.       |
 | `EXT-R7` | Extension advisories do not mutate Core node status.                                 |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 8.2. Extension integration boundary map**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Extension integration boundary map
     accDescr: Separates the narrow allowed extension behaviors from the prohibited mutation and semantic redefinition surfaces.
@@ -1981,13 +2529,15 @@ flowchart LR
     EXT -. forbidden .-> REDEF
     EXT -. forbidden .-> CYCLE
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
     classDef extension fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c,stroke-width:1.5px;
     classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     class EXT extension;
     class READ,ANN,ADV normative;
     class MUT,REDEF,CYCLE alert;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The extension contract is intentionally asymmetric: allowed behaviors are narrow and explicit, while prohibited behaviors ring-fence the Core from hidden mutation.
 
@@ -2114,9 +2664,29 @@ reads: [ISL, CDL, ICL, SAL]
 annotates: [SAL, ICL, CDL, ISL]
 ```
 
+<div style="page-break-inside: avoid;">
+
 **Figure 8.3. ARE candidate-pool and scoring lifecycle**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart TB
     accTitle: ARE candidate-pool and scoring lifecycle
     accDescr: Separates the ARE activation state machine from the candidate scoring and promotion pipeline, including checkpointing and the forbidden disabled-to-paused transition.
@@ -2153,8 +2723,8 @@ flowchart TB
     ACTIVE --> INFER
     CHECKPOINT -. preserves pool for restart .-> POOL
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef caution fill:#fff8e1,stroke:#f9a825,color:#6d4c41,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef caution fill:rgba(245,158,11,0.1),stroke:rgba(245,158,11,0.5),color:#fbbf24,stroke-width:2px;
     classDef alert fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:1.5px;
     classDef extension fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c,stroke-width:1.5px;
     class ACTIVE,PAUSED,CHECKPOINT,INFER,POOL,SCORE extension;
@@ -2162,6 +2732,8 @@ flowchart TB
     class REVIEW,INSERT normative;
     class DISABLED,DROP,FORBID alert;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> ARE inference, scoring, checkpointing, and promotion are coupled but not identical: candidate generation is extension-local, while promotion remains a human-reviewed Core `INSERT`.
 
@@ -2348,9 +2920,29 @@ Top-level conditional branches enforced by the schema `allOf` surface:
 | `project.mode = express`                                                  | `document_profile` is forced to `project_instance_express`                                               |
 | `document_profile = project_instance_express` plus `project.mode` present | `project.mode` must equal `express`                                                                      |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 9.1. Profile root and schema-closure relationship**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 flowchart LR
     accTitle: Profile root and schema-closure relationship
     accDescr: Shows the shared root contract and the profile-specific closure rules enforced by the schema for project, express, and system-definition artifacts.
@@ -2372,11 +2964,13 @@ flowchart LR
     ROOT --> PIE --> EM
     ROOT --> SD --> FULL
 
-    classDef normative fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1.5px;
-    classDef schema fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1.5px;
+    classDef normative fill:rgba(34,197,94,0.1),stroke:rgba(34,197,94,0.5),color:#4ade80,stroke-width:2px;
+    classDef schema fill:rgba(59,130,246,0.1),stroke:rgba(59,130,246,0.5),color:#60a5fa,stroke-width:2px;
     class ROOT,REQ,NODES,PI,PIE,SD schema;
     class EM,FULL normative;
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The schema root is both closed and profile-aware: every valid artifact shares the same minimal root keys, then branches into express-specific or system-definition-specific obligations.
 
@@ -2480,9 +3074,29 @@ Rule-ID families are also typed rather than free-form:
 | `BridgeRuleId`     | `^[A-Z]+-[A-Z]+-BR[0-9]+$`                                            | `GPCL-FCL-BR1`  |
 | `ExtensionRuleId`  | `^[A-Z]{3,4}-R[0-9]+$`                                                | `ARE-R7`        |
 
+<div style="page-break-inside: avoid;">
+
 **Figure 9.2. Schema definition map for nodes, citations, extensions, and lifecycle**
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#1e293b',
+      'primaryTextColor': '#f1f5f9',
+      'primaryBorderColor': '#38bdf8',
+      'lineColor': '#475569',
+      'secondaryColor': '#0f172a',
+      'tertiaryColor': '#0f172a',
+      'clusterBkg': 'rgba(30, 41, 59, 0.5)',
+      'clusterBorder': '#475569',
+      'fontSize': '14px',
+      'fontFamily': 'Inter, system-ui, sans-serif',
+      'nodeBorder': '#38bdf8'
+    }
+  }
+}%%
 classDiagram
     accTitle: Schema definition map for nodes, citations, extensions, and lifecycle
     accDescr: Organizes the main schema object types into root, node, lifecycle, and extension clusters and shows the conditional branches that control express-mode, CL, and SUPERSEDE_PENDING fields.
@@ -2564,6 +3178,8 @@ classDiagram
     ExtensionEntry "0..1" ..> "1" ScoringProfile : E5 scoring_profile
     StatusTransition "0..*" --> "1" GuardDefinition : guards
 ```
+
+</div>
 
 <span class="ddr-label ddr-surface-explanatory"><strong>Interpretation</strong></span> The schema contract is not a flat property list; it is a graph of typed objects whose conditional relationships mirror the manual's structural, extension, and lifecycle sections.
 
