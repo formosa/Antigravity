@@ -1,43 +1,73 @@
 # DDR System v6.3 Reference Manual
 
 <style>
-.ddr-badge,
-.ddr-label {
-  display: inline-block;
-  padding: 0.1rem 0.45rem;
-  border-radius: 0.35rem;
-  border: 1px solid currentColor;
-  font-weight: 700;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-.ddr-label {
-  padding: 0 0.18rem;
-  border: none;
-  border-radius: 0.2rem;
-}
-.ddr-surface-normative { color: #166534; background: #dcfce7; }
-.ddr-surface-schema { color: #1d4ed8; background: #dbeafe; }
-.ddr-surface-explanatory { color: #92400e; background: #ffedd5; }
-.ddr-surface-historical { color: #374151; background: #e5e7eb; }
-.ddr-status-draft { color: #92400e; background: #fef3c7; }
-.ddr-status-active { color: #166534; background: #dcfce7; }
-.ddr-status-dirty { color: #b45309; background: #fde68a; }
-.ddr-status-deprecated { color: #475569; background: #e2e8f0; }
-.ddr-status-superseded { color: #374151; background: #e5e7eb; }
-.ddr-status-supersede-pending { color: #1d4ed8; background: #dbeafe; }
-.ddr-check-structural { color: #0f766e; background: #ccfbf1; }
-.ddr-check-manual { color: #92400e; background: #ffedd5; }
-.ddr-check-semantic { color: #7c2d12; background: #fed7aa; }
-.ddr-mode-full { color: #166534; background: #dcfce7; }
-.ddr-mode-express { color: #92400e; background: #fef3c7; }
-.ddr-constraint-logical { color: #1d4ed8; background: #dbeafe; }
-.ddr-constraint-physical { color: #991b1b; background: #fee2e2; }
-.ddr-edge-derives { color: #166534; background: #dcfce7; }
-.ddr-edge-constrains { color: #991b1b; background: #fee2e2; }
-.ddr-edge-implements { color: #1d4ed8; background: #dbeafe; }
-.ddr-edge-extends { color: #155e75; background: #cffafe; }
+  :root {
+    --bg-base: #0f172a;
+    --bg-surface: rgba(30, 41, 59, 0.7);
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --accent-glow: #38bdf8;
+    --accent-dim: #0ea5e9;
+    --border-glass: rgba(148, 163, 184, 0.15);
+    --table-header: rgba(51, 65, 85, 0.5);
+  }
+  @media (prefers-color-scheme: light), print {
+    :root {
+      --bg-base: #ffffff;
+      --bg-surface: #f8fafc;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --accent-glow: #2563eb;
+      --accent-dim: #1d4ed8;
+      --border-glass: #e2e8f0;
+      --table-header: #f1f5f9;
+    }
+  }
+  body {
+    background-color: var(--bg-base);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    line-height: 1.7;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  h1, h2, h3, h4 { color: var(--accent-glow); font-weight: 800; letter-spacing: -0.025em; }
+  h1 { font-size: 3rem; margin-top: 4rem; text-shadow: 0 0 20px rgba(56, 189, 248, 0.15); }
+  h2 { font-size: 1.85rem; margin-top: 3.5rem; border-left: 4px solid var(--accent-dim); padding-left: 1rem; color: var(--text-main); }
+  
+  table {
+    width: 100%; border-collapse: separate; border-spacing: 0; margin: 2rem 0;
+    background: var(--bg-surface); backdrop-filter: blur(12px);
+    border-radius: 12px; border: 1px solid var(--border-glass); overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  th, td { padding: 1rem; border-bottom: 1px solid var(--border-glass); text-align: left; }
+  th { background: var(--table-header); color: var(--accent-glow); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+  tr:last-child td { border-bottom: none; }
+  
+  .ddr-badge {
+    display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.025em; border: 1px solid var(--border-glass);
+    background: rgba(255, 255, 255, 0.05); color: var(--accent-glow);
+  }
+  .ddr-surface-normative { background: rgba(34, 197, 94, 0.1); color: #4ade80 !important; border-color: rgba(34, 197, 94, 0.2); }
+  .ddr-surface-schema { background: rgba(59, 130, 246, 0.1); color: #60a5fa !important; border-color: rgba(59, 130, 246, 0.2); }
+  
+  blockquote { border-left: 4px solid var(--border-glass); padding-left: 1.5rem; margin: 2rem 0; color: var(--text-muted); font-style: italic; }
+  hr { border: 0; border-top: 1px solid var(--border-glass); margin: 3rem 0; }
+
+  @media print {
+    body { font-size: 10.5pt; max-width: none; padding: 0; }
+    h1, h2, h3 { color: #0f172a !important; text-shadow: none; border-color: #0f172a; }
+    table { box-shadow: none; backdrop-filter: none; page-break-inside: avoid; }
+    th { background: #f8fafc; color: #0f172a; }
+    .ddr-badge { border-color: #0f172a; color: #0f172a !important; }
+  }
 </style>
+
+
+
 
 This manual is a source-derived reference for DDR System v6.3. All normative DDR facts in this document are derived from the authoritative v6.3 YAML authority pair:
 
@@ -97,7 +127,10 @@ Interpretive guidance in this manual is limited to explanation and organization.
 - [10.11 Q&A](#1011-qa)
 - [10.12 Quiz](#1012-quiz)
 
+<div style="page-break-before: always;"></div>
+
 ## 1. Source Basis, Scope, and How to Use This Manual
+
 
 This section establishes the authority model for the manual, the scope of the underlying system-definition artifact, the recommended entry points for different readers, and the boundary between normative facts and explanatory organization. Use this section before relying on later sections as reference surfaces.
 
@@ -222,7 +255,10 @@ flowchart LR
 - <span class="ddr-badge ddr-surface-schema"><strong>Schema-literal constraints</strong></span> remain governed by the schema whenever a rule depends on field shape, enum closure, or conditional validation branching.
 - `Examples` in this manual are limited to source-native examples already present in the authoritative files, such as representative nodes, canonical tier variants, scoring profiles, lifecycle transitions, and extension catalog entries.
 
+<div style="page-break-before: always;"></div>
+
 ## 2. System Overview and Design Philosophy
+
 
 This section covers the current authoritative metadata, the governing design philosophy, the explicit v6.2-to-v6.3 change surface, and the current errata state. Use Section 3 for the operational structure of the Core model and Section 10 for historical and migration context.
 
@@ -304,7 +340,10 @@ flowchart LR
 
 <span class="ddr-label ddr-surface-normative"><strong>Authority basis</strong></span> `project`, `system_metadata`, `errata_log`, and the Section `2.3` change table sourced from `ddr_system_v6.3.yaml`.
 
+<div style="page-break-before: always;"></div>
+
 ## 3. Foundational Axioms and Core Structural Model
+
 
 This section covers the current-state structural foundation of DDR v6.3: axioms, document profiles, canonical topology, universal node shape, edge semantics, citation rules, and invariants. Use Section 4 for tier-local rule surfaces, Section 5 for operational behavior, and Section 9 for the corresponding schema-side machine contract.
 
@@ -487,7 +526,7 @@ The specification documents 13 node schema fields:
 | `tier`                  | enum                            | One of `XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL`                                        |
 | `title`                 | string                          | Human-readable artifact label                                                               |
 | `content`               | text                            | Body constrained by the tier's atomic ruleset                                               |
-| `parent_ids`            | list of `ParentCitation`        | Required for all non-root nodes; legal edge types are `derives`, `constrains`, `implements` |
+| `parent_ids`            | list of `ParentCitation`        | Required for all non-root nodes; `SIL` is root unless `XPD` is active. Legal edge types: `derives`, `constrains`, `implements` |
 | `status`                | enum                            | `DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED, SUPERSEDE_PENDING`                           |
 | `constraint_origin`     | enum, conditional               | `CL` only; one of `derived`, `imposed`                                                      |
 | `prior_status`          | status enum subset, conditional | Only for `SUPERSEDE_PENDING`; allowed values are `ACTIVE`, `DEPRECATED`, `DIRTY`            |
@@ -689,13 +728,16 @@ Common failure cases the YAML pair rejects or treats as non-conformant:
 | `INV-3`   | `active_tiers` must be one of the four canonical ordered sets. Every node tier must belong to `active_tiers`, and every `system_definition` artifact must include at least one representative node for each active tier.                |
 | `INV-4`   | When `CL` is inactive, `SAL` derives directly from `FCL`.                                                                                                                                                                               |
 | `INV-5`   | All non-root nodes must carry at least one parent citation.                                                                                                                                                                             |
-| `INV-6`   | `SUPERSEDE` must be atomic across all tiers. Partial application is a structural violation. The system also restricts `ACTIVE` `XPD` nodes to at most one at a time.                                                                    |
+| `INV-6`   | `SUPERSEDE` must be atomic across all tiers. Partial application is a structural violation. At most one XPD node may carry status ACTIVE at any time.                                                                    |
 | `INV-7`   | Structural validity may coexist with declared semantic gaps only when the gap is explicitly logged in the reconciliation manifest under an allowed classification, with human rationale and required resolution or waiver before CLEAN. |
 | `INV-8`   | `lifecycle.status_transitions` must form a complete and closed state machine: every non-terminal status has at least one valid outbound transition, and undefined transitions are invalid.                                              |
 
 See also: Section 4, Section 5, Section 9.
 
+<div style="page-break-before: always;"></div>
+
 ## 4. Tier Reference
+
 
 This section covers the tier-by-tier current-state contract for DDR v6.3, including representative nodes, parent and child relationships, inclusion rules, exclusion rules, and tier-specific verification notes. Use Section 3 for shared structural rules, Section 5 for lifecycle and operation effects, and Section 7 for reconciliation and CLEAN-state implications.
 
@@ -1035,7 +1077,10 @@ flowchart LR
 
 See also: Section 3, Section 5, Section 7.
 
+<div style="page-break-before: always;"></div>
+
 ## 5. Lifecycle and Operations
+
 
 This section covers the operational state machine of DDR v6.3, including statuses, valid transitions, guards, canonical operations, DIRTY behavior, and conflict-resolution flow. Use Section 6 for Express Mode execution rules, Section 7 for reconciliation and CLEAN-state implications, and Section 9 for the schema-side lifecycle contract.
 
@@ -1360,7 +1405,10 @@ sequenceDiagram
 
 See also: Section 6, Section 7, Section 9.
 
+<div style="page-break-before: always;"></div>
+
 ## 6. Consumption Modes and Express Mode
+
 
 This section covers the two declared consumption modes, the fixed four-group Express Mode structure, and the deterministic `UNBUNDLE_SCAN` / `UNBUNDLE_EXECUTE` contract. Use Section 5 for the underlying operation model and Section 9 for the express-profile schema rules.
 
@@ -1570,7 +1618,10 @@ flowchart LR
 
 See also: Section 5, Section 9.
 
+<div style="page-break-before: always;"></div>
+
 ## 7. Constraint Precedence, Reconciliation, and CLEAN State
+
 
 This section covers how DDR v6.3 resolves conflicting constraints, tracks unresolved conditions, and determines whether a graph may be treated as CLEAN. Use Section 5 for the operation and DIRTY mechanics that feed reconciliation, Section 9 for the machine-validation surface, and Section 10 for glossary and historical appendix context.
 
@@ -1829,7 +1880,10 @@ flowchart TD
 
 See also: Section 5, Section 9, Section 10.
 
+<div style="page-break-before: always;"></div>
+
 ## 8. Extension System and ARE
+
 
 This section covers the optional extension overlay model, integration rules, ARE candidate-pool behavior, scoring profiles, and the v6.3 extension catalog. Use Section 9 for the schema-side extension and ARE contract and Section 10 for crosswalk and historical lookup surfaces.
 
@@ -2260,7 +2314,10 @@ flowchart TB
 
 See also: Section 9, Section 10.
 
+<div style="page-break-before: always;"></div>
+
 ## 9. Schema Contract and Machine Validation Surface
+
 
 This section covers the machine-contract side of DDR v6.3: profile branching, canonical top-level closures, node and citation schemas, express-specific rules, extension and ARE schema rules, and lifecycle schema requirements. Use Section 3 for the human-readable structural model, Section 5 for lifecycle behavior, Section 6 for Express Mode semantics, and Section 8 for extension semantics.
 
@@ -2514,7 +2571,10 @@ classDiagram
 
 See also: Section 3, Section 5, Section 6, Section 8.
 
+<div style="page-break-before: always;"></div>
+
 ## 10. Appendices
+
 
 This section collects supporting reference surfaces that remain necessary for auditability and maintenance: glossary, version history, legacy tier migration, authoritative counts, source crosswalks, practitioner quick references, and study aids. Use these appendices when you need historical context, surface counts, source-to-manual mapping, or a concise refresher on lifecycle, Express Mode, ARE, and common authoring pitfalls.
 

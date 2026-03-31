@@ -2,7 +2,7 @@
 
 > Master lookup for all agent enforcement rules.
 >
-> **Total Rules**: 3
+> **Total Rules**: 2
 >
 > **Schema**: [`rule.d.ts`](../schemas/rule/rule.d.ts)
 >
@@ -12,16 +12,15 @@
 
 | Mode           | Count   | Purpose                                                  |
 | :------------- | ------: | :------------------------------------------------------- |
-| Always On      | 3       | Safety constraints, Execution protocols                  |
+| Always On      | 2       | Safety constraints, Execution protocols                  |
 
 ## By Category
 
-### System Rules (2) — Always On, Priority 100
+### System Rules (1) — Always On, Priority 100
 
 | File                                                 | Purpose                           |
 | :--------------------------------------------------- | :-------------------------------- |
-| [dev-protected-files.md](dev-protected-files.md)     | `.agent/assets/` write protection |
-| [dev-check-schema.md](dev-check-schema.md) | Schema compliance enforcement     |
+| [dev-check-schema.md](dev-check-schema.md)           | Schema compliance enforcement     |
 
 ---
 
