@@ -1,178 +1,203 @@
 ---
 name: dev-create-implementation-plan
-version: 4.2.0
-description: Produces a schema-compatible, deterministic Antigravity implementation-plan artifact optimized for grounded planning, token efficiency, and safe executor handoff.
+version: 5.0.0
+description: Produces a schema-compatible, deterministic Antigravity implementation-plan artifact optimized for grounded planning, token efficiency, task-tracker visibility, and safe executor handoff.
 ---
 
 <when_to_use>
 
-- The user asks for an implementation plan before coding.
+- The user requests an implementation plan before coding begins.
 - The user asks to refine, regenerate, or audit an existing implementation plan artifact.
-- The task has non-trivial scope, dependencies, or risk and needs deterministic execution steps.
-- The task requires a human-approved planning artifact before any code or file modifications occur.
+- The task has non-trivial scope, dependencies, or risk requiring deterministic execution steps.
+- A human-approved planning artifact is required before any code or file modifications occur.
+
 </when_to_use>
 
 <how_to_use>
 
 ## Operating mode
 
-- Planner model: `gemini-3.1-pro` with high reasoning.
-- Executor model target: `gemini-3-flash` (or project default execution model).
-- IDE target: Antigravity v1.18+.
+- **Planner model:** `gemini-3.1-pro-preview` (high reasoning).
+- **Executor model target:** `gemini-3-flash` (high-volume, low-latency implementation steps).
+- **IDE target:** Antigravity v1.20.3+.
+- **Rules file:** `AGENTS.md` (primary, v1.20.3+); `GEMINI.md` (fallback if `AGENTS.md` absent).
+- **Auto-continue:** Enabled by default in v1.20.3+. Plans must be structured to tolerate uninterrupted executor handoff.
 
 ## Contract preservation rules
 
-- Preserve compatibility with:
-  - `.agent/schemas/implementation-plan/implementation-plan.d.ts`
-  - `.agent/schemas/implementation-plan/example.md`
-  - `.agent/skills/dev-create-skill/resources/output-patterns.md`
-  - accepted implementation-plan artifacts already present in the project
-- Do not introduce unsupported frontmatter fields.
-- Do not introduce new top-level artifact sections.
-- Keep the implementation-plan artifact shape stable unless the schema and companion documentation are revised together.
+Preserve compatibility with:
+
+- `.agent/schemas/implementation-plan/implementation-plan.d.ts`
+- `.agent/schemas/implementation-plan/example.md`
+- `.agent/skills/dev-create-skill/resources/output-patterns.md`
+- the active `dev-create-implementation-plan` skill instructions
+
+Historical artifacts under `.agent/plans/processed/` may inform review, but they are not a normative compatibility surface for newly generated plans under this skill version.
+
+Do not introduce unsupported frontmatter fields, new top-level artifact sections, or contract-breaking structural changes without revising the schema and all companion documentation simultaneously.
+
+## File naming and storage
+
+Every new Implementation Plan artifact **must** comply with the following rules:
+
+| Rule                     | Specification                                                        |
+| :----------------------- | :------------------------------------------------------------------- |
+| **Output path**          | `.agent/plans/`                                                      |
+| **Filename pattern**     | `YYYYMMDD-HHMMSS-<uuid8>-IMPLEMENTATION_PLAN.md`                     |
+| **`<uuid8>`**            | First 8 hex characters of a newly generated UUID4 (e.g., `a1b2c3d4`) |
+| **Example filename**     | `20260401-143022-f3a91b2c-IMPLEMENTATION_PLAN.md`                    |
+| **Post-processing path** | `.agent/plans/processed/`                                            |
+
+**Post-processing relocation:** Upon executor confirmation that all atomic steps are complete and all verification checks pass, the executor **must** move the artifact from `.agent/plans/` to `.agent/plans/processed/`. Do not delete the artifact.
 
 ## Deterministic protocol
 
-1. **Load and prioritize local context first**
-   - Read the user request, referenced files, and relevant project docs.
-   - Read decision memory if present: `.gemini/antigravity/brain/`.
-   - Verify existence of referenced files and other files that are plausibly material to correctness.
+Execute these steps in order. Do not skip or reorder.
+
+1. **Load and prioritize local context**
+   - Read user request, referenced files, `AGENTS.md` (or `GEMINI.md`), and `.gemini/antigravity/brain/` decision memory.
+   - Verify existence of all referenced and plausibly material files.
    - Do not assume a missing file is irrelevant.
-   - Do not halt on missing files unless the absence blocks deterministic planning.
+   - Do not halt on missing files unless absence blocks deterministic planning.
 
 2. **Establish scope and execution boundary**
-   - Identify the implementation objective, in-scope files, likely out-of-scope files, and interfaces touched.
-   - Preserve the narrowest grounded scope.
-   - Do not expand scope merely because adjacent files might exist.
+   - Identify: implementation objective, in-scope files, out-of-scope files, touched interfaces.
+   - Enforce the narrowest grounded scope. Do not expand scope because adjacent files may exist.
 
 3. **Run ambiguity gate**
-   - If required inputs are missing, conflicting, unreadable, or materially under-specified, output an RFQ artifact and stop.
-   - Distinguish between:
-     - **blocking ambiguity** -> RFQ and halt
-     - **non-blocking uncertainty** -> capture as a concise assumption, dependency note, or risk note in the plan
-   - Never infer hidden requirements.
+   - Classify each uncertainty:
+     - **Blocking ambiguity** -> emit RFQ artifact and halt.
+     - **Non-blocking uncertainty** -> capture as a concise assumption, dependency note, or risk note inside the plan.
+   - Never infer hidden requirements. Never convert uncertainty into certainty through wording.
 
-4. **Perform focused validation research (only if needed)**
-   - Use external docs only for API/framework behavior not derivable from local files.
-   - Prefer official vendor docs, changelogs, standards, and primary references.
-   - If evidence conflicts and cannot be resolved confidently, output RFQ and stop.
+4. **Perform focused validation research (only when required)**
+   - Use external docs only for API or framework behavior not derivable from local files.
+   - Prefer official vendor docs, changelogs, and primary references.
+   - If evidence conflicts and cannot be resolved, emit RFQ and halt.
    - Never let external research override explicit local project requirements without calling out the conflict.
 
 5. **Generate the execution plan artifact**
-   - Create a standalone Antigravity artifact, not inline conversational prose, when artifact output is available.
-   - Because this skill is for non-trivial planning work, include `<phases>` by default.
-   - Use the smallest number of phases and steps that preserves clarity, determinism, and safe handoff.
-   - Keep every emitted step scoped, testable, and ordered.
+   - Create a standalone Antigravity artifact; do not emit inline conversational markdown.
+   - Use `<phases>` by default for non-trivial work.
+   - Use the fewest phases and steps that preserves clarity, determinism, and safe executor handoff.
+   - Apply the **Intent -> Action -> Outcome** pattern to every atomic step:
+     - *Intent:* why this step exists.
+     - *Action:* what exact operation is performed (`CREATE`, `MODIFY`, or `DELETE`).
+     - *Outcome:* the bounded, testable post-state.
 
-6. **Apply internal step validation before emission**
-   - Before finalizing each step, validate internally that it has:
-     - grounded target files or artifacts
-     - a concrete action
-     - a bounded intended outcome
-     - a clear dependency order when needed
-     - side effects contained to in-scope surfaces
-     - a viable verification path
-   - Use this validation internally.
-   - Do not add hidden rubric sections to the artifact unless the project contract is formally expanded.
+6. **Apply task-group completion tracking**
+   - Organize `<atomic_steps>` into logical named groups using `####` headers.
+   - Prefix every step bullet with an unchecked tracker: `- [ ]`.
+   - The executor updates completed steps to `- [X]` during execution.
+   - Groups must reflect genuine phase or responsibility boundaries, not ceremonial subdivision.
+   - The 1:1 mapping between `<atomic_steps>` items and `<verification>` items must be preserved regardless of grouping.
 
-7. **Attach the verification contract**
-   - Add one verification item per atomic step.
-   - Maintain a 1:1 mapping between `<atomic_steps>` and `<verification>`.
-   - Use the lightest verification method that still proves the intended post-state.
-   - If no grounded verification path exists, output RFQ and stop.
+7. **Apply internal step validation before emission**
+   - Before finalizing each step, validate that it has:
+     - Grounded target files, artifacts, or system surfaces.
+     - A concrete, bounded action.
+     - A clear dependency order when needed.
+     - Side effects contained to in-scope surfaces.
+     - A viable verification path.
+   - Apply this validation internally. Do not expose the validation rubric in the artifact.
 
-8. **Handle review, rollback, and failure deterministically**
-   - Use review policy internally to decide when explicit human review is required.
-   - Surface human review gates only when they materially affect execution sequencing or safety.
-   - Capture rollback or containment guidance inside `<risks_and_mitigations>` when risk justifies it.
-   - Plans must assume halt-on-failed-verification behavior for dependent work.
-   - Do not add a separate failure-contract section unless the schema is formally revised.
+8. **Attach the verification contract**
+   - One verification item per atomic step, numbered identically.
+   - Each item must prove the intended post-state, not merely that activity occurred.
+   - Use the lightest sufficient verification method:
+     - command-based validation
+     - static or structural inspection
+     - type checking
+     - test assertions
+     - semantic validation
+     - precise manual inspection (when command-based is unavailable)
+   - Prefer existing project commands. Do not invent commands, tests, or success results.
+
+9. **Handle review, rollback, and failure**
+   - Apply the internal review policy (see below) to determine when human review gates affect execution sequencing.
+   - Surface review gates only when they materially affect safety or sequencing.
+   - Capture rollback and containment guidance in `<risks_and_mitigations>` when risk justifies it.
+   - Plans must assume halt-on-failed-verification behavior for all dependent work.
 
 ## Required artifact structure
 
-Use this exact order:
+Emit sections in this exact order:
 
 1. YAML frontmatter
 2. `<objective>`
 3. `<phases>`
-4. `<atomic_steps>`
+4. `<atomic_steps>` (with task-group headers and `[ ]` completion trackers)
 5. `<verification>`
-6. `<risks_and_mitigations>` (optional but recommended for non-trivial tasks)
+6. `<risks_and_mitigations>` (optional; recommended for non-trivial or high-risk work)
 
 ## Frontmatter (required)
 
 ```yaml
 ---
 task: "<one-sentence measurable objective>"
-model: "gemini-3.1-pro"
+model: "gemini-3.1-pro-preview"
 version: "1.0.0"
+output_path: ".agent/plans/<filename>"
+processed_path: ".agent/plans/processed/<filename>"
 ---
 ```
 
+> `output_path` and `processed_path` must be populated with the fully resolved filename following the naming convention defined in **File naming and storage** above.
+
 ## Objective rules
 
-- State one measurable implementation objective.
-- Do not hide secondary work inside broad wording.
-- Keep it precise enough that approval or rejection is straightforward.
+- State exactly one measurable implementation objective.
+- Precise enough that approval or rejection is unambiguous.
+- Do not embed secondary work inside broad wording.
 
 ## Phase rules
 
 - Use phases to express major execution boundaries, approval boundaries, or dependency boundaries.
-- Each phase should have a stable purpose and clear entry/exit conditions.
-- Avoid ceremonial over-phasing.
-- Prefer a small number of phases with meaningful orchestration value.
+- Provide clear `entry_criteria` and `exit_criteria` for each phase.
+- Avoid ceremonial over-phasing. Prefer a small number of phases with meaningful orchestration value.
+- Assign `gemini-3.1-pro-preview` to architecture and high-complexity phases; assign `gemini-3-flash` to high-volume implementation phases.
 
-## Atomic step rules
+## Atomic step rules -> Intent -> Action -> Outcome
 
-- Emit concise numbered steps.
-- Each step must represent a single bounded responsibility.
-- Each step must identify the target file(s), artifact(s), or system surface when applicable.
-- State `CREATE`, `MODIFY`, or `DELETE` behavior explicitly when omission could cause ambiguity.
+- Each step represents a single bounded responsibility.
+- State `CREATE`, `MODIFY`, or `DELETE` explicitly when omission risks ambiguity.
+- Identify the target file(s), artifact(s), or system surface for every step.
 - Prefer repeat-safe wording where feasible.
-- Avoid combining unrelated edits in a single step.
+- Do not combine unrelated edits in a single step.
 - Do not include speculative alternatives unless explicitly requested.
-- High-risk or destructive actions must be explicit, narrowly scoped, and paired with mitigation in `<risks_and_mitigations>`.
+- High-risk or destructive actions must be explicit, narrowly scoped, and paired with a mitigation in `<risks_and_mitigations>`.
+
+**Task-group format:**
+
+```markdown
+#### Group N — [Descriptive Group Name]
+
+- [ ] N. <Step description using Intent -> Action -> Outcome pattern.>
+- [ ] N+1. <Step description.>
+```
 
 ## Verification rules
 
-- Every verification item must map to the step with the same number.
-- Verification must prove the intended result, not merely that activity occurred.
-- Acceptable verification approaches include:
-  - command-based validation
-  - static inspection
-  - type checking
-  - test assertions
-  - structural validation
-  - semantic validation
-- Prefer existing project commands and checks.
+- Number verification items identically to their corresponding atomic step.
+- Prove the intended result, not merely that activity occurred.
 - Do not invent commands, tests, or success results.
 - Manual inspection is acceptable when command-based validation is unavailable and the inspection criterion is precise.
 
-## Internal review policy mapping
+## Internal review policy
 
-Use this policy internally while composing the plan:
+Apply this policy silently when composing each step:
 
-- **Always Proceed (low risk):**
-  - isolated internal logic
-  - formatting-only changes
-  - local private implementation adjustments
-  - no schema, migration, public API, persistence, dependency, or cross-system contract changes
-
-- **Agent Decides (moderate):**
-  - bounded refactors
-  - moderate internal restructuring
-  - reversible implementation changes with limited blast radius
-
-- **Request Review (high):**
-  - schema or data migrations
-  - dependency or version changes
-  - public API changes
-  - irreversible side effects
-  - persistence, deployment, security, or cross-system contract changes
+| Risk level                   | Conditions                                                                                                                                                                | Behavior                                     |
+| :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------- |
+| **Always Proceed** (low)     | Isolated internal logic; formatting-only changes; no schema, API, persistence, or cross-system contract impact                                                            | No gate required                             |
+| **Agent Decides** (moderate) | Bounded refactors; reversible changes; limited blast radius                                                                                                               | Agent may proceed with documented assumption |
+| **Request Review** (high)    | Schema or data migrations; dependency/version changes; public API changes; irreversible side effects; persistence, deployment, security, or cross-system contract changes | Explicit human review gate required          |
 
 Do not downgrade high-risk work through wording.
 
-## RFQ format (hard halt output)
+## RFQ format (hard halt)
+
+Emit this artifact and stop when blocking ambiguity is detected:
 
 ```markdown
 ## RFQ — Request for Clarification
@@ -180,43 +205,45 @@ Do not downgrade high-risk work through wording.
 **Triggered by**: <phase/step + blocking condition>
 
 **Blocking items**:
-- [ ] <specific missing, conflicting, unreadable, or ambiguous item>
+- [ ] <specific missing, conflicting, unreadable, or under-specified item>
 
 **Why this blocks deterministic planning**:
-- <brief grounded explanation>
+- <concise grounded explanation>
 
 **Resolution required before**: implementation-plan generation
 
-**Do not proceed** until all items are resolved.
+**Do not proceed** until all items above are resolved.
 ```
 
 ## Token-efficiency rules
 
-- Prefer concise bullets over narrative when precision is preserved.
-- Be concise, but never omit determinism-critical detail.
-- Include only files, modules, and interfaces that are actually in scope.
-- Do not repeat global constraints inside every phase or step unless repetition is necessary for safety.
-- Avoid decorative explanation and speculative branches.
+- Prefer concise bullets over narrative prose when precision is preserved.
+- Include only files, modules, and interfaces actually in scope.
+- Do not repeat global constraints inside every phase or step unless repetition is safety-critical.
+- Avoid decorative explanation, speculative branches, and filler preamble.
 
 ## Anti-hallucination rules
 
-- Ground every technical decision in local file evidence or cited external docs when external validation is required.
-- Never invent files, APIs, symbols, commands, tests, migrations, or outcomes.
+- Ground every technical decision in local file evidence or cited external documentation.
+- Never invent files, APIs, symbols, commands, tests, migrations, paths, or outcomes.
 - Never convert uncertainty into certainty through wording.
 - Never claim verification succeeded inside the plan artifact.
-- If the plan cannot ground the objective, scope, step sequence, or verification path, halt and emit RFQ.
+- If the plan cannot ground the objective, scope, step sequence, or verification path: halt and emit RFQ.
+- You are a strictly grounded planner. Rely only on facts directly present in local context or cited external references.
 
 </how_to_use>
 
 <constraints>
 
-- Do not output the final plan as generic chat markdown when artifact output is available.
+- Do not emit the final plan as generic chat markdown when artifact output is available.
 - Do not introduce unsupported frontmatter keys or new top-level sections.
 - Do not proceed past unresolved blocking ambiguity.
 - Do not modify out-of-scope files in the generated plan.
 - Do not assign low-risk treatment to schema, API, dependency, persistence, security, or migration work.
 - Do not claim side-effect freedom unless the scope boundary is explicitly defined and preserved.
 - Do not invent verification commands or execution results.
+- Do not use processed historical implementation plans to justify legacy frontmatter omissions, section order changes, or tracker omissions in newly generated plans.
+- Do not use `gemini-3-pro` or `gemini-3-pro-preview` (discontinued March 26, 2026). Use `gemini-3.1-pro-preview`.
 
 </constraints>
 
@@ -225,6 +252,10 @@ Do not downgrade high-risk work through wording.
 - `.agent/schemas/implementation-plan/implementation-plan.d.ts`
 - `.agent/schemas/implementation-plan/example.md`
 - `.agent/skills/dev-create-skill/resources/output-patterns.md`
-- `.gemini/antigravity/brain/`
+- `.agent/plans/` (active plan output directory)
+- `.agent/plans/processed/` (historical processed plans; review reference only)
+- `AGENTS.md` (primary rules file, Antigravity v1.20.3+)
+- `GEMINI.md` (fallback rules file)
+- `.gemini/antigravity/brain/` (persistent decision memory)
 
 </resources_reference>

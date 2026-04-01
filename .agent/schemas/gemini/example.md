@@ -5,7 +5,9 @@ version: "20260223_v118"
 scope: "workspace"
 thinking_level: "medium"
 temperature: 0.1
-# HUMAN CONTEXT: This configuration acts as the master context for the workspace.
+# HUMAN CONTEXT: This configuration acts as a workspace Gemini context surface.
+# When `AGENTS.md` is present, that file may carry the primary workspace rules
+# while this file supplies Gemini-specific configuration and cognitive controls.
 # It utilizes the "heavy data first" principle by placing the Maggie PySide6
 # architecture details in the <workspace_context> before any instructions.
 # It sets the thinking_level to 'medium' to optimize Gemini 3.1 Pro's cost-to-reasoning
