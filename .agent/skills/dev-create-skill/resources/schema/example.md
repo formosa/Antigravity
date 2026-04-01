@@ -1,37 +1,32 @@
 ---
 name: generate-pyside6-ui-widget
-description: Generates a complete, responsive PySide6 widget or layout component, integrating native SVG rendering, specifically architected for the Maggie software application.
-# HUMAN CONTEXT: This example demonstrates advanced agentic capabilities
-# by utilizing progressive disclosure (triggering only when UI generation is requested),
-# context-first XML fencing (separating triggers from execution logic),
-# and silent reasoning checkpoints (ensuring PySide6 and asset constraints are met
-# before emitting code) to maintain a highly optimized context window.
+version: 1.0.0
+description: Generates responsive PySide6 widgets and layout components for the Maggie application. Use when the task is to create or refactor a PySide6 widget, dialog, or layout for Maggie UI work. Do not use for backend-only logic changes or generic Python refactors unrelated to the user interface.
 ---
 
 <when_to_use>
-
-- The developer requests the creation, refactoring, or modernization of a user interface element.
-- The prompt contains keywords such as: "widget", "PySide6", "UI", "layout", or "interface".
-- The active task involves building visual components for the Maggie application frontend.
+- Use when the developer requests a new or refactored PySide6 widget, dialog, panel, or layout for the Maggie application.
+- Use when the prompt mentions `PySide6`, `QtWidgets`, `QDialog`, `layout`, `widget`, or another Maggie UI component.
+- Do not use when the request is limited to backend services, data models, or generic Python cleanup without UI changes.
+- Example prompt: "Create a PySide6 settings dialog for Maggie."
+- Example prompt: "Refactor this Maggie widget to use a responsive grid layout."
 </when_to_use>
 
 <how_to_use>
-
-1. **Context Verification (Silent):** Confirm the required PySide6 modules (e.g., `QtWidgets`, `QtGui`, `QtSvg`) are available in the workspace context.
-2. **Design Blueprinting (Silent):** Plan the widget hierarchy, prioritizing non-blocking UI patterns and responsive layouts (e.g., `QVBoxLayout`, `QGridLayout`).
-3. **Asset Integration:** If icons or vector graphics are required, strictly utilize SVG formats rendered via `QSvgWidget` or `QIcon` to ensure lossless scaling across different monitor resolutions and maintain the application's visual fidelity.
-4. **Code Generation:** Emit the production-ready Python code within a fenced code block. Ensure all classes inherit from the appropriate PySide6 base classes and include comprehensive type hints.
-5. **Verification Artifact:** Output a brief, Markdown-formatted summary of the signals and slots implemented for the developer to review and approve.
+1. Confirm the target UI surface, required inputs, and expected user-visible behavior before generating code.
+2. Check whether the relevant PySide6 modules and any required assets are available in the workspace.
+3. Plan the widget hierarchy, layout strategy, and signal-slot interactions using the smallest structure that satisfies the request.
+4. Generate production-ready code with explicit imports, concrete widget behavior, and no placeholder logic.
+5. Verify the output by summarizing the created widget structure and the user interactions it supports.
 </how_to_use>
 
 <constraints>
-- Never utilize synchronous blocking calls (e.g., `time.sleep()`) within the main GUI thread; you must rely on `QThread` or `QTimer` for asynchronous operations to keep the Maggie UI responsive.
-- Do not hardcode absolute pixel dimensions; utilize dynamic sizing, spacers, and stretch factors.
-- All emitted code must be fully type-hinted and production-ready. Do not generate placeholder logic.
+- Do not use blocking calls in the main GUI thread when a non-blocking Qt alternative is available.
+- Do not hardcode brittle pixel dimensions when layouts, spacers, or stretch factors can express the same intent.
+- Do not emit placeholder methods, fake assets, or TODO-only business logic.
 </constraints>
 
 <resources_reference>
-
-- `ui_templates/maggie_base_widget.py`
-- `assets/svg_icons/`
+- Read `resources/ui_conventions.md` to apply Maggie-specific UI rules and layout conventions.
+- Run `scripts/preview_widget.py` to render the generated widget for verification when a preview workflow exists.
 </resources_reference>

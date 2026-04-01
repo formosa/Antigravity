@@ -3,10 +3,14 @@
 Quick validation script for Antigravity v1.20.3 skills.
 """
 
+from __future__ import annotations
+
+from dataclasses import dataclass, field
 import re
 import sys
-import yaml
 from pathlib import Path
+
+import yaml
 
 REQUIRED_FRONTMATTER_KEYS = {"description", "version"}
 OPTIONAL_FRONTMATTER_KEYS = {"name"}
@@ -17,60 +21,237 @@ REQUIRED_XML_BLOCKS = (
     "constraints",
     "resources_reference",
 )
+SKILL_NAME_PATTERN = re.compile(r"^[a-z0-9][a-z0-9-]{0,63}$")
+SEMVER_PATTERN = re.compile(r"^\d+\.\d+\.\d+$")
+DESCRIPTION_BOUNDARY_HINTS = ("do not use", "not for", "not when", "exclude", "except")
+WEAK_DESCRIPTION_TERMS = ("helper", "utils", "tools", "stuff", "things", "misc")
+RESOURCE_ACTION_HINTS = ("read ", "run ", "execute ", "open ")
 
 
-def has_xml_block(content, block_name):
-    pattern = rf"<{block_name}>\s*.*?\s*</{block_name}>"
-    return re.search(pattern, content, re.DOTALL) is not None
+@dataclass
+class ValidationResult:
+    errors: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+
+    @property
+    def valid(self) -> bool:
+        return not self.errors
+
+    def summary(self) -> str:
+        if not self.valid:
+            return "Skill validation failed."
+        if self.warnings:
+            return "Skill is valid and v1.20.3 compliant with warnings."
+        return "Skill is valid and v1.20.3 compliant."
 
 
-def validate_skill(skill_path):
-    skill_path = Path(skill_path)
-    skill_md = skill_path / "SKILL.md"
+def extract_xml_block(content: str, block_name: str) -> str | None:
+    pattern = rf"(?ms)^[ \t]*<{block_name}>[ \t]*\r?\n(.*?)^[ \t]*</{block_name}>[ \t]*$"
+    match = re.search(pattern, content, re.DOTALL)
+    return match.group(1).strip() if match else None
 
-    if not skill_md.exists():
-        return False, "SKILL.md not found"
 
-    content = skill_md.read_text(encoding="utf-8")
+def extract_frontmatter(content: str) -> tuple[dict | None, str | None]:
     if not content.startswith("---"):
-        return False, "No YAML frontmatter found"
+        return None, "No YAML frontmatter found"
 
     match = re.match(r"^---\n(.*?)\n---", content, re.DOTALL)
     if not match:
-        return False, "Invalid frontmatter format"
+        return None, "Invalid frontmatter format"
 
     frontmatter_text = match.group(1)
 
     try:
         frontmatter = yaml.safe_load(frontmatter_text)
-    except yaml.YAMLError as e:
-        return False, f"Invalid YAML in frontmatter: {e}"
+    except yaml.YAMLError as exc:
+        return None, f"Invalid YAML in frontmatter: {exc}"
+
+    if not isinstance(frontmatter, dict):
+        return None, "Frontmatter must parse to a key-value mapping."
+
+    return frontmatter, None
+
+
+def iter_resource_entries(resources_block: str) -> list[str]:
+    entries = []
+    for raw_line in resources_block.splitlines():
+        stripped = raw_line.strip()
+        if stripped.startswith("-"):
+            entry = stripped[1:].strip()
+            if entry:
+                entries.append(entry)
+    return entries
+
+
+def extract_path_from_resource_entry(entry: str) -> str | None:
+    match = re.search(r"`([^`]+)`", entry)
+    if match:
+        return match.group(1)
+
+    if re.fullmatch(r"[A-Za-z0-9._/\-]+/?", entry):
+        return entry
+
+    return None
+
+
+def resolve_resource_path(skill_path: Path, path_text: str) -> Path | None:
+    normalized = path_text.replace("\\", "/")
+    candidate_paths = [skill_path / Path(normalized), Path.cwd() / Path(normalized)]
+
+    for ancestor in skill_path.parents:
+        candidate_paths.append(ancestor / Path(normalized))
+
+    seen: set[Path] = set()
+    for candidate in candidate_paths:
+        candidate = candidate.resolve()
+        if candidate in seen:
+            continue
+        seen.add(candidate)
+        if candidate.exists():
+            return candidate
+
+    return None
+
+
+def validate_resource_entries(skill_path: Path, resources_block: str, result: ValidationResult) -> None:
+    entries = iter_resource_entries(resources_block)
+    if not entries:
+        result.warnings.append("`<resources_reference>` is empty. Add skill-local files here once the skill relies on them.")
+        return
+
+    for entry in entries:
+        path_text = extract_path_from_resource_entry(entry)
+        if path_text is None:
+            result.warnings.append(
+                f"Resource entry should wrap a repo-relative path in backticks and say whether to read or run it: {entry}"
+            )
+            continue
+
+        if "\\" in path_text:
+            result.warnings.append(f"Resource path should use forward slashes: {path_text}")
+
+        resource_path = resolve_resource_path(skill_path, path_text)
+        if resource_path is None:
+            result.errors.append(f"Referenced resource path does not exist: {path_text}")
+
+        lowered = entry.lower()
+        if not any(hint in lowered for hint in RESOURCE_ACTION_HINTS):
+            result.warnings.append(f"Resource entry should say whether the file is read or run: {entry}")
+
+
+def validate_quality(frontmatter: dict, blocks: dict[str, str], result: ValidationResult) -> None:
+    description = str(frontmatter.get("description", "")).strip()
+    description_lower = description.lower()
+    when_to_use_lower = blocks["when_to_use"].lower()
+
+    if not SEMVER_PATTERN.fullmatch(str(frontmatter.get("version", "")).strip()):
+        result.warnings.append("`version` should use semantic versioning, e.g. `1.0.0`.")
+
+    if len(description.split()) < 12:
+        result.warnings.append("`description` is short. Add explicit trigger context and task boundaries.")
+
+    if "use when" not in description_lower:
+        result.warnings.append("`description` should explicitly say when the skill should trigger.")
+
+    if not any(hint in description_lower for hint in DESCRIPTION_BOUNDARY_HINTS):
+        result.warnings.append("`description` should include at least one clear exclusion such as `Do not use when ...`.")
+
+    if any(term in description_lower for term in WEAK_DESCRIPTION_TERMS):
+        result.warnings.append("`description` uses vague terms. Replace them with concrete task words and artifacts.")
+
+    if not any(hint in when_to_use_lower for hint in DESCRIPTION_BOUNDARY_HINTS):
+        result.warnings.append("`<when_to_use>` should include at least one explicit exclusion.")
+
+    if "example prompt:" not in when_to_use_lower:
+        result.warnings.append("`<when_to_use>` should include concrete example prompts for trigger testing.")
+
+    for block_name, block_text in blocks.items():
+        if "todo" in block_text.lower():
+            result.warnings.append(f"`<{block_name}>` still contains TODO placeholders.")
+
+    if "todo" in description_lower:
+        result.warnings.append("`description` still contains TODO placeholders.")
+
+
+def validate_skill(skill_path: str | Path) -> ValidationResult:
+    result = ValidationResult()
+    skill_path = Path(skill_path)
+    skill_md = skill_path / "SKILL.md"
+
+    if not skill_md.exists():
+        result.errors.append("SKILL.md not found.")
+        return result
+
+    content = skill_md.read_text(encoding="utf-8")
+    frontmatter, error = extract_frontmatter(content)
+    if error:
+        result.errors.append(error)
+        return result
 
     detected_keys = set(frontmatter.keys())
-
-    if detected_keys.intersection(DEPRECATED_PROPERTIES):
-        return False, "CRITICAL: Detected deprecated legacy tags (e.g., type, priority, scope). Remove them for v1.20.3 compliance."
+    deprecated = detected_keys.intersection(DEPRECATED_PROPERTIES)
+    if deprecated:
+        result.errors.append(
+            "CRITICAL: Detected deprecated legacy tags "
+            f"({', '.join(sorted(deprecated))}). Remove them for v1.20.3 compliance."
+        )
 
     allowed_properties = REQUIRED_FRONTMATTER_KEYS | OPTIONAL_FRONTMATTER_KEYS
     unexpected_keys = detected_keys - allowed_properties
     if unexpected_keys:
-        return False, f"Unexpected key(s) in frontmatter: {', '.join(unexpected_keys)}."
+        result.errors.append(f"Unexpected key(s) in frontmatter: {', '.join(sorted(unexpected_keys))}.")
 
     missing_required = REQUIRED_FRONTMATTER_KEYS - detected_keys
     if missing_required:
-        return False, f"Missing required frontmatter key(s): {', '.join(sorted(missing_required))}."
+        result.errors.append(f"Missing required frontmatter key(s): {', '.join(sorted(missing_required))}.")
 
+    name_value = frontmatter.get("name")
+    if name_value is not None and not SKILL_NAME_PATTERN.fullmatch(str(name_value)):
+        result.errors.append("`name` must use lowercase letters, digits, and hyphens only, with a maximum length of 64.")
+
+    description_value = frontmatter.get("description")
+    if description_value is not None and not str(description_value).strip():
+        result.errors.append("`description` must be non-empty.")
+
+    version_value = frontmatter.get("version")
+    if version_value is not None and not str(version_value).strip():
+        result.errors.append("`version` must be non-empty.")
+
+    blocks: dict[str, str] = {}
     for block_name in REQUIRED_XML_BLOCKS:
-        if not has_xml_block(content, block_name):
-            return False, f"Missing required <{block_name}> XML block."
+        block = extract_xml_block(content, block_name)
+        if block is None:
+            result.errors.append(f"Missing required <{block_name}> XML block.")
+        else:
+            blocks[block_name] = block
 
-    return True, "Skill is valid and v1.20.3 compliant."
+    if result.errors:
+        return result
+
+    validate_resource_entries(skill_path, blocks["resources_reference"], result)
+    validate_quality(frontmatter, blocks, result)
+    return result
+
+
+def print_validation_result(result: ValidationResult) -> None:
+    print(result.summary())
+
+    if result.errors:
+        print("\nErrors:")
+        for error in result.errors:
+            print(f"- {error}")
+
+    if result.warnings:
+        print("\nWarnings:")
+        for warning in result.warnings:
+            print(f"- {warning}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python quick_validate.py <skill_directory>")
         sys.exit(1)
 
-    valid, message = validate_skill(sys.argv[1])
-    print(message)
-    sys.exit(0 if valid else 1)
+    validation_result = validate_skill(sys.argv[1])
+    print_validation_result(validation_result)
+    sys.exit(0 if validation_result.valid else 1)

@@ -1,23 +1,36 @@
 <document_purpose>
-This document establishes the patterns for authoring deterministic workflows for Gemini 3.1 Pro inside the Antigravity IDE v1.20.3.
+This document defines observable workflow patterns for authoring deterministic Antigravity skills without relying on unverifiable claims about internal reasoning.
 </document_purpose>
 
 <decision_tree_patterns>
-For complex tasks with branching logic, you MUST implement Explicit Decision Trees. This prevents the LLM from hallucinating fallbacks.
+For branching logic, write explicit IF/THEN choices grounded in observable state so the agent can justify each branch with a file check, command result, or user-provided fact.
 
 Example implementation inside a `<how_to_use>` block:
 
-1. **Analyze Dependency Tree:**
-   - **IF** the package is missing, **THEN** execute the installation script and log the change.
-   - **IF** the package exists but is outdated, **THEN** prompt the human developer for upgrade approval.
-   - **IF** the package is current, **THEN** proceed to Step 2.
+1. Check whether the required tool or file exists.
+2. **IF** the dependency is missing and the skill permits installation, **THEN** run the documented install step and capture the result.
+3. **IF** the dependency is missing and installation requires approval, **THEN** ask for approval and halt further execution.
+4. **IF** the dependency is present, **THEN** continue to the next step.
 </decision_tree_patterns>
 
-<silent_reasoning_patterns>
-To force Gemini 3.1 Pro to evaluate its own work before modifying the codebase, implement a silent verification loop using the `<verification_step>` tag.
+<validation_loop_patterns>
+Prefer observable planning and validation loops over directions such as "silently reason" or "silently self-correct."
 
 Example implementation:
-<verification_step>
-SILENT AUDIT: Before emitting the final code block, silently review your AST structure. If any synchronous blocking I/O calls are detected within the `async` function, silently rewrite the function to use `aiohttp` before presenting the final output to the user.
-</verification_step>
-</silent_reasoning_patterns>
+
+1. Produce an intermediate artifact such as `changes.json`, `plan.md`, or a generated file draft.
+2. Run a validator or structural check against that artifact.
+3. **IF** validation fails, revise the artifact using the reported error and rerun validation.
+4. **IF** validation passes, apply or emit the final result and run the final verification step.
+
+This pattern keeps failure handling machine-verifiable and auditable.
+</validation_loop_patterns>
+
+<instruction_structuring_patterns>
+Use explicit structural boundaries so the skill separates routing, execution, and constraints cleanly.
+
+- Put trigger boundaries in `description` and `<when_to_use>`.
+- Put hard safety and scope boundaries in `<constraints>`.
+- Put ordered actions, inputs, outputs, and verification in `<how_to_use>`.
+- Reference detailed files directly from `<resources_reference>` so the agent can decide whether to read or run them.
+</instruction_structuring_patterns>

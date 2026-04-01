@@ -1,41 +1,52 @@
 ---
 name: dev-create-skill
-version: 2.0.0
-description: Scaffolds and finalizes Antigravity-compatible skills with deterministic structure and low-hallucination instruction design.
+version: 2.1.0
+description: Creates or refines Antigravity-compatible skills with explicit trigger boundaries, deterministic authoring flow, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
 ---
 
 <when_to_use>
-- The user asks to create a new custom skill.
-- The user asks to scaffold or standardize existing skill format.
+- Use when the user asks to create, scaffold, template, standardize, or harden a skill in `.agent/skills/...`.
+- Use when the task is to improve skill triggering, `SKILL.md` structure, bundled resource layout, or skill packaging and validation behavior.
+- Do not use when the request is to create a workflow, schema, implementation plan, or ordinary project code change outside a skill folder.
+- Example prompt: "Create a new skill for generating release notes."
+- Example prompt: "Standardize this existing skill so it validates and packages cleanly."
 </when_to_use>
 
 <how_to_use>
-1. Confirm scope: trigger conditions, expected workflow, required scripts/resources.
-2. Scaffold base structure:
-   - `python .agent/skills/dev-create-skill/scripts/init_skill.py <skill-name> --path <output-directory>`
-3. Implement `SKILL.md` with required XML blocks:
-   - `<when_to_use>`
-   - `<how_to_use>`
-   - `<constraints>`
-   - `<resources_reference>`
-4. Add referenced assets/scripts and ensure links are valid.
-5. Run quick validation:
-   - `python .agent/skills/dev-create-skill/scripts/quick_validate.py <path-to-skill>`
-
-Prefer concise, deterministic instructions over long narrative guidance.
+1. Gather 2-3 concrete requests that the target skill must handle. Extract the trigger phrases, required inputs, expected outputs, and adjacent tasks it must reject.
+2. Decide the minimum skill shape:
+   - Leave the skill instruction-only unless deterministic scripts or assets remove repeated code or reduce ambiguity.
+   - Add scripts only for repeatable, high-risk, or machine-verifiable steps.
+   - Add resources only when detailed reference material should stay out of `SKILL.md` until needed.
+3. Scaffold the base skill directory with `python .agent/skills/dev-create-skill/scripts/init_skill.py <skill-name> --path <output-directory>` and add opt-in flags only for the directories or examples you actually need.
+4. Write the target `SKILL.md`:
+   - make `description` explicit about what the skill does, when it should trigger, and when it should not
+   - use `<when_to_use>` to add positive triggers, exclusions, and concrete example prompts
+   - use `<how_to_use>` to define ordered actions, required inputs, expected outputs, and verification
+   - use `<constraints>` to state hard boundaries and anti-patterns
+   - use `<resources_reference>` to list each file with whether it should be read or run, and why
+5. Add only the files the skill will actually use, then ensure every referenced path exists and uses repo-relative forward-slash notation.
+6. Validate with `python .agent/skills/dev-create-skill/scripts/quick_validate.py <path-to-skill>`. Resolve all structural errors, then address any quality warnings about weak descriptions, missing exclusions, or ambiguous resource entries.
+7. Trigger-test the finished skill with at least one prompt that should invoke it and one adjacent prompt that should not. Refine the description or exclusions until routing is predictable.
+8. Package with `python .agent/skills/dev-create-skill/scripts/package_skill.py <path-to-skill> [output-directory]` only after validation and trigger checks are clean enough for handoff.
 </how_to_use>
 
 <constraints>
-- Do not use deprecated skill metadata fields.
-- Do not leave ambiguous execution verbs (e.g., “improve”, “optimize”) without measurable criteria.
-- Keep tool paths repository-relative.
+- Do not use deprecated frontmatter keys or invent new contract fields without updating the local schema, validator, and examples together.
+- Do not leave vague verbs such as `improve`, `optimize`, or `handle` without concrete acceptance criteria or explicit outputs.
+- Do not assume packages, tools, files, credentials, or permissions exist unless the skill explicitly verifies them.
+- Do not cite non-authoritative sources when repo-local contract files or official vendor documentation are available.
+- Do not reference scripts, resources, or assets that are absent, unused, or described unclearly.
+- Keep skill-local paths repo-relative and written with forward slashes.
 </constraints>
 
 <resources_reference>
-- `.agent/skills/dev-create-skill/scripts/init_skill.py`
-- `.agent/skills/dev-create-skill/scripts/package_skill.py`
-- `.agent/skills/dev-create-skill/scripts/quick_validate.py`
-- `.agent/skills/dev-create-skill/resources/workflows.md`
-- `.agent/skills/dev-create-skill/resources/output-patterns.md`
-- `.agent/skills/dev-create-skill/resources/schema/skill.d.ts`
+- Run `.agent/skills/dev-create-skill/scripts/init_skill.py` to scaffold the minimal skill directory and optional folders.
+- Run `.agent/skills/dev-create-skill/scripts/quick_validate.py` to detect structural errors and quality warnings before packaging.
+- Run `.agent/skills/dev-create-skill/scripts/package_skill.py` to build a clean `.skill` archive after validation passes.
+- Read `.agent/skills/dev-create-skill/resources/workflows.md` to author observable decision branches and validation loops instead of unverifiable internal reasoning instructions.
+- Read `.agent/skills/dev-create-skill/resources/output-patterns.md` to preserve Antigravity artifact and output expectations when the new skill emits structured files.
+- Read `.agent/skills/dev-create-skill/resources/schema/skill.d.ts` to confirm the active frontmatter and XML block contract.
+- Read `.agent/skills/dev-create-skill/resources/schema/README.md` to understand which local files are authoritative and which external docs are informative only.
+- Read `.agent/skills/dev-create-skill/directory_structure.md` to choose the smallest correct scaffold shape before adding optional folders.
 </resources_reference>
