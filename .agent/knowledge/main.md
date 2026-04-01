@@ -9,4 +9,6 @@ access: public
 ---
 # Antigravity Knowledge Base Configuration
 
-Main entry point for the Antigravity Knowledge Base (DDR System).
+Main entry point for the Antigravity Knowledge Base.
+
+> Programmatic Routing Layer. Refer to [README.md](README.md) for human-readable architecture intent and context.
