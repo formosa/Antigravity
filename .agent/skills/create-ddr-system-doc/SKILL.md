@@ -1,5 +1,6 @@
 ---
 name: create-ddr-system-doc
+version: 1.0.0
 description: Generates authoritative DDR System Markdown documentation from a DDR schema YAML plus DDR system specification YAML. Use when the user wants to create, regenerate, or validate a comprehensive `DDR System(vX).md` document from targeted DDR System SCHEMA and SPECIFICATION files.
 ---
 

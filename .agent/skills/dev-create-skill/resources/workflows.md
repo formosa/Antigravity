@@ -1,5 +1,5 @@
 <document_purpose>
-This document establishes the patterns for authoring deterministic workflows for Gemini 3.1 Pro inside the Antigravity IDE v1.18.3.
+This document establishes the patterns for authoring deterministic workflows for Gemini 3.1 Pro inside the Antigravity IDE v1.20.3.
 </document_purpose>
 
 <decision_tree_patterns>

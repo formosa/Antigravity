@@ -1,5 +1,6 @@
 ---
 name: util-python-strip-comments
+version: 1.0.0
 description: Surgically removes all docstrings and code comments from a targeted Python file while preserving execution logic, formatting, and indentation.
 ---
 

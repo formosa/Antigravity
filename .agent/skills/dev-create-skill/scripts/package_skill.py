@@ -15,7 +15,7 @@ def package_skill(skill_path, output_dir=None):
         print(f"❌ Error: Skill folder not found: {skill_path}")
         return None
 
-    print("🔍 Validating Antigravity v1.18.3 compliance...")
+    print("🔍 Validating Antigravity v1.20.3 compliance...")
     valid, message = validate_skill(skill_path)
     if not valid:
         print(f"❌ Validation failed: {message}")

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Skill Initializer - Creates a new Antigravity v1.18.3 compliant skill from template
+Skill Initializer - Creates a new Antigravity v1.20.3 compliant skill from template
 
 Usage:
     init_skill.py <skill-name> --path <path>
@@ -82,7 +82,7 @@ def init_skill(skill_name, path):
     skill_md_path = skill_dir / 'SKILL.md'
     try:
         skill_md_path.write_text(skill_content)
-        print("✅ Created SKILL.md (v1.18.3 Compliant)")
+        print("✅ Created SKILL.md (v1.20.3 compliant)")
     except Exception as e:
         print(f"❌ Error creating SKILL.md: {e}")
         return None

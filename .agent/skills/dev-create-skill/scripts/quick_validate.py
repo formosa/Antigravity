@@ -1,25 +1,41 @@
 #!/usr/bin/env python3
 """
-Quick validation script for Antigravity v1.18.3 Skills
+Quick validation script for Antigravity v1.20.3 skills.
 """
 
-import sys
 import re
+import sys
 import yaml
 from pathlib import Path
 
+REQUIRED_FRONTMATTER_KEYS = {"description", "version"}
+OPTIONAL_FRONTMATTER_KEYS = {"name"}
+DEPRECATED_PROPERTIES = {"type", "priority", "scope", "tags", "metadata"}
+REQUIRED_XML_BLOCKS = (
+    "when_to_use",
+    "how_to_use",
+    "constraints",
+    "resources_reference",
+)
+
+
+def has_xml_block(content, block_name):
+    pattern = rf"<{block_name}>\s*.*?\s*</{block_name}>"
+    return re.search(pattern, content, re.DOTALL) is not None
+
+
 def validate_skill(skill_path):
     skill_path = Path(skill_path)
-    skill_md = skill_path / 'SKILL.md'
+    skill_md = skill_path / "SKILL.md"
 
     if not skill_md.exists():
         return False, "SKILL.md not found"
 
-    content = skill_md.read_text()
-    if not content.startswith('---'):
+    content = skill_md.read_text(encoding="utf-8")
+    if not content.startswith("---"):
         return False, "No YAML frontmatter found"
 
-    match = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
+    match = re.match(r"^---\n(.*?)\n---", content, re.DOTALL)
     if not match:
         return False, "Invalid frontmatter format"
 
@@ -30,30 +46,25 @@ def validate_skill(skill_path):
     except yaml.YAMLError as e:
         return False, f"Invalid YAML in frontmatter: {e}"
 
-    # Strict v1.18.3 Frontmatter Validation
-    ALLOWED_PROPERTIES = {'name', 'description'}
-    DEPRECATED_PROPERTIES = {'type', 'priority', 'scope', 'tags', 'metadata'}
-
     detected_keys = set(frontmatter.keys())
 
     if detected_keys.intersection(DEPRECATED_PROPERTIES):
-        return False, "CRITICAL: Detected deprecated legacy tags (e.g., type, priority, scope). Remove them for v1.18.3 compliance."
+        return False, "CRITICAL: Detected deprecated legacy tags (e.g., type, priority, scope). Remove them for v1.20.3 compliance."
 
-    unexpected_keys = detected_keys - ALLOWED_PROPERTIES
+    allowed_properties = REQUIRED_FRONTMATTER_KEYS | OPTIONAL_FRONTMATTER_KEYS
+    unexpected_keys = detected_keys - allowed_properties
     if unexpected_keys:
         return False, f"Unexpected key(s) in frontmatter: {', '.join(unexpected_keys)}."
 
-    if 'description' not in frontmatter:
-        return False, "Missing 'description' (Required for Semantic Routing)"
+    missing_required = REQUIRED_FRONTMATTER_KEYS - detected_keys
+    if missing_required:
+        return False, f"Missing required frontmatter key(s): {', '.join(sorted(missing_required))}."
 
-    # Strict v1.18.3 XML Body Validation
-    if '<when_to_use>' not in content or '</when_to_use>' not in content:
-        return False, "Missing required <when_to_use> XML block."
+    for block_name in REQUIRED_XML_BLOCKS:
+        if not has_xml_block(content, block_name):
+            return False, f"Missing required <{block_name}> XML block."
 
-    if '<how_to_use>' not in content or '</how_to_use>' not in content:
-        return False, "Missing required <how_to_use> XML block."
-
-    return True, "Skill is valid and v1.18.3 compliant!"
+    return True, "Skill is valid and v1.20.3 compliant."
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

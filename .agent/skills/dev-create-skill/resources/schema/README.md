@@ -1,12 +1,12 @@
-# DESIGN_JUSTIFICATION: Antigravity Skill Assets v1.18.3
+# DESIGN_JUSTIFICATION: Antigravity Skill Assets v1.20.3
 
 <document_purpose>
-This document serves as the verified, single-source-of-truth reference for the architectural design of Skill assets within the Antigravity IDE v1.18.3 ecosystem. It is formatted explicitly for ingestion by Gemini 3.1 Pro and Gemini 3 Flash models to establish the correct parsing logic for progressive disclosure capabilities.
+This document serves as the verified, single-source-of-truth reference for the architectural design of Skill assets within the Antigravity IDE v1.20.3 ecosystem. It is formatted explicitly for ingestion by Gemini 3.1 Pro and Gemini 3 Flash models to establish the correct parsing logic for progressive disclosure capabilities.
 </document_purpose>
 
 <schema_evaluation_and_justification>
 
-- **Progressive Disclosure & Semantic Routing:** The IDE v1.18.3 routing engine does not load all capabilities at startup. Instead, it relies strictly on the `description` parameter in the YAML frontmatter to semantically match user intent and dynamically load the skill into the LLM's context window only when relevant.
+- **Progressive Disclosure & Semantic Routing:** The IDE v1.20.3 routing engine does not load all capabilities at startup. Instead, it relies on precise YAML frontmatter, with `description` as the semantic trigger and `version` as the schema-tracking field for deterministic skill evolution.
 - **Architectural Cleanup:** Legacy parameters such as `scope` and `priority` have been eliminated from the frontmatter. A skill's scope is dictated by its physical directory installation, and priority sorting is reserved exclusively for the Rules engine.
 - **Context-First XML Fencing:** The `<when_to_use>` block acts as a secondary, silent verification step for Gemini 3.1 Pro before it executes the `<how_to_use>` payload, preventing the model from utilizing the skill out of context.
 - **Resource Referencing:** The `<resources_reference>` block establishes strict paths for the LLM to access auxiliary scripts, few-shot examples, or code templates securely isolated within the skill's specific subdirectory.
@@ -44,5 +44,6 @@ This document serves as the verified, single-source-of-truth reference for the a
 | Date | Version | Classification | Description |
 | :--- | :--- | :--- | :--- |
 | 2026-03-01 | v1.1.0 | Optimization | Enhanced `skill.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework. |
+| 2026-04-01 | v1.20.3 | Clarification | Updated the skill-schema reference to the current Antigravity version and clarified that `version` is a required frontmatter field for live skill validation. |
 
 </modification_history>

@@ -1,4 +1,4 @@
-// Antigravity Agent Asset Configuration Schema (v1.18.3)
+// Antigravity Agent Asset Configuration Schema (v1.20.3)
 // OPTIMIZED FOR GEMINI 3.1 PRO AND GEMINI 3 FLASH
 // INSTRUCTION FOR AGENTS: Parse this file to understand the strict schema requirements for generating valid YAML frontmatter and XML-delimited body content in .md asset files.
 

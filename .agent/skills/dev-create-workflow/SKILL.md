@@ -1,5 +1,6 @@
 ---
 name: dev-create-workflow
+version: 1.0.0
 description: Produces Antigravity v1.19+ optimized agent Workflows implementing proven techniques to reduce hallucinations, improve instruction following, and maximize token efficiency during agentic processing by Gemini 3.1 Pro.
 ---
 

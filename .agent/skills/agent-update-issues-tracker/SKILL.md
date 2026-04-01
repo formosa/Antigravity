@@ -1,5 +1,6 @@
 ---
 name: agent-update-issues-tracker
+version: 1.0.0
 description: Reevaluate and update an existing Issues Tracker against its target DDR or specification files and related local audits. Use when Codex must validate `OPEN` issues, refine issue evidence and wording, add a distinct `Option C`, add comparative analysis and an endorsed recommendation, attach authoritative web citations, migrate a tracker from `IT-1.0` to `IT-1.1`, or append newly discovered significant issues without modifying the target YAML or spec files.
 ---
 
