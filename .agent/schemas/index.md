@@ -5,6 +5,7 @@
 | brainstorm | 1.0.0 | Schema definition. |
 | gemini | 1.0.0 | Schema definition. |
 | implementation-plan | 1.0.0 | Schema definition. |
+| index | 1.0.0 | Schema definition. |
 | issue | 1.0.0 | Schema definition. |
 | issues-tracker | 1.0.0 | Schema definition. |
 | rule | 1.2.0 | Schema definition. |
