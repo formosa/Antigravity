@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across current owner skills.
 >
-> Total skills: `14`
+> Total skills: `10`
 >
 > Parent: [`.agent/`](..)
 >
@@ -22,16 +22,12 @@
 - `agent-create-issues-tracker`: initialize a blank issues tracker from the canonical template.
 - `agent-update-issues-tracker`: reevaluate and update an existing issues tracker against local evidence.
 - `codex-brainstorm`: capture or reorganize governed brainstorming content in `brainstorm.md`.
-- `create-ddr-system-doc`: generate or validate DDR System Markdown documentation from authoritative YAML sources.
-- `ddr-dag-visualizer`: validate DDR YAML and render deterministic DAG artifacts plus validation output.
 - `dev-agent-asset`: classify agent-asset requests and route them to the correct owner contract or schema-first path.
 - `dev-create-implementation-plan`: produce a governed implementation-plan artifact before execution begins.
 - `dev-create-schema`: create or update canonical `.d.ts` schemas and related schema governance assets.
 - `dev-create-skill`: scaffold or standardize skill folders under `.agent/skills/`.
 - `dev-create-workflow`: create or standardize reusable workflows under `.agent/workflows/`.
 - `md060-strict-aligner`: align Markdown tables with minimal structure-preserving edits.
-- `python-code-optimizer`: apply deterministic AST-first Python maintainability optimizations with validation gates.
-- `util-python-strip-comments`: remove comments and docstrings from a targeted Python file without changing behavior.
 
 ## Manifest
 
@@ -89,33 +85,6 @@ skills:
     use_when:
       - capturing or reorganizing brainstorming artifacts
       - maintaining governed `brainstorm.md` content
-
-  - id: create-ddr-system-doc
-    definition: .agent/skills/create-ddr-system-doc/SKILL.md
-    category: ddr_authoring_and_analysis
-    implementation: .agent/skills/create-ddr-system-doc/
-    keywords:
-      - ddr
-      - documentation
-      - markdown
-      - yaml
-    use_when:
-      - generating DDR System Markdown from authoritative YAML
-      - validating a DDR System document generation path
-
-  - id: ddr-dag-visualizer
-    definition: .agent/skills/ddr-dag-visualizer/SKILL.md
-    category: ddr_authoring_and_analysis
-    implementation: .agent/skills/ddr-dag-visualizer/
-    keywords:
-      - ddr
-      - dag
-      - diagram
-      - validation
-      - svg
-    use_when:
-      - visualizing DDR graph structure
-      - validating node and edge integrity from DDR YAML
 
   - id: dev-agent-asset
     definition: .agent/skills/dev-agent-asset/SKILL.md
@@ -198,32 +167,6 @@ skills:
       - fixing table alignment violations
       - preserving Markdown table meaning while normalizing spacing
 
-  - id: python-code-optimizer
-    definition: .agent/skills/python-code-optimizer/SKILL.md
-    category: formatting_and_refactoring
-    implementation: .agent/skills/python-code-optimizer/
-    keywords:
-      - python
-      - optimization
-      - ast
-      - validation
-      - refactor
-    use_when:
-      - improving Python maintainability while preserving behavior
-      - running deterministic Python cleanup with validation gates
-
-  - id: util-python-strip-comments
-    definition: .agent/skills/util-python-strip-comments/SKILL.md
-    category: formatting_and_refactoring
-    implementation: .agent/skills/util-python-strip-comments/
-    keywords:
-      - python
-      - strip-comments
-      - docstrings
-      - cleanup
-    use_when:
-      - removing comments or docstrings from a specific Python file
-      - preserving Python execution logic while stripping non-executable text
 ```
 
 ## Skill Records
@@ -255,20 +198,6 @@ skills:
 - Implementation: [`.agent/skills/codex-brainstorm/`](codex-brainstorm)
 - Best used for: governed brainstorming capture and reorganization in `brainstorm.md`.
 - Open the linked definition when brainstorm formatting, citation rules, or Mermaid policy matters.
-
-### `create-ddr-system-doc`
-
-- Definition: [`create-ddr-system-doc/SKILL.md`](create-ddr-system-doc/SKILL.md)
-- Implementation: [`.agent/skills/create-ddr-system-doc/`](create-ddr-system-doc)
-- Best used for: generating or validating authoritative DDR System Markdown from YAML authorities.
-- Open the linked definition when source-file requirements, output structure, or validator steps matter.
-
-### `ddr-dag-visualizer`
-
-- Definition: [`ddr-dag-visualizer/SKILL.md`](ddr-dag-visualizer/SKILL.md)
-- Implementation: [`.agent/skills/ddr-dag-visualizer/`](ddr-dag-visualizer)
-- Best used for: DDR DAG rendering, graph validation, and diagram artifact generation.
-- Open the linked definition when output styles, render options, or validation reports matter.
 
 ### `dev-agent-asset`
 
@@ -312,27 +241,13 @@ skills:
 - Best used for: structure-preserving Markdown table alignment fixes.
 - Open the linked definition when the request must remain table-only and broader Markdown edits are out of scope.
 
-### `python-code-optimizer`
-
-- Definition: [`python-code-optimizer/SKILL.md`](python-code-optimizer/SKILL.md)
-- Implementation: [`.agent/skills/python-code-optimizer/`](python-code-optimizer)
-- Best used for: deterministic Python maintainability and complexity improvements with rollback safety.
-- Open the linked definition when AST transformations, validation gates, or preservation constraints matter.
-
-### `util-python-strip-comments`
-
-- Definition: [`util-python-strip-comments/SKILL.md`](util-python-strip-comments/SKILL.md)
-- Implementation: [`.agent/skills/util-python-strip-comments/`](util-python-strip-comments)
-- Best used for: stripping Python comments and docstrings from a targeted file without behavioral changes.
-- Open the linked definition when file targeting, formatting preservation, or comment-removal scope matters.
-
 ## Category Totals
 
-- `ddr_authoring_and_analysis`: `3`
-- `formatting_and_refactoring`: `3`
+- `ddr_authoring_and_analysis`: `1`
+- `formatting_and_refactoring`: `1`
 - `issue_artifacts`: `3`
 - `orchestration_and_authoring`: `5`
-- `total`: `14`
+- `total`: `10`
 
 ## Index Boundaries
 
