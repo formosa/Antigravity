@@ -19,9 +19,9 @@
 
 ### Schema Rules (1) — Glob, Priority Critical
 
-| File                                                 | Purpose                           |
-| :--------------------------------------------------- | :-------------------------------- |
-| [dev-check-schema.md](dev-check-schema.md)           | Schema compliance enforcement     |
+| File                                       | Purpose                                                |
+| :----------------------------------------- | :----------------------------------------------------- |
+| [dev-check-schema.md](dev-check-schema.md) | Rule frontmatter and canonical schema markdown hygiene |
 
 ---
 

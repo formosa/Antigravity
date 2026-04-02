@@ -1,7 +1,7 @@
 ---
 name: agent-create-issues-tracker
-version: 1.0.1
-description: Initializes a new blank Issues Tracker from the shared canonical template when the user needs a fresh tracker, not when they want to add issues or generate issue reports.
+version: 1.0.2
+description: Initializes a new blank Issues Tracker from the shared canonical template. Use when the user needs a fresh tracker file for a project or specification review. Do not use when the task is to update an existing tracker or generate a per-issue report.
 ---
 
 <when_to_use>
@@ -9,6 +9,8 @@ description: Initializes a new blank Issues Tracker from the shared canonical te
 - The user asks to create or initialize a new Issues Tracker file.
 - The task needs a blank tracker for a project, specification, or system under review.
 - Do not use this skill to add issues to an existing tracker or to generate per-issue resolution reports.
+- Example prompt: "Initialize an issues tracker for DDR System v7.0 at ddr/DDR_v7_Issues_Tracker.md by Anthony Formosa."
+- Example prompt: "Create a blank issues tracker for this specification review in .agent/assets/review/Tracker.md."
 </when_to_use>
 
 <how_to_use>
@@ -56,9 +58,9 @@ Examples:
 
 <resources_reference>
 
-- `resources/schema/issues-tracker/template.md`
-- `resources/schema/issues-tracker/README.md`
-- `resources/schema/issues-tracker/example.md`
-- `.agent/skills/agent-create-issues-tracker/scripts/validate_issues_tracker.py`
-- `.agent/skills/agent-create-issues-tracker/resources/reference.md`
+- Read `resources/schema/issues-tracker/template.md` to render the canonical blank tracker structure.
+- Read `resources/schema/issues-tracker/README.md` to confirm tracker purpose, metadata expectations, and version notes.
+- Read `resources/schema/issues-tracker/example.md` to compare the rendered tracker against a populated canonical example.
+- Run `.agent/skills/agent-create-issues-tracker/scripts/validate_issues_tracker.py` to validate the written tracker before completion.
+- Read `.agent/skills/agent-create-issues-tracker/resources/reference.md` to preserve local tracker authoring and validation conventions.
 </resources_reference>

@@ -25,9 +25,9 @@ def main():
     target_file_path = Path(args.target_file)
     if target_file_path.exists():
         shutil.copy(target_file_path, target_dir / "example.md")
-        print(f"✅ Schema scaffolded: {target_dir}")
+        print(f"[OK] Schema scaffolded: {target_dir}")
     else:
-        print(f"❌ Target file not found: {target_file_path}")
+        print(f"[ERROR] Target file not found: {target_file_path}")
 
 if __name__ == "__main__":
     main()

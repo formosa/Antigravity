@@ -679,7 +679,7 @@ def generate_report(
     # System-definition files use system_metadata; project-instance files use project.
     name       = project.get("name") or sys_meta.get("authority", "Unnamed DDR Definition")
     version    = ddr_data.get("ddr_version", "4.0")
-    status_str = "✅ CLEAN" if result.clean else "❌ DIRTY"
+    status_str = "CLEAN" if result.clean else "DIRTY"
 
     severity_order = {"CRITICAL": 0, "ERROR": 1, "WARNING": 2}
     sorted_v = sorted(
@@ -716,8 +716,7 @@ def generate_report(
         lines += ["", "_No violations detected. DAG is structurally CLEAN._"]
     else:
         for v in sorted_v:
-            icon = {"CRITICAL": "⛔", "ERROR": "🔴", "WARNING": "🟡"}.get(v.severity, "•")
-            lines.append(f"\n### {icon} [{v.severity}] `{v.rule_id}` — `{v.node_id}`")
+            lines.append(f"\n### [{v.severity}] `{v.rule_id}` - `{v.node_id}`")
             lines.append(f"\n{v.description}")
 
     md_report   = process_document("\n".join(lines))

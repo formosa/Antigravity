@@ -1,6 +1,6 @@
 ---
 name: dev-create-skill
-version: 2.2.0
+version: 2.2.1
 description: Creates or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
 ---
 

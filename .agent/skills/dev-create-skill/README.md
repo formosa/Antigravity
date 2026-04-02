@@ -29,4 +29,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-01 | 2.1.0 | initial | Baseline Capture | Recorded the pre-existing skill version as the lifecycle baseline for governance enforcement. |
 | 2026-04-01 | 2.2.0 | minor | Governance | Expanded scaffolding, validation, and packaging to require root skill READMEs and synced vendored schema mirrors. |
 
+| 2026-04-02 | 2.2.1 | patch | Governance | Aligned the validator and canonical skill schema wording around required blocks, refreshed contract messaging to be version-agnostic, and synchronized the vendored skill schema mirror to the repaired canonical contract. |
+
 </modification_history>

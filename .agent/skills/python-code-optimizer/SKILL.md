@@ -1,13 +1,16 @@
 ---
 name: python-code-optimizer
-version: 2.0.1
-description: Optimizes Python code using deterministic AST-first transformations with validation gates and rollback safety.
+version: 2.0.2
+description: Optimizes Python code using deterministic AST-first transformations with validation gates and rollback safety. Use when the task is to improve Python maintainability, complexity, or style while preserving behavior. Do not use when the requested change is a non-Python task or an intentional behavior rewrite without preservation goals.
 ---
 
 <when_to_use>
 
 - The user asks to improve Python quality, maintainability, or style.
 - The user asks for complexity/entropy reduction or Clean Code enforcement.
+- Do not use this skill when the request targets non-Python files or intentionally changes behavior instead of preserving it.
+- Example prompt: "Optimize this Python module for readability and lower complexity without changing behavior."
+- Example prompt: "Run the Python optimizer workflow on src/parser.py with conservative settings."
 </when_to_use>
 
 <how_to_use>
@@ -53,9 +56,9 @@ description: Optimizes Python code using deterministic AST-first transformations
 
 <resources_reference>
 
-- `.agent/skills/python-code-optimizer/scripts/optimize_python.py`
-- `.agent/skills/python-code-optimizer/scripts/validation_suite.py`
-- `.agent/skills/python-code-optimizer/scripts/analyze_complexity.py`
-- `.agent/skills/python-code-optimizer/scripts/analyze_entropy.py`
-- `.agent/skills/python-code-optimizer/resources/clean_code_rules.md`
+- Run `.agent/skills/python-code-optimizer/scripts/optimize_python.py` to perform the deterministic optimization pass.
+- Run `.agent/skills/python-code-optimizer/scripts/validation_suite.py` to confirm behavioral and quality preservation after optimization.
+- Run `.agent/skills/python-code-optimizer/scripts/analyze_complexity.py` to establish the baseline and post-change complexity profile.
+- Run `.agent/skills/python-code-optimizer/scripts/analyze_entropy.py` to measure structural entropy before or after transformation.
+- Read `.agent/skills/python-code-optimizer/resources/clean_code_rules.md` to preserve the local optimization heuristics and naming standards.
 </resources_reference>

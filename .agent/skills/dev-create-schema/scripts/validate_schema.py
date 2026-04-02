@@ -27,7 +27,7 @@ def main():
     backup_path = target_dir / f"{args.name}.d.ts.bak"
 
     if not dts_path.exists():
-        print(f"❌ Schema .d.ts not found at {dts_path}")
+        print(f"[ERROR] Schema .d.ts not found at {dts_path}")
         sys.exit(1)
 
     if not do_validation:
@@ -42,18 +42,18 @@ def main():
     result = subprocess.run([str(tsc_cmd), "--noEmit", str(dts_path)], capture_output=True, text=True)
 
     if result.returncode != 0:
-        print("❌ Validation Failed. Outputting errors:")
+        print("[ERROR] Validation failed. Outputting errors:")
         print(result.stderr or result.stdout)
 
         # Rollback logic
         if backup_path.exists():
-            print(f"⚠️ Rolling back {dts_path} to previous state...")
+            print(f"[WARN] Rolling back {dts_path} to previous state...")
             shutil.copy(backup_path, dts_path)
         else:
-            print("⚠️ No backup found (initial creation). File remains unchanged for manual correction.")
+            print("[WARN] No backup found (initial creation). File remains unchanged for manual correction.")
         sys.exit(1)
 
-    print(f"✅ Schema {args.name} validated successfully.")
+    print(f"[OK] Schema {args.name} validated successfully.")
     # Create/update backup post successful validation
     shutil.copy(dts_path, backup_path)
 

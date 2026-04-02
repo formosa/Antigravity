@@ -1,7 +1,7 @@
 ---
 name: agent-update-issues-tracker
-version: 1.0.1
-description: Reevaluate and update an existing Issues Tracker against its target DDR or specification files and related local audits. Use when Codex must validate `OPEN` issues, refine issue evidence and wording, add a distinct `Option C`, add comparative analysis and an endorsed recommendation, attach authoritative web citations, migrate a tracker from `IT-1.0` to `IT-1.1`, or append newly discovered significant issues without modifying the target YAML or spec files.
+version: 1.0.2
+description: Reevaluate and update an existing Issues Tracker against its target DDR or specification files and related local audits. Use when the task is to refresh tracked issues, add comparative analysis, migrate a tracker from `IT-1.0` to `IT-1.1`, or append newly discovered significant issues. Do not use when the task is to initialize a blank tracker or patch the target YAML or spec files.
 ---
 
 <when_to_use>
@@ -9,6 +9,8 @@ description: Reevaluate and update an existing Issues Tracker against its target
 - The task references an existing tracker plus target YAML/spec files, local audits, local issue reports, or other repo documents that may contain issue leads.
 - The task requires validating existing `OPEN` issues, adding `Option C`, adding a comparative analysis, endorsing one strategy, or attaching authoritative online citations directly inside the tracker.
 - Do not use this skill to initialize a blank tracker or to generate a standalone issue report artifact.
+- Example prompt: "Refresh ISSUE-004 and ISSUE-009 in ddr/DDR_v6.3_Issues_Tracker.md using the sibling DDR YAML files."
+- Example prompt: "Update this existing tracker, migrate it to IT-1.1, and add supporting citations for the endorsed options."
 </when_to_use>
 
 <how_to_use>
@@ -84,9 +86,9 @@ Examples:
 </constraints>
 
 <resources_reference>
-- `resources/schema/issues-tracker/README.md`
-- `resources/schema/issues-tracker/issues-tracker.d.ts`
-- `resources/schema/issues-tracker/example-it-1.1.md`
-- `.agent/skills/agent-update-issues-tracker/resources/reference.md`
-- `.agent/skills/agent-update-issues-tracker/scripts/validate_updated_issues_tracker.py`
+- Read `resources/schema/issues-tracker/README.md` to confirm tracker governance, field semantics, and migration notes.
+- Read `resources/schema/issues-tracker/issues-tracker.d.ts` to verify the active tracker contract before editing.
+- Read `resources/schema/issues-tracker/example-it-1.1.md` to mirror the canonical populated tracker structure.
+- Read `.agent/skills/agent-update-issues-tracker/resources/reference.md` to preserve the local tracker-update workflow and evidence standards.
+- Run `.agent/skills/agent-update-issues-tracker/scripts/validate_updated_issues_tracker.py` to validate the final tracker.
 </resources_reference>

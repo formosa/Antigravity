@@ -1,6 +1,5 @@
-// Antigravity Agent Asset Configuration Schema (v1.20.3)
-// OPTIMIZED FOR GEMINI 3.1 PRO AND GEMINI 3 FLASH
-// INSTRUCTION FOR AGENTS: Parse this file to understand the strict schema requirements for generating valid YAML frontmatter and XML-delimited body content in .md asset files.
+// Antigravity Skill Asset Configuration Schema
+// INSTRUCTION FOR AGENTS: Parse this file to understand the local contract for valid YAML frontmatter and XML-delimited body content in SKILL.md assets.
 
 /** SKILL DEFINITION
  * File Pattern: .agent/skills/<skill-name>/SKILL.md
@@ -11,19 +10,19 @@ interface SkillDefinition {
     frontmatter: {
         /** Kebab-case identifier. Optional; defaults to the directory name if omitted. */
         name?: string;
-        /** Schema version for tracking modifications (e.g., "1.1.0"). */
+        /** Semantic version synchronized with the latest root README modification-history row. */
         version: string;
-        /** CRITICAL: Functions as the primary "trigger condition". Must be highly precise for the semantic router to discover the skill. */
+        /** Primary routing surface. Must say what the skill does, when it should trigger, and the nearest exclusion boundary. */
         description: string;
     };
     body_content: {
-        /** Bullet list of exact scenarios where the agent should use this skill. Must be wrapped in XML tags (e.g., `<when_to_use>`). */
+        /** Bullet list of exact trigger scenarios, exclusions, and example prompts. Must be wrapped in `<when_to_use>`. */
         when_to_use: string;
-        /** Step-by-step silent reasoning, verification checklist, and expected output format. Must be wrapped in XML tags (e.g., `<how_to_use>`). */
+        /** Ordered execution contract describing inputs, actions, outputs, and verification. Must be wrapped in `<how_to_use>`. */
         how_to_use: string;
-        /** Hard safety guardrails and critical "Do Not" rules. Must be wrapped in XML tags (e.g., `<constraints>`). */
-        constraints?: string;
-        /** Paths to scripts, examples, or documentation relative to the skill folder. Must be wrapped in XML tags (e.g., `<resources_reference>`). */
-        resources_reference?: string;
+        /** Hard safety guardrails and critical "Do Not" rules. Must be wrapped in `<constraints>`. */
+        constraints: string;
+        /** Paths to scripts, examples, or documentation relative to the skill folder. Each entry should say whether the agent must read or run the resource, and why. Must be wrapped in `<resources_reference>`. */
+        resources_reference: string;
     };
 }

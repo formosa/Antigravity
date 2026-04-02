@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Quick validation script for Antigravity v1.20.3 skills.
+Quick validation script for the current Antigravity skill contract.
 """
 
 from __future__ import annotations
@@ -54,8 +54,8 @@ class ValidationResult:
         if not self.valid:
             return "Skill validation failed."
         if self.warnings:
-            return "Skill is valid and v1.20.3 compliant with warnings."
-        return "Skill is valid and v1.20.3 compliant."
+            return "Skill is valid against the current contract, with warnings."
+        return "Skill is valid against the current contract."
 
 
 def extract_tag_block(content: str, block_name: str) -> str | None:
@@ -391,7 +391,7 @@ def validate_skill(skill_path: str | Path) -> ValidationResult:
     if deprecated:
         result.errors.append(
             "CRITICAL: Detected deprecated legacy tags "
-            f"({', '.join(sorted(deprecated))}). Remove them for v1.20.3 compliance."
+            f"({', '.join(sorted(deprecated))}). Remove them for current-contract compliance."
         )
 
     allowed_properties = REQUIRED_FRONTMATTER_KEYS | OPTIONAL_FRONTMATTER_KEYS

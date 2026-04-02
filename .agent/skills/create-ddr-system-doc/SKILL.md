@@ -1,7 +1,7 @@
 ---
 name: create-ddr-system-doc
-version: 1.0.1
-description: Generates authoritative DDR System Markdown documentation from a DDR schema YAML plus DDR system specification YAML. Use when the user wants to create, regenerate, or validate a comprehensive `DDR System(vX).md` document from targeted DDR System SCHEMA and SPECIFICATION files.
+version: 1.0.2
+description: Generates authoritative DDR System Markdown documentation from a DDR schema YAML plus DDR system specification YAML. Use when the task is to create, regenerate, or validate a comprehensive `DDR System(vX).md` document from authoritative DDR source files. Do not use when the task is to revise the source schema or semantic authority directly.
 ---
 
 <when_to_use>
@@ -9,6 +9,9 @@ description: Generates authoritative DDR System Markdown documentation from a DD
 - The user provides a DDR System schema file and a DDR System specification file and asks for a documentation artifact.
 - The user asks to regenerate, standardize, or validate a `DDR System(vX).md` document from DDR YAML sources.
 - The task requires deterministic conversion of DDR rule catalogs, tier definitions, lifecycle rules, extensions, and topology into a single Markdown reference document.
+- Do not use this skill when the user wants to patch the source YAML authorities rather than generate documentation from them.
+- Example prompt: "Generate DDR System(v6.3).md from ddr/ddr_node_schema_v6.3.yaml and ddr/ddr_system_v6.3.yaml."
+- Example prompt: "Regenerate the DDR system document from the current schema/spec pair and validate the result."
 </when_to_use>
 
 <how_to_use>
@@ -52,11 +55,8 @@ Reference example:
 
 <resources_reference>
 
-- `.agent/skills/create-ddr-system-doc/scripts/build_ddr_system_doc.py`
-- `.agent/skills/create-ddr-system-doc/scripts/validate_ddr_system_doc.py`
-- `.agent/skills/create-ddr-system-doc/resources/reference.md`
-- `.agent/skills/create-ddr-system-doc/resources/output-blueprint.md`
-- `resources/schema/skill/README.md`
-- `resources/schema/skill/example.md`
-- `resources/schema/skill/skill.d.ts`
+- Run `.agent/skills/create-ddr-system-doc/scripts/build_ddr_system_doc.py` to generate the documentation artifact from the source YAML files.
+- Run `.agent/skills/create-ddr-system-doc/scripts/validate_ddr_system_doc.py` to validate the generated Markdown against the source specification.
+- Read `.agent/skills/create-ddr-system-doc/resources/reference.md` to preserve source-precedence and fidelity rules during manual review.
+- Read `.agent/skills/create-ddr-system-doc/resources/output-blueprint.md` to preserve the canonical section map and output contract.
 </resources_reference>

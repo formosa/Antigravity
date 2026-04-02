@@ -787,7 +787,7 @@ def main() -> int:
     json_path.write_text(json.dumps(json_report, indent=2),   encoding="utf-8")
     generated_files.extend([md_path, json_path])
 
-    print("\n✅ DDR Visualization Complete")
+    print("\n[OK] DDR Visualization Complete")
     print(f"   Output directory: {output_dir.resolve()}")
     print("\n   Generated files:")
     for f in generated_files:
@@ -804,17 +804,16 @@ def main() -> int:
             print(f"   Extension catalog entries: {ext_count}")
 
     status_str = (
-        "CLEAN ✅"
+        "CLEAN"
         if result.clean
-        else f"DIRTY ❌ ({len(result.violations)} violations)"
+        else f"DIRTY ({len(result.violations)} violations)"
     )
     print(f"\n   Validation status: {status_str}")
 
     if result.violations:
         print("\n   Violations summary:")
         for v in result.violations[:10]:
-            icon = {"CRITICAL": "⛔", "ERROR": "🔴", "WARNING": "🟡"}.get(v.severity, "•")
-            print(f"     {icon} [{v.rule_id}] {v.node_id}")
+            print(f"     [{v.severity}] [{v.rule_id}] {v.node_id}")
         if len(result.violations) > 10:
             print(f"     ... and {len(result.violations) - 10} more. See validation_report.md")
 

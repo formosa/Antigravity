@@ -1,7 +1,7 @@
 ---
 name: codex-brainstorm
-version: 1.0.1
-description: Creates, seeds, validates, and updates the DDR App Framework brainstorming compendium in `brainstorm.md` using the governed `BRAIN-ENTRY-1.1` Markdown format, visual semantics, structured citations, and stable Mermaid diagrams. Use when Codex must capture or reorganize DDR App Framework ideas, architectural hypotheses, OSS library candidates, or repair the canonical brainstorm document derived from the v6.3 reference source.
+version: 1.0.2
+description: Creates, seeds, validates, and updates the DDR App Framework brainstorming compendium in `brainstorm.md` using the governed `BRAIN-ENTRY-1.1` Markdown format, visual semantics, structured citations, and stable Mermaid diagrams. Use when the task is to capture or reorganize brainstorm ideas, architectural hypotheses, or library candidates. Do not use when the task is to finalize normative spec text or write an implementation plan.
 ---
 
 <when_to_use>
@@ -10,6 +10,9 @@ description: Creates, seeds, validates, and updates the DDR App Framework brains
 - The task is to capture a new DDR App Framework idea, design hypothesis, workflow concept, or library candidate in the governed brainstorm compendium.
 - The brainstorm document is missing and must be created from the canonical DDR App Framework reference source.
 - The brainstorm document exists but needs structural cleanup, ID assignment, section placement, field completion, citation repair, or visual-semantics normalization before new ideas are appended.
+- Do not use this skill when the request is to produce a final specification artifact or a task-by-task implementation plan.
+- Example prompt: "Add a new brainstorm entry for a DAG diff visualizer to brainstorm.md."
+- Example prompt: "Repair brainstorm.md, normalize IDs and citations, and append this new workflow idea."
 </when_to_use>
 
 <how_to_use>
@@ -79,10 +82,10 @@ Examples:
 
 <resources_reference>
 
-- `resources/schema/brainstorm/README.md`
-- `resources/schema/brainstorm/brainstorm.d.ts`
-- `resources/schema/brainstorm/seed.md`
-- `.agent/skills/codex-brainstorm/scripts/init_brainstorm.py`
-- `.agent/skills/codex-brainstorm/scripts/validate_brainstorm.py`
-- `.agent/skills/codex-brainstorm/resources/DDR_AppFramework_Brainstorm.docx`
+- Read `resources/schema/brainstorm/README.md` to confirm brainstorm governance and entry semantics.
+- Read `resources/schema/brainstorm/brainstorm.d.ts` to verify the active brainstorm artifact contract.
+- Read `resources/schema/brainstorm/seed.md` to preserve the canonical seeded structure and section conventions.
+- Run `.agent/skills/codex-brainstorm/scripts/init_brainstorm.py` when the governed brainstorm document must be initialized from scratch.
+- Run `.agent/skills/codex-brainstorm/scripts/validate_brainstorm.py` after edits to confirm structural validity.
+- Read `.agent/skills/codex-brainstorm/resources/DDR_AppFramework_Brainstorm.docx` as the canonical source reference when seeding or repairing the compendium.
 </resources_reference>

@@ -1,13 +1,16 @@
 ---
 name: ddr-dag-visualizer
-version: 2.0.1
-description: Validates DDR YAML and generates deterministic SVG/PNG DAG artifacts plus validation reports.
+version: 2.0.2
+description: Validates DDR YAML and generates deterministic SVG and PNG DAG artifacts plus validation reports. Use when the task is to inspect DDR graph structure, render diagrams, or confirm node and edge integrity from YAML. Do not use when the task is limited to text-only spec edits without diagram or validation output.
 ---
 
 <when_to_use>
 
 - The user asks to visualize, validate, or inspect a DDR DAG from YAML.
 - The user asks to audit DDR node/edge/tier integrity.
+- Do not use this skill when the request is only to edit prose or schema text without generating validation or visualization artifacts.
+- Example prompt: "Visualize ddr/ddr_system_v6.3.yaml and write the outputs to ddr/output."
+- Example prompt: "Validate this DDR YAML and generate DAG diagrams plus a validation report."
 </when_to_use>
 
 <how_to_use>
@@ -36,8 +39,8 @@ If input path is missing or unreadable, halt and request it.
 
 <resources_reference>
 
-- `.agent/skills/ddr-dag-visualizer/scripts/requirements.txt`
-- `.agent/skills/ddr-dag-visualizer/scripts/visualize.py`
-- `.agent/skills/ddr-dag-visualizer/references/ddr_node_schema.yaml`
-- `.agent/skills/ddr-dag-visualizer/references/output_schema.yaml`
+- Read `.agent/skills/ddr-dag-visualizer/scripts/requirements.txt` to confirm the Python package prerequisites before first use.
+- Run `.agent/skills/ddr-dag-visualizer/scripts/visualize.py` to generate the diagrams and validation reports.
+- Read `.agent/skills/ddr-dag-visualizer/references/ddr_node_schema.yaml` to confirm the expected DDR node contract during troubleshooting.
+- Read `.agent/skills/ddr-dag-visualizer/references/output_schema.yaml` to confirm the expected report and artifact output structure.
 </resources_reference>

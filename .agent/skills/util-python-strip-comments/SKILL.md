@@ -1,13 +1,16 @@
 ---
 name: util-python-strip-comments
-version: 1.0.1
-description: Surgically removes all docstrings and code comments from a targeted Python file while preserving execution logic, formatting, and indentation.
+version: 1.0.2
+description: Surgically removes all docstrings and code comments from a targeted Python file while preserving execution logic, formatting, and indentation. Use when the task is to strip non-executable Python comments or docstrings from a specific file. Do not use when the request targets non-Python files or requires manual semantic refactoring.
 ---
 
 <when_to_use>
 
 - The user requests to clean, sanitize, or strip comments and docstrings from a targeted Python (`.py`) script.
 - The user asks to remove non-executable content from Python files while preserving formatting.
+- Do not use this skill when the request targets non-Python files or requires hand-edited logic changes beyond comment removal.
+- Example prompt: "Strip comments and docstrings from tools/sample.py."
+- Example prompt: "Preview comment stripping for scripts/build.py without overwriting the file."
 </when_to_use>
 
 <how_to_use>
@@ -35,6 +38,5 @@ description: Surgically removes all docstrings and code comments from a targeted
 
 <resources_reference>
 
-- `.agent/skills/util-python-strip-comments/scripts/strip_comments.py`
-- `resources/schema/skill/skill.d.ts`
+- Run `.agent/skills/util-python-strip-comments/scripts/strip_comments.py` to strip comments and docstrings from the target Python file.
 </resources_reference>

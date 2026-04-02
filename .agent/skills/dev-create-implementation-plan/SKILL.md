@@ -1,7 +1,7 @@
 ---
 name: dev-create-implementation-plan
-version: 5.0.1
-description: Produces a schema-compatible, deterministic Antigravity implementation-plan artifact optimized for grounded planning, token efficiency, task-tracker visibility, and safe executor handoff.
+version: 5.0.2
+description: Produces a schema-compatible, deterministic Antigravity implementation-plan artifact optimized for grounded planning, task-tracker visibility, and safe executor handoff. Use when the task needs a formal plan artifact before execution begins. Do not use when the requested work is trivial enough to execute directly without a governed plan.
 ---
 
 <when_to_use>
@@ -10,6 +10,9 @@ description: Produces a schema-compatible, deterministic Antigravity implementat
 - The user asks to refine, regenerate, or audit an existing implementation plan artifact.
 - The task has non-trivial scope, dependencies, or risk requiring deterministic execution steps.
 - A human-approved planning artifact is required before any code or file modifications occur.
+- Do not use this skill for trivial one-file changes that can be executed safely without a standalone plan artifact.
+- Example prompt: "Draft an implementation plan for refactoring the schema validation pipeline before coding begins."
+- Example prompt: "Regenerate this implementation plan artifact to reflect the new governance requirements."
 
 </when_to_use>
 
@@ -249,12 +252,12 @@ Emit this artifact and stop when blocking ambiguity is detected:
 
 <resources_reference>
 
-- `resources/schema/implementation-plan/implementation-plan.d.ts`
-- `resources/schema/implementation-plan/example.md`
-- `.agent/skills/dev-create-skill/resources/output-patterns.md`
-- `.agent/plans/` (active plan output directory)
-- `.agent/plans/processed/` (historical processed plans; review reference only)
-- `AGENTS.md` (primary rules file, Antigravity v1.20.3+)
-- `.gemini/antigravity/brain/` (persistent decision memory)
+- Read `resources/schema/implementation-plan/implementation-plan.d.ts` to verify the active implementation-plan contract.
+- Read `resources/schema/implementation-plan/example.md` to mirror the canonical artifact structure and section ordering.
+- Read `.agent/skills/dev-create-skill/resources/output-patterns.md` to preserve local output and artifact handoff conventions.
+- Read `.agent/plans/` to inspect active plan outputs and avoid naming or placement conflicts.
+- Read `.agent/plans/processed/` as historical reference only when prior plans materially inform the new artifact.
+- Read `AGENTS.md` to preserve the repository authority order and planning constraints.
+- Read `.gemini/antigravity/brain/` as persistent decision memory when that context materially affects the plan.
 
 </resources_reference>

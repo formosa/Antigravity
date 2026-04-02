@@ -1010,7 +1010,7 @@ def main() -> int:
     """
     parser = argparse.ArgumentParser(
         prog='validation_suite',
-        description='Validate Python optimization results — Antigravity Skill v3.0.0'
+        description='Validate Python optimization results - Antigravity Skill v3.0.0'
     )
     parser.add_argument('--original',  '-a', required=True,
                         help='Original Python file')
@@ -1044,20 +1044,20 @@ def main() -> int:
     # Human-readable summary
     status = "PASS" if report.overall_pass else "FAIL"
     print(f"\n{'='*60}")
-    print(f"  Validation Report — {status}")
+    print(f"  Validation Report - {status}")
     print(f"{'='*60}")
     print(f"  Quality Score : {report.quality_score:.1f} / 100.0")
     print(f"\n  Checks:")
     for check in report.checks:
-        icon = '✓' if check.passed else '✗'
+        icon = 'OK' if check.passed else 'XX'
         print(f"    {icon} [{check.severity.upper():<8}] {check.name:<30} {check.score or 0.0:.0f}/100")
         if not check.passed:
-            print(f"             └─ {check.details}")
+            print(f"             -> {check.details}")
 
     if report.recommendations:
         print(f"\n  Recommendations:")
         for rec in report.recommendations:
-            print(f"    → {rec}")
+            print(f"    - {rec}")
 
     print(f"{'='*60}\n")
 

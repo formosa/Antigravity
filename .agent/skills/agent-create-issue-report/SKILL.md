@@ -1,7 +1,7 @@
 ---
 name: agent-create-issue-report
-version: 1.0.1
-description: Generates a standalone v6.1-style Resolution Report for one issue from an Antigravity Issues Tracker by validating tracker context, auditing local evidence, comparing exactly two distinct strategies, and writing a validator-checked report artifact.
+version: 1.0.2
+description: Generates a standalone v6.1-style Resolution Report for one tracked issue from an Antigravity Issues Tracker. Use when the task is to investigate a single `ISSUE_ID` and write a validator-checked report artifact. Do not use when the task is to edit the tracker itself or implement the fix.
 ---
 
 <when_to_use>
@@ -9,6 +9,8 @@ description: Generates a standalone v6.1-style Resolution Report for one issue f
 - The user asks to investigate a tracked issue and produce a Resolution Report artifact.
 - The request identifies or implies a single `ISSUE_ID` plus an Issues Tracker document.
 - Use this skill for report authoring only, not for fixing the issue or editing the tracker.
+- Example prompt: "Generate a resolution report for ISSUE-004 from ddr/DDR_v6.3_Issues_Tracker.md and write it to ddr/reports/ISSUE-004.md."
+- Example prompt: "Audit ISSUE-009 in this tracker and produce a standalone issue report artifact."
 </when_to_use>
 
 <how_to_use>
@@ -79,10 +81,10 @@ Examples:
 
 <resources_reference>
 
-- `.agent/skills/agent-create-issue-report/resources/report-template.md`
-- `.agent/skills/agent-create-issue-report/resources/reference.md`
-- `resources/schema/issue/README.md`
-- `resources/schema/issue/example.md`
-- `resources/schema/issue/issue.d.ts`
-- `.agent/skills/agent-create-issue-report/scripts/validate_issue_report.py`
+- Read `.agent/skills/agent-create-issue-report/resources/report-template.md` to preserve the canonical report section order and required phrasing.
+- Read `.agent/skills/agent-create-issue-report/resources/reference.md` to align the report with local issue-report conventions and evidence expectations.
+- Read `resources/schema/issue/README.md` to confirm the issue artifact purpose and field semantics before drafting.
+- Read `resources/schema/issue/example.md` to mirror the canonical issue artifact structure and section naming.
+- Read `resources/schema/issue/issue.d.ts` to verify the required issue frontmatter and body contract.
+- Run `.agent/skills/agent-create-issue-report/scripts/validate_issue_report.py` to validate the written report before returning success.
 </resources_reference>

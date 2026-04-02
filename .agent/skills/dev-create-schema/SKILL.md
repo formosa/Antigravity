@@ -1,6 +1,6 @@
 ---
 name: dev-create-schema
-version: 2.2.0
+version: 2.2.1
 description: Creates and updates canonical Antigravity `.d.ts` schema files via scaffold, strict validation, schema-governance README maintenance, and owner-aware index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
 ---
 

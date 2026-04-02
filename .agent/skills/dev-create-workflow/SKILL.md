@@ -1,13 +1,16 @@
 ---
 name: dev-create-workflow
-version: 1.0.1
-description: Produces Antigravity v1.19+ optimized agent Workflows implementing proven techniques to reduce hallucinations, improve instruction following, and maximize token efficiency during agentic processing by Gemini 3.1 Pro.
+version: 1.0.2
+description: Produces deterministic agent Workflow assets that encode repeatable execution steps and verification plans. Use when the task is to create or standardize a reusable workflow under `.agent/workflows/`. Do not use when the task is to create a skill, schema, or ordinary project feature change.
 ---
 
 <when_to_use>
 
 - The user asks to create a new agent Workflow.
 - The user asks to standardize or optimize an existing workflow for Antigravity v1.19+ and Gemini 3.1 Pro.
+- Do not use this skill when the request is to create a skill, schema, implementation plan, or ordinary project code change.
+- Example prompt: "Create a workflow for reviewing schema changes before merge."
+- Example prompt: "Standardize this existing workflow so it has clearer steps and verification."
 </when_to_use>
 
 <how_to_use>
@@ -38,6 +41,6 @@ Prefer clear, tightly-scoped instructions. Token efficiency is achieved through 
 
 <resources_reference>
 
-- `resources/schema/workflow/workflow.d.ts`
-- `resources/schema/workflow/example.md`
+- Read `resources/schema/workflow/workflow.d.ts` to verify the required workflow frontmatter and body contract.
+- Read `resources/schema/workflow/example.md` to mirror the canonical workflow structure and verification plan style.
 </resources_reference>
