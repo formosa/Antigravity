@@ -1,6 +1,6 @@
 ---
 name: create-ddr-system-doc
-version: 1.0.0
+version: 1.0.1
 description: Generates authoritative DDR System Markdown documentation from a DDR schema YAML plus DDR system specification YAML. Use when the user wants to create, regenerate, or validate a comprehensive `DDR System(vX).md` document from targeted DDR System SCHEMA and SPECIFICATION files.
 ---
 
@@ -56,7 +56,7 @@ Reference example:
 - `.agent/skills/create-ddr-system-doc/scripts/validate_ddr_system_doc.py`
 - `.agent/skills/create-ddr-system-doc/resources/reference.md`
 - `.agent/skills/create-ddr-system-doc/resources/output-blueprint.md`
-- `.agent/skills/create-ddr-system-doc/resources/schema/README.md`
-- `.agent/skills/create-ddr-system-doc/resources/schema/example.md`
-- `.agent/skills/create-ddr-system-doc/resources/schema/skill.d.ts`
+- `resources/schema/skill/README.md`
+- `resources/schema/skill/example.md`
+- `resources/schema/skill/skill.d.ts`
 </resources_reference>

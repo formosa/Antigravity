@@ -40,3 +40,10 @@ This document establishes the schema contract for folder-level agent asset index
 | 2026-04-01 | v1.0.0 | Initial Release | Created `index.d.ts` and supporting documentation for generic folder-level agent asset indexes, using `.agent/tools/index.md` as the seed example. |
 
 </modification_history>
+
+<schema_governance>
+```yaml
+primary_owner_skill: dev-create-schema
+distribution_model: canonical-plus-vendored-mirror
+```
+</schema_governance>

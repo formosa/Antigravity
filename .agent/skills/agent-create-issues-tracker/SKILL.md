@@ -1,6 +1,6 @@
 ---
 name: agent-create-issues-tracker
-version: 1.0.0
+version: 1.0.1
 description: Initializes a new blank Issues Tracker from the shared canonical template when the user needs a fresh tracker, not when they want to add issues or generate issue reports.
 ---
 
@@ -20,7 +20,7 @@ description: Initializes a new blank Issues Tracker from the shared canonical te
    - If any required parameter is missing, halt and return `RFQ` naming the missing field(s).
    - If `OUTPUT_PATH` already exists and `OVERWRITE_EXISTING` is not explicitly true, halt and return `RFQ` requesting overwrite approval.
 3. Read the canonical blank template exactly from:
-   - `.agent/schemas/issues-tracker/template.md`
+   - `resources/schema/issues-tracker/template.md`
 4. Perform literal replacement only:
    - `{{SUBJECT_SYSTEM_NAME}}`
    - `{{DOCUMENT_ID}}` -> `ITR-<UUID4>`
@@ -56,9 +56,9 @@ Examples:
 
 <resources_reference>
 
-- `.agent/schemas/issues-tracker/template.md`
-- `.agent/schemas/issues-tracker/README.md`
-- `.agent/schemas/issues-tracker/example.md`
+- `resources/schema/issues-tracker/template.md`
+- `resources/schema/issues-tracker/README.md`
+- `resources/schema/issues-tracker/example.md`
 - `.agent/skills/agent-create-issues-tracker/scripts/validate_issues_tracker.py`
 - `.agent/skills/agent-create-issues-tracker/resources/reference.md`
 </resources_reference>

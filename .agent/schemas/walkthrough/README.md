@@ -26,3 +26,10 @@ This document verifies the structural necessity of Walkthrough artifacts within 
 | 2026-03-01 | v1.1.0 | Optimization | Enhanced `walkthrough.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework. |
 
 </modification_history>
+
+<schema_governance>
+```yaml
+primary_owner_skill: dev-create-schema
+distribution_model: canonical-plus-vendored-mirror
+```
+</schema_governance>

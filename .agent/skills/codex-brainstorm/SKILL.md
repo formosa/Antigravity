@@ -1,6 +1,6 @@
 ---
 name: codex-brainstorm
-version: 1.0.0
+version: 1.0.1
 description: Creates, seeds, validates, and updates the DDR App Framework brainstorming compendium in `brainstorm.md` using the governed `BRAIN-ENTRY-1.1` Markdown format, visual semantics, structured citations, and stable Mermaid diagrams. Use when Codex must capture or reorganize DDR App Framework ideas, architectural hypotheses, OSS library candidates, or repair the canonical brainstorm document derived from the v6.3 reference source.
 ---
 
@@ -25,7 +25,7 @@ description: Creates, seeds, validates, and updates the DDR App Framework brains
      - `python .agent/skills/codex-brainstorm/scripts/init_brainstorm.py <BRAINSTORM_PATH> --source-reference <SOURCE_REFERENCE_PATH>`
    - If the target already exists and initialization was explicitly requested, require overwrite approval before replacing it.
    - Read `## PART I — Document Manifest` before changing any entry content.
-   - Read `.agent/schemas/brainstorm/README.md` and `.agent/schemas/brainstorm/brainstorm.d.ts` for the canonical field contract.
+   - Read `resources/schema/brainstorm/README.md` and `resources/schema/brainstorm/brainstorm.d.ts` for the canonical field contract.
 3. Run the evidence pass before drafting substantive content:
    - For every new or materially revised assertion, recommendation, or factual comparison, gather supporting evidence from current online sources.
    - Prefer this source hierarchy in order:
@@ -79,9 +79,9 @@ Examples:
 
 <resources_reference>
 
-- `.agent/schemas/brainstorm/README.md`
-- `.agent/schemas/brainstorm/brainstorm.d.ts`
-- `.agent/schemas/brainstorm/seed.md`
+- `resources/schema/brainstorm/README.md`
+- `resources/schema/brainstorm/brainstorm.d.ts`
+- `resources/schema/brainstorm/seed.md`
 - `.agent/skills/codex-brainstorm/scripts/init_brainstorm.py`
 - `.agent/skills/codex-brainstorm/scripts/validate_brainstorm.py`
 - `.agent/skills/codex-brainstorm/resources/DDR_AppFramework_Brainstorm.docx`

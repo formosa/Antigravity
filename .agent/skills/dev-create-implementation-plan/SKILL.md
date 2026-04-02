@@ -1,6 +1,6 @@
 ---
 name: dev-create-implementation-plan
-version: 5.0.0
+version: 5.0.1
 description: Produces a schema-compatible, deterministic Antigravity implementation-plan artifact optimized for grounded planning, token efficiency, task-tracker visibility, and safe executor handoff.
 ---
 
@@ -27,8 +27,8 @@ description: Produces a schema-compatible, deterministic Antigravity implementat
 
 Preserve compatibility with:
 
-- `.agent/schemas/implementation-plan/implementation-plan.d.ts`
-- `.agent/schemas/implementation-plan/example.md`
+- `resources/schema/implementation-plan/implementation-plan.d.ts`
+- `resources/schema/implementation-plan/example.md`
 - `.agent/skills/dev-create-skill/resources/output-patterns.md`
 - the active `dev-create-implementation-plan` skill instructions
 
@@ -249,13 +249,12 @@ Emit this artifact and stop when blocking ambiguity is detected:
 
 <resources_reference>
 
-- `.agent/schemas/implementation-plan/implementation-plan.d.ts`
-- `.agent/schemas/implementation-plan/example.md`
+- `resources/schema/implementation-plan/implementation-plan.d.ts`
+- `resources/schema/implementation-plan/example.md`
 - `.agent/skills/dev-create-skill/resources/output-patterns.md`
 - `.agent/plans/` (active plan output directory)
 - `.agent/plans/processed/` (historical processed plans; review reference only)
 - `AGENTS.md` (primary rules file, Antigravity v1.20.3+)
-- `GEMINI.md` (fallback rules file)
 - `.gemini/antigravity/brain/` (persistent decision memory)
 
 </resources_reference>

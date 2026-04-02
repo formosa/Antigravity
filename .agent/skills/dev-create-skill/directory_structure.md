@@ -8,12 +8,14 @@ The default `init_skill.py` output keeps the skill instruction-first and ships o
 
 ```plaintext
 my-skill/
+├── README.md
 ├── SKILL.md
 └── resources/
     └── schema/
-        ├── README.md
-        ├── example.md
-        └── skill.d.ts
+        └── skill/
+            ├── README.md
+            ├── example.md
+            └── skill.d.ts
 ```
 
 ## With `--resources scripts`
@@ -22,12 +24,14 @@ Add `scripts/` only when deterministic execution is safer than regenerating code
 
 ```plaintext
 my-skill/
+├── README.md
 ├── SKILL.md
 ├── resources/
 │   └── schema/
-│       ├── README.md
-│       ├── example.md
-│       └── skill.d.ts
+│       └── skill/
+│           ├── README.md
+│           ├── example.md
+│           └── skill.d.ts
 └── scripts/
 ```
 
@@ -37,13 +41,15 @@ Add `assets/` only when the skill needs reusable templates, images, fonts, or ot
 
 ```plaintext
 my-skill/
+├── README.md
 ├── SKILL.md
 ├── assets/
 └── resources/
     └── schema/
-        ├── README.md
-        ├── example.md
-        └── skill.d.ts
+        └── skill/
+            ├── README.md
+            ├── example.md
+            └── skill.d.ts
 ```
 
 ## With `--resources resources --examples`
@@ -52,15 +58,28 @@ Add a resource example file only when you want a placeholder document to replace
 
 ```plaintext
 my-skill/
+├── README.md
 ├── SKILL.md
 └── resources/
     ├── reference.md
     └── schema/
-        ├── README.md
-        ├── example.md
-        └── skill.d.ts
+        └── skill/
+            ├── README.md
+            ├── example.md
+            └── skill.d.ts
 ```
 
 ## With `--examples`
 
 `--examples` adds placeholder example files only inside the optional folders you requested. Use it for rapid iteration, then replace or delete those files before packaging the final skill.
+
+## Root README Contract
+
+Every skill root now includes a `README.md` with:
+
+- `<document_purpose>`
+- `<authority_order>`
+- `<schema_relationships>`
+- `<modification_history>`
+
+The canonical authority for schema definitions remains `.agent/schemas/`; skill-local `resources/schema/<schema-id>/` directories are vendored read-only mirrors for packaging and local reference.

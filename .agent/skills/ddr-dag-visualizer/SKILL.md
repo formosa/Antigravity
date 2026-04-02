@@ -1,6 +1,6 @@
 ---
 name: ddr-dag-visualizer
-version: 2.0.0
+version: 2.0.1
 description: Validates DDR YAML and generates deterministic SVG/PNG DAG artifacts plus validation reports.
 ---
 

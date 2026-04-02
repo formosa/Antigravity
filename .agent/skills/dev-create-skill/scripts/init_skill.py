@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Skill Initializer - Creates a new Antigravity v1.20.3 compliant skill from template.
+Skill Initializer - Creates a new Antigravity-compliant skill from template.
 
 Usage:
     init_skill.py <skill-name> --path <path> [--resources scripts,resources,assets] [--examples]
@@ -9,6 +9,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+from datetime import date
 import re
 import shutil
 import sys
@@ -43,12 +44,45 @@ description: "TODO: Describe exactly what this skill does. Use when the task is 
 - Do not use vague verbs such as "improve" or "optimize" without concrete acceptance criteria.
 - Do not assume tools, packages, files, credentials, or permissions exist unless the skill explicitly verifies them.
 - Do not reference scripts, resources, or assets that are absent or unused.
+- Do not hand-edit vendored schema mirrors under `resources/schema/`; refresh them from `.agent/schemas/` instead.
 - Keep skill-local paths repo-relative and written with forward slashes.
 </constraints>
 
 <resources_reference>
-- Read `resources/schema/skill.d.ts` to confirm the required frontmatter and XML block contract before finalizing the skill.
+- Read `resources/schema/skill/skill.d.ts` to confirm the required frontmatter and XML block contract before finalizing the skill.
 </resources_reference>
+"""
+
+README_TEMPLATE = """# {skill_name} Skill Lifecycle
+
+<document_purpose>
+This document records lifecycle governance, canonical schema relationships, and modification history for the `{skill_name}` skill.
+</document_purpose>
+
+<authority_order>
+1. `SKILL.md` - authoritative execution and routing contract for the skill.
+2. This `README.md` - authoritative lifecycle, schema relationship, and modification history record for the skill.
+3. `.agent/schemas/skill/` - canonical schema authority for the skill asset format.
+4. `resources/schema/skill/` - read-only vendored mirror bundled for self-contained packaging and local reference.
+</authority_order>
+
+<schema_relationships>
+```yaml
+schema_of_this_skill: skill
+owned_schema_ids: []
+consumed_schema_ids: []
+mirror_root: resources/schema/
+mirror_policy: read-only-derived-from-.agent/schemas
+```
+</schema_relationships>
+
+<modification_history>
+
+| Date | Version | SemVer | Classification | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| {today} | 1.0.0 | initial | Initial Release | Created the baseline skill scaffold, lifecycle README, and canonical skill schema mirror. |
+
+</modification_history>
 """
 
 EXAMPLE_SCRIPT = '''#!/usr/bin/env python3
@@ -106,10 +140,17 @@ def parse_resource_dirs(raw_value: str) -> set[str]:
 
 
 def copy_schema_bundle(skill_dir: Path) -> None:
-    schema_dest_dir = skill_dir / "resources" / "schema"
-    source_schema_path = Path(__file__).resolve().parent.parent / "resources" / "schema"
-    if source_schema_path.exists():
-        shutil.copytree(source_schema_path, schema_dest_dir, dirs_exist_ok=True)
+    repo_root = Path(__file__).resolve().parents[4]
+    schema_dest_dir = skill_dir / "resources" / "schema" / "skill"
+    source_schema_path = repo_root / ".agent" / "schemas" / "skill"
+    if not source_schema_path.exists():
+        raise FileNotFoundError(f"Canonical skill schema directory not found: {source_schema_path}")
+    shutil.copytree(source_schema_path, schema_dest_dir, dirs_exist_ok=True)
+
+
+def create_root_readme(skill_dir: Path, skill_name: str) -> None:
+    readme_path = skill_dir / "README.md"
+    readme_path.write_text(README_TEMPLATE.format(skill_name=skill_name, today=date.today().isoformat()), encoding="utf-8")
 
 
 def create_optional_dirs(skill_dir: Path, resource_dirs: set[str], include_examples: bool, skill_name: str) -> None:
@@ -151,15 +192,16 @@ def init_skill(skill_name: str, path: str, resource_dirs: set[str] | None = None
     skill_md_path = skill_dir / "SKILL.md"
     try:
         skill_md_path.write_text(SKILL_TEMPLATE.format(skill_name=skill_name), encoding="utf-8")
-        print("Created SKILL.md")
+        create_root_readme(skill_dir, skill_name)
+        print("Created SKILL.md and README.md")
     except Exception as exc:
-        print(f"Error creating SKILL.md: {exc}")
+        print(f"Error creating skill contract files: {exc}")
         return None
 
     try:
         copy_schema_bundle(skill_dir)
         create_optional_dirs(skill_dir, resource_dirs, include_examples, skill_name)
-        print("Created schema bundle and requested optional directories")
+        print("Created canonical skill schema mirror and requested optional directories")
     except Exception as exc:
         print(f"Error creating directories: {exc}")
         return None

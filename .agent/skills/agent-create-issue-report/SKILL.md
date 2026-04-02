@@ -1,6 +1,6 @@
 ---
 name: agent-create-issue-report
-version: 1.0.0
+version: 1.0.1
 description: Generates a standalone v6.1-style Resolution Report for one issue from an Antigravity Issues Tracker by validating tracker context, auditing local evidence, comparing exactly two distinct strategies, and writing a validator-checked report artifact.
 ---
 
@@ -81,8 +81,8 @@ Examples:
 
 - `.agent/skills/agent-create-issue-report/resources/report-template.md`
 - `.agent/skills/agent-create-issue-report/resources/reference.md`
-- `.agent/skills/agent-create-issue-report/resources/schema/README.md`
-- `.agent/skills/agent-create-issue-report/resources/schema/example.md`
-- `.agent/skills/agent-create-issue-report/resources/schema/skill.d.ts`
+- `resources/schema/issue/README.md`
+- `resources/schema/issue/example.md`
+- `resources/schema/issue/issue.d.ts`
 - `.agent/skills/agent-create-issue-report/scripts/validate_issue_report.py`
 </resources_reference>

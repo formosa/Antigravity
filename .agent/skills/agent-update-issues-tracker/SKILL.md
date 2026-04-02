@@ -1,6 +1,6 @@
 ---
 name: agent-update-issues-tracker
-version: 1.0.0
+version: 1.0.1
 description: Reevaluate and update an existing Issues Tracker against its target DDR or specification files and related local audits. Use when Codex must validate `OPEN` issues, refine issue evidence and wording, add a distinct `Option C`, add comparative analysis and an endorsed recommendation, attach authoritative web citations, migrate a tracker from `IT-1.0` to `IT-1.1`, or append newly discovered significant issues without modifying the target YAML or spec files.
 ---
 
@@ -84,11 +84,9 @@ Examples:
 </constraints>
 
 <resources_reference>
-- `.agent/schemas/issues-tracker/README.md`
-- `.agent/schemas/issues-tracker/issues-tracker.d.ts`
-- `.agent/schemas/issues-tracker/example-it-1.1.md`
+- `resources/schema/issues-tracker/README.md`
+- `resources/schema/issues-tracker/issues-tracker.d.ts`
+- `resources/schema/issues-tracker/example-it-1.1.md`
 - `.agent/skills/agent-update-issues-tracker/resources/reference.md`
 - `.agent/skills/agent-update-issues-tracker/scripts/validate_updated_issues_tracker.py`
-- `.agent/assets/proposals/active/v6.3/DDR_v6.2_Issues_Tracker.md`
-- `.agent/assets/proposals/active/v6.3/DDR_v6.2_Issue_Identification_Audit-2.md`
 </resources_reference>

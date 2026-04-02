@@ -26,3 +26,10 @@ This document establishes the verified architectural pattern for implementing UU
 | 2026-03-04 | v1.0.0  | Initial Release | Constructed `uuid_registry.d.ts` per Antigravity v1.18.3 schema standards with strict typing and JSDoc annotations to maximize Gemini 3.1 Pro agentic optimization. |
 
 </modification_history>
+
+<schema_governance>
+```yaml
+primary_owner_skill: dev-create-schema
+distribution_model: canonical-plus-vendored-mirror
+```
+</schema_governance>

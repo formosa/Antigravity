@@ -21,6 +21,19 @@ REQUIRED_XML_BLOCKS = (
     "constraints",
     "resources_reference",
 )
+REQUIRED_ROOT_README_BLOCKS = (
+    "document_purpose",
+    "authority_order",
+    "schema_relationships",
+    "modification_history",
+)
+REQUIRED_SCHEMA_RELATIONSHIP_KEYS = {
+    "schema_of_this_skill",
+    "owned_schema_ids",
+    "consumed_schema_ids",
+    "mirror_root",
+    "mirror_policy",
+}
 SKILL_NAME_PATTERN = re.compile(r"^[a-z0-9][a-z0-9-]{0,63}$")
 SEMVER_PATTERN = re.compile(r"^\d+\.\d+\.\d+$")
 DESCRIPTION_BOUNDARY_HINTS = ("do not use", "not for", "not when", "exclude", "except")
@@ -45,10 +58,14 @@ class ValidationResult:
         return "Skill is valid and v1.20.3 compliant."
 
 
-def extract_xml_block(content: str, block_name: str) -> str | None:
+def extract_tag_block(content: str, block_name: str) -> str | None:
     pattern = rf"(?ms)^[ \t]*<{block_name}>[ \t]*\r?\n(.*?)^[ \t]*</{block_name}>[ \t]*$"
     match = re.search(pattern, content, re.DOTALL)
     return match.group(1).strip() if match else None
+
+
+def extract_xml_block(content: str, block_name: str) -> str | None:
+    return extract_tag_block(content, block_name)
 
 
 def extract_frontmatter(content: str) -> tuple[dict | None, str | None]:
@@ -94,6 +111,52 @@ def extract_path_from_resource_entry(entry: str) -> str | None:
     return None
 
 
+def split_markdown_row(line: str) -> list[str]:
+    return [part.strip() for part in line.strip().strip("|").split("|")]
+
+
+def parse_semver(version_text: str) -> tuple[int, int, int] | None:
+    if not SEMVER_PATTERN.fullmatch(version_text):
+        return None
+    major, minor, patch = version_text.split(".")
+    return int(major), int(minor), int(patch)
+
+
+def classify_semver_change(previous: str, current: str) -> str | None:
+    previous_tuple = parse_semver(previous)
+    current_tuple = parse_semver(current)
+    if previous_tuple is None or current_tuple is None or current_tuple <= previous_tuple:
+        return None
+    if current_tuple[0] != previous_tuple[0]:
+        return "major"
+    if current_tuple[1] != previous_tuple[1]:
+        return "minor"
+    return "patch"
+
+
+def parse_history_rows(block_text: str) -> tuple[list[dict[str, str]] | None, str | None]:
+    table_lines = [line.strip() for line in block_text.splitlines() if line.strip().startswith("|")]
+    if len(table_lines) < 3:
+        return None, "README <modification_history> must contain a header, separator, and at least one data row."
+
+    header = split_markdown_row(table_lines[0])
+    expected_header = ["Date", "Version", "SemVer", "Classification", "Description"]
+    if header != expected_header:
+        return None, "README <modification_history> must use columns: Date | Version | SemVer | Classification | Description."
+
+    rows: list[dict[str, str]] = []
+    for line in table_lines[2:]:
+        columns = split_markdown_row(line)
+        if len(columns) != 5:
+            return None, f"Invalid modification history row: {line}"
+        rows.append(dict(zip(expected_header, columns)))
+
+    if not rows:
+        return None, "README <modification_history> must contain at least one data row."
+
+    return rows, None
+
+
 def resolve_resource_path(skill_path: Path, path_text: str) -> Path | None:
     normalized = path_text.replace("\\", "/")
     candidate_paths = [skill_path / Path(normalized), Path.cwd() / Path(normalized)]
@@ -137,6 +200,141 @@ def validate_resource_entries(skill_path: Path, resources_block: str, result: Va
         lowered = entry.lower()
         if not any(hint in lowered for hint in RESOURCE_ACTION_HINTS):
             result.warnings.append(f"Resource entry should say whether the file is read or run: {entry}")
+
+
+def validate_root_readme(skill_path: Path, skill_version: str, result: ValidationResult) -> None:
+    readme_path = skill_path / "README.md"
+    if not readme_path.exists():
+        result.errors.append("README.md not found at skill root.")
+        return
+
+    content = readme_path.read_text(encoding="utf-8")
+    blocks: dict[str, str] = {}
+    for block_name in REQUIRED_ROOT_README_BLOCKS:
+        block = extract_tag_block(content, block_name)
+        if block is None:
+            result.errors.append(f"README.md is missing required <{block_name}> block.")
+        else:
+            blocks[block_name] = block
+
+    if result.errors:
+        return
+
+    try:
+        fence_match = re.search(r"```yaml\s*\r?\n(.*?)\r?\n```", blocks["schema_relationships"], re.DOTALL)
+        schema_relationships_text = fence_match.group(1) if fence_match else blocks["schema_relationships"]
+        schema_relationships = yaml.safe_load(schema_relationships_text)
+    except yaml.YAMLError as exc:
+        result.errors.append(f"Invalid YAML in README <schema_relationships>: {exc}")
+        return
+
+    if not isinstance(schema_relationships, dict):
+        result.errors.append("README <schema_relationships> must parse to a YAML mapping.")
+        return
+
+    keys = set(schema_relationships.keys())
+    missing_keys = REQUIRED_SCHEMA_RELATIONSHIP_KEYS - keys
+    unexpected_keys = keys - REQUIRED_SCHEMA_RELATIONSHIP_KEYS
+    if missing_keys:
+        result.errors.append(f"README <schema_relationships> is missing keys: {', '.join(sorted(missing_keys))}.")
+    if unexpected_keys:
+        result.errors.append(f"README <schema_relationships> has unexpected keys: {', '.join(sorted(unexpected_keys))}.")
+
+    schema_of_this_skill = schema_relationships.get("schema_of_this_skill")
+    owned_schema_ids = schema_relationships.get("owned_schema_ids")
+    consumed_schema_ids = schema_relationships.get("consumed_schema_ids")
+    mirror_root = schema_relationships.get("mirror_root")
+    mirror_policy = schema_relationships.get("mirror_policy")
+
+    if schema_of_this_skill != "skill":
+        result.errors.append("README <schema_relationships> must declare `schema_of_this_skill: skill`.")
+
+    for field_name, field_value in (
+        ("owned_schema_ids", owned_schema_ids),
+        ("consumed_schema_ids", consumed_schema_ids),
+    ):
+        if not isinstance(field_value, list) or not all(isinstance(item, str) and item.strip() for item in field_value):
+            result.errors.append(f"README <schema_relationships> field `{field_name}` must be a list of non-empty schema IDs.")
+
+    if mirror_root != "resources/schema/":
+        result.errors.append("README <schema_relationships> must set `mirror_root: resources/schema/`.")
+
+    if mirror_policy != "read-only-derived-from-.agent/schemas":
+        result.errors.append(
+            "README <schema_relationships> must set `mirror_policy: read-only-derived-from-.agent/schemas`."
+        )
+
+    rows, rows_error = parse_history_rows(blocks["modification_history"])
+    if rows_error:
+        result.errors.append(rows_error)
+        return
+
+    assert rows is not None
+    for index, row in enumerate(rows):
+        version_text = row["Version"]
+        semver_text = row["SemVer"].lower()
+        if parse_semver(version_text) is None:
+            result.errors.append(f"README history version must use semantic versioning: {version_text}")
+            continue
+        if index == 0:
+            if semver_text != "initial":
+                result.errors.append("The first README history row must use `initial` in the SemVer column.")
+            continue
+        previous_version = rows[index - 1]["Version"]
+        expected_change = classify_semver_change(previous_version, version_text)
+        if expected_change is None:
+            result.errors.append(
+                f"README history version must strictly increase between {previous_version} and {version_text}."
+            )
+            continue
+        if semver_text != expected_change:
+            result.errors.append(
+                f"README history row for version {version_text} must use `{expected_change}` in the SemVer column."
+            )
+
+    latest_version = rows[-1]["Version"]
+    if latest_version != skill_version:
+        result.errors.append(
+            f"README history latest version `{latest_version}` must match SKILL.md version `{skill_version}`."
+        )
+
+    if result.errors:
+        return
+
+    mirror_root_path = skill_path / Path(str(mirror_root).rstrip("/"))
+    if not mirror_root_path.exists():
+        result.errors.append(f"Schema mirror root does not exist: {mirror_root}")
+        return
+
+    flat_entries = [entry.name for entry in mirror_root_path.iterdir() if entry.is_file()]
+    if flat_entries:
+        result.errors.append(
+            "Flat files are not allowed directly under `resources/schema/`: " + ", ".join(sorted(flat_entries))
+        )
+
+    required_schema_ids: list[str] = []
+    for schema_id in [schema_of_this_skill, *(owned_schema_ids or []), *(consumed_schema_ids or [])]:
+        if schema_id not in required_schema_ids:
+            required_schema_ids.append(schema_id)
+
+    unexpected_dirs = [
+        entry.name for entry in mirror_root_path.iterdir() if entry.is_dir() and entry.name not in required_schema_ids
+    ]
+    if unexpected_dirs:
+        result.errors.append(
+            "Unexpected schema mirror directories present under `resources/schema/`: "
+            + ", ".join(sorted(unexpected_dirs))
+        )
+
+    for schema_id in required_schema_ids:
+        schema_dir = mirror_root_path / schema_id
+        if not schema_dir.exists():
+            result.errors.append(f"Missing vendored schema mirror: resources/schema/{schema_id}/")
+            continue
+        if not (schema_dir / "README.md").exists():
+            result.errors.append(f"Schema mirror is missing README.md: resources/schema/{schema_id}/README.md")
+        if not list(schema_dir.glob("*.d.ts")):
+            result.errors.append(f"Schema mirror is missing a .d.ts contract file: resources/schema/{schema_id}/")
 
 
 def validate_quality(frontmatter: dict, blocks: dict[str, str], result: ValidationResult) -> None:
@@ -225,6 +423,10 @@ def validate_skill(skill_path: str | Path) -> ValidationResult:
         else:
             blocks[block_name] = block
 
+    if result.errors:
+        return result
+
+    validate_root_readme(skill_path, str(frontmatter.get("version", "")).strip(), result)
     if result.errors:
         return result
 

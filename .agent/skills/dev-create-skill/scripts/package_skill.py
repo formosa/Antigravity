@@ -10,6 +10,7 @@ import zipfile
 from pathlib import Path
 
 from quick_validate import print_validation_result, validate_skill
+from sync_schema_mirrors import sync_skill
 
 SKIP_DIR_NAMES = {".pytest_cache", "__pycache__"}
 SKIP_FILE_NAMES = {".DS_Store"}
@@ -31,6 +32,13 @@ def package_skill(skill_path: str | Path, output_dir: str | Path | None = None) 
 
     if not skill_path.exists():
         print(f"Error: Skill folder not found: {skill_path}")
+        return None
+
+    print("Syncing schema mirrors from canonical .agent/schemas/ ...")
+    try:
+        sync_skill(skill_path)
+    except Exception as exc:
+        print(f"Schema mirror sync failed: {exc}")
         return None
 
     print("Validating Antigravity v1.20.3 compliance...")

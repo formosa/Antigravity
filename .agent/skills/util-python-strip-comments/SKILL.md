@@ -1,6 +1,6 @@
 ---
 name: util-python-strip-comments
-version: 1.0.0
+version: 1.0.1
 description: Surgically removes all docstrings and code comments from a targeted Python file while preserving execution logic, formatting, and indentation.
 ---
 
@@ -36,5 +36,5 @@ description: Surgically removes all docstrings and code comments from a targeted
 <resources_reference>
 
 - `.agent/skills/util-python-strip-comments/scripts/strip_comments.py`
-- `resources/schema/skill.d.ts`
+- `resources/schema/skill/skill.d.ts`
 </resources_reference>

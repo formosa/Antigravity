@@ -34,3 +34,10 @@ This document establishes the verified architectural foundation for the `GEMINI.
 | 2026-04-01 | v1.1.1  | Clarification  | Reworded the GEMINI.md design justification so it no longer implies exclusive workspace-rule authority when `AGENTS.md` is present. |
 
 </modification_history>
+
+<schema_governance>
+```yaml
+primary_owner_skill: dev-create-schema
+distribution_model: canonical-plus-vendored-mirror
+```
+</schema_governance>

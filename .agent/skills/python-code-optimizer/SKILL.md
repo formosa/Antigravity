@@ -1,6 +1,6 @@
 ---
 name: python-code-optimizer
-version: 2.0.0
+version: 2.0.1
 description: Optimizes Python code using deterministic AST-first transformations with validation gates and rollback safety.
 ---
 

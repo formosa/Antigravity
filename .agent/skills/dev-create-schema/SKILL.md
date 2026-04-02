@@ -1,7 +1,7 @@
 ---
 name: dev-create-schema
-version: 2.1.0
-description: Creates and updates Antigravity `.d.ts` schema files via scaffold, strict validation, and index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
+version: 2.2.0
+description: Creates and updates canonical Antigravity `.d.ts` schema files via scaffold, strict validation, schema-governance README maintenance, and owner-aware index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
 ---
 
 <when_to_use>
@@ -24,7 +24,7 @@ description: Creates and updates Antigravity `.d.ts` schema files via scaffold, 
 3. **IF** the example file exists, **THEN** scaffold the schema directory:
    - `python .agent/skills/dev-create-schema/scripts/scaffold_schema.py --target-file <path_to_example> --name <schema-name>`
 4. Author the generated `.d.ts` schema using only local reference patterns. Do not guess TypeScript types; derive them strictly from the example.
-5. Author or update the schema `README.md` to describe purpose, authority order, and modification history.
+5. Author or update the schema `README.md` to describe purpose, authority order, schema governance, and modification history.
 6. Validate the schema:
    - `python .agent/skills/dev-create-schema/scripts/validate_schema.py --name <schema-name>`
 7. **IF** validation fails, **THEN** fix all reported errors and re-run validation before proceeding.
@@ -37,7 +37,7 @@ description: Creates and updates Antigravity `.d.ts` schema files via scaffold, 
 2. Confirm the target schema exists in `.agent/schemas/<schema-name>/`.
 3. **IF** the target schema does not exist, **THEN** switch to Mode A.
 4. Apply deterministic, minimal changes to the target `.d.ts` schema file.
-5. Append a changelog entry in the schema's `README.md` modification history table.
+5. Append a changelog entry in the schema's `README.md` modification history table and keep `<schema_governance>` current.
 6. Validate the updated schema:
    - `python .agent/skills/dev-create-schema/scripts/validate_schema.py --name <schema-name>`
 7. **IF** validation fails, **THEN** halt, report the failure, and fix before proceeding.
@@ -50,6 +50,7 @@ description: Creates and updates Antigravity `.d.ts` schema files via scaffold, 
 - Do not guess TypeScript types. Derive all types strictly from the source example or user specification.
 - Do not skip validation. Halt on any validation failure and fix before proceeding.
 - Every schema creation or modification must be recorded in the schema `README.md` modification history.
+- Every canonical schema `README.md` must declare `<schema_governance>` with `primary_owner_skill` and `distribution_model: canonical-plus-vendored-mirror`.
 - Keep all file paths repo-relative and written with forward slashes.
 - Do not reference files that do not exist in the repository.
 - Do not add new frontmatter keys or structural sections to schema files without a demonstrated requirement.
@@ -59,8 +60,8 @@ description: Creates and updates Antigravity `.d.ts` schema files via scaffold, 
 - Run `.agent/skills/dev-create-schema/scripts/scaffold_schema.py` to create the initial schema directory and copy the source example.
 - Run `.agent/skills/dev-create-schema/scripts/validate_schema.py` to type-check the generated `.d.ts` file and roll back on failure.
 - Run `.agent/skills/dev-create-schema/scripts/update_index.py` to rebuild the `.agent/schemas/index.md` directory index after any schema change.
-- Read `.agent/skills/dev-create-schema/resources/schema/schema.d.ts` to understand the TypeScript interface contract for Antigravity schema files.
-- Read `.agent/skills/dev-create-schema/resources/schema/README.md` to understand the authority order and authoring justification for the skill's own schema bundle.
-- Read `.agent/skills/dev-create-schema/resources/schema/example.md` to see a representative example of a correctly structured schema artifact.
+- Read `.agent/skills/dev-create-schema/resources/schema/schema/schema.d.ts` to understand the TypeScript interface contract for canonical Antigravity schema files.
+- Read `.agent/skills/dev-create-schema/resources/schema/schema/README.md` to understand the authority order, governance metadata, and vendored-mirror distribution model.
+- Read `.agent/skills/dev-create-schema/resources/schema/schema/example.md` to see a representative example of a correctly structured schema artifact.
 - Read `.agent/skills/dev-create-schema/config.json` to check the resolved schema output directory and auto-validation toggle.
 </resources_reference>

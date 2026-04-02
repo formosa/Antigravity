@@ -2,7 +2,7 @@
 
 > Master lookup for all agent enforcement rules.
 >
-> **Total Rules**: 3
+> **Total Rules**: 4
 >
 > **Schema**: [`rule.d.ts`](../schemas/rule/rule.d.ts)
 >
@@ -13,7 +13,7 @@
 | Mode           | Count   | Purpose                                                  |
 | :------------- | ------: | :------------------------------------------------------- |
 | Always On      | 2       | Execution guardrails and temp artifact hygiene           |
-| Glob           | 1       | Schema compliance enforcement                            |
+| Glob           | 2       | Schema compliance enforcement and skill governance       |
 
 ## By Category
 
@@ -22,6 +22,14 @@
 | File                                                 | Purpose                           |
 | :--------------------------------------------------- | :-------------------------------- |
 | [dev-check-schema.md](dev-check-schema.md)           | Schema compliance enforcement     |
+
+---
+
+### Skill Rules (1) — Glob, Priority Critical
+
+| File                                                     | Purpose                                              |
+| :------------------------------------------------------- | :--------------------------------------------------- |
+| [SKILL_CHANGE_GOVERNANCE.md](SKILL_CHANGE_GOVERNANCE.md) | Skill README, SemVer, and schema-mirror enforcement  |
 
 ---
 

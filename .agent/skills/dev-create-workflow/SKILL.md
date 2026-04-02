@@ -1,6 +1,6 @@
 ---
 name: dev-create-workflow
-version: 1.0.0
+version: 1.0.1
 description: Produces Antigravity v1.19+ optimized agent Workflows implementing proven techniques to reduce hallucinations, improve instruction following, and maximize token efficiency during agentic processing by Gemini 3.1 Pro.
 ---
 
@@ -13,7 +13,7 @@ description: Produces Antigravity v1.19+ optimized agent Workflows implementing 
 <how_to_use>
 
 1. Confirm scope: Understand the repetitive task, trigger conditions, required scripts, resources, and expected verification plan.
-2. Establish the base structure according to the `.agent/schemas/workflow/workflow.d.ts` schema.
+2. Establish the base structure according to the `resources/schema/workflow/workflow.d.ts` schema.
    - You MUST include a standard YAML frontmatter block `---` at the top of the file containing `name`, `version`, and `description`.
    - You MUST include a `body_content` section with `### steps` and optionally `### verification_plan`.
 3. Implement workflow instructions:
@@ -38,6 +38,6 @@ Prefer clear, tightly-scoped instructions. Token efficiency is achieved through 
 
 <resources_reference>
 
-- `.agent/schemas/workflow/workflow.d.ts`
-- `.agent/schemas/workflow/example.md`
+- `resources/schema/workflow/workflow.d.ts`
+- `resources/schema/workflow/example.md`
 </resources_reference>

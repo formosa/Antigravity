@@ -41,3 +41,10 @@ This document serves as the verified reference for Rule assets within the Antigr
 | 2026-03-02 | v1.2.0  | Architecture   | Integrated `execution_tier` for 24-thread parallel validation. |
 
 </modification_history>
+
+<schema_governance>
+```yaml
+primary_owner_skill: dev-create-schema
+distribution_model: canonical-plus-vendored-mirror
+```
+</schema_governance>
