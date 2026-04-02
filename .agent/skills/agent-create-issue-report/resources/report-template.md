@@ -99,28 +99,28 @@ The most balanced and minimally disruptive solution is **{{RECOMMENDED_OPTION}} 
 
 <placeholder_resolution_rules>
 
-| Placeholder | Source | Fallback |
-| :-- | :-- | :-- |
-| `{{DOCUMENT_ID}}` | Constructed `{SubjectShortId}_Issue-{NNN}` | RFQ |
-| `{{ISSUE_ID}}` | User request or tracker registry | RFQ |
-| `{{ISSUE_TITLE}}` | Issue heading from tracker | RFQ |
-| `{{FORMAT_VERSION}}` | Tracker `document.format_version` | `"IT-1.0"` |
-| `{{TARGET_PLATFORM}}` | Tracker `document.target_platform` | `"Google Antigravity >=1.18"` |
-| `{{TARGET_MODEL}}` | Tracker `document.target_model` | `"Gemini 3.1 Pro"` |
-| `{{SUBJECT_SYSTEM_NAME}}` | Tracker `document.subject` | RFQ |
-| `{{CREATED_DATE}}` | Report generation date | — |
-| `{{UPDATED_DATE}}` | Report generation date | — |
-| `{{RESOLVED_FRONTMATTER_LINE}}` | `  resolved:        "YYYY-MM-DD"\n` when status is `RESOLVED`; otherwise empty string | empty string |
-| `{{STATUS}}` | Parsed issue status | RFQ |
-| `{{SEVERITY}}` | Parsed issue severity | RFQ |
-| `{{TYPE}}` | Parsed issue type | RFQ |
-| `{{TIER_REFS}}` | Parsed tiers affected, normalized as a YAML list | `["All"]` |
-| `{{SECTION_REF}}` | Parsed spec section or tracker context | `""` |
-| `{{RULE_REFS}}` | Parsed rule identifiers or tracker context | `[]` |
-| `{{RESOLVED_AGENT_CONTEXT_LINE}}` | `resolved:    YYYY-MM-DD\n` when status is `RESOLVED`; otherwise empty string | empty string |
-| `{{RESOLUTION_CALLOUT_BLOCK}}` | Preserved tracker callout plus trailing blank line when present | empty string |
-| `{{PRIMARY_SOURCE_FILES}}` | Repo-relative file paths with line spans | `tracker evidence only` |
-| `{{OPTION_A_CITATIONS}}` / `{{OPTION_B_CITATIONS}}` | 1-2 authoritative sources | `No authoritative external reference identified for this specific claim.` |
-| `{{IMPLEMENTATION_NOTE}}` | Status-sensitive implementation summary | RFQ |
+| Placeholder                                         | Source                                                                                | Fallback                                                                  |
+| :-------------------------------------------------- | :------------------------------------------------------------------------------------ | :------------------------------------------------------------------------ |
+| `{{DOCUMENT_ID}}`                                   | Constructed `{SubjectShortId}_Issue-{NNN}`                                            | RFQ                                                                       |
+| `{{ISSUE_ID}}`                                      | User request or tracker registry                                                      | RFQ                                                                       |
+| `{{ISSUE_TITLE}}`                                   | Issue heading from tracker                                                            | RFQ                                                                       |
+| `{{FORMAT_VERSION}}`                                | Tracker `document.format_version`                                                     | `"IT-1.0"`                                                                |
+| `{{TARGET_PLATFORM}}`                               | Tracker `document.target_platform`                                                    | `"Google Antigravity >=1.18"`                                             |
+| `{{TARGET_MODEL}}`                                  | Tracker `document.target_model`                                                       | `"Gemini 3.1 Pro"`                                                        |
+| `{{SUBJECT_SYSTEM_NAME}}`                           | Tracker `document.subject`                                                            | RFQ                                                                       |
+| `{{CREATED_DATE}}`                                  | Report generation date                                                                | —                                                                         |
+| `{{UPDATED_DATE}}`                                  | Report generation date                                                                | —                                                                         |
+| `{{RESOLVED_FRONTMATTER_LINE}}`                     | `  resolved:        "YYYY-MM-DD"\n` when status is `RESOLVED`; otherwise empty string | empty string                                                              |
+| `{{STATUS}}`                                        | Parsed issue status                                                                   | RFQ                                                                       |
+| `{{SEVERITY}}`                                      | Parsed issue severity                                                                 | RFQ                                                                       |
+| `{{TYPE}}`                                          | Parsed issue type                                                                     | RFQ                                                                       |
+| `{{TIER_REFS}}`                                     | Parsed tiers affected, normalized as a YAML list                                      | `["All"]`                                                                 |
+| `{{SECTION_REF}}`                                   | Parsed spec section or tracker context                                                | `""`                                                                      |
+| `{{RULE_REFS}}`                                     | Parsed rule identifiers or tracker context                                            | `[]`                                                                      |
+| `{{RESOLVED_AGENT_CONTEXT_LINE}}`                   | `resolved:    YYYY-MM-DD\n` when status is `RESOLVED`; otherwise empty string         | empty string                                                              |
+| `{{RESOLUTION_CALLOUT_BLOCK}}`                      | Preserved tracker callout plus trailing blank line when present                       | empty string                                                              |
+| `{{PRIMARY_SOURCE_FILES}}`                          | Repo-relative file paths with line spans                                              | `tracker evidence only`                                                   |
+| `{{OPTION_A_CITATIONS}}` / `{{OPTION_B_CITATIONS}}` | 1-2 authoritative sources                                                             | `No authoritative external reference identified for this specific claim.` |
+| `{{IMPLEMENTATION_NOTE}}`                           | Status-sensitive implementation summary                                               | RFQ                                                                       |
 
 </placeholder_resolution_rules>
