@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-import argparse, json, shutil, subprocess, sys
+import argparse
+import json
+import shutil
+import subprocess
+import sys
 from pathlib import Path
 
 def main():
@@ -8,11 +12,14 @@ def main():
     args = parser.parse_args()
 
     config_path = Path(__file__).parent.parent / "config.json"
-    schemas_dir = Path("c:/AI/10162025/maggie/Antigravity/.agent/schemas")
+    repo_root = Path(__file__).resolve().parents[4]
+    schemas_dir = repo_root / ".agent" / "schemas"
     do_validation = True
     if config_path.exists():
         cfg = json.loads(config_path.read_text())
-        schemas_dir = Path(cfg.get("default_schema_location", str(schemas_dir)))
+        rel = cfg.get("default_schema_location", None)
+        if rel:
+            schemas_dir = (repo_root / rel).resolve()
         do_validation = cfg.get("enable_auto_validation", True)
 
     target_dir = schemas_dir / args.name

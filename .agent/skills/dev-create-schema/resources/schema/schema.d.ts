@@ -1,82 +1,52 @@
-// issues-tracker.d.ts
-// Antigravity Agent Asset Configuration Schema (v1.18.3)
-// OPTIMIZED FOR GEMINI 3.1 PRO
+// schema.d.ts
+// Antigravity Agent Asset Configuration Schema (v1.20.3)
+// OPTIMIZED FOR GEMINI 3.1 PRO AND GEMINI 3 FLASH
+// INSTRUCTION FOR AGENTS: Parse this file to understand the strict schema requirements
+// for authoring valid Antigravity .d.ts schema files produced by dev-create-schema.
 
-/** ISSUES TRACKER DEFINITION
- * File Pattern: DDR_v4_Issues_Tracker.md or issues-tracker/*.md
- * Purpose: Authoritative single source of truth for all identified issues with DDR System Specifications.
+/** SCHEMA FILE DEFINITION
+ * File Pattern: .agent/schemas/<schema-name>/<schema-name>.d.ts
+ * Purpose: Defines the TypeScript interface contract for a single Antigravity artifact type,
+ *          providing structured type definitions that the validator and agent can reason over.
  */
-interface IssuesTrackerDefinition {
+interface SchemaFileDefinition {
     /**
-     * Encoded as an HTML comment block at the top of the file: `<!-- AGENT PARSING HEADER ... -->`
-     * Note: This deviates from standard YAML frontmatter to prevent rendering in standard markdown readers.
+     * A single-line comment block at the top of every .d.ts file.
+     * Must include the schema filename, Antigravity version compatibility statement,
+     * and a model optimization hint when applicable.
      */
-    frontmatter: {
-        skill: string;
-        version: string;
-        target_agent: string;
-        platform: string;
-        context_mode: string;
-        schema_version: string;
-        document_type: string;
-        subject_system: string;
-        subject_file: string;
-        last_updated: string;
-        total_issues: number;
-        open_issues: number;
-        resolved_issues: number;
-        load_trigger: string;
-        [key: string]: any;
+    header_comment: {
+        /** Basename of the file, e.g. "implementation-plan.d.ts" */
+        filename: string;
+        /** Antigravity version this schema targets, e.g. "Antigravity Agent Asset Configuration Schema (v1.20.3)" */
+        version_statement: string;
+        /** Optional model hint, e.g. "OPTIMIZED FOR GEMINI 3.1 PRO AND GEMINI 3 FLASH" */
+        model_hint?: string;
     };
-    body_content: {
-        /** Encoded as a YAML block ```yaml inside the ## DOCUMENT METADATA section. */
-        document_metadata: {
-            id: string;
-            title: string;
-            format_version: string;
-            target_platform: string;
-            target_model: string;
-            subject: string;
-            created: string;
-            /** ISO 8601 Date format YYYY-MM-DD */
-            last_modified: string;
-            author: string;
-            status_values: string[];
-            severity_values: string[];
-            type_values: string[];
-        };
-        /** Raw markdown text defining the expected schema. */
-        issue_schema: string;
-        /** Markdown table serving as the primary index of all issues. Maintains sort order by severity then issue number. */
-        issue_registry: string;
-        /** Collection of discrete issues, demarcated by `### ISSUE-[NNN]:` headers. */
-        issues: Array<{
-            issue_id: string;
-            title: string;
-            /** Parsed from the `<!-- AGENT_CONTEXT ... -->` block within the issue section. */
-            agent_context: {
-                id: string;
-                status: 'OPEN' | 'IN_REVIEW' | 'RESOLVED' | 'WONT_FIX' | 'DEFERRED';
-                severity: 'CRITICAL' | 'MAJOR' | 'MODERATE' | 'MINOR';
-                /** Constrained to exact values defined in document_metadata.type_values */
-                type: 'LOGICAL_CONFLICT' | 'DESIGN_INADEQUACY' | 'UNNECESSARY_COMPLEXITY' | 'AXIOM_VIOLATION' | 'SCHEMA_DEFECT' | 'MIGRATION_GAP' | 'LIFECYCLE_GAP';
-                tier_refs: string[];
-                section_ref: string;
-                rule_refs: string[];
-                /** ISO 8601 Date format YYYY-MM-DD */
-                created: string;
-                /** ISO 8601 Date format YYYY-MM-DD */
-                updated: string;
-                resolved: string | null;
-            };
-            problem_statement: string;
-            evidence_and_justification: string;
-            impact_assessment: string;
-            resolutions: Array<{
-                option_label: string;
-                description: string;
-            }>;
-            notes?: string;
+
+    /**
+     * One or more TypeScript interface declarations that define the artifact's structure.
+     * Every interface must include a JSDoc block summary and field-level JSDoc annotations
+     * for any non-obvious field.
+     */
+    interfaces: Array<{
+        /** PascalCase name of the TypeScript interface. Must end with "Definition". */
+        name: string;
+        /** Top-level JSDoc comment summarizing the artifact type and its file pattern. */
+        jsdoc: string;
+        /** Object describing the fields and their TypeScript types. */
+        fields: Record<string, {
+            type: string;
+            optional: boolean;
+            /** JSDoc annotation for non-obvious fields. */
+            description?: string;
         }>;
-    };
+    }>;
+
+    /**
+     * A changelog comment block appended after the interfaces.
+     * Tracks the version history of this .d.ts file itself (not the artifact).
+     * Format: inline comment lines, e.g. // CHANGELOG: v1.0.0 — Initial release.
+     */
+    changelog_comment?: string;
 }
