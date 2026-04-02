@@ -24,11 +24,11 @@ mirror_policy: read-only-derived-from-.agent/schemas
 
 <modification_history>
 
-| Date | Version | SemVer | Classification | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| 2026-04-01 | 2.1.0 | initial | Baseline Capture | Recorded the pre-existing skill version as the lifecycle baseline for governance enforcement. |
-| 2026-04-01 | 2.2.0 | minor | Governance | Expanded canonical schema governance to require owner metadata, vendored-mirror distribution, and owner-aware schema index regeneration. |
-
-| 2026-04-02 | 2.2.1 | patch | Governance | Replaced Unicode status markers with ASCII-safe schema-tool output, removed the unused scaffold example script, and synchronized the vendored skill schema mirror to the repaired canonical contract. |
+| Date       | Version | SemVer  | Classification   | Description                                                                                                                                                                                           |
+| :--------- | :------ | :------ | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-04-01 | 2.1.0   | initial | Baseline Capture | Recorded the pre-existing skill version as the lifecycle baseline for governance enforcement.                                                                                                         |
+| 2026-04-01 | 2.2.0   | minor   | Governance       | Expanded canonical schema governance to require owner metadata, vendored-mirror distribution, and owner-aware schema index regeneration.                                                              |
+| 2026-04-02 | 2.2.1   | patch   | Governance       | Replaced Unicode status markers with ASCII-safe schema-tool output, removed the unused scaffold example script, and synchronized the vendored skill schema mirror to the repaired canonical contract. |
 
 </modification_history>
+
