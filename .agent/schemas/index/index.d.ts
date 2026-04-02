@@ -1,10 +1,10 @@
 // Antigravity Agent Asset Configuration Schema
-// OPTIMIZED FOR DIRECTORY-LEVEL AGENT ASSET INDEX DOCUMENTS
+// OPTIMIZED FOR FULL-FORM DIRECTORY-LEVEL AGENT ASSET INDEX DOCUMENTS (v1.1.0)
 // INSTRUCTION FOR AGENTS: Parse this file to understand the strict structure for Markdown index assets that summarize and route to other agent assets in sibling directories.
 
 /** ASSET DIRECTORY INDEX DEFINITION
  * File Pattern: .agent/<asset-directory>/index.md
- * Purpose: Provides a deterministic, machine-readable and human-readable registry for the assets contained in a specific directory such as tools, skills, workflows, or rules.
+ * Purpose: Defines the full-form discovery-index contract for asset directories that require deterministic routing guidance, machine-readable manifests, and explicit authority boundaries.
  */
 interface AssetDirectoryIndexDefinition {
     /**
@@ -80,12 +80,23 @@ interface AssetDirectoryManifestEntry {
     id: string;
     /** Repo-relative path to the authoritative asset definition. */
     definition?: string;
+    /**
+     * Filesystem packaging shape for the indexed asset.
+     * Use `flat-file` for tools, rules, and workflows; use `folder-package` for skills and schemas.
+     */
+    asset_structure?: "flat-file" | "folder-package";
     /** Stable grouping label used for counts and filtering. */
     category?: string;
     /** Runtime or execution environment when relevant to the asset type. */
     runtime?: string;
     /** Confirmation policy when relevant to the asset type. */
     confirmation?: string;
+    /** Rule activation mode when the indexed asset type is `rules`. */
+    trigger?: "auto" | "manual" | "glob" | "always_on" | "@mention";
+    /** Comma-separated wildcard patterns when the indexed asset type is `rules`; required when `trigger` is `glob`. */
+    globs?: string;
+    /** Rule importance weight when the indexed asset type is `rules`. */
+    priority?: "low" | "medium" | "high" | "critical";
     /** Summary of accepted tool or command arguments when relevant. */
     tool_args?: string;
     /**
@@ -133,4 +144,9 @@ interface AssetDirectoryRecord {
     safety_contract?: string[];
     /** Guidance on when the reader must defer to the linked authoritative definition. */
     open_definition_when?: string;
+    /**
+     * Permits additional asset-specific scalar or list metadata without forcing schema churn.
+     * Keep additional fields explicit flat scalars or lists; do not introduce nested free-form objects.
+     */
+    [key: string]: string | number | boolean | string[] | undefined;
 }

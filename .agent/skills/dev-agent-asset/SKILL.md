@@ -1,6 +1,6 @@
 ---
 name: dev-agent-asset
-version: 1.0.0
+version: 1.0.1
 description: Routes Antigravity agent-asset work to the correct owner contract using the local skills registry, direct owner-skill delegation, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct owner skill is unclear or mixed, or when determining whether schema work must happen first. Do not use when the request is already expressed in the exact vocabulary of a dedicated owner contract such as direct skill scaffolding, canonical schema authoring, workflow creation, implementation-plan generation, explicit issues-tracker maintenance, or standalone issue-report generation.
 ---
 

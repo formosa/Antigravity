@@ -28,6 +28,7 @@
 tools:
   - id: cleanup_temp_assets
     definition: .agent/tools/cleanup_temp_assets.md
+    asset_structure: flat-file
     category: utility_and_infrastructure
     runtime: system
     confirmation: never
@@ -59,6 +60,7 @@ tools:
 
   - id: generate_uuid
     definition: .agent/tools/generate_uuid.md
+    asset_structure: flat-file
     category: utility_and_infrastructure
     runtime: system
     confirmation: never
@@ -83,6 +85,7 @@ tools:
 
   - id: rebuild_docs
     definition: .agent/tools/rebuild_docs.md
+    asset_structure: flat-file
     category: utility_and_infrastructure
     runtime: system
     confirmation: never
