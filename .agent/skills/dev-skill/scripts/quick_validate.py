@@ -39,6 +39,7 @@ SEMVER_PATTERN = re.compile(r"^\d+\.\d+\.\d+$")
 DESCRIPTION_BOUNDARY_HINTS = ("do not use", "not for", "not when", "exclude", "except")
 WEAK_DESCRIPTION_TERMS = ("helper", "utils", "tools", "stuff", "things", "misc")
 RESOURCE_ACTION_HINTS = ("read ", "run ", "execute ", "open ")
+RUNTIME_ROUTED_OWNER_SCHEMA_IDS = {"rule", "skill", "workflow"}
 
 
 @dataclass
@@ -371,6 +372,47 @@ def validate_quality(frontmatter: dict, blocks: dict[str, str], result: Validati
         result.warnings.append("`description` still contains TODO placeholders.")
 
 
+def validate_runtime_routed_owner_skill_naming(
+    skill_path: Path,
+    frontmatter: dict,
+    readme_content: str,
+    result: ValidationResult,
+) -> None:
+    schema_relationships_block = extract_tag_block(readme_content, "schema_relationships")
+    if schema_relationships_block is None:
+        return
+
+    fence_match = re.search(r"```yaml\s*\r?\n(.*?)\r?\n```", schema_relationships_block, re.DOTALL)
+    schema_relationships_text = fence_match.group(1) if fence_match else schema_relationships_block
+    try:
+        schema_relationships = yaml.safe_load(schema_relationships_text)
+    except yaml.YAMLError:
+        return
+
+    if not isinstance(schema_relationships, dict):
+        return
+
+    owned_schema_ids = schema_relationships.get("owned_schema_ids")
+    if not isinstance(owned_schema_ids, list) or len(owned_schema_ids) != 1:
+        return
+
+    owned_schema_id = owned_schema_ids[0]
+    if owned_schema_id not in RUNTIME_ROUTED_OWNER_SCHEMA_IDS:
+        return
+
+    expected_name = f"dev-{owned_schema_id}"
+    if skill_path.name != expected_name:
+        result.warnings.append(
+            f"Runtime-routed owner skill naming prefers directory `{expected_name}` for owned schema `{owned_schema_id}`."
+        )
+
+    name_value = frontmatter.get("name")
+    if name_value is not None and str(name_value).strip() != expected_name:
+        result.warnings.append(
+            f"Runtime-routed owner skill naming prefers frontmatter `name: {expected_name}` for owned schema `{owned_schema_id}`."
+        )
+
+
 def validate_skill(skill_path: str | Path) -> ValidationResult:
     result = ValidationResult()
     skill_path = Path(skill_path)
@@ -430,6 +472,9 @@ def validate_skill(skill_path: str | Path) -> ValidationResult:
     if result.errors:
         return result
 
+    readme_path = skill_path / "README.md"
+    readme_content = readme_path.read_text(encoding="utf-8")
+    validate_runtime_routed_owner_skill_naming(skill_path, frontmatter, readme_content, result)
     validate_resource_entries(skill_path, blocks["resources_reference"], result)
     validate_quality(frontmatter, blocks, result)
     return result

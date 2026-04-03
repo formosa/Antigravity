@@ -2,7 +2,7 @@
 
 > Consolidated registry of skill assets in `.agent/skills/`.
 >
-> Scope: discovery, first-pass selection, and quick routing across current owner skills.
+> Scope: discovery, first-pass selection, and quick routing across current skill contracts.
 >
 > Total skills: `11`
 >
@@ -16,13 +16,15 @@
 2. Use the manifest to confirm the skill category, definition path, and best-fit use conditions.
 3. Open the linked `SKILL.md` before acting whenever exact routing boundaries, execution steps, or validation protocol matter.
 
+> Naming note: `dev-rule`, `dev-skill`, and `dev-workflow` are the current runtime-routed owner-skill family and intentionally use `dev-<asset-family>`. Other skills in this registry are intentionally outside that naming convention.
+
 ## Selection Map
 
 - `agent-create-issue-report`: generate one standalone resolution report for a single tracked issue.
 - `agent-create-issues-tracker`: initialize a blank issues tracker from the canonical template.
 - `agent-update-issues-tracker`: reevaluate and update an existing issues tracker against local evidence.
 - `codex-brainstorm`: capture or reorganize governed brainstorming content in `brainstorm.md`.
-- `dev-agent-asset`: classify agent-asset requests and route them to the correct owner contract or schema-first path.
+- `dev-agent-asset`: classify agent-asset requests and route them to the correct dedicated execution contract or schema-first path.
 - `dev-implementation-plan`: produce a governed implementation-plan artifact before execution begins.
 - `dev-rule`: create or standardize reusable rule assets and keep the rules index aligned.
 - `dev-schema`: create or update canonical `.d.ts` schemas and related schema governance assets.
@@ -99,7 +101,7 @@ skills:
       - schema-first
     use_when:
       - routing an unclear or mixed agent-asset request
-      - handing off agent-asset work to the correct owner skill
+      - handing off agent-asset work to the correct dedicated execution contract
       - deciding whether agent-asset work is skill-first or schema-first
 
   - id: dev-implementation-plan
@@ -223,7 +225,7 @@ skills:
 
 - Definition: [`dev-agent-asset/SKILL.md`](dev-agent-asset/SKILL.md)
 - Implementation: [`.agent/skills/dev-agent-asset/`](dev-agent-asset)
-- Best used for: front-door routing when the correct owner skill for an agent asset is unclear or mixed.
+- Best used for: front-door routing when the correct direct-route skill for an agent asset is unclear or mixed.
 - Open the linked definition when you need the direct-route matrix, deterministic owner-handoff rules, schema-first fallback rules, or RFQ gates.
 
 ### `dev-implementation-plan`

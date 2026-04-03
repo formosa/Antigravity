@@ -65,7 +65,7 @@ def main():
     index_md = schemas_dir / "index.md"
     lines = [
         "# SCHEMA DIRECTORY INDEX\n",
-        "| Schema Name | Version | Owner Skill | Description |",
+        "| Schema Name | Version | Primary Skill | Description |",
         "| :--- | :--- | :--- | :--- |",
     ]
 

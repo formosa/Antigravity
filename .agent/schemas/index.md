@@ -1,6 +1,6 @@
 # SCHEMA DIRECTORY INDEX
 
-| Schema Name | Version | Owner Skill | Description |
+| Schema Name | Version | Primary Skill | Description |
 | :--- | :--- | :--- | :--- |
 | brainstorm | 1.0.0 | codex-brainstorm | This package defines the governed Markdown contract for the DDR App Framework brainstorming |
 | gemini | v1.1.1 | dev-schema | This document establishes the verified architectural foundation for the `GEMINI.md` asset, which serves as a supported Gemini-specific configuration surface within the Antigravity IDE v1.18.3 ecosystem using Gemini 3.1 Pro. In workspaces that also provide `AGENTS.md`, rules may be loaded from `AGENTS.md` first while `GEMINI.md` remains an auxiliary configuration surface for Gemini-specific controls. |

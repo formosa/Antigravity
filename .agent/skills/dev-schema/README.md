@@ -31,6 +31,7 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-02 | 2.2.1   | patch   | Governance       | Replaced Unicode status markers with ASCII-safe schema-tool output, removed the unused scaffold example script, and synchronized the vendored skill schema mirror to the repaired canonical contract. |
 | 2026-04-02 | 2.3.0   | minor   | Rename           | Finalized the direct-noun owner contract name and updated active authority surfaces to use `dev-schema`.                                              |
 | 2026-04-03 | 2.3.1   | patch   | Alignment        | Aligned schema-authoring guidance with the shared owner-skill pattern so canonical schema governance stays consistent with validation-first owner contracts. |
+| 2026-04-03 | 2.3.2   | patch   | Index Terminology | Renamed the generated schema-index column from `Owner Skill` to `Primary Skill` so the registry reflects `primary_owner_skill` without implying every listed skill satisfies the formal `Owner Skill` definition. |
 
 </modification_history>
 

@@ -32,5 +32,7 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-02 | 1.0.2 | patch | Routing | Updated the direct-route matrix and packaged references to target the renamed direct-noun owner skills. |
 | 2026-04-03 | 1.0.3 | patch | Alignment | Tightened the router contract around discovery, deterministic owner handoff, and RFQ gates while explicitly preserving downstream owner skills as the authoritative execution contracts. |
 | 2026-04-03 | 1.0.4 | patch | Routing | Added `dev-rule` to the direct-route matrix, removed `rule` from schema-first fallback routing, and resynchronized the consumed index-schema mirror after rules-index adoption updates. |
+| 2026-04-03 | 1.0.5 | patch | Terminology | Aligned active router wording with the formal `Owner Skill` definition by switching broad owner-skill references to direct-route or dedicated-contract language while preserving owner-skill terminology only for actual owner-family cases. |
+| 2026-04-03 | 1.0.6 | patch | Naming Convention | Clarified that `dev-rule`, `dev-skill`, and `dev-workflow` are the current runtime-routed owner-skill family using `dev-<asset-family>` naming while keeping `dev-schema` and the router itself outside that family. |
 
 </modification_history>

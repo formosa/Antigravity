@@ -1,6 +1,6 @@
 ---
 name: dev-schema
-version: 2.3.1
+version: 2.3.2
 description: Authors and updates canonical Antigravity `.d.ts` schema files via scaffold, strict validation, schema-governance README maintenance, and owner-aware index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index for an owner-managed asset family. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
 ---
 
