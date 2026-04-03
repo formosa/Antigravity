@@ -1,4 +1,4 @@
-# DESIGN_JUSTIFICATION: Antigravity Skill Assets v1.21.0
+# DESIGN_JUSTIFICATION: Antigravity Skill Assets v1.21.2
 
 <document_purpose>
 This document identifies the canonical local contract for Antigravity skill assets and the rules for distributing self-contained vendored schema mirrors into skill packages.
@@ -6,17 +6,17 @@ This document identifies the canonical local contract for Antigravity skill asse
 
 <schema_governance>
 ```yaml
-primary_owner_skill: dev-skill
+primary_owner_skill: asset-skill
 distribution_model: canonical-plus-vendored-mirror
 ```
 </schema_governance>
 
 <authority_order>
 1. `.agent/schemas/skill/skill.d.ts`
-2. `.agent/skills/dev-skill/scripts/quick_validate.py`
-3. `.agent/skills/dev-skill/scripts/init_skill.py`
-4. `.agent/skills/dev-skill/scripts/sync_schema_mirrors.py`
-5. `.agent/skills/dev-skill/SKILL.md`
+2. `.agent/skills/asset-skill/scripts/quick_validate.py`
+3. `.agent/skills/asset-skill/scripts/init_skill.py`
+4. `.agent/skills/asset-skill/scripts/sync_schema_mirrors.py`
+5. `.agent/skills/asset-skill/SKILL.md`
 6. Vendored mirrors under `.agent/skills/<skill>/resources/schema/skill/` are derived copies and must not override the canonical contract.
 7. Official external references listed below are informative only and must not override the local contract unless the contract is intentionally revised.
 </authority_order>
@@ -35,9 +35,9 @@ distribution_model: canonical-plus-vendored-mirror
 <authoritative_reference_repository>
 
 1. Local contract surface: `.agent/schemas/skill/skill.d.ts`
-2. Local validator contract: `.agent/skills/dev-skill/scripts/quick_validate.py`
-3. Local scaffolding contract: `.agent/skills/dev-skill/scripts/init_skill.py`
-4. Local mirror sync contract: `.agent/skills/dev-skill/scripts/sync_schema_mirrors.py`
+2. Local validator contract: `.agent/skills/asset-skill/scripts/quick_validate.py`
+3. Local scaffolding contract: `.agent/skills/asset-skill/scripts/init_skill.py`
+4. Local mirror sync contract: `.agent/skills/asset-skill/scripts/sync_schema_mirrors.py`
 5. [OpenAI Codex Agent Skills](https://developers.openai.com/codex/skills)
 6. [OpenAI: A practical guide to building agents](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf?file=a-practical-guide-to-building-agents.pdf)
 7. [OpenAI Trace grading](https://developers.openai.com/api/docs/guides/trace-grading)
@@ -54,5 +54,6 @@ distribution_model: canonical-plus-vendored-mirror
 | 2026-04-01 | v1.20.3 | Hardening | Replaced non-authoritative references, clarified local authority order, and aligned guidance with the active validator and scaffolder. |
 | 2026-04-01 | v1.21.0 | Governance | Established the canonical-plus-vendored-mirror distribution model and moved skill lifecycle/version tracking to root skill READMEs. |
 | 2026-04-02 | v1.21.1 | Repair | Reconciled the canonical skill schema comments with the live validator by making `<constraints>` and `<resources_reference>` required and replacing hidden-reasoning language with observable execution guidance. |
+| 2026-04-03 | v1.21.2 | Governance | Updated the canonical skill-governance metadata and authority references to the hardened `asset-*`, `artifact-*`, and `*-router` naming families while preserving `Primary Skill` registry terminology. |
 
 </modification_history>

@@ -29,5 +29,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-01 | 1.0.0   | initial | Baseline Capture | Recorded the pre-existing skill version as the lifecycle baseline for governance enforcement.                                                                                                |
 | 2026-04-01 | 1.0.1   | patch   | Governance       | Added the root lifecycle README, declared canonical schema relationships, and migrated schema references to vendored mirrors.                                                                |
 | 2026-04-02 | 1.0.2   | patch   | Governance       | Clarified trigger boundaries with example prompts, annotated each operational resource as read or run, and synchronized the vendored skill schema mirror to the repaired canonical contract. |
+| 2026-04-03 | 1.0.3   | patch   | Naming Alignment | Resynchronized the vendored skill-schema mirror after the canonical skill-governance contract adopted the hardened `asset-*`, `artifact-*`, and `*-router` naming families. |
 
-</modification_history>
+</modification_history>

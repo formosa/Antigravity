@@ -1,6 +1,6 @@
 ---
 name: md060-strict-aligner
-version: 1.1.2
+version: 1.1.3
 description: Deterministically aligns Markdown tables to satisfy MD060 with minimal, structure-preserving edits. Use when the task is to fix table alignment violations without changing prose or table meaning. Do not use when the request requires broader Markdown rewrites or non-table content changes.
 ---
 

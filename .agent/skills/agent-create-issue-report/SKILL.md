@@ -1,6 +1,6 @@
 ---
 name: agent-create-issue-report
-version: 1.0.2
+version: 1.0.3
 description: Generates a standalone v6.1-style Resolution Report for one tracked issue from an Antigravity Issues Tracker. Use when the task is to investigate a single `ISSUE_ID` and write a validator-checked report artifact. Do not use when the task is to edit the tracker itself or implement the fix.
 ---
 

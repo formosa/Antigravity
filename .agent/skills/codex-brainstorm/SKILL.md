@@ -1,6 +1,6 @@
 ---
 name: codex-brainstorm
-version: 1.0.2
+version: 1.0.3
 description: Creates, seeds, validates, and updates the DDR App Framework brainstorming compendium in `brainstorm.md` using the governed `BRAIN-ENTRY-1.1` Markdown format, visual semantics, structured citations, and stable Mermaid diagrams. Use when the task is to capture or reorganize brainstorm ideas, architectural hypotheses, or library candidates. Do not use when the task is to finalize normative spec text or write an implementation plan.
 ---
 

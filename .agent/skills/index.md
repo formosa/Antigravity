@@ -16,7 +16,7 @@
 2. Use the manifest to confirm the skill category, definition path, and best-fit use conditions.
 3. Open the linked `SKILL.md` before acting whenever exact routing boundaries, execution steps, or validation protocol matter.
 
-> Naming note: `dev-rule`, `dev-skill`, and `dev-workflow` are the current runtime-routed owner-skill family and intentionally use `dev-<asset-family>`. Artifact-Centric Owners such as `dev-implementation-plan` may sit beside that family without adopting the naming convention.
+> Naming note: `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family and intentionally use `asset-<asset-family>`. `artifact-implementation-plan` is the current artifact-centric owner and intentionally uses `artifact-<artifact-family>`. Routing skills should prefer `*-router`; `agent-asset-router` is active and `agent-artifact-router` is reserved for future use only. Standard non-owner, non-router skills remain lowercase hyphen-case. Legacy unlisted skills are outside this migration scope, and listed exceptions such as `dev-schema` remain explicit legacy contracts until replaced.
 
 ## Selection Map
 
@@ -24,12 +24,12 @@
 - `agent-create-issues-tracker`: initialize a blank issues tracker from the canonical template.
 - `agent-update-issues-tracker`: reevaluate and update an existing issues tracker against local evidence.
 - `codex-brainstorm`: capture or reorganize governed brainstorming content in `brainstorm.md`.
-- `dev-agent-asset`: classify agent-asset requests and route them to the correct dedicated execution contract or schema-first path.
-- `dev-implementation-plan`: serve as the Artifact-Centric Owner for governed implementation-plan artifacts before execution begins.
-- `dev-rule`: create or standardize reusable rule assets and keep the rules index aligned.
-- `dev-schema`: create or update canonical `.d.ts` schemas and related schema governance assets.
-- `dev-skill`: scaffold or standardize skill folders under `.agent/skills/`.
-- `dev-workflow`: create or standardize reusable workflows under `.agent/workflows/`.
+- `agent-asset-router`: classify agent-asset requests and route them to the correct dedicated execution contract or schema-first path.
+- `artifact-implementation-plan`: serve as the Artifact-Centric Owner for governed implementation-plan artifacts before execution begins.
+- `asset-rule`: create or standardize reusable rule assets and keep the rules index aligned.
+- `dev-schema`: create or update canonical `.d.ts` schemas and related schema governance assets through the retained legacy schema-authoring contract.
+- `asset-skill`: scaffold or standardize skill folders under `.agent/skills/`.
+- `asset-workflow`: create or standardize reusable workflows under `.agent/workflows/`.
 - `md060-strict-aligner`: align Markdown tables with minimal structure-preserving edits.
 
 ## Manifest
@@ -89,10 +89,10 @@ skills:
       - capturing or reorganizing brainstorming artifacts
       - maintaining governed `brainstorm.md` content
 
-  - id: dev-agent-asset
-    definition: .agent/skills/dev-agent-asset/SKILL.md
+  - id: agent-asset-router
+    definition: .agent/skills/agent-asset-router/SKILL.md
     category: orchestration_and_authoring
-    implementation: .agent/skills/dev-agent-asset/
+    implementation: .agent/skills/agent-asset-router/
     keywords:
       - agent-asset
       - front-door
@@ -104,10 +104,10 @@ skills:
       - handing off agent-asset work to the correct dedicated execution contract
       - deciding whether agent-asset work is skill-first or schema-first
 
-  - id: dev-implementation-plan
-    definition: .agent/skills/dev-implementation-plan/SKILL.md
+  - id: artifact-implementation-plan
+    definition: .agent/skills/artifact-implementation-plan/SKILL.md
     category: orchestration_and_authoring
-    implementation: .agent/skills/dev-implementation-plan/
+    implementation: .agent/skills/artifact-implementation-plan/
     keywords:
       - implementation-plan
       - artifact-centric-owner
@@ -118,10 +118,10 @@ skills:
       - drafting, refining, regenerating, or auditing a governed implementation-plan artifact
       - using the dedicated owner utility for implementation-plan artifact lifecycle management
 
-  - id: dev-rule
-    definition: .agent/skills/dev-rule/SKILL.md
+  - id: asset-rule
+    definition: .agent/skills/asset-rule/SKILL.md
     category: orchestration_and_authoring
-    implementation: .agent/skills/dev-rule/
+    implementation: .agent/skills/asset-rule/
     keywords:
       - rule
       - scaffold
@@ -144,14 +144,14 @@ skills:
       - validation
       - index
     use_when:
-      - creating or updating a canonical schema
+      - creating or updating a canonical schema with the retained legacy schema-authoring contract
       - rebuilding the schema directory index after schema changes
       - maintaining owner-managed schema governance assets
 
-  - id: dev-skill
-    definition: .agent/skills/dev-skill/SKILL.md
+  - id: asset-skill
+    definition: .agent/skills/asset-skill/SKILL.md
     category: orchestration_and_authoring
-    implementation: .agent/skills/dev-skill/
+    implementation: .agent/skills/asset-skill/
     keywords:
       - skill
       - scaffold
@@ -163,10 +163,10 @@ skills:
       - standardizing an existing skill folder
       - scaffolding a future runtime-routed or artifact-centric owner skill
 
-  - id: dev-workflow
-    definition: .agent/skills/dev-workflow/SKILL.md
+  - id: asset-workflow
+    definition: .agent/skills/asset-workflow/SKILL.md
     category: orchestration_and_authoring
-    implementation: .agent/skills/dev-workflow/
+    implementation: .agent/skills/asset-workflow/
     keywords:
       - workflow
       - repeatable
@@ -222,24 +222,24 @@ skills:
 - Best used for: governed brainstorming capture and reorganization in `brainstorm.md`.
 - Open the linked definition when brainstorm formatting, citation rules, or Mermaid policy matters.
 
-### `dev-agent-asset`
+### `agent-asset-router`
 
-- Definition: [`dev-agent-asset/SKILL.md`](dev-agent-asset/SKILL.md)
-- Implementation: [`.agent/skills/dev-agent-asset/`](dev-agent-asset)
+- Definition: [`agent-asset-router/SKILL.md`](agent-asset-router/SKILL.md)
+- Implementation: [`.agent/skills/agent-asset-router/`](agent-asset-router)
 - Best used for: front-door routing when the correct direct-route skill for an agent asset is unclear or mixed.
 - Open the linked definition when you need the direct-route matrix, deterministic owner-handoff rules, schema-first fallback rules, or RFQ gates.
 
-### `dev-implementation-plan`
+### `artifact-implementation-plan`
 
-- Definition: [`dev-implementation-plan/SKILL.md`](dev-implementation-plan/SKILL.md)
-- Implementation: [`.agent/skills/dev-implementation-plan/`](dev-implementation-plan)
+- Definition: [`artifact-implementation-plan/SKILL.md`](artifact-implementation-plan/SKILL.md)
+- Implementation: [`.agent/skills/artifact-implementation-plan/`](artifact-implementation-plan)
 - Best used for: serving as the Artifact-Centric Owner utility for implementation-plan artifact creation, regeneration, audit, and governance before execution begins.
 - Open the linked definition when naming rules, phase structure, or verification mapping matters.
 
-### `dev-rule`
+### `asset-rule`
 
-- Definition: [`dev-rule/SKILL.md`](dev-rule/SKILL.md)
-- Implementation: [`.agent/skills/dev-rule/`](dev-rule)
+- Definition: [`asset-rule/SKILL.md`](asset-rule/SKILL.md)
+- Implementation: [`.agent/skills/asset-rule/`](asset-rule)
 - Best used for: authoring deterministic rule assets with scaffold, validation, and rules-index synchronization.
 - Open the linked definition when rule structure, trigger semantics, validation checks, or rules-index regeneration matters.
 
@@ -247,20 +247,20 @@ skills:
 
 - Definition: [`dev-schema/SKILL.md`](dev-schema/SKILL.md)
 - Implementation: [`.agent/skills/dev-schema/`](dev-schema)
-- Best used for: canonical schema creation, schema updates, and schema index regeneration.
+- Best used for: canonical schema creation, schema updates, and schema index regeneration through the retained legacy schema-authoring contract.
 - Open the linked definition when scaffold commands, schema README governance, owner-skill schema alignment, or validation rules matter.
 
-### `dev-skill`
+### `asset-skill`
 
-- Definition: [`dev-skill/SKILL.md`](dev-skill/SKILL.md)
-- Implementation: [`.agent/skills/dev-skill/`](dev-skill)
+- Definition: [`asset-skill/SKILL.md`](asset-skill/SKILL.md)
+- Implementation: [`.agent/skills/asset-skill/`](asset-skill)
 - Best used for: scaffolding or standardizing skill folders with lifecycle governance and schema mirrors, including future runtime-routed and artifact-centric owners.
 - Open the linked definition when packaging, mirror sync, root README requirements, owner-skill pattern reuse, or trigger testing matters.
 
-### `dev-workflow`
+### `asset-workflow`
 
-- Definition: [`dev-workflow/SKILL.md`](dev-workflow/SKILL.md)
-- Implementation: [`.agent/skills/dev-workflow/`](dev-workflow)
+- Definition: [`asset-workflow/SKILL.md`](asset-workflow/SKILL.md)
+- Implementation: [`.agent/skills/asset-workflow/`](asset-workflow)
 - Best used for: authoring deterministic workflow assets with scaffold, validation, and index-sync lifecycle support.
 - Open the linked definition when workflow structure, index regeneration, section requirements, or execution constraints matter.
 

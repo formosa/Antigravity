@@ -1,6 +1,6 @@
 ---
 name: agent-update-issues-tracker
-version: 1.0.2
+version: 1.0.3
 description: Reevaluate and update an existing Issues Tracker against its target DDR or specification files and related local audits. Use when the task is to refresh tracked issues, add comparative analysis, migrate a tracker from `IT-1.0` to `IT-1.1`, or append newly discovered significant issues. Do not use when the task is to initialize a blank tracker or patch the target YAML or spec files.
 ---
 

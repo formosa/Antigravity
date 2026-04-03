@@ -1,6 +1,6 @@
 ---
 name: agent-create-issues-tracker
-version: 1.0.2
+version: 1.0.3
 description: Initializes a new blank Issues Tracker from the shared canonical template. Use when the user needs a fresh tracker file for a project or specification review. Do not use when the task is to update an existing tracker or generate a per-issue report.
 ---
 
