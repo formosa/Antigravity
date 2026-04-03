@@ -6,7 +6,8 @@ Usage:
     init_skill.py <skill-name> --path <path> [--resources scripts,resources,assets] [--examples]
 
 Runtime-routed owner skills for reusable `rule`, `skill`, and `workflow` directories
-should use the `dev-<asset-family>` naming convention.
+should use the `dev-<asset-family>` naming convention. Artifact-Centric Owners may
+own one governed artifact schema without using that naming convention.
 """
 
 from __future__ import annotations
@@ -118,13 +119,14 @@ def parse_args() -> argparse.Namespace:
         description="Create a new Antigravity skill scaffold.",
         epilog=(
             "Naming guidance: runtime-routed owner skills for reusable rule, skill, or workflow "
-            "directories should use dev-<asset-family>. Routers, schema-authoring contracts, and "
-            "consumer-only artifact skills are intentionally outside that naming family."
+            "directories should use dev-<asset-family>. Artifact-Centric Owners may own one "
+            "governed artifact schema without using that naming convention. Routers and "
+            "schema-authoring contracts remain outside that naming family."
         ),
     )
     parser.add_argument(
         "skill_name",
-        help="Lowercase hyphen-case skill name. Runtime-routed owner skills should use dev-<asset-family>.",
+        help="Lowercase hyphen-case skill name. Runtime-routed owner skills should use dev-<asset-family>; Artifact-Centric Owners are not required to.",
     )
     parser.add_argument("--path", required=True, help="Parent directory where the skill folder will be created.")
     parser.add_argument(

@@ -1,4 +1,4 @@
-# DESIGN_JUSTIFICATION: Antigravity Implementation Plan Assets v1.20.3
+# DESIGN_JUSTIFICATION: Antigravity Implementation Plan Assets v1.20.4
 
 <document_purpose>
 This document serves as the verified reference for the architectural design of Implementation Plan artifacts within the Antigravity IDE v1.20.3 ecosystem, optimized for Gemini 3.1 Pro Preview's deep reasoning and agentic execution capabilities.
@@ -21,6 +21,8 @@ This document serves as the verified reference for the architectural design of I
 - **Live-Contract Authority:** The normative contract for newly generated implementation plans resides in the active schema, example artifact, output-pattern rules, and skill instructions. Historical artifacts already present in `.agent/plans/processed/` remain review references only and are not a compatibility surface for this contract version.
 
 - **Grounded Planning Discipline:** The planner operates as a strictly grounded assistant, relying only on facts present in local project context or cited external references. Uncertainty is surfaced as an RFQ artifact rather than converted to implicit assumption.
+
+- **Artifact-Centric Ownership:** `dev-implementation-plan` is the dedicated `Artifact-Centric Owner` for implementation-plan artifacts, owning creation, refinement, audit, and lifecycle governance while remaining outside the runtime-routed `dev-<asset-family>` naming family.
 
 </schema_evaluation_and_justification>
 
@@ -46,6 +48,7 @@ This document serves as the verified reference for the architectural design of I
 | :--------- | :------ | :------------- | :---------- |
 | 2026-03-01 | v1.1.0  | Optimization   | Enhanced `implementation_plan.d.ts` with dense JSDoc annotations and version tracking aligned to Gemini 3.1 Pro prompt optimization framework. |
 | 2026-04-01 | v1.20.3 | Major revision | Updated planner model to `gemini-3.1-pro-preview` (deprecated `gemini-3-pro-preview`). Added `output_path` and `processed_path` frontmatter fields. Introduced task-group `####` headers and `[ ]`/`[X]` completion trackers in `<atomic_steps>`. Defined `.agent/plans/` and `.agent/plans/processed/` storage convention with `YYYYMMDD-HHMMSS-<uuid8>-IMPLEMENTATION_PLAN.md` naming scheme. Updated AGENTS.md as primary rules file per Antigravity v1.20.3. Strengthened anti-hallucination and grounding rules. Clarified that historical processed plans are review references rather than a compatibility surface. |
+| 2026-04-03 | v1.20.4 | Governance | Clarified that `dev-implementation-plan` is the Artifact-Centric Owner for implementation-plan artifacts and aligned schema-side governance language with the shared owner-skill taxonomy. |
 
 </modification_history>
 

@@ -90,6 +90,16 @@ def extract_frontmatter(content: str) -> tuple[dict | None, str | None]:
     return frontmatter, None
 
 
+def parse_fenced_yaml(block_text: str) -> dict | None:
+    fence_match = re.search(r"```yaml\s*\r?\n(.*?)\r?\n```", block_text, re.DOTALL)
+    raw_yaml = fence_match.group(1) if fence_match else block_text
+    try:
+        parsed = yaml.safe_load(raw_yaml)
+    except yaml.YAMLError:
+        return None
+    return parsed if isinstance(parsed, dict) else None
+
+
 def iter_resource_entries(resources_block: str) -> list[str]:
     entries = []
     for raw_line in resources_block.splitlines():
@@ -221,15 +231,8 @@ def validate_root_readme(skill_path: Path, skill_version: str, result: Validatio
     if result.errors:
         return
 
-    try:
-        fence_match = re.search(r"```yaml\s*\r?\n(.*?)\r?\n```", blocks["schema_relationships"], re.DOTALL)
-        schema_relationships_text = fence_match.group(1) if fence_match else blocks["schema_relationships"]
-        schema_relationships = yaml.safe_load(schema_relationships_text)
-    except yaml.YAMLError as exc:
-        result.errors.append(f"Invalid YAML in README <schema_relationships>: {exc}")
-        return
-
-    if not isinstance(schema_relationships, dict):
+    schema_relationships = parse_fenced_yaml(blocks["schema_relationships"])
+    if schema_relationships is None:
         result.errors.append("README <schema_relationships> must parse to a YAML mapping.")
         return
 
@@ -372,24 +375,76 @@ def validate_quality(frontmatter: dict, blocks: dict[str, str], result: Validati
         result.warnings.append("`description` still contains TODO placeholders.")
 
 
+def parse_schema_relationships(readme_content: str) -> dict | None:
+    schema_relationships_block = extract_tag_block(readme_content, "schema_relationships")
+    if schema_relationships_block is None:
+        return None
+    return parse_fenced_yaml(schema_relationships_block)
+
+
+def parse_primary_owner_skill(schema_readme_content: str) -> str | None:
+    schema_governance_block = extract_tag_block(schema_readme_content, "schema_governance")
+    if schema_governance_block is None:
+        return None
+
+    schema_governance = parse_fenced_yaml(schema_governance_block)
+    if schema_governance is None:
+        return None
+
+    primary_owner_skill = schema_governance.get("primary_owner_skill")
+    if not isinstance(primary_owner_skill, str) or not primary_owner_skill.strip():
+        return None
+    return primary_owner_skill.strip()
+
+
+def validate_owned_schema_alignment(skill_path: Path, readme_content: str, result: ValidationResult) -> None:
+    schema_relationships = parse_schema_relationships(readme_content)
+    if schema_relationships is None:
+        return
+
+    owned_schema_ids = schema_relationships.get("owned_schema_ids")
+    consumed_schema_ids = schema_relationships.get("consumed_schema_ids")
+    if not isinstance(owned_schema_ids, list):
+        return
+
+    overlap = sorted(set(owned_schema_ids).intersection(consumed_schema_ids or []))
+    if overlap:
+        result.errors.append(
+            "README <schema_relationships> must not list the same schema ID in both `owned_schema_ids` and "
+            f"`consumed_schema_ids`: {', '.join(overlap)}."
+        )
+
+    repo_root = Path(__file__).resolve().parents[4]
+    for schema_id in owned_schema_ids:
+        schema_readme_path = repo_root / ".agent" / "schemas" / schema_id / "README.md"
+        if not schema_readme_path.exists():
+            result.errors.append(
+                f"Owned schema `{schema_id}` must have a canonical schema README at `.agent/schemas/{schema_id}/README.md`."
+            )
+            continue
+
+        primary_owner_skill = parse_primary_owner_skill(schema_readme_path.read_text(encoding="utf-8"))
+        if primary_owner_skill is None:
+            result.errors.append(
+                f"Owned schema `{schema_id}` must declare `primary_owner_skill` in its canonical schema README."
+            )
+            continue
+
+        if primary_owner_skill != skill_path.name:
+            result.errors.append(
+                f"Owned schema `{schema_id}` declares `primary_owner_skill: {primary_owner_skill}`, "
+                f"which does not match skill directory `{skill_path.name}`."
+            )
+
+
 def validate_runtime_routed_owner_skill_naming(
     skill_path: Path,
     frontmatter: dict,
     readme_content: str,
     result: ValidationResult,
 ) -> None:
-    schema_relationships_block = extract_tag_block(readme_content, "schema_relationships")
-    if schema_relationships_block is None:
-        return
-
-    fence_match = re.search(r"```yaml\s*\r?\n(.*?)\r?\n```", schema_relationships_block, re.DOTALL)
-    schema_relationships_text = fence_match.group(1) if fence_match else schema_relationships_block
-    try:
-        schema_relationships = yaml.safe_load(schema_relationships_text)
-    except yaml.YAMLError:
-        return
-
-    if not isinstance(schema_relationships, dict):
+    schema_relationships = parse_schema_relationships(readme_content)
+    if schema_relationships is None:
         return
 
     owned_schema_ids = schema_relationships.get("owned_schema_ids")
@@ -474,6 +529,9 @@ def validate_skill(skill_path: str | Path) -> ValidationResult:
 
     readme_path = skill_path / "README.md"
     readme_content = readme_path.read_text(encoding="utf-8")
+    validate_owned_schema_alignment(skill_path, readme_content, result)
+    if result.errors:
+        return result
     validate_runtime_routed_owner_skill_naming(skill_path, frontmatter, readme_content, result)
     validate_resource_entries(skill_path, blocks["resources_reference"], result)
     validate_quality(frontmatter, blocks, result)

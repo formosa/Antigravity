@@ -16,7 +16,7 @@
 2. Use the manifest to confirm the skill category, definition path, and best-fit use conditions.
 3. Open the linked `SKILL.md` before acting whenever exact routing boundaries, execution steps, or validation protocol matter.
 
-> Naming note: `dev-rule`, `dev-skill`, and `dev-workflow` are the current runtime-routed owner-skill family and intentionally use `dev-<asset-family>`. Other skills in this registry are intentionally outside that naming convention.
+> Naming note: `dev-rule`, `dev-skill`, and `dev-workflow` are the current runtime-routed owner-skill family and intentionally use `dev-<asset-family>`. Artifact-Centric Owners such as `dev-implementation-plan` may sit beside that family without adopting the naming convention.
 
 ## Selection Map
 
@@ -25,7 +25,7 @@
 - `agent-update-issues-tracker`: reevaluate and update an existing issues tracker against local evidence.
 - `codex-brainstorm`: capture or reorganize governed brainstorming content in `brainstorm.md`.
 - `dev-agent-asset`: classify agent-asset requests and route them to the correct dedicated execution contract or schema-first path.
-- `dev-implementation-plan`: produce a governed implementation-plan artifact before execution begins.
+- `dev-implementation-plan`: serve as the Artifact-Centric Owner for governed implementation-plan artifacts before execution begins.
 - `dev-rule`: create or standardize reusable rule assets and keep the rules index aligned.
 - `dev-schema`: create or update canonical `.d.ts` schemas and related schema governance assets.
 - `dev-skill`: scaffold or standardize skill folders under `.agent/skills/`.
@@ -110,12 +110,13 @@ skills:
     implementation: .agent/skills/dev-implementation-plan/
     keywords:
       - implementation-plan
+      - artifact-centric-owner
       - planning
       - handoff
       - phases
     use_when:
-      - drafting a formal implementation plan before execution
-      - regenerating or auditing an implementation-plan artifact
+      - drafting, refining, regenerating, or auditing a governed implementation-plan artifact
+      - using the dedicated owner utility for implementation-plan artifact lifecycle management
 
   - id: dev-rule
     definition: .agent/skills/dev-rule/SKILL.md
@@ -160,7 +161,7 @@ skills:
     use_when:
       - creating a new skill
       - standardizing an existing skill folder
-      - scaffolding a future owner-contract skill
+      - scaffolding a future runtime-routed or artifact-centric owner skill
 
   - id: dev-workflow
     definition: .agent/skills/dev-workflow/SKILL.md
@@ -232,7 +233,7 @@ skills:
 
 - Definition: [`dev-implementation-plan/SKILL.md`](dev-implementation-plan/SKILL.md)
 - Implementation: [`.agent/skills/dev-implementation-plan/`](dev-implementation-plan)
-- Best used for: producing a formal implementation-plan artifact before execution begins.
+- Best used for: serving as the Artifact-Centric Owner utility for implementation-plan artifact creation, regeneration, audit, and governance before execution begins.
 - Open the linked definition when naming rules, phase structure, or verification mapping matters.
 
 ### `dev-rule`
@@ -253,7 +254,7 @@ skills:
 
 - Definition: [`dev-skill/SKILL.md`](dev-skill/SKILL.md)
 - Implementation: [`.agent/skills/dev-skill/`](dev-skill)
-- Best used for: scaffolding or standardizing skill folders with lifecycle governance and schema mirrors.
+- Best used for: scaffolding or standardizing skill folders with lifecycle governance and schema mirrors, including future runtime-routed and artifact-centric owners.
 - Open the linked definition when packaging, mirror sync, root README requirements, owner-skill pattern reuse, or trigger testing matters.
 
 ### `dev-workflow`

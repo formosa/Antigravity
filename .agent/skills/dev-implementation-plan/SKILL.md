@@ -1,13 +1,13 @@
 ---
 name: dev-implementation-plan
-version: 5.2.0
-description: Produces a schema-compatible, deterministic Antigravity implementation-plan artifact optimized for grounded planning, patch-bounded execution batches, task-tracker visibility, and safe executor handoff. Use when the task needs a formal plan artifact before execution begins. Do not use when the requested work is trivial enough to execute directly without a governed plan.
+version: 5.3.0
+description: Serves as the Artifact-Centric Owner for Antigravity implementation-plan artifacts by creating, refining, auditing, and lifecycle-managing schema-compatible plans optimized for grounded planning, patch-bounded execution batches, task-tracker visibility, and safe executor handoff. Use when the task needs a formal plan artifact before execution begins. Do not use when the requested work is trivial enough to execute directly without a governed plan.
 ---
 
 <when_to_use>
 
 - The user requests an implementation plan before coding begins.
-- The user asks to refine, regenerate, or audit an existing implementation plan artifact.
+- The user asks to create, edit, refine, regenerate, enhance, or audit an existing implementation plan artifact.
 - The task has non-trivial scope, dependencies, or risk requiring deterministic execution steps.
 - A human-approved planning artifact is required before any code or file modifications occur.
 - Do not use this skill for trivial one-file changes that can be executed safely without a standalone plan artifact.
@@ -25,6 +25,7 @@ description: Produces a schema-compatible, deterministic Antigravity implementat
 - **IDE target:** Antigravity v1.20.3+.
 - **Rules file:** `AGENTS.md` (primary, v1.20.3+); `GEMINI.md` (fallback if `AGENTS.md` absent).
 - **Auto-continue:** Enabled by default in v1.20.3+. Plans must be structured to tolerate uninterrupted executor handoff.
+- **Owner subtype:** `Artifact-Centric Owner` for the implementation-plan artifact family.
 
 ## Contract preservation rules
 

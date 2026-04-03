@@ -34,5 +34,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 2.4.1 | patch | Owner Pattern | Refined the shared owner-skill pattern to define when dedicated `dev-<owned-asset>-governance` rules are warranted and updated the execution contract to reuse that selection criteria. |
 | 2026-04-03 | 2.4.2 | patch | Owner Pattern | Formalized `Owner Skill` as a term requiring schema-side ownership metadata, non-empty `owned_schema_ids`, and an owned asset-family lifecycle while preserving routers and consumer-only skills as non-owner exceptions. |
 | 2026-04-03 | 2.4.3 | patch | Naming Convention | Codified `dev-<asset-family>` as the runtime-routed owner-skill naming family for `rule`, `skill`, and `workflow`, added soft validator guidance for future owner skills, and aligned skill-authoring instructions with that convention. |
+| 2026-04-03 | 2.5.0 | minor | Owner Taxonomy | Added the `Artifact-Centric Owner` subtype beside runtime-routed owner skills, aligned skill-authoring guidance with the broadened taxonomy, and updated validation/scaffolding references so non-runtime artifact owners are treated as first-class owner contracts. |
 
 </modification_history>
