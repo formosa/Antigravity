@@ -1,5 +1,5 @@
 ---
-name: "SKILL_CHANGE_GOVERNANCE"
+name: "skill-change-governance"
 version: "1.2.0"
 description: "Glob-scoped governance rule requiring skill root README updates, strict SemVer version bumps, and vendored schema mirror resynchronization whenever files under .agent/skills/ change."
 trigger: "glob"

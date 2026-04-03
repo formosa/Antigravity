@@ -1,5 +1,5 @@
 ---
-name: "POWERSHELL_EXECUTION_GUARDRAILS"
+name: "powershell-execution-guardrails"
 version: "1.2.0"
 description: "Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O."
 trigger: "always_on"

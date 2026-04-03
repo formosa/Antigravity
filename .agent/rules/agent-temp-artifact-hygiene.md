@@ -1,5 +1,5 @@
 ---
-name: "AGENT_TEMP_ARTIFACT_HYGIENE"
+name: "agent-temp-artifact-hygiene"
 version: "1.2.0"
 description: "Always-on containment and cleanup policy for one-off agent scripts, diagnostics, and transient run artifacts in the Antigravity workspace."
 trigger: "always_on"

@@ -18,22 +18,22 @@
 
 ## Selection Map
 
-- `AGENT_TEMP_ARTIFACT_HYGIENE`: Always-on containment and cleanup policy for one-off agent scripts, diagnostics, and transient run artifacts in the Antigravity workspace.
-- `POWERSHELL_EXECUTION_GUARDRAILS`: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
+- `agent-temp-artifact-hygiene`: Always-on containment and cleanup policy for one-off agent scripts, diagnostics, and transient run artifacts in the Antigravity workspace.
+- `powershell-execution-guardrails`: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
 - `dev-check-schema`: Enforces RuleDefinition frontmatter integrity for `.agent/rules/` assets, governed rules-index hygiene, and canonical schema-markdown governance under `.agent/schemas/`.
-- `SKILL_CHANGE_GOVERNANCE`: Glob-scoped governance rule requiring skill root README updates, strict SemVer version bumps, and vendored schema mirror resynchronization whenever files under .agent/skills/ change.
+- `skill-change-governance`: Glob-scoped governance rule requiring skill root README updates, strict SemVer version bumps, and vendored schema mirror resynchronization whenever files under .agent/skills/ change.
 
 ## Manifest
 
 ```yaml
 rules:
-- id: AGENT_TEMP_ARTIFACT_HYGIENE
-  definition: .agent/rules/AGENT_TEMP_ARTIFACT_HYGIENE.md
+- id: agent-temp-artifact-hygiene
+  definition: .agent/rules/agent-temp-artifact-hygiene.md
   asset_structure: flat-file
   category: always_on_rules
   trigger: always_on
   priority: high
-  implementation: .agent/rules/AGENT_TEMP_ARTIFACT_HYGIENE.md
+  implementation: .agent/rules/agent-temp-artifact-hygiene.md
   keywords:
   - rule
   - always_on
@@ -45,13 +45,13 @@ rules:
   use_when:
   - Always-on containment and cleanup policy for one-off agent scripts, diagnostics,
     and transient run artifacts in the Antigravity workspace.
-- id: POWERSHELL_EXECUTION_GUARDRAILS
-  definition: .agent/rules/POWERSHELL_EXECUTION_GUARDRAILS.md
+- id: powershell-execution-guardrails
+  definition: .agent/rules/powershell-execution-guardrails.md
   asset_structure: flat-file
   category: always_on_rules
   trigger: always_on
   priority: critical
-  implementation: .agent/rules/POWERSHELL_EXECUTION_GUARDRAILS.md
+  implementation: .agent/rules/powershell-execution-guardrails.md
   keywords:
   - rule
   - always_on
@@ -80,13 +80,13 @@ rules:
   - Enforces RuleDefinition frontmatter integrity for `.agent/rules/` assets, governed
     rules-index hygiene, and canonical schema-markdown governance under `.agent/schemas/`.
   globs: .agent/schemas/**/*.md, .agent/rules/**/*.md
-- id: SKILL_CHANGE_GOVERNANCE
-  definition: .agent/rules/SKILL_CHANGE_GOVERNANCE.md
+- id: skill-change-governance
+  definition: .agent/rules/skill-change-governance.md
   asset_structure: flat-file
   category: glob_rules
   trigger: glob
   priority: critical
-  implementation: .agent/rules/SKILL_CHANGE_GOVERNANCE.md
+  implementation: .agent/rules/skill-change-governance.md
   keywords:
   - rule
   - glob
@@ -105,18 +105,18 @@ rules:
 
 Records are grouped by trigger order (`always_on`, `glob`, `manual`, `auto`, `@mention`) and sorted by rule id within each group.
 
-### `AGENT_TEMP_ARTIFACT_HYGIENE`
+### `agent-temp-artifact-hygiene`
 
-- Definition: [`AGENT_TEMP_ARTIFACT_HYGIENE.md`](AGENT_TEMP_ARTIFACT_HYGIENE.md)
+- Definition: [`agent-temp-artifact-hygiene.md`](agent-temp-artifact-hygiene.md)
 - Best used for: Always-on containment and cleanup policy for one-off agent scripts, diagnostics, and transient run artifacts in the Antigravity workspace.
 - Trigger: `always_on` (always-on)
 - Priority: `high`
 - Execution tier: `standard`
 - Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
 
-### `POWERSHELL_EXECUTION_GUARDRAILS`
+### `powershell-execution-guardrails`
 
-- Definition: [`POWERSHELL_EXECUTION_GUARDRAILS.md`](POWERSHELL_EXECUTION_GUARDRAILS.md)
+- Definition: [`powershell-execution-guardrails.md`](powershell-execution-guardrails.md)
 - Best used for: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
 - Trigger: `always_on` (always-on)
 - Priority: `critical`
@@ -133,9 +133,9 @@ Records are grouped by trigger order (`always_on`, `glob`, `manual`, `auto`, `@m
 - Execution tier: `standard`
 - Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
 
-### `SKILL_CHANGE_GOVERNANCE`
+### `skill-change-governance`
 
-- Definition: [`SKILL_CHANGE_GOVERNANCE.md`](SKILL_CHANGE_GOVERNANCE.md)
+- Definition: [`skill-change-governance.md`](skill-change-governance.md)
 - Best used for: Glob-scoped governance rule requiring skill root README updates, strict SemVer version bumps, and vendored schema mirror resynchronization whenever files under .agent/skills/ change.
 - Trigger: `glob` (glob-scoped)
 - Priority: `critical`
