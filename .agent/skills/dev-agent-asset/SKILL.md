@@ -1,7 +1,7 @@
 ---
 name: dev-agent-asset
-version: 1.0.3
-description: Routes Antigravity agent-asset work to the correct owner contract using the local skills registry, deterministic owner-skill handoff, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct owner skill is unclear or mixed, or when determining whether schema work must happen first. Do not use when the request is already expressed in the exact vocabulary of a dedicated owner contract such as direct skill scaffolding, canonical schema authoring, workflow creation, implementation-plan generation, explicit issues-tracker maintenance, or standalone issue-report generation.
+version: 1.0.4
+description: Routes Antigravity agent-asset work to the correct owner contract using the local skills registry, deterministic owner-skill handoff, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct owner skill is unclear or mixed, or when determining whether schema work must happen first. Do not use when the request is already expressed in the exact vocabulary of a dedicated owner contract such as direct skill scaffolding, direct rule authoring, canonical schema authoring, workflow creation, implementation-plan generation, explicit issues-tracker maintenance, or standalone issue-report generation.
 ---
 
 <when_to_use>
@@ -23,6 +23,7 @@ description: Routes Antigravity agent-asset work to the correct owner contract u
 2. Read `.agent/skills/index.md` first and treat it as the discovery registry only. Use it to shortlist the most likely owner skill by intent, then open the linked owner `SKILL.md` before following any exact execution contract.
 3. Apply the direct-route matrix:
    - `dev-skill` for new or existing skill folders under `.agent/skills/`
+   - `dev-rule` for reusable rule assets under `.agent/rules/`
    - `dev-schema` for canonical `.agent/schemas/<schema-id>/` work and schema index regeneration
    - `dev-workflow` for reusable workflow assets under `.agent/workflows/`
    - `dev-implementation-plan` for governed implementation-plan artifacts under `.agent/plans/`
@@ -31,7 +32,7 @@ description: Routes Antigravity agent-asset work to the correct owner contract u
    - `agent-create-issue-report` for standalone single-issue reports
 4. If the request is a direct owner-skill match, stop using this skill as the primary execution contract. Read the selected owner `SKILL.md`, hand off explicitly to that owner path, and do not restate or supersede the downstream execution contract.
 5. Apply the schema-first fallback matrix only when no dedicated owner skill exists yet:
-   - Route `rule`, `task`, `index`, `walkthrough`, `security-policy`, `brainstorm`, `gemini`, and `uuid_registry` through `dev-schema`
+   - Route `task`, `index`, `walkthrough`, `security-policy`, `brainstorm`, `gemini`, and `uuid_registry` through `dev-schema`
    - Treat the example artifact or existing canonical example as the required input for schema authoring
    - After the schema work is clear, determine whether a downstream dedicated owner skill is still needed; do not invent that skill unless the request actually requires one
 6. Enforce hard RFQ gates before proceeding:
@@ -55,6 +56,7 @@ description: Routes Antigravity agent-asset work to the correct owner contract u
 <resources_reference>
 - Read `.agent/skills/index.md` first to shortlist the correct owner skill before opening any candidate execution contract.
 - Read `.agent/skills/dev-skill/SKILL.md` when the request is specifically about skill creation or refinement.
+- Read `.agent/skills/dev-rule/SKILL.md` when the request is specifically about rule creation, refinement, validation, or rules-index maintenance.
 - Read `.agent/skills/dev-schema/SKILL.md` when the request requires canonical schema authoring or schema-first fallback routing.
 - Read `.agent/skills/dev-workflow/SKILL.md` when the request is specifically about workflow assets.
 - Read `.agent/skills/dev-implementation-plan/SKILL.md` when the request is specifically about implementation-plan artifacts.

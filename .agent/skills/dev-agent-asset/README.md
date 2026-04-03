@@ -31,5 +31,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-02 | 1.0.1 | patch | Governance | Resynchronized the consumed index schema mirror after the canonical v1.1.0 hardening pass. |
 | 2026-04-02 | 1.0.2 | patch | Routing | Updated the direct-route matrix and packaged references to target the renamed direct-noun owner skills. |
 | 2026-04-03 | 1.0.3 | patch | Alignment | Tightened the router contract around discovery, deterministic owner handoff, and RFQ gates while explicitly preserving downstream owner skills as the authoritative execution contracts. |
+| 2026-04-03 | 1.0.4 | patch | Routing | Added `dev-rule` to the direct-route matrix, removed `rule` from schema-first fallback routing, and resynchronized the consumed index-schema mirror after rules-index adoption updates. |
 
 </modification_history>

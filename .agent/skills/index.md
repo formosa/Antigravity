@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across current owner skills.
 >
-> Total skills: `10`
+> Total skills: `11`
 >
 > Parent: [`.agent/`](..)
 >
@@ -24,6 +24,7 @@
 - `codex-brainstorm`: capture or reorganize governed brainstorming content in `brainstorm.md`.
 - `dev-agent-asset`: classify agent-asset requests and route them to the correct owner contract or schema-first path.
 - `dev-implementation-plan`: produce a governed implementation-plan artifact before execution begins.
+- `dev-rule`: create or standardize reusable rule assets and keep the rules index aligned.
 - `dev-schema`: create or update canonical `.d.ts` schemas and related schema governance assets.
 - `dev-skill`: scaffold or standardize skill folders under `.agent/skills/`.
 - `dev-workflow`: create or standardize reusable workflows under `.agent/workflows/`.
@@ -113,6 +114,21 @@ skills:
     use_when:
       - drafting a formal implementation plan before execution
       - regenerating or auditing an implementation-plan artifact
+
+  - id: dev-rule
+    definition: .agent/skills/dev-rule/SKILL.md
+    category: orchestration_and_authoring
+    implementation: .agent/skills/dev-rule/
+    keywords:
+      - rule
+      - scaffold
+      - validation
+      - index
+      - constraints
+    use_when:
+      - creating or updating reusable rules under .agent/rules/
+      - validating rule assets and keeping the rules index synchronized
+      - maintaining owner-managed rule governance assets
 
   - id: dev-schema
     definition: .agent/skills/dev-schema/SKILL.md
@@ -217,6 +233,13 @@ skills:
 - Best used for: producing a formal implementation-plan artifact before execution begins.
 - Open the linked definition when naming rules, phase structure, or verification mapping matters.
 
+### `dev-rule`
+
+- Definition: [`dev-rule/SKILL.md`](dev-rule/SKILL.md)
+- Implementation: [`.agent/skills/dev-rule/`](dev-rule)
+- Best used for: authoring deterministic rule assets with scaffold, validation, and rules-index synchronization.
+- Open the linked definition when rule structure, trigger semantics, validation checks, or rules-index regeneration matters.
+
 ### `dev-schema`
 
 - Definition: [`dev-schema/SKILL.md`](dev-schema/SKILL.md)
@@ -250,8 +273,8 @@ skills:
 - `ddr_authoring_and_analysis`: `1`
 - `formatting_and_refactoring`: `1`
 - `issue_artifacts`: `3`
-- `orchestration_and_authoring`: `5`
-- `total`: `10`
+- `orchestration_and_authoring`: `6`
+- `total`: `11`
 
 ## Index Boundaries
 

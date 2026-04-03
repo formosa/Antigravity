@@ -34,5 +34,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-02 | 1.0.2 | patch | Governance | Clarified workflow-trigger boundaries, annotated schema resources as read operations, removed unused scaffold artifacts, and synchronized the vendored skill schema mirror to the repaired canonical contract. |
 | 2026-04-02 | 1.1.0 | minor | Rename | Finalized the direct-noun owner contract name and updated active authority surfaces to use `dev-workflow`. |
 | 2026-04-03 | 1.2.0 | minor | Owner Contract | Promoted `dev-workflow` to a full owner contract for workflow assets by declaring ownership of the canonical workflow schema, adding the consumed workflow-index contract, and aligning the package around scaffold, validation, and index-sync tooling. |
+| 2026-04-03 | 1.2.1 | patch | Mirror Sync | Resynchronized the consumed index-schema mirror after `.agent/rules/index.md` adopted the full-form directory-index contract. |
 
 </modification_history>
