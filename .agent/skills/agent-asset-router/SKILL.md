@@ -1,14 +1,14 @@
 ---
 name: agent-asset-router
-version: 2.0.0
-description: Routes Antigravity agent-asset work to the correct dedicated execution contract using the local skills registry, deterministic direct-route handoff, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct direct-route skill is unclear or mixed, or when determining whether schema work must happen first. Do not use when the request is already expressed in the exact vocabulary of a dedicated execution contract such as direct skill scaffolding, direct rule authoring, canonical schema authoring, workflow creation, implementation-plan generation, explicit issues-tracker maintenance, or standalone issue-report generation.
+version: 2.1.0
+description: Routes Antigravity agent-asset work to the correct dedicated execution contract using the local skills registry, deterministic direct-route handoff, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct direct-route skill is unclear or mixed, or when determining whether schema work must happen first. Do not use when the request is already expressed in the exact vocabulary of a dedicated execution contract such as direct skill scaffolding, direct rule authoring, canonical schema authoring, workflow creation, implementation-plan generation, brainstorm artifact maintenance, explicit issues-tracker maintenance, or standalone issue-report generation.
 ---
 
 <when_to_use>
 - Use when the user asks for an Antigravity agent asset and the request is framed at the asset layer rather than in the exact language of a dedicated execution contract.
 - Use when the request mixes asset-authoring concerns, such as asking for a new agent asset category, asking whether a report should become a skill or schema, or asking for one front-door skill to cover several asset families.
 - Use when the request needs schema-first classification for asset families that do not yet have a dedicated owner skill.
-- Do not use when the request is already clearly and narrowly expressed as direct skill scaffolding, canonical schema authoring, workflow creation, implementation-plan drafting, explicit issues-tracker maintenance, or standalone issue-report generation.
+- Do not use when the request is already clearly and narrowly expressed as direct skill scaffolding, canonical schema authoring, workflow creation, implementation-plan drafting, brainstorm artifact creation or maintenance, explicit issues-tracker maintenance, or standalone issue-report generation.
 - Do not use when the task is an ordinary project feature change outside `.agent/`.
 - `asset-rule`, `asset-skill`, and `asset-workflow` are the current direct-route runtime-routed owner skills and intentionally follow the `asset-<asset-family>` naming family.
 - Example prompt: "Create a front-door skill for agent assets and make sure it routes to the right owner contracts."
@@ -28,14 +28,15 @@ description: Routes Antigravity agent-asset work to the correct dedicated execut
    - `dev-schema` for canonical `.agent/schemas/<schema-id>/` work and schema index regeneration
    - `asset-workflow` for reusable workflow assets under `.agent/workflows/`
    - `artifact-implementation-plan` for governed implementation-plan artifacts under `.agent/plans/`
+   - `artifact-brainstorm` for governed brainstorm artifacts such as `brainstorm.md`
    - `agent-create-issues-tracker` for blank tracker initialization
    - `agent-update-issues-tracker` for tracker refresh, migration, or comparative-analysis updates
    - `agent-create-issue-report` for standalone single-issue reports
-   - Treat `asset-rule`, `asset-skill`, and `asset-workflow` as the runtime-routed owner-skill family that intentionally uses `asset-<asset-family>` naming; treat `artifact-implementation-plan` as the active `artifact-<artifact-family>` owner; keep `dev-schema` and this router outside those owner-name families
+   - Treat `asset-rule`, `asset-skill`, and `asset-workflow` as the runtime-routed owner-skill family that intentionally uses `asset-<asset-family>` naming; treat `artifact-implementation-plan` and `artifact-brainstorm` as the active `artifact-<artifact-family>` owners; keep `dev-schema` and this router outside those owner-name families
    - Treat `agent-artifact-router` as a reserved future route name only; do not create it or route to it unless a later contract explicitly introduces that router
 4. If the request is a direct dedicated-contract match, stop using this skill as the primary execution contract. Read the selected `SKILL.md`, hand off explicitly to that path, and do not restate or supersede the downstream execution contract.
 5. Apply the schema-first fallback matrix only when no dedicated owner skill exists yet:
-   - Route `task`, `index`, `walkthrough`, `security-policy`, `brainstorm`, `gemini`, and `uuid_registry` through `dev-schema`
+   - Route `task`, `index`, `walkthrough`, `security-policy`, `gemini`, and `uuid_registry` through `dev-schema`
    - Treat the example artifact or existing canonical example as the required input for schema authoring
    - After the schema work is clear, determine whether a downstream dedicated owner skill is still needed; do not invent that skill unless the request actually requires one
 6. Enforce hard RFQ gates before proceeding:
@@ -63,6 +64,7 @@ description: Routes Antigravity agent-asset work to the correct dedicated execut
 - Read `.agent/skills/dev-schema/SKILL.md` when the request requires canonical schema authoring or schema-first fallback routing.
 - Read `.agent/skills/asset-workflow/SKILL.md` when the request is specifically about workflow assets.
 - Read `.agent/skills/artifact-implementation-plan/SKILL.md` when the request is specifically about implementation-plan artifacts.
+- Read `.agent/skills/artifact-brainstorm/SKILL.md` when the request is specifically about brainstorm artifacts.
 - Read `.agent/skills/agent-create-issues-tracker/SKILL.md` when the request is to initialize a blank issues tracker.
 - Read `.agent/skills/agent-update-issues-tracker/SKILL.md` when the request is to refresh, migrate, or expand an existing issues tracker.
 - Read `.agent/skills/agent-create-issue-report/SKILL.md` when the request is to author a standalone single-issue report.

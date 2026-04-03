@@ -24,7 +24,7 @@ This document defines the shared owner-skill taxonomy and pattern used by Antigr
   - serve as the dedicated utility for creating, editing, regenerating, auditing, or otherwise managing those artifacts
   - may govern artifact paths without owning a directory index
   - should prefer the naming convention `artifact-<artifact-family>`
-- `artifact-implementation-plan` is the current `Artifact-Centric Owner` for implementation-plan artifacts.
+- `artifact-implementation-plan` and `artifact-brainstorm` are the current `Artifact-Centric Owner` skills for implementation-plan and brainstorm artifacts.
 - Routing skills should prefer the `*-router` suffix when the contract is orchestration-first rather than owner-first.
 - `agent-asset-router` is the current runtime-routed front-door router, and `agent-artifact-router` is the reserved future router name for artifact-centric routing.
 - Standard non-owner, non-router skills should use lowercase hyphen-case naming.
@@ -40,7 +40,7 @@ This document defines the shared owner-skill taxonomy and pattern used by Antigr
 - When a dedicated governance rule is warranted, name it `dev-<owned-asset>-governance` and scope it to the owned asset directory instead of mixing multiple governance surfaces into one rule.
 - Front-door routers remain non-owner skills unless they later gain their own governed asset-family lifecycle.
 - Split-lifecycle artifact families remain non-owner until one dedicated skill owns creation, modification, and management for that family.
-- Single-purpose creators or consumers such as issue-report or issue-tracker skills, and brainstorm skills remain non-owner unless they later gain non-empty `owned_schema_ids` plus an owned full-lifecycle contract.
+- Single-purpose creators or consumers such as issue-report or issue-tracker skills remain non-owner unless they later gain non-empty `owned_schema_ids` plus an owned full-lifecycle contract.
 - Empty or index-only asset families may defer a dedicated governance rule until at least one live non-index asset exists or the lifecycle invariants exceed what the owner skill's scripts can enforce directly.
 
 </owner_skill_pattern>

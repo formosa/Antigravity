@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Validate brainstorm.md documents managed by codex-brainstorm.
+Validate brainstorm.md documents managed by artifact-brainstorm.
 """
 
 from __future__ import annotations

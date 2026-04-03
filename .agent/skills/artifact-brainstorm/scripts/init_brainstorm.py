@@ -15,9 +15,8 @@ DEFAULT_SEED = REPO_ROOT / ".agent" / "schemas" / "brainstorm" / "seed.md"
 DEFAULT_SOURCE_REFERENCE = (
     REPO_ROOT
     / ".agent"
-    / "skills"
-    / "codex-brainstorm"
-    / "resources"
+    / "schemas"
+    / "brainstorm"
     / "DDR_AppFramework_Brainstorm.docx"
 )
 

@@ -35,5 +35,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 1.0.5 | patch | Terminology | Aligned active router wording with the formal `Owner Skill` definition by switching broad owner-skill references to direct-route or dedicated-contract language while preserving owner-skill terminology only for actual owner-family cases. |
 | 2026-04-03 | 1.0.6 | patch | Naming Convention | Clarified that `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family using `asset-<asset-family>` naming while keeping `dev-schema` and the router itself outside that family. |
 | 2026-04-03 | 2.0.0 | major | Naming Hardening | Hardened the router contract around the active `asset-*`, `artifact-*`, and `*-router` naming families, updated the direct-route matrix to use the renamed owner packages, and reserved `agent-artifact-router` as a future concept only. |
+| 2026-04-03 | 2.1.0 | minor | Routing | Added `artifact-brainstorm` to the direct-route matrix, removed `brainstorm` from schema-first fallback routing, and aligned the router with brainstorm's promotion to an Artifact-Centric Owner. |
 
 </modification_history>

@@ -41,9 +41,9 @@
 | Status           | LIVING DOCUMENT - Append-Only Until Promoted                                                                  |
 | Owner            | DDR Architecture Board                                                                                        |
 | Created          | 2026-03-30                                                                                                    |
-| Last Revised     | 2026-03-30                                                                                                    |
+| Last Revised     | 2026-04-03                                                                                                    |
 | Schema           | BRAIN-ENTRY-1.1                                                                                               |
-| Reference Source | `C:/AI/10162025/maggie/Antigravity/.agent/skills/codex-brainstorm/resources/DDR_AppFramework_Brainstorm.docx` |
+| Reference Source | `C:/AI/10162025/maggie/Antigravity/.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.docx`                |
 
 > LIVING DOCUMENT NOTICE: This document is intentionally incomplete. It is a structured collection
 > point for ideas, candidates, and architectural directions that are not yet committed to any

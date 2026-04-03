@@ -2,7 +2,7 @@
 
 | Schema Name | Version | Primary Skill | Description |
 | :--- | :--- | :--- | :--- |
-| brainstorm | 1.0.0 | codex-brainstorm | This package defines the governed Markdown contract for the DDR App Framework brainstorming |
+| brainstorm | v1.0.1 | artifact-brainstorm | This document establishes the canonical local contract for Antigravity brainstorm artifacts and the owner-managed lifecycle used to seed, validate, repair, and maintain governed `brainstorm.md` compendia. |
 | gemini | v1.1.1 | dev-schema | This document establishes the verified architectural foundation for the `GEMINI.md` asset, which serves as a supported Gemini-specific configuration surface within the Antigravity IDE v1.18.3 ecosystem using Gemini 3.1 Pro. In workspaces that also provide `AGENTS.md`, rules may be loaded from `AGENTS.md` first while `GEMINI.md` remains an auxiliary configuration surface for Gemini-specific controls. |
 | implementation-plan | v1.20.5 | artifact-implementation-plan | This document serves as the verified reference for the architectural design of Implementation Plan artifacts within the Antigravity IDE v1.20.5 ecosystem, optimized for Gemini 3.1 Pro Preview's deep reasoning and agentic execution capabilities. |
 | index | v1.2.1 | dev-schema | This document establishes the schema contract for folder-level agent asset indexes such as `.agent/tools/index.md` and `.agent/skills/index.md`. The target artifact is a deterministic registry that supports both first-pass agent routing and fast human scanning without becoming the authoritative execution contract for the assets it lists. |

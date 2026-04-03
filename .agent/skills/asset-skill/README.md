@@ -5,6 +5,7 @@ This document records lifecycle governance, canonical schema relationships, and 
 </document_purpose>
 
 <authority_order>
+
 1. `SKILL.md` - authoritative execution and routing contract for the skill.
 2. This `README.md` - authoritative lifecycle, schema relationship, and modification history record for the skill.
 3. Canonical schema directories listed in `<schema_relationships>` under `.agent/schemas/`.
@@ -12,6 +13,7 @@ This document records lifecycle governance, canonical schema relationships, and 
 </authority_order>
 
 <schema_relationships>
+
 ```yaml
 schema_of_this_skill: skill
 owned_schema_ids:
@@ -20,6 +22,7 @@ consumed_schema_ids: []
 mirror_root: resources/schema/
 mirror_policy: read-only-derived-from-.agent/schemas
 ```
+
 </schema_relationships>
 
 <modification_history>
@@ -36,5 +39,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 2.4.3 | patch | Naming Convention | Codified `asset-<asset-family>` as the runtime-routed owner-skill naming family for `rule`, `skill`, and `workflow`, added soft validator guidance for future owner skills, and aligned skill-authoring instructions with that convention. |
 | 2026-04-03 | 2.5.0 | minor | Owner Taxonomy | Added the `Artifact-Centric Owner` subtype beside runtime-routed owner skills, aligned skill-authoring guidance with the broadened taxonomy, and updated validation/scaffolding references so non-runtime artifact owners are treated as first-class owner contracts. |
 | 2026-04-03 | 3.0.0 | major | Naming Hardening | Hardened the active skill naming families around `asset-*`, `artifact-*`, and `*-router`, updated validator and scaffolder guidance to prefer those families, and aligned the renamed owner and router skill packages to the new contract. |
+| 2026-04-03 | 3.0.1 | patch | Owner Taxonomy | Updated the shared owner-skill taxonomy resource to recognize `artifact-brainstorm` as an Artifact-Centric Owner and removed brainstorm from the non-owner exception list. |
 
 </modification_history>

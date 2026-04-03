@@ -1,10 +1,11 @@
 ---
 name: asset-skill
-version: 3.0.0
+version: 3.0.1
 description: Authors or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder, including runtime-routed owner skills, artifact-centric owner skills, and routing contracts. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
 ---
 
 <when_to_use>
+
 - Use when the user asks to create, scaffold, template, standardize, or harden a skill in `.agent/skills/...`.
 - Use when the task is to improve skill triggering, `SKILL.md` structure, bundled resource layout, or skill packaging and validation behavior.
 - Do not use when the request is to create a workflow, schema, implementation plan, or ordinary project code change outside a skill folder.
@@ -13,6 +14,7 @@ description: Authors or refines Antigravity-compatible skills with explicit trig
 </when_to_use>
 
 <how_to_use>
+
 1. Gather 2-3 concrete requests that the target skill must handle. Extract the trigger phrases, required inputs, expected outputs, and adjacent tasks it must reject.
 2. Decide the minimum skill shape:
    - Leave the skill instruction-only unless deterministic scripts or assets remove repeated code or reduce ambiguity.
@@ -49,6 +51,7 @@ description: Authors or refines Antigravity-compatible skills with explicit trig
 </constraints>
 
 <resources_reference>
+
 - Run `.agent/skills/asset-skill/scripts/init_skill.py` to scaffold the minimal skill directory and optional folders.
 - Run `.agent/skills/asset-skill/scripts/sync_schema_mirrors.py` to refresh `resources/schema/<schema-id>/` from canonical `.agent/schemas/` definitions.
 - Run `.agent/skills/asset-skill/scripts/quick_validate.py` to detect structural errors and quality warnings before packaging.

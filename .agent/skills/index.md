@@ -16,14 +16,14 @@
 2. Use the manifest to confirm the skill category, definition path, and best-fit use conditions.
 3. Open the linked `SKILL.md` before acting whenever exact routing boundaries, execution steps, or validation protocol matter.
 
-> Naming note: `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family and intentionally use `asset-<asset-family>`. `artifact-implementation-plan` is the current artifact-centric owner and intentionally uses `artifact-<artifact-family>`. Routing skills should prefer `*-router`; `agent-asset-router` is active and `agent-artifact-router` is reserved for future use only. Standard non-owner, non-router skills remain lowercase hyphen-case. Legacy unlisted skills are outside this migration scope, and listed exceptions such as `dev-schema` remain explicit legacy contracts until replaced.
+> Naming note: `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family and intentionally use `asset-<asset-family>`. `artifact-implementation-plan` and `artifact-brainstorm` are the current artifact-centric owners and intentionally use `artifact-<artifact-family>`. Routing skills should prefer `*-router`; `agent-asset-router` is active and `agent-artifact-router` is reserved for future use only. Standard non-owner, non-router skills remain lowercase hyphen-case. Legacy unlisted skills are outside this migration scope, and listed exceptions such as `dev-schema` remain explicit legacy contracts until replaced.
 
 ## Selection Map
 
 - `agent-create-issue-report`: generate one standalone resolution report for a single tracked issue.
 - `agent-create-issues-tracker`: initialize a blank issues tracker from the canonical template.
 - `agent-update-issues-tracker`: reevaluate and update an existing issues tracker against local evidence.
-- `codex-brainstorm`: capture or reorganize governed brainstorming content in `brainstorm.md`.
+- `artifact-brainstorm`: serve as the Artifact-Centric Owner for governed brainstorm artifacts such as `brainstorm.md`.
 - `agent-asset-router`: classify agent-asset requests and route them to the correct dedicated execution contract or schema-first path.
 - `artifact-implementation-plan`: serve as the Artifact-Centric Owner for governed implementation-plan artifacts before execution begins.
 - `asset-rule`: create or standardize reusable rule assets and keep the rules index aligned.
@@ -76,18 +76,19 @@ skills:
       - updating or migrating an existing issues tracker
       - adding comparative analysis or refreshed evidence to tracked issues
 
-  - id: codex-brainstorm
-    definition: .agent/skills/codex-brainstorm/SKILL.md
-    category: ddr_authoring_and_analysis
-    implementation: .agent/skills/codex-brainstorm/
+  - id: artifact-brainstorm
+    definition: .agent/skills/artifact-brainstorm/SKILL.md
+    category: orchestration_and_authoring
+    implementation: .agent/skills/artifact-brainstorm/
     keywords:
       - brainstorm
       - ideas
       - hypotheses
       - candidates
+      - artifact-centric-owner
     use_when:
-      - capturing or reorganizing brainstorming artifacts
-      - maintaining governed `brainstorm.md` content
+      - drafting, repairing, validating, or auditing governed brainstorm artifacts
+      - using the dedicated owner utility for brainstorm artifact lifecycle management
 
   - id: agent-asset-router
     definition: .agent/skills/agent-asset-router/SKILL.md
@@ -215,12 +216,12 @@ skills:
 - Best used for: refreshing, migrating, or expanding an existing issues tracker using local evidence.
 - Open the linked definition when filtered mode, migration behavior, or citation requirements matter.
 
-### `codex-brainstorm`
+### `artifact-brainstorm`
 
-- Definition: [`codex-brainstorm/SKILL.md`](codex-brainstorm/SKILL.md)
-- Implementation: [`.agent/skills/codex-brainstorm/`](codex-brainstorm)
-- Best used for: governed brainstorming capture and reorganization in `brainstorm.md`.
-- Open the linked definition when brainstorm formatting, citation rules, or Mermaid policy matters.
+- Definition: [`artifact-brainstorm/SKILL.md`](artifact-brainstorm/SKILL.md)
+- Implementation: [`.agent/skills/artifact-brainstorm/`](artifact-brainstorm)
+- Best used for: serving as the Artifact-Centric Owner utility for brainstorm artifact creation, repair, validation, and governance in `brainstorm.md`.
+- Open the linked definition when brainstorm formatting, citation rules, validator usage, or owner-boundary behavior matters.
 
 ### `agent-asset-router`
 
@@ -273,10 +274,9 @@ skills:
 
 ## Category Totals
 
-- `ddr_authoring_and_analysis`: `1`
 - `formatting_and_refactoring`: `1`
 - `issue_artifacts`: `3`
-- `orchestration_and_authoring`: `6`
+- `orchestration_and_authoring`: `7`
 - `total`: `11`
 
 ## Index Boundaries
