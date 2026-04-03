@@ -30,5 +30,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-01 | 2.2.0 | minor | Governance | Expanded scaffolding, validation, and packaging to require root skill READMEs and synced vendored schema mirrors. |
 | 2026-04-02 | 2.2.1 | patch | Governance | Aligned the validator and canonical skill schema wording around required blocks, refreshed contract messaging to be version-agnostic, and synchronized the vendored skill schema mirror to the repaired canonical contract. |
 | 2026-04-02 | 2.3.0 | minor | Rename | Finalized the direct-noun owner contract name and updated active authority surfaces to use `dev-skill`. |
+| 2026-04-03 | 2.4.0 | minor | Owner Pattern | Added a shared owner-skill pattern resource and updated the active skill-authoring contract to reuse that pattern when scaffolding future owner skills. |
 
 </modification_history>

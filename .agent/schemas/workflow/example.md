@@ -1,12 +1,7 @@
 ---
 name: strict-integration-deploy
-description: Orchestrates a highly deterministic deployment pipeline involving static analysis, artifact generation, testing, and conditional merging using Gemini 3.1 Pro.
-# HUMAN CONTEXT: This example demonstrates advanced agentic workflow capabilities
-# by utilizing split-step verification (forcing explicit human approval of artifacts),
-# dynamic semantic skill triggers (invoking diagnostic skills upon linting errors),
-# deterministic decision trees (handling test suite outputs through explicit logic forks),
-# and XML content fencing (isolating strict changelog formatting rules within active steps)
-# to enforce the "Trust but Verify" paradigm.
+version: 1.0.0
+description: Orchestrates a deterministic deployment workflow involving audit generation, static validation, testing, and release-document updates.
 ---
 
 ### steps

@@ -1,7 +1,7 @@
 ---
 name: dev-skill
-version: 2.3.0
-description: Authors or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
+version: 2.4.0
+description: Authors or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder, including future owner-contract skills. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
 ---
 
 <when_to_use>
@@ -18,6 +18,7 @@ description: Authors or refines Antigravity-compatible skills with explicit trig
    - Leave the skill instruction-only unless deterministic scripts or assets remove repeated code or reduce ambiguity.
    - Add scripts only for repeatable, high-risk, or machine-verifiable steps.
    - Add resources only when detailed reference material should stay out of `SKILL.md` until needed.
+   - If the target skill will own an asset family, read the shared owner-skill pattern and mirror its governance split instead of inventing a new package shape.
 3. Scaffold the base skill directory with `python .agent/skills/dev-skill/scripts/init_skill.py <skill-name> --path <output-directory>` and add opt-in flags only for the directories or examples you actually need.
 4. Write the target `SKILL.md`:
    - make `description` explicit about what the skill does, when it should trigger, and when it should not
@@ -48,6 +49,7 @@ description: Authors or refines Antigravity-compatible skills with explicit trig
 - Run `.agent/skills/dev-skill/scripts/sync_schema_mirrors.py` to refresh `resources/schema/<schema-id>/` from canonical `.agent/schemas/` definitions.
 - Run `.agent/skills/dev-skill/scripts/quick_validate.py` to detect structural errors and quality warnings before packaging.
 - Run `.agent/skills/dev-skill/scripts/package_skill.py` to build a clean `.skill` archive after validation passes.
+- Read `.agent/skills/dev-skill/resources/owner-skill-pattern.md` when the target skill will own a governed asset family and must align with the shared owner-skill lifecycle.
 - Read `.agent/skills/dev-skill/resources/workflows.md` to author observable decision branches and validation loops instead of unverifiable internal reasoning instructions.
 - Read `.agent/skills/dev-skill/resources/output-patterns.md` to preserve Antigravity artifact and output expectations when the new skill emits structured files.
 - Read `.agent/skills/dev-skill/resources/schema/skill/skill.d.ts` to confirm the active frontmatter and XML block contract.

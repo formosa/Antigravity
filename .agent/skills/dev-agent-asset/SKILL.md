@@ -1,7 +1,7 @@
 ---
 name: dev-agent-asset
-version: 1.0.2
-description: Routes Antigravity agent-asset work to the correct owner contract using the local skills registry, direct owner-skill delegation, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct owner skill is unclear or mixed, or when determining whether schema work must happen first. Do not use when the request is already expressed in the exact vocabulary of a dedicated owner contract such as direct skill scaffolding, canonical schema authoring, workflow creation, implementation-plan generation, explicit issues-tracker maintenance, or standalone issue-report generation.
+version: 1.0.3
+description: Routes Antigravity agent-asset work to the correct owner contract using the local skills registry, deterministic owner-skill handoff, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct owner skill is unclear or mixed, or when determining whether schema work must happen first. Do not use when the request is already expressed in the exact vocabulary of a dedicated owner contract such as direct skill scaffolding, canonical schema authoring, workflow creation, implementation-plan generation, explicit issues-tracker maintenance, or standalone issue-report generation.
 ---
 
 <when_to_use>
@@ -29,7 +29,7 @@ description: Routes Antigravity agent-asset work to the correct owner contract u
    - `agent-create-issues-tracker` for blank tracker initialization
    - `agent-update-issues-tracker` for tracker refresh, migration, or comparative-analysis updates
    - `agent-create-issue-report` for standalone single-issue reports
-4. If the request is a direct owner-skill match, stop using this skill as the primary execution contract. Read the selected owner `SKILL.md` and continue the task under that skill's instructions.
+4. If the request is a direct owner-skill match, stop using this skill as the primary execution contract. Read the selected owner `SKILL.md`, hand off explicitly to that owner path, and do not restate or supersede the downstream execution contract.
 5. Apply the schema-first fallback matrix only when no dedicated owner skill exists yet:
    - Route `rule`, `task`, `index`, `walkthrough`, `security-policy`, `brainstorm`, `gemini`, and `uuid_registry` through `dev-schema`
    - Treat the example artifact or existing canonical example as the required input for schema authoring
@@ -39,7 +39,7 @@ description: Routes Antigravity agent-asset work to the correct owner contract u
    - If the user asks to define a new asset class and also author the final asset instance in the same pass, halt with `RFQ` and require the class/contract decision first
    - If schema-first routing is required but no governing example artifact or authoritative sample is available, halt with `RFQ` naming the missing example
    - If the request asks for outputs that belong to conflicting owner skills in a single atomic change, halt with `RFQ` and split the workstreams explicitly
-7. Keep this skill instruction-only by default. Add local scripts or extra references only if the routing policy can no longer be expressed deterministically in `SKILL.md`.
+7. Keep this skill orchestration-only and instruction-only by default. Do not add local scripts unless deterministic routing can no longer be expressed directly in `SKILL.md`.
 8. Before completing the task, verify that the chosen owner path is explicit, that no extra asset family was invented silently, and that all generated or modified files still defer to their canonical owner contracts.
 </how_to_use>
 
@@ -61,6 +61,7 @@ description: Routes Antigravity agent-asset work to the correct owner contract u
 - Read `.agent/skills/agent-create-issues-tracker/SKILL.md` when the request is to initialize a blank issues tracker.
 - Read `.agent/skills/agent-update-issues-tracker/SKILL.md` when the request is to refresh, migrate, or expand an existing issues tracker.
 - Read `.agent/skills/agent-create-issue-report/SKILL.md` when the request is to author a standalone single-issue report.
+- Read `.agent/skills/dev-skill/resources/owner-skill-pattern.md` to preserve shared owner-skill governance vocabulary while keeping this router orchestration-only.
 - Read `resources/schema/skill/skill.d.ts` to confirm the required skill frontmatter and XML block contract.
 - Read `resources/schema/index/index.d.ts` to verify the directory-index structure used by `.agent/skills/index.md`.
 - Read `resources/schema/index/example.md` to preserve the canonical section order and authority-boundary language for the skills registry.

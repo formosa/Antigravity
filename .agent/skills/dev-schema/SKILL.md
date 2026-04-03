@@ -1,7 +1,7 @@
 ---
 name: dev-schema
-version: 2.3.0
-description: Authors and updates canonical Antigravity `.d.ts` schema files via scaffold, strict validation, schema-governance README maintenance, and owner-aware index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
+version: 2.3.1
+description: Authors and updates canonical Antigravity `.d.ts` schema files via scaffold, strict validation, schema-governance README maintenance, and owner-aware index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index for an owner-managed asset family. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
 ---
 
 <when_to_use>
@@ -60,6 +60,7 @@ description: Authors and updates canonical Antigravity `.d.ts` schema files via 
 - Run `.agent/skills/dev-schema/scripts/scaffold_schema.py` to create the initial schema directory and copy the source example.
 - Run `.agent/skills/dev-schema/scripts/validate_schema.py` to type-check the generated `.d.ts` file and roll back on failure.
 - Run `.agent/skills/dev-schema/scripts/update_index.py` to rebuild the `.agent/schemas/index.md` directory index after any schema change.
+- Read `.agent/skills/dev-skill/resources/owner-skill-pattern.md` when the schema change affects owner-skill governance, validation-first lifecycle wording, or canonical-versus-vendored mirror policy.
 - Read `.agent/skills/dev-schema/resources/schema/schema/schema.d.ts` to understand the TypeScript interface contract for canonical Antigravity schema files.
 - Read `.agent/skills/dev-schema/resources/schema/schema/README.md` to understand the authority order, governance metadata, and vendored-mirror distribution model.
 - Read `.agent/skills/dev-schema/resources/schema/schema/example.md` to see a representative example of a correctly structured schema artifact.

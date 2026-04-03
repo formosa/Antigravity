@@ -1,4 +1,4 @@
-# DESIGN_JUSTIFICATION: Asset Directory Index Schema v1.1.0
+# DESIGN_JUSTIFICATION: Asset Directory Index Schema v1.2.0
 
 <document_purpose>
 This document establishes the schema contract for folder-level agent asset indexes such as `.agent/tools/index.md` and `.agent/skills/index.md`. The target artifact is a deterministic registry that supports both first-pass agent routing and fast human scanning without becoming the authoritative execution contract for the assets it lists.
@@ -11,7 +11,7 @@ This document establishes the schema contract for folder-level agent asset index
 - **Manifest + Records Split:** The fenced YAML manifest provides normalized machine-oriented fields, while the detailed records provide concise explanatory prose. This avoids overloading either representation and keeps machine parsing separate from human interpretation.
 - **Authority Boundary Preservation:** The schema requires an explicit authority rule in the preamble and an `Index Boundaries` section. This prevents the index from silently superseding the linked asset definitions and reduces hallucination surface area.
 - **Shared Metadata Coverage:** The manifest model standardizes common discovery metadata across full-form indexes, including rule activation fields (`trigger`, `globs`, `priority`), the `asset_structure` discriminant, and flat manifest/record escape hatches for low-entropy asset-specific extensions.
-- **Current Adoption Boundary:** [`.agent/tools/index.md`](../../tools/index.md) and [`.agent/skills/index.md`](../../skills/index.md) are the current conforming examples of the full-form contract. [`.agent/rules/INDEX.md`](../../rules/INDEX.md) and [`.agent/workflows/index.md`](../../workflows/index.md) are still lightweight registries and do not yet implement the full schema surface end-to-end.
+- **Current Adoption Boundary:** [`.agent/tools/index.md`](../../tools/index.md), [`.agent/skills/index.md`](../../skills/index.md), and [`.agent/workflows/index.md`](../../workflows/index.md) are the current conforming examples of the full-form contract. [`.agent/rules/INDEX.md`](../../rules/INDEX.md) remains a lightweight registry and does not yet implement the full schema surface end-to-end.
 - **Schemas-Directory Governance Exception:** [`.agent/schemas/index.md`](../index.md) is a generated table-only lookup maintained by `dev-schema`. It intentionally does not conform to `AssetDirectoryIndexDefinition` because schema discovery does not require the selection-map, manifest, detailed-record, and authority-boundary apparatus used for runtime asset routing.
 
 </schema_evaluation_and_justification>
@@ -47,6 +47,7 @@ This document establishes the schema contract for folder-level agent asset index
 | :--------- | :------ | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-04-01 | v1.0.0  | Initial Release | Created `index.d.ts` and supporting documentation for generic folder-level agent asset indexes, using `.agent/tools/index.md` as the seed example. |
 | 2026-04-02 | v1.1.0  | Schema Hardening | Typed shared rule metadata, added `asset_structure`, added record escape-hatch parity, corrected live-adoption claims, and documented the generated schemas-index exception. |
+| 2026-04-03 | v1.2.0  | Adoption Update | Promoted `.agent/workflows/index.md` to the full-form directory-index contract and updated the live-adoption guidance to treat workflows as a governed index surface rather than a lightweight exception. |
 
 </modification_history>
 

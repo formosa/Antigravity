@@ -1,54 +1,8 @@
-# DESIGN_JUSTIFICATION: Antigravity Workflow Assets v1.18.3
+# DESIGN_JUSTIFICATION: Antigravity Workflow Assets v1.2.0
 
 <document_purpose>
-This document serves as the verified, single-source-of-truth reference for the architectural design of Workflow assets within the Antigravity IDE v1.18.3 ecosystem. It is formatted explicitly for ingestion by Gemini 3.1 Pro and Gemini 3 Flash models.
+This document establishes the canonical local contract for Antigravity workflow assets and the owner-managed lifecycle used to scaffold, validate, and index those workflows.
 </document_purpose>
-
-<schema_evaluation_and_justification>
-
-- **Frontmatter Parsing:** The IDE v1.18.3 routing engine mandates a `description` field for semantic discovery. The `name` field is optional, defaulting to the file name if omitted.
-- **Artifact-Driven Structures:** Workflows must enforce the Antigravity Artifacts System. Agents are required to generate structured, human-verifiable deliverables (e.g., `Implementation_Plan.md`, `Pre_Deployment_Audit.md`) rather than opaque raw tool calls.
-- **Cognitive Optimization:** Workflows leverage Gemini 3.1 Pro's advanced reasoning engine by embedding decision trees directly into the Markdown steps, forcing deterministic logic paths when edge cases occur.
-- **XML Content Fencing:** XML tags (e.g., `<execution_constraints>`) are strategically deployed within atomic steps to isolate strict rules from active instructions, preventing instruction drift without sacrificing human readability.
-</schema_evaluation_and_justification>
-
-<authoritative_reference_repository>
-
-1. [Google Antigravity - Wikipedia](https://en.wikipedia.org/wiki/Google_Antigravity)
-   - Details the Antigravity v1.18.3 release on February 19, 2026. Identifies the IDE's agent-first paradigm, Artifact generation capabilities, and asynchronous Manager view orchestration.
-
-2. [Build with Google Antigravity](https://developers.googleblog.com/build-with-google-antigravity-our-new-agentic-development-platform/)
-   - Outlines the shift to autonomous task orchestration. Specifies the requirement for verifiable Artifacts over raw logs. Highlights agent execution across integrated terminal and browser environments.
-
-3. [Gemini 3.1 Pro, Building with Advanced Intelligence in Google Antigravity](https://antigravity.google/blog/gemini-3-1-pro-in-google-antigravity)
-   - Verifies the integration of Gemini 3.1 Pro for advanced reasoning. Confirms applicability for complex workflows, long-horizon tasks, and semantic codebase understanding.
-
-4. [Gemini 3.1 Pro - Model Card - Google DeepMind](https://deepmind.google/models/model-cards/gemini-3-1-pro/)
-   - Defines Gemini 3.1 Pro as state-of-the-art for reasoning and agentic coding. Confirms distribution via the Google Antigravity platform.
-
-5. [Gemini 3.1 Pro Preview API is now live on APIYI: Analysis of 6 major core upgrades](https://help.apiyi.com/en/gemini-3-1-pro-preview-api-available-apiyi-guide-en.html)
-   - Confirms Gemini 3.1 Pro's doubled reasoning scores on the ARC-AGI-2 benchmark (77.1%), highlighting its architectural enhancements for processing multi-step logic chains without hallucination.
-
-6. [Prompt design strategies | Gemini API - Google AI for Developers](https://ai.google.dev/gemini-api/docs/prompting-strategies)
-   - Official documentation confirming the optimal use of XML-style delimiters to isolate strict constraints and formatting rules from active workflow instructions.
-
-7. [Antigravity IDE v1.18.3 Architecture & Schemas - Google Open Source](https://google.github.io/adk-docs/architecture-v1-18)
-   - Explicitly details the removal of legacy "Persona" definitions from workflows, mandates the "Trust but Verify" artifact creation process, and rejects legacy syntax like `// turbo` from the IDE's semantic parser.
-
-8. [Agentic Software Engineering with Gemini 3.1 Pro - QuantumBlack, AI by McKinsey](https://medium.com/quantumblack/agentic-software-engineering-gemini-3-1-pro-2026)
-   - Validates the necessity of explicit decision trees in agentic workflows to ensure deterministic error handling and prevent models from making unguided assumptions during CI/CD pipelines.
-
-9. [Progressive Disclosure and Semantic Routing in Antigravity - Zeabur](https://zeabur.com/blogs/google-antigravity-routing-engine)
-   - Explains how Antigravity handles capabilities via the unified background router, confirming that workflows should semantically trigger dynamic module loading rather than explicitly spawning sub-agents.
-</authoritative_reference_repository>
-
-<modification_history>
-
-| Date | Version | Classification | Description |
-| :--- | :--- | :--- | :--- |
-| 2026-03-01 | v1.1.0 | Optimization | Enhanced `workflow.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework. |
-
-</modification_history>
 
 <schema_governance>
 ```yaml
@@ -56,3 +10,42 @@ primary_owner_skill: dev-workflow
 distribution_model: canonical-plus-vendored-mirror
 ```
 </schema_governance>
+
+<authority_order>
+1. `.agent/schemas/workflow/workflow.d.ts`
+2. `.agent/skills/dev-workflow/scripts/quick_validate.py`
+3. `.agent/skills/dev-workflow/scripts/init_workflow.py`
+4. `.agent/skills/dev-workflow/scripts/update_index.py`
+5. `.agent/skills/dev-workflow/SKILL.md`
+6. Vendored mirrors under `.agent/skills/<skill>/resources/schema/workflow/` are derived copies and must not override the canonical contract.
+7. External references listed below are informative only and must not override the local contract unless the contract is intentionally revised.
+</authority_order>
+
+<schema_evaluation_and_justification>
+
+- The frontmatter remains intentionally lightweight: `version` and `description` are required, while `name` stays optional so workflows remain easy to author and review.
+- Canonical workflow files live under `.agent/workflows/` and must be governed from `.agent/schemas/workflow/` rather than by ad hoc local variants embedded inside skills.
+- `dev-workflow` owns the workflow lifecycle end to end: scaffolding from the canonical example, structural validation, and deterministic regeneration of `.agent/workflows/index.md`.
+- Vendored mirrors under skills preserve self-contained packaging without fragmenting authority away from the canonical workflow schema.
+- A workflow index is part of the operational lifecycle, not an optional afterthought, because repeatable discovery boundaries are required for safe first-pass routing.
+
+</schema_evaluation_and_justification>
+
+<authoritative_reference_repository>
+
+1. Local contract surface: `.agent/schemas/workflow/workflow.d.ts`
+2. Local validator contract: `.agent/skills/dev-workflow/scripts/quick_validate.py`
+3. Local scaffolding contract: `.agent/skills/dev-workflow/scripts/init_workflow.py`
+4. Local workflow-index contract: `.agent/skills/dev-workflow/scripts/update_index.py`
+5. [Prompt design strategies | Gemini API - Google AI for Developers](https://ai.google.dev/gemini-api/docs/prompting-strategies)
+
+</authoritative_reference_repository>
+
+<modification_history>
+
+| Date | Version | Classification | Description |
+| :--- | :--- | :--- | :--- |
+| 2026-03-01 | v1.1.0 | Optimization | Enhanced `workflow.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework. |
+| 2026-04-03 | v1.2.0 | Governance | Replaced stale authority guidance with the current local owner-skill contract, established canonical-plus-vendored-mirror governance, and aligned workflow lifecycle references with `dev-workflow` scaffold, validation, and index tooling. |
+
+</modification_history>

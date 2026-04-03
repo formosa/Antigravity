@@ -98,6 +98,7 @@ skills:
       - schema-first
     use_when:
       - routing an unclear or mixed agent-asset request
+      - handing off agent-asset work to the correct owner skill
       - deciding whether agent-asset work is skill-first or schema-first
 
   - id: dev-implementation-plan
@@ -126,6 +127,7 @@ skills:
     use_when:
       - creating or updating a canonical schema
       - rebuilding the schema directory index after schema changes
+      - maintaining owner-managed schema governance assets
 
   - id: dev-skill
     definition: .agent/skills/dev-skill/SKILL.md
@@ -140,6 +142,7 @@ skills:
     use_when:
       - creating a new skill
       - standardizing an existing skill folder
+      - scaffolding a future owner-contract skill
 
   - id: dev-workflow
     definition: .agent/skills/dev-workflow/SKILL.md
@@ -153,6 +156,7 @@ skills:
     use_when:
       - creating a reusable workflow asset
       - standardizing an existing workflow
+      - validating or re-indexing workflow assets after updates
 
   - id: md060-strict-aligner
     definition: .agent/skills/md060-strict-aligner/SKILL.md
@@ -204,7 +208,7 @@ skills:
 - Definition: [`dev-agent-asset/SKILL.md`](dev-agent-asset/SKILL.md)
 - Implementation: [`.agent/skills/dev-agent-asset/`](dev-agent-asset)
 - Best used for: front-door routing when the correct owner skill for an agent asset is unclear or mixed.
-- Open the linked definition when you need the direct-route matrix, schema-first fallback rules, or RFQ gates.
+- Open the linked definition when you need the direct-route matrix, deterministic owner-handoff rules, schema-first fallback rules, or RFQ gates.
 
 ### `dev-implementation-plan`
 
@@ -218,21 +222,21 @@ skills:
 - Definition: [`dev-schema/SKILL.md`](dev-schema/SKILL.md)
 - Implementation: [`.agent/skills/dev-schema/`](dev-schema)
 - Best used for: canonical schema creation, schema updates, and schema index regeneration.
-- Open the linked definition when scaffold commands, schema README governance, or validation rules matter.
+- Open the linked definition when scaffold commands, schema README governance, owner-skill schema alignment, or validation rules matter.
 
 ### `dev-skill`
 
 - Definition: [`dev-skill/SKILL.md`](dev-skill/SKILL.md)
 - Implementation: [`.agent/skills/dev-skill/`](dev-skill)
 - Best used for: scaffolding or standardizing skill folders with lifecycle governance and schema mirrors.
-- Open the linked definition when packaging, mirror sync, root README requirements, or trigger testing matters.
+- Open the linked definition when packaging, mirror sync, root README requirements, owner-skill pattern reuse, or trigger testing matters.
 
 ### `dev-workflow`
 
 - Definition: [`dev-workflow/SKILL.md`](dev-workflow/SKILL.md)
 - Implementation: [`.agent/skills/dev-workflow/`](dev-workflow)
-- Best used for: authoring deterministic workflow assets with explicit steps and verification.
-- Open the linked definition when workflow structure, section requirements, or execution constraints matter.
+- Best used for: authoring deterministic workflow assets with scaffold, validation, and index-sync lifecycle support.
+- Open the linked definition when workflow structure, index regeneration, section requirements, or execution constraints matter.
 
 ### `md060-strict-aligner`
 
