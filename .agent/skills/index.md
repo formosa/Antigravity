@@ -23,10 +23,10 @@
 - `agent-update-issues-tracker`: reevaluate and update an existing issues tracker against local evidence.
 - `codex-brainstorm`: capture or reorganize governed brainstorming content in `brainstorm.md`.
 - `dev-agent-asset`: classify agent-asset requests and route them to the correct owner contract or schema-first path.
-- `dev-create-implementation-plan`: produce a governed implementation-plan artifact before execution begins.
-- `dev-create-schema`: create or update canonical `.d.ts` schemas and related schema governance assets.
-- `dev-create-skill`: scaffold or standardize skill folders under `.agent/skills/`.
-- `dev-create-workflow`: create or standardize reusable workflows under `.agent/workflows/`.
+- `dev-implementation-plan`: produce a governed implementation-plan artifact before execution begins.
+- `dev-schema`: create or update canonical `.d.ts` schemas and related schema governance assets.
+- `dev-skill`: scaffold or standardize skill folders under `.agent/skills/`.
+- `dev-workflow`: create or standardize reusable workflows under `.agent/workflows/`.
 - `md060-strict-aligner`: align Markdown tables with minimal structure-preserving edits.
 
 ## Manifest
@@ -100,10 +100,10 @@ skills:
       - routing an unclear or mixed agent-asset request
       - deciding whether agent-asset work is skill-first or schema-first
 
-  - id: dev-create-implementation-plan
-    definition: .agent/skills/dev-create-implementation-plan/SKILL.md
+  - id: dev-implementation-plan
+    definition: .agent/skills/dev-implementation-plan/SKILL.md
     category: orchestration_and_authoring
-    implementation: .agent/skills/dev-create-implementation-plan/
+    implementation: .agent/skills/dev-implementation-plan/
     keywords:
       - implementation-plan
       - planning
@@ -113,10 +113,10 @@ skills:
       - drafting a formal implementation plan before execution
       - regenerating or auditing an implementation-plan artifact
 
-  - id: dev-create-schema
-    definition: .agent/skills/dev-create-schema/SKILL.md
+  - id: dev-schema
+    definition: .agent/skills/dev-schema/SKILL.md
     category: orchestration_and_authoring
-    implementation: .agent/skills/dev-create-schema/
+    implementation: .agent/skills/dev-schema/
     keywords:
       - schema
       - d.ts
@@ -127,10 +127,10 @@ skills:
       - creating or updating a canonical schema
       - rebuilding the schema directory index after schema changes
 
-  - id: dev-create-skill
-    definition: .agent/skills/dev-create-skill/SKILL.md
+  - id: dev-skill
+    definition: .agent/skills/dev-skill/SKILL.md
     category: orchestration_and_authoring
-    implementation: .agent/skills/dev-create-skill/
+    implementation: .agent/skills/dev-skill/
     keywords:
       - skill
       - scaffold
@@ -141,10 +141,10 @@ skills:
       - creating a new skill
       - standardizing an existing skill folder
 
-  - id: dev-create-workflow
-    definition: .agent/skills/dev-create-workflow/SKILL.md
+  - id: dev-workflow
+    definition: .agent/skills/dev-workflow/SKILL.md
     category: orchestration_and_authoring
-    implementation: .agent/skills/dev-create-workflow/
+    implementation: .agent/skills/dev-workflow/
     keywords:
       - workflow
       - repeatable
@@ -206,31 +206,31 @@ skills:
 - Best used for: front-door routing when the correct owner skill for an agent asset is unclear or mixed.
 - Open the linked definition when you need the direct-route matrix, schema-first fallback rules, or RFQ gates.
 
-### `dev-create-implementation-plan`
+### `dev-implementation-plan`
 
-- Definition: [`dev-create-implementation-plan/SKILL.md`](dev-create-implementation-plan/SKILL.md)
-- Implementation: [`.agent/skills/dev-create-implementation-plan/`](dev-create-implementation-plan)
+- Definition: [`dev-implementation-plan/SKILL.md`](dev-implementation-plan/SKILL.md)
+- Implementation: [`.agent/skills/dev-implementation-plan/`](dev-implementation-plan)
 - Best used for: producing a formal implementation-plan artifact before execution begins.
 - Open the linked definition when naming rules, phase structure, or verification mapping matters.
 
-### `dev-create-schema`
+### `dev-schema`
 
-- Definition: [`dev-create-schema/SKILL.md`](dev-create-schema/SKILL.md)
-- Implementation: [`.agent/skills/dev-create-schema/`](dev-create-schema)
+- Definition: [`dev-schema/SKILL.md`](dev-schema/SKILL.md)
+- Implementation: [`.agent/skills/dev-schema/`](dev-schema)
 - Best used for: canonical schema creation, schema updates, and schema index regeneration.
 - Open the linked definition when scaffold commands, schema README governance, or validation rules matter.
 
-### `dev-create-skill`
+### `dev-skill`
 
-- Definition: [`dev-create-skill/SKILL.md`](dev-create-skill/SKILL.md)
-- Implementation: [`.agent/skills/dev-create-skill/`](dev-create-skill)
+- Definition: [`dev-skill/SKILL.md`](dev-skill/SKILL.md)
+- Implementation: [`.agent/skills/dev-skill/`](dev-skill)
 - Best used for: scaffolding or standardizing skill folders with lifecycle governance and schema mirrors.
 - Open the linked definition when packaging, mirror sync, root README requirements, or trigger testing matters.
 
-### `dev-create-workflow`
+### `dev-workflow`
 
-- Definition: [`dev-create-workflow/SKILL.md`](dev-create-workflow/SKILL.md)
-- Implementation: [`.agent/skills/dev-create-workflow/`](dev-create-workflow)
+- Definition: [`dev-workflow/SKILL.md`](dev-workflow/SKILL.md)
+- Implementation: [`.agent/skills/dev-workflow/`](dev-workflow)
 - Best used for: authoring deterministic workflow assets with explicit steps and verification.
 - Open the linked definition when workflow structure, section requirements, or execution constraints matter.
 

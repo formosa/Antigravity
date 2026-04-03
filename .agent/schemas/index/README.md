@@ -12,7 +12,7 @@ This document establishes the schema contract for folder-level agent asset index
 - **Authority Boundary Preservation:** The schema requires an explicit authority rule in the preamble and an `Index Boundaries` section. This prevents the index from silently superseding the linked asset definitions and reduces hallucination surface area.
 - **Shared Metadata Coverage:** The manifest model standardizes common discovery metadata across full-form indexes, including rule activation fields (`trigger`, `globs`, `priority`), the `asset_structure` discriminant, and flat manifest/record escape hatches for low-entropy asset-specific extensions.
 - **Current Adoption Boundary:** [`.agent/tools/index.md`](../../tools/index.md) and [`.agent/skills/index.md`](../../skills/index.md) are the current conforming examples of the full-form contract. [`.agent/rules/INDEX.md`](../../rules/INDEX.md) and [`.agent/workflows/index.md`](../../workflows/index.md) are still lightweight registries and do not yet implement the full schema surface end-to-end.
-- **Schemas-Directory Governance Exception:** [`.agent/schemas/index.md`](../index.md) is a generated table-only lookup maintained by `dev-create-schema`. It intentionally does not conform to `AssetDirectoryIndexDefinition` because schema discovery does not require the selection-map, manifest, detailed-record, and authority-boundary apparatus used for runtime asset routing.
+- **Schemas-Directory Governance Exception:** [`.agent/schemas/index.md`](../index.md) is a generated table-only lookup maintained by `dev-schema`. It intentionally does not conform to `AssetDirectoryIndexDefinition` because schema discovery does not require the selection-map, manifest, detailed-record, and authority-boundary apparatus used for runtime asset routing.
 
 </schema_evaluation_and_justification>
 
@@ -36,7 +36,7 @@ This document establishes the schema contract for folder-level agent asset index
 6. [`.agent/schemas/workflow/workflow.d.ts`](../workflow/workflow.d.ts)
    - Local reference for concise schema contracts that model ordered Markdown sections without introducing unnecessary structural complexity.
 
-7. [`.agent/skills/dev-create-schema/SKILL.md`](../../skills/dev-create-schema/SKILL.md)
+7. [`.agent/skills/dev-schema/SKILL.md`](../../skills/dev-schema/SKILL.md)
    - Governing workflow used to scaffold, validate, and index this schema definition.
 
 </authoritative_reference_repository>
@@ -52,7 +52,7 @@ This document establishes the schema contract for folder-level agent asset index
 
 <schema_governance>
 ```yaml
-primary_owner_skill: dev-create-schema
+primary_owner_skill: dev-schema
 distribution_model: canonical-plus-vendored-mirror
 ```
 </schema_governance>

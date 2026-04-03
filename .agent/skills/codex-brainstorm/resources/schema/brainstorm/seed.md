@@ -32,16 +32,16 @@
 }
 </style>
 
-| Property         | Value                                        |
-| ---------------- | -------------------------------------------- |
-| Document ID      | DDR-BRAIN-001                                |
-| Base Version     | DDR System v6.3 (2026-03-28)                 |
-| Status           | LIVING DOCUMENT - Append-Only Until Promoted |
-| Owner            | DDR Architecture Board                       |
-| Created          | {{CREATED_DATE}}                             |
-| Last Revised     | {{LAST_REVISED_DATE}}                        |
-| Schema           | BRAIN-ENTRY-1.1                              |
-| Reference Source | `{{SOURCE_REFERENCE_PATH}}`                  |
+| Property | Value |
+| --- | --- |
+| Document ID | DDR-BRAIN-001 |
+| Base Version | DDR System v6.3 (2026-03-28) |
+| Status | LIVING DOCUMENT - Append-Only Until Promoted |
+| Owner | DDR Architecture Board |
+| Created | {{CREATED_DATE}} |
+| Last Revised | {{LAST_REVISED_DATE}} |
+| Schema | BRAIN-ENTRY-1.1 |
+| Reference Source | `{{SOURCE_REFERENCE_PATH}}` |
 
 > LIVING DOCUMENT NOTICE: This document is intentionally incomplete. It is a structured collection
 > point for ideas, candidates, and architectural directions that are not yet committed to any
@@ -85,26 +85,26 @@ The document is organized into three major Parts. Additional Parts may be added 
 concept categories are identified. Every new Part must be registered in the Part Registry and
 adopt the section and entry conventions defined in §3 before entries are added.
 
-| Part     | Title                          | Purpose                                                                 |
-| -------- | ------------------------------ | ----------------------------------------------------------------------- |
-| Part I   | Document Manifest              | Self-description, schema, taxonomy, and governance.                     |
-| Part II  | Application Design Concepts    | Architectural ideas and next-step hypotheses for the DDR App Framework. |
-| Part III | Open-Source Library Candidates | Vetted and candidate OSS libraries across relevant problem domains.     |
+| Part | Title | Purpose |
+| --- | --- | --- |
+| Part I | Document Manifest | Self-description, schema, taxonomy, and governance. |
+| Part II | Application Design Concepts | Architectural ideas and next-step hypotheses for the DDR App Framework. |
+| Part III | Open-Source Library Candidates | Vetted and candidate OSS libraries across relevant problem domains. |
 
 #### 2.1 Part Registry
 
 All Parts that exist or are planned must be recorded here. Update this table when adding a new
 Part.
 
-| Part ID  | Short Title                           | Status                    |
-| -------- | ------------------------------------- | ------------------------- |
-| PART-I   | Document Manifest                     | PERMANENT - DO NOT MODIFY |
-| PART-II  | Application Design Concepts           | ACTIVE                    |
-| PART-III | OSS Library Candidates                | ACTIVE                    |
-| PART-IV  | [Reserved: UX & Workflow]             | RESERVED - Not Yet Opened |
-| PART-V   | [Reserved: Data & Persistence]        | RESERVED - Not Yet Opened |
-| PART-VI  | [Reserved: Deployment & Distribution] | RESERVED - Not Yet Opened |
-| PART-VII | [Reserved: Parking Lot]               | RESERVED - Not Yet Opened |
+| Part ID | Short Title | Status |
+| --- | --- | --- |
+| PART-I | Document Manifest | PERMANENT - DO NOT MODIFY |
+| PART-II | Application Design Concepts | ACTIVE |
+| PART-III | OSS Library Candidates | ACTIVE |
+| PART-IV | [Reserved: UX & Workflow] | RESERVED - Not Yet Opened |
+| PART-V | [Reserved: Data & Persistence] | RESERVED - Not Yet Opened |
+| PART-VI | [Reserved: Deployment & Distribution] | RESERVED - Not Yet Opened |
+| PART-VII | [Reserved: Parking Lot] | RESERVED - Not Yet Opened |
 
 ### §3 Entry Schema (BRAIN-ENTRY-1.1)
 
@@ -114,87 +114,87 @@ fenced `yaml` block.
 
 #### 3.1 Common Fields (All Entry Types)
 
-| Field            | Type / Format                  | Description                                                                   |
-| ---------------- | ------------------------------ | ----------------------------------------------------------------------------- |
-| `entry_id`       | `BRAIN-{PART#}-{SEQ:3d}`       | Immutable identifier such as `BRAIN-II-001`.                                  |
-| `title`          | `String (<=80 chars)`          | Short, unambiguous label for the idea or candidate.                           |
-| `category`       | `CategoryEnum`                 | Controlled classification tag from §3.4.                                      |
-| `priority`       | `HIGH \| MED \| LOW \| PARKED` | Current urgency for consideration. Not a commitment.                          |
-| `status`         | `StatusEnum`                   | Lifecycle state from §3.5.                                                    |
-| `authored_by`    | `String`                       | Initials or handle of the contributor.                                        |
-| `authored_date`  | `YYYY-MM-DD`                   | Date the entry was first recorded.                                            |
-| `revised_date`   | `YYYY-MM-DD`                   | Date of the most recent revision.                                             |
-| `description`    | `Text`                         | One to three sentence summary of the concept.                                 |
-| `detail`         | `Text`                         | Extended technical description and context.                                   |
-| `open_questions` | `List[String]`                 | Questions that must be answered before promotion.                             |
-| `tags`           | `List[String]`                 | Freeform search tags such as `#visualization` or `#E5-ARE`.                   |
-| `ddr_relevance`  | `List[TierEnum \| ExtEnum]`    | DDR tiers or extensions directly affected by the entry.                       |
-| `citation_ids`   | `List[CitationId]`             | Exact external citation IDs used inline by the entry.                         |
-| `references`     | `List[String]`                 | ADR IDs, spec sections, local artifact paths, or related brainstorm IDs only. |
+| Field | Type / Format | Description |
+| --- | --- | --- |
+| `entry_id` | `BRAIN-{PART#}-{SEQ:3d}` | Immutable identifier such as `BRAIN-II-001`. |
+| `title` | `String (<=80 chars)` | Short, unambiguous label for the idea or candidate. |
+| `category` | `CategoryEnum` | Controlled classification tag from §3.4. |
+| `priority` | `HIGH \| MED \| LOW \| PARKED` | Current urgency for consideration. Not a commitment. |
+| `status` | `StatusEnum` | Lifecycle state from §3.5. |
+| `authored_by` | `String` | Initials or handle of the contributor. |
+| `authored_date` | `YYYY-MM-DD` | Date the entry was first recorded. |
+| `revised_date` | `YYYY-MM-DD` | Date of the most recent revision. |
+| `description` | `Text` | One to three sentence summary of the concept. |
+| `detail` | `Text` | Extended technical description and context. |
+| `open_questions` | `List[String]` | Questions that must be answered before promotion. |
+| `tags` | `List[String]` | Freeform search tags such as `#visualization` or `#E5-ARE`. |
+| `ddr_relevance` | `List[TierEnum \| ExtEnum]` | DDR tiers or extensions directly affected by the entry. |
+| `citation_ids` | `List[CitationId]` | Exact external citation IDs used inline by the entry. |
+| `references` | `List[String]` | ADR IDs, spec sections, local artifact paths, or related brainstorm IDs only. |
 
 #### 3.2 Idea Entry (TYPE: IDEA)
 
-| Field             | Type / Format  | Description                                                           |
-| ----------------- | -------------- | --------------------------------------------------------------------- |
-| `motivation`      | `Text`         | Why the idea exists and what problem it solves.                       |
-| `prior_art`       | `Text`         | Known existing solutions, patterns, or precedents.                    |
-| `ddr_constraints` | `Text`         | DDR axioms, invariants, or extension contracts the idea must respect. |
-| `risks`           | `Text`         | Complexity, performance, licensing, or adoption risks.                |
-| `dependencies`    | `List[String]` | Related brainstorm IDs or external dependencies.                      |
+| Field | Type / Format | Description |
+| --- | --- | --- |
+| `motivation` | `Text` | Why the idea exists and what problem it solves. |
+| `prior_art` | `Text` | Known existing solutions, patterns, or precedents. |
+| `ddr_constraints` | `Text` | DDR axioms, invariants, or extension contracts the idea must respect. |
+| `risks` | `Text` | Complexity, performance, licensing, or adoption risks. |
+| `dependencies` | `List[String]` | Related brainstorm IDs or external dependencies. |
 
 #### 3.3 Library Candidate Entry (TYPE: LIB)
 
-| Field              | Type / Format                                                                          | Description                                              |
-| ------------------ | -------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| `repository`       | `URL or package locator`                                                               | Canonical source location.                               |
-| `language`         | `Python \| JavaScript \| Rust \| Go \| Other`                                          | Primary implementation language.                         |
-| `license`          | `MIT \| Apache-2.0 \| BSD-2-Clause \| BSD-3-Clause \| ISC \| MPL-2.0 \| LGPL \| Other` | Primary license classification.                          |
-| `commercial_use`   | `YES \| CONDITIONAL \| NO`                                                             | Whether commercial distribution is currently acceptable. |
-| `latest_release`   | `String`                                                                               | Release version/date snapshot or `TBD`.                  |
-| `maintenance`      | `ACTIVE \| MAINTAINED \| SLOW \| ARCHIVED`                                             | Current maintenance signal.                              |
-| `install_size_kb`  | `Integer or TBD`                                                                       | Approximate footprint.                                   |
-| `maturity`         | `EXPERIMENTAL \| STABLE \| MATURE \| LEGACY`                                           | Maturity signal for adoption planning.                   |
-| `verdict`          | `CANDIDATE \| UNDER_REVIEW \| ACCEPTED \| REJECTED \| PARKED`                          | Current adoption verdict.                                |
-| `rejection_reason` | `Text`                                                                                 | Required only when `verdict` is `REJECTED`.              |
+| Field | Type / Format | Description |
+| --- | --- | --- |
+| `repository` | `URL or package locator` | Canonical source location. |
+| `language` | `Python \| JavaScript \| Rust \| Go \| Other` | Primary implementation language. |
+| `license` | `MIT \| Apache-2.0 \| BSD-2-Clause \| BSD-3-Clause \| ISC \| MPL-2.0 \| LGPL \| Other` | Primary license classification. |
+| `commercial_use` | `YES \| CONDITIONAL \| NO` | Whether commercial distribution is currently acceptable. |
+| `latest_release` | `String` | Release version/date snapshot or `TBD`. |
+| `maintenance` | `ACTIVE \| MAINTAINED \| SLOW \| ARCHIVED` | Current maintenance signal. |
+| `install_size_kb` | `Integer or TBD` | Approximate footprint. |
+| `maturity` | `EXPERIMENTAL \| STABLE \| MATURE \| LEGACY` | Maturity signal for adoption planning. |
+| `verdict` | `CANDIDATE \| UNDER_REVIEW \| ACCEPTED \| REJECTED \| PARKED` | Current adoption verdict. |
+| `rejection_reason` | `Text` | Required only when `verdict` is `REJECTED`. |
 
 #### 3.4 Category Taxonomy
 
-| Category ID | Label                         | Applies To                                                                      |
-| ----------- | ----------------------------- | ------------------------------------------------------------------------------- |
-| `CAT-ARCH`  | Application Architecture      | Structural patterns, layering, module boundaries, deployment topology.          |
-| `CAT-DAG`   | DAG Engine                    | Graph construction, traversal, validation, cycle detection, topological sort.   |
-| `CAT-VIZ`   | Visualization                 | Graph rendering, node and edge display, tier-map diagrams, diff views.          |
-| `CAT-CRUD`  | Node CRUD & Editing           | Node creation, reading, updating, deletion operations and UI/API surface.       |
-| `CAT-VALID` | Validation & Schema           | JSON Schema or YAML Schema compliance and structural rule enforcement.          |
-| `CAT-STORE` | Data Persistence              | File formats, databases, version control integration, export and import.        |
-| `CAT-LIFE`  | Lifecycle & Operations        | Status transitions, SUPERSEDE or DEPRECATE flows, operation protocol.           |
-| `CAT-EXT`   | Extension System              | E1-E9 integration, candidate pool management, ARE scoring.                      |
-| `CAT-UX`    | User Experience               | Workflow design, navigation patterns, onboarding, CLI vs GUI.                   |
-| `CAT-DIST`  | Distribution & Packaging      | PyPI, installers, Electron, Docker, licensing for commercial sale.              |
-| `CAT-AI`    | AI / Agentic Integration      | LLM tooling, code generation, agentic interfaces, Codex and Claude integration. |
-| `CAT-TEST`  | Testing & QA                  | Unit, integration, and property-based testing strategies.                       |
-| `CAT-MISC`  | Miscellaneous / Uncategorized | Catch-all for entries not yet classified. Re-categorize within two sessions.    |
+| Category ID | Label | Applies To |
+| --- | --- | --- |
+| `CAT-ARCH` | Application Architecture | Structural patterns, layering, module boundaries, deployment topology. |
+| `CAT-DAG` | DAG Engine | Graph construction, traversal, validation, cycle detection, topological sort. |
+| `CAT-VIZ` | Visualization | Graph rendering, node and edge display, tier-map diagrams, diff views. |
+| `CAT-CRUD` | Node CRUD & Editing | Node creation, reading, updating, deletion operations and UI/API surface. |
+| `CAT-VALID` | Validation & Schema | JSON Schema or YAML Schema compliance and structural rule enforcement. |
+| `CAT-STORE` | Data Persistence | File formats, databases, version control integration, export and import. |
+| `CAT-LIFE` | Lifecycle & Operations | Status transitions, SUPERSEDE or DEPRECATE flows, operation protocol. |
+| `CAT-EXT` | Extension System | E1-E9 integration, candidate pool management, ARE scoring. |
+| `CAT-UX` | User Experience | Workflow design, navigation patterns, onboarding, CLI vs GUI. |
+| `CAT-DIST` | Distribution & Packaging | PyPI, installers, Electron, Docker, licensing for commercial sale. |
+| `CAT-AI` | AI / Agentic Integration | LLM tooling, code generation, agentic interfaces, Codex and Claude integration. |
+| `CAT-TEST` | Testing & QA | Unit, integration, and property-based testing strategies. |
+| `CAT-MISC` | Miscellaneous / Uncategorized | Catch-all for entries not yet classified. Re-categorize within two sessions. |
 
 #### 3.5 Entry Status Vocabulary
 
-| Status       | Meaning                                         | Transition Rules                                                 |
-| ------------ | ----------------------------------------------- | ---------------------------------------------------------------- |
-| `SEED`       | Newly captured, minimally described.            | Any entry may start here.                                        |
-| `EXPLORING`  | Actively being researched or discussed.         | From `SEED` or `PARKED`.                                         |
-| `CANDIDATE`  | Sufficiently developed for formal evaluation.   | From `EXPLORING`; requires all common fields populated.          |
-| `PROMOTED`   | Accepted into a formal ADR or specification.    | From `CANDIDATE`; requires an ADR reference in `references`.     |
-| `REJECTED`   | Evaluated and not adopted; retained for record. | From any status; requires `rejection_reason` or equivalent note. |
-| `PARKED`     | Deferred indefinitely; may be revisited later.  | From any non-`PROMOTED` status.                                  |
-| `SUPERSEDED` | Replaced by a newer entry; ID preserved.        | From any status; link the superseding entry in `references`.     |
+| Status | Meaning | Transition Rules |
+| --- | --- | --- |
+| `SEED` | Newly captured, minimally described. | Any entry may start here. |
+| `EXPLORING` | Actively being researched or discussed. | From `SEED` or `PARKED`. |
+| `CANDIDATE` | Sufficiently developed for formal evaluation. | From `EXPLORING`; requires all common fields populated. |
+| `PROMOTED` | Accepted into a formal ADR or specification. | From `CANDIDATE`; requires an ADR reference in `references`. |
+| `REJECTED` | Evaluated and not adopted; retained for record. | From any status; requires `rejection_reason` or equivalent note. |
+| `PARKED` | Deferred indefinitely; may be revisited later. | From any non-`PROMOTED` status. |
+| `SUPERSEDED` | Replaced by a newer entry; ID preserved. | From any status; link the superseding entry in `references`. |
 
 #### 3.6 Priority Vocabulary
 
-| Priority | Meaning                                       | Guidance                                             |
-| -------- | --------------------------------------------- | ---------------------------------------------------- |
-| `HIGH`   | Actively explore in the current design cycle. | Limit to five `HIGH` entries per Part when possible. |
-| `MED`    | Relevant but not blocking.                    | Default priority for most new entries.               |
-| `LOW`    | Peripheral; retain without active focus.      | Reassess at each review cycle.                       |
-| `PARKED` | Indefinitely deferred.                        | Pair with status `PARKED`.                           |
+| Priority | Meaning | Guidance |
+| --- | --- | --- |
+| `HIGH` | Actively explore in the current design cycle. | Limit to five `HIGH` entries per Part when possible. |
+| `MED` | Relevant but not blocking. | Default priority for most new entries. |
+| `LOW` | Peripheral; retain without active focus. | Reassess at each review cycle. |
+| `PARKED` | Indefinitely deferred. | Pair with status `PARKED`. |
 
 ### §4 Rules for Adding New Sections
 
@@ -264,13 +264,13 @@ underlying Markdown authority surface.
 
 #### 6.1 Font Color Index
 
-| Class                  | Sample                                                                                | Meaning                                                                      | Allowed Use                                                     |
-| ---------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| `brain-governance`     | <span class="brain-badge brain-governance"><strong>Governance</strong></span>         | Immutable document rules, authority boundaries, and protocol statements.     | Headline badges, policy labels, and manifest callouts.          |
-| `brain-evidence`       | <span class="brain-badge brain-evidence"><strong>Evidence</strong></span>             | Citation-backed external facts, release signals, and current-source support. | Citation callouts, evidence labels, and source-quality markers. |
-| `brain-hypothesis`     | <span class="brain-badge brain-hypothesis"><strong>Hypothesis</strong></span>         | Exploratory concepts, design options, and unresolved technical paths.        | Short option badges and hypothesis labels.                      |
-| `brain-recommendation` | <span class="brain-badge brain-recommendation"><strong>Recommendation</strong></span> | Endorsed next steps or preferred directions inside the brainstorm.           | Recommendation badges and concise endorsement labels.           |
-| `brain-risk`           | <span class="brain-badge brain-risk"><strong>Risk</strong></span>                     | Caveats, failure modes, tradeoffs, and cautionary notes.                     | Risk badges and short caution labels.                           |
+| Class | Sample | Meaning | Allowed Use |
+| --- | --- | --- | --- |
+| `brain-governance` | <span class="brain-badge brain-governance"><strong>Governance</strong></span> | Immutable document rules, authority boundaries, and protocol statements. | Headline badges, policy labels, and manifest callouts. |
+| `brain-evidence` | <span class="brain-badge brain-evidence"><strong>Evidence</strong></span> | Citation-backed external facts, release signals, and current-source support. | Citation callouts, evidence labels, and source-quality markers. |
+| `brain-hypothesis` | <span class="brain-badge brain-hypothesis"><strong>Hypothesis</strong></span> | Exploratory concepts, design options, and unresolved technical paths. | Short option badges and hypothesis labels. |
+| `brain-recommendation` | <span class="brain-badge brain-recommendation"><strong>Recommendation</strong></span> | Endorsed next steps or preferred directions inside the brainstorm. | Recommendation badges and concise endorsement labels. |
+| `brain-risk` | <span class="brain-badge brain-risk"><strong>Risk</strong></span> | Caveats, failure modes, tradeoffs, and cautionary notes. | Risk badges and short caution labels. |
 
 #### 6.2 Usage Rules
 
@@ -336,13 +336,13 @@ supporting visuals rather than the authority surface. Nearby prose and tables co
 
 #### 8.1 Supported Mermaid Diagram Types
 
-| Type              | Status    | Notes                                                                 |
-| ----------------- | --------- | --------------------------------------------------------------------- |
-| `flowchart`       | Preferred | Use for pipelines, decision funnels, and architectural flows.         |
-| `sequenceDiagram` | Preferred | Use for request/response or operation choreography.                   |
-| `stateDiagram-v2` | Preferred | Use for lifecycle transitions and guarded state changes.              |
-| `classDiagram`    | Allowed   | Use for bounded structural maps where type-like relationships matter. |
-| `erDiagram`       | Allowed   | Use for structured data shape and storage relationship sketches.      |
+| Type | Status | Notes |
+| --- | --- | --- |
+| `flowchart` | Preferred | Use for pipelines, decision funnels, and architectural flows. |
+| `sequenceDiagram` | Preferred | Use for request/response or operation choreography. |
+| `stateDiagram-v2` | Preferred | Use for lifecycle transitions and guarded state changes. |
+| `classDiagram` | Allowed | Use for bounded structural maps where type-like relationships matter. |
+| `erDiagram` | Allowed | Use for structured data shape and storage relationship sketches. |
 
 #### 8.2 Accessibility and Stability Rules
 
@@ -375,14 +375,14 @@ DDR System.
 
 ### Part II — Section Index
 
-| Section | Title                             | Category    |
-| ------- | --------------------------------- | ----------- |
-| `§II.1` | Application Architecture Overview | `CAT-ARCH`  |
-| `§II.2` | DAG Engine Design                 | `CAT-DAG`   |
-| `§II.3` | Node CRUD and Editing Surface     | `CAT-CRUD`  |
+| Section | Title | Category |
+| --- | --- | --- |
+| `§II.1` | Application Architecture Overview | `CAT-ARCH` |
+| `§II.2` | DAG Engine Design | `CAT-DAG` |
+| `§II.3` | Node CRUD and Editing Surface | `CAT-CRUD` |
 | `§II.4` | Validation and Schema Enforcement | `CAT-VALID` |
-| `§II.5` | Extension System Integration      | `CAT-EXT`   |
-| `§II.6` | AI and Agentic Interface          | `CAT-AI`    |
+| `§II.5` | Extension System Integration | `CAT-EXT` |
+| `§II.6` | AI and Agentic Interface | `CAT-AI` |
 
 ### §II.1 Application Architecture Overview
 

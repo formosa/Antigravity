@@ -29,5 +29,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | :--- | :--- | :--- | :--- | :--- |
 | 2026-04-02 | 1.0.0 | initial | Initial Release | Created the `dev-agent-asset` front-door orchestration skill, declared the consumed `index` schema dependency, and established lifecycle governance for schema-first agent-asset routing. |
 | 2026-04-02 | 1.0.1 | patch | Governance | Resynchronized the consumed index schema mirror after the canonical v1.1.0 hardening pass. |
+| 2026-04-02 | 1.0.2 | patch | Routing | Updated the direct-route matrix and packaged references to target the renamed direct-noun owner skills. |
 
 </modification_history>

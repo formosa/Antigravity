@@ -28,10 +28,8 @@ This document establishes the verified architectural pattern for implementing in
 </modification_history>
 
 <schema_governance>
-
 ```yaml
 primary_owner_skill: agent-create-issue-report
 distribution_model: canonical-plus-vendored-mirror
 ```
-
 </schema_governance>
