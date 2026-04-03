@@ -30,5 +30,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-01 | 5.0.1 | patch | Governance | Added the root lifecycle README, declared canonical schema relationships, and migrated implementation-plan schema references to vendored mirrors. |
 | 2026-04-02 | 5.0.2 | patch | Governance | Clarified plan-trigger boundaries, added example prompts and resource-action annotations, and synchronized the vendored skill schema mirror to the repaired canonical contract. |
 | 2026-04-02 | 5.1.0 | minor | Rename | Finalized the direct-noun owner contract name and updated active authority surfaces to use `dev-implementation-plan`. |
+| 2026-04-03 | 5.2.0 | minor | Behavioral Refinement | Reoriented plan generation toward patchability-first decomposition, required bounded atomic edit batches with local verification stop/go gates, and clarified canonical `.agent/schemas/implementation-plan/` authority relative to read-only vendored mirrors. |
 
 </modification_history>

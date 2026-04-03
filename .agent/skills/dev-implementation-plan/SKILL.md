@@ -1,7 +1,7 @@
 ---
 name: dev-implementation-plan
-version: 5.1.0
-description: Produces a schema-compatible, deterministic Antigravity implementation-plan artifact optimized for grounded planning, task-tracker visibility, and safe executor handoff. Use when the task needs a formal plan artifact before execution begins. Do not use when the requested work is trivial enough to execute directly without a governed plan.
+version: 5.2.0
+description: Produces a schema-compatible, deterministic Antigravity implementation-plan artifact optimized for grounded planning, patch-bounded execution batches, task-tracker visibility, and safe executor handoff. Use when the task needs a formal plan artifact before execution begins. Do not use when the requested work is trivial enough to execute directly without a governed plan.
 ---
 
 <when_to_use>
@@ -30,8 +30,10 @@ description: Produces a schema-compatible, deterministic Antigravity implementat
 
 Preserve compatibility with:
 
-- `resources/schema/implementation-plan/implementation-plan.d.ts`
-- `resources/schema/implementation-plan/example.md`
+- `.agent/schemas/implementation-plan/implementation-plan.d.ts`
+- `.agent/schemas/implementation-plan/example.md`
+- `resources/schema/implementation-plan/implementation-plan.d.ts` (read-only vendored mirror for packaging/reference)
+- `resources/schema/implementation-plan/example.md` (read-only vendored mirror for packaging/reference)
 - `.agent/skills/dev-skill/resources/output-patterns.md`
 - the active `dev-implementation-plan` skill instructions
 
@@ -82,11 +84,15 @@ Execute these steps in order. Do not skip or reorder.
 5. **Generate the execution plan artifact**
    - Create a standalone Antigravity artifact; do not emit inline conversational markdown.
    - Use `<phases>` by default for non-trivial work.
-   - Use the fewest phases and steps that preserves clarity, determinism, and safe executor handoff.
+   - Use the fewest phases only when they provide real orchestration value.
+   - Optimize for executor patchability, not minimum step count.
+   - Use the smallest atomic steps that remain reviewable, bounded, and locally verifiable.
+   - Prefer one primary write surface per atomic step by default.
+   - Split a candidate step before plan emission when it spans multiple major surfaces such as canonical schema, owner skill package, downstream consumer migration, routing or index wiring, or documentation, unless incremental verification is impossible and the reason is explicit in the step wording.
    - Apply the **Intent -> Action -> Outcome** pattern to every atomic step:
-     - *Intent:* why this step exists.
-     - *Action:* what exact operation is performed (`CREATE`, `MODIFY`, or `DELETE`).
-     - *Outcome:* the bounded, testable post-state.
+      - *Intent:* why this step exists.
+      - *Action:* what exact operation is performed (`CREATE`, `MODIFY`, or `DELETE`).
+      - *Outcome:* the bounded, testable post-state.
 
 6. **Apply task-group completion tracking**
    - Organize `<atomic_steps>` into logical named groups using `####` headers.
@@ -97,19 +103,21 @@ Execute these steps in order. Do not skip or reorder.
 
 7. **Apply internal step validation before emission**
    - Before finalizing each step, validate that it has:
-     - Grounded target files, artifacts, or system surfaces.
-     - A concrete, bounded action.
-     - A clear dependency order when needed.
-     - Side effects contained to in-scope surfaces.
-     - A viable verification path.
+      - Grounded target files, artifacts, or system surfaces.
+      - A concrete, bounded action executable as one edit batch.
+      - A clear dependency order when needed.
+      - Side effects contained to in-scope surfaces.
+      - A viable local verification path.
+      - No hidden coupling to a second major write surface unless the step explicitly justifies why incremental verification is impossible.
    - Apply this validation internally. Do not expose the validation rubric in the artifact.
 
 8. **Attach the verification contract**
    - One verification item per atomic step, numbered identically.
    - Each item must prove the intended post-state, not merely that activity occurred.
+   - Treat verification as the stop/go boundary between edit batches; dependent batches must not proceed until the current batch verifies.
    - Use the lightest sufficient verification method:
-     - command-based validation
-     - static or structural inspection
+      - command-based validation
+      - static or structural inspection
      - type checking
      - test assertions
      - semantic validation
@@ -120,6 +128,7 @@ Execute these steps in order. Do not skip or reorder.
    - Apply the internal review policy (see below) to determine when human review gates affect execution sequencing.
    - Surface review gates only when they materially affect safety or sequencing.
    - Capture rollback and containment guidance in `<risks_and_mitigations>` when risk justifies it.
+   - Prevent oversized or cross-surface edit batches through narrower planning scope rather than bundling broad changes into one step.
    - Plans must assume halt-on-failed-verification behavior for all dependent work.
 
 ## Required artifact structure
@@ -163,10 +172,12 @@ processed_path: ".agent/plans/processed/<filename>"
 ## Atomic step rules -> Intent -> Action -> Outcome
 
 - Each step represents a single bounded responsibility.
+- Each step must be executable as a single bounded edit batch with a local verification path.
 - State `CREATE`, `MODIFY`, or `DELETE` explicitly when omission risks ambiguity.
 - Identify the target file(s), artifact(s), or system surface for every step.
 - Prefer repeat-safe wording where feasible.
 - Do not combine unrelated edits in a single step.
+- Do not combine canonical schema edits, owner-package edits, routing or index rewires, and documentation updates in one atomic step unless incremental verification is impossible and the reason is explicit.
 - Do not include speculative alternatives unless explicitly requested.
 - High-risk or destructive actions must be explicit, narrowly scoped, and paired with a mitigation in `<risks_and_mitigations>`.
 
@@ -182,6 +193,7 @@ processed_path: ".agent/plans/processed/<filename>"
 ## Verification rules
 
 - Number verification items identically to their corresponding atomic step.
+- Verification is the stop/go boundary between atomic edit batches; preserve the 1:1 mapping with `<atomic_steps>` even when groups change.
 - Prove the intended result, not merely that activity occurred.
 - Do not invent commands, tests, or success results.
 - Manual inspection is acceptable when command-based validation is unavailable and the inspection criterion is precise.
@@ -252,8 +264,9 @@ Emit this artifact and stop when blocking ambiguity is detected:
 
 <resources_reference>
 
-- Read `resources/schema/implementation-plan/implementation-plan.d.ts` to verify the active implementation-plan contract.
-- Read `resources/schema/implementation-plan/example.md` to mirror the canonical artifact structure and section ordering.
+- Read `.agent/schemas/implementation-plan/implementation-plan.d.ts` to verify the active canonical implementation-plan contract.
+- Read `.agent/schemas/implementation-plan/example.md` to mirror the canonical artifact structure and section ordering.
+- Read `resources/schema/implementation-plan/implementation-plan.d.ts` and `resources/schema/implementation-plan/example.md` only as read-only vendored mirrors for packaging/reference after consulting the canonical schema.
 - Read `.agent/skills/dev-skill/resources/output-patterns.md` to preserve local output and artifact handoff conventions.
 - Read `.agent/plans/` to inspect active plan outputs and avoid naming or placement conflicts.
 - Read `.agent/plans/processed/` as historical reference only when prior plans materially inform the new artifact.
