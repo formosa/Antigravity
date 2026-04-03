@@ -1,6 +1,6 @@
 ---
 name: dev-skill
-version: 2.4.0
+version: 2.4.1
 description: Authors or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder, including future owner-contract skills. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
 ---
 
@@ -18,7 +18,7 @@ description: Authors or refines Antigravity-compatible skills with explicit trig
    - Leave the skill instruction-only unless deterministic scripts or assets remove repeated code or reduce ambiguity.
    - Add scripts only for repeatable, high-risk, or machine-verifiable steps.
    - Add resources only when detailed reference material should stay out of `SKILL.md` until needed.
-   - If the target skill will own an asset family, read the shared owner-skill pattern and mirror its governance split instead of inventing a new package shape.
+   - If the target skill will own an asset family, read the shared owner-skill pattern, mirror its governance split, and add a dedicated governance rule only when the documented owner-rule criteria are met.
 3. Scaffold the base skill directory with `python .agent/skills/dev-skill/scripts/init_skill.py <skill-name> --path <output-directory>` and add opt-in flags only for the directories or examples you actually need.
 4. Write the target `SKILL.md`:
    - make `description` explicit about what the skill does, when it should trigger, and when it should not

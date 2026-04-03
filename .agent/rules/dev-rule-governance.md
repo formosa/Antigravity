@@ -1,32 +1,30 @@
 ---
-name: dev-check-schema
-description: "Enforces RuleDefinition frontmatter integrity for `.agent/rules/` assets, governed rules-index hygiene, and canonical schema-markdown governance under `.agent/schemas/`."
-version: "1.3.0"
-trigger: glob
-globs: ".agent/schemas/**/*.md, .agent/rules/**/*.md"
-priority: critical
-execution_tier: standard
+name: "dev-rule-governance"
+description: "Glob-scoped governance rule for `.agent/rules/` assets covering rule frontmatter, preferred naming, XML-fenced bodies, and generated rules-index alignment."
+version: "1.0.0"
+trigger: "glob"
+globs: ".agent/rules/**"
+priority: "critical"
+execution_tier: "standard"
 ---
 
 <constraints>
 
-# Antigravity Asset Schema Enforcement
-
-- **Rule Frontmatter Scope:** Only rule assets under `.agent/rules/` other than `.agent/rules/index.md` are governed by the `RuleDefinition` frontmatter contract. Those rule assets MUST include semantic-version `version` values, non-placeholder `description` text, supported `trigger` and `priority` values, and XML-fenced body content.
-- **Rule Trigger/Glob Coupling:** Rules using `trigger: glob` MUST declare non-empty `globs`. Rules using any other trigger MUST NOT declare `globs`.
-- **Rule Execution Tier:** Rule assets MUST use `execution_tier: standard` unless a heavy, non-LLM parallel workload is explicitly justified.
-- **Rules Index Governance:** `.agent/rules/index.md` MUST remain a generated discovery index aligned with the `index` schema. It MUST summarize live rule metadata without superseding any linked rule definition.
-- **Canonical Schema README Governance:** Canonical schema READMEs under `.agent/schemas/<schema-id>/README.md` MUST preserve accurate `<document_purpose>`, `<schema_governance>`, `<authority_order>`, and `<modification_history>` content aligned with the adjacent schema directory.
-- **Schema Example Fidelity:** Example or template markdown under `.agent/schemas/` MUST remain aligned with the adjacent `.d.ts` contract and MUST NOT contain unresolved `TODO`, `N/A`, or generic filler text that would misrepresent the schema.
-- **Rule Body Fencing:** `.agent/rules/*.md` files MUST wrap all body content inside `<constraints>` and optional `<verification_step>` blocks. Do not apply this rule-body requirement to schema README or example assets.
+1. Scope Boundary: This rule governs only assets under `.agent/rules/`. It MUST NOT impose schema-directory governance requirements on `.agent/schemas/`.
+2. Rule Frontmatter Contract: Rule assets under `.agent/rules/` other than `index.md` MUST satisfy the `RuleDefinition` frontmatter contract with semantic-version `version` values, non-placeholder `description` text, supported `trigger` and `priority` values, and only supported optional keys.
+3. Preferred Naming Required: New or renamed rule assets MUST use lowercase hyphen-case for both the filename stem and any explicit `name` field. Modified legacy rule assets MUST be normalized to the preferred naming convention in the same task.
+4. Trigger and Glob Coupling: Rules using `trigger: glob` MUST declare non-empty `globs`. Rules using any other trigger MUST NOT declare `globs`.
+5. Execution Tier Default: Rule assets MUST use `execution_tier: standard` unless a heavier non-LLM parallel workload is explicitly justified inside the rule.
+6. Rule Body Fencing: Rule assets other than `index.md` MUST wrap all body content inside a non-empty `<constraints>` block and MAY include a non-empty `<verification_step>` block when explicit completion checks are needed.
+7. Rules Index Governance: `.agent/rules/index.md` MUST remain a generated discovery index aligned with the `index` schema. It MUST summarize live rule metadata without superseding any linked rule definition.
 
 </constraints>
 
 <verification_step>
 
-1. **Rule Asset Check:** If the target file is a rule asset under `.agent/rules/` other than `index.md`, validate its YAML keys against `rule.d.ts`, confirm `version` uses semantic versioning, enforce the `trigger` and `globs` coupling, and reject overbroad claims that try to impose rule-only frontmatter requirements on schema markdown assets.
-2. **Rules Index Check:** If the target file is `.agent/rules/index.md`, confirm it remains a generated discovery index that summarizes live rule metadata without restating or overriding rule-body semantics.
-3. **Schema README Check:** If the target file is a canonical schema `README.md`, confirm the owner-skill metadata, authority order, and modification history remain synchronized with the adjacent schema directory.
-4. **Example or Template Check:** If the target file is a schema example or template markdown asset, confirm it still reflects the adjacent `.d.ts` contract and does not contain unresolved placeholders.
+1. If the target file is a rule asset other than `index.md`, validate its YAML keys against `rule.d.ts`, confirm `version` uses semantic versioning, and confirm the filename stem plus explicit `name` field use lowercase hyphen-case.
+2. Confirm the target rule preserves supported `trigger` and `priority` values, keeps `trigger` and `globs` coupled correctly, and uses only allowed `execution_tier` values.
+3. Confirm each non-index rule keeps all body content inside `<constraints>` and optional non-empty `<verification_step>` blocks.
+4. If the target file is `.agent/rules/index.md`, confirm it remains a generated full-form discovery index aligned with the live rule set and linked rule definitions.
 
 </verification_step>

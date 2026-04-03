@@ -1,7 +1,7 @@
 ---
-name: "skill-change-governance"
-version: "1.2.0"
-description: "Glob-scoped governance rule requiring skill root README updates, strict SemVer version bumps, and vendored schema mirror resynchronization whenever files under .agent/skills/ change."
+name: "dev-skill-governance"
+version: "1.3.0"
+description: "Glob-scoped lifecycle governance rule for `.agent/skills/` packages requiring root README updates, SemVer-aligned version bumps, and vendored schema mirror synchronization."
 trigger: "glob"
 globs: ".agent/skills/**"
 priority: "critical"
@@ -17,6 +17,7 @@ execution_tier: "standard"
 5. Canonical Schema Ownership: Skill-local schema mirrors under `resources/schema/<schema-id>/` are read-only derived copies. Agents MUST NOT hand-edit these mirrors.
 6. Mirror Sync Requirement: If a skill consumes or owns a schema, agents MUST refresh the skill-local schema mirrors from `.agent/schemas/` before completing the task.
 7. Canonical Schema Change Propagation: If a canonical schema in `.agent/schemas/` changes, every dependent skill mirror MUST be re-synced and each affected skill MUST receive at least a patch version bump plus a matching README history entry.
+8. Skills Index Non-Requirement: Until the repository has a deterministic skills-index generator, this rule does not by itself require `.agent/skills/index.md` regeneration for ordinary skill-internal edits.
 
 </constraints>
 
