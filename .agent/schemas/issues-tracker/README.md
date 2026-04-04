@@ -1,9 +1,48 @@
-# Issues Tracker Format
+# DESIGN_JUSTIFICATION: Antigravity Issues Tracker Assets v1.0.1
 
-This package defines the shared Issues Tracker contracts used by:
+<document_purpose>
+This document establishes the canonical local contract for Antigravity Issues Tracker artifacts and the owner-managed lifecycle used to initialize blank `IT-1.0` trackers, maintain and migrate populated `IT-1.1` trackers, and validate legacy lineage artifacts.
+</document_purpose>
 
-- `agent-create-issues-tracker` for blank initialization
-- `agent-update-issues-tracker` for populated tracker maintenance and migration
+<schema_governance>
+```yaml
+primary_owner_skill: artifact-issue-tracker
+distribution_model: canonical-plus-vendored-mirror
+```
+</schema_governance>
+
+<authority_order>
+1. `.agent/schemas/issues-tracker/issues-tracker.d.ts`
+2. `.agent/skills/artifact-issue-tracker/scripts/validate_issues_tracker.py`
+3. `.agent/skills/artifact-issue-tracker/scripts/validate_updated_issues_tracker.py`
+4. `.agent/skills/artifact-issue-tracker/SKILL.md`
+5. `.agent/schemas/issues-tracker/template.md`
+6. `.agent/schemas/issues-tracker/example.md`
+7. `.agent/schemas/issues-tracker/example-it-1.1.md`
+8. Vendored mirrors under `.agent/skills/<skill>/resources/schema/issues-tracker/` are derived copies and must not override the canonical contract.
+</authority_order>
+
+<schema_evaluation_and_justification>
+
+- The Issues Tracker family is now owned end to end by `artifact-issue-tracker`, which acts as the Artifact-Centric Owner for tracker initialization, maintenance, migration, and validation.
+- `IT-1.0` remains the canonical blank initialization profile because new trackers should stay lean and readable before any issue content exists.
+- `IT-1.1` remains the populated maintenance profile because comparative analysis, recommendation, and citation requirements apply only after a tracker is actively maintained.
+- Keeping `IT-1.0` and `IT-1.1` as separate profiles preserves a validator-first lifecycle without collapsing blank and populated trackers into one overloaded format.
+- Historical `v4` and `v5` lineage trackers remain valid repository artifacts and must stay structurally checkable through the legacy validator path, but they are not generation targets.
+- `agent-create-issue-report` remains a separate single-issue non-owner contract and is intentionally excluded from Issues Tracker ownership.
+
+</schema_evaluation_and_justification>
+
+<authoritative_reference_repository>
+
+1. Local contract surface: `.agent/schemas/issues-tracker/issues-tracker.d.ts`
+2. Local blank and legacy validator: `.agent/skills/artifact-issue-tracker/scripts/validate_issues_tracker.py`
+3. Local populated validator: `.agent/skills/artifact-issue-tracker/scripts/validate_updated_issues_tracker.py`
+4. Local blank initialization template: `.agent/schemas/issues-tracker/template.md`
+5. Local canonical blank example: `.agent/schemas/issues-tracker/example.md`
+6. Local canonical populated example: `.agent/schemas/issues-tracker/example-it-1.1.md`
+
+</authoritative_reference_repository>
 
 ## Contract Profiles
 
@@ -79,20 +118,20 @@ generation target for new trackers or updated populated trackers.
 `IT-1.0` blank initialization validation:
 
 ```powershell
-python .agent/skills/agent-create-issues-tracker/scripts/validate_issues_tracker.py .agent/schemas/issues-tracker/example.md --mode canonical
+python .agent/skills/artifact-issue-tracker/scripts/validate_issues_tracker.py .agent/schemas/issues-tracker/example.md --mode canonical
 ```
 
 `IT-1.1` populated update validation:
 
 ```powershell
-python .agent/skills/agent-update-issues-tracker/scripts/validate_updated_issues_tracker.py .agent/schemas/issues-tracker/example-it-1.1.md
+python .agent/skills/artifact-issue-tracker/scripts/validate_updated_issues_tracker.py .agent/schemas/issues-tracker/example-it-1.1.md
 ```
 
 Legacy validation:
 
 ```powershell
-python .agent/skills/agent-create-issues-tracker/scripts/validate_issues_tracker.py .agent/assets/proposals/processed/v4/DDR_v4_Issues_Tracker.md --mode legacy
-python .agent/skills/agent-create-issues-tracker/scripts/validate_issues_tracker.py .agent/assets/proposals/processed/v5/DDR_v5_Issues_Tracker.md --mode legacy
+python .agent/skills/artifact-issue-tracker/scripts/validate_issues_tracker.py .agent/assets/proposals/processed/v4/DDR_v4_Issues_Tracker.md --mode legacy
+python .agent/skills/artifact-issue-tracker/scripts/validate_issues_tracker.py .agent/assets/proposals/processed/v5/DDR_v5_Issues_Tracker.md --mode legacy
 ```
 
 ## Design Basis
@@ -100,9 +139,11 @@ python .agent/skills/agent-create-issues-tracker/scripts/validate_issues_tracker
 The package remains validator-first and keeps the blank and populated contracts separate so
 initialization and maintenance can evolve without collapsing into one overloaded format.
 
-<schema_governance>
-```yaml
-primary_owner_skill: agent-create-issues-tracker
-distribution_model: canonical-plus-vendored-mirror
-```
-</schema_governance>
+<modification_history>
+
+| Date       | Version | Classification | Description |
+| :--------- | :------ | :------------- | :---------- |
+| 2026-03-28 | v1.0.0  | Initial Release | Established the shared Issues Tracker contracts for blank initialization, populated maintenance, and legacy validation. |
+| 2026-04-04 | v1.0.1  | Governance | Promoted `artifact-issue-tracker` to the canonical Artifact-Centric Owner, consolidated tracker lifecycle ownership under one skill, and updated validation and governance references without changing `IT-1.0` or `IT-1.1` wire shapes. |
+
+</modification_history>

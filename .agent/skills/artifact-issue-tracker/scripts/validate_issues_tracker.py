@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Validator for Issues Tracker artifacts used by agent-create-issues-tracker.
+Validator for Issues Tracker artifacts used by artifact-issue-tracker.
 
 Canonical mode validates the current blank-initialization contract.
 Legacy mode validates historical v4/v5 tracker artifacts without rewriting them.

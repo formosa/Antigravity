@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across current skill contracts.
 >
-> Total skills: `11`
+> Total skills: `10`
 >
 > Parent: [`.agent/`](..)
 >
@@ -16,13 +16,12 @@
 2. Use the manifest to confirm the skill category, definition path, and best-fit use conditions.
 3. Open the linked `SKILL.md` before acting whenever exact routing boundaries, execution steps, or validation protocol matter.
 
-> Naming note: `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family and intentionally use `asset-<asset-family>`. `artifact-implementation-plan` and `artifact-brainstorm` are the current artifact-centric owners and intentionally use `artifact-<artifact-family>`. Foundational cross-cutting contracts should prefer `core-<capability>`; `core-schema` is the active schema-authoring contract, and legacy `dev-schema` requests map to it during the transition. Routing skills should prefer `*-router`; `agent-asset-router` is active and `agent-artifact-router` is reserved for future use only. Skills outside the `asset-*`, `artifact-*`, `core-*`, and `*-router` families remain lowercase hyphen-case. Legacy unlisted skills are outside this migration scope.
+> Naming note: `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family and intentionally use `asset-<asset-family>`. `artifact-implementation-plan`, `artifact-brainstorm`, and `artifact-issue-tracker` are the current artifact-centric owners and intentionally use `artifact-<artifact-family>`. Foundational cross-cutting contracts should prefer `core-<capability>`; `core-schema` is the active schema-authoring contract, and legacy `dev-schema` requests map to it during the transition. Routing skills should prefer `*-router`; `agent-asset-router` is active and `agent-artifact-router` is reserved for future use only. Skills outside the `asset-*`, `artifact-*`, `core-*`, and `*-router` families remain lowercase hyphen-case. Legacy unlisted skills are outside this migration scope.
 
 ## Selection Map
 
 - `agent-create-issue-report`: generate one standalone resolution report for a single tracked issue.
-- `agent-create-issues-tracker`: initialize a blank issues tracker from the canonical template.
-- `agent-update-issues-tracker`: reevaluate and update an existing issues tracker against local evidence.
+- `artifact-issue-tracker`: serve as the Artifact-Centric Owner for governed Issues Tracker creation, maintenance, validation, and audit.
 - `artifact-brainstorm`: serve as the Artifact-Centric Owner for governed brainstorm artifacts such as `brainstorm.md`.
 - `agent-asset-router`: classify agent-asset requests and route them to the correct dedicated execution contract or schema-first path.
 - `artifact-implementation-plan`: serve as the Artifact-Centric Owner for governed implementation-plan artifacts before execution begins.
@@ -50,31 +49,22 @@ skills:
       - generating a standalone report for one tracked issue
       - investigating a single issue without editing the tracker
 
-  - id: agent-create-issues-tracker
-    definition: .agent/skills/agent-create-issues-tracker/SKILL.md
+  - id: artifact-issue-tracker
+    definition: .agent/skills/artifact-issue-tracker/SKILL.md
     category: issue_artifacts
-    implementation: .agent/skills/agent-create-issues-tracker/
+    implementation: .agent/skills/artifact-issue-tracker/
     keywords:
       - issues-tracker
       - initialize
-      - template
-      - review
-    use_when:
-      - creating a blank issues tracker
-      - starting a new review tracker from the canonical template
-
-  - id: agent-update-issues-tracker
-    definition: .agent/skills/agent-update-issues-tracker/SKILL.md
-    category: issue_artifacts
-    implementation: .agent/skills/agent-update-issues-tracker/
-    keywords:
-      - issues-tracker
       - refresh
       - migrate
-      - comparative-analysis
+      - validate
+      - audit
+      - artifact-centric-owner
     use_when:
-      - updating or migrating an existing issues tracker
-      - adding comparative analysis or refreshed evidence to tracked issues
+      - creating a blank issues tracker from the canonical template
+      - updating, migrating, validating, or auditing an existing issues tracker
+      - using the dedicated owner utility for the Issues Tracker artifact lifecycle
 
   - id: artifact-brainstorm
     definition: .agent/skills/artifact-brainstorm/SKILL.md
@@ -204,19 +194,12 @@ skills:
 - Best used for: generating one validator-checked standalone report for a single tracked issue.
 - Open the linked definition when report structure, evidence rules, or validator usage matters.
 
-### `agent-create-issues-tracker`
+### `artifact-issue-tracker`
 
-- Definition: [`agent-create-issues-tracker/SKILL.md`](agent-create-issues-tracker/SKILL.md)
-- Implementation: [`.agent/skills/agent-create-issues-tracker/`](agent-create-issues-tracker)
-- Best used for: initializing a fresh issues tracker from the canonical blank template.
-- Open the linked definition when tracker parameters, overwrite rules, or validator steps matter.
-
-### `agent-update-issues-tracker`
-
-- Definition: [`agent-update-issues-tracker/SKILL.md`](agent-update-issues-tracker/SKILL.md)
-- Implementation: [`.agent/skills/agent-update-issues-tracker/`](agent-update-issues-tracker)
-- Best used for: refreshing, migrating, or expanding an existing issues tracker using local evidence.
-- Open the linked definition when filtered mode, migration behavior, or citation requirements matter.
+- Definition: [`artifact-issue-tracker/SKILL.md`](artifact-issue-tracker/SKILL.md)
+- Implementation: [`.agent/skills/artifact-issue-tracker/`](artifact-issue-tracker)
+- Best used for: serving as the Artifact-Centric Owner utility for Issues Tracker initialization, maintenance, migration, validation, and audit.
+- Open the linked definition when tracker mode selection, overwrite rules, evidence standards, migration behavior, or validator usage matters.
 
 ### `artifact-brainstorm`
 
@@ -277,9 +260,9 @@ skills:
 ## Category Totals
 
 - `formatting_and_refactoring`: `1`
-- `issue_artifacts`: `3`
+- `issue_artifacts`: `2`
 - `orchestration_and_authoring`: `7`
-- `total`: `11`
+- `total`: `10`
 
 ## Index Boundaries
 

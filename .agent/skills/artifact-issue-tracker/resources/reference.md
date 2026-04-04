@@ -1,4 +1,57 @@
-# Agent Update Issues Tracker Reference
+# Artifact Issue Tracker Reference
+
+## Scope
+
+This owner skill manages the full lifecycle of governed Issues Tracker artifacts.
+
+- It initializes blank `IT-1.0` trackers from the canonical template.
+- It refreshes and migrates populated trackers into the `IT-1.1` maintenance profile.
+- It validates blank, populated, and legacy lineage trackers with the matching validator surface.
+- It does not generate standalone issue reports.
+- It does not patch target DDR YAML or spec files.
+
+## Contract Profiles
+
+Use these profiles intentionally:
+
+- `IT-1.0` for blank tracker initialization from `.agent/schemas/issues-tracker/template.md`
+- `IT-1.1` for populated tracker maintenance and migration
+- legacy mode only for structural validation of historical `v4` and `v5` lineage trackers
+
+The owner contract keeps blank and populated profiles separate on purpose. New trackers still start as lean `IT-1.0` documents and move to `IT-1.1` only when populated maintenance begins.
+
+## Canonical Output Choice
+
+New blank trackers should follow the lean visible-metadata profile represented by:
+
+- `.agent/assets/proposals/active/v6.2/DDR_v6.1_Issues_Tracker.md` as the strongest current-format lineage sample
+- `.agent/schemas/issues-tracker/template.md` as the blank initialization contract
+
+Historical lineage files remain useful as references, but not as generation targets:
+
+- `.agent/assets/proposals/processed/v4/DDR_v4_Issues_Tracker.md`
+- `.agent/assets/proposals/processed/v5/DDR_v5_Issues_Tracker.md`
+
+## Validation Surfaces
+
+Use the lightest matching validator for the tracker profile under review:
+
+- `validate_issues_tracker.py --mode canonical`
+  - blank `IT-1.0` tracker validation
+  - required section headings
+  - zero issue entries
+  - exactly one empty registry row
+  - zeroed metadata and footer counts
+  - no unresolved placeholders
+  - header and footer date/title coherence
+- `validate_issues_tracker.py --mode legacy`
+  - structural validation for historical `v4` and `v5` trackers without rewriting them
+- `validate_updated_issues_tracker.py`
+  - populated `IT-1.1` validation
+  - required migrated schema and workflow markers
+  - issue subsection completeness
+  - registry sorting and counts
+  - citation shape and recommendation shape
 
 ## Evidence Hierarchy
 

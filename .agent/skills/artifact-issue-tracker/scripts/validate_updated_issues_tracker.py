@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Validate populated IT-1.1 Issues Tracker artifacts used by agent-update-issues-tracker.
+Validate populated IT-1.1 Issues Tracker artifacts used by artifact-issue-tracker.
 """
 
 from __future__ import annotations

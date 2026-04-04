@@ -41,6 +41,7 @@ WEAK_DESCRIPTION_TERMS = ("helper", "utils", "tools", "stuff", "things", "misc")
 RESOURCE_ACTION_HINTS = ("read ", "run ", "execute ", "open ")
 RUNTIME_ROUTED_OWNER_SCHEMA_IDS = {"rule", "skill", "workflow"}
 OWNER_NAMING_EXEMPT_SCHEMA_IDS = {"schema"}
+OWNER_NAMING_OVERRIDES = {"issues-tracker": "artifact-issue-tracker"}
 
 
 @dataclass
@@ -456,7 +457,10 @@ def validate_owner_skill_naming(
     if owned_schema_id in OWNER_NAMING_EXEMPT_SCHEMA_IDS:
         return
 
-    if owned_schema_id in RUNTIME_ROUTED_OWNER_SCHEMA_IDS:
+    if owned_schema_id in OWNER_NAMING_OVERRIDES:
+        expected_name = OWNER_NAMING_OVERRIDES[owned_schema_id]
+        family_label = "Artifact-Centric Owner"
+    elif owned_schema_id in RUNTIME_ROUTED_OWNER_SCHEMA_IDS:
         expected_name = f"asset-{owned_schema_id}"
         family_label = "Runtime-routed owner skill"
     else:

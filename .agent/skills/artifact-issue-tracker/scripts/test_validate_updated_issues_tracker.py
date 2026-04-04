@@ -168,6 +168,9 @@ class ValidateUpdatedIssuesTrackerTests(unittest.TestCase):
         self.assertIn("Tracker contains unresolved placeholders", self.validate_text(text))
 
     def test_real_tracker_migration_fixture_validates_and_does_not_mutate_sources(self) -> None:
+        if not REAL_TRACKER_PATH.exists():
+            self.skipTest(f"Real tracker fixture is not present: {REAL_TRACKER_PATH}")
+
         original_bytes = REAL_TRACKER_PATH.read_bytes()
         migrated_text = migrate_real_tracker_fixture(REAL_TRACKER_PATH.read_text(encoding="utf-8"))
 

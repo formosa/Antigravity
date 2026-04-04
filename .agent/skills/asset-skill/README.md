@@ -42,5 +42,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 3.0.1 | patch | Owner Taxonomy | Updated the shared owner-skill taxonomy resource to recognize `artifact-brainstorm` as an Artifact-Centric Owner and removed brainstorm from the non-owner exception list. |
 | 2026-04-04 | 3.1.0 | minor | Core Family | Added the foundational `core-*` family to the shared skill-authoring taxonomy, taught the active scaffolding contract when to classify a skill as a `Foundational Core Contract`, and aligned `core-schema` migration guidance with the owner-pattern resource. |
 | 2026-04-04 | 3.2.0 | minor | Collection Governance | Replaced the old `dev-<owned-asset>-governance` convention with `<plural-directory>-governance` for collection-scoped directory governance rules and aligned the active skill-authoring contract with the renamed governance-rule family. |
+| 2026-04-04 | 3.2.1 | patch | Tracker Owner Naming | Recognized `artifact-issue-tracker` as the established Artifact-Centric Owner for the `issues-tracker` schema, taught the validator about the canonical singular owner name, and aligned skill-authoring guidance with that exception. |
 
 </modification_history>

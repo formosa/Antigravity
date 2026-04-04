@@ -1,6 +1,6 @@
 // issues-tracker.d.ts
-// Shared Issues Tracker contracts for blank initialization (`IT-1.0`) and populated
-// maintenance updates (`IT-1.1`).
+// Shared Issues Tracker contracts managed by artifact-issue-tracker across blank
+// initialization (`IT-1.0`) and populated maintenance updates (`IT-1.1`).
 
 type IssueStatus = 'OPEN' | 'IN_REVIEW' | 'RESOLVED' | 'WONT_FIX' | 'DEFERRED';
 type IssueSeverity = 'CRITICAL' | 'MAJOR' | 'MODERATE' | 'MINOR';
@@ -98,7 +98,8 @@ interface UpdatedIssueEntry extends CanonicalIssueEntry {
 }
 
 /**
- * Blank initialization contract used by agent-create-issues-tracker.
+ * Blank initialization contract used by artifact-issue-tracker when creating new tracker
+ * artifacts.
  */
 interface CanonicalIssuesTrackerDefinition extends BaseIssuesTrackerDefinition {
     document_metadata: BaseIssuesTrackerDefinition['document_metadata'] & {
@@ -113,7 +114,7 @@ interface CanonicalIssuesTrackerDefinition extends BaseIssuesTrackerDefinition {
 }
 
 /**
- * Populated update contract used by agent-update-issues-tracker after an existing tracker is
+ * Populated maintenance contract used by artifact-issue-tracker after an existing tracker is
  * migrated in place.
  */
 interface UpdatedIssuesTrackerDefinition extends BaseIssuesTrackerDefinition {
