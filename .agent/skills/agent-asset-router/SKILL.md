@@ -1,6 +1,6 @@
 ---
 name: agent-asset-router
-version: 2.3.0
+version: 2.3.1
 description: Routes Antigravity agent-asset work to the correct dedicated execution contract using the local skills registry, deterministic direct-route handoff, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct direct-route skill is unclear or mixed, or when determining whether schema work must happen first. Legacy `dev-schema` requests normalize to `core-schema` during routing. Do not use when the request is already expressed in the exact vocabulary of a dedicated execution contract such as direct skill scaffolding, direct rule authoring, canonical schema authoring, workflow creation, implementation-plan generation, brainstorm artifact maintenance, explicit issues-tracker lifecycle management, or standalone issue-report generation, maintenance, or validation.
 ---
 

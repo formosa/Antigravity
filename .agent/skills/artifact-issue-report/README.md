@@ -30,5 +30,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | Date | Version | SemVer | Classification | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | 2026-04-04 | 1.0.0 | initial | Owner Migration | Created `artifact-issue-report` as the Artifact-Centric Owner for issue-report artifacts, migrated canonical validator/resources into the new package, and aligned ownership with the canonical `issue` schema. |
+| 2026-04-04 | 1.0.1 | patch | Sole Owner Cleanup | Removed the deprecated legacy issue-report compatibility package from the active repository contract and retained `artifact-issue-report` as the sole documented owner and validator path for issue-report artifacts. |
 
 </modification_history>

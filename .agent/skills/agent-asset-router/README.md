@@ -38,6 +38,7 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 2.1.0 | minor | Routing | Added `artifact-brainstorm` to the direct-route matrix, removed `brainstorm` from schema-first fallback routing, and aligned the router with brainstorm's promotion to an Artifact-Centric Owner. |
 | 2026-04-04 | 2.2.0 | minor | Core Family Migration | Promoted `core-schema` as the active foundational schema-authoring contract, rewired schema-first fallback routing and direct-route guidance to the renamed package, and normalized legacy `dev-schema` requests to `core-schema`. |
 | 2026-04-04 | 2.2.1 | patch | Tracker Owner Migration | Replaced the split tracker routes with `artifact-issue-tracker` as the sole direct-route Issues Tracker contract and aligned explicit tracker-maintenance wording with the new full-lifecycle owner skill. |
-| 2026-04-04 | 2.3.0 | minor | Issue Report Owner Migration | Added `artifact-issue-report` as the canonical direct-route issue-report contract, expanded direct-route wording to cover report maintenance and validation, and retired `agent-create-issue-report` from the router's primary path. |
+| 2026-04-04 | 2.3.0 | minor | Issue Report Owner Migration | Added `artifact-issue-report` as the canonical direct-route issue-report contract, expanded direct-route wording to cover report maintenance and validation, and retired the prior compatibility alias from the router's primary path. |
+| 2026-04-04 | 2.3.1 | patch | Deprecated Alias Removal | Removed the deprecated issue-report compatibility package from the router's active registry context so standalone report routing now resolves only to `artifact-issue-report`. |
 
 </modification_history>

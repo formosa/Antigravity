@@ -1,6 +1,6 @@
 ---
 name: artifact-issue-report
-version: 1.0.0
+version: 1.0.1
 description: Serves as the Artifact-Centric Owner for issue-report artifacts by generating canonical standalone issue reports, maintaining or upgrading existing reports, and validating canonical or legacy report integrity against the canonical `issue` contract. Use when the task is to create, modify, migrate, or validate a governed issue report. Do not use when the task is to edit the source Issues Tracker, patch target DDR/spec/YAML files, or rewrite the canonical `issue` schema.
 ---
 

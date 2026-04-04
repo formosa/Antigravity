@@ -28,6 +28,7 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | Date       | Version | SemVer  | Classification  | Description |
 | :--------- | :------ | :------ | :-------------- | :---------- |
 | 2026-04-04 | 1.0.0   | initial | Owner Migration | Created `artifact-issue-tracker` as the Artifact-Centric Owner for Issues Tracker artifacts, consolidated the legacy create and update tracker contracts into one full-lifecycle skill, and aligned ownership with the canonical `issues-tracker` schema. |
-| 2026-04-04 | 1.0.1   | patch   | Owner Reference Alignment | Repointed standalone issue-report routing guidance from `agent-create-issue-report` to `artifact-issue-report` and synchronized the tracker owner contract with the staged issue-report owner migration. |
+| 2026-04-04 | 1.0.1   | patch   | Owner Reference Alignment | Repointed standalone issue-report routing guidance to `artifact-issue-report` and synchronized the tracker owner contract with the staged issue-report owner migration. |
+| 2026-04-04 | 1.0.2   | patch   | Deprecated Alias Removal | Removed the final deprecated issue-report compatibility-alias wording so tracker guidance now names only the active standalone report owner. |
 
 </modification_history>

@@ -1,4 +1,4 @@
-# DESIGN_JUSTIFICATION: Antigravity Issue Assets v2.0.0
+# DESIGN_JUSTIFICATION: Antigravity Issue Assets v2.0.1
 
 <document_purpose>
 This document establishes the canonical local contract for Antigravity issue-report artifacts and the owner-managed lifecycle used to generate, maintain, validate, and upgrade standalone issue reports.
@@ -104,17 +104,12 @@ Legacy validation:
 python .agent/skills/artifact-issue-report/scripts/validate_issue_report.py .agent/schemas/issue/example-legacy-v4.md --mode legacy
 ```
 
-Compatibility alias validation:
-
-```powershell
-python .agent/skills/agent-create-issue-report/scripts/validate_issue_report.py .agent/schemas/issue/example.md --mode canonical
-```
-
 <modification_history>
 
 | Date       | Version | Classification  | Description |
 | :--------- | :------ | :-------------- | :---------- |
 | 2026-03-02 | v1.0.0  | Initial Release | Constructed `issue.d.ts` per Antigravity schema standards with strict typing and YAML context annotations. |
 | 2026-04-04 | v2.0.0  | Major revision  | Promoted `artifact-issue-report` to the canonical owner, aligned the canonical issue schema with the live two-option validator contract, and split legacy v4/v5 compatibility into an explicit non-canonical example path. |
+| 2026-04-04 | v2.0.1  | Patch revision  | Removed the deprecated legacy-validator alias from the documented issue-report lifecycle and preserved `artifact-issue-report` as the sole validation entry point for the canonical issue family. |
 
 </modification_history>
