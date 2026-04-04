@@ -44,7 +44,9 @@ This document defines the shared owner-skill taxonomy and pattern used by Antigr
 - Owner skills follow a validation-first lifecycle: scaffold or open the target asset, apply bounded edits, validate the result, then sync mirrors or indexes before handoff.
 - Owner skills must include RFQ or halt gates whenever the request is ambiguous enough that proceeding would silently redefine an asset class, ownership boundary, or canonical contract.
 - A dedicated governance rule is warranted only when the skill declares non-empty `owned_schema_ids`, directly manages a stable asset directory, has cross-file lifecycle invariants that exceed a single asset's validator, and can use a trigger surface that does not overlap another governance rule.
-- When a dedicated governance rule is warranted, name it `dev-<owned-asset>-governance` and scope it to the owned asset directory instead of mixing multiple governance surfaces into one rule.
+- When a dedicated governance rule is warranted for one stable plural asset directory plus that directory's generated category index, name it `<plural-directory>-governance` and scope it to the collection surface instead of mixing multiple governance surfaces into one rule.
+- Use the plural collection-governance pattern only for collection-scoped directory governance rules such as `rules-governance`, `schemas-governance`, and `skills-governance`.
+- Ordinary non-directory rules should remain standard lowercase hyphen-case and should not inherit the plural collection-governance pattern by default.
 - Front-door routers remain non-owner skills unless they later gain their own governed asset-family lifecycle.
 - Split-lifecycle artifact families remain non-owner until one dedicated skill owns creation, modification, and management for that family.
 - Single-purpose creators or consumers such as issue-report or issue-tracker skills remain non-owner unless they later gain non-empty `owned_schema_ids` plus an owned full-lifecycle contract.

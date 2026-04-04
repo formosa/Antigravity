@@ -1,7 +1,7 @@
 ---
-name: "dev-skill-governance"
-version: "1.3.0"
-description: "Glob-scoped lifecycle governance rule for `.agent/skills/` packages requiring root README updates, SemVer-aligned version bumps, and vendored schema mirror synchronization."
+name: "skills-governance"
+version: "2.0.0"
+description: "Glob-scoped collection governance rule for the `.agent/skills/` directory, requiring root README updates, SemVer-aligned version bumps, vendored schema mirror synchronization, and lifecycle consistency across the full skills collection surface."
 trigger: "glob"
 globs: ".agent/skills/**"
 priority: "critical"

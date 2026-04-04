@@ -1,6 +1,6 @@
 ---
 name: asset-rule
-version: 2.0.1
+version: 2.1.0
 description: Authors or refines Antigravity-compatible rule assets with explicit trigger boundaries, scaffold and validation tooling, and deterministic rules-index synchronization. Use when the task is to create, standardize, validate, or re-index a reusable rule under `.agent/rules/`. Do not use when the task is standalone canonical schema authoring, specialized rule-derived schema work such as `security-policy`, or ordinary project feature changes.
 ---
 
@@ -18,6 +18,8 @@ description: Authors or refines Antigravity-compatible rule assets with explicit
 2. Decide whether to scaffold or refine:
    - Run `python .agent/skills/asset-rule/scripts/init_rule.py <rule-name> [--path <output-directory>]` when creating a new rule.
    - Open the existing `.agent/rules/<rule-name>.md` when standardizing or tightening a live rule.
+   - If the target rule governs one stable plural asset directory plus that directory's generated `index.md`, use the collection-scoped naming convention `<plural-directory>-governance` (for example: `rules-governance`, `schemas-governance`, `skills-governance`).
+   - Do not apply the plural collection-governance naming pattern to ordinary non-directory rules.
 3. Author the rule against the `rule` schema:
    - include YAML frontmatter with `version`, `description`, `trigger`, and `priority`
    - add `globs` only when `trigger` is `glob`

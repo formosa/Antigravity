@@ -20,9 +20,9 @@
 
 - `agent-temp-artifact-hygiene`: Always-on containment and cleanup policy for one-off agent scripts, diagnostics, and transient run artifacts in the Antigravity workspace.
 - `powershell-execution-guardrails`: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
-- `dev-rule-governance`: Glob-scoped governance rule for `.agent/rules/` assets covering rule frontmatter, preferred naming, XML-fenced bodies, and generated rules-index alignment.
-- `dev-schema-governance`: Glob-scoped governance rule for `.agent/schemas/` assets covering canonical `.d.ts` contracts, schema README governance blocks, example fidelity, and the table-only schema index.
-- `dev-skill-governance`: Glob-scoped lifecycle governance rule for `.agent/skills/` packages requiring root README updates, SemVer-aligned version bumps, and vendored schema mirror synchronization.
+- `rules-governance`: Glob-scoped collection governance rule for the `.agent/rules/` directory, covering rule frontmatter, preferred naming, XML-fenced bodies, and the generated rules index for the full rules collection surface.
+- `schemas-governance`: Glob-scoped collection governance rule for the `.agent/schemas/` directory, covering canonical `.d.ts` contracts, schema README governance blocks, example fidelity, and the table-only schemas index for the full schema collection surface.
+- `skills-governance`: Glob-scoped collection governance rule for the `.agent/skills/` directory, requiring root README updates, SemVer-aligned version bumps, vendored schema mirror synchronization, and lifecycle consistency across the full skills collection surface.
 
 ## Manifest
 
@@ -63,60 +63,59 @@ rules:
   use_when:
   - Always-on Windows PowerShell execution guardrails focused on PowerShell-native
     syntax, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
-- id: dev-rule-governance
-  definition: .agent/rules/dev-rule-governance.md
+- id: rules-governance
+  definition: .agent/rules/rules-governance.md
   asset_structure: flat-file
   category: glob_rules
   trigger: glob
   priority: critical
-  implementation: .agent/rules/dev-rule-governance.md
+  implementation: .agent/rules/rules-governance.md
   keywords:
   - rule
   - glob
   - critical
-  - dev
+  - rules
   - governance
   use_when:
-  - Glob-scoped governance rule for `.agent/rules/` assets covering rule frontmatter,
-    preferred naming, XML-fenced bodies, and generated rules-index alignment.
+  - Glob-scoped collection governance rule for the `.agent/rules/` directory, covering
+    rule frontmatter, preferred naming, XML-fenced bodies, and the generated rules
+    index for the full rules collection surface.
   globs: .agent/rules/**
-- id: dev-schema-governance
-  definition: .agent/rules/dev-schema-governance.md
+- id: schemas-governance
+  definition: .agent/rules/schemas-governance.md
   asset_structure: flat-file
   category: glob_rules
   trigger: glob
   priority: critical
-  implementation: .agent/rules/dev-schema-governance.md
+  implementation: .agent/rules/schemas-governance.md
   keywords:
   - rule
   - glob
   - critical
-  - dev
-  - schema
+  - schemas
   - governance
   use_when:
-  - Glob-scoped governance rule for `.agent/schemas/` assets covering canonical `.d.ts`
-    contracts, schema README governance blocks, example fidelity, and the table-only
-    schema index.
+  - Glob-scoped collection governance rule for the `.agent/schemas/` directory, covering
+    canonical `.d.ts` contracts, schema README governance blocks, example fidelity,
+    and the table-only schemas index for the full schema collection surface.
   globs: .agent/schemas/**
-- id: dev-skill-governance
-  definition: .agent/rules/dev-skill-governance.md
+- id: skills-governance
+  definition: .agent/rules/skills-governance.md
   asset_structure: flat-file
   category: glob_rules
   trigger: glob
   priority: critical
-  implementation: .agent/rules/dev-skill-governance.md
+  implementation: .agent/rules/skills-governance.md
   keywords:
   - rule
   - glob
   - critical
-  - dev
-  - skill
+  - skills
   - governance
   use_when:
-  - Glob-scoped lifecycle governance rule for `.agent/skills/` packages requiring
-    root README updates, SemVer-aligned version bumps, and vendored schema mirror
-    synchronization.
+  - Glob-scoped collection governance rule for the `.agent/skills/` directory, requiring
+    root README updates, SemVer-aligned version bumps, vendored schema mirror synchronization,
+    and lifecycle consistency across the full skills collection surface.
   globs: .agent/skills/**
 ```
 
@@ -142,30 +141,30 @@ Records are grouped by trigger order (`always_on`, `glob`, `manual`, `auto`, `@m
 - Execution tier: `standard`
 - Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
 
-### `dev-rule-governance`
+### `rules-governance`
 
-- Definition: [`dev-rule-governance.md`](dev-rule-governance.md)
-- Best used for: Glob-scoped governance rule for `.agent/rules/` assets covering rule frontmatter, preferred naming, XML-fenced bodies, and generated rules-index alignment.
+- Definition: [`rules-governance.md`](rules-governance.md)
+- Best used for: Glob-scoped collection governance rule for the `.agent/rules/` directory, covering rule frontmatter, preferred naming, XML-fenced bodies, and the generated rules index for the full rules collection surface.
 - Trigger: `glob` (glob-scoped)
 - Priority: `critical`
 - Glob scope: `.agent/rules/**`
 - Execution tier: `standard`
 - Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
 
-### `dev-schema-governance`
+### `schemas-governance`
 
-- Definition: [`dev-schema-governance.md`](dev-schema-governance.md)
-- Best used for: Glob-scoped governance rule for `.agent/schemas/` assets covering canonical `.d.ts` contracts, schema README governance blocks, example fidelity, and the table-only schema index.
+- Definition: [`schemas-governance.md`](schemas-governance.md)
+- Best used for: Glob-scoped collection governance rule for the `.agent/schemas/` directory, covering canonical `.d.ts` contracts, schema README governance blocks, example fidelity, and the table-only schemas index for the full schema collection surface.
 - Trigger: `glob` (glob-scoped)
 - Priority: `critical`
 - Glob scope: `.agent/schemas/**`
 - Execution tier: `standard`
 - Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
 
-### `dev-skill-governance`
+### `skills-governance`
 
-- Definition: [`dev-skill-governance.md`](dev-skill-governance.md)
-- Best used for: Glob-scoped lifecycle governance rule for `.agent/skills/` packages requiring root README updates, SemVer-aligned version bumps, and vendored schema mirror synchronization.
+- Definition: [`skills-governance.md`](skills-governance.md)
+- Best used for: Glob-scoped collection governance rule for the `.agent/skills/` directory, requiring root README updates, SemVer-aligned version bumps, vendored schema mirror synchronization, and lifecycle consistency across the full skills collection surface.
 - Trigger: `glob` (glob-scoped)
 - Priority: `critical`
 - Glob scope: `.agent/skills/**`

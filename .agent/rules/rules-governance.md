@@ -1,7 +1,7 @@
 ---
-name: "dev-rule-governance"
-description: "Glob-scoped governance rule for `.agent/rules/` assets covering rule frontmatter, preferred naming, XML-fenced bodies, and generated rules-index alignment."
-version: "1.0.0"
+name: "rules-governance"
+description: "Glob-scoped collection governance rule for the `.agent/rules/` directory, covering rule frontmatter, preferred naming, XML-fenced bodies, and the generated rules index for the full rules collection surface."
+version: "2.0.0"
 trigger: "glob"
 globs: ".agent/rules/**"
 priority: "critical"

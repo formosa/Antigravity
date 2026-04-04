@@ -1,7 +1,7 @@
 ---
-name: "dev-schema-governance"
-version: "1.0.1"
-description: "Glob-scoped governance rule for `.agent/schemas/` assets covering canonical `.d.ts` contracts, schema README governance blocks, example fidelity, and the table-only schema index."
+name: "schemas-governance"
+version: "2.0.0"
+description: "Glob-scoped collection governance rule for the `.agent/schemas/` directory, covering canonical `.d.ts` contracts, schema README governance blocks, example fidelity, and the table-only schemas index for the full schema collection surface."
 trigger: "glob"
 globs: ".agent/schemas/**"
 priority: "critical"

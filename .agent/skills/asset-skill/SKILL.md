@@ -1,6 +1,6 @@
 ---
 name: asset-skill
-version: 3.1.0
+version: 3.2.0
 description: Authors or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder, including runtime-routed owner skills, artifact-centric owner skills, foundational `core-*` contracts, and routing contracts. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
 ---
 
@@ -21,6 +21,8 @@ description: Authors or refines Antigravity-compatible skills with explicit trig
    - Add scripts only for repeatable, high-risk, or machine-verifiable steps.
    - Add resources only when detailed reference material should stay out of `SKILL.md` until needed.
    - If the target skill will own an asset family, read the shared owner-skill pattern, mirror its governance split, and add a dedicated governance rule only when the documented owner-rule criteria are met.
+   - If that dedicated governance rule will govern one stable plural asset directory plus its generated category index, name the rule `<plural-directory>-governance`.
+   - Do not generalize the plural collection-governance naming pattern to ordinary non-directory rules or to asset-family naming families such as `asset-*`, `artifact-*`, `core-*`, or `*-router`.
    - If the target skill will be the direct-route owner contract for a reusable `rule`, `skill`, or `workflow` directory, classify it as a `Runtime-Routed Owner Skill` and name it `asset-<asset-family>`.
    - If the target skill will own one governed artifact family end to end, classify it as an `Artifact-Centric Owner` and prefer `artifact-<artifact-family>`.
    - If the target skill will own a foundational cross-cutting governance surface such as canonical schema authoring, classify it as a `Foundational Core Contract` and prefer `core-<capability>`.
