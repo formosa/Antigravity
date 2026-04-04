@@ -1,6 +1,6 @@
 ---
 name: "dev-schema-governance"
-version: "1.0.0"
+version: "1.0.1"
 description: "Glob-scoped governance rule for `.agent/schemas/` assets covering canonical `.d.ts` contracts, schema README governance blocks, example fidelity, and the table-only schema index."
 trigger: "glob"
 globs: ".agent/schemas/**"
@@ -15,7 +15,7 @@ execution_tier: "standard"
 3. Schema README Governance: Canonical schema READMEs under `.agent/schemas/<schema-id>/README.md` MUST preserve accurate `<document_purpose>`, `<schema_governance>`, `<authority_order>`, and `<modification_history>` content aligned with the adjacent schema directory, including the correct `primary_owner_skill`.
 4. Modification History Required: Material schema changes MUST append a new `README.md` modification-history row that matches the delivered version and describes the actual contract or governance change.
 5. Example and Template Fidelity: Example or template markdown under `.agent/schemas/` MUST remain aligned with the adjacent `.d.ts` contract and MUST NOT contain unresolved `TODO`, `N/A`, or generic filler text that would misrepresent the schema.
-6. Schema Index Exception: `.agent/schemas/index.md` MUST remain a generated table-only governance exception aligned with the current `dev-schema` index script. It MUST NOT be expanded into the richer full-form index contract used by rules, skills, tools, and workflows.
+6. Schema Index Exception: `.agent/schemas/index.md` MUST remain a generated table-only governance exception aligned with the current `core-schema` index script. It MUST NOT be expanded into the richer full-form index contract used by rules, skills, tools, and workflows.
 
 </constraints>
 

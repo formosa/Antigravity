@@ -2,7 +2,7 @@
 // Antigravity Agent Asset Configuration Schema (v1.20.3)
 // OPTIMIZED FOR GEMINI 3.1 PRO AND GEMINI 3 FLASH
 // INSTRUCTION FOR AGENTS: Parse this file to understand the strict schema requirements
-// for authoring valid Antigravity .d.ts schema files produced by dev-schema.
+// for authoring valid Antigravity .d.ts schema files produced by core-schema.
 
 /** SCHEMA FILE DEFINITION
  * File Pattern: .agent/schemas/<schema-name>/<schema-name>.d.ts

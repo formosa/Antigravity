@@ -36,5 +36,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 1.0.6 | patch | Naming Convention | Clarified that `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family using `asset-<asset-family>` naming while keeping `dev-schema` and the router itself outside that family. |
 | 2026-04-03 | 2.0.0 | major | Naming Hardening | Hardened the router contract around the active `asset-*`, `artifact-*`, and `*-router` naming families, updated the direct-route matrix to use the renamed owner packages, and reserved `agent-artifact-router` as a future concept only. |
 | 2026-04-03 | 2.1.0 | minor | Routing | Added `artifact-brainstorm` to the direct-route matrix, removed `brainstorm` from schema-first fallback routing, and aligned the router with brainstorm's promotion to an Artifact-Centric Owner. |
+| 2026-04-04 | 2.2.0 | minor | Core Family Migration | Promoted `core-schema` as the active foundational schema-authoring contract, rewired schema-first fallback routing and direct-route guidance to the renamed package, and normalized legacy `dev-schema` requests to `core-schema`. |
 
 </modification_history>

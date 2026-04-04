@@ -1,6 +1,6 @@
 ---
 name: artifact-brainstorm
-version: 1.0.0
+version: 1.0.2
 description: Serves as the Artifact-Centric Owner for Antigravity brainstorm artifacts by creating, seeding, repairing, validating, and auditing governed `brainstorm.md` compendia against the canonical `brainstorm` schema, citation protocol, and Mermaid/visual-semantics rules. Use when the task is to create or maintain a governed brainstorm artifact or its entry content. Do not use when the task is to author the canonical brainstorm schema, finalize normative spec text, or write an implementation plan.
 ---
 
@@ -24,14 +24,14 @@ description: Serves as the Artifact-Centric Owner for Antigravity brainstorm art
 - **Owner subtype:** `Artifact-Centric Owner` for the `brainstorm` artifact family.
 - **Owned artifact surface:** `brainstorm.md` by default, or an explicitly supplied alternate path.
 - **Canonical schema authority:** `.agent/schemas/brainstorm/`.
-- **Reference source:** `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.docx`.
+- **Reference source:** `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml`.
 
 ## Deterministic protocol
 
 1. Resolve inputs before editing:
    - Optional: `BRAINSTORM_PATH` (default `brainstorm.md`)
    - Optional: `MODE` (`auto` by default)
-   - Optional: `SOURCE_REFERENCE_PATH` (default `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.docx`)
+   - Optional: `SOURCE_REFERENCE_PATH` (default `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml`)
    - Required for updates: user-provided idea content, library candidate details, or requested repair objective
    - Optional for updates: target section, category, status, priority, or baseline snapshot path
 2. Load the local contract surfaces:
@@ -39,7 +39,7 @@ description: Serves as the Artifact-Centric Owner for Antigravity brainstorm art
    - Read `resources/schema/brainstorm/README.md` and `resources/schema/brainstorm/brainstorm.d.ts` only as packaged mirrors after consulting the canonical schema.
    - Read `## PART I — Document Manifest` in the target artifact before changing any entry content.
 3. Apply hard RFQ or halt gates before mutation:
-   - If the request asks to redefine the canonical brainstorm schema and author or repair the final brainstorm artifact in the same pass, halt and route schema work through `dev-schema` first.
+   - If the request asks to redefine the canonical brainstorm schema and author or repair the final brainstorm artifact in the same pass, halt and route schema work through `core-schema` first.
    - If explicit initialization would overwrite an existing brainstorm artifact, require overwrite approval before replacing it.
    - If the target artifact path or intended operation is ambiguous enough that proceeding would silently redefine the owned artifact boundary, halt and request clarification.
    - If the canonical seed or source reference is missing, halt and return the exact missing-path failure.
@@ -74,7 +74,7 @@ description: Serves as the Artifact-Centric Owner for Antigravity brainstorm art
 Examples:
 
 - Initialize:
-  - `python .agent/skills/artifact-brainstorm/scripts/init_brainstorm.py brainstorm.md --source-reference .agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.docx`
+  - `python .agent/skills/artifact-brainstorm/scripts/init_brainstorm.py brainstorm.md --source-reference .agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml`
 - Validate:
   - `python .agent/skills/artifact-brainstorm/scripts/validate_brainstorm.py brainstorm.md`
 - Validate with audit:
@@ -85,7 +85,7 @@ Examples:
 <constraints>
 
 - Do not treat brainstorm entries as authoritative engineering decisions; promoted ideas belong in ADRs or the formal DDR specification.
-- Do not author or revise `.agent/schemas/brainstorm/` through this skill; canonical schema work belongs to `dev-schema`.
+- Do not author or revise `.agent/schemas/brainstorm/` through this skill; canonical schema work belongs to `core-schema`.
 - Do not invent category IDs, status values, priority values, tier references, extension IDs, citation IDs, or authority types outside the controlled vocabularies.
 - Do not remove or rename existing `BRAIN-II-###` or `BRAIN-III-###` identifiers.
 - Do not move a `LIB` entry into Part II or an `IDEA` entry into Part III.
@@ -104,6 +104,6 @@ Examples:
 - Read `resources/schema/brainstorm/README.md` only as the packaged mirror bundled with this skill after consulting the canonical schema.
 - Run `.agent/skills/artifact-brainstorm/scripts/init_brainstorm.py` when the governed brainstorm artifact must be initialized from scratch.
 - Run `.agent/skills/artifact-brainstorm/scripts/validate_brainstorm.py` after edits to confirm structural validity.
-- Read `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.docx` as the schema-owned source reference when seeding or repairing the compendium.
+- Read `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml` as the schema-owned source reference when seeding or repairing the compendium.
 
 </resources_reference>

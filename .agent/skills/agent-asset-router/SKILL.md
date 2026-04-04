@@ -1,7 +1,7 @@
 ---
 name: agent-asset-router
-version: 2.1.0
-description: Routes Antigravity agent-asset work to the correct dedicated execution contract using the local skills registry, deterministic direct-route handoff, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct direct-route skill is unclear or mixed, or when determining whether schema work must happen first. Do not use when the request is already expressed in the exact vocabulary of a dedicated execution contract such as direct skill scaffolding, direct rule authoring, canonical schema authoring, workflow creation, implementation-plan generation, brainstorm artifact maintenance, explicit issues-tracker maintenance, or standalone issue-report generation.
+version: 2.2.0
+description: Routes Antigravity agent-asset work to the correct dedicated execution contract using the local skills registry, deterministic direct-route handoff, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct direct-route skill is unclear or mixed, or when determining whether schema work must happen first. Legacy `dev-schema` requests normalize to `core-schema` during routing. Do not use when the request is already expressed in the exact vocabulary of a dedicated execution contract such as direct skill scaffolding, direct rule authoring, canonical schema authoring, workflow creation, implementation-plan generation, brainstorm artifact maintenance, explicit issues-tracker maintenance, or standalone issue-report generation.
 ---
 
 <when_to_use>
@@ -25,20 +25,21 @@ description: Routes Antigravity agent-asset work to the correct dedicated execut
 3. Apply the direct-route matrix:
    - `asset-skill` for new or existing skill folders under `.agent/skills/`
    - `asset-rule` for reusable rule assets under `.agent/rules/`
-   - `dev-schema` for canonical `.agent/schemas/<schema-id>/` work and schema index regeneration
+   - `core-schema` for canonical `.agent/schemas/<schema-id>/` work and schema index regeneration
    - `asset-workflow` for reusable workflow assets under `.agent/workflows/`
    - `artifact-implementation-plan` for governed implementation-plan artifacts under `.agent/plans/`
    - `artifact-brainstorm` for governed brainstorm artifacts such as `brainstorm.md`
    - `agent-create-issues-tracker` for blank tracker initialization
    - `agent-update-issues-tracker` for tracker refresh, migration, or comparative-analysis updates
    - `agent-create-issue-report` for standalone single-issue reports
-   - Treat `asset-rule`, `asset-skill`, and `asset-workflow` as the runtime-routed owner-skill family that intentionally uses `asset-<asset-family>` naming; treat `artifact-implementation-plan` and `artifact-brainstorm` as the active `artifact-<artifact-family>` owners; keep `dev-schema` and this router outside those owner-name families
+   - Treat `asset-rule`, `asset-skill`, and `asset-workflow` as the runtime-routed owner-skill family that intentionally uses `asset-<asset-family>` naming; treat `artifact-implementation-plan` and `artifact-brainstorm` as the active `artifact-<artifact-family>` owners; treat `core-schema` as the active foundational `core-*` contract; keep this router outside those naming families
    - Treat `agent-artifact-router` as a reserved future route name only; do not create it or route to it unless a later contract explicitly introduces that router
 4. If the request is a direct dedicated-contract match, stop using this skill as the primary execution contract. Read the selected `SKILL.md`, hand off explicitly to that path, and do not restate or supersede the downstream execution contract.
 5. Apply the schema-first fallback matrix only when no dedicated owner skill exists yet:
-   - Route `task`, `index`, `walkthrough`, `security-policy`, `gemini`, and `uuid_registry` through `dev-schema`
+   - Route `task`, `index`, `walkthrough`, `security-policy`, `gemini`, and `uuid_registry` through `core-schema`
    - Treat the example artifact or existing canonical example as the required input for schema authoring
    - After the schema work is clear, determine whether a downstream dedicated owner skill is still needed; do not invent that skill unless the request actually requires one
+   - Normalize legacy `dev-schema` wording to `core-schema` before handing off to the downstream contract
 6. Enforce hard RFQ gates before proceeding:
    - If the request still maps cleanly to more than one direct-route skill after reading the registry and candidate `SKILL.md` files, halt with `RFQ` naming the candidate skills and the missing discriminator
    - If the user asks to define a new asset class and also author the final asset instance in the same pass, halt with `RFQ` and require the class/contract decision first
@@ -61,7 +62,7 @@ description: Routes Antigravity agent-asset work to the correct dedicated execut
 - Read `.agent/skills/index.md` first to shortlist the correct direct-route skill before opening any candidate execution contract.
 - Read `.agent/skills/asset-skill/SKILL.md` when the request is specifically about skill creation or refinement.
 - Read `.agent/skills/asset-rule/SKILL.md` when the request is specifically about rule creation, refinement, validation, or rules-index maintenance.
-- Read `.agent/skills/dev-schema/SKILL.md` when the request requires canonical schema authoring or schema-first fallback routing.
+- Read `.agent/skills/core-schema/SKILL.md` when the request requires canonical schema authoring or schema-first fallback routing.
 - Read `.agent/skills/asset-workflow/SKILL.md` when the request is specifically about workflow assets.
 - Read `.agent/skills/artifact-implementation-plan/SKILL.md` when the request is specifically about implementation-plan artifacts.
 - Read `.agent/skills/artifact-brainstorm/SKILL.md` when the request is specifically about brainstorm artifacts.

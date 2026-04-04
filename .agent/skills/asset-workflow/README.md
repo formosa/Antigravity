@@ -36,5 +36,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 1.2.0 | minor | Owner Contract | Promoted `asset-workflow` to a full owner contract for workflow assets by declaring ownership of the canonical workflow schema, adding the consumed workflow-index contract, and aligning the package around scaffold, validation, and index-sync tooling. |
 | 2026-04-03 | 1.2.1 | patch | Mirror Sync | Resynchronized the consumed index-schema mirror after `.agent/rules/index.md` adopted the full-form directory-index contract. |
 | 2026-04-03 | 2.0.0 | major | Naming Hardening | Hardened the runtime-routed owner naming contract around the `asset-*` family, updated package authority surfaces to the renamed skill path, and prepared the workflow package for mirror resynchronization under the new naming regime. |
+| 2026-04-04 | 2.0.1 | patch | Mirror Sync | Resynchronized the consumed index-schema mirror after the canonical `index` schema migrated its governance exception and governing workflow reference from `dev-schema` to `core-schema`. |
 
 </modification_history>

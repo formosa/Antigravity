@@ -17,7 +17,7 @@ DEFAULT_SOURCE_REFERENCE = (
     / ".agent"
     / "schemas"
     / "brainstorm"
-    / "DDR_AppFramework_Brainstorm.docx"
+    / "DDR_AppFramework_Brainstorm.xhtml"
 )
 
 

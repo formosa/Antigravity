@@ -1,4 +1,4 @@
-# DESIGN_JUSTIFICATION: Antigravity Brainstorm Assets v1.0.1
+# DESIGN_JUSTIFICATION: Antigravity Brainstorm Assets v1.0.3
 
 <document_purpose>
 This document establishes the canonical local contract for Antigravity brainstorm artifacts and the owner-managed lifecycle used to seed, validate, repair, and maintain governed `brainstorm.md` compendia.
@@ -17,7 +17,7 @@ distribution_model: canonical-plus-vendored-mirror
 3. `.agent/skills/artifact-brainstorm/scripts/init_brainstorm.py`
 4. `.agent/skills/artifact-brainstorm/SKILL.md`
 5. `.agent/schemas/brainstorm/seed.md`
-6. `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.docx`
+6. `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml`
 7. Vendored mirrors under `.agent/skills/<skill>/resources/schema/brainstorm/` are derived copies and must not override the canonical contract.
 8. External references listed below are informative only and must not override the local contract unless the contract is intentionally revised.
 </authority_order>
@@ -29,8 +29,8 @@ distribution_model: canonical-plus-vendored-mirror
 - Structured YAML entry blocks keep the contract machine-checkable while preserving a human-readable brainstorming compendium for architectural exploration.
 - Citation-catalog governance, recency-class rules, and inline `[C#]` markers force substantive claims to stay evidence-backed instead of devolving into uncited speculation.
 - Stable visual-semantics classes and Mermaid accessibility requirements keep the artifact expressive without binding it to renderer-specific extensions.
-- `artifact-brainstorm` is the dedicated `Artifact-Centric Owner` for brainstorm artifacts, owning initialization, repair, validation, and lifecycle governance while leaving canonical schema authoring to `dev-schema`.
-- This v1.0.1 update is governance-only: the type contract in `brainstorm.d.ts`, seeded structure, entry IDs, and artifact wire shape are unchanged.
+- `artifact-brainstorm` is the dedicated `Artifact-Centric Owner` for brainstorm artifacts, owning initialization, repair, validation, and lifecycle governance while leaving canonical schema authoring to `core-schema`.
+- This v1.0.2 update migrates the schema-owned source-reference asset from `.docx` to `.xhtml` while preserving the existing type contract, seeded structure, entry IDs, and artifact wire shape.
 
 </schema_evaluation_and_justification>
 
@@ -40,7 +40,7 @@ distribution_model: canonical-plus-vendored-mirror
 2. Local validator contract: `.agent/skills/artifact-brainstorm/scripts/validate_brainstorm.py`
 3. Local scaffolding contract: `.agent/skills/artifact-brainstorm/scripts/init_brainstorm.py`
 4. Local seeded artifact basis: `.agent/schemas/brainstorm/seed.md`
-5. Local source-reference basis: `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.docx`
+5. Local source-reference basis: `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml`
 
 </authoritative_reference_repository>
 
@@ -163,5 +163,7 @@ python .agent/skills/artifact-brainstorm/scripts/validate_brainstorm.py brainsto
 | :--- | :--- | :--- | :--- |
 | 2026-03-30 | v1.0.0 | Initial Release | Established the canonical brainstorm Markdown contract, seed structure, citation model, and validator-backed governance for DDR App Framework brainstorming artifacts. |
 | 2026-04-03 | v1.0.1 | Governance | Promoted `artifact-brainstorm` to the canonical Artifact-Centric Owner, moved the source-reference document into `.agent/schemas/brainstorm/`, modernized schema governance documentation, and preserved the existing type contract unchanged. |
+| 2026-04-03 | v1.0.2 | Governance | Migrated the schema-owned source-reference asset from the legacy `.docx` source to `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml` and aligned the canonical guidance with the new reference format. |
+| 2026-04-04 | v1.0.3 | Governance | Repointed canonical schema-authoring guidance from `dev-schema` to `core-schema` so brainstorm ownership language aligns with the new foundational `core-*` family without changing the brainstorm artifact contract. |
 
 </modification_history>

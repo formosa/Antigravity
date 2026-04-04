@@ -20,7 +20,7 @@ def initialized_seed_text() -> str:
         SEED_PATH.read_text(encoding="utf-8")
         .replace("{{CREATED_DATE}}", "2026-03-30")
         .replace("{{LAST_REVISED_DATE}}", "2026-03-30")
-        .replace("{{SOURCE_REFERENCE_PATH}}", ".agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.docx")
+        .replace("{{SOURCE_REFERENCE_PATH}}", ".agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml")
     )
 
 

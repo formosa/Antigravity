@@ -1,7 +1,7 @@
 ---
 name: asset-skill
-version: 3.0.1
-description: Authors or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder, including runtime-routed owner skills, artifact-centric owner skills, and routing contracts. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
+version: 3.1.0
+description: Authors or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder, including runtime-routed owner skills, artifact-centric owner skills, foundational `core-*` contracts, and routing contracts. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
 ---
 
 <when_to_use>
@@ -23,8 +23,9 @@ description: Authors or refines Antigravity-compatible skills with explicit trig
    - If the target skill will own an asset family, read the shared owner-skill pattern, mirror its governance split, and add a dedicated governance rule only when the documented owner-rule criteria are met.
    - If the target skill will be the direct-route owner contract for a reusable `rule`, `skill`, or `workflow` directory, classify it as a `Runtime-Routed Owner Skill` and name it `asset-<asset-family>`.
    - If the target skill will own one governed artifact family end to end, classify it as an `Artifact-Centric Owner` and prefer `artifact-<artifact-family>`.
+   - If the target skill will own a foundational cross-cutting governance surface such as canonical schema authoring, classify it as a `Foundational Core Contract` and prefer `core-<capability>`.
    - If the target skill is primarily an orchestration or routing contract, prefer a `*-router` name.
-   - If the target skill is a router or canonical schema-authoring contract, keep it outside the `Runtime-Routed Owner Skill` and `Artifact-Centric Owner` subtypes unless the shared owner-skill pattern explicitly says otherwise.
+   - If the target skill is a router, keep it outside the `Runtime-Routed Owner Skill`, `Artifact-Centric Owner`, and `Foundational Core Contract` families unless the shared owner-skill pattern explicitly says otherwise.
 3. Scaffold the base skill directory with `python .agent/skills/asset-skill/scripts/init_skill.py <skill-name> --path <output-directory>` and add opt-in flags only for the directories or examples you actually need.
 4. Write the target `SKILL.md`:
    - make `description` explicit about what the skill does, when it should trigger, and when it should not

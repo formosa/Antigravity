@@ -1,6 +1,6 @@
 ---
 name: asset-workflow
-version: 2.0.0
+version: 2.0.1
 description: Authors or refines Antigravity-compatible workflow assets with explicit trigger boundaries, scaffold and validation tooling, and deterministic workflow-index synchronization. Use when the task is to create or standardize a reusable workflow under `.agent/workflows/`. Do not use when the task is to create a skill, schema, implementation plan, or ordinary project feature change.
 ---
 

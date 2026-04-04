@@ -32,12 +32,13 @@ This document establishes the verified architectural foundation for the `GEMINI.
 | :--------- | :------ | :------------- | :---------- |
 | 2026-03-01 | v1.1.0  | Optimization   | Enhanced `gemini.d.ts` with dense JSDoc annotations and enforced explicitly constrained unions to align with the Gemini 3.1 Pro prompt optimization framework. |
 | 2026-04-01 | v1.1.1  | Clarification  | Reworded the GEMINI.md design justification so it no longer implies exclusive workspace-rule authority when `AGENTS.md` is present. |
+| 2026-04-04 | v1.1.2  | Governance     | Updated `primary_owner_skill` from `dev-schema` to `core-schema` so canonical schema stewardship reflects the new foundational `core-*` family without changing the GEMINI contract surface. |
 
 </modification_history>
 
 <schema_governance>
 ```yaml
-primary_owner_skill: dev-schema
+primary_owner_skill: core-schema
 distribution_model: canonical-plus-vendored-mirror
 ```
 </schema_governance>

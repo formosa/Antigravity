@@ -16,7 +16,7 @@
 2. Use the manifest to confirm the skill category, definition path, and best-fit use conditions.
 3. Open the linked `SKILL.md` before acting whenever exact routing boundaries, execution steps, or validation protocol matter.
 
-> Naming note: `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family and intentionally use `asset-<asset-family>`. `artifact-implementation-plan` and `artifact-brainstorm` are the current artifact-centric owners and intentionally use `artifact-<artifact-family>`. Routing skills should prefer `*-router`; `agent-asset-router` is active and `agent-artifact-router` is reserved for future use only. Standard non-owner, non-router skills remain lowercase hyphen-case. Legacy unlisted skills are outside this migration scope, and listed exceptions such as `dev-schema` remain explicit legacy contracts until replaced.
+> Naming note: `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family and intentionally use `asset-<asset-family>`. `artifact-implementation-plan` and `artifact-brainstorm` are the current artifact-centric owners and intentionally use `artifact-<artifact-family>`. Foundational cross-cutting contracts should prefer `core-<capability>`; `core-schema` is the active schema-authoring contract, and legacy `dev-schema` requests map to it during the transition. Routing skills should prefer `*-router`; `agent-asset-router` is active and `agent-artifact-router` is reserved for future use only. Skills outside the `asset-*`, `artifact-*`, `core-*`, and `*-router` families remain lowercase hyphen-case. Legacy unlisted skills are outside this migration scope.
 
 ## Selection Map
 
@@ -27,7 +27,7 @@
 - `agent-asset-router`: classify agent-asset requests and route them to the correct dedicated execution contract or schema-first path.
 - `artifact-implementation-plan`: serve as the Artifact-Centric Owner for governed implementation-plan artifacts before execution begins.
 - `asset-rule`: create or standardize reusable rule assets and keep the rules index aligned.
-- `dev-schema`: create or update canonical `.d.ts` schemas and related schema governance assets through the retained legacy schema-authoring contract.
+- `core-schema`: create or update canonical `.d.ts` schemas and related schema governance assets through the foundational `core-*` schema-authoring contract. Legacy `dev-schema` requests map here.
 - `asset-skill`: scaffold or standardize skill folders under `.agent/skills/`.
 - `asset-workflow`: create or standardize reusable workflows under `.agent/workflows/`.
 - `md060-strict-aligner`: align Markdown tables with minimal structure-preserving edits.
@@ -134,20 +134,22 @@ skills:
       - validating rule assets and keeping the rules index synchronized
       - maintaining owner-managed rule governance assets
 
-  - id: dev-schema
-    definition: .agent/skills/dev-schema/SKILL.md
+  - id: core-schema
+    definition: .agent/skills/core-schema/SKILL.md
     category: orchestration_and_authoring
-    implementation: .agent/skills/dev-schema/
+    implementation: .agent/skills/core-schema/
     keywords:
+      - core
       - schema
       - d.ts
       - scaffold
       - validation
       - index
     use_when:
-      - creating or updating a canonical schema with the retained legacy schema-authoring contract
+      - creating or updating a canonical schema with the foundational `core-*` schema-authoring contract
       - rebuilding the schema directory index after schema changes
       - maintaining owner-managed schema governance assets
+      - handling legacy `dev-schema` requests through the renamed `core-schema` contract
 
   - id: asset-skill
     definition: .agent/skills/asset-skill/SKILL.md
@@ -244,12 +246,12 @@ skills:
 - Best used for: authoring deterministic rule assets with scaffold, validation, and rules-index synchronization.
 - Open the linked definition when rule structure, trigger semantics, validation checks, or rules-index regeneration matters.
 
-### `dev-schema`
+### `core-schema`
 
-- Definition: [`dev-schema/SKILL.md`](dev-schema/SKILL.md)
-- Implementation: [`.agent/skills/dev-schema/`](dev-schema)
-- Best used for: canonical schema creation, schema updates, and schema index regeneration through the retained legacy schema-authoring contract.
-- Open the linked definition when scaffold commands, schema README governance, owner-skill schema alignment, or validation rules matter.
+- Definition: [`core-schema/SKILL.md`](core-schema/SKILL.md)
+- Implementation: [`.agent/skills/core-schema/`](core-schema)
+- Best used for: canonical schema creation, schema updates, and schema index regeneration through the foundational `core-*` contract; legacy `dev-schema` requests map here.
+- Open the linked definition when scaffold commands, schema README governance, owner-skill schema alignment, legacy transition handling, or validation rules matter.
 
 ### `asset-skill`
 

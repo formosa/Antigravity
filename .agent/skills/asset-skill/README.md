@@ -40,5 +40,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 2.5.0 | minor | Owner Taxonomy | Added the `Artifact-Centric Owner` subtype beside runtime-routed owner skills, aligned skill-authoring guidance with the broadened taxonomy, and updated validation/scaffolding references so non-runtime artifact owners are treated as first-class owner contracts. |
 | 2026-04-03 | 3.0.0 | major | Naming Hardening | Hardened the active skill naming families around `asset-*`, `artifact-*`, and `*-router`, updated validator and scaffolder guidance to prefer those families, and aligned the renamed owner and router skill packages to the new contract. |
 | 2026-04-03 | 3.0.1 | patch | Owner Taxonomy | Updated the shared owner-skill taxonomy resource to recognize `artifact-brainstorm` as an Artifact-Centric Owner and removed brainstorm from the non-owner exception list. |
+| 2026-04-04 | 3.1.0 | minor | Core Family | Added the foundational `core-*` family to the shared skill-authoring taxonomy, taught the active scaffolding contract when to classify a skill as a `Foundational Core Contract`, and aligned `core-schema` migration guidance with the owner-pattern resource. |
 
 </modification_history>

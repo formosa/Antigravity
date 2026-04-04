@@ -5,9 +5,10 @@ This document defines the shared owner-skill taxonomy and pattern used by Antigr
 <owner_skill_pattern>
 
 - `Owner Skill` means a skill that serves as the primary execution contract for a governed asset family.
-- This pattern recognizes two sibling owner-skill subtypes for non-schema asset families:
+- This pattern recognizes three first-class skill families for governed contract surfaces:
   - `Runtime-Routed Owner Skill`: the direct-route owner contract for a reusable asset directory.
   - `Artifact-Centric Owner`: the dedicated utility for the creation, modification, and management lifecycle of one governed artifact family.
+  - `Foundational Core Contract`: the first-class governance-backed contract for a foundational or cross-cutting capability surface that is neither a reusable asset directory nor a single governed artifact family.
 - To qualify as an `Owner Skill` under this pattern, a skill MUST satisfy all of the following:
   - the canonical schema `README.md` for the family names it in `primary_owner_skill`
   - the skill root `README.md` declares non-empty `owned_schema_ids`
@@ -25,10 +26,16 @@ This document defines the shared owner-skill taxonomy and pattern used by Antigr
   - may govern artifact paths without owning a directory index
   - should prefer the naming convention `artifact-<artifact-family>`
 - `artifact-implementation-plan` and `artifact-brainstorm` are the current `Artifact-Centric Owner` skills for implementation-plan and brainstorm artifacts.
+- Foundational Core Contracts:
+  - own a foundational, cross-cutting, or canonical governance surface
+  - serve as the primary execution contract for authoring or maintaining that surface
+  - remain separate from runtime-routed directory ownership and single-artifact lifecycle ownership
+  - should prefer the naming convention `core-<capability>`
+- `core-schema` is the current `Foundational Core Contract` for canonical schema authoring and schema-index stewardship.
+- Apply `core-<capability>` only when the skill is a first-class foundational contract with governance-backed authority over a cross-cutting canonical surface.
 - Routing skills should prefer the `*-router` suffix when the contract is orchestration-first rather than owner-first.
 - `agent-asset-router` is the current runtime-routed front-door router, and `agent-artifact-router` is the reserved future router name for artifact-centric routing.
 - Standard non-owner, non-router skills should use lowercase hyphen-case naming.
-- `dev-schema` is intentionally outside these non-schema owner subtypes because canonical schema discovery and maintenance are a different governance surface.
 - `SKILL.md` is the execution contract. It defines trigger boundaries, ordered operating steps, constraints, and explicit resources.
 - The root `README.md` is lifecycle governance only. It records authority order, schema relationships, and modification history.
 - Canonical schemas live under `.agent/schemas/` and remain the single writable contract surface for asset-family definitions.
@@ -49,7 +56,7 @@ This document defines the shared owner-skill taxonomy and pattern used by Antigr
 
 - Front-door routing skills such as `agent-asset-router` should reuse the same governance vocabulary but remain orchestration-only unless deterministic routing can no longer be expressed directly in `SKILL.md`.
 - Reserve `agent-artifact-router` as the canonical future name when artifact-centric routing expands beyond the current single dedicated owner.
-- Canonical schema-authoring contracts such as `dev-schema` remain separate from the `Runtime-Routed Owner Skill` and `Artifact-Centric Owner` subtypes even when they satisfy the broader `Owner Skill` definition.
+- Foundational `core-*` contracts such as `core-schema` remain separate from the `Runtime-Routed Owner Skill` and `Artifact-Centric Owner` subtypes even when they satisfy the broader `Owner Skill` definition.
 - Lightweight asset families may keep their artifact schema compact as long as governance, ownership, validation, and index responsibilities remain explicit.
 
 </role_exceptions>

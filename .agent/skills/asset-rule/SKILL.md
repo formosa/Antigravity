@@ -1,6 +1,6 @@
 ---
 name: asset-rule
-version: 2.0.0
+version: 2.0.1
 description: Authors or refines Antigravity-compatible rule assets with explicit trigger boundaries, scaffold and validation tooling, and deterministic rules-index synchronization. Use when the task is to create, standardize, validate, or re-index a reusable rule under `.agent/rules/`. Do not use when the task is standalone canonical schema authoring, specialized rule-derived schema work such as `security-policy`, or ordinary project feature changes.
 ---
 
