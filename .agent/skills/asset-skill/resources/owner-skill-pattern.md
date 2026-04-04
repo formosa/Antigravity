@@ -25,8 +25,8 @@ This document defines the shared owner-skill taxonomy and pattern used by Antigr
   - serve as the dedicated utility for creating, editing, regenerating, auditing, or otherwise managing those artifacts
   - may govern artifact paths without owning a directory index
   - should prefer the naming convention `artifact-<artifact-family>`
-- When an artifact family has an established schema-declared canonical owner name that intentionally differs from the schema directory id, preserve that canonical owner name; `artifact-issue-tracker` is the canonical owner for the `issues-tracker` schema.
-- `artifact-implementation-plan`, `artifact-brainstorm`, and `artifact-issue-tracker` are the current `Artifact-Centric Owner` skills for implementation-plan, brainstorm, and Issues Tracker artifacts.
+- When an artifact family has an established schema-declared canonical owner name that intentionally differs from the schema directory id, preserve that canonical owner name; `artifact-issue-tracker` is the canonical owner for the `issues-tracker` schema, and `artifact-issue-report` is the canonical owner for the `issue` schema.
+- `artifact-implementation-plan`, `artifact-brainstorm`, `artifact-issue-tracker`, and `artifact-issue-report` are the current `Artifact-Centric Owner` skills for implementation-plan, brainstorm, Issues Tracker, and issue-report artifacts.
 - Foundational Core Contracts:
   - own a foundational, cross-cutting, or canonical governance surface
   - serve as the primary execution contract for authoring or maintaining that surface
@@ -49,8 +49,8 @@ This document defines the shared owner-skill taxonomy and pattern used by Antigr
 - Use the plural collection-governance pattern only for collection-scoped directory governance rules such as `rules-governance`, `schemas-governance`, and `skills-governance`.
 - Ordinary non-directory rules should remain standard lowercase hyphen-case and should not inherit the plural collection-governance pattern by default.
 - Front-door routers remain non-owner skills unless they later gain their own governed asset-family lifecycle.
-- Split-lifecycle artifact families remain non-owner until one dedicated skill owns creation, modification, and management for that family. The Issues Tracker family has completed that migration through `artifact-issue-tracker`.
-- Single-purpose creators or consumers such as issue-report skills remain non-owner unless they later gain non-empty `owned_schema_ids` plus an owned full-lifecycle contract.
+- Split-lifecycle artifact families remain non-owner until one dedicated skill owns creation, modification, and management for that family. The Issues Tracker family has completed that migration through `artifact-issue-tracker`, and the issue-report family has completed that migration through `artifact-issue-report`.
+- Single-purpose creators or consumers remain non-owner unless they later gain non-empty `owned_schema_ids` plus an owned full-lifecycle contract.
 - Empty or index-only asset families may defer a dedicated governance rule until at least one live non-index asset exists or the lifecycle invariants exceed what the owner skill's scripts can enforce directly.
 
 </owner_skill_pattern>

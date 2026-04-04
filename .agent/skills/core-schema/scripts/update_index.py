@@ -83,7 +83,7 @@ def main():
 
         lines.append(f"| {schema_dir.name} | {version} | {owner_skill} | {description} |")
 
-    index_md.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    index_md.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     print("[OK] index.md updated successfully.")
 
 

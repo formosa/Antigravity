@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across current skill contracts.
 >
-> Total skills: `10`
+> Total skills: `11`
 >
 > Parent: [`.agent/`](..)
 >
@@ -16,11 +16,12 @@
 2. Use the manifest to confirm the skill category, definition path, and best-fit use conditions.
 3. Open the linked `SKILL.md` before acting whenever exact routing boundaries, execution steps, or validation protocol matter.
 
-> Naming note: `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family and intentionally use `asset-<asset-family>`. `artifact-implementation-plan`, `artifact-brainstorm`, and `artifact-issue-tracker` are the current artifact-centric owners and intentionally use `artifact-<artifact-family>`. Foundational cross-cutting contracts should prefer `core-<capability>`; `core-schema` is the active schema-authoring contract, and legacy `dev-schema` requests map to it during the transition. Routing skills should prefer `*-router`; `agent-asset-router` is active and `agent-artifact-router` is reserved for future use only. Skills outside the `asset-*`, `artifact-*`, `core-*`, and `*-router` families remain lowercase hyphen-case. Legacy unlisted skills are outside this migration scope.
+> Naming note: `asset-rule`, `asset-skill`, and `asset-workflow` are the current runtime-routed owner-skill family and intentionally use `asset-<asset-family>`. `artifact-implementation-plan`, `artifact-brainstorm`, `artifact-issue-tracker`, and `artifact-issue-report` are the current artifact-centric owners and intentionally use `artifact-<artifact-family>`. Foundational cross-cutting contracts should prefer `core-<capability>`; `core-schema` is the active schema-authoring contract, and legacy `dev-schema` requests map to it during the transition. Routing skills should prefer `*-router`; `agent-asset-router` is active and `agent-artifact-router` is reserved for future use only. Skills outside the `asset-*`, `artifact-*`, `core-*`, and `*-router` families remain lowercase hyphen-case. `agent-create-issue-report` remains listed as a legacy compatibility alias during the staged issue-report migration.
 
 ## Selection Map
 
-- `agent-create-issue-report`: generate one standalone resolution report for a single tracked issue.
+- `artifact-issue-report`: serve as the Artifact-Centric Owner for governed standalone issue-report generation, maintenance, migration, and validation.
+- `agent-create-issue-report`: preserve legacy direct references to the old issue-report package and validator path.
 - `artifact-issue-tracker`: serve as the Artifact-Centric Owner for governed Issues Tracker creation, maintenance, validation, and audit.
 - `artifact-brainstorm`: serve as the Artifact-Centric Owner for governed brainstorm artifacts such as `brainstorm.md`.
 - `agent-asset-router`: classify agent-asset requests and route them to the correct dedicated execution contract or schema-first path.
@@ -35,6 +36,21 @@
 
 ```yaml
 skills:
+  - id: artifact-issue-report
+    definition: .agent/skills/artifact-issue-report/SKILL.md
+    category: issue_artifacts
+    implementation: .agent/skills/artifact-issue-report/
+    keywords:
+      - issue
+      - report
+      - generate
+      - maintain
+      - validate
+      - artifact-centric-owner
+    use_when:
+      - generating, maintaining, migrating, or validating a standalone issue report
+      - using the dedicated owner utility for the issue-report artifact lifecycle
+
   - id: agent-create-issue-report
     definition: .agent/skills/agent-create-issue-report/SKILL.md
     category: issue_artifacts
@@ -42,12 +58,13 @@ skills:
     keywords:
       - issue
       - report
-      - resolution
-      - tracker
-      - audit
+      - legacy
+      - compatibility
+      - shim
+      - validator
     use_when:
-      - generating a standalone report for one tracked issue
-      - investigating a single issue without editing the tracker
+      - preserving direct references to the legacy issue-report package name
+      - preserving the legacy validator CLI path during the staged owner migration
 
   - id: artifact-issue-tracker
     definition: .agent/skills/artifact-issue-tracker/SKILL.md
@@ -187,12 +204,19 @@ skills:
 
 ## Skill Records
 
+### `artifact-issue-report`
+
+- Definition: [`artifact-issue-report/SKILL.md`](artifact-issue-report/SKILL.md)
+- Implementation: [`.agent/skills/artifact-issue-report/`](artifact-issue-report)
+- Best used for: serving as the Artifact-Centric Owner utility for standalone issue-report generation, maintenance, migration, and validation.
+- Open the linked definition when issue-report mode selection, legacy-upgrade behavior, evidence rules, or validator usage matters.
+
 ### `agent-create-issue-report`
 
 - Definition: [`agent-create-issue-report/SKILL.md`](agent-create-issue-report/SKILL.md)
 - Implementation: [`.agent/skills/agent-create-issue-report/`](agent-create-issue-report)
-- Best used for: generating one validator-checked standalone report for a single tracked issue.
-- Open the linked definition when report structure, evidence rules, or validator usage matters.
+- Best used for: preserving legacy direct references to the pre-migration issue-report package and validator path.
+- Open the linked definition when a task or external reference explicitly requires the legacy alias instead of the canonical owner.
 
 ### `artifact-issue-tracker`
 
@@ -260,9 +284,9 @@ skills:
 ## Category Totals
 
 - `formatting_and_refactoring`: `1`
-- `issue_artifacts`: `2`
+- `issue_artifacts`: `3`
 - `orchestration_and_authoring`: `7`
-- `total`: `10`
+- `total`: `11`
 
 ## Index Boundaries
 

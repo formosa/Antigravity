@@ -29,7 +29,7 @@ distribution_model: canonical-plus-vendored-mirror
 - `IT-1.1` remains the populated maintenance profile because comparative analysis, recommendation, and citation requirements apply only after a tracker is actively maintained.
 - Keeping `IT-1.0` and `IT-1.1` as separate profiles preserves a validator-first lifecycle without collapsing blank and populated trackers into one overloaded format.
 - Historical `v4` and `v5` lineage trackers remain valid repository artifacts and must stay structurally checkable through the legacy validator path, but they are not generation targets.
-- `agent-create-issue-report` remains a separate single-issue non-owner contract and is intentionally excluded from Issues Tracker ownership.
+- `artifact-issue-report` remains the separate canonical owner for standalone issue-report artifacts and is intentionally excluded from Issues Tracker ownership.
 
 </schema_evaluation_and_justification>
 
@@ -145,5 +145,6 @@ initialization and maintenance can evolve without collapsing into one overloaded
 | :--------- | :------ | :------------- | :---------- |
 | 2026-03-28 | v1.0.0  | Initial Release | Established the shared Issues Tracker contracts for blank initialization, populated maintenance, and legacy validation. |
 | 2026-04-04 | v1.0.1  | Governance | Promoted `artifact-issue-tracker` to the canonical Artifact-Centric Owner, consolidated tracker lifecycle ownership under one skill, and updated validation and governance references without changing `IT-1.0` or `IT-1.1` wire shapes. |
+| 2026-04-04 | v1.0.2  | Governance | Repointed standalone issue-report ownership references to `artifact-issue-report` so Issues Tracker governance reflects the staged issue-report owner migration. |
 
 </modification_history>

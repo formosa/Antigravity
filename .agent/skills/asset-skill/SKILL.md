@@ -1,6 +1,6 @@
 ---
 name: asset-skill
-version: 3.2.1
+version: 3.2.2
 description: Authors or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder, including runtime-routed owner skills, artifact-centric owner skills, foundational `core-*` contracts, and routing contracts. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
 ---
 

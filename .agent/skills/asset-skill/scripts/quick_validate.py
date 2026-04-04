@@ -41,7 +41,10 @@ WEAK_DESCRIPTION_TERMS = ("helper", "utils", "tools", "stuff", "things", "misc")
 RESOURCE_ACTION_HINTS = ("read ", "run ", "execute ", "open ")
 RUNTIME_ROUTED_OWNER_SCHEMA_IDS = {"rule", "skill", "workflow"}
 OWNER_NAMING_EXEMPT_SCHEMA_IDS = {"schema"}
-OWNER_NAMING_OVERRIDES = {"issues-tracker": "artifact-issue-tracker"}
+OWNER_NAMING_OVERRIDES = {
+    "issue": "artifact-issue-report",
+    "issues-tracker": "artifact-issue-tracker",
+}
 
 
 @dataclass

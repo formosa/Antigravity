@@ -1,6 +1,6 @@
 ---
 name: artifact-issue-tracker
-version: 1.0.0
+version: 1.0.1
 description: Serves as the Artifact-Centric Owner for Issues Tracker artifacts by initializing blank `IT-1.0` trackers, refreshing and migrating populated trackers to `IT-1.1`, and validating or auditing tracker integrity against the canonical `issues-tracker` contract. Use when the task is to create, maintain, validate, or audit a governed Issues Tracker. Do not use when the task is to generate a standalone issue report, rewrite the canonical tracker schema, or patch target YAML or spec files.
 ---
 
@@ -11,7 +11,7 @@ description: Serves as the Artifact-Centric Owner for Issues Tracker artifacts b
 - The task references an existing tracker plus target YAML/spec files, local audits, local issue reports, or other repo documents that may contain issue leads.
 - The task requires validating existing `OPEN` issues, adding `Option C`, adding a comparative analysis, endorsing one strategy, or attaching authoritative online citations directly inside the tracker.
 - The task is to validate or audit a tracker artifact without changing the target DDR/spec sources.
-- Do not use this skill to generate a standalone issue report artifact; route that work to `agent-create-issue-report`.
+- Do not use this skill to generate a standalone issue report artifact; route that work to `artifact-issue-report`.
 - Do not use this skill to redefine `.agent/schemas/issues-tracker/`; route schema-authoring changes to `core-schema`.
 - Do not use this skill to patch target YAML or spec files.
 - Example prompt: "Initialize an issues tracker for DDR System v7.0 at ddr/DDR_v7_Issues_Tracker.md by Anthony Formosa."
@@ -50,7 +50,7 @@ description: Serves as the Artifact-Centric Owner for Issues Tracker artifacts b
    - If `OUTPUT_PATH` already exists in `initialize` mode and `OVERWRITE_EXISTING` is not explicitly true, halt and request overwrite approval.
    - If `ISSUES_TRACKER_PATH` is missing or unreadable, halt and return `RFQ` with the exact missing path or error.
    - If the request asks to redefine `.agent/schemas/issues-tracker/` and edit a tracker artifact in the same pass, halt and route schema work through `core-schema` first.
-   - If the request asks for a standalone single-issue report, halt and route the task to `agent-create-issue-report`.
+   - If the request asks for a standalone single-issue report, halt and route the task to `artifact-issue-report`.
 4. Execute `initialize` mode when a blank tracker is requested:
    - Read the canonical blank template exactly from `resources/schema/issues-tracker/template.md`.
    - Perform literal replacement only:
@@ -120,7 +120,7 @@ Examples:
 
 <constraints>
 
-- Do not use this skill to generate a standalone single-issue report; `agent-create-issue-report` remains the dedicated non-owner contract for that artifact family.
+- Do not use this skill to generate a standalone single-issue report; `artifact-issue-report` remains the dedicated owner contract for that artifact family.
 - Do not author or revise `.agent/schemas/issues-tracker/` through this skill; canonical schema work belongs to `core-schema`.
 - Never patch the target DDR YAML/spec files. This skill is tracker-initialization, tracker-maintenance, and tracker-validation only.
 - Never fabricate evidence, schema-probe outcomes, issue IDs, citations, local file references, or validation outcomes.

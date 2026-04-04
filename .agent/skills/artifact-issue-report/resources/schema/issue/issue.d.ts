@@ -3,7 +3,7 @@
 
 /**
  * ISSUE DEFINITION
- * File Pattern: any repo-relative `Issue-*.md` artifact path
+ * File Pattern: `**/*Issue-*.md`
  * Purpose: Authoritative single source of truth for an individual issue-resolution artifact.
  *
  * Current generation target:
