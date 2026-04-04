@@ -1,7 +1,7 @@
 ---
 name: core-schema
-version: 3.0.0
-description: Serves as the foundational `core-*` contract for canonical Antigravity `.d.ts` schema authoring via scaffold, strict validation, schema-governance README maintenance, and owner-aware index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index for a core-governed schema family. Legacy `dev-schema` requests map to this contract. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
+version: 3.1.0
+description: Serves as the foundational `core-*` contract for canonical Antigravity `.d.ts` schema authoring via scaffold, strict validation, schema-governance README maintenance, and owner-aware index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index for a core-governed schema family. The package vendors the full set of canonical schemas it owns, and legacy `dev-schema` requests map to this contract. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
 ---
 
 <when_to_use>
@@ -62,6 +62,7 @@ description: Serves as the foundational `core-*` contract for canonical Antigrav
 - Run `.agent/skills/core-schema/scripts/validate_schema.py` to type-check the generated `.d.ts` file and roll back on failure.
 - Run `.agent/skills/core-schema/scripts/update_index.py` to rebuild the `.agent/schemas/index.md` directory index after any schema change.
 - Read `.agent/skills/asset-skill/resources/owner-skill-pattern.md` when the schema change affects owner-skill governance, validation-first lifecycle wording, or canonical-versus-vendored mirror policy.
+- Read `.agent/skills/core-schema/resources/schema/index/README.md` when the task touches schema-index governance, the table-only registry exception, or the owned `index` schema surface.
 - Read `.agent/skills/core-schema/resources/schema/schema/schema.d.ts` to understand the TypeScript interface contract for canonical Antigravity schema files.
 - Read `.agent/skills/core-schema/resources/schema/schema/README.md` to understand the authority order, governance metadata, and vendored-mirror distribution model.
 - Read `.agent/skills/core-schema/resources/schema/schema/example.md` to see a representative example of a correctly structured schema artifact.
