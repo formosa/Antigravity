@@ -14,7 +14,7 @@ import sys
 # Import from hyphenated module name
 _spec = importlib.util.spec_from_file_location(
     "directory_tree",
-    Path(__file__).parent / "directory_tree.py"
+    Path(__file__).resolve().parents[1] / "directory_tree.py"
 )
 _module = importlib.util.module_from_spec(_spec)
 sys.modules["directory_tree"] = _module

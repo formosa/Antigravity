@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across reusable rule definitions.
 >
-> Total rules: `5`
+> Total rules: `6`
 >
 > Parent: [`.agent/`](..)
 >
@@ -22,6 +22,7 @@
 - `powershell-execution-guardrails`: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
 - `rules-governance`: Glob-scoped collection governance rule for the `.agent/rules/` directory, covering rule frontmatter, preferred naming, XML-fenced bodies, and the generated rules index for the full rules collection surface.
 - `schemas-governance`: Glob-scoped collection governance rule for the `.agent/schemas/` directory, covering canonical `.d.ts` contracts, schema README governance blocks, example fidelity, and the table-only schemas index for the full schema collection surface.
+- `scripts-governance`: Glob-scoped collection governance rule for the `.agent/scripts/` directory, covering live script inventory accuracy, generated root and tests indexes, compiled-artifact exclusion, and alignment between script implementations and linked tool definitions.
 - `skills-governance`: Glob-scoped collection governance rule for the `.agent/skills/` directory, requiring root README updates, SemVer-aligned version bumps, vendored schema mirror synchronization, and lifecycle consistency across the full skills collection surface.
 
 ## Manifest
@@ -99,6 +100,24 @@ rules:
     canonical `.d.ts` contracts, schema README governance blocks, example fidelity,
     and the table-only schemas index for the full schema collection surface.
   globs: .agent/schemas/**
+- id: scripts-governance
+  definition: .agent/rules/scripts-governance.md
+  asset_structure: flat-file
+  category: glob_rules
+  trigger: glob
+  priority: critical
+  implementation: .agent/rules/scripts-governance.md
+  keywords:
+  - rule
+  - glob
+  - critical
+  - scripts
+  - governance
+  use_when:
+  - Glob-scoped collection governance rule for the `.agent/scripts/` directory, covering
+    live script inventory accuracy, generated root and tests indexes, compiled-artifact
+    exclusion, and alignment between script implementations and linked tool definitions.
+  globs: .agent/scripts/**
 - id: skills-governance
   definition: .agent/rules/skills-governance.md
   asset_structure: flat-file
@@ -161,6 +180,16 @@ Records are grouped by trigger order (`always_on`, `glob`, `manual`, `auto`, `@m
 - Execution tier: `standard`
 - Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
 
+### `scripts-governance`
+
+- Definition: [`scripts-governance.md`](scripts-governance.md)
+- Best used for: Glob-scoped collection governance rule for the `.agent/scripts/` directory, covering live script inventory accuracy, generated root and tests indexes, compiled-artifact exclusion, and alignment between script implementations and linked tool definitions.
+- Trigger: `glob` (glob-scoped)
+- Priority: `critical`
+- Glob scope: `.agent/scripts/**`
+- Execution tier: `standard`
+- Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
+
 ### `skills-governance`
 
 - Definition: [`skills-governance.md`](skills-governance.md)
@@ -174,8 +203,8 @@ Records are grouped by trigger order (`always_on`, `glob`, `manual`, `auto`, `@m
 ## Category Totals
 
 - `always_on_rules`: `2`
-- `glob_rules`: `3`
-- `total`: `5`
+- `glob_rules`: `4`
+- `total`: `6`
 
 ## Index Boundaries
 
