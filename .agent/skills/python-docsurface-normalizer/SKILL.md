@@ -5,6 +5,7 @@ description: "Populate or normalize semantically dense NumPy-style docstrings an
 ---
 
 <when_to_use>
+
 - Use when the user asks to populate, rewrite, normalize, or standardize docstrings and code comments in one or more explicit Python files.
 - Use when the request calls for NumPy-style docstrings, agent-optimized Python documentation, comment preservation review, or comment/docstring stripping before rewrite.
 - Do not use when the task is a directory-wide sweep, a non-Python change, a schema or skill contract edit, or a broader code refactor beyond documentation surfaces.
@@ -13,6 +14,7 @@ description: "Populate or normalize semantically dense NumPy-style docstrings an
 </when_to_use>
 
 <how_to_use>
+
 1. Resolve explicit targets before doing any mutation:
    - Accept only explicitly named `.py` files.
    - Reject directory inputs, glob-style sweep requests, and non-Python targets.
@@ -63,6 +65,7 @@ description: "Populate or normalize semantically dense NumPy-style docstrings an
 </constraints>
 
 <resources_reference>
+
 - Read `resources/aonds-c1-python-docs.md` to apply the full AONDS-C1 documentation-generation contract during rewrite.
 - Run `scripts/analyze_python_docs.py` to classify target eligibility, parseability, existing docstrings/comments, and grouped preservation sensitivity before any edits.
 - Run `scripts/strip_comments.py` only when the user selects `strip`; it removes non-directive docstrings/comments while preserving directive/tooling comments.
