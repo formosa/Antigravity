@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across current skill contracts.
 >
-> Total skills: `10`
+> Total skills: `11`
 >
 > Parent: [`.agent/`](..)
 >
@@ -30,6 +30,7 @@
 - `asset-skill`: scaffold or standardize skill folders under `.agent/skills/`.
 - `asset-workflow`: create or standardize reusable workflows under `.agent/workflows/`.
 - `md060-strict-aligner`: align Markdown tables with minimal structure-preserving edits.
+- `python-docsurface-normalizer`: populate or normalize NumPy-style Python docstrings and meaningful comments in explicit files with grouped preservation gating and AST-safe verification.
 
 ## Manifest
 
@@ -184,6 +185,20 @@ skills:
       - fixing table alignment violations
       - preserving Markdown table meaning while normalizing spacing
 
+  - id: python-docsurface-normalizer
+    definition: .agent/skills/python-docsurface-normalizer/SKILL.md
+    category: formatting_and_refactoring
+    implementation: .agent/skills/python-docsurface-normalizer/
+    keywords:
+      - python
+      - docstring
+      - comments
+      - numpy
+      - ast-verification
+    use_when:
+      - populating or normalizing docstrings and meaningful comments in explicit Python files
+      - preserving or stripping existing Python documentation before rewrite while keeping runtime behavior stable
+
 ```
 
 ## Skill Records
@@ -258,12 +273,19 @@ skills:
 - Best used for: structure-preserving Markdown table alignment fixes.
 - Open the linked definition when the request must remain table-only and broader Markdown edits are out of scope.
 
+### `python-docsurface-normalizer`
+
+- Definition: [`python-docsurface-normalizer/SKILL.md`](python-docsurface-normalizer/SKILL.md)
+- Implementation: [`.agent/skills/python-docsurface-normalizer/`](python-docsurface-normalizer)
+- Best used for: populating or normalizing NumPy-style Python docstrings and meaningful code comments in explicit files while preserving runtime behavior.
+- Open the linked definition when grouped preservation gating, strip-versus-preserve flow, temp snapshot handling, or AST-equivalence verification matters.
+
 ## Category Totals
 
-- `formatting_and_refactoring`: `1`
+- `formatting_and_refactoring`: `2`
 - `issue_artifacts`: `2`
 - `orchestration_and_authoring`: `7`
-- `total`: `10`
+- `total`: `11`
 
 ## Index Boundaries
 
