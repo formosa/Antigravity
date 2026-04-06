@@ -27,15 +27,15 @@ mirror_policy: read-only-derived-from-.agent/schemas
 
 <modification_history>
 
-| Date | Version | SemVer | Classification | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| 2026-04-01 | 1.0.0 | initial | Baseline Capture | Recorded the pre-existing skill version as the lifecycle baseline for governance enforcement. |
-| 2026-04-01 | 1.0.1 | patch | Governance | Added the root lifecycle README, declared canonical schema relationships, and migrated workflow schema references to vendored mirrors. |
-| 2026-04-02 | 1.0.2 | patch | Governance | Clarified workflow-trigger boundaries, annotated schema resources as read operations, removed unused scaffold artifacts, and synchronized the vendored skill schema mirror to the repaired canonical contract. |
-| 2026-04-02 | 1.1.0 | minor | Rename | Finalized the direct-noun owner contract name and updated active authority surfaces to use `asset-workflow`. |
-| 2026-04-03 | 1.2.0 | minor | Owner Contract | Promoted `asset-workflow` to a full owner contract for workflow assets by declaring ownership of the canonical workflow schema, adding the consumed workflow-index contract, and aligning the package around scaffold, validation, and index-sync tooling. |
-| 2026-04-03 | 1.2.1 | patch | Mirror Sync | Resynchronized the consumed index-schema mirror after `.agent/rules/index.md` adopted the full-form directory-index contract. |
-| 2026-04-03 | 2.0.0 | major | Naming Hardening | Hardened the runtime-routed owner naming contract around the `asset-*` family, updated package authority surfaces to the renamed skill path, and prepared the workflow package for mirror resynchronization under the new naming regime. |
-| 2026-04-04 | 2.0.1 | patch | Mirror Sync | Resynchronized the consumed index-schema mirror after the canonical `index` schema migrated its governance exception and governing workflow reference from `dev-schema` to `core-schema`. |
+| Date       | Version | SemVer  | Classification   | Description                                                                                                                                                                                                                                                |
+| :--------- | :------ | :------ | :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-04-01 | 1.0.0   | initial | Baseline Capture | Recorded the pre-existing skill version as the lifecycle baseline for governance enforcement.                                                                                                                                                              |
+| 2026-04-01 | 1.0.1   | patch   | Governance       | Added the root lifecycle README, declared canonical schema relationships, and migrated workflow schema references to vendored mirrors.                                                                                                                     |
+| 2026-04-02 | 1.0.2   | patch   | Governance       | Clarified workflow-trigger boundaries, annotated schema resources as read operations, removed unused scaffold artifacts, and synchronized the vendored skill schema mirror to the repaired canonical contract.                                             |
+| 2026-04-02 | 1.1.0   | minor   | Rename           | Finalized the direct-noun owner contract name and updated active authority surfaces to use `asset-workflow`.                                                                                                                                               |
+| 2026-04-03 | 1.2.0   | minor   | Owner Contract   | Promoted `asset-workflow` to a full owner contract for workflow assets by declaring ownership of the canonical workflow schema, adding the consumed workflow-index contract, and aligning the package around scaffold, validation, and index-sync tooling. |
+| 2026-04-03 | 1.2.1   | patch   | Mirror Sync      | Resynchronized the consumed index-schema mirror after `.agent/rules/index.md` adopted the full-form directory-index contract.                                                                                                                              |
+| 2026-04-03 | 2.0.0   | major   | Naming Hardening | Hardened the runtime-routed owner naming contract around the `asset-*` family, updated package authority surfaces to the renamed skill path, and prepared the workflow package for mirror resynchronization under the new naming regime.                   |
+| 2026-04-04 | 2.0.1   | patch   | Mirror Sync      | Resynchronized the consumed index-schema mirror after the canonical `index` schema migrated its governance exception and governing workflow reference from `dev-schema` to `core-schema`.                                                                  |
 
 </modification_history>

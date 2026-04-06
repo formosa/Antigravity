@@ -48,12 +48,12 @@ distribution_model: canonical-plus-vendored-mirror
 
 <modification_history>
 
-| Date | Version | Classification | Description |
-| :--- | :--- | :--- | :--- |
-| 2026-03-01 | v1.1.0 | Optimization | Added schema-oriented design notes for Antigravity skill assets. |
-| 2026-04-01 | v1.20.3 | Hardening | Replaced non-authoritative references, clarified local authority order, and aligned guidance with the active validator and scaffolder. |
-| 2026-04-01 | v1.21.0 | Governance | Established the canonical-plus-vendored-mirror distribution model and moved skill lifecycle/version tracking to root skill READMEs. |
-| 2026-04-02 | v1.21.1 | Repair | Reconciled the canonical skill schema comments with the live validator by making `<constraints>` and `<resources_reference>` required and replacing hidden-reasoning language with observable execution guidance. |
-| 2026-04-03 | v1.21.2 | Governance | Updated the canonical skill-governance metadata and authority references to the hardened `asset-*`, `artifact-*`, and `*-router` naming families while preserving `Primary Skill` registry terminology. |
+| Date       | Version | Classification | Description                                                                                                                                                                                                       |
+| :--------- | :------ | :------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-03-01 | v1.1.0  | Optimization   | Added schema-oriented design notes for Antigravity skill assets.                                                                                                                                                  |
+| 2026-04-01 | v1.20.3 | Hardening      | Replaced non-authoritative references, clarified local authority order, and aligned guidance with the active validator and scaffolder.                                                                            |
+| 2026-04-01 | v1.21.0 | Governance     | Established the canonical-plus-vendored-mirror distribution model and moved skill lifecycle/version tracking to root skill READMEs.                                                                               |
+| 2026-04-02 | v1.21.1 | Repair         | Reconciled the canonical skill schema comments with the live validator by making `<constraints>` and `<resources_reference>` required and replacing hidden-reasoning language with observable execution guidance. |
+| 2026-04-03 | v1.21.2 | Governance     | Updated the canonical skill-governance metadata and authority references to the hardened `asset-*`, `artifact-*`, and `*-router` naming families while preserving `Primary Skill` registry terminology.           |
 
 </modification_history>

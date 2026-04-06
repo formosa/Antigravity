@@ -45,11 +45,11 @@ distribution_model: canonical-plus-vendored-mirror
 
 <modification_history>
 
-| Date | Version | Classification | Description |
-| :--- | :--- | :--- | :--- |
-| 2026-03-01 | v1.0.0 | Initial Release | Constructed the initial schema-file contract for Antigravity `.d.ts` authoring. |
-| 2026-04-01 | v1.20.3 | Repair | Replaced stale issues-tracker content with the correct `SchemaFileDefinition` contract and aligned the local authority surface with dev-schema. |
-| 2026-04-01 | v1.21.0 | Governance | Established the canonical-plus-vendored-mirror distribution model and explicit primary ownership metadata for schema directories. |
+| Date       | Version | Classification   | Description                                                                                                                                                                                      |
+| :--------- | :------ | :--------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-03-01 | v1.0.0  | Initial Release  | Constructed the initial schema-file contract for Antigravity `.d.ts` authoring.                                                                                                                  |
+| 2026-04-01 | v1.20.3 | Repair           | Replaced stale issues-tracker content with the correct `SchemaFileDefinition` contract and aligned the local authority surface with dev-schema.                                                  |
+| 2026-04-01 | v1.21.0 | Governance       | Established the canonical-plus-vendored-mirror distribution model and explicit primary ownership metadata for schema directories.                                                                |
 | 2026-04-04 | v1.21.1 | Naming Alignment | Repointed the canonical schema-authoring authority surface from `dev-schema` to `core-schema` and preserved the schema contract unchanged while the foundational `core-*` family becomes active. |
 
 </modification_history>

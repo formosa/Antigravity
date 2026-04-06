@@ -47,11 +47,11 @@ distribution_model: canonical-plus-vendored-mirror
 
 <modification_history>
 
-| Date | Version | Classification | Description |
-| :--- | :--- | :--- | :--- |
-| 2026-03-01 | v1.1.0 | Optimization | Aligned the initial rule contract with the then-current prompt-structure guidance. |
-| 2026-03-02 | v1.2.0 | Architecture | Added `execution_tier` and documented rule-asset parsing boundaries for reusable constraints. |
-| 2026-04-03 | v1.3.0 | Governance | Replaced stale vendor-facing guidance with the current local owner-skill contract, relaxed rule-asset versioning to semantic version strings, and aligned the package with `asset-rule` scaffold, validation, and index tooling. |
-| 2026-04-03 | v1.3.1 | Governance | Updated the canonical rule-governance metadata and authority references to the hardened `asset-*` owner-skill naming family so renamed runtime-routed owners remain the single authoritative surface. |
+| Date       | Version | Classification | Description                                                                                                                                                                                                                      |
+| :--------- | :------ | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-03-01 | v1.1.0  | Optimization   | Aligned the initial rule contract with the then-current prompt-structure guidance.                                                                                                                                               |
+| 2026-03-02 | v1.2.0  | Architecture   | Added `execution_tier` and documented rule-asset parsing boundaries for reusable constraints.                                                                                                                                    |
+| 2026-04-03 | v1.3.0  | Governance     | Replaced stale vendor-facing guidance with the current local owner-skill contract, relaxed rule-asset versioning to semantic version strings, and aligned the package with `asset-rule` scaffold, validation, and index tooling. |
+| 2026-04-03 | v1.3.1  | Governance     | Updated the canonical rule-governance metadata and authority references to the hardened `asset-*` owner-skill naming family so renamed runtime-routed owners remain the single authoritative surface.                            |
 
 </modification_history>
