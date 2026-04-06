@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Generate visual directory tree representations with filtering and statistics.
 
-role: directory tree generation and reporting utility
+"""
+Generate and format text-based directory tree representations with configurable filtering and statistics.
+
+role: utility script
 entrypoints: generate_dir_tree, write_dir_tree, main
-reads: filesystem metadata, directory structures
-writes: directory tree text artifacts
+reads: env, files
+writes: artifacts
 external_io: fs
 state_model: stateless
-failure_surface: OSError, re.error
+failure_surface: access permissions
 coupling: minimal
-determinism: input-dependent
-concurrency: not thread-safe
+determinism: external-state-dependent
+concurrency: unknown
 """
 
 import os
@@ -30,24 +31,17 @@ DeviceInode = Tuple[int, int]
 
 class TreePrefixes(NamedTuple):
     """
-    Container for tree-drawing prefix characters.
+    Define connector string fragments for tree branch rendering.
 
-    role: structural prefix storage
-    lifecycle: construction via NamedTuple
+    role: data container
+    lifecycle: construction model
     mutability: immutable
+    ownership: none
     concurrency: thread-safe
-    serialization: serializable
-
-    Attributes
-    ----------
-    middle : str
-        prefix for non-last child items
-    last : str
-        prefix for last child item
-    parent_middle : str
-        continuation prefix for non-last parent
-    parent_last : str
-        continuation prefix for last parent
+    cache_behavior: none
+    serialization: non-serializable
+    coupling: minimal
+    failure_surface: minimal
     """
 
     middle: str
@@ -57,19 +51,17 @@ class TreePrefixes(NamedTuple):
 
 class TreeStyle(Enum):
     """
-    Character style definitions for tree rendering.
+    Define available character sets for tree rendering.
 
-    role: style configuration provider
-    lifecycle: static enumeration
+    role: enumeration
+    lifecycle: static definition
     mutability: immutable
+    ownership: none
     concurrency: thread-safe
-
-    Attributes
-    ----------
-    UTF8 : TreePrefixes
-        Unicode box-drawing characters
-    ASCII : TreePrefixes
-        ASCII-safe replacement characters
+    cache_behavior: none
+    serialization: non-serializable
+    coupling: minimal
+    failure_surface: minimal
     """
 
     UTF8 = TreePrefixes(
@@ -83,53 +75,58 @@ class TreeStyle(Enum):
 
 def _get_tree_prefixes(use_ascii: bool = False) -> TreePrefixes:
     """
-    Select character set for tree visualization.
+    Select the appropriate tree rendering prefix palette.
 
-    purpose: style resolution
+    purpose: character set resolution
     preconditions: none
-    postconditions: none
+    postconditions: valid prefix set returned
     mutates: none
     reads: none
     writes: none
     external_io: none
+    network: none
+    subprocess: none
     determinism: deterministic
     idempotency: yes
     concurrency: thread-safe
+    ordering: none
+    aliasing: returned value aliasing
+    security: none
+    coupling: minimal
 
     Parameters
     ----------
     use_ascii : bool
-        toggle for ASCII instead of UTF-8; default False
+        selection flag; strict boolean; configures ASCII-only output; defaults to False
 
     Returns
     -------
     TreePrefixes
-        resolved prefix container
+        resolved prefix set; non-null; none; passed by reference; stable
     """
 
     return TreeStyle.ASCII.value if use_ascii else TreeStyle.UTF8.value
 
 def _configure_console_encoding() -> None:
     """
-    Configure stdout for UTF-8 compatibility on Windows.
+    Coerce standard output to UTF-8 encoding dynamically.
 
-    purpose: environment normalization
+    purpose: stream output normalization
     preconditions: none
-    postconditions: sys.stdout may be wrapped in TextIOWrapper
-    mutates: sys.stdout
-    reads: sys.stdout.encoding
+    postconditions: sys.stdout supports utf-8 encoding
+    mutates: global state
+    reads: env
     writes: none
     external_io: none
-    determinism: state-dependent
-    idempotency: yes
+    network: none
+    subprocess: none
+    determinism: external-state-dependent
+    idempotency: no
     concurrency: not thread-safe
+    ordering: none
+    aliasing: globally replaces sys.stdout
     security: none
-    complexity: low
-
-    Notes
-    -----
-    noop if stdout is None or already UTF-8
-    prevent crashes on CP437/CP1252 consoles
+    coupling: minimal
     """
 
     import sys
@@ -152,57 +149,17 @@ def _configure_console_encoding() -> None:
 
 class TreeConfig(NamedTuple):
     """
-    Consolidated configuration for tree traversal and rendering.
+    Define execution context and runtime flags for tree generation.
 
-    role: configuration carrier
-    lifecycle: construction-bound
+    role: data container
+    lifecycle: static definition
     mutability: immutable
+    ownership: none
     concurrency: thread-safe
-
-    Attributes
-    ----------
-    root_path : Path
-        normalized absolute traversal root
-    include_all_pattern : Pattern
-        global inclusion regex
-    exclude_all_pattern : Pattern
-        global exclusion regex
-    include_files_pattern : Pattern
-        file-specific inclusion regex
-    exclude_files_pattern : Pattern
-        file-specific exclusion regex
-    include_folders_pattern : Pattern
-        folder-specific inclusion regex
-    exclude_folders_pattern : Pattern
-        folder-specific exclusion regex
-    show_sizes_files : bool
-        toggle for file size labels
-    show_dates_files : bool
-        toggle for file date labels
-    show_sizes_folders : bool
-        toggle for folder size labels
-    show_dates_folders : bool
-        toggle for folder date labels
-    show_folder_file_count : bool
-        toggle for immediate file count
-    show_folder_total_file_count : bool
-        toggle for recursive file count
-    show_folder_subfolder_count : bool
-        toggle for immediate folder count
-    follow_symlinks : bool
-        toggle for directory symlink traversal
-    mark_symlinks : bool
-        toggle for symlink target labeling
-    mark_circular : bool
-        toggle for circular reference marking
-    mark_errors : bool
-        toggle for access error marking
-    hide_symlinks : bool
-        toggle for symlink omission
-    hide_circular_refs : bool
-        toggle for circular reference omission
-    prefixes : TreePrefixes
-        resolved character set
+    cache_behavior: none
+    serialization: non-serializable
+    coupling: minimal
+    failure_surface: minimal
     """
 
     root_path: Path
@@ -229,37 +186,17 @@ class TreeConfig(NamedTuple):
 
 class PathDetails(NamedTuple):
     """
-    Resolved filesystem metadata for a single path.
+    Store comprehensive metadata and resolved statistics for a filesystem path.
 
-    role: path metadata container
-    lifecycle: per-path instantiation
+    role: data container
+    lifecycle: static definition
     mutability: immutable
+    ownership: none
     concurrency: thread-safe
-
-    Attributes
-    ----------
-    path : Path
-        original path object
-    name : str
-        resolved base name
-    is_dir : bool
-        directory status
-    is_file : bool
-        file status
-    is_symlink : bool
-        symlink status
-    size_bytes : Optional[int]
-        size in bytes; None on error
-    mod_time : Optional[float]
-        mtime timestamp; None on error
-    symlink_target : Optional[str]
-        resolved symlink destination; None if not link
-    is_dangling_symlink : bool
-        link target presence status
-    access_error : Optional[str]
-        OSError description; None if success
-    dev_ino : Optional[DeviceInode]
-        filesystem identity (device, inode)
+    cache_behavior: none
+    serialization: non-serializable
+    coupling: minimal
+    failure_surface: minimal
     """
 
     path: Path
@@ -276,23 +213,17 @@ class PathDetails(NamedTuple):
 
 class SubtreeStats(NamedTuple):
     """
-    Aggregated traversal statistics for a directory subtree.
+    Aggregate recursive filesystem statistics for a branch node.
 
-    role: recursive statistics container
-    lifecycle: per-directory aggregation
+    role: data container
+    lifecycle: static definition
     mutability: immutable
+    ownership: none
     concurrency: thread-safe
-
-    Attributes
-    ----------
-    recursive_size_bytes : int
-        total byte size of subtree
-    recursive_files_count : int
-        total file count in subtree
-    immediate_files_count : int
-        file count in immediate directory
-    immediate_folders_count : int
-        folder count in immediate directory
+    cache_behavior: none
+    serialization: non-serializable
+    coupling: minimal
+    failure_surface: minimal
     """
 
     recursive_size_bytes: int
@@ -304,36 +235,41 @@ def _compile_regex_pattern(
     pattern_input: Optional[PatternInputType]
 ) -> Pattern:
     """
-    Compile flexible input into a unified regex Pattern.
+    Resolve raw strings or lists into compiled regular expressions.
 
-    purpose: pattern normalization
+    purpose: regex compilation
     preconditions: none
-    postconditions: none
+    postconditions: returns Pattern object
     mutates: none
     reads: none
     writes: none
     external_io: none
+    network: none
+    subprocess: none
     determinism: deterministic
     idempotency: yes
     concurrency: thread-safe
-    complexity: O(N) where N is pattern length
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
 
     Parameters
     ----------
     pattern_input : Optional[PatternInputType]
-        string, list of strings, or Pattern object
+        source pattern data; accommodates string, list of strings, Pattern, or None;
 
     Returns
     -------
     Pattern
-        compiled regex object; (?!) (match-nothing) for None/empty
+        compiled regular expression; non-null; none; owned; stable
 
     Raises
     ------
-    re.error
-        on invalid regex syntax
+    ValueError
+        if regex compilation fails on string or list input
     TypeError
-        on unsupported input type
+        if input is not a recognized pattern type
     """
 
     if pattern_input is None:
@@ -364,28 +300,34 @@ def _compile_regex_pattern(
 
 def _format_size_human_readable(size_bytes: int) -> str:
     """
-    Convert bytes to a binary-prefixed human-readable string.
+    Convert raw byte count to readable magnitude string.
 
-    purpose: metric formatting
+    purpose: byte string formatting
     preconditions: none
-    postconditions: none
+    postconditions: valid size string returned
     mutates: none
     reads: none
     writes: none
     external_io: none
+    network: none
+    subprocess: none
     determinism: deterministic
     idempotency: yes
     concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
 
     Parameters
     ----------
     size_bytes : int
-        input size in bytes
+        raw item size in bytes; expected zero or positive;
 
     Returns
     -------
     str
-        formatted string (e.g. "1.5 MB"); "N/A" if negative
+        formatted string representation of size; non-null; none; owned; stable
     """
 
     if size_bytes < 0: return "N/A"
@@ -399,28 +341,34 @@ def _format_size_human_readable(size_bytes: int) -> str:
 
 def _format_date_iso(timestamp: float) -> str:
     """
-    Convert POSIX timestamp to standard ISO-like string.
+    Format epoch timestamp into ISO 8601 string.
 
-    purpose: temporal formatting
-    preconditions: none
-    postconditions: none
+    purpose: timestamp string formatting
+    preconditions: valid float timestamp
+    postconditions: valid ISO date string returned
     mutates: none
-    reads: system timezone
+    reads: none
     writes: none
     external_io: none
-    determinism: input-dependent
+    network: none
+    subprocess: none
+    determinism: deterministic
     idempotency: yes
     concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
 
     Parameters
     ----------
     timestamp : float
-        seconds since epoch
+        epoch float timestamp; represents modification time;
 
     Returns
     -------
     str
-        YYYY-MM-DD HH:MM:SS; [Invalid Date] on conversion failure
+        ISO 8601 subset formatted string or error placeholder; non-null; none; owned; stable
     """
 
     try:
@@ -434,31 +382,36 @@ def _get_path_details(
     config: TreeConfig
 ) -> PathDetails:
     """
-    Acquire comprehensive metadata for a specific path.
+    Interrogate filesystem metrics and resolve entity metadata safely.
 
-    purpose: metadata retrieval
-    preconditions: path_obj is a valid Path
-    postconditions: none
+    purpose: entity metadata interception
+    preconditions: valid Path and TreeConfig
+    postconditions: complete PathDetails snapshot returned
     mutates: none
-    reads: filesystem metadata (stat, lstat, readlink)
+    reads: fs state, config
     writes: none
     external_io: fs
-    failure_surface: OSError (captured in access_error)
-    determinism: state-dependent (fs state)
-    idempotency: yes
+    network: none
+    subprocess: none
+    determinism: external-state-dependent
+    idempotency: conditional: subject to fs volatility
     concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: stat resolution
+    coupling: minimal
 
     Parameters
     ----------
     path_obj : Path
-        target filesystem path
+        active target representation;
     config : TreeConfig
-        traversal policy
+        execution flags affecting stat and link follow logic;
 
     Returns
     -------
     PathDetails
-        resolved metadata; access_error is non-None on failure
+        compiled metadata artifact; non-null; none; owned; stable
     """
 
     name = path_obj.name if path_obj.name else str(path_obj)
@@ -480,22 +433,18 @@ def _get_path_details(
             if not path_obj.exists():
                 _is_dangling_symlink = True
 
-
-
         stat_target_path = path_obj
-        # RATIONALE: lstat preserves link identity; stat resolves to target
+
         if is_symlink_itself and not config.follow_symlinks:
 
             stat_obj = stat_target_path.lstat()
         else:
-
 
             stat_obj = stat_target_path.stat()
 
         _size_bytes = stat_obj.st_size
         _mod_time = stat_obj.st_mtime
         _dev_ino = (stat_obj.st_dev, stat_obj.st_ino)
-
 
         if is_symlink_itself:
             if config.follow_symlinks:
@@ -511,7 +460,6 @@ def _get_path_details(
 
                 _is_dir = False
 
-
                 _is_file = path_obj.is_file() if not _is_dangling_symlink else False
         else:
 
@@ -520,7 +468,6 @@ def _get_path_details(
 
     except OSError as e:
         _access_error = e.strerror
-
 
         try:
             if is_symlink_itself:
@@ -537,7 +484,6 @@ def _get_path_details(
                  _is_file = path_obj.is_file()
         except OSError:  # pragma: no cover
             pass
-
 
         if is_symlink_itself and config.follow_symlinks and not path_obj.exists():
             _is_dangling_symlink = True
@@ -557,40 +503,43 @@ def _is_path_filtered_out(
     config: TreeConfig
 ) -> bool:
     """
-    Evaluate path exclusion against hierarchical filter policy.
+    Evaluate exclusion regex logic against path metadata.
 
-    purpose: exclusion resolution
-    preconditions: none
-    postconditions: none
+    purpose: artifact exclusion gating
+    preconditions: valid PathDetails and TreeConfig
+    postconditions: boolean filter verdict returned
     mutates: none
-    reads: none
+    reads: config patterns
     writes: none
     external_io: none
-    failure_surface: none
+    network: none
+    subprocess: none
     determinism: deterministic
     idempotency: yes
     concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
 
     Parameters
     ----------
     details : PathDetails
-        metadata of current path
+        evaluated artifact metadata;
     config : TreeConfig
-        filter patterns and hiding toggles
+        execution context housing compiled exclusion rules;
 
     Returns
     -------
     bool
-        True if filtered out; False if included
+        true if entity meets exclusion criteria, false otherwise; non-null; none; primitive; stable
     """
-
 
     if config.hide_symlinks and details.is_symlink:
         return True
 
     name_to_check = details.name
     is_dir_type_for_filtering = details.is_dir
-
 
     effective_include_pattern = (
         config.include_folders_pattern
@@ -601,22 +550,18 @@ def _is_path_filtered_out(
         if is_dir_type_for_filtering else config.exclude_files_pattern
     )
 
-
     if effective_exclude_pattern is not config.exclude_all_pattern and \
        effective_exclude_pattern.pattern != config.exclude_all_pattern.pattern:
         if effective_exclude_pattern.search(name_to_check):
             return True
 
-
     if config.exclude_all_pattern.search(name_to_check):
         return True
-
 
     if effective_include_pattern is not config.include_all_pattern and \
        effective_include_pattern.pattern != config.include_all_pattern.pattern:
         if not effective_include_pattern.search(name_to_check):
             return True
-
 
     if not config.include_all_pattern.search(name_to_check):
         return True
@@ -630,35 +575,40 @@ def _build_labels_string(
     is_circular_ref: bool = False
 ) -> str:
     """
-    Generate the visual metadata suffix for a tree entry.
+    Compile formatted annotation suffixes for a path entry.
 
-    purpose: label formatting
+    purpose: annotation string compilation
     preconditions: none
-    postconditions: none
+    postconditions: valid annotation suffix string returned
     mutates: none
-    reads: none
+    reads: config, stat metadata
     writes: none
     external_io: none
-    failure_surface: none
+    network: none
+    subprocess: none
     determinism: deterministic
     idempotency: yes
     concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
 
     Parameters
     ----------
     details : PathDetails
-        metadata of current path
+        evaluated artifact metadata;
     stats : SubtreeStats
-        recursive subtree metadata
+        aggregated recursive stat rollup;
     config : TreeConfig
-        display preferences
+        execution flags;
     is_circular_ref : bool
-        toggle for circular reference marking
+        circular reference loop flag; defaults to False
 
     Returns
     -------
     str
-        formatted label (e.g. "[1.2 KB, 3 files]"); empty if no labels
+        formatted suffix enclosing active annotations; non-null; none; owned; stable
     """
 
     labels: List[str] = []
@@ -704,37 +654,40 @@ def _generate_tree_recursive(
     visited_dev_inos: Set[DeviceInode]
 ) -> Tuple[List[str], SubtreeStats]:
     """
-    Perform hierarchical traversal to generate tree visualization and stats.
+    Traverse filesystem iteratively to construct textual hierarchy.
 
-    purpose: core recursive traversal
-    preconditions: current_path_details is valid
-    postconditions: subtree line list and stats
-    mutates: none
-    reads: directory children (iterdir)
+    purpose: recursive hierarchy generation
+    preconditions: visited_dev_inos initialized
+    postconditions: tree string list and sub-stats compiled
+    mutates: visited_dev_inos
+    reads: fs state, config logic
     writes: none
     external_io: fs
-    failure_surface: OSError (captured; marked in tree)
-    determinism: fs-state-dependent
-    idempotency: yes
-    concurrency: thread-safe
-    security: trust-boundary crossings in symlink traversal
-    complexity: O(N) where N is total objects in subtree
+    network: none
+    subprocess: none
+    determinism: external-state-dependent
+    idempotency: conditional: fs volatility
+    concurrency: not thread-safe: shares mutable set
+    ordering: lexicographical by dir flag then name
+    aliasing: none
+    security: bounds iteration against device nodes
+    coupling: minimal
 
     Parameters
     ----------
     current_path_details : PathDetails
-        metadata of traversal root
+        active root element metadata;
     current_prefix : str
-        accumulated line indent + connection graphical prefix
+        accumulated line-prefix text;
     config : TreeConfig
-        traversal policy
+        execution and filtering context;
     visited_dev_inos : Set[DeviceInode]
-        identity set for circularity detection
+        circular recursion watchdog tracking;
 
     Returns
     -------
-    Tuple[List[str], SubtreeStats]
-        tree lines and aggregated metrics
+    tuple
+        (List[str] tree string accumulation, SubtreeStats cumulative aggregate metrics); non-null; ordered; none; stable
     """
 
     lines: List[str] = []
@@ -761,7 +714,7 @@ def _generate_tree_recursive(
     if current_path_details.is_dir:
         entry_line_base += "/"
 
-        # INVARIANT: prevents infinite recursion in cyclical filesystems
+
         if current_path_details.dev_ino and current_path_details.dev_ino in visited_dev_inos:
             is_circular_target = True
             if config.hide_circular_refs:
@@ -787,7 +740,6 @@ def _generate_tree_recursive(
                 else:
                     parent_line_prefix_segment = current_prefix
 
-
                 indent_for_error_line_children = config.prefixes.parent_last
                 connector_for_error_line = config.prefixes.last
                 error_line_prefix = parent_line_prefix_segment + indent_for_error_line_children + connector_for_error_line
@@ -799,7 +751,7 @@ def _generate_tree_recursive(
                     for child_path_obj in raw_children_paths
                 ]
 
-                # RATIONALE: depth-first search requires child-first sorting for tree stability
+
                 all_child_details.sort(
                     key=lambda d: (not d.is_dir, d.name.lower())
                 )
@@ -884,73 +836,76 @@ def generate_dir_tree(
     use_ascii: bool = False
 ) -> List[str]:
     """
-    Public entrypoint for generating a visual directory tree.
+    Orchestrate directory traversal to yield string representation.
 
-    purpose: high-level rendering orchestration
-    preconditions: root_dir exists and is readable
-    postconditions: list of tree strings
+    purpose: public pipeline orchestration
+    preconditions: root_dir exists
+    postconditions: formatting pipeline executes
     mutates: none
-    reads: filesystem metadata, traversal root
+    reads: fs state
     writes: none
     external_io: fs
-    failure_surface: OSError, re.error
-    determinism: fs-state-dependent
-    idempotency: yes
+    network: none
+    subprocess: none
+    determinism: external-state-dependent
+    idempotency: conditional: fs state
     concurrency: thread-safe
-    security: trust-boundary crossings in symlink traversal
-    complexity: O(N) where N is total objects in subtree
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
 
     Parameters
     ----------
     root_dir : Union[str, Path]
-        traversal root; default "."
+        traversal root path; defaults to '.'
     include : Optional[PatternInputType]
-        global inclusion regex
+        global inclusion pattern;
     include_files : Optional[PatternInputType]
-        file-specific inclusion regex
+        file-specific inclusion;
     include_folders : Optional[PatternInputType]
-        folder-specific inclusion regex
+        folder-specific inclusion;
     exclude : Optional[PatternInputType]
-        global exclusion regex
+        global exclusion pattern;
     exclude_files : Optional[PatternInputType]
-        file-specific exclusion regex
+        file exclusion pattern;
     exclude_folders : Optional[PatternInputType]
-        folder-specific exclusion regex
+        folder exclusion pattern;
     show_sizes : bool
-        global size visibility
+        global size visibility toggle;
     show_dates : bool
-        global date visibility
+        global date visibility toggle;
     show_file_sizes : Optional[bool]
-        override size visibility for files
+        file size visibility toggle;
     show_file_dates : Optional[bool]
-        override date visibility for files
+        file date visibility toggle;
     show_folder_file_count : bool
-        toggle folder file counting
+        immediate file count visibility toggle;
     show_folder_total_file_count : bool
-        toggle total file counting in subtree
+        recursive file count visibility toggle;
     show_folder_subfolder_count : bool
-        toggle folder subfolder counting
+        immediate subfolder count visibility toggle;
     show_folder_total_size : Optional[bool]
-        recursive size calculation for folders
+        recursive size visibility toggle;
     follow_symlinks : bool
-        symlink traversal toggle
+        follow links flag;
     mark_symlinks : bool
-        target labeling toggle
+        annotate links flag;
     mark_circular : bool
-        circularity labeling toggle
+        annotate cyclic links flag;
     mark_errors : bool
-        access-error labeling toggle
+        annotate access errors flag;
     hide_symlinks : bool
-        symlink omission toggle
+        links omission flag;
     hide_circular_refs : bool
-        circularity omission toggle
+        cyclic nodes omission flag;
     use_ascii : bool
-        ASCII rendering toggle
+        ASCII formatting lock toggle;
 
     Returns
     -------
     List[str]
-        sequence of tree lines for display or persistence
+        ordered line arrays representing the document output; non-null; formatted; owned; stable
     """
 
     try:
@@ -966,8 +921,6 @@ def generate_dir_tree(
     else:
         effective_show_folder_sizes = show_sizes
     effective_show_folder_dates = show_dates
-
-
 
     compiled_include_all = _compile_regex_pattern(include if include is not None else ".*")
     compiled_exclude_all = _compile_regex_pattern(exclude if exclude is not None else "(?!)")
@@ -1001,7 +954,6 @@ def generate_dir_tree(
     if _is_path_filtered_out(root_details, config):
         name_display = root_details.name
 
-
         if resolved_root_dir.is_dir() and not name_display.endswith("/"):
              name_display += "/"
         return [f"{name_display} [FILTERED]"]
@@ -1020,29 +972,33 @@ def write_dir_tree(
     **kwargs: Any
 ) -> None:
     """
-    Generate directory tree and persist to a file.
+    Generate and serialize directory string array to disk.
 
-    purpose: high-level persistence orchestration
-    preconditions: outfile path is writable
-    postconditions: file contains serialized tree
-    mutates: none
-    reads: filesystem metadata
-    writes: file contents
+    purpose: wrapper for fs serialization
+    preconditions: writable destination
+    postconditions: tree content flushed to file
+    mutates: persistent file system
+    reads: fs target tree
+    writes: file artifact
     external_io: fs
-    failure_surface: OSError
-    determinism: fs-state-dependent
-    idempotency: no (overwrites)
-    concurrency: not thread-safe (due to potential shared output collision)
-    complexity: O(N) where N is objects in tree
+    network: none
+    subprocess: none
+    determinism: external-state-dependent
+    idempotency: overrides destination
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: fs output permission verification
+    coupling: minimal
 
     Parameters
     ----------
     outfile : Union[str, Path]
-        target destination path
+        target document URI; defaults to 'directory_tree.txt'
     *args : Any
-        forwarded to generate_dir_tree
+        forwarded generator parameters
     **kwargs : Any
-        forwarded to generate_dir_tree
+        forwarded generator parameters
     """
 
     lines = generate_dir_tree(*args, **kwargs)
@@ -1055,19 +1011,24 @@ def write_dir_tree(
 
 def main() -> None:
     """
-    Standard CLI entrypoint for directory tree generation.
+    Execute standard entrypoint demonstration.
 
-    purpose: top-level orchestration
+    purpose: execute demonstration script
     preconditions: none
-    postconditions: none
-    mutates: stdout, local directory_tree.txt
-    reads: current working directory
-    writes: output file
-    external_io: fs, stdout
-    failure_surface: OSError
-    determinism: fs-state-dependent
-    idempotency: no
+    postconditions: execution completion text emitted
+    mutates: none
+    reads: none
+    writes: stdout, file artifact
+    external_io: fs, terminal
+    network: none
+    subprocess: none
+    determinism: external-state-dependent
+    idempotency: false
     concurrency: not thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
     """
 
     _configure_console_encoding()
