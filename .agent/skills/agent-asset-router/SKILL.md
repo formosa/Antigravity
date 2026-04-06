@@ -5,6 +5,7 @@ description: Routes Antigravity agent-asset work to the correct dedicated execut
 ---
 
 <when_to_use>
+
 - Use when the user asks for an Antigravity agent asset and the request is framed at the asset layer rather than in the exact language of a dedicated execution contract.
 - Use when the request mixes asset-authoring concerns, such as asking for a new agent asset category, asking whether a report should become a skill or schema, or asking for one front-door skill to cover several asset families.
 - Use when the request needs schema-first classification for asset families that do not yet have a dedicated owner skill.
@@ -17,6 +18,7 @@ description: Routes Antigravity agent-asset work to the correct dedicated execut
 </when_to_use>
 
 <how_to_use>
+
 1. Resolve the request into one of three modes before doing any asset mutation:
    - Direct dedicated-contract match
    - Schema-first classification for an uncovered asset family
@@ -58,6 +60,7 @@ description: Routes Antigravity agent-asset work to the correct dedicated execut
 </constraints>
 
 <resources_reference>
+
 - Read `.agent/skills/index.md` first to shortlist the correct direct-route skill before opening any candidate execution contract.
 - Read `.agent/skills/asset-skill/SKILL.md` when the request is specifically about skill creation or refinement.
 - Read `.agent/skills/asset-rule/SKILL.md` when the request is specifically about rule creation, refinement, validation, or rules-index maintenance.

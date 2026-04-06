@@ -5,13 +5,16 @@ This document identifies the canonical local contract for Antigravity skill asse
 </document_purpose>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: asset-skill
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>
 
 <authority_order>
+
 1. `.agent/schemas/skill/skill.d.ts`
 2. `.agent/skills/asset-skill/scripts/quick_validate.py`
 3. `.agent/skills/asset-skill/scripts/init_skill.py`

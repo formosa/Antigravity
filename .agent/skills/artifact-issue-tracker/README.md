@@ -5,6 +5,7 @@ This document records lifecycle governance, artifact ownership, canonical schema
 </document_purpose>
 
 <authority_order>
+
 1. `SKILL.md` - authoritative execution and routing contract for the skill.
 2. This `README.md` - authoritative lifecycle, schema relationship, and modification history record for the skill.
 3. `.agent/schemas/issues-tracker/` - canonical schema authority for Issues Tracker structure, validation profiles, and lifecycle governance.
@@ -13,6 +14,7 @@ This document records lifecycle governance, artifact ownership, canonical schema
 </authority_order>
 
 <schema_relationships>
+
 ```yaml
 schema_of_this_skill: skill
 owned_schema_ids:
@@ -21,6 +23,7 @@ consumed_schema_ids: []
 mirror_root: resources/schema/
 mirror_policy: read-only-derived-from-.agent/schemas
 ```
+
 </schema_relationships>
 
 <modification_history>

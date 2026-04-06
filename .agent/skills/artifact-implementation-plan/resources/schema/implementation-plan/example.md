@@ -29,13 +29,13 @@ Construct the primary PySide6 dashboard interface for the Maggie application, es
 
 - phase_id: "PHASE_2_ASYNC_WORKERS"
   objectives:
-    - "Implement QThreadPool for background data fetching"
-    - "Bind worker signals to dashboard slots"
+  - "Implement QThreadPool for background data fetching"
+  - "Bind worker signals to dashboard slots"
   task_references: ["TASK-MAGGIE-003"]
   entry_criteria:
-    - "PHASE_1_UI_SCAFFOLD complete and exit criteria verified"
+  - "PHASE_1_UI_SCAFFOLD complete and exit criteria verified"
   exit_criteria:
-    - "Background tasks update UI without blocking the main event loop"
+  - "Background tasks update UI without blocking the main event loop"
   assigned_model: "gemini-3-flash"
 </phases>
 

@@ -5,13 +5,16 @@ This document establishes the canonical local contract for Antigravity issue-rep
 </document_purpose>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: artifact-issue-report
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>
 
 <authority_order>
+
 1. `.agent/schemas/issue/issue.d.ts`
 2. `.agent/skills/artifact-issue-report/scripts/validate_issue_report.py`
 3. `.agent/skills/artifact-issue-report/SKILL.md`

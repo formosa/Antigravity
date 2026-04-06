@@ -54,8 +54,10 @@ This document serves as the verified reference for the architectural design of I
 </modification_history>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: artifact-implementation-plan
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>

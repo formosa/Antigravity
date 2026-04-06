@@ -29,8 +29,10 @@ This document verifies the structural necessity of Walkthrough artifacts within 
 </modification_history>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: core-schema
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>

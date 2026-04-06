@@ -5,6 +5,7 @@ description: Serves as the Artifact-Centric Owner for issue-report artifacts by 
 ---
 
 <when_to_use>
+
 - Use when the user asks to generate a standalone issue report for one tracked issue.
 - Use when the request asks to maintain, refresh, migrate, or validate an existing issue-report artifact.
 - Use when the request identifies an `ISSUE_ID` plus an Issues Tracker document and expects a canonical issue report as output.
@@ -82,6 +83,7 @@ description: Serves as the Artifact-Centric Owner for issue-report artifacts by 
 </constraints>
 
 <resources_reference>
+
 - Read `.agent/schemas/issue/README.md` to confirm canonical issue-report governance, profiles, and ownership.
 - Read `.agent/schemas/issue/issue.d.ts` to verify the active issue-report contract before generating or maintaining a report.
 - Read `.agent/schemas/issues-tracker/README.md` to confirm the consumed tracker profile and registry semantics.

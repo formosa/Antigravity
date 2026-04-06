@@ -29,8 +29,10 @@ This document justifies the schema architecture for Task artifacts, which functi
 </modification_history>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: core-schema
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>

@@ -5,13 +5,16 @@ This document establishes the canonical local contract for Antigravity Issues Tr
 </document_purpose>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: artifact-issue-tracker
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>
 
 <authority_order>
+
 1. `.agent/schemas/issues-tracker/issues-tracker.d.ts`
 2. `.agent/skills/artifact-issue-tracker/scripts/validate_issues_tracker.py`
 3. `.agent/skills/artifact-issue-tracker/scripts/validate_updated_issues_tracker.py`

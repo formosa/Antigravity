@@ -5,6 +5,7 @@ description: Authors or refines Antigravity-compatible rule assets with explicit
 ---
 
 <when_to_use>
+
 - Use when the user asks to create, scaffold, standardize, harden, or re-index a rule in `.agent/rules/`.
 - Use when the task is to improve rule trigger wording, glob scope, verification steps, execution-tier hygiene, or rules-index alignment.
 - Do not use when the request is to create or revise canonical `.d.ts` schemas, including standalone changes under `.agent/schemas/`.
@@ -14,6 +15,7 @@ description: Authors or refines Antigravity-compatible rule assets with explicit
 </when_to_use>
 
 <how_to_use>
+
 1. Gather 2-3 concrete requests the target rule must handle. Extract the trigger context, required frontmatter fields, expected rule behavior, and adjacent tasks the rule must reject.
 2. Decide whether to scaffold or refine:
    - Run `python .agent/skills/asset-rule/scripts/init_rule.py <rule-name> [--path <output-directory>]` when creating a new rule.
@@ -45,6 +47,7 @@ description: Authors or refines Antigravity-compatible rule assets with explicit
 </constraints>
 
 <resources_reference>
+
 - Run `.agent/skills/asset-rule/scripts/init_rule.py` to scaffold a new rule from the canonical rule example.
 - Run `.agent/skills/asset-rule/scripts/quick_validate.py` to detect rule-asset structural errors before handoff.
 - Run `.agent/skills/asset-rule/scripts/update_index.py` to rebuild `.agent/rules/index.md` after rule changes.

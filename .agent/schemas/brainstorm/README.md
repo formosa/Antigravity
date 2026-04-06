@@ -5,13 +5,16 @@ This document establishes the canonical local contract for Antigravity brainstor
 </document_purpose>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: artifact-brainstorm
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>
 
 <authority_order>
+
 1. `.agent/schemas/brainstorm/brainstorm.d.ts`
 2. `.agent/skills/artifact-brainstorm/scripts/validate_brainstorm.py`
 3. `.agent/skills/artifact-brainstorm/scripts/init_brainstorm.py`

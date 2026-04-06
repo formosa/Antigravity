@@ -5,13 +5,16 @@ This document establishes the canonical contract for Antigravity `.d.ts` schema 
 </document_purpose>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: core-schema
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>
 
 <authority_order>
+
 1. `.agent/schemas/schema/schema.d.ts`
 2. `.agent/skills/core-schema/scripts/validate_schema.py`
 3. `.agent/skills/core-schema/scripts/scaffold_schema.py`

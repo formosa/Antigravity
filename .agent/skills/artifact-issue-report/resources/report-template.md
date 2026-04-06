@@ -41,6 +41,7 @@ updated:     {{UPDATED_DATE}}
 ```
 
 {{RESOLUTION_CALLOUT_BLOCK}}
+
 ### 1. Validation Audit of {{ISSUE_ID}}
 
 An evaluation of {{PRIMARY_SOURCE_FILES}} was conducted to investigate the claims of "{{ISSUE_ID}}: {{ISSUE_TITLE}}."
@@ -94,6 +95,7 @@ The most balanced and minimally disruptive solution is **{{RECOMMENDED_OPTION}} 
 ### 4. Implementation Note
 
 {{IMPLEMENTATION_NOTE}}
+
 ```
 
 </template_structure>

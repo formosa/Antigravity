@@ -29,8 +29,10 @@ This document establishes the verified architectural pattern for implementing UU
 </modification_history>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: core-schema
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>

@@ -60,8 +60,10 @@ This document establishes the schema contract for folder-level agent asset index
 </modification_history>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: core-schema
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>

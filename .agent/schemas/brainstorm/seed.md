@@ -1,5 +1,7 @@
 # DDR SYSTEM
+
 ## Application Framework
+
 ## Brainstorming Compendium
 
 <style>
@@ -364,7 +366,6 @@ stateDiagram-v2
     Validated --> Committed: merged with adjacent authoritative prose
     Rejected --> Drafted: rewrite in stable subset
 ```
-
 
 ## PART II — Application Design Concepts
 
@@ -1892,6 +1893,7 @@ surfaces that may be appended after initialization.
 This section is the authoritative external citation catalog for Part II and Part III. Every `citation_id` used inline by an entry must resolve here.
 
 #### [C2] February 2026 (version 1.110)
+
 ```yaml
 citation_id: C2
 publisher: Visual Studio Code
@@ -1907,6 +1909,7 @@ related_entries:
 ```
 
 #### [C4] From model to agent: Equipping the Responses API with a computer environment
+
 ```yaml
 citation_id: C4
 publisher: OpenAI
@@ -1928,6 +1931,7 @@ related_entries:
 ```
 
 #### [C6] GitHub Copilot CLI is now generally available
+
 ```yaml
 citation_id: C6
 publisher: GitHub Changelog
@@ -1945,6 +1949,7 @@ related_entries:
 ```
 
 #### [C7] What's new with GitHub Copilot coding agent
+
 ```yaml
 citation_id: C7
 publisher: GitHub Blog
@@ -1961,6 +1966,7 @@ related_entries:
 ```
 
 #### [C8] New APIs to manage coding agent repository access are now available
+
 ```yaml
 citation_id: C8
 publisher: GitHub Changelog
@@ -1978,6 +1984,7 @@ related_entries:
 ```
 
 #### [C19] github-mcp-server v0.32.0
+
 ```yaml
 citation_id: C19
 publisher: GitHub
@@ -1995,6 +2002,7 @@ related_entries:
 ```
 
 #### [C20] playwright-mcp releases
+
 ```yaml
 citation_id: C20
 publisher: Microsoft
@@ -2013,6 +2021,7 @@ related_entries:
 ```
 
 #### [C21] monaco-editor releases
+
 ```yaml
 citation_id: C21
 publisher: Microsoft
@@ -2029,6 +2038,7 @@ related_entries:
 ```
 
 #### [C22] networkx/networkx repository
+
 ```yaml
 citation_id: C22
 publisher: networkx
@@ -2047,6 +2057,7 @@ related_entries:
 ```
 
 #### [C23] graphlib (stdlib)
+
 ```yaml
 citation_id: C23
 publisher: Python Documentation
@@ -2065,6 +2076,7 @@ related_entries:
 ```
 
 #### [C24] Qiskit/rustworkx repository
+
 ```yaml
 citation_id: C24
 publisher: Qiskit
@@ -2083,6 +2095,7 @@ related_entries:
 ```
 
 #### [C25] cytoscape/cytoscape.js repository
+
 ```yaml
 citation_id: C25
 publisher: cytoscape
@@ -2099,6 +2112,7 @@ related_entries:
 ```
 
 #### [C26] xflr6/graphviz repository
+
 ```yaml
 citation_id: C26
 publisher: xflr6
@@ -2115,6 +2129,7 @@ related_entries:
 ```
 
 #### [C27] mermaid-js/mermaid repository
+
 ```yaml
 citation_id: C27
 publisher: mermaid-js
@@ -2131,6 +2146,7 @@ related_entries:
 ```
 
 #### [C28] python-jsonschema/jsonschema repository
+
 ```yaml
 citation_id: C28
 publisher: python-jsonschema
@@ -2148,6 +2164,7 @@ related_entries:
 ```
 
 #### [C29] pydantic/pydantic repository
+
 ```yaml
 citation_id: C29
 publisher: pydantic
@@ -2164,6 +2181,7 @@ related_entries:
 ```
 
 #### [C30] ruamel.yaml
+
 ```yaml
 citation_id: C30
 publisher: ruamel.yaml
@@ -2181,6 +2199,7 @@ related_entries:
 ```
 
 #### [C31] PySide6 (Qt for Python)
+
 ```yaml
 citation_id: C31
 publisher: Qt
@@ -2198,6 +2217,7 @@ related_entries:
 ```
 
 #### [C32] tauri-apps/tauri repository
+
 ```yaml
 citation_id: C32
 publisher: tauri-apps
@@ -2214,6 +2234,7 @@ related_entries:
 ```
 
 #### [C33] gorakhargosh/watchdog repository
+
 ```yaml
 citation_id: C33
 publisher: gorakhargosh
@@ -2231,6 +2252,7 @@ related_entries:
 ```
 
 #### [C34] jcrist/msgspec repository
+
 ```yaml
 citation_id: C34
 publisher: jcrist
@@ -2247,6 +2269,7 @@ related_entries:
 ```
 
 #### [C35] zipfile / tarfile (stdlib) + zipimport
+
 ```yaml
 citation_id: C35
 publisher: Python Documentation
@@ -2263,6 +2286,7 @@ related_entries:
 ```
 
 #### [C36] fastapi/typer repository
+
 ```yaml
 citation_id: C36
 publisher: fastapi
@@ -2281,6 +2305,7 @@ related_entries:
 ```
 
 #### [C37] Textualize/rich repository
+
 ```yaml
 citation_id: C37
 publisher: Textualize
