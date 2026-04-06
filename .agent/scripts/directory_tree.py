@@ -34,7 +34,7 @@ class TreePrefixes(NamedTuple):
     Define connector string fragments for tree branch rendering.
 
     role: data container
-    lifecycle: construction model
+    lifecycle: static definition
     mutability: immutable
     ownership: none
     concurrency: thread-safe
@@ -75,11 +75,11 @@ class TreeStyle(Enum):
 
 def _get_tree_prefixes(use_ascii: bool = False) -> TreePrefixes:
     """
-    Select the appropriate tree rendering prefix palette.
+    Select tree rendering prefix palette.
 
     purpose: character set resolution
     preconditions: none
-    postconditions: valid prefix set returned
+    postconditions: none
     mutates: none
     reads: none
     writes: none
@@ -90,7 +90,7 @@ def _get_tree_prefixes(use_ascii: bool = False) -> TreePrefixes:
     idempotency: yes
     concurrency: thread-safe
     ordering: none
-    aliasing: returned value aliasing
+    aliasing: none
     security: none
     coupling: minimal
 
@@ -239,7 +239,7 @@ def _compile_regex_pattern(
 
     purpose: regex compilation
     preconditions: none
-    postconditions: returns Pattern object
+    postconditions: none
     mutates: none
     reads: none
     writes: none
@@ -257,7 +257,7 @@ def _compile_regex_pattern(
     Parameters
     ----------
     pattern_input : Optional[PatternInputType]
-        source pattern data; accommodates string, list of strings, Pattern, or None;
+        source pattern data; accommodates string, list of strings, Pattern, or None; none
 
     Returns
     -------
@@ -304,7 +304,7 @@ def _format_size_human_readable(size_bytes: int) -> str:
 
     purpose: byte string formatting
     preconditions: none
-    postconditions: valid size string returned
+    postconditions: none
     mutates: none
     reads: none
     writes: none
@@ -322,7 +322,7 @@ def _format_size_human_readable(size_bytes: int) -> str:
     Parameters
     ----------
     size_bytes : int
-        raw item size in bytes; expected zero or positive;
+        raw item size in bytes; expected zero or positive; none
 
     Returns
     -------
@@ -363,7 +363,7 @@ def _format_date_iso(timestamp: float) -> str:
     Parameters
     ----------
     timestamp : float
-        epoch float timestamp; represents modification time;
+        epoch float timestamp; represents modification time; none
 
     Returns
     -------
@@ -394,7 +394,7 @@ def _get_path_details(
     network: none
     subprocess: none
     determinism: external-state-dependent
-    idempotency: conditional: subject to fs volatility
+    idempotency: no
     concurrency: thread-safe
     ordering: none
     aliasing: none
@@ -404,9 +404,9 @@ def _get_path_details(
     Parameters
     ----------
     path_obj : Path
-        active target representation;
+        active target representation; none; none; none
     config : TreeConfig
-        execution flags affecting stat and link follow logic;
+        execution flags affecting stat and link follow logic; none; none; none
 
     Returns
     -------
@@ -507,7 +507,7 @@ def _is_path_filtered_out(
 
     purpose: artifact exclusion gating
     preconditions: valid PathDetails and TreeConfig
-    postconditions: boolean filter verdict returned
+    postconditions: none
     mutates: none
     reads: config patterns
     writes: none
@@ -525,9 +525,9 @@ def _is_path_filtered_out(
     Parameters
     ----------
     details : PathDetails
-        evaluated artifact metadata;
+        evaluated artifact metadata; none; none; none
     config : TreeConfig
-        execution context housing compiled exclusion rules;
+        execution context housing compiled exclusion rules; none; none; none
 
     Returns
     -------
@@ -579,7 +579,7 @@ def _build_labels_string(
 
     purpose: annotation string compilation
     preconditions: none
-    postconditions: valid annotation suffix string returned
+    postconditions: none
     mutates: none
     reads: config, stat metadata
     writes: none
@@ -597,13 +597,13 @@ def _build_labels_string(
     Parameters
     ----------
     details : PathDetails
-        evaluated artifact metadata;
+        evaluated artifact metadata; none; none; none
     stats : SubtreeStats
-        aggregated recursive stat rollup;
+        aggregated recursive stat rollup; none; none; none
     config : TreeConfig
-        execution flags;
+        execution flags; none; none; none
     is_circular_ref : bool
-        circular reference loop flag; defaults to False
+        circular reference loop flag; strict boolean; none; defaults to False
 
     Returns
     -------
@@ -658,7 +658,7 @@ def _generate_tree_recursive(
 
     purpose: recursive hierarchy generation
     preconditions: visited_dev_inos initialized
-    postconditions: tree string list and sub-stats compiled
+    postconditions: none
     mutates: visited_dev_inos
     reads: fs state, config logic
     writes: none
@@ -666,8 +666,8 @@ def _generate_tree_recursive(
     network: none
     subprocess: none
     determinism: external-state-dependent
-    idempotency: conditional: fs volatility
-    concurrency: not thread-safe: shares mutable set
+    idempotency: no
+    concurrency: not thread-safe
     ordering: lexicographical by dir flag then name
     aliasing: none
     security: bounds iteration against device nodes
@@ -676,18 +676,18 @@ def _generate_tree_recursive(
     Parameters
     ----------
     current_path_details : PathDetails
-        active root element metadata;
+        active root element metadata; none; none; none
     current_prefix : str
-        accumulated line-prefix text;
+        accumulated line-prefix text; none; none; none
     config : TreeConfig
-        execution and filtering context;
+        execution and filtering context; none; none; none
     visited_dev_inos : Set[DeviceInode]
-        circular recursion watchdog tracking;
+        circular recursion watchdog tracking; none; none; none
 
     Returns
     -------
-    tuple
-        (List[str] tree string accumulation, SubtreeStats cumulative aggregate metrics); non-null; ordered; none; stable
+    Tuple[List[str], SubtreeStats]
+        tree string accumulation and aggregate metrics; non-null; ordered; none; stable
     """
 
     lines: List[str] = []
@@ -713,7 +713,6 @@ def _generate_tree_recursive(
 
     if current_path_details.is_dir:
         entry_line_base += "/"
-
 
         if current_path_details.dev_ino and current_path_details.dev_ino in visited_dev_inos:
             is_circular_target = True
@@ -750,7 +749,6 @@ def _generate_tree_recursive(
                     _get_path_details(child_path_obj, config)
                     for child_path_obj in raw_children_paths
                 ]
-
 
                 all_child_details.sort(
                     key=lambda d: (not d.is_dir, d.name.lower())
@@ -836,20 +834,20 @@ def generate_dir_tree(
     use_ascii: bool = False
 ) -> List[str]:
     """
-    Orchestrate directory traversal to yield string representation.
+    Generate textual directory tree string list.
 
-    purpose: public pipeline orchestration
-    preconditions: root_dir exists
-    postconditions: formatting pipeline executes
+    purpose: format text-based directory tree representations
+    preconditions: none
+    postconditions: none
     mutates: none
-    reads: fs state
+    reads: files
     writes: none
     external_io: fs
     network: none
     subprocess: none
     determinism: external-state-dependent
-    idempotency: conditional: fs state
-    concurrency: thread-safe
+    idempotency: no
+    concurrency: unknown
     ordering: none
     aliasing: none
     security: none
@@ -858,54 +856,54 @@ def generate_dir_tree(
     Parameters
     ----------
     root_dir : Union[str, Path]
-        traversal root path; defaults to '.'
+        root directory path; none; none; defaults to "."
     include : Optional[PatternInputType]
-        global inclusion pattern;
+        include pattern; none; none; defaults to ".*"
     include_files : Optional[PatternInputType]
-        file-specific inclusion;
+        include files pattern; none; none; defaults to None
     include_folders : Optional[PatternInputType]
-        folder-specific inclusion;
+        include folders pattern; none; none; defaults to None
     exclude : Optional[PatternInputType]
-        global exclusion pattern;
+        exclude pattern; none; none; defaults to "(?!)"
     exclude_files : Optional[PatternInputType]
-        file exclusion pattern;
+        exclude files pattern; none; none; defaults to None
     exclude_folders : Optional[PatternInputType]
-        folder exclusion pattern;
+        exclude folders pattern; none; none; defaults to None
     show_sizes : bool
-        global size visibility toggle;
+        show sizes flag; strict boolean; none; defaults to True
     show_dates : bool
-        global date visibility toggle;
+        show dates flag; strict boolean; none; defaults to False
     show_file_sizes : Optional[bool]
-        file size visibility toggle;
+        show file sizes flag; none; none; defaults to None
     show_file_dates : Optional[bool]
-        file date visibility toggle;
+        show file dates flag; none; none; defaults to None
     show_folder_file_count : bool
-        immediate file count visibility toggle;
+        show folder file count flag; strict boolean; none; defaults to True
     show_folder_total_file_count : bool
-        recursive file count visibility toggle;
+        show folder total file count flag; strict boolean; none; defaults to False
     show_folder_subfolder_count : bool
-        immediate subfolder count visibility toggle;
+        show folder subfolder count flag; strict boolean; none; defaults to True
     show_folder_total_size : Optional[bool]
-        recursive size visibility toggle;
+        show folder total size flag; none; none; defaults to None
     follow_symlinks : bool
-        follow links flag;
+        follow symlinks flag; strict boolean; none; defaults to True
     mark_symlinks : bool
-        annotate links flag;
+        mark symlinks flag; strict boolean; none; defaults to True
     mark_circular : bool
-        annotate cyclic links flag;
+        mark circular flag; strict boolean; none; defaults to True
     mark_errors : bool
-        annotate access errors flag;
+        mark errors flag; strict boolean; none; defaults to True
     hide_symlinks : bool
-        links omission flag;
+        hide symlinks flag; strict boolean; none; defaults to False
     hide_circular_refs : bool
-        cyclic nodes omission flag;
+        hide circular refs flag; strict boolean; none; defaults to False
     use_ascii : bool
-        ASCII formatting lock toggle;
+        use ASCII flag; strict boolean; none; defaults to False
 
     Returns
     -------
     List[str]
-        ordered line arrays representing the document output; non-null; formatted; owned; stable
+        tree lines; non-null; ordered; none; stable
     """
 
     try:
@@ -972,33 +970,33 @@ def write_dir_tree(
     **kwargs: Any
 ) -> None:
     """
-    Generate and serialize directory string array to disk.
+    Write textual directory tree to file.
 
-    purpose: wrapper for fs serialization
-    preconditions: writable destination
-    postconditions: tree content flushed to file
-    mutates: persistent file system
-    reads: fs target tree
-    writes: file artifact
+    purpose: write textual directory tree string list to out path
+    preconditions: none
+    postconditions: file exists at out path
+    mutates: none
+    reads: env, files
+    writes: artifacts
     external_io: fs
     network: none
     subprocess: none
     determinism: external-state-dependent
-    idempotency: overrides destination
-    concurrency: thread-safe
+    idempotency: no
+    concurrency: not thread-safe
     ordering: none
     aliasing: none
-    security: fs output permission verification
+    security: none
     coupling: minimal
 
     Parameters
     ----------
     outfile : Union[str, Path]
-        target document URI; defaults to 'directory_tree.txt'
+        output file path; none; none; defaults to "directory_tree.txt"
     *args : Any
-        forwarded generator parameters
+        forwarded arguments; none; none; none
     **kwargs : Any
-        forwarded generator parameters
+        forwarded arguments; none; none; none
     """
 
     lines = generate_dir_tree(*args, **kwargs)
@@ -1011,19 +1009,19 @@ def write_dir_tree(
 
 def main() -> None:
     """
-    Execute standard entrypoint demonstration.
+    Generate default diagnostic directory tree.
 
-    purpose: execute demonstration script
+    purpose: generate default tree output to directory_tree.txt
     preconditions: none
-    postconditions: execution completion text emitted
-    mutates: none
-    reads: none
-    writes: stdout, file artifact
-    external_io: fs, terminal
+    postconditions: directory_tree.txt is written
+    mutates: stdio encoding
+    reads: env, files
+    writes: artifacts
+    external_io: fs
     network: none
     subprocess: none
     determinism: external-state-dependent
-    idempotency: false
+    idempotency: no
     concurrency: not thread-safe
     ordering: none
     aliasing: none
