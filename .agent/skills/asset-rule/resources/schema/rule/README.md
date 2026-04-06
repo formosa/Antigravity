@@ -5,13 +5,16 @@ This document establishes the canonical local contract for Antigravity rule asse
 </document_purpose>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: asset-rule
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>
 
 <authority_order>
+
 1. `.agent/schemas/rule/rule.d.ts`
 2. `.agent/skills/asset-rule/scripts/quick_validate.py`
 3. `.agent/skills/asset-rule/scripts/init_rule.py`

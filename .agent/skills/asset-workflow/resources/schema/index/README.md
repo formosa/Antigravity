@@ -49,19 +49,21 @@ This document establishes the schema contract for folder-level agent asset index
 
 <modification_history>
 
-| Date       | Version | Classification  | Description                                                                                                                                        |
-| :--------- | :------ | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-04-01 | v1.0.0  | Initial Release | Created `index.d.ts` and supporting documentation for generic folder-level agent asset indexes, using `.agent/tools/index.md` as the seed example. |
-| 2026-04-02 | v1.1.0  | Schema Hardening | Typed shared rule metadata, added `asset_structure`, added record escape-hatch parity, corrected live-adoption claims, and documented the generated schemas-index exception. |
-| 2026-04-03 | v1.2.0  | Adoption Update | Promoted `.agent/workflows/index.md` to the full-form directory-index contract and updated the live-adoption guidance to treat workflows as a governed index surface rather than a lightweight exception. |
-| 2026-04-03 | v1.2.1  | Adoption Update | Promoted `.agent/rules/index.md` to the full-form directory-index contract and updated the live examples to treat rules as a governed index surface alongside tools, skills, and workflows. |
-| 2026-04-04 | v1.2.2  | Naming Alignment | Repointed the schemas-directory governance exception and governing workflow reference from `dev-schema` to `core-schema` after the foundational `core-*` family migration. |
+| Date       | Version | Classification   | Description                                                                                                                                                                                               |
+| :--------- | :------ | :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-04-01 | v1.0.0  | Initial Release  | Created `index.d.ts` and supporting documentation for generic folder-level agent asset indexes, using `.agent/tools/index.md` as the seed example.                                                        |
+| 2026-04-02 | v1.1.0  | Schema Hardening | Typed shared rule metadata, added `asset_structure`, added record escape-hatch parity, corrected live-adoption claims, and documented the generated schemas-index exception.                              |
+| 2026-04-03 | v1.2.0  | Adoption Update  | Promoted `.agent/workflows/index.md` to the full-form directory-index contract and updated the live-adoption guidance to treat workflows as a governed index surface rather than a lightweight exception. |
+| 2026-04-03 | v1.2.1  | Adoption Update  | Promoted `.agent/rules/index.md` to the full-form directory-index contract and updated the live examples to treat rules as a governed index surface alongside tools, skills, and workflows.               |
+| 2026-04-04 | v1.2.2  | Naming Alignment | Repointed the schemas-directory governance exception and governing workflow reference from `dev-schema` to `core-schema` after the foundational `core-*` family migration.                                |
 
 </modification_history>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: core-schema
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>

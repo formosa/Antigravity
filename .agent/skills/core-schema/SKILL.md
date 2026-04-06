@@ -5,6 +5,7 @@ description: Serves as the foundational `core-*` contract for canonical Antigrav
 ---
 
 <when_to_use>
+
 - The user asks to create a new `.d.ts` schema file from an example artifact or document.
 - The user asks to update an existing Antigravity schema or schema README.
 - The user asks to regenerate or synchronize the `.agent/schemas/index.md` directory index.
@@ -58,6 +59,7 @@ description: Serves as the foundational `core-*` contract for canonical Antigrav
 </constraints>
 
 <resources_reference>
+
 - Run `.agent/skills/core-schema/scripts/scaffold_schema.py` to create the initial schema directory and copy the source example.
 - Run `.agent/skills/core-schema/scripts/validate_schema.py` to type-check the generated `.d.ts` file and roll back on failure.
 - Run `.agent/skills/core-schema/scripts/update_index.py` to rebuild the `.agent/schemas/index.md` directory index after any schema change.

@@ -5,13 +5,16 @@ This document establishes the canonical local contract for Antigravity workflow 
 </document_purpose>
 
 <schema_governance>
+
 ```yaml
 primary_owner_skill: asset-workflow
 distribution_model: canonical-plus-vendored-mirror
 ```
+
 </schema_governance>
 
 <authority_order>
+
 1. `.agent/schemas/workflow/workflow.d.ts`
 2. `.agent/skills/asset-workflow/scripts/quick_validate.py`
 3. `.agent/skills/asset-workflow/scripts/init_workflow.py`
