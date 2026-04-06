@@ -159,11 +159,11 @@ python .agent/skills/artifact-brainstorm/scripts/validate_brainstorm.py brainsto
 
 <modification_history>
 
-| Date | Version | Classification | Description |
-| :--- | :--- | :--- | :--- |
-| 2026-03-30 | v1.0.0 | Initial Release | Established the canonical brainstorm Markdown contract, seed structure, citation model, and validator-backed governance for DDR App Framework brainstorming artifacts. |
-| 2026-04-03 | v1.0.1 | Governance | Promoted `artifact-brainstorm` to the canonical Artifact-Centric Owner, moved the source-reference document into `.agent/schemas/brainstorm/`, modernized schema governance documentation, and preserved the existing type contract unchanged. |
-| 2026-04-03 | v1.0.2 | Governance | Migrated the schema-owned source-reference asset from the legacy `.docx` source to `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml` and aligned the canonical guidance with the new reference format. |
-| 2026-04-04 | v1.0.3 | Governance | Repointed canonical schema-authoring guidance from `dev-schema` to `core-schema` so brainstorm ownership language aligns with the new foundational `core-*` family without changing the brainstorm artifact contract. |
+| Date       | Version | Classification  | Description                                                                                                                                                                                                                                    |
+| :--------- | :------ | :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-03-30 | v1.0.0  | Initial Release | Established the canonical brainstorm Markdown contract, seed structure, citation model, and validator-backed governance for DDR App Framework brainstorming artifacts.                                                                         |
+| 2026-04-03 | v1.0.1  | Governance      | Promoted `artifact-brainstorm` to the canonical Artifact-Centric Owner, moved the source-reference document into `.agent/schemas/brainstorm/`, modernized schema governance documentation, and preserved the existing type contract unchanged. |
+| 2026-04-03 | v1.0.2  | Governance      | Migrated the schema-owned source-reference asset from the legacy `.docx` source to `.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml` and aligned the canonical guidance with the new reference format.                             |
+| 2026-04-04 | v1.0.3  | Governance      | Repointed canonical schema-authoring guidance from `dev-schema` to `core-schema` so brainstorm ownership language aligns with the new foundational `core-*` family without changing the brainstorm artifact contract.                          |
 
 </modification_history>

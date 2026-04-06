@@ -21,10 +21,10 @@ This document justifies the schema architecture for Task artifacts, which functi
 
 <modification_history>
 
-| Date | Version | Classification | Description |
-| :--- | :--- | :--- | :--- |
-| 2026-03-01 | v1.1.0 | Optimization | Enhanced `task.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework. |
-| 2026-04-04 | v1.1.1 | Governance | Updated `primary_owner_skill` from `dev-schema` to `core-schema` so canonical schema stewardship follows the new foundational `core-*` family while leaving the Task schema unchanged. |
+| Date       | Version | Classification | Description                                                                                                                                                                            |
+| :--------- | :------ | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-03-01 | v1.1.0  | Optimization   | Enhanced `task.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework.                                                |
+| 2026-04-04 | v1.1.1  | Governance     | Updated `primary_owner_skill` from `dev-schema` to `core-schema` so canonical schema stewardship follows the new foundational `core-*` family while leaving the Task schema unchanged. |
 
 </modification_history>
 

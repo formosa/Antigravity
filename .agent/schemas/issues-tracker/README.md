@@ -141,10 +141,10 @@ initialization and maintenance can evolve without collapsing into one overloaded
 
 <modification_history>
 
-| Date       | Version | Classification | Description |
-| :--------- | :------ | :------------- | :---------- |
-| 2026-03-28 | v1.0.0  | Initial Release | Established the shared Issues Tracker contracts for blank initialization, populated maintenance, and legacy validation. |
-| 2026-04-04 | v1.0.1  | Governance | Promoted `artifact-issue-tracker` to the canonical Artifact-Centric Owner, consolidated tracker lifecycle ownership under one skill, and updated validation and governance references without changing `IT-1.0` or `IT-1.1` wire shapes. |
-| 2026-04-04 | v1.0.2  | Governance | Repointed standalone issue-report ownership references to `artifact-issue-report` so Issues Tracker governance reflects the staged issue-report owner migration. |
+| Date       | Version | Classification  | Description                                                                                                                                                                                                                              |
+| :--------- | :------ | :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-03-28 | v1.0.0  | Initial Release | Established the shared Issues Tracker contracts for blank initialization, populated maintenance, and legacy validation.                                                                                                                  |
+| 2026-04-04 | v1.0.1  | Governance      | Promoted `artifact-issue-tracker` to the canonical Artifact-Centric Owner, consolidated tracker lifecycle ownership under one skill, and updated validation and governance references without changing `IT-1.0` or `IT-1.1` wire shapes. |
+| 2026-04-04 | v1.0.2  | Governance      | Repointed standalone issue-report ownership references to `artifact-issue-report` so Issues Tracker governance reflects the staged issue-report owner migration.                                                                         |
 
 </modification_history>

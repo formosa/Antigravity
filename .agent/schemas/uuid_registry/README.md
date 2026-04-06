@@ -21,9 +21,9 @@ This document establishes the verified architectural pattern for implementing UU
 
 <modification_history>
 
-| Date       | Version | Classification  | Description                                                                                                                                                          |
-| :--------- | :------ | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-03-04 | v1.0.0  | Initial Release | Constructed `uuid_registry.d.ts` per Antigravity v1.18.3 schema standards with strict typing and JSDoc annotations to maximize Gemini 3.1 Pro agentic optimization. |
+| Date       | Version | Classification  | Description                                                                                                                                                                                     |
+| :--------- | :------ | :-------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-03-04 | v1.0.0  | Initial Release | Constructed `uuid_registry.d.ts` per Antigravity v1.18.3 schema standards with strict typing and JSDoc annotations to maximize Gemini 3.1 Pro agentic optimization.                             |
 | 2026-04-04 | v1.0.1  | Governance      | Updated `primary_owner_skill` from `dev-schema` to `core-schema` so canonical schema stewardship follows the new foundational `core-*` family while leaving the UUID Registry schema unchanged. |
 
 </modification_history>

@@ -43,10 +43,10 @@ distribution_model: canonical-plus-vendored-mirror
 
 <modification_history>
 
-| Date | Version | Classification | Description |
-| :--- | :--- | :--- | :--- |
-| 2026-03-01 | v1.1.0 | Optimization | Enhanced `workflow.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework. |
-| 2026-04-03 | v1.2.0 | Governance | Replaced stale authority guidance with the current local owner-skill contract, established canonical-plus-vendored-mirror governance, and aligned workflow lifecycle references with `asset-workflow` scaffold, validation, and index tooling. |
-| 2026-04-03 | v1.2.1 | Governance | Updated the canonical workflow-governance metadata and authority references to the hardened `asset-*` owner-skill naming family so renamed runtime-routed owners remain the single authoritative surface. |
+| Date       | Version | Classification | Description                                                                                                                                                                                                                                    |
+| :--------- | :------ | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-03-01 | v1.1.0  | Optimization   | Enhanced `workflow.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework.                                                                                                    |
+| 2026-04-03 | v1.2.0  | Governance     | Replaced stale authority guidance with the current local owner-skill contract, established canonical-plus-vendored-mirror governance, and aligned workflow lifecycle references with `asset-workflow` scaffold, validation, and index tooling. |
+| 2026-04-03 | v1.2.1  | Governance     | Updated the canonical workflow-governance metadata and authority references to the hardened `asset-*` owner-skill naming family so renamed runtime-routed owners remain the single authoritative surface.                                      |
 
 </modification_history>

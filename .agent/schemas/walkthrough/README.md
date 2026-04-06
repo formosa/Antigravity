@@ -21,10 +21,10 @@ This document verifies the structural necessity of Walkthrough artifacts within 
 
 <modification_history>
 
-| Date | Version | Classification | Description |
-| :--- | :--- | :--- | :--- |
-| 2026-03-01 | v1.1.0 | Optimization | Enhanced `walkthrough.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework. |
-| 2026-04-04 | v1.1.1 | Governance | Updated `primary_owner_skill` from `dev-schema` to `core-schema` so canonical schema stewardship follows the new foundational `core-*` family while leaving the Walkthrough schema unchanged. |
+| Date       | Version | Classification | Description                                                                                                                                                                                   |
+| :--------- | :------ | :------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-03-01 | v1.1.0  | Optimization   | Enhanced `walkthrough.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework.                                                |
+| 2026-04-04 | v1.1.1  | Governance     | Updated `primary_owner_skill` from `dev-schema` to `core-schema` so canonical schema stewardship follows the new foundational `core-*` family while leaving the Walkthrough schema unchanged. |
 
 </modification_history>
 
