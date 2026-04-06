@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 Sync vendored skill-local schema mirrors from canonical .agent/schemas/ directories.
+
+role: schema mirror synchronization utility
+entrypoints: main
+reads: skill README, canonical schemas
+writes: skill-local schema mirrors
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; yaml parsing errors; schema missing
+coupling: coupled to skill README and schema structure
+determinism: deterministic
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -23,16 +34,31 @@ REQUIRED_SCHEMA_RELATIONSHIP_KEYS = {
 
 
 def extract_tag_block(content: str, block_name: str) -> str | None:
+    """
+    Extract the content between XML-style tags of a specific name.
+
+    purpose: structural extraction
+    """
     pattern = rf"(?ms)^[ \t]*<{block_name}>[ \t]*\r?\n(.*?)^[ \t]*</{block_name}>[ \t]*$"
     match = re.search(pattern, content, re.DOTALL)
     return match.group(1).strip() if match else None
 
 
 def repo_root() -> Path:
+    """
+    Resolve the repository root directory.
+
+    purpose: path resolution base
+    """
     return Path(__file__).resolve().parents[4]
 
 
 def parse_schema_relationships(skill_path: Path) -> dict:
+    """
+    Extract and validate the schema relationship mapping from the skill README.
+
+    purpose: metadata extraction
+    """
     readme_path = skill_path / "README.md"
     if not readme_path.exists():
         raise FileNotFoundError(f"Skill README not found: {readme_path}")
@@ -74,6 +100,11 @@ def parse_schema_relationships(skill_path: Path) -> dict:
 
 
 def collect_required_schema_ids(schema_relationships: dict) -> list[str]:
+    """
+    Amalgamate all required schema IDs into a unique list.
+
+    purpose: schema ID collection
+    """
     schema_ids: list[str] = []
     for schema_id in [
         schema_relationships["schema_of_this_skill"],
@@ -86,6 +117,20 @@ def collect_required_schema_ids(schema_relationships: dict) -> list[str]:
 
 
 def sync_skill(skill_path: str | Path) -> list[str]:
+    """
+    Synchronize the local schema mirror directory with canonical source headers.
+
+    purpose: schema mirror synchronization
+    preconditions: skill folder and README exist
+    postconditions: returns list of synced schema IDs
+    mutates: filesystem (overwrites mirrors)
+    reads: filesystem (canonical schemas)
+    writes: filesystem (mirrors)
+    external_io: fs
+    determinism: deterministic
+    idempotency: yes
+    concurrency: process-local
+    """
     skill_dir = Path(skill_path).resolve()
     if not (skill_dir / "SKILL.md").exists():
         raise FileNotFoundError(f"Not a skill directory: {skill_dir}")
@@ -115,6 +160,11 @@ def sync_skill(skill_path: str | Path) -> list[str]:
 
 
 def iter_skill_dirs(skills_root: Path) -> list[Path]:
+    """
+    Identify all candidate skill directories within a root folder.
+
+    purpose: skill discovery
+    """
     return sorted(
         [entry for entry in skills_root.iterdir() if entry.is_dir() and (entry / "SKILL.md").exists()],
         key=lambda item: item.name,
@@ -122,6 +172,11 @@ def iter_skill_dirs(skills_root: Path) -> list[Path]:
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for schema synchronization.
+
+    purpose: CLI configuration extraction
+    """
     parser = argparse.ArgumentParser(description="Sync skill-local schema mirrors from canonical .agent/schemas/ directories.")
     parser.add_argument("skill_paths", nargs="*", help="Skill directory paths.")
     parser.add_argument("--all", action="store_true", help="Sync every skill under .agent/skills/.")
@@ -129,6 +184,11 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    """
+    Execute the schema synchronization workflow from CLI.
+
+    purpose: entrypoint
+    """
     args = parse_args()
     if args.all:
         skills_root = Path(args.skill_paths[0]).resolve() if args.skill_paths else repo_root() / ".agent" / "skills"

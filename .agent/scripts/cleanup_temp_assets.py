@@ -1,3 +1,18 @@
+"""
+Audit and optionally clean up stale agent temp run directories in .agent/.temp.
+
+role: operational maintenance utility for agent temp artifacts
+entrypoints: main
+reads: .agent/.temp directory structure and "retained-on-failure.txt" markers
+writes: filesystem (directory removal)
+external_io: fs
+state_model: stateless
+failure_surface: filesystem permission errors; path traversal attempts
+coupling: minimal; depends on .agent/.temp structure and naming convention
+determinism: input-dependent (filesystem state)
+concurrency: not thread-safe; process-local
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -18,6 +33,36 @@ TEMP_ROOT = Path(__file__).resolve().parents[1] / ".temp"
 
 @dataclass(frozen=True)
 class RunDirectory:
+    """
+    Represent a single agent run directory with metadata for audit and cleanup.
+
+    role: value object for run directory state
+    lifecycle: transient; constructed during audit
+    mutability: immutable
+    ownership: none
+    concurrency: thread-safe
+    cache_behavior: none
+    serialization: non-serializable
+    coupling: minimal
+    failure_surface: minimal
+
+    Attributes
+    ----------
+    path : Path
+        absolute path to the run directory
+    age_days : int
+        age in whole days since last modification
+    modified_at : datetime
+        UTC timestamp of last modification
+    is_empty : bool
+        true if directory contains no files or subdirectories
+    is_retained_failure : bool
+        true if "retained-on-failure.txt" marker is present
+    retention_reason : str | None
+        content of the retention marker if present
+    is_valid_name : bool
+        true if directory name matches RUN_DIR_PATTERN
+    """
     path: Path
     age_days: int
     modified_at: datetime
@@ -29,6 +74,32 @@ class RunDirectory:
 
 @dataclass(frozen=True)
 class AuditReport:
+    """
+    Group run directories into categories for reporting and cleanup.
+
+    role: grouped state container for audit results
+    lifecycle: transient; constructed during audit
+    mutability: immutable
+    ownership: none
+    concurrency: thread-safe
+    cache_behavior: none
+    serialization: non-serializable
+    coupling: minimal
+    failure_surface: minimal
+
+    Attributes
+    ----------
+    invalid_dirs : list[RunDirectory]
+        directories in temp root with invalid name patterns
+    empty_run_dirs : list[RunDirectory]
+        validly named directories that are empty
+    retained_failure_dirs : list[RunDirectory]
+        directories containing failure markers
+    stale_run_dirs : list[RunDirectory]
+        validly named non-retained directories older than threshold
+    active_run_dirs : list[RunDirectory]
+        validly named non-retained directories within age threshold
+    """
     invalid_dirs: list[RunDirectory]
     empty_run_dirs: list[RunDirectory]
     retained_failure_dirs: list[RunDirectory]
@@ -37,6 +108,29 @@ class AuditReport:
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Configure and parse command-line arguments for the cleanup utility.
+
+    purpose: CLI configuration
+    preconditions: sys.argv contains valid arguments
+    postconditions: returns populated namespace
+    mutates: none
+    reads: sys.argv
+    writes: none
+    external_io: none
+    determinism: input-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: standard argparse validation
+    coupling: minimal
+
+    Returns
+    -------
+    argparse.Namespace
+        parsed command-line arguments
+    """
     parser = argparse.ArgumentParser(
         description="Audit and optionally clean up stale agent temp run directories."
     )
@@ -65,6 +159,36 @@ def parse_args() -> argparse.Namespace:
 
 
 def is_relative_to(path: Path, root: Path) -> bool:
+    """
+    Determine if a path is relative to a specified root path.
+
+    purpose: safe path containment check
+    preconditions: paths must be valid Path objects
+    postconditions: returns boolean containment status
+    mutates: none
+    reads: filesystem metadata (resolution)
+    writes: none
+    external_io: none
+    determinism: input-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        path to check
+    root : Path
+        potential parent path
+
+    Returns
+    -------
+    bool
+        true if path is under root
+    """
     try:
         path.relative_to(root)
     except ValueError:
@@ -73,6 +197,36 @@ def is_relative_to(path: Path, root: Path) -> bool:
 
 
 def assert_temp_descendant(path: Path, root: Path) -> None:
+    """
+    Enforce that a target path resides strictly within the temp root.
+
+    purpose: path traversal protection
+    preconditions: root must be the authoritative temp root
+    postconditions: raises ValueError if path is outside root
+    mutates: none
+    reads: filesystem metadata (resolution)
+    writes: none
+    external_io: none
+    determinism: input-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: path traversal validation boundary
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        target directory path
+    root : Path
+        authoritative temp root path
+
+    Raises
+    ------
+    ValueError
+        if path is outside root or equal to root
+    """
     resolved_root = root.resolve()
     resolved_path = path.resolve()
     if resolved_path == resolved_root or not is_relative_to(resolved_path, resolved_root):
@@ -80,10 +234,66 @@ def assert_temp_descendant(path: Path, root: Path) -> None:
 
 
 def iter_temp_directories(root: Path) -> list[Path]:
+    """
+    List all immediate subdirectories within the temp root.
+
+    purpose: discovery of run directories
+    preconditions: root must exist and be a directory
+    postconditions: returns list of child directory paths
+    mutates: none
+    reads: filesystem (directory listing)
+    writes: none
+    external_io: fs
+    determinism: input-dependent (fs state)
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: lexicographical by path name
+    aliasing: returns new list of Path objects
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    root : Path
+        temp root directory
+
+    Returns
+    -------
+    list[Path]
+        sorted directory paths
+    """
     return sorted(path for path in root.iterdir() if path.is_dir())
 
 
 def load_retention_reason(run_dir: Path) -> str | None:
+    """
+    Read the retention reason from a marker file if it exists.
+
+    purpose: metadata extraction
+    preconditions: run_dir must be a directory
+    postconditions: returns string reason or None
+    mutates: none
+    reads: filesystem (file content)
+    writes: none
+    external_io: fs
+    determinism: input-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    run_dir : Path
+        run directory to check
+
+    Returns
+    -------
+    str | None
+        retention reason or None if marker missing
+    """
     marker = run_dir / RETAINED_MARKER_NAME
     if not marker.is_file():
         return None
@@ -93,12 +303,72 @@ def load_retention_reason(run_dir: Path) -> str | None:
 
 
 def age_in_days(path: Path, *, now: datetime) -> tuple[int, datetime]:
+    """
+    Calculate the age of a file system path in whole days.
+
+    purpose: stale detection
+    preconditions: path must exist
+    postconditions: returns integer days and UTC modification time
+    mutates: none
+    reads: filesystem metadata (stat)
+    writes: none
+    external_io: fs
+    determinism: state-dependent (mtime)
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        target path
+    now : datetime
+        current UTC time for comparison
+
+    Returns
+    -------
+    tuple[int, datetime]
+        (age_days, modified_at)
+    """
     modified_at = datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc)
     age_days = int((now - modified_at).total_seconds() // 86400)
     return age_days, modified_at
 
 
 def build_run_directory(path: Path, *, now: datetime) -> RunDirectory:
+    """
+    Construct a RunDirectory model by inspecting the filesystem.
+
+    purpose: state inference
+    preconditions: path must be a directory
+    postconditions: returns populated RunDirectory object
+    mutates: none
+    reads: filesystem (stat, iterdir, file exists, file content)
+    writes: none
+    external_io: fs
+    determinism: state-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        directory path
+    now : datetime
+        current UTC time
+
+    Returns
+    -------
+    RunDirectory
+        inferred run directory state
+    """
     age_days, modified_at = age_in_days(path, now=now)
     entries = list(path.iterdir())
     return RunDirectory(
@@ -118,6 +388,43 @@ def classify_directories(
     stale_days: int = DEFAULT_STALE_DAYS,
     now: datetime | None = None,
 ) -> AuditReport:
+    """
+    Scan temp root and categorize all directories into an AuditReport.
+
+    purpose: audit scanning and classification
+    preconditions: root must exist
+    postconditions: returns populated AuditReport
+    mutates: none
+    reads: filesystem (directory scan)
+    writes: none
+    external_io: fs
+    determinism: state-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: preserves iter_temp_directories order
+    aliasing: none
+    security: performs input validation on stale_days
+    coupling: minimal
+
+    Parameters
+    ----------
+    root : Path
+        temp root directory
+    stale_days : int
+        age threshold for staleness; must be >= 0
+    now : datetime | None
+        current UTC time; defaults to system now
+
+    Returns
+    -------
+    AuditReport
+        categorized audit results
+
+    Raises
+    ------
+    ValueError
+        if stale_days < 0
+    """
     if stale_days < 0:
         raise ValueError("--stale-days must be >= 0")
 
@@ -151,6 +458,36 @@ def classify_directories(
 
 
 def delete_run_directories(run_dirs: Iterable[RunDirectory], root: Path) -> list[Path]:
+    """
+    Physically remove specified run directories from the filesystem.
+
+    purpose: filesystem cleanup
+    preconditions: all run_dirs must be descendants of root
+    postconditions: target directories are deleted; returns list of deleted paths
+    mutates: filesystem (recursive deletion)
+    reads: filesystem (existence check)
+    writes: filesystem (directory removal)
+    external_io: fs
+    determinism: input-dependent
+    idempotency: no (directories are removed)
+    concurrency: not thread-safe (external mutation)
+    ordering: sequential
+    aliasing: none
+    security: enforces temp-descendant constraint
+    coupling: minimal
+
+    Parameters
+    ----------
+    run_dirs : Iterable[RunDirectory]
+        directories to remove
+    root : Path
+        authoritative temp root for safety checks
+
+    Returns
+    -------
+    list[Path]
+        successfully deleted directory paths
+    """
     deleted: list[Path] = []
     for run_dir in run_dirs:
         assert_temp_descendant(run_dir.path, root)
@@ -162,6 +499,33 @@ def delete_run_directories(run_dirs: Iterable[RunDirectory], root: Path) -> list
 
 
 def print_section(title: str, run_dirs: Iterable[RunDirectory], *, show_reason: bool = False) -> None:
+    """
+    Standardize console output for an audit report section.
+
+    purpose: UI reporting
+    preconditions: none
+    postconditions: section data printed to stdout
+    mutates: none
+    reads: run_dir properties
+    writes: stdout
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe (presuming thread-safe stdout)
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    title : str
+        section heading
+    run_dirs : Iterable[RunDirectory]
+        directories to display
+    show_reason : bool
+        true to include retention reasons in output
+    """
     run_dirs = list(run_dirs)
     print(f"{title}: {len(run_dirs)}")
     for run_dir in run_dirs:
@@ -172,6 +536,29 @@ def print_section(title: str, run_dirs: Iterable[RunDirectory], *, show_reason: 
 
 
 def main() -> int:
+    """
+    Execute the primary audit and cleanup workflow.
+
+    purpose: entrypoint
+    preconditions: filesystem access to .agent/.temp
+    postconditions: returns exit code; optionally modifies filesystem
+    mutates: filesystem (when delete flags set)
+    reads: terminal arguments; filesystem state
+    writes: terminal output; filesystem deletion
+    external_io: fs; terminal
+    determinism: state-dependent
+    idempotency: no
+    concurrency: process-local
+    ordering: sequential
+    aliasing: none
+    security: performs descendant checks on all deletions
+    coupling: minimal
+
+    Returns
+    -------
+    int
+        0 on success; 1 if temp root missing
+    """
     args = parse_args()
     if not TEMP_ROOT.exists():
         print(f"Temp root does not exist: {TEMP_ROOT}", file=sys.stderr)

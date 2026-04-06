@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 Quick validation script for the current Antigravity skill contract.
+
+role: skill asset validator
+entrypoints: main
+reads: skill markdown files, readme, and schemas
+writes: stdout
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; yaml parsing errors; schema violations
+coupling: coupled to skill asset and schema contracts
+determinism: input-dependent
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -49,14 +60,26 @@ OWNER_NAMING_OVERRIDES = {
 
 @dataclass
 class ValidationResult:
+    """
+    Represent the outcome of a skill validation check.
+
+    Attributes
+    ----------
+    errors : list[str]
+        blocking violations
+    warnings : list[str]
+        non-blocking recommendations
+    """
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
 
     @property
     def valid(self) -> bool:
+        """True if no blocking errors exist."""
         return not self.errors
 
     def summary(self) -> str:
+        """Return a human-readable summary of the validation state."""
         if not self.valid:
             return "Skill validation failed."
         if self.warnings:
@@ -65,16 +88,27 @@ class ValidationResult:
 
 
 def extract_tag_block(content: str, block_name: str) -> str | None:
+    """
+    Extract the content between XML-style tags of a specific name.
+
+    purpose: structural extraction
+    """
     pattern = rf"(?ms)^[ \t]*<{block_name}>[ \t]*\r?\n(.*?)^[ \t]*</{block_name}>[ \t]*$"
     match = re.search(pattern, content, re.DOTALL)
     return match.group(1).strip() if match else None
 
 
 def extract_xml_block(content: str, block_name: str) -> str | None:
+    """alias for extract_tag_block for semantic clarity."""
     return extract_tag_block(content, block_name)
 
 
 def extract_frontmatter(content: str) -> tuple[dict | None, str | None]:
+    """
+    Extract and parse the YAML frontmatter block from markdown content.
+
+    purpose: metadata extraction
+    """
     if not content.startswith("---"):
         return None, "No YAML frontmatter found"
 
@@ -96,6 +130,11 @@ def extract_frontmatter(content: str) -> tuple[dict | None, str | None]:
 
 
 def parse_fenced_yaml(block_text: str) -> dict | None:
+    """
+    Extract and parse YAML from a markdown code fence block.
+
+    purpose: metadata extraction from prose blocks
+    """
     fence_match = re.search(r"```yaml\s*\r?\n(.*?)\r?\n```", block_text, re.DOTALL)
     raw_yaml = fence_match.group(1) if fence_match else block_text
     try:
@@ -106,6 +145,11 @@ def parse_fenced_yaml(block_text: str) -> dict | None:
 
 
 def iter_resource_entries(resources_block: str) -> list[str]:
+    """
+    Iterate over bulleted resource entries in a markdown block.
+
+    purpose: resource list extraction
+    """
     entries = []
     for raw_line in resources_block.splitlines():
         stripped = raw_line.strip()
@@ -117,6 +161,11 @@ def iter_resource_entries(resources_block: str) -> list[str]:
 
 
 def extract_path_from_resource_entry(entry: str) -> str | None:
+    """
+    Identify a filesystem path within a resource entry string.
+
+    purpose: path discovery
+    """
     match = re.search(r"`([^`]+)`", entry)
     if match:
         return match.group(1)
@@ -128,10 +177,20 @@ def extract_path_from_resource_entry(entry: str) -> str | None:
 
 
 def split_markdown_row(line: str) -> list[str]:
+    """
+    Parse a Markdown table row into a list of cell strings.
+
+    purpose: table structure extraction
+    """
     return [part.strip() for part in line.strip().strip("|").split("|")]
 
 
 def parse_semver(version_text: str) -> tuple[int, int, int] | None:
+    """
+    Parse a semantic version string into a numeric tuple.
+
+    purpose: version comparison
+    """
     if not SEMVER_PATTERN.fullmatch(version_text):
         return None
     major, minor, patch = version_text.split(".")
@@ -139,6 +198,11 @@ def parse_semver(version_text: str) -> tuple[int, int, int] | None:
 
 
 def classify_semver_change(previous: str, current: str) -> str | None:
+    """
+    Categorize the change between two semantic versions.
+
+    purpose: history validation
+    """
     previous_tuple = parse_semver(previous)
     current_tuple = parse_semver(current)
     if previous_tuple is None or current_tuple is None or current_tuple <= previous_tuple:
@@ -151,6 +215,11 @@ def classify_semver_change(previous: str, current: str) -> str | None:
 
 
 def parse_history_rows(block_text: str) -> tuple[list[dict[str, str]] | None, str | None]:
+    """
+    Parse the modification history table from the README.
+
+    purpose: history data extraction
+    """
     table_lines = [line.strip() for line in block_text.splitlines() if line.strip().startswith("|")]
     if len(table_lines) < 3:
         return None, "README <modification_history> must contain a header, separator, and at least one data row."
@@ -174,6 +243,11 @@ def parse_history_rows(block_text: str) -> tuple[list[dict[str, str]] | None, st
 
 
 def resolve_resource_path(skill_path: Path, path_text: str) -> Path | None:
+    """
+    Resolve a resource path relative to the skill folder or parent workspaces.
+
+    purpose: path resolution
+    """
     normalized = path_text.replace("\\", "/")
     candidate_paths = [skill_path / Path(normalized), Path.cwd() / Path(normalized)]
 
@@ -193,6 +267,11 @@ def resolve_resource_path(skill_path: Path, path_text: str) -> Path | None:
 
 
 def validate_resource_entries(skill_path: Path, resources_block: str, result: ValidationResult) -> None:
+    """
+    Verify the existence and format of resource references in the skill contract.
+
+    purpose: resource reference validation
+    """
     entries = iter_resource_entries(resources_block)
     if not entries:
         result.warnings.append("`<resources_reference>` is empty. Add skill-local files here once the skill relies on them.")
@@ -219,6 +298,11 @@ def validate_resource_entries(skill_path: Path, resources_block: str, result: Va
 
 
 def validate_root_readme(skill_path: Path, skill_version: str, result: ValidationResult) -> None:
+    """
+    Verify the existence and internal structure of the skill's lifecycle README.
+
+    purpose: lifecycle metadata validation
+    """
     readme_path = skill_path / "README.md"
     if not readme_path.exists():
         result.errors.append("README.md not found at skill root.")
@@ -347,6 +431,11 @@ def validate_root_readme(skill_path: Path, skill_version: str, result: Validatio
 
 
 def validate_quality(frontmatter: dict, blocks: dict[str, str], result: ValidationResult) -> None:
+    """
+    Apply heuristic quality checks to skill documentation surfaces.
+
+    purpose: descriptive quality validation
+    """
     description = str(frontmatter.get("description", "")).strip()
     description_lower = description.lower()
     when_to_use_lower = blocks["when_to_use"].lower()
@@ -381,6 +470,11 @@ def validate_quality(frontmatter: dict, blocks: dict[str, str], result: Validati
 
 
 def parse_schema_relationships(readme_content: str) -> dict | None:
+    """
+    Extract the schema relationship mapping from a README content.
+
+    purpose: metadata extraction
+    """
     schema_relationships_block = extract_tag_block(readme_content, "schema_relationships")
     if schema_relationships_block is None:
         return None
@@ -388,6 +482,11 @@ def parse_schema_relationships(readme_content: str) -> dict | None:
 
 
 def parse_primary_owner_skill(schema_readme_content: str) -> str | None:
+    """
+    Extract the primary owner skill identifier from a canonical schema README.
+
+    purpose: authority extraction
+    """
     schema_governance_block = extract_tag_block(schema_readme_content, "schema_governance")
     if schema_governance_block is None:
         return None
@@ -403,6 +502,11 @@ def parse_primary_owner_skill(schema_readme_content: str) -> str | None:
 
 
 def validate_owned_schema_alignment(skill_path: Path, readme_content: str, result: ValidationResult) -> None:
+    """
+    Verify that schemas owned by this skill correctly point back to it as the primary owner.
+
+    purpose: authority alignment validation
+    """
     schema_relationships = parse_schema_relationships(readme_content)
     if schema_relationships is None:
         return
@@ -448,6 +552,11 @@ def validate_owner_skill_naming(
     readme_content: str,
     result: ValidationResult,
 ) -> None:
+    """
+    Recommend preferred naming conventions for Artifact-Centric and Runtime-routed owners.
+
+    purpose: naming convention validation
+    """
     schema_relationships = parse_schema_relationships(readme_content)
     if schema_relationships is None:
         return
@@ -483,6 +592,24 @@ def validate_owner_skill_naming(
 
 
 def validate_skill(skill_path: str | Path) -> ValidationResult:
+    """
+    Perform a complete validation of a skill asset against the Antigravity contract.
+
+    purpose: full skill validation workflow
+    preconditions: skill_path is a directory
+    postconditions: returns populated ValidationResult
+    mutates: none
+    reads: filesystem
+    writes: none
+    external_io: fs
+    determinism: input-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: coupled to skill asset and README contracts
+    """
     result = ValidationResult()
     skill_path = Path(skill_path)
     skill_md = skill_path / "SKILL.md"
@@ -553,6 +680,11 @@ def validate_skill(skill_path: str | Path) -> ValidationResult:
 
 
 def print_validation_result(result: ValidationResult) -> None:
+    """
+    Print a summary of validation results to stdout.
+
+    purpose: reporting
+    """
     print(result.summary())
 
     if result.errors:

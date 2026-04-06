@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 Skill Packager - Creates a distributable .skill archive.
+
+role: skill asset packager
+entrypoints: main
+reads: skill folder
+writes: .skill zip archive
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; validation failure; zip creation errors
+coupling: coupled to skill schema and validation logic
+determinism: deterministic
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -18,6 +29,11 @@ SKIP_SUFFIXES = {".pyc", ".pyo"}
 
 
 def should_skip(file_path: Path) -> bool:
+    """
+    Determine if a file or directory should be excluded from the skill package.
+
+    purpose: file filtering
+    """
     if any(part in SKIP_DIR_NAMES for part in file_path.parts):
         return True
     if file_path.name in SKIP_FILE_NAMES:
@@ -28,6 +44,20 @@ def should_skip(file_path: Path) -> bool:
 
 
 def package_skill(skill_path: str | Path, output_dir: str | Path | None = None) -> Path | None:
+    """
+    Synchronize mirrors, validate, and compress a skill folder into a .skill archive.
+
+    purpose: skill packaging workflow
+    preconditions: skill folder exists and is validatable
+    postconditions: returns Path to .skill file or None on failure
+    mutates: filesystem (creates .skill file)
+    reads: filesystem (skill folder and canonical schemas)
+    writes: filesystem (.skill file)
+    external_io: fs
+    determinism: deterministic
+    idempotency: no (overwrites existing .skill)
+    concurrency: process-local
+    """
     skill_path = Path(skill_path).resolve()
 
     if not skill_path.exists():
@@ -73,6 +103,11 @@ def package_skill(skill_path: str | Path, output_dir: str | Path | None = None) 
 
 
 def main() -> None:
+    """
+    Execute the skill packaging workflow from CLI.
+
+    purpose: entrypoint
+    """
     if len(sys.argv) < 2:
         print("Usage: python scripts/package_skill.py <path/to/skill-folder> [output-directory]")
         sys.exit(1)

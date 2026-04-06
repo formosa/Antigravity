@@ -1,0 +1,635 @@
+[
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/scripts/__init__.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 0,
+    "docstring_count": 1,
+    "comment_count": 0,
+    "directive_comment_count": 0,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "1 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/scripts/cleanup_temp_assets.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 2,
+    "public_function_count": 11,
+    "docstring_count": 14,
+    "comment_count": 0,
+    "directive_comment_count": 0,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "14 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/scripts/directory_tree.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 5,
+    "public_function_count": 3,
+    "docstring_count": 18,
+    "comment_count": 5,
+    "directive_comment_count": 5,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "18 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/scripts/generate_uuid.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 2,
+    "docstring_count": 3,
+    "comment_count": 2,
+    "directive_comment_count": 0,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "3 existing docstring(s)",
+      "2 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/scripts/update_index.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 1,
+    "public_function_count": 22,
+    "docstring_count": 24,
+    "comment_count": 1,
+    "directive_comment_count": 0,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "24 existing docstring(s)",
+      "1 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/scripts/tests/chaos_script.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 1,
+    "public_function_count": 2,
+    "docstring_count": 6,
+    "comment_count": 4,
+    "directive_comment_count": 0,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "6 existing docstring(s)",
+      "4 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/scripts/tests/test_cleanup_temp_assets.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 1,
+    "public_function_count": 1,
+    "docstring_count": 6,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "6 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/scripts/tests/test_directory_tree.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 3,
+    "public_function_count": 1,
+    "docstring_count": 13,
+    "comment_count": 3,
+    "directive_comment_count": 2,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "13 existing docstring(s)",
+      "1 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/scripts/tests/test_update_index.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 1,
+    "public_function_count": 0,
+    "docstring_count": 6,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "6 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/scripts/tests/validate_env.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 3,
+    "docstring_count": 4,
+    "comment_count": 7,
+    "directive_comment_count": 2,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "4 existing docstring(s)",
+      "5 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/artifact-brainstorm/scripts/init_brainstorm.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 3,
+    "docstring_count": 4,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "4 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/artifact-brainstorm/scripts/test_init_brainstorm.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 2,
+    "docstring_count": 3,
+    "comment_count": 2,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "3 existing docstring(s)",
+      "1 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/artifact-brainstorm/scripts/test_validate_brainstorm.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 6,
+    "docstring_count": 7,
+    "comment_count": 2,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "7 existing docstring(s)",
+      "1 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/artifact-brainstorm/scripts/validate_brainstorm.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 31,
+    "docstring_count": 32,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "32 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/artifact-issue-report/scripts/test_validate_issue_report.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 6,
+    "docstring_count": 7,
+    "comment_count": 0,
+    "directive_comment_count": 0,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "7 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/artifact-issue-report/scripts/validate_issue_report.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 15,
+    "docstring_count": 16,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "16 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/artifact-issue-tracker/scripts/test_validate_updated_issues_tracker.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 1,
+    "public_function_count": 3,
+    "docstring_count": 14,
+    "comment_count": 0,
+    "directive_comment_count": 0,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "14 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/artifact-issue-tracker/scripts/validate_issues_tracker.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 13,
+    "docstring_count": 14,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "14 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/artifact-issue-tracker/scripts/validate_updated_issues_tracker.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 17,
+    "docstring_count": 18,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "18 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/asset-rule/scripts/init_rule.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 5,
+    "docstring_count": 6,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "6 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/asset-rule/scripts/quick_validate.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 2,
+    "public_function_count": 7,
+    "docstring_count": 12,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "12 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/asset-rule/scripts/update_index.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": false,
+    "public_class_count": 1,
+    "public_function_count": 12,
+    "docstring_count": 0,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": false,
+    "preserve_reasons": []
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/asset-skill/scripts/init_skill.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 7,
+    "docstring_count": 8,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "8 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/asset-skill/scripts/package_skill.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 3,
+    "docstring_count": 4,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "4 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/asset-skill/scripts/quick_validate.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 1,
+    "public_function_count": 20,
+    "docstring_count": 24,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "24 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/asset-skill/scripts/sync_schema_mirrors.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 8,
+    "docstring_count": 9,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "9 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/asset-workflow/scripts/init_workflow.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 5,
+    "docstring_count": 6,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "6 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/asset-workflow/scripts/quick_validate.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 1,
+    "public_function_count": 4,
+    "docstring_count": 8,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "8 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/asset-workflow/scripts/update_index.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 1,
+    "public_function_count": 9,
+    "docstring_count": 11,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "11 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/core-schema/scripts/scaffold_schema.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 1,
+    "docstring_count": 2,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "2 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/core-schema/scripts/update_index.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 5,
+    "docstring_count": 6,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "6 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/core-schema/scripts/validate_schema.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 1,
+    "docstring_count": 2,
+    "comment_count": 3,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "2 existing docstring(s)",
+      "2 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/md060-strict-aligner/align_table.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 3,
+    "docstring_count": 4,
+    "comment_count": 15,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "4 existing docstring(s)",
+      "14 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/python-docsurface-normalizer/scripts/analyze_python_docs.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 1,
+    "public_function_count": 11,
+    "docstring_count": 14,
+    "comment_count": 4,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "14 existing docstring(s)",
+      "3 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/python-docsurface-normalizer/scripts/compare_ast.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 6,
+    "docstring_count": 7,
+    "comment_count": 2,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "7 existing docstring(s)",
+      "1 non-directive comment(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/python-docsurface-normalizer/scripts/strip_comments.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 1,
+    "public_function_count": 16,
+    "docstring_count": 18,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "18 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/python-docsurface-normalizer/scripts/test_analyze_python_docs.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 4,
+    "docstring_count": 5,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "5 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/python-docsurface-normalizer/scripts/test_compare_ast.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 4,
+    "docstring_count": 5,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "5 existing docstring(s)"
+    ]
+  },
+  {
+    "path": "C:/AI/10162025/maggie/Antigravity/.agent/skills/python-docsurface-normalizer/scripts/test_strip_comments.py",
+    "eligible": true,
+    "parse_ok": true,
+    "hard_exclusions": [],
+    "module_docstring_present": true,
+    "public_class_count": 0,
+    "public_function_count": 4,
+    "docstring_count": 5,
+    "comment_count": 1,
+    "directive_comment_count": 1,
+    "preserve_sensitive": true,
+    "preserve_reasons": [
+      "5 existing docstring(s)"
+    ]
+  }
+]

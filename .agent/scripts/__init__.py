@@ -5,8 +5,10 @@ This package contains the executable implementations of Agent Tools.
 These scripts are intended to be invoked via the Agent's runtime environment
 (via .md definitions) or imported as utility modules for complex workflows.
 
-Structure:
-- Scripts should be stateless where possible.
+role: script package root
+lifecycle: durable
+ownership: Antigravity Agent Framework
+concurrency: thread-safe
 """
 
 __version__ = "1.0.0"

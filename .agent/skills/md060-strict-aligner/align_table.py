@@ -1,11 +1,30 @@
 #!/usr/bin/env python3
+"""
+Deterministically align Markdown tables to satisfy MD060.
+
+role: markdown table aligner
+entrypoints: main
+reads: markdown files
+writes: aligned markdown files
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; malformed markdown
+coupling: coupled to MD060 standard
+determinism: deterministic
+concurrency: not thread-safe; process-local
+"""
+
 import sys
 import re
 import argparse
 import unicodedata
 
 def get_visual_width(text: str) -> int:
-    """Calculates the visual width of a string considering double-width characters."""
+    """
+    Calculate the visual width of a string considering double-width characters.
+
+    purpose: visual width calculation
+    """
     width = 0
     for char in text:
         if unicodedata.east_asian_width(char) in ('W', 'F'):
@@ -15,7 +34,11 @@ def get_visual_width(text: str) -> int:
     return width
 
 def align_markdown_table_block(rows: list) -> list:
-    """Aligns a single block of markdown table rows."""
+    """
+    Align a single block of markdown table rows.
+
+    purpose: single-table alignment
+    """
     if not rows:
         return []
 
@@ -95,7 +118,11 @@ def align_markdown_table_block(rows: list) -> list:
     return output
 
 def process_document(text: str) -> str:
-    """Identifies and processes all table blocks in a markdown document."""
+    """
+    Identify and process all table blocks in a markdown document.
+
+    purpose: document-wide table alignment
+    """
     lines = text.splitlines()
     output_lines = []
     current_block = []

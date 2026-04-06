@@ -1,5 +1,18 @@
 #!/usr/bin/env python3
-"""Unit tests for update_index.py."""
+"""
+Unit tests for update_index.py.
+
+role: unit test suite for index generation logic
+entrypoints: main
+reads: update_index.py (via dynamic import)
+writes: nothing (uses tempfile)
+external_io: fs
+state_model: stateless
+failure_surface: none
+coupling: highly coupled to update_index.py
+determinism: deterministic
+concurrency: thread-safe; process-local
+"""
 
 from __future__ import annotations
 
@@ -26,7 +39,25 @@ extract_docstring_summary = MODULE.extract_docstring_summary
 
 
 class TestUpdateIndex(unittest.TestCase):
+    """
+    Test suite for script indexing and classification logic.
+
+    role: logic validation
+    lifecycle: instance-per-test
+    mutability: immutable
+    ownership: none
+    concurrency: process-local
+    cache_behavior: none
+    serialization: non-serializable
+    coupling: minimal
+    failure_surface: minimal
+    """
     def test_extract_docstring_summary_skips_filename_banner(self) -> None:
+        """
+        Verify that docstring extraction skips decorative filename banners.
+
+        purpose: functionality test for summary parsing
+        """
         with tempfile.TemporaryDirectory() as tmpdir:
             script_path = Path(tmpdir) / "validate_env.py"
             script_path.write_text(
@@ -39,6 +70,11 @@ class TestUpdateIndex(unittest.TestCase):
             self.assertEqual(summary, "Validation gate for the environment.")
 
     def test_collect_root_script_records_excludes_init_and_links_tools(self) -> None:
+        """
+        Verify that root script collection ignores internal files and maps tools correctly.
+
+        purpose: functionality test for script inventory building
+        """
         with tempfile.TemporaryDirectory() as tmpdir:
             scripts_dir = Path(tmpdir) / ".agent" / "scripts"
             tools_dir = Path(tmpdir) / ".agent" / "tools"
@@ -73,6 +109,11 @@ class TestUpdateIndex(unittest.TestCase):
             self.assertEqual(records[2].category, "governance_and_inventory")
 
     def test_collect_test_script_records_categorizes_scripts(self) -> None:
+        """
+        Verify that test script collection applies correct categorical labels.
+
+        purpose: functionality test for test classification
+        """
         with tempfile.TemporaryDirectory() as tmpdir:
             tests_dir = Path(tmpdir) / ".agent" / "scripts" / "tests"
             tests_dir.mkdir(parents=True)
@@ -94,6 +135,11 @@ class TestUpdateIndex(unittest.TestCase):
             self.assertEqual(categories["chaos_script.py"], "fixtures_and_chaos")
 
     def test_build_indexes_emit_required_sections(self) -> None:
+        """
+        Verify that generated index documents contain all mandatory sections.
+
+        purpose: formatting and structure validation
+        """
         root_records = [
             ScriptRecord(
                 script_id="cleanup_temp_assets",

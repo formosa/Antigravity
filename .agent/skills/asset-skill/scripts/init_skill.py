@@ -2,12 +2,20 @@
 """
 Skill Initializer - Creates a new Antigravity-compliant skill from template.
 
-Usage:
-    init_skill.py <skill-name> --path <path> [--resources scripts,resources,assets] [--examples]
-
 Runtime-routed owner skills for reusable `rule`, `skill`, and `workflow` directories
 should use the `asset-<asset-family>` naming convention. Artifact-Centric Owners should
 prefer `artifact-<artifact-family>`, and routing contracts should prefer `*-router`.
+
+role: skill asset initializer
+entrypoints: main
+reads: skill schema mirror
+writes: new skill folder and files
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; schema missing; invalid name
+coupling: coupled to skill schema and template structure
+determinism: deterministic
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -115,6 +123,11 @@ This resource file holds domain-specific guidance that is too detailed for SKILL
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for skill scaffolding.
+
+    purpose: CLI configuration extraction
+    """
     parser = argparse.ArgumentParser(
         description="Create a new Antigravity skill scaffold.",
         epilog=(
@@ -143,6 +156,11 @@ def parse_args() -> argparse.Namespace:
 
 
 def parse_resource_dirs(raw_value: str) -> set[str]:
+    """
+    Validate and extract requested resource directories from a raw string.
+
+    purpose: configuration validation
+    """
     if not raw_value.strip():
         return set()
 
@@ -155,6 +173,11 @@ def parse_resource_dirs(raw_value: str) -> set[str]:
 
 
 def copy_schema_bundle(skill_dir: Path) -> None:
+    """
+    Mirror the canonical skill schema into the skill's resource directory.
+
+    purpose: schema vendoring
+    """
     repo_root = Path(__file__).resolve().parents[4]
     schema_dest_dir = skill_dir / "resources" / "schema" / "skill"
     source_schema_path = repo_root / ".agent" / "schemas" / "skill"
@@ -164,11 +187,21 @@ def copy_schema_bundle(skill_dir: Path) -> None:
 
 
 def create_root_readme(skill_dir: Path, skill_name: str) -> None:
+    """
+    Initialize the authoritative lifecycle README for the skill.
+
+    purpose: metadata initialization
+    """
     readme_path = skill_dir / "README.md"
     readme_path.write_text(README_TEMPLATE.format(skill_name=skill_name, today=date.today().isoformat()), encoding="utf-8")
 
 
 def create_optional_dirs(skill_dir: Path, resource_dirs: set[str], include_examples: bool, skill_name: str) -> None:
+    """
+    Create requested optional subdirectories and populate them with examples.
+
+    purpose: structure initialization
+    """
     if "scripts" in resource_dirs:
         scripts_dir = skill_dir / "scripts"
         scripts_dir.mkdir(exist_ok=True)
@@ -187,6 +220,20 @@ def create_optional_dirs(skill_dir: Path, resource_dirs: set[str], include_examp
 
 
 def init_skill(skill_name: str, path: str, resource_dirs: set[str] | None = None, include_examples: bool = False) -> Path | None:
+    """
+    Initialize a complete Antigravity skill structure.
+
+    purpose: skill structure initialization
+    preconditions: skill name must be valid; path must be a writable directory
+    postconditions: returns Path to new skill folder or None on failure
+    mutates: filesystem (creates folder and multiple files)
+    reads: none
+    writes: filesystem
+    external_io: fs
+    determinism: deterministic
+    idempotency: no (fails if folder exists)
+    concurrency: process-local
+    """
     resource_dirs = resource_dirs or set()
     skill_dir = Path(path).resolve() / skill_name
 
@@ -226,6 +273,11 @@ def init_skill(skill_name: str, path: str, resource_dirs: set[str] | None = None
 
 
 def main() -> None:
+    """
+    Execute the skill initialization workflow.
+
+    purpose: entrypoint
+    """
     args = parse_args()
 
     try:

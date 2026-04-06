@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 Quick validation script for the current Antigravity rule contract.
+
+role: rule asset validator
+entrypoints: main
+reads: rule markdown files
+writes: stdout
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; yaml parsing errors; schema violations
+coupling: coupled to rule asset schema
+determinism: input-dependent
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -25,14 +36,26 @@ TODO_PLACEHOLDER_PATTERN = re.compile(r"(?i)(?:\btodo\s*:|\[todo\b)")
 
 @dataclass
 class ValidationResult:
+    """
+    Represent the outcome of a rule validation check.
+
+    Attributes
+    ----------
+    errors : list[str]
+        blocking violations
+    warnings : list[str]
+        non-blocking recommendations
+    """
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
 
     @property
     def valid(self) -> bool:
+        """True if no blocking errors exist."""
         return not self.errors
 
     def summary(self) -> str:
+        """Return a human-readable summary of the validation state."""
         if not self.valid:
             return "Rule validation failed."
         if self.warnings:
@@ -42,11 +65,19 @@ class ValidationResult:
 
 @dataclass
 class FileReport:
+    """
+    Link a filesystem path to its validation result.
+    """
     path: Path
     result: ValidationResult
 
 
 def extract_frontmatter(content: str) -> tuple[dict | None, str | None]:
+    """
+    Extract and parse the YAML frontmatter block from markdown content.
+
+    purpose: metadata extraction
+    """
     if not content.startswith("---"):
         return None, "No YAML frontmatter found."
 
@@ -66,12 +97,22 @@ def extract_frontmatter(content: str) -> tuple[dict | None, str | None]:
 
 
 def extract_tag_block(content: str, block_name: str) -> str | None:
+    """
+    Extract the content between XML-style tags of a specific name.
+
+    purpose: structural extraction
+    """
     pattern = rf"(?ms)^[ \t]*<{block_name}>[ \t]*\r?\n(.*?)^[ \t]*</{block_name}>[ \t]*$"
     match = re.search(pattern, content, re.DOTALL)
     return match.group(1).strip() if match else None
 
 
 def strip_known_blocks(content: str) -> str:
+    """
+    Remove all recognized structural blocks to identify stray content.
+
+    purpose: cleanup/noise identification
+    """
     body = re.sub(r"^---\n.*?\n---\s*", "", content, count=1, flags=re.DOTALL)
     body = re.sub(r"(?ms)^[ \t]*<constraints>[ \t]*\r?\n.*?^[ \t]*</constraints>[ \t]*\r?\n?", "", body)
     body = re.sub(r"(?ms)^[ \t]*<verification_step>[ \t]*\r?\n.*?^[ \t]*</verification_step>[ \t]*\r?\n?", "", body)
@@ -79,6 +120,11 @@ def strip_known_blocks(content: str) -> str:
 
 
 def iter_rule_files(target: Path) -> list[Path]:
+    """
+    Identify all candidate rule markdown files at the target path.
+
+    purpose: file discovery
+    """
     if target.is_file():
         if target.name.lower() == "index.md":
             return []
@@ -94,6 +140,24 @@ def iter_rule_files(target: Path) -> list[Path]:
 
 
 def validate_rule_file(path: Path) -> ValidationResult:
+    """
+    Perform structural and semantic validation of a single rule file.
+
+    purpose: single-rule validation
+    preconditions: path is a readable markdown file
+    postconditions: returns populated ValidationResult
+    mutates: none
+    reads: filesystem
+    writes: none
+    external_io: fs
+    determinism: input-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: coupled to rule asset schema
+    """
     result = ValidationResult()
     content = path.read_text(encoding="utf-8")
     frontmatter, frontmatter_error = extract_frontmatter(content)
@@ -184,6 +248,11 @@ def validate_rule_file(path: Path) -> ValidationResult:
 
 
 def print_report(report: FileReport) -> None:
+    """
+    Print a summary of validation results for a single file.
+
+    purpose: reporting
+    """
     print(f"\n[{report.path.as_posix()}]")
     print(report.result.summary())
 
@@ -199,6 +268,11 @@ def print_report(report: FileReport) -> None:
 
 
 def main() -> None:
+    """
+    Execute the bulk rule validation workflow from CLI.
+
+    purpose: entrypoint
+    """
     if len(sys.argv) != 2:
         print("Usage: python quick_validate.py <rule_path_or_directory>")
         sys.exit(1)

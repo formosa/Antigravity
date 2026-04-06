@@ -4,6 +4,17 @@ Validator for Issues Tracker artifacts used by artifact-issue-tracker.
 
 Canonical mode validates the current blank-initialization contract.
 Legacy mode validates historical v4/v5 tracker artifacts without rewriting them.
+
+role: issues tracker validation engine
+entrypoints: main
+reads: issues tracker markdown
+writes: stdout
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; yaml parsing errors; schema violations
+coupling: coupled to issues tracker schema
+determinism: input-dependent
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -33,6 +44,11 @@ FOOTER_RE = re.compile(
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for issues tracker validation.
+
+    purpose: CLI configuration extraction
+    """
     parser = argparse.ArgumentParser(description="Validate Issues Tracker artifacts.")
     parser.add_argument("path", help="Path to the Issues Tracker markdown file.")
     parser.add_argument(
@@ -45,12 +61,22 @@ def parse_args() -> argparse.Namespace:
 
 
 def detect_mode(content: str) -> str:
+    """
+    Determine if a tracker is canonical or legacy based on markers.
+
+    purpose: version detection
+    """
     if "AGENT PARSING HEADER" in content or "<!-- AGENT_CONTEXT" in content:
         return "legacy"
     return "canonical"
 
 
 def extract_section(content: str, heading: str) -> str:
+    """
+    Extract the text content of a specific section by level-2 heading.
+
+    purpose: structural extraction
+    """
     pattern = rf"^## {re.escape(heading)}\n(?P<body>.*?)(?=^## |\Z)"
     match = re.search(pattern, content, re.MULTILINE | re.DOTALL)
     if not match:
@@ -59,6 +85,11 @@ def extract_section(content: str, heading: str) -> str:
 
 
 def extract_between_headings(content: str, start_heading: str, end_heading: str) -> str:
+    """
+    Extract text content between two specific level-2 headings.
+
+    purpose: structural extraction
+    """
     pattern = (
         rf"^## {re.escape(start_heading)}\n(?P<body>.*?)(?=^## {re.escape(end_heading)}\n)"
     )
@@ -69,6 +100,11 @@ def extract_between_headings(content: str, start_heading: str, end_heading: str)
 
 
 def parse_metadata(content: str) -> dict:
+    """
+    Extract and parse the DOCUMENT METADATA YAML block.
+
+    purpose: metadata extraction
+    """
     match = re.search(
         r"^## DOCUMENT METADATA\s+```yaml\s*(?P<yaml>.*?)```",
         content,
@@ -85,6 +121,11 @@ def parse_metadata(content: str) -> dict:
 
 
 def parse_footer(content: str) -> tuple[int, int, str]:
+    """
+    Extract summary counts and date from the document footer line.
+
+    purpose: summary extraction
+    """
     match = FOOTER_RE.search(content)
     if not match:
         raise ValueError("Missing footer summary line")
@@ -96,6 +137,11 @@ def parse_footer(content: str) -> tuple[int, int, str]:
 
 
 def parse_table_rows(section_body: str) -> list[list[str]]:
+    """
+    Parse a Markdown table into a list of row lists.
+
+    purpose: table data extraction
+    """
     lines = [line.strip() for line in section_body.splitlines() if line.strip().startswith("|")]
     if len(lines) < 3:
         raise ValueError("Issue registry table is incomplete")
@@ -107,6 +153,11 @@ def parse_table_rows(section_body: str) -> list[list[str]]:
 
 
 def count_issue_statuses(issue_section: str) -> dict[str, int]:
+    """
+    Tally the occurrences of specific status labels within the ISSUES section.
+
+    purpose: summary calculation
+    """
     counts: dict[str, int] = {}
     for match in re.finditer(r"^\*\*Status:\*\* `(?P<status>[^`]+)`", issue_section, re.MULTILINE):
         status = match.group("status")
@@ -115,12 +166,22 @@ def count_issue_statuses(issue_section: str) -> dict[str, int]:
 
 
 def validate_required_sections(content: str, errors: list[str]) -> None:
+    """
+    Verify the presence of mandatory level-2 heading markers.
+
+    purpose: structural validation
+    """
     for heading in REQUIRED_SECTIONS:
         if f"## {heading}" not in content:
             errors.append(f"Missing section heading: {heading}")
 
 
 def validate_canonical(content: str) -> list[str]:
+    """
+    Perform strict validation against the canonical IT-1.1 blank tracker contract.
+
+    purpose: canonical schema validation
+    """
     errors: list[str] = []
     validate_required_sections(content, errors)
 
@@ -203,6 +264,11 @@ def validate_canonical(content: str) -> list[str]:
 
 
 def parse_legacy_header_counts(content: str) -> tuple[int, int, int]:
+    """
+    Extract summary counts from historical HTML parser headers.
+
+    purpose: legacy summary extraction
+    """
     header_match = re.search(r"<!--(?P<header>.*?)-->", content, re.DOTALL)
     if not header_match:
         raise ValueError("Legacy format must contain an HTML parser header")
@@ -217,6 +283,11 @@ def parse_legacy_header_counts(content: str) -> tuple[int, int, int]:
 
 
 def validate_legacy(content: str) -> list[str]:
+    """
+    Perform lenient validation against historical legacy tracker contracts.
+
+    purpose: legacy schema validation
+    """
     errors: list[str] = []
     validate_required_sections(content, errors)
 
@@ -255,6 +326,11 @@ def validate_legacy(content: str) -> list[str]:
 
 
 def main() -> int:
+    """
+    Execute the issues tracker validation workflow from CLI.
+
+    purpose: entrypoint
+    """
     args = parse_args()
     path = Path(args.path)
 

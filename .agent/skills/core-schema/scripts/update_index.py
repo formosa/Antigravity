@@ -1,4 +1,19 @@
 #!/usr/bin/env python3
+"""
+Update the consolidated registry of core schemas.
+
+role: schema index updater
+entrypoints: main
+reads: core schema READMEs, config.json
+writes: index.md
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; yaml parsing errors; config missing
+coupling: coupled to core schema and index schemas
+determinism: input-dependent
+concurrency: not thread-safe; process-local
+"""
+
 from __future__ import annotations
 
 import json
@@ -9,12 +24,22 @@ import yaml
 
 
 def extract_tag_block(content: str, block_name: str) -> str | None:
+    """
+    Extract the content between XML-style tags of a specific name.
+
+    purpose: structural extraction
+    """
     pattern = rf"(?ms)^[ \t]*<{block_name}>[ \t]*\r?\n(.*?)^[ \t]*</{block_name}>[ \t]*$"
     match = re.search(pattern, content, re.DOTALL)
     return match.group(1).strip() if match else None
 
 
 def parse_history_version(content: str) -> str:
+    """
+    Extract the latest version from the modification history table.
+
+    purpose: metadata extraction
+    """
     block = extract_tag_block(content, "modification_history")
     if not block:
         return "1.0.0"
@@ -26,6 +51,11 @@ def parse_history_version(content: str) -> str:
 
 
 def parse_owner_skill(content: str) -> str:
+    """
+    Extract the primary owner skill from the schema governance block.
+
+    purpose: authority extraction
+    """
     block = extract_tag_block(content, "schema_governance")
     if not block:
         return "unknown"
@@ -41,6 +71,11 @@ def parse_owner_skill(content: str) -> str:
 
 
 def parse_description(content: str) -> str:
+    """
+    Identify a suitable description for the schema from its README.
+
+    purpose: UI/prose extraction
+    """
     document_purpose = extract_tag_block(content, "document_purpose")
     if document_purpose:
         return " ".join(document_purpose.split())
@@ -54,6 +89,11 @@ def parse_description(content: str) -> str:
 
 
 def main():
+    """
+    Execute the core schema index update workflow.
+
+    purpose: entrypoint
+    """
     config_path = Path(__file__).parent.parent / "config.json"
     repo_root = Path(__file__).resolve().parents[4]
     schemas_dir = repo_root / ".agent" / "schemas"

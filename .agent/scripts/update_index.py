@@ -1,3 +1,18 @@
+"""
+Regenerate governed root and tests script indexes in .agent/scripts/.
+
+role: documentation and discovery maintenance script
+entrypoints: main
+reads: .agent/scripts/, .agent/scripts/tests/, .agent/tools/
+writes: .agent/scripts/index.md, .agent/scripts/tests/index.md
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; yaml parsing errors
+coupling: coupled to .agent folder structure and tool definition schema
+determinism: input-dependent (filesystem state)
+concurrency: not thread-safe; process-local
+"""
+
 #!/usr/bin/env python3
 from __future__ import annotations
 
@@ -11,6 +26,34 @@ import yaml
 
 @dataclass(frozen=True)
 class ScriptRecord:
+    """
+    Data container for a script's metadata used in index generation.
+
+    role: value object for script metadata
+    lifecycle: transient; constructed during index build
+    mutability: immutable
+    ownership: none
+    concurrency: thread-safe
+    cache_behavior: none
+    serialization: non-serializable
+    coupling: minimal
+    failure_surface: minimal
+
+    Attributes
+    ----------
+    script_id : str
+        unique identifier derived from stem
+    filename : str
+        basename of the script
+    relative_path : str
+        repo-relative path
+    category : str
+        assigned classification
+    description : str
+        semantic summary
+    tool_definition : str | None
+        path to linked tool definition if any
+    """
     script_id: str
     filename: str
     relative_path: str
@@ -29,14 +72,98 @@ SKIP_FILENAMES = {"__init__.py", "index.md"}
 
 
 def normalize_sentence(value: str) -> str:
+    """
+    Collapse internal whitespace and strip leading/trailing spaces.
+
+    purpose: string normalization
+    preconditions: none
+    postconditions: space-normalized string
+    mutates: none
+    reads: input string
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    value : str
+        input text
+
+    Returns
+    -------
+    str
+        normalized text
+    """
     return " ".join(value.split())
 
 
 def read_text(path: Path) -> str:
+    """
+    Read file content as UTF-8 string.
+
+    purpose: file reading helper
+    preconditions: path must exist and be readable
+    postconditions: returns file content
+    mutates: none
+    reads: filesystem
+    writes: none
+    external_io: fs
+    determinism: state-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        target file path
+
+    Returns
+    -------
+    str
+        file content
+    """
     return path.read_text(encoding="utf-8")
 
 
 def extract_docstring_summary(path: Path) -> str | None:
+    """
+    Parse Python module and extract the first meaningful line of its docstring.
+
+    purpose: metadata extraction
+    preconditions: path should exist and be a valid Python file
+    postconditions: returns summary string or None
+    mutates: none
+    reads: filesystem; AST structure
+    writes: none
+    external_io: fs
+    determinism: input-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: ast.parse execution
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        Python script path
+
+    Returns
+    -------
+    str | None
+        extracted summary or None if extraction fails
+    """
     try:
         module = ast.parse(read_text(path))
     except (SyntaxError, OSError, UnicodeDecodeError):
@@ -62,6 +189,36 @@ def extract_docstring_summary(path: Path) -> str | None:
 
 
 def fallback_description(path: Path, *, is_test_index: bool) -> str:
+    """
+    Provide a default description based on filename and context.
+
+    purpose: default description generation
+    preconditions: none
+    postconditions: returns descriptive string
+    mutates: none
+    reads: path property
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        script path
+    is_test_index : bool
+        true if script resides in tests subtree
+
+    Returns
+    -------
+    str
+        fallback description
+    """
     name = path.name
     if not is_test_index and name == "cleanup_temp_assets.py":
         return "Audit and optionally clean up stale managed temp run directories."
@@ -82,6 +239,36 @@ def fallback_description(path: Path, *, is_test_index: bool) -> str:
 
 
 def safe_description(path: Path, *, is_test_index: bool) -> str:
+    """
+    Resolve description by attempting extraction then falling back to defaults.
+
+    purpose: stable description resolution
+    preconditions: none
+    postconditions: returns non-empty string
+    mutates: none
+    reads: file content if parseable
+    writes: none
+    external_io: none
+    determinism: input-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        script path
+    is_test_index : bool
+        true if script resides in tests subtree
+
+    Returns
+    -------
+    str
+        resolved description
+    """
     summary = extract_docstring_summary(path)
     if path.name == "generate_uuid.py" and summary == "UUID Generation Tool.":
         return fallback_description(path, is_test_index=is_test_index)
@@ -89,6 +276,34 @@ def safe_description(path: Path, *, is_test_index: bool) -> str:
 
 
 def build_keywords(record: ScriptRecord) -> list[str]:
+    """
+    Derive a list of keywords from a script record.
+
+    purpose: keyword extraction for manifest
+    preconditions: none
+    postconditions: returns unique keyword list
+    mutates: none
+    reads: record properties
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: stable order
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    record : ScriptRecord
+        input record
+
+    Returns
+    -------
+    list[str]
+        deduplicated keywords
+    """
     pieces = re.split(r"[-_]", record.script_id.lower())
     keywords = ["script", *[piece for piece in pieces if piece], record.category]
     if record.tool_definition:
@@ -101,6 +316,34 @@ def build_keywords(record: ScriptRecord) -> list[str]:
 
 
 def extract_frontmatter(content: str) -> dict:
+    """
+    Extract and parse YAML frontmatter from Markdown content.
+
+    purpose: frontmatter extraction
+    preconditions: none
+    postconditions: returns dict of frontmatter or empty dict
+    mutates: none
+    reads: content string
+    writes: none
+    external_io: none
+    determinism: input-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: yaml.safe_load
+    coupling: minimal
+
+    Parameters
+    ----------
+    content : str
+        raw Markdown content
+
+    Returns
+    -------
+    dict
+        parsed frontmatter
+    """
     match = re.match(r"^---\n(.*?)\n---", content, re.DOTALL)
     if not match:
         return {}
@@ -112,6 +355,34 @@ def extract_frontmatter(content: str) -> dict:
 
 
 def detect_tool_links(tools_dir: Path) -> dict[str, str]:
+    """
+    Map Python scripts to their corresponding tool definition files.
+
+    purpose: tool-link discovery
+    preconditions: tools_dir must exist
+    postconditions: returns mapping of script name to tool path
+    mutates: none
+    reads: tools directory; individual tool files
+    writes: none
+    external_io: fs
+    determinism: state-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: sorted by tool name
+    aliasing: none
+    security: none
+    coupling: coupled to tool-definition schema (command field)
+
+    Parameters
+    ----------
+    tools_dir : Path
+        directory containing tool definitions
+
+    Returns
+    -------
+    dict[str, str]
+        {script_name: tool_definition_path}
+    """
     links: dict[str, str] = {}
     for tool_path in sorted(tools_dir.glob("*.md"), key=lambda item: item.name.lower()):
         if tool_path.name == "index.md":
@@ -126,6 +397,34 @@ def detect_tool_links(tools_dir: Path) -> dict[str, str]:
 
 
 def should_include(path: Path) -> bool:
+    """
+    Determine if a file should be included in the script index.
+
+    purpose: file filtering logic
+    preconditions: none
+    postconditions: none
+    mutates: none
+    reads: path properties
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        target file path
+
+    Returns
+    -------
+    bool
+        true if file should be indexed
+    """
     if path.name in SKIP_FILENAMES:
         return False
     if path.suffix != ".py":
@@ -138,6 +437,36 @@ def should_include(path: Path) -> bool:
 
 
 def categorize_root_script(path: Path, tool_links: dict[str, str]) -> str:
+    """
+    Assign a categorization label to a root-level script.
+
+    purpose: category assignment
+    preconditions: none
+    postconditions: returns category string
+    mutates: none
+    reads: path property, tool_links
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        script path
+    tool_links : dict[str, str]
+        existing tool mappings
+
+    Returns
+    -------
+    str
+        assigned category
+    """
     if path.name in tool_links:
         return "utility_and_infrastructure"
     if path.name == "directory_tree.py":
@@ -148,6 +477,34 @@ def categorize_root_script(path: Path, tool_links: dict[str, str]) -> str:
 
 
 def categorize_test_script(path: Path) -> str:
+    """
+    Assign a categorization label to a test-subtree script.
+
+    purpose: category assignment
+    preconditions: none
+    postconditions: returns category string
+    mutates: none
+    reads: path property
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        script path
+
+    Returns
+    -------
+    str
+        assigned category
+    """
     if path.name.startswith("test_"):
         return "unit_tests"
     if path.name.startswith("validate_"):
@@ -158,6 +515,36 @@ def categorize_test_script(path: Path) -> str:
 
 
 def collect_root_script_records(scripts_dir: Path, tool_links: dict[str, str]) -> list[ScriptRecord]:
+    """
+    Crawl scripts directory and build records for root-level scripts.
+
+    purpose: record collection
+    preconditions: scripts_dir exists
+    postconditions: returns list of ScriptRecord
+    mutates: none
+    reads: filesystem (glob)
+    writes: none
+    external_io: fs
+    determinism: state-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: sorted by filename
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    scripts_dir : Path
+        source directory
+    tool_links : dict[str, str]
+        pre-detected tool mappings
+
+    Returns
+    -------
+    list[ScriptRecord]
+        populated records
+    """
     records: list[ScriptRecord] = []
     for path in sorted(scripts_dir.glob("*.py"), key=lambda item: item.name.lower()):
         if not should_include(path):
@@ -176,6 +563,34 @@ def collect_root_script_records(scripts_dir: Path, tool_links: dict[str, str]) -
 
 
 def collect_test_script_records(tests_dir: Path) -> list[ScriptRecord]:
+    """
+    Crawl tests directory and build records for test-subtree scripts.
+
+    purpose: record collection
+    preconditions: tests_dir exists
+    postconditions: returns list of ScriptRecord
+    mutates: none
+    reads: filesystem (glob)
+    writes: none
+    external_io: fs
+    determinism: state-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: sorted by filename
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    tests_dir : Path
+        source tests directory
+
+    Returns
+    -------
+    list[ScriptRecord]
+        populated records
+    """
     records: list[ScriptRecord] = []
     for path in sorted(tests_dir.glob("*.py"), key=lambda item: item.name.lower()):
         if not should_include(path):
@@ -193,12 +608,70 @@ def collect_test_script_records(tests_dir: Path) -> list[ScriptRecord]:
 
 
 def render_selection_map(records: list[ScriptRecord]) -> list[str]:
+    """
+    Generate the 'Selection Map' section of the index.
+
+    purpose: Markdown rendering
+    preconditions: none
+    postconditions: returns Markdown line list
+    mutates: none
+    reads: records
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    records : list[ScriptRecord]
+        input records
+
+    Returns
+    -------
+    list[str]
+        Markdown lines
+    """
     if not records:
         return ["*No scripts are currently defined.*"]
     return [f"- `{record.script_id}`: {record.description}" for record in records]
 
 
 def render_manifest(records: list[ScriptRecord], *, root_key: str) -> str:
+    """
+    Generate the YAML manifest section of the index.
+
+    purpose: YAML rendering
+    preconditions: none
+    postconditions: returns YAML string
+    mutates: none
+    reads: records
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    records : list[ScriptRecord]
+        input records
+    root_key : str
+        top-level key for the manifest
+
+    Returns
+    -------
+    str
+        formatted YAML
+    """
     manifest_records: list[dict[str, object]] = []
     for record in records:
         manifest_record: dict[str, object] = {
@@ -217,6 +690,36 @@ def render_manifest(records: list[ScriptRecord], *, root_key: str) -> str:
 
 
 def render_category_totals(records: list[ScriptRecord], *, category_order: list[str]) -> list[str]:
+    """
+    Generate the 'Category Totals' summary section.
+
+    purpose: count aggregation and rendering
+    preconditions: none
+    postconditions: returns Markdown line list
+    mutates: none
+    reads: records
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: follows category_order
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    records : list[ScriptRecord]
+        input records
+    category_order : list[str]
+        order in which categories should be displayed
+
+    Returns
+    -------
+    list[str]
+        Markdown lines
+    """
     totals: list[str] = []
     for category in category_order:
         count = sum(1 for record in records if record.category == category)
@@ -227,6 +730,34 @@ def render_category_totals(records: list[ScriptRecord], *, category_order: list[
 
 
 def render_root_records(records: list[ScriptRecord]) -> list[str]:
+    """
+    Generate detailed record blocks for root scripts.
+
+    purpose: detailed Markdown rendering
+    preconditions: none
+    postconditions: returns Markdown line list
+    mutates: none
+    reads: records
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    records : list[ScriptRecord]
+        input records
+
+    Returns
+    -------
+    list[str]
+        Markdown lines
+    """
     if not records:
         return ["*No root scripts are currently defined.*"]
 
@@ -253,6 +784,34 @@ def render_root_records(records: list[ScriptRecord]) -> list[str]:
 
 
 def render_test_records(records: list[ScriptRecord]) -> list[str]:
+    """
+    Generate detailed record blocks for test-subtree scripts.
+
+    purpose: detailed Markdown rendering
+    preconditions: none
+    postconditions: returns Markdown line list
+    mutates: none
+    reads: records
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    records : list[ScriptRecord]
+        input records
+
+    Returns
+    -------
+    list[str]
+        Markdown lines
+    """
     if not records:
         return ["*No tests scripts are currently defined.*"]
 
@@ -273,6 +832,34 @@ def render_test_records(records: list[ScriptRecord]) -> list[str]:
 
 
 def build_root_index(records: list[ScriptRecord]) -> str:
+    """
+    Assemble the complete root script index document.
+
+    purpose: index assembly
+    preconditions: none
+    postconditions: returns full Markdown content
+    mutates: none
+    reads: records
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    records : list[ScriptRecord]
+        root script records
+
+    Returns
+    -------
+    str
+        Markdown document content
+    """
     lines = [
         "# Agent Scripts Index",
         "",
@@ -343,6 +930,34 @@ def build_root_index(records: list[ScriptRecord]) -> str:
 
 
 def build_tests_index(records: list[ScriptRecord]) -> str:
+    """
+    Assemble the complete test subtree script index document.
+
+    purpose: index assembly
+    preconditions: none
+    postconditions: returns full Markdown content
+    mutates: none
+    reads: records
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    records : list[ScriptRecord]
+        test script records
+
+    Returns
+    -------
+    str
+        Markdown document content
+    """
     lines = [
         "# Agent Script Tests Index",
         "",
@@ -413,10 +1028,53 @@ def build_tests_index(records: list[ScriptRecord]) -> str:
 
 
 def write_file(path: Path, content: str) -> None:
+    """
+    Physically write index content to the filesystem with UTF-8 encoding.
+
+    purpose: index persistence
+    preconditions: path parent must exist
+    postconditions: file written to disk
+    mutates: none
+    reads: none
+    writes: filesystem
+    external_io: fs
+    determinism: deterministic
+    idempotency: yes
+    concurrency: not thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        target path
+    content : str
+        content to write
+    """
     path.write_text(content, encoding="utf-8", newline="\n")
 
 
 def main() -> None:
+    """
+    Execute the index regeneration workflow.
+
+    purpose: entrypoint
+    preconditions: filesystem access to .agent/scripts/ and .agent/tools/
+    postconditions: script indexes updated
+    mutates: .agent/scripts/index.md, .agent/scripts/tests/index.md
+    reads: tools, scripts, tests
+    writes: root and tests indexes
+    external_io: fs
+    determinism: state-dependent
+    idempotency: yes
+    concurrency: process-local
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: coupled to project directory structure
+    """
     tool_links = detect_tool_links(TOOLS_DIR)
     root_records = collect_root_script_records(SCRIPTS_DIR, tool_links)
     test_records = collect_test_script_records(TESTS_DIR)

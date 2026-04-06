@@ -1,4 +1,19 @@
 #!/usr/bin/env python3
+"""
+Validate a core schema .d.ts file against the TypeScript compiler.
+
+role: core schema validator
+entrypoints: main
+reads: core schema .d.ts, config.json
+writes: stdout, backup file
+external_io: fs, tsc subprocess
+state_model: stateless
+failure_surface: fs access errors; tsc missing; validation failure
+coupling: coupled to TypeScript compiler and core schema structure
+determinism: input-dependent
+concurrency: not thread-safe; process-local
+"""
+
 import argparse
 import json
 import shutil
@@ -7,6 +22,11 @@ import sys
 from pathlib import Path
 
 def main():
+    """
+    Execute the core schema validation logic.
+
+    purpose: entrypoint
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", required=True)
     args = parser.parse_args()

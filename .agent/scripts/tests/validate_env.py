@@ -1,9 +1,19 @@
 """
-validate_env.py
-===============
 Validation gate for the Antigravity PowerShell execution baseline.
+
 Checks PowerShell 7, UTF-8 defaults, Unicode subprocess round-trips,
 and reports whether the packaged rg launcher is usable in this shell.
+
+role: environment validation diagnostic
+entrypoints: main
+reads: os.environ, sys.flags, subprocess output
+writes: stdout
+external_io: fs, subprocess (pwsh, rg)
+state_model: stateless
+failure_surface: missing pwsh; encoding mismatches
+coupling: coupled to PowerShell 7 and system-level environment variables
+determinism: external-state-dependent
+concurrency: not thread-safe; process-local
 """
 
 import os
@@ -13,19 +23,91 @@ import sys
 
 
 def print_status(check_name: str, passed: bool, details: str = "") -> bool:
-    """Output a pass or fail line for a validation check."""
+    """
+    Output a pass or fail line for a validation check.
+
+    purpose: diagnostic reporting
+    preconditions: none
+    postconditions: string printed to stdout
+    mutates: none
+    reads: none
+    writes: stdout
+    external_io: stdout
+    determinism: deterministic
+    idempotency: yes
+    concurrency: not thread-safe (stdio)
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    check_name : str
+        name of the check
+    passed : bool
+        true if check passed
+    details : str
+        additional context string
+
+    Returns
+    -------
+    bool
+        forwarded 'passed' value
+    """
     status = "[PASS]" if passed else "[FAIL]"
     print(f"{status} {check_name:<45} {details}")
     return passed
 
 
 def print_warning(check_name: str, details: str = "") -> None:
-    """Output a warning line for a non-fatal validation check."""
+    """
+    Output a warning line for a non-fatal validation check.
+
+    purpose: diagnostic reporting
+    preconditions: none
+    postconditions: string printed to stdout
+    mutates: none
+    reads: none
+    writes: stdout
+    external_io: stdout
+    determinism: deterministic
+    idempotency: yes
+    concurrency: not thread-safe (stdio)
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    check_name : str
+        name of the check
+    details : str
+        additional context string
+    """
     print(f"[WARN] {check_name:<45} {details}")
 
 
 def run_validation() -> None:
-    """Execute the environment validation checks."""
+    """
+    Execute the environment validation checks.
+
+    purpose: entrypoint for diagnostic execution
+    preconditions: none
+    postconditions: exits with 0 on success, 1 on failure
+    mutates: none
+    reads: env, system state
+    writes: stdout
+    external_io: stdout, subprocess
+    determinism: external-state-dependent
+    idempotency: yes
+    concurrency: process-local
+    ordering: sequential
+    aliasing: none
+    security: subprocess.run execution
+    coupling: coupled to system environment and pwsh
+    """
     print("=" * 75)
     print(" Antigravity - PowerShell Execution Validation")
     print(f" Platform : {platform.system()} {platform.release()}")

@@ -1,5 +1,18 @@
 #!/usr/bin/env python3
-"""Unit tests for cleanup_temp_assets.py."""
+"""
+Unit tests for cleanup_temp_assets.py.
+
+role: unit test suite for temp asset cleanup logic
+entrypoints: main
+reads: cleanup_temp_assets.py (via dynamic import)
+writes: nothing (uses tempfile)
+external_io: fs
+state_model: stateless
+failure_surface: none
+coupling: highly coupled to cleanup_temp_assets.py
+determinism: deterministic
+concurrency: thread-safe; process-local
+"""
 
 from __future__ import annotations
 
@@ -26,12 +39,55 @@ delete_run_directories = MODULE.delete_run_directories
 
 
 def age_path(path: Path, *, days: int) -> None:
+    """
+    Backdate the access and modification times of a path.
+
+    purpose: simulate file age for stale-directory testing
+    preconditions: path must exist
+    postconditions: path mtime/atime backdated
+    mutates: filesystem metadata
+    reads: none
+    writes: filesystem
+    external_io: fs
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    path : Path
+        target path
+    days : int
+        number of days to backdate
+    """
     timestamp = (datetime.now(timezone.utc) - timedelta(days=days)).timestamp()
     os.utime(path, (timestamp, timestamp))
 
 
 class TestCleanupTempAssets(unittest.TestCase):
+    """
+    Test suite for temp asset classification and deletion logic.
+
+    role: logic validation
+    lifecycle: instance-per-test
+    mutability: immutable
+    ownership: unittest runner
+    concurrency: process-local
+    cache_behavior: none
+    serialization: non-serializable
+    coupling: minimal
+    failure_surface: minimal
+    """
     def test_classify_directories_groups_expected_run_dirs(self) -> None:
+        """
+        Verify that directories are classified into correct AuditReport categories.
+
+        purpose: regression test for classification logic
+        """
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
 
@@ -69,6 +125,11 @@ class TestCleanupTempAssets(unittest.TestCase):
             self.assertEqual([entry.path.name for entry in report.invalid_dirs], [invalid_dir.name])
 
     def test_delete_run_directories_removes_valid_descendants(self) -> None:
+        """
+        Verify that deletion logic safely removes directories within the root.
+
+        purpose: safety and efficacy test for deletion
+        """
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
             run_dir = root / "20260331-103500-deadbeef-empty-run"
@@ -81,6 +142,11 @@ class TestCleanupTempAssets(unittest.TestCase):
             self.assertFalse(run_dir.exists())
 
     def test_delete_run_directories_rejects_outside_paths(self) -> None:
+        """
+        Verify that deletion logic blocks removal of paths outside the managed root.
+
+        purpose: security boundary test
+        """
         with tempfile.TemporaryDirectory() as tmpdir, tempfile.TemporaryDirectory() as other_tmpdir:
             root = Path(tmpdir)
             outside = Path(other_tmpdir)

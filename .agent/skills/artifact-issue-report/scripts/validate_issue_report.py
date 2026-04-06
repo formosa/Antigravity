@@ -4,6 +4,17 @@ Validator for issue-report artifacts used by artifact-issue-report.
 
 Canonical mode validates the current v6.1-style output contract.
 Legacy mode validates historical v4/v5 report artifacts without rewriting them.
+
+role: issue report validation engine
+entrypoints: main
+reads: issue report markdown
+writes: stdout
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; yaml parsing errors; schema violations
+coupling: coupled to issue report schema
+determinism: input-dependent
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -41,6 +52,11 @@ LEGACY_MARKERS = [
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for issue report validation.
+
+    purpose: CLI configuration extraction
+    """
     parser = argparse.ArgumentParser(description="Validate issue-report artifacts.")
     parser.add_argument("path", help="Path to the issue-report markdown file.")
     parser.add_argument(
@@ -53,18 +69,33 @@ def parse_args() -> argparse.Namespace:
 
 
 def detect_mode(content: str) -> str:
+    """
+    Determine if a report is canonical or legacy based on markers and frontmatter.
+
+    purpose: version detection
+    """
     if "### 4. Implementation Note" in content or re.search(r"^\s*updated:\s*", content, re.MULTILINE):
         return "canonical"
     return "legacy"
 
 
 def detect_legacy_profile(content: str) -> str:
+    """
+    Classify legacy reports into v4-like or v5-like profiles.
+
+    purpose: legacy sub-version detection
+    """
     if "#### Option C:" in content or "### 4. Independent Review Conclusion" in content:
         return "v4-like"
     return "v5-like"
 
 
 def parse_frontmatter(content: str) -> dict:
+    """
+    Extract and parse the YAML frontmatter from the report.
+
+    purpose: metadata extraction
+    """
     match = FRONTMATTER_RE.match(content)
     if not match:
         raise ValueError("Missing YAML frontmatter")
@@ -78,6 +109,11 @@ def parse_frontmatter(content: str) -> dict:
 
 
 def extract_agent_context(content: str) -> dict:
+    """
+    Extract and parse the Agent Context YAML block from the report.
+
+    purpose: agent context extraction
+    """
     match = re.search(
         r"^### Agent Context\s+```yaml\s*(?P<yaml>.*?)```",
         content,
@@ -92,6 +128,11 @@ def extract_agent_context(content: str) -> dict:
 
 
 def extract_section(content: str, heading: str) -> str:
+    """
+    Extract the text content of a specific section by heading.
+
+    purpose: structural extraction
+    """
     pattern = rf"^{re.escape(heading)}\n(?P<body>.*?)(?=^### |\Z)"
     match = re.search(pattern, content, re.MULTILINE | re.DOTALL)
     if not match:
@@ -100,6 +141,11 @@ def extract_section(content: str, heading: str) -> str:
 
 
 def extract_option_block(content: str, option: str) -> str:
+    """
+    Extract the text block for a specific Option (A, B, or C).
+
+    purpose: structural extraction
+    """
     pattern = rf"^#### {re.escape(option)}: .*?\n(?P<body>.*?)(?=^#### Option [A-Z]: |^### |\Z)"
     match = re.search(pattern, content, re.MULTILINE | re.DOTALL)
     if not match:
@@ -108,6 +154,11 @@ def extract_option_block(content: str, option: str) -> str:
 
 
 def validate_heading_order(content: str, markers: list[str], errors: list[str]) -> None:
+    """
+    Verify that required headings appear in the correct sequential order.
+
+    purpose: structural sequence validation
+    """
     last_index = -1
     for marker in markers:
         index = content.find(marker)
@@ -120,6 +171,11 @@ def validate_heading_order(content: str, markers: list[str], errors: list[str]) 
 
 
 def validate_common_structure(content: str, errors: list[str]) -> None:
+    """
+    Validate structural rules shared by all report versions.
+
+    purpose: common structural validation
+    """
     if PLACEHOLDER_RE.search(content):
         errors.append("Report contains unresolved placeholders")
     if not re.search(r'^## Optimized Resolution Strategy for "ISSUE-\d{3}"', content, re.MULTILINE):
@@ -131,12 +187,22 @@ def validate_common_structure(content: str, errors: list[str]) -> None:
 
 
 def validate_frontmatter_keys(document: dict, required: set[str], errors: list[str]) -> None:
+    """
+    Verify the presence of mandatory keys in the document frontmatter.
+
+    purpose: metadata field validation
+    """
     missing = sorted(required - set(document.keys()))
     if missing:
         errors.append(f"Frontmatter is missing required keys: {', '.join(missing)}")
 
 
 def validate_canonical(content: str) -> tuple[list[str], list[str]]:
+    """
+    Perform strict validation against the canonical v6.1 report contract.
+
+    purpose: v6.1 schema validation
+    """
     errors: list[str] = []
     notes: list[str] = []
 
@@ -246,6 +312,11 @@ def validate_canonical(content: str) -> tuple[list[str], list[str]]:
 
 
 def validate_legacy(content: str) -> tuple[list[str], str]:
+    """
+    Perform lenient validation against historical legacy report contracts.
+
+    purpose: legacy schema validation
+    """
     errors: list[str] = []
 
     validate_common_structure(content, errors)
@@ -302,6 +373,11 @@ def validate_legacy(content: str) -> tuple[list[str], str]:
 
 
 def validate_content(content: str, mode: str = "auto") -> tuple[str, list[str], list[str]]:
+    """
+    Validate report content using requested or auto-detected mode.
+
+    purpose: high-level content validation
+    """
     resolved_mode = detect_mode(content) if mode == "auto" else mode
 
     if resolved_mode == "canonical":
@@ -316,6 +392,11 @@ def validate_content(content: str, mode: str = "auto") -> tuple[str, list[str], 
 
 
 def validate_path(path: str | Path, mode: str = "auto") -> tuple[str, list[str], list[str]]:
+    """
+    Validate a report file at the given path.
+
+    purpose: filesystem-aware validation
+    """
     resolved_path = Path(path)
     if not resolved_path.exists():
         return "missing", [f"file not found: {resolved_path}"], []
@@ -325,6 +406,11 @@ def validate_path(path: str | Path, mode: str = "auto") -> tuple[str, list[str],
 
 
 def main() -> int:
+    """
+    Execute the issue report validation workflow from CLI.
+
+    purpose: entrypoint
+    """
     args = parse_args()
     path = Path(args.path)
 

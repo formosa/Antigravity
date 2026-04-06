@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 Quick validation script for the current Antigravity workflow contract.
+
+role: workflow asset validator
+entrypoints: main
+reads: workflow markdown files
+writes: stdout
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; yaml parsing errors; schema violations
+coupling: coupled to workflow asset schema
+determinism: input-dependent
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -21,14 +32,26 @@ STEP_PATTERN = re.compile(r"^\d+\.\s", re.MULTILINE)
 
 @dataclass
 class ValidationResult:
+    """
+    Represent the outcome of a workflow validation check.
+
+    Attributes
+    ----------
+    errors : list[str]
+        blocking violations
+    warnings : list[str]
+        non-blocking recommendations
+    """
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
 
     @property
     def valid(self) -> bool:
+        """True if no blocking errors exist."""
         return not self.errors
 
     def summary(self) -> str:
+        """Return a human-readable summary of the validation state."""
         if not self.valid:
             return "Workflow validation failed."
         if self.warnings:
@@ -37,6 +60,11 @@ class ValidationResult:
 
 
 def extract_frontmatter(content: str) -> tuple[dict | None, str | None]:
+    """
+    Extract and parse the YAML frontmatter block from markdown content.
+
+    purpose: metadata extraction
+    """
     if not content.startswith("---"):
         return None, "No YAML frontmatter found."
 
@@ -56,12 +84,35 @@ def extract_frontmatter(content: str) -> tuple[dict | None, str | None]:
 
 
 def extract_section(content: str, heading: str) -> str | None:
+    """
+    Extract the text content of a specific level-3 section.
+
+    purpose: structural extraction
+    """
     pattern = rf"(?ms)^### {re.escape(heading)}\s*\n(.*?)(?=^### |\Z)"
     match = re.search(pattern, content)
     return match.group(1).strip() if match else None
 
 
 def validate_workflow(path: str | Path) -> ValidationResult:
+    """
+    Perform structural and semantic validation of a single workflow file.
+
+    purpose: single-workflow validation
+    preconditions: path is a readable markdown file
+    postconditions: returns populated ValidationResult
+    mutates: none
+    reads: filesystem
+    writes: none
+    external_io: fs
+    determinism: input-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: coupled to workflow asset schema
+    """
     result = ValidationResult()
     workflow_path = Path(path)
     if not workflow_path.exists():
@@ -118,6 +169,11 @@ def validate_workflow(path: str | Path) -> ValidationResult:
 
 
 def print_validation_result(result: ValidationResult) -> None:
+    """
+    Print a summary of validation results to stdout.
+
+    purpose: reporting
+    """
     print(result.summary())
 
     if result.errors:

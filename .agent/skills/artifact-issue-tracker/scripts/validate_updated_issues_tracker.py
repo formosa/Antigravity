@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 Validate populated IT-1.1 Issues Tracker artifacts used by artifact-issue-tracker.
+
+role: issues tracker validation engine (populated)
+entrypoints: main
+reads: issues tracker markdown
+writes: stdout
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; yaml parsing errors; schema violations
+coupling: coupled to issues tracker IT-1.1 schema
+determinism: input-dependent
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -65,12 +76,22 @@ OPEN_COUNT_STATUSES = {"OPEN", "IN_REVIEW"}
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for issues tracker validation.
+
+    purpose: CLI configuration extraction
+    """
     parser = argparse.ArgumentParser(description="Validate populated IT-1.1 Issues Tracker artifacts.")
     parser.add_argument("path", help="Path to the Issues Tracker markdown file.")
     return parser.parse_args()
 
 
 def extract_section(content: str, heading: str) -> str:
+    """
+    Extract the text content of a specific section by level-2 heading.
+
+    purpose: structural extraction
+    """
     pattern = rf"^## {re.escape(heading)}\n(?P<body>.*?)(?=^## |\Z)"
     match = re.search(pattern, content, re.MULTILINE | re.DOTALL)
     if not match:
@@ -79,6 +100,11 @@ def extract_section(content: str, heading: str) -> str:
 
 
 def parse_metadata(content: str) -> dict[str, Any]:
+    """
+    Extract and parse the DOCUMENT METADATA YAML block.
+
+    purpose: metadata extraction
+    """
     match = re.search(
         r"^## DOCUMENT METADATA\s+```yaml\s*(?P<yaml>.*?)```",
         content,
@@ -97,6 +123,11 @@ def parse_metadata(content: str) -> dict[str, Any]:
 
 
 def parse_table_rows(section_body: str) -> list[list[str]]:
+    """
+    Parse a Markdown table into a list of row lists.
+
+    purpose: table data extraction
+    """
     lines = [line.strip() for line in section_body.splitlines() if line.strip().startswith("|")]
     if len(lines) < 2:
         raise ValueError("Issue registry table is incomplete")
@@ -109,12 +140,22 @@ def parse_table_rows(section_body: str) -> list[list[str]]:
 
 
 def normalize_text(value: str) -> str:
+    """
+    Normalize text for comparison by lowercasing and collapsing whitespace.
+
+    purpose: text normalization for similarity checks
+    """
     value = value.lower()
     value = re.sub(r"\s+", " ", value)
     return value.strip()
 
 
 def unwrap_code_cell(value: str) -> str:
+    """
+    Remove backticks from a Markdown code cell string.
+
+    purpose: markdown table cell cleaning
+    """
     value = value.strip()
     if value.startswith("`") and value.endswith("`") and len(value) >= 2:
         return value[1:-1]
@@ -122,6 +163,11 @@ def unwrap_code_cell(value: str) -> str:
 
 
 def parse_issue_blocks(content: str) -> list[dict[str, Any]]:
+    """
+    Extract individual issue blocks and their components from the ISSUES section.
+
+    purpose: issue entry extraction
+    """
     issues_body = extract_section(content, "ISSUES")
     matches = list(ISSUE_HEADING_RE.finditer(issues_body))
     issues: list[dict[str, Any]] = []
@@ -164,17 +210,32 @@ def parse_issue_blocks(content: str) -> list[dict[str, Any]]:
 
 
 def is_valid_url(url: str) -> bool:
+    """
+    Verify that a value is a valid HTTP/HTTPS URL string.
+
+    purpose: URL validation
+    """
     parsed = urlparse(url)
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
 
 
 def validate_required_sections(content: str, errors: list[str]) -> None:
+    """
+    Verify the presence of mandatory level-2 heading markers.
+
+    purpose: structural validation
+    """
     for heading in REQUIRED_SECTIONS:
         if f"## {heading}" not in content:
             errors.append(f"Missing section heading: {heading}")
 
 
 def validate_metadata(content: str, metadata: dict[str, Any], errors: list[str]) -> None:
+    """
+    Verify the presence and correctness of mandatory DOCUMENT METADATA fields.
+
+    purpose: metadata validation
+    """
     required_keys = {
         "id",
         "title",
@@ -216,6 +277,11 @@ def validate_metadata(content: str, metadata: dict[str, Any], errors: list[str])
 
 
 def validate_it11_schema_and_workflow(content: str, errors: list[str]) -> None:
+    """
+    Verify that the ISSUE SCHEMA and RESOLUTION WORKFLOW contain IT-1.1 markers.
+
+    purpose: schema version validation
+    """
     try:
         issue_schema = extract_section(content, "ISSUE SCHEMA")
     except ValueError as exc:
@@ -244,6 +310,11 @@ def validate_it11_schema_and_workflow(content: str, errors: list[str]) -> None:
 
 
 def validate_issue_subsections(issue: dict[str, Any], errors: list[str]) -> None:
+    """
+    Validate the internal subsections of a single issue entry for IT-1.1 compatibility.
+
+    purpose: issue entry component validation
+    """
     issue_id = issue["id"]
     number = issue["number"]
     suffix = f"{number:03d}"
@@ -308,6 +379,11 @@ def validate_issue_subsections(issue: dict[str, Any], errors: list[str]) -> None
 
 
 def validate_issue_registry(content: str, issues: list[dict[str, Any]], errors: list[str]) -> None:
+    """
+    Verify the ISSUE REGISTRY table for consistency with individual issue entries.
+
+    purpose: registry table validation
+    """
     try:
         rows = parse_table_rows(extract_section(content, "ISSUE REGISTRY"))
     except ValueError as exc:
@@ -381,6 +457,11 @@ def validate_issue_registry(content: str, issues: list[dict[str, Any]], errors: 
 
 
 def validate_footer(metadata: dict[str, Any], issues: list[dict[str, Any]], content: str, errors: list[str]) -> None:
+    """
+    Verify summary counts and date in the document footer for consistency with the rest of the file.
+
+    purpose: summary/footer consistency validation
+    """
     banner_match = FOOTER_BANNER_RE.search(content)
     if not banner_match:
         errors.append("Missing IT-1.1 footer banner line")
@@ -412,6 +493,11 @@ def validate_footer(metadata: dict[str, Any], issues: list[dict[str, Any]], cont
 
 
 def validate_tracker_content(content: str, source: str = "<memory>") -> list[str]:
+    """
+    Fully validate the content of an IT-1.1 issues tracker.
+
+    purpose: full tracker validation workflow
+    """
     errors: list[str] = []
     validate_required_sections(content, errors)
 
@@ -444,10 +530,20 @@ def validate_tracker_content(content: str, source: str = "<memory>") -> list[str
 
 
 def validate_path(path: Path) -> list[str]:
+    """
+    Validate an IT-1.1 issues tracker at the given path.
+
+    purpose: filesystem-aware validation
+    """
     return validate_tracker_content(path.read_text(encoding="utf-8"), str(path))
 
 
 def main() -> int:
+    """
+    Execute the IT-1.1 issues tracker validation CLI.
+
+    purpose: entrypoint
+    """
     args = parse_args()
     path = Path(args.path)
 

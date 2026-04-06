@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 Validate brainstorm.md documents managed by artifact-brainstorm.
+
+role: brainstorm validation engine
+entrypoints: main
+reads: brainstorm.md, brainstorm seed
+writes: stdout
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; yaml parsing errors; schema violations
+coupling: coupled to brainstorm schema and seed structure
+determinism: input-dependent
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -189,6 +200,11 @@ LIB_PROSE_FIELDS = ("description", "detail")
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for brainstorm validation.
+
+    purpose: CLI configuration extraction
+    """
     parser = argparse.ArgumentParser(description="Validate a brainstorm markdown document.")
     parser.add_argument("path", help="Path to the brainstorm markdown file.")
     parser.add_argument(
@@ -209,17 +225,32 @@ def parse_args() -> argparse.Namespace:
 
 
 def read_text(path_str: str) -> tuple[Path, str]:
+    """
+    Read file content and return resolved path and text.
+
+    purpose: file reading helper
+    """
     path = (REPO_ROOT / path_str).resolve() if not Path(path_str).is_absolute() else Path(path_str)
     return path, path.read_text(encoding="utf-8")
 
 
 def ensure_headings(content: str, errors: list[str]) -> None:
+    """
+    Verify that all required headings are present in the document.
+
+    purpose: structural validation
+    """
     for heading in REQUIRED_HEADINGS:
         if heading not in content:
             errors.append(f"Missing required heading: {heading}")
 
 
 def ensure_tables(content: str, errors: list[str]) -> None:
+    """
+    Verify that specific headings are followed by markdown tables.
+
+    purpose: structural validation
+    """
     lines = content.splitlines()
     for heading in TABLE_HEADINGS:
         try:
@@ -238,6 +269,11 @@ def ensure_tables(content: str, errors: list[str]) -> None:
 
 
 def parse_entries(content: str) -> list[dict[str, Any]]:
+    """
+    Extract entries (BRAIN-II/III) from the markdown content.
+
+    purpose: entry extraction
+    """
     entries: list[dict[str, Any]] = []
     for match in ENTRY_BLOCK_RE.finditer(content):
         data = yaml.safe_load(match.group("body"))
@@ -258,6 +294,11 @@ def parse_entries(content: str) -> list[dict[str, Any]]:
 
 
 def parse_citations(content: str) -> list[dict[str, Any]]:
+    """
+    Extract citations (C*) from the markdown content.
+
+    purpose: citation extraction
+    """
     citations: list[dict[str, Any]] = []
     for match in CITATION_BLOCK_RE.finditer(content):
         data = yaml.safe_load(match.group("body"))
@@ -276,6 +317,11 @@ def parse_citations(content: str) -> list[dict[str, Any]]:
 
 
 def validate_metadata_table(content: str, errors: list[str]) -> None:
+    """
+    Verify the contents of the document metadata table.
+
+    purpose: manifest validation
+    """
     required_pairs = [
         ("Document ID", "DDR-BRAIN-001"),
         ("Schema", "BRAIN-ENTRY-1.1"),
@@ -301,6 +347,11 @@ def validate_metadata_table(content: str, errors: list[str]) -> None:
 
 
 def validate_style_block(content: str, errors: list[str]) -> None:
+    """
+    Verify the document-level <style> block and its contents.
+
+    purpose: visual semantics validation
+    """
     match = STYLE_BLOCK_RE.search(content)
     if not match:
         errors.append("Missing required document-level <style> block")
@@ -322,6 +373,11 @@ def validate_style_block(content: str, errors: list[str]) -> None:
 
 
 def validate_span_classes(content: str, errors: list[str]) -> None:
+    """
+    Verify all brain-* classes used in <span> elements within the document.
+
+    purpose: visual semantics validation
+    """
     unknown_classes: set[str] = set()
     for match in BRAIN_SPAN_CLASS_RE.finditer(content):
         for class_name in match.group(1).split():
@@ -332,6 +388,11 @@ def validate_span_classes(content: str, errors: list[str]) -> None:
 
 
 def validate_entry_common(entry: dict[str, Any], citations: dict[str, dict[str, Any]], errors: list[str]) -> None:
+    """
+    Validate common fields and logic for all entry types (IDEA, LIB).
+
+    purpose: common schema validation
+    """
     entry_id = entry["id"]
     data = entry["data"]
     missing = sorted(COMMON_FIELDS - set(data.keys()))
@@ -419,6 +480,11 @@ def validate_entry_common(entry: dict[str, Any], citations: dict[str, dict[str, 
 
 
 def validate_idea(entry: dict[str, Any], errors: list[str]) -> None:
+    """
+    Validate fields specific to IDEA type entries.
+
+    purpose: IDEA schema validation
+    """
     entry_id = entry["id"]
     data = entry["data"]
     missing = sorted(IDEA_FIELDS - set(data.keys()))
@@ -432,6 +498,11 @@ def validate_idea(entry: dict[str, Any], errors: list[str]) -> None:
 
 
 def validate_lib(entry: dict[str, Any], errors: list[str]) -> None:
+    """
+    Validate fields specific to LIB type entries.
+
+    purpose: LIB schema validation
+    """
     entry_id = entry["id"]
     data = entry["data"]
     missing = sorted(LIB_FIELDS - set(data.keys()))
@@ -459,6 +530,11 @@ def validate_lib(entry: dict[str, Any], errors: list[str]) -> None:
 
 
 def validate_citations(citations: list[dict[str, Any]], entry_ids: set[str], errors: list[str]) -> dict[str, dict[str, Any]]:
+    """
+    Validate the citation catalog and return a map of valid citations.
+
+    purpose: citation schema validation
+    """
     if not citations:
         errors.append("No citations found in §III.12 Citations and References")
         return {}
@@ -505,6 +581,11 @@ def validate_citations(citations: list[dict[str, Any]], entry_ids: set[str], err
 
 
 def validate_part_placement(content: str, entries: list[dict[str, Any]], errors: list[str]) -> None:
+    """
+    Verify that entries are located in the correct Markdown part sections.
+
+    purpose: location validation
+    """
     part_ii_start = content.find("## PART II — Application Design Concepts")
     part_iii_start = content.find("## PART III — Open-Source Library Candidates")
     citations_start = content.find("### §III.12 Citations and References")
@@ -519,6 +600,11 @@ def validate_part_placement(content: str, entries: list[dict[str, Any]], errors:
 
 
 def validate_sequence(entries: list[dict[str, Any]], errors: list[str]) -> None:
+    """
+    Verify that entry IDs are sequential without gaps within each part.
+
+    purpose: identifier sequence validation
+    """
     for part in ("II", "III"):
         numbers = sorted(entry["number"] for entry in entries if entry["part"] == part)
         if not numbers:
@@ -530,6 +616,11 @@ def validate_sequence(entries: list[dict[str, Any]], errors: list[str]) -> None:
 
 
 def validate_duplicates(entries: list[dict[str, Any]], errors: list[str]) -> None:
+    """
+    Verify that entry IDs are unique within the document.
+
+    purpose: identifier uniqueness validation
+    """
     ids = [entry["id"] for entry in entries]
     duplicates = sorted({entry_id for entry_id in ids if ids.count(entry_id) > 1})
     if duplicates:
@@ -537,11 +628,21 @@ def validate_duplicates(entries: list[dict[str, Any]], errors: list[str]) -> Non
 
 
 def parse_seed_ids(path: Path) -> set[str]:
+    """
+    Parse entry IDs from a reference (seed or baseline) file.
+
+    purpose: identifier collection
+    """
     content = path.read_text(encoding="utf-8")
     return {match.group("id") for match in ENTRY_BLOCK_RE.finditer(content)}
 
 
 def validate_append_only(entries: list[dict[str, Any]], seed_path: Path, baseline_path: Path | None, errors: list[str]) -> None:
+    """
+    Verify that no previously existing IDs have been removed.
+
+    purpose: preservation validation
+    """
     current_ids = {entry["id"] for entry in entries}
     seed_ids = parse_seed_ids(seed_path)
     missing_seed = sorted(seed_ids - current_ids)
@@ -555,6 +656,11 @@ def validate_append_only(entries: list[dict[str, Any]], seed_path: Path, baselin
 
 
 def validate_mermaid(content: str, errors: list[str]) -> list[dict[str, Any]]:
+    """
+    Verify Mermaid diagram blocks for type support and accessibility metadata.
+
+    purpose: diagram validation
+    """
     blocks: list[dict[str, Any]] = []
     for index, match in enumerate(MERMAID_BLOCK_RE.finditer(content), start=1):
         body = match.group("body")
@@ -581,6 +687,11 @@ def validate_mermaid(content: str, errors: list[str]) -> list[dict[str, Any]]:
 
 
 def validate_brainstorm(path: Path, seed_path: Path, baseline_path: Path | None = None) -> list[str]:
+    """
+    Perform a full validation of a brainstorm markdown document.
+
+    purpose: full validation workflow
+    """
     content = path.read_text(encoding="utf-8")
     errors: list[str] = []
 
@@ -619,6 +730,11 @@ def validate_brainstorm(path: Path, seed_path: Path, baseline_path: Path | None 
 
 
 def audit_brainstorm(path: Path) -> list[str]:
+    """
+    Perform audit checks for non-fatal brainstorm quality issues.
+
+    purpose: audit workflow
+    """
     content = path.read_text(encoding="utf-8")
     warnings: list[str] = []
     entries = parse_entries(content)
@@ -666,6 +782,11 @@ def audit_brainstorm(path: Path) -> list[str]:
 
 
 def prose_fields_for_entry(data: dict[str, Any]) -> tuple[str, ...]:
+    """
+    Return the names of substantive prose fields for the given entry type.
+
+    purpose: metadata helper
+    """
     entry_type = data.get("entry_type")
     if entry_type == "IDEA":
         return IDEA_PROSE_FIELDS
@@ -675,6 +796,11 @@ def prose_fields_for_entry(data: dict[str, Any]) -> tuple[str, ...]:
 
 
 def collect_entry_inline_citations(data: dict[str, Any]) -> list[str]:
+    """
+    Extract citation markers ([C1], [C2], ...) from entry prose.
+
+    purpose: citation marker extraction
+    """
     markers: set[str] = set()
     for field in prose_fields_for_entry(data):
         value = data.get(field)
@@ -684,6 +810,11 @@ def collect_entry_inline_citations(data: dict[str, Any]) -> list[str]:
 
 
 def is_valid_date_value(value: Any) -> bool:
+    """
+    Check if a value represents a valid ISO 8601 date.
+
+    purpose: date format validation
+    """
     if isinstance(value, str):
         return bool(DATE_RE.fullmatch(value))
     if isinstance(value, datetime):
@@ -694,6 +825,11 @@ def is_valid_date_value(value: Any) -> bool:
 
 
 def coerce_date(value: Any) -> date:
+    """
+    Safely convert string or datetime values to a date object.
+
+    purpose: date coercion
+    """
     if isinstance(value, datetime):
         return value.date()
     if isinstance(value, date):
@@ -704,6 +840,11 @@ def coerce_date(value: Any) -> date:
 
 
 def normalize_commercial_use(value: Any) -> Any:
+    """
+    Normalize boolean or string commercial_use values to the vocabulary.
+
+    purpose: commercial use normalization
+    """
     if value is True:
         return "YES"
     if value is False:
@@ -712,6 +853,11 @@ def normalize_commercial_use(value: Any) -> Any:
 
 
 def is_valid_url(value: Any) -> bool:
+    """
+    Verify that a value is a valid HTTP/HTTPS URL string.
+
+    purpose: URL validation
+    """
     if not isinstance(value, str) or not value.strip():
         return False
     parsed = urlparse(value)
@@ -719,10 +865,20 @@ def is_valid_url(value: Any) -> bool:
 
 
 def is_external_or_citation_ref(value: Any) -> bool:
+    """
+    Check if a reference string is an external URL or a citation ID.
+
+    purpose: reference classification
+    """
     return isinstance(value, str) and (bool(URL_RE.search(value)) or bool(re.fullmatch(r"C\d+", value)))
 
 
 def is_valid_internal_reference(value: Any) -> bool:
+    """
+    Verify that a reference string adheres to allowed internal patterns.
+
+    purpose: project-internal reference validation
+    """
     if not isinstance(value, str) or not value.strip():
         return False
     if BRAIN_ID_RE.fullmatch(value):
@@ -739,11 +895,21 @@ def is_valid_internal_reference(value: Any) -> bool:
 
 
 def citation_sort_key(value: str) -> int:
+    """
+    Provide a numeric key for sorting citation IDs (C1, C10, C2).
+
+    purpose: sorting helper
+    """
     match = re.fullmatch(r"C(\d+)", value)
     return int(match.group(1)) if match else 10**9
 
 
 def main() -> int:
+    """
+    Execute the brainstorm validation CLI.
+
+    purpose: entrypoint
+    """
     args = parse_args()
     path, _ = read_text(args.path)
     seed_path, _ = read_text(args.seed)

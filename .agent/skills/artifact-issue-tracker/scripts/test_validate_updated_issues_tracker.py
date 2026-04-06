@@ -1,6 +1,16 @@
-#!/usr/bin/env python3
 """
 Regression tests for validate_updated_issues_tracker.py.
+
+role: unit test suite for issues tracker validation logic
+entrypoints: main, unittest
+reads: validate_updated_issues_tracker.py, issues tracker examples
+writes: none (uses temporary files)
+external_io: fs
+state_model: stateless
+failure_surface: none
+coupling: highly coupled to validate_updated_issues_tracker.py and IT-1.1 schema
+determinism: deterministic
+concurrency: thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -32,12 +42,22 @@ spec.loader.exec_module(module)
 
 
 def replace_section(content: str, heading: str, new_body: str) -> str:
+    """
+    Replace a markdown section identified by a level-2 heading.
+
+    purpose: test fixture mutation
+    """
     pattern = rf"^## {re.escape(heading)}\n(?P<body>.*?)(?=^## |\Z)"
     replacement = f"## {heading}\n\n{new_body.strip()}\n\n"
     return re.sub(pattern, replacement, content, count=1, flags=re.MULTILINE | re.DOTALL)
 
 
 def extract_section(content: str, heading: str) -> str:
+    """
+    Extract the content of a markdown section identified by a level-2 heading.
+
+    purpose: test fixture extraction
+    """
     match = re.search(
         rf"^## {re.escape(heading)}\n(?P<body>.*?)(?=^## |\Z)",
         content,
@@ -49,6 +69,11 @@ def extract_section(content: str, heading: str) -> str:
 
 
 def migrate_real_tracker_fixture(content: str) -> str:
+    """
+    Transform an IT-1.0 tracker into an IT-1.1 compatible fixture for regression testing.
+
+    purpose: complex test fixture preparation
+    """
     example_text = EXAMPLE_PATH.read_text(encoding="utf-8")
     issue_schema = extract_section(example_text, "ISSUE SCHEMA")
     workflow = extract_section(example_text, "RESOLUTION WORKFLOW")
@@ -88,14 +113,20 @@ def migrate_real_tracker_fixture(content: str) -> str:
 
 
 class ValidateUpdatedIssuesTrackerTests(unittest.TestCase):
+    """
+    Regression test suite for IT-1.1 issues tracker validation.
+    """
     def validate_text(self, text: str) -> list[str]:
+        """Helper to invoke module validation on raw text."""
         return module.validate_tracker_content(text)
 
     def test_example_it11_is_valid(self) -> None:
+        """Verify that the IT-1.1 example document passes validation."""
         text = EXAMPLE_PATH.read_text(encoding="utf-8")
         self.assertEqual([], self.validate_text(text))
 
     def test_missing_citations_fails(self) -> None:
+        """Verify that missing citations in a resolution block trigger errors."""
         text = EXAMPLE_PATH.read_text(encoding="utf-8")
         text = text.replace(
             "- [JSON Schema Conditional Subschemas](https://json-schema.org/understanding-json-schema/reference/conditionals): Official guidance on encoding profile-specific required fields with `if`/`then`.\n"
@@ -109,6 +140,7 @@ class ValidateUpdatedIssuesTrackerTests(unittest.TestCase):
         )
 
     def test_duplicate_option_c_fails(self) -> None:
+        """Verify that non-distinct logic across options triggers semantic validation errors."""
         text = EXAMPLE_PATH.read_text(encoding="utf-8")
         option_a_match = re.search(
             r"#### Resolution-001: Option A - (?P<label>[^\n]+)\n(?P<body>.*?)(?=^#### )",
@@ -133,6 +165,7 @@ class ValidateUpdatedIssuesTrackerTests(unittest.TestCase):
         )
 
     def test_unsorted_registry_fails(self) -> None:
+        """Verify that unsorted registry tables trigger validation errors."""
         text = EXAMPLE_PATH.read_text(encoding="utf-8")
         unsorted = (
             "| [ISSUE-002](#issue-002-normalize-cursor-pagination-error-semantics) | `MODERATE` | `LOGICAL_CONFLICT` | `OPEN` | `Pagination surface` | Normalize cursor pagination error semantics |\n"
@@ -148,6 +181,7 @@ class ValidateUpdatedIssuesTrackerTests(unittest.TestCase):
         self.assertIn("Issue registry rows must be sorted by severity then issue number", self.validate_text(text))
 
     def test_stale_counts_fail(self) -> None:
+        """Verify that inconsistent frontmatter counts trigger validation errors."""
         text = EXAMPLE_PATH.read_text(encoding="utf-8").replace("open_issues:     2", "open_issues:     1", 1)
         self.assertIn(
             "document.open_issues (1) does not match OPEN+IN_REVIEW count (2)",
@@ -155,11 +189,13 @@ class ValidateUpdatedIssuesTrackerTests(unittest.TestCase):
         )
 
     def test_missing_recommendation_block_fails(self) -> None:
+        """Verify that missing mandatory resolution subsections trigger validation errors."""
         text = EXAMPLE_PATH.read_text(encoding="utf-8")
         text = text.replace("#### Recommendation-001", "#### Recommendation-XXX", 1)
         self.assertIn("ISSUE-001 is missing subsection: Recommendation-001", self.validate_text(text))
 
     def test_placeholders_fail(self) -> None:
+        """Verify that unresolved placeholders trigger validation errors."""
         text = EXAMPLE_PATH.read_text(encoding="utf-8").replace(
             "Option C is endorsed because the discriminator keeps the shape additive, localizes the validation branch, and avoids duplicating every common webhook property across multiple object definitions. It delivers the strongest machine-readable closure with a smaller migration surface than a full object split.",
             "{{TODO}}",
@@ -168,6 +204,7 @@ class ValidateUpdatedIssuesTrackerTests(unittest.TestCase):
         self.assertIn("Tracker contains unresolved placeholders", self.validate_text(text))
 
     def test_real_tracker_migration_fixture_validates_and_does_not_mutate_sources(self) -> None:
+        """Verify the migration path for real historical tracker data."""
         if not REAL_TRACKER_PATH.exists():
             self.skipTest(f"Real tracker fixture is not present: {REAL_TRACKER_PATH}")
 

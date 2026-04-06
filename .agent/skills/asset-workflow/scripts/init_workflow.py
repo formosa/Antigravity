@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 Scaffold a new workflow from the asset-workflow canonical example.
+
+role: workflow asset initializer
+entrypoints: main
+reads: workflow example template
+writes: new workflow markdown file
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; template missing; invalid name
+coupling: coupled to workflow schema and template structure
+determinism: deterministic
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -14,6 +25,11 @@ VALID_NAME_PATTERN = re.compile(r"^[a-z0-9][a-z0-9-]{0,63}$")
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for workflow scaffolding.
+
+    purpose: CLI configuration extraction
+    """
     parser = argparse.ArgumentParser(description="Create a new Antigravity workflow scaffold.")
     parser.add_argument("workflow_name", help="Lowercase hyphen-case workflow name.")
     parser.add_argument(
@@ -25,14 +41,59 @@ def parse_args() -> argparse.Namespace:
 
 
 def repo_root() -> Path:
+    """
+    Resolve the repository root directory.
+
+    purpose: path resolution base
+    """
     return Path(__file__).resolve().parents[4]
 
 
 def example_path() -> Path:
+    """
+    Resolve the path to the canonical workflow example template.
+
+    purpose: template discovery
+    """
     return Path(__file__).resolve().parents[1] / "resources" / "schema" / "workflow" / "example.md"
 
 
 def build_content(workflow_name: str, template: str) -> str:
+    """
+    Generate workflow file content by populating the template with the workflow name.
+
+    purpose: template population
+    preconditions: template has name/description frontmatter
+    postconditions: returns populated markdown string
+    mutates: none
+    reads: workflow_name, template
+    writes: none
+    external_io: none
+    determinism: deterministic
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: sequential
+    aliasing: none
+    security: none
+    coupling: coupled to template frontmatter structure
+
+    Parameters
+    ----------
+    workflow_name : str
+        lowercase hyphen-case workflow name
+    template : str
+        raw markdown template
+
+    Returns
+    -------
+    str
+        populated markdown content
+
+    Raises
+    ------
+    ValueError
+        if template is missing required frontmatter fields
+    """
     lines = template.splitlines()
     updated: list[str] = []
     in_frontmatter = False
@@ -66,6 +127,20 @@ def build_content(workflow_name: str, template: str) -> str:
 
 
 def main() -> None:
+    """
+    Execute the workflow scaffolding logic.
+
+    purpose: entrypoint
+    preconditions: workflow name must be valid; template must exist
+    postconditions: new workflow file created in target directory
+    mutates: filesystem (creates file and parent dirs)
+    reads: filesystem (template)
+    writes: filesystem (output workflow)
+    external_io: fs
+    determinism: deterministic
+    idempotency: no (fails if file exists)
+    concurrency: process-local
+    """
     args = parse_args()
     workflow_name = args.workflow_name.strip()
     if not VALID_NAME_PATTERN.fullmatch(workflow_name):

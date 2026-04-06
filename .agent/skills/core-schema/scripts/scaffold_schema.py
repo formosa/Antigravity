@@ -1,10 +1,30 @@
 #!/usr/bin/env python3
+"""
+Scaffold a new core schema directory from an example artifact.
+
+role: core schema scaffold utility
+entrypoints: main
+reads: config.json, example artifact
+writes: new schema directory and example.md
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; config missing; example missing
+coupling: coupled to core schema directory structure and config.json
+determinism: deterministic
+concurrency: not thread-safe; process-local
+"""
+
 import argparse
 import json
 import shutil
 from pathlib import Path
 
 def main():
+    """
+    Execute the core schema scaffolding logic.
+
+    purpose: entrypoint
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("--target-file", required=True)
     parser.add_argument("--name", required=True)

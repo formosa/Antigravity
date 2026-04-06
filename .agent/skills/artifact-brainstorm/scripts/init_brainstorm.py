@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 Initialize a brainstorm.md file from the canonical seeded source.
+
+role: artifact initialization utility
+entrypoints: main
+reads: brainstorm seed, source reference file
+writes: initialized brainstorm.md
+external_io: fs
+state_model: stateless
+failure_surface: fs access errors; missing seed/source files
+coupling: coupled to brainstorm schema and seed structure
+determinism: date-dependent (today's date)
+concurrency: not thread-safe; process-local
 """
 
 from __future__ import annotations
@@ -22,6 +33,11 @@ DEFAULT_SOURCE_REFERENCE = (
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for brainstorm initialization.
+
+    purpose: CLI configuration extraction
+    """
     parser = argparse.ArgumentParser(description="Initialize a brainstorm.md document.")
     parser.add_argument(
         "output",
@@ -48,6 +64,36 @@ def parse_args() -> argparse.Namespace:
 
 
 def render_seed(seed_text: str, source_reference: Path) -> str:
+    """
+    Perform template variable replacement in the seed text.
+
+    purpose: template rendering
+    preconditions: none
+    postconditions: returns rendered string
+    mutates: none
+    reads: date.today()
+    writes: none
+    external_io: none
+    determinism: date-dependent
+    idempotency: yes
+    concurrency: thread-safe
+    ordering: none
+    aliasing: none
+    security: none
+    coupling: minimal
+
+    Parameters
+    ----------
+    seed_text : str
+        raw seed template
+    source_reference : Path
+        path to reference file
+
+    Returns
+    -------
+    str
+        rendered markdown
+    """
     today = date.today().isoformat()
     return (
         seed_text.replace("{{CREATED_DATE}}", today)
@@ -57,6 +103,20 @@ def render_seed(seed_text: str, source_reference: Path) -> str:
 
 
 def main() -> int:
+    """
+    Execute the brainstorm initialization workflow.
+
+    purpose: entrypoint
+    preconditions: seed and source reference files must exist
+    postconditions: initialized brainstorm.md written to output path
+    mutates: filesystem (output file)
+    reads: filesystem
+    writes: output file
+    external_io: fs
+    determinism: date-dependent
+    idempotency: no (unless overwrite)
+    concurrency: process-local
+    """
     args = parse_args()
 
     output_path = (REPO_ROOT / args.output).resolve() if not Path(args.output).is_absolute() else Path(args.output)
