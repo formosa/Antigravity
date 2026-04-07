@@ -19,7 +19,7 @@
 ## Selection Map
 
 - `cleanup_temp_assets`: audit `.agent/.temp/`; optionally remove empty, stale, or retained-failure managed temp directories when explicit deletion flags are used.
-- `rebuild_docs`: rebuild Sphinx documentation outputs and write warning logs into a managed temp run directory.
+- `rebuild_docs`: rebuild Sphinx documentation outputs; delete managed temp logs on success and retain them only on failure.
 
 ## Manifest
 
@@ -68,12 +68,14 @@ tools:
     primary_outputs:
       - docs/_build/json/needs.json
       - docs/_build/html/
-      - .agent/.temp/<run-dir>/refresh-context.log
-      - .agent/.temp/<run-dir>/refresh-context-html.log
+      - .agent/.temp/<run-dir>/refresh-context.log (failure only)
+      - .agent/.temp/<run-dir>/refresh-context-html.log (failure only)
     primary_side_effects:
-      - creates a managed temp run directory
+      - creates a managed temp run directory during execution
+      - deletes the managed temp run directory on success
+      - retains the managed temp run directory with a failure marker on rebuild or validation failure
       - rebuilds documentation artifacts under docs/_build/
-    implementation: inline powershell command in tool frontmatter
+    implementation: .agent/scripts/rebuild_docs.py
     keywords:
       - docs
       - sphinx
@@ -106,16 +108,18 @@ tools:
 ### `rebuild_docs`
 
 - Definition: [`rebuild_docs.md`](rebuild_docs.md)
-- Implementation: inline PowerShell command in the tool frontmatter
-- Best used for: rebuilding Sphinx outputs while preserving warning logs inside the managed temp workspace.
+- Implementation: [`.agent/scripts/rebuild_docs.py`](../scripts/rebuild_docs.py)
+- Best used for: rebuilding Sphinx outputs while keeping temp logs only when a rebuild or output check fails.
 - Inputs (tool definition): no structured args.
 - Outputs: rebuilds `docs/_build/json/needs.json`.
 - Outputs: rebuilds `docs/_build/html/`.
-- Outputs: writes warning logs under `.agent/.temp/<run-dir>/`.
+- Outputs on failure: writes warning logs under `.agent/.temp/<run-dir>/`.
 - Post-run check: read both generated warning logs.
 - Post-run check: confirm `docs/_build/json/needs.json` exists and is non-empty.
 - Post-run check: confirm `docs/_build/html/index.html` exists.
+- Post-run check: confirm the managed temp run directory is deleted on success.
 - Safety contract: writes transient logs only inside the generated temp run directory.
+- Safety contract: retains temp logs only when the rebuild fails or output validation fails.
 - Safety contract: does not expose destructive delete flags.
 - Open the linked definition before execution whenever warning counts or rebuild validation need to be reported.
 

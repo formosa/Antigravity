@@ -36,5 +36,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 2.0.0   | major   | Naming Hardening      | Hardened the runtime-routed owner naming contract around the `asset-*` family, updated package authority surfaces to the renamed skill path, and prepared the rule package for mirror resynchronization under the new naming regime.                      |
 | 2026-04-04 | 2.0.1   | patch   | Mirror Sync           | Resynchronized the consumed index-schema mirror after the canonical `index` schema migrated its governance exception and governing workflow reference from `dev-schema` to `core-schema`.                                                                 |
 | 2026-04-04 | 2.1.0   | minor   | Collection Governance | Taught the active rule-authoring contract to use `<plural-directory>-governance` for collection-scoped directory governance rules and aligned the package with the renamed `rules-governance`, `schemas-governance`, and `skills-governance` rule family. |
+| 2026-04-06 | 2.1.1   | patch   | Regression Coverage   | Added regression tests for rule scaffolding, malformed-rule validation, and deterministic rules-index generation so the owner tooling is exercised alongside future governance changes.                                                                      |
 
 </modification_history>

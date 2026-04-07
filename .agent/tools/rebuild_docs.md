@@ -1,8 +1,8 @@
 ---
 type: tool
 name: "rebuild_docs"
-description: "Rebuilds Sphinx documentation (HTML, needs.json, and LLM context) and logs all warnings."
-command: '$runId = Get-Date -Format "yyyyMMdd-HHmmss"; $baseRunDir = Join-Path "${workspaceFolder}" ".agent/.temp/$runId-rebuild-docs"; $runDir = $baseRunDir; $suffix = 1; while (Test-Path $runDir) { $runDir = [string]::Format("{0}-{1:D2}", $baseRunDir, $suffix); $suffix++ }; New-Item -ItemType Directory -Force -Path $runDir | Out-Null; & "${workspaceFolder}/.venv/Scripts/python.exe" -m sphinx -b needs docs docs/_build/json -w (Join-Path $runDir "refresh-context.log"); & "${workspaceFolder}/.venv/Scripts/python.exe" -m sphinx -b html docs docs/_build/html -a -w (Join-Path $runDir "refresh-context-html.log")'
+description: "Rebuilds Sphinx documentation outputs with managed-temp warning capture and failure retention."
+command: '& "${workspaceFolder}/.venv/Scripts/python.exe" "${workspaceFolder}/.agent/scripts/rebuild_docs.py"'
 runtime: system
 confirmation: never
 args: {}
@@ -16,15 +16,13 @@ Performs a complete documentation rebuild including:
 
 1. **Needs Export** → `docs/_build/json/needs.json`
 2. **HTML Generation** → `docs/_build/html/`
-3. **Warning Capture** → `.agent/.temp/<run-dir>/refresh-context*.log`
+3. **Failure Logs** → `.agent/.temp/<run-dir>/refresh-context*.log` only when the rebuild or post-build validation fails
 
 ## Configuration
 
-- **Entry Point**: `.agent/scripts/generate_llm_context.py`
+- **Entry Point**: `.agent/scripts/rebuild_docs.py`
 - **Interpreter**: `.venv/Scripts/python`
-- **Arguments**:
-  - "docs/_build/json/needs.json"
-  - "docs/llm_export/context_flat.md"
+- **Arguments**: none
 
 ## Execution Steps
 
@@ -32,13 +30,13 @@ Performs a complete documentation rebuild including:
 
 - **Command Pattern**: Create `.agent/.temp/YYYYMMDD-HHMMSS-rebuild-docs/`
 - **Collision Handling**: If that directory already exists, append `-01`, `-02`, and so on until a free path is found.
-- **Note**: Keeps Sphinx warning logs inside the managed temp workspace.
+- **Note**: Temporary logs live only inside the managed temp workspace and are deleted on success.
 
 ### 2. Sphinx Needs Build (JSON Export)
 
 - **Command**: `.venv/Scripts/python -m sphinx -b needs docs docs/_build/json -w <run-dir>/refresh-context.log`
 - **Output**: `docs/_build/json/needs.json`
-- **Effect**: Generates structured requirements data for LLM context generation.
+- **Effect**: Generates the Sphinx needs export used by local documentation tooling.
 
 ### 3. Sphinx HTML Build
 
@@ -55,15 +53,16 @@ Performs a complete documentation rebuild including:
 1. **Action**: The agent must read both log files:
    - `.agent/.temp/<run-dir>/refresh-context.log` (needs build)
    - `.agent/.temp/<run-dir>/refresh-context-html.log` (HTML build)
-2. **Instruction**: If either file contains any lines starting with `WARNING:`, a total count must be reported in the final conversation summary.
+2. **Instruction**: If either file contains any lines starting with `WARNING:`, a total count must be reported before the successful run directory is deleted.
 
 ### Success Verification
 
 1. **Needs Build**: Confirm `docs/_build/json/needs.json` exists and is non-empty.
 2. **HTML Build**: Confirm `docs/_build/html/index.html` exists.
-3. **LLM Context**: Check if `docs/llm_export/context_flat.md` header is intact.
+3. **Temp Hygiene**: Confirm the managed temp run directory is deleted after a successful rebuild.
 
 ## Rules
 
 - **Artifacts**: Both log files are transient artifacts and must remain inside the generated `.agent/.temp/<run-dir>/` folder.
+- **Retention**: Keep the run directory only on failure, and write `retained-on-failure.txt` with the failure reason.
 - **Reporting**: If more than 5 warnings are detected (combined), the agent should suggest a "Documentation Cleanup" follow-up task.

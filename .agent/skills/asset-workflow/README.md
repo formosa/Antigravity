@@ -40,5 +40,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 1.2.1   | patch   | Mirror Sync      | Resynchronized the consumed index-schema mirror after `.agent/rules/index.md` adopted the full-form directory-index contract.                                                                                                                              |
 | 2026-04-03 | 2.0.0   | major   | Naming Hardening | Hardened the runtime-routed owner naming contract around the `asset-*` family, updated package authority surfaces to the renamed skill path, and prepared the workflow package for mirror resynchronization under the new naming regime.                   |
 | 2026-04-04 | 2.0.1   | patch   | Mirror Sync      | Resynchronized the consumed index-schema mirror after the canonical `index` schema migrated its governance exception and governing workflow reference from `dev-schema` to `core-schema`.                                                                  |
+| 2026-04-06 | 2.0.2   | patch   | Regression Coverage | Added regression tests for workflow scaffolding, malformed-workflow validation, and deterministic workflow-index generation so the workflow owner tooling is exercised before new live workflows are added.                                               |
 
 </modification_history>

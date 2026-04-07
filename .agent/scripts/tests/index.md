@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across unit tests, diagnostics, and fixture helpers that support the scripts collection.
 >
-> Total test scripts: `5`
+> Total test scripts: `7`
 >
 > Parent: [`.agent/scripts/`](..)
 >
@@ -21,6 +21,8 @@
 - `chaos_script`: Chaos fixture script used for adversarial or low-quality test inputs.
 - `test_cleanup_temp_assets`: Unit tests for cleanup_temp_assets.py.
 - `test_directory_tree`: Unit tests for directory_tree.py.
+- `test_managed_temp`: Unit tests for managed_temp.py.
+- `test_rebuild_docs`: Unit tests for rebuild_docs.py.
 - `test_update_index`: Unit tests for update_index.py.
 - `validate_env`: Validation gate for the Antigravity PowerShell execution baseline.
 
@@ -66,6 +68,32 @@ tests:
   - unit_tests
   use_when:
   - Unit tests for directory_tree.py.
+- id: test_managed_temp
+  definition: .agent/scripts/tests/test_managed_temp.py
+  asset_structure: flat-file
+  category: unit_tests
+  implementation: .agent/scripts/tests/test_managed_temp.py
+  keywords:
+  - script
+  - test
+  - managed
+  - temp
+  - unit_tests
+  use_when:
+  - Unit tests for managed_temp.py.
+- id: test_rebuild_docs
+  definition: .agent/scripts/tests/test_rebuild_docs.py
+  asset_structure: flat-file
+  category: unit_tests
+  implementation: .agent/scripts/tests/test_rebuild_docs.py
+  keywords:
+  - script
+  - test
+  - rebuild
+  - docs
+  - unit_tests
+  use_when:
+  - Unit tests for rebuild_docs.py.
 - id: test_update_index
   definition: .agent/scripts/tests/test_update_index.py
   asset_structure: flat-file
@@ -116,6 +144,20 @@ tests:
 - Category: `unit_tests`
 - Open the script implementation when exact assertions, fixture behavior, or validation protocol matter.
 
+### `test_managed_temp`
+
+- Implementation: [`test_managed_temp.py`](test_managed_temp.py)
+- Best used for: Unit tests for managed_temp.py.
+- Category: `unit_tests`
+- Open the script implementation when exact assertions, fixture behavior, or validation protocol matter.
+
+### `test_rebuild_docs`
+
+- Implementation: [`test_rebuild_docs.py`](test_rebuild_docs.py)
+- Best used for: Unit tests for rebuild_docs.py.
+- Category: `unit_tests`
+- Open the script implementation when exact assertions, fixture behavior, or validation protocol matter.
+
 ### `test_update_index`
 
 - Implementation: [`test_update_index.py`](test_update_index.py)
@@ -132,10 +174,10 @@ tests:
 
 ## Category Totals
 
-- `unit_tests`: `3`
+- `unit_tests`: `5`
 - `diagnostics_and_validation`: `1`
 - `fixtures_and_chaos`: `1`
-- `total`: `5`
+- `total`: `7`
 
 ## Index Boundaries
 

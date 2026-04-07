@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across reusable workflow definitions.
 >
-> Total workflows: `0`
+> Total workflows: `1`
 >
 > Parent: [`.agent/`](..)
 >
@@ -18,22 +18,37 @@
 
 ## Selection Map
 
-*No workflows are currently defined.*
+- `agent-asset-hygiene-review`: Reviews changed `.agent` assets, runs the correct validators and tests by asset family, and restores index and temp-workspace hygiene before handoff.
 
 ## Manifest
 
 ```yaml
-workflows: []
+workflows:
+- id: agent-asset-hygiene-review
+  definition: .agent/workflows/agent-asset-hygiene-review.md
+  asset_structure: flat-file
+  category: workflow_assets
+  keywords:
+  - workflow
+  - steps
+  - verification
+  use_when:
+  - Reviews changed `.agent` assets, runs the correct validators and tests by asset
+    family, and restores index and temp-workspace hygiene before handoff.
 ```
 
 ## Workflow Records
 
-*No workflows are currently defined.*
+### `agent-asset-hygiene-review`
+
+- Definition: [`agent-asset-hygiene-review.md`](agent-asset-hygiene-review.md)
+- Best used for: Reviews changed `.agent` assets, runs the correct validators and tests by asset family, and restores index and temp-workspace hygiene before handoff.
+- Open the linked definition when exact execution order, verification criteria, or safety boundaries matter.
 
 ## Category Totals
 
-- `workflow_assets`: `0`
-- `total`: `0`
+- `workflow_assets`: `1`
+- `total`: `1`
 
 ## Index Boundaries
 

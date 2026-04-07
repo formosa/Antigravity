@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across durable script assets that live directly under the scripts root.
 >
-> Total scripts: `3`
+> Total scripts: `5`
 >
 > Parent: [`.agent/`](..)
 >
@@ -20,6 +20,8 @@
 
 - `cleanup_temp_assets`: Audit and optionally clean up stale agent temp run directories in .agent/.temp.
 - `directory_tree`: Generate and format text-based directory tree representations with configurable filtering and statistics.
+- `managed_temp`: Manage timestamped run directories under .agent/.temp for single-task artifacts.
+- `rebuild_docs`: Rebuild Sphinx documentation outputs with managed-temp warning capture.
 - `update_index`: Regenerate governed root and tests script indexes in .agent/scripts/.
 
 ## Manifest
@@ -54,6 +56,32 @@ scripts:
   use_when:
   - Generate and format text-based directory tree representations with configurable
     filtering and statistics.
+- id: managed_temp
+  definition: .agent/scripts/managed_temp.py
+  asset_structure: flat-file
+  category: general_scripts
+  implementation: .agent/scripts/managed_temp.py
+  keywords:
+  - script
+  - managed
+  - temp
+  - general_scripts
+  use_when:
+  - Manage timestamped run directories under .agent/.temp for single-task artifacts.
+- id: rebuild_docs
+  definition: .agent/scripts/rebuild_docs.py
+  asset_structure: flat-file
+  category: utility_and_infrastructure
+  implementation: .agent/scripts/rebuild_docs.py
+  keywords:
+  - script
+  - rebuild
+  - docs
+  - utility_and_infrastructure
+  - tool-linked
+  use_when:
+  - Rebuild Sphinx documentation outputs with managed-temp warning capture.
+  tool_definition: .agent/tools/rebuild_docs.md
 - id: update_index
   definition: .agent/scripts/update_index.py
   asset_structure: flat-file
@@ -86,6 +114,22 @@ scripts:
 - Tool Definition: none
 - Open the script implementation when internal helper behavior or direct invocation details matter.
 
+### `managed_temp`
+
+- Implementation: [`managed_temp.py`](managed_temp.py)
+- Best used for: Manage timestamped run directories under .agent/.temp for single-task artifacts.
+- Category: `general_scripts`
+- Tool Definition: none
+- Open the script implementation when internal helper behavior or direct invocation details matter.
+
+### `rebuild_docs`
+
+- Implementation: [`rebuild_docs.py`](rebuild_docs.py)
+- Best used for: Rebuild Sphinx documentation outputs with managed-temp warning capture.
+- Category: `utility_and_infrastructure`
+- Tool Definition: [`rebuild_docs.md`](../tools/rebuild_docs.md)
+- Open the linked tool definition before execution when exact flags, outputs, or safety boundaries matter.
+
 ### `update_index`
 
 - Implementation: [`update_index.py`](update_index.py)
@@ -96,10 +140,11 @@ scripts:
 
 ## Category Totals
 
-- `utility_and_infrastructure`: `1`
+- `utility_and_infrastructure`: `2`
 - `analysis_and_reporting`: `1`
 - `governance_and_inventory`: `1`
-- `total`: `3`
+- `general_scripts`: `1`
+- `total`: `5`
 
 ## Index Boundaries
 
