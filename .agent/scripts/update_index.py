@@ -224,8 +224,6 @@ def fallback_description(path: Path, *, is_test_index: bool) -> str:
         return "Audit and optionally clean up stale managed temp run directories."
     if not is_test_index and name == "directory_tree.py":
         return "Generate filtered directory trees with reporting-oriented labels."
-    if not is_test_index and name == "generate_uuid.py":
-        return "Generate a UUIDv4 string for workflow and temp-path capture."
     if not is_test_index and name == "update_index.py":
         return "Regenerate the governed root and tests script indexes."
     if name.startswith("test_"):
@@ -270,8 +268,6 @@ def safe_description(path: Path, *, is_test_index: bool) -> str:
         resolved description
     """
     summary = extract_docstring_summary(path)
-    if path.name == "generate_uuid.py" and summary == "UUID Generation Tool.":
-        return fallback_description(path, is_test_index=is_test_index)
     return summary or fallback_description(path, is_test_index=is_test_index)
 
 

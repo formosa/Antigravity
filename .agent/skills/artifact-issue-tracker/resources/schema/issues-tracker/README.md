@@ -1,4 +1,4 @@
-# DESIGN_JUSTIFICATION: Antigravity Issues Tracker Assets v1.0.1
+# DESIGN_JUSTIFICATION: Antigravity Issues Tracker Assets v1.0.3
 
 <document_purpose>
 This document establishes the canonical local contract for Antigravity Issues Tracker artifacts and the owner-managed lifecycle used to initialize blank `IT-1.0` trackers, maintain and migrate populated `IT-1.1` trackers, and validate legacy lineage artifacts.
@@ -149,5 +149,6 @@ initialization and maintenance can evolve without collapsing into one overloaded
 | 2026-03-28 | v1.0.0  | Initial Release | Established the shared Issues Tracker contracts for blank initialization, populated maintenance, and legacy validation.                                                                                                                  |
 | 2026-04-04 | v1.0.1  | Governance      | Promoted `artifact-issue-tracker` to the canonical Artifact-Centric Owner, consolidated tracker lifecycle ownership under one skill, and updated validation and governance references without changing `IT-1.0` or `IT-1.1` wire shapes. |
 | 2026-04-04 | v1.0.2  | Governance      | Repointed standalone issue-report ownership references to `artifact-issue-report` so Issues Tracker governance reflects the staged issue-report owner migration.                                                                         |
+| 2026-04-06 | v1.0.3  | Simplification  | Replaced opaque generated example tracker document IDs with readable `ITR-<SUBJECT-SLUG>` examples while keeping `document.id` typed as a plain string and leaving validator behavior unchanged.                                          |
 
 </modification_history>

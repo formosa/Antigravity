@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick operational reference.
 >
-> Total tools: `3`
+> Total tools: `2`
 >
 > Parent: [`.agent/`](..)
 >
@@ -18,8 +18,7 @@
 
 ## Selection Map
 
-- `cleanup_temp_assets`: audit `.agent/.temp/`; optionally remove invalid, empty, stale, or retained-failure run directories when explicit deletion flags are used.
-- `generate_uuid`: emit one UUIDv4 string to stdout for capture by workflows or scripts.
+- `cleanup_temp_assets`: audit `.agent/.temp/`; optionally remove empty, stale, or retained-failure managed temp directories when explicit deletion flags are used.
 - `rebuild_docs`: rebuild Sphinx documentation outputs and write warning logs into a managed temp run directory.
 
 ## Manifest
@@ -52,36 +51,11 @@ tools:
       - cleanup
       - stale
       - retained-failure
-      - run-directory
+      - managed-temp
     use_when:
       - auditing managed temp workspace state
       - removing empty or stale temp artifacts
       - reviewing retained failure directories
-
-  - id: generate_uuid
-    definition: .agent/tools/generate_uuid.md
-    asset_structure: flat-file
-    category: utility_and_infrastructure
-    runtime: system
-    confirmation: never
-    tool_args: none
-    direct_cli_flags: none
-    output_capture_required: true
-    destructive_capability: none
-    primary_outputs:
-      - one UUIDv4 string on stdout
-    primary_side_effects:
-      - none
-    implementation: .agent/scripts/generate_uuid.py
-    keywords:
-      - uuid
-      - unique-id
-      - run-id
-      - temp-path
-      - workflow-bootstrap
-    use_when:
-      - generating a unique identifier for a temp run directory
-      - seeding workflow variables with a collision-resistant ID
 
   - id: rebuild_docs
     definition: .agent/tools/rebuild_docs.md
@@ -124,25 +98,12 @@ tools:
 - Best used for: temp-workspace hygiene, stale-run auditing, and controlled cleanup inside `.agent/.temp/`.
 - Inputs (tool definition): no structured args.
 - Inputs (direct script invocation): optional CLI flags for stale threshold and deletion mode.
-- Outputs: reports counts and paths for invalid directories, empty run directories, retained failure directories, stale run directories, and active run directories.
+- Outputs: reports counts and paths for empty run directories, retained failure directories, stale run directories, and active run directories.
 - Outputs in destructive mode: also reports deleted paths.
 - Safety contract: dry-run by default.
 - Safety contract: refuses to operate outside `.agent/.temp/`.
 - Safety contract: retained failure directories are not deleted unless `--delete-retained` is supplied.
 - Open the linked definition before execution if any deletion mode is intended.
-
-### `generate_uuid`
-
-- Definition: [`generate_uuid.md`](generate_uuid.md)
-- Implementation: [`.agent/scripts/generate_uuid.py`](../scripts/generate_uuid.py)
-- Best used for: generating a unique workflow value that must be captured and reused immediately.
-- Inputs (tool definition): no structured args.
-- Inputs (direct script invocation): no arguments accepted.
-- Outputs: emits exactly one UUIDv4 string to stdout on success.
-- Failure behavior: emits errors to stderr and exits non-zero on failure or unexpected arguments.
-- Safety contract: no filesystem writes.
-- Safety contract: no destructive behavior.
-- Open the linked definition before use if you need the exit-code contract or workflow-capture example.
 
 ### `rebuild_docs`
 
@@ -162,8 +123,8 @@ tools:
 
 ## Category Totals
 
-- `utility_and_infrastructure`: `3`
-- `total`: `3`
+- `utility_and_infrastructure`: `2`
+- `total`: `2`
 
 ## Index Boundaries
 

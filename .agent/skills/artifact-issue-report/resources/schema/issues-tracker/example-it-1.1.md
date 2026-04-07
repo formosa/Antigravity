@@ -16,7 +16,7 @@
 
 ```yaml
 document:
-  id:              ITR-11111111-1111-4111-8111-111111111111
+  id:              ITR-EXAMPLE-PAYMENTS-API
   title:           "Example Payments API — Issues Tracker"
   format_version:  "IT-1.1"
   target_platform: "Google Antigravity >=1.18"

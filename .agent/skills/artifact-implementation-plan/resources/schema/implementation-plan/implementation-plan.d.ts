@@ -1,12 +1,12 @@
 // implementation_plan.d.ts
-// Antigravity Agent Asset Configuration Schema (v1.20.3)
+// Antigravity Agent Asset Configuration Schema (v1.20.6)
 // OPTIMIZED FOR GEMINI 3.1 PRO PREVIEW
 // NOTE: gemini-3-pro-preview is DISCONTINUED as of 2026-03-26.
 //       Use 'gemini-3.1-pro-preview' for all new and existing plan generation.
 
 /** IMPLEMENTATION PLAN DEFINITION
- * File Pattern: `.agent/plans/YYYYMMDD-HHMMSS-<uuid8>-IMPLEMENTATION_PLAN.md`
- * Archive Pattern: `.agent/plans/processed/YYYYMMDD-HHMMSS-<uuid8>-IMPLEMENTATION_PLAN.md`
+ * File Pattern: `.agent/plans/YYYYMMDD-HHMMSS[-NN]-IMPLEMENTATION_PLAN.md`
+ * Archive Pattern: `.agent/plans/processed/YYYYMMDD-HHMMSS[-NN]-IMPLEMENTATION_PLAN.md`
  * Purpose: A technical design artifact generated during PLANNING mode.
  *          Requires human approval before executor initiates any file modifications.
  *          Upon full executor verification, must be relocated to `.agent/plans/processed/`.
@@ -25,11 +25,11 @@ interface ImplementationPlanDefinition {
         /** Schema version for tracking modifications (e.g., "1.0.0", "1.1.0"). */
         version: string;
         /** Fully resolved output path including filename.
-         *  Pattern: `.agent/plans/YYYYMMDD-HHMMSS-<uuid8>-IMPLEMENTATION_PLAN.md`
+         *  Pattern: `.agent/plans/YYYYMMDD-HHMMSS[-NN]-IMPLEMENTATION_PLAN.md`
          */
         output_path: string;
         /** Fully resolved post-execution archive path including filename.
-         *  Pattern: `.agent/plans/processed/YYYYMMDD-HHMMSS-<uuid8>-IMPLEMENTATION_PLAN.md`
+         *  Pattern: `.agent/plans/processed/YYYYMMDD-HHMMSS[-NN]-IMPLEMENTATION_PLAN.md`
          */
         processed_path: string;
     };

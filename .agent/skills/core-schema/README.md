@@ -22,7 +22,6 @@ owned_schema_ids:
   - gemini
   - security-policy
   - task
-  - uuid_registry
   - walkthrough
 consumed_schema_ids: []
 mirror_root: resources/schema/
@@ -45,5 +44,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-04 | 3.0.0   | major   | Core Family Rename     | Promoted the schema-authoring contract into the foundational `core-*` family as `core-schema`, updated active authority surfaces to the renamed package path, and preserved explicit legacy routing guidance for `dev-schema` requests.  |
 | 2026-04-04 | 3.1.0   | minor   | Ownership Alignment    | Expanded the declared `owned_schema_ids` set to match the canonical schemas now governed by `core-schema` and resynchronized the packaged schema mirrors so the skill remains self-contained and ownership-accurate after the migration. |
 | 2026-04-04 | 3.1.1   | patch   | Index Output Stability | Hardened schema-index regeneration to write LF-stable output across Windows environments so generated registry rows remain clean under repository diff checks.                                                                           |
+| 2026-04-06 | 3.1.2   | patch   | Ownership Reduction    | Removed the retired registry schema from the declared canonical ownership set and prepared packaged mirrors for the simplified identifier-free contract surface.                                                                           |
 
 </modification_history>

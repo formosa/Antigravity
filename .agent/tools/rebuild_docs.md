@@ -2,7 +2,7 @@
 type: tool
 name: "rebuild_docs"
 description: "Rebuilds Sphinx documentation (HTML, needs.json, and LLM context) and logs all warnings."
-command: '$runId = Get-Date -Format "yyyyMMdd-HHmmss"; $uuid8 = ([guid]::NewGuid().ToString("N")).Substring(0, 8); $runDir = Join-Path "${workspaceFolder}" ".agent/.temp/$runId-$uuid8-rebuild-docs"; New-Item -ItemType Directory -Force -Path $runDir | Out-Null; & "${workspaceFolder}/.venv/Scripts/python.exe" -m sphinx -b needs docs docs/_build/json -w (Join-Path $runDir "refresh-context.log"); & "${workspaceFolder}/.venv/Scripts/python.exe" -m sphinx -b html docs docs/_build/html -a -w (Join-Path $runDir "refresh-context-html.log")'
+command: '$runId = Get-Date -Format "yyyyMMdd-HHmmss"; $baseRunDir = Join-Path "${workspaceFolder}" ".agent/.temp/$runId-rebuild-docs"; $runDir = $baseRunDir; $suffix = 1; while (Test-Path $runDir) { $runDir = [string]::Format("{0}-{1:D2}", $baseRunDir, $suffix); $suffix++ }; New-Item -ItemType Directory -Force -Path $runDir | Out-Null; & "${workspaceFolder}/.venv/Scripts/python.exe" -m sphinx -b needs docs docs/_build/json -w (Join-Path $runDir "refresh-context.log"); & "${workspaceFolder}/.venv/Scripts/python.exe" -m sphinx -b html docs docs/_build/html -a -w (Join-Path $runDir "refresh-context-html.log")'
 runtime: system
 confirmation: never
 args: {}
@@ -30,7 +30,8 @@ Performs a complete documentation rebuild including:
 
 ### 1. Temp Run Directory Preparation
 
-- **Command Pattern**: Create `.agent/.temp/YYYYMMDD-HHMMSS-<uuid8>-rebuild-docs/`
+- **Command Pattern**: Create `.agent/.temp/YYYYMMDD-HHMMSS-rebuild-docs/`
+- **Collision Handling**: If that directory already exists, append `-01`, `-02`, and so on until a free path is found.
 - **Note**: Keeps Sphinx warning logs inside the managed temp workspace.
 
 ### 2. Sphinx Needs Build (JSON Export)

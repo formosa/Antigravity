@@ -46,13 +46,13 @@ Do not introduce unsupported frontmatter fields, new top-level artifact sections
 
 Every new Implementation Plan artifact **must** comply with the following rules:
 
-| Rule                     | Specification                                                        |
-| :----------------------- | :------------------------------------------------------------------- |
-| **Output path**          | `.agent/plans/`                                                      |
-| **Filename pattern**     | `YYYYMMDD-HHMMSS-<uuid8>-IMPLEMENTATION_PLAN.md`                     |
-| **`<uuid8>`**            | First 8 hex characters of a newly generated UUID4 (e.g., `a1b2c3d4`) |
-| **Example filename**     | `20260401-143022-f3a91b2c-IMPLEMENTATION_PLAN.md`                    |
-| **Post-processing path** | `.agent/plans/processed/`                                            |
+| Rule                     | Specification                                            |
+| :----------------------- | :------------------------------------------------------- |
+| **Output path**          | `.agent/plans/`                                          |
+| **Filename pattern**     | `YYYYMMDD-HHMMSS[-NN]-IMPLEMENTATION_PLAN.md`            |
+| **Collision suffix**     | Optional `-01`, `-02`, etc. only when the base name exists |
+| **Example filename**     | `20260401-143022-IMPLEMENTATION_PLAN.md`                 |
+| **Post-processing path** | `.agent/plans/processed/`                                |
 
 **Post-processing relocation:** Upon executor confirmation that all atomic steps are complete and all verification checks pass, the executor **must** move the artifact from `.agent/plans/` to `.agent/plans/processed/`. Do not delete the artifact.
 

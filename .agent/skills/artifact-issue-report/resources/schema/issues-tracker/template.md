@@ -14,6 +14,9 @@
 
 ## DOCUMENT METADATA
 
+> **AGENT INSTRUCTION:** Set `document.id` to a readable subject identifier using the
+> format `ITR-<UPPERCASE-HYPHENATED-SUBJECT-SLUG>`.
+
 ```yaml
 document:
   id:              {{DOCUMENT_ID}}

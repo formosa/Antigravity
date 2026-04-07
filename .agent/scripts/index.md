@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across durable script assets that live directly under the scripts root.
 >
-> Total scripts: `4`
+> Total scripts: `3`
 >
 > Parent: [`.agent/`](..)
 >
@@ -18,10 +18,9 @@
 
 ## Selection Map
 
-- `cleanup_temp_assets`: Audit and optionally clean up stale managed temp run directories.
-- `directory_tree`: Generate a directory tree with filtering, labeling, and reporting.
-- `generate_uuid`: Generate a UUIDv4 string for workflow and temp-path capture.
-- `update_index`: Regenerate the governed root and tests script indexes.
+- `cleanup_temp_assets`: Audit and optionally clean up stale agent temp run directories in .agent/.temp.
+- `directory_tree`: Generate and format text-based directory tree representations with configurable filtering and statistics.
+- `update_index`: Regenerate governed root and tests script indexes in .agent/scripts/.
 
 ## Manifest
 
@@ -40,7 +39,7 @@ scripts:
   - utility_and_infrastructure
   - tool-linked
   use_when:
-  - Audit and optionally clean up stale managed temp run directories.
+  - Audit and optionally clean up stale agent temp run directories in .agent/.temp.
   tool_definition: .agent/tools/cleanup_temp_assets.md
 - id: directory_tree
   definition: .agent/scripts/directory_tree.py
@@ -53,21 +52,8 @@ scripts:
   - tree
   - analysis_and_reporting
   use_when:
-  - Generate a directory tree with filtering, labeling, and reporting.
-- id: generate_uuid
-  definition: .agent/scripts/generate_uuid.py
-  asset_structure: flat-file
-  category: utility_and_infrastructure
-  implementation: .agent/scripts/generate_uuid.py
-  keywords:
-  - script
-  - generate
-  - uuid
-  - utility_and_infrastructure
-  - tool-linked
-  use_when:
-  - Generate a UUIDv4 string for workflow and temp-path capture.
-  tool_definition: .agent/tools/generate_uuid.md
+  - Generate and format text-based directory tree representations with configurable
+    filtering and statistics.
 - id: update_index
   definition: .agent/scripts/update_index.py
   asset_structure: flat-file
@@ -79,7 +65,7 @@ scripts:
   - index
   - governance_and_inventory
   use_when:
-  - Regenerate the governed root and tests script indexes.
+  - Regenerate governed root and tests script indexes in .agent/scripts/.
 ```
 
 ## Script Records
@@ -87,7 +73,7 @@ scripts:
 ### `cleanup_temp_assets`
 
 - Implementation: [`cleanup_temp_assets.py`](cleanup_temp_assets.py)
-- Best used for: Audit and optionally clean up stale managed temp run directories.
+- Best used for: Audit and optionally clean up stale agent temp run directories in .agent/.temp.
 - Category: `utility_and_infrastructure`
 - Tool Definition: [`cleanup_temp_assets.md`](../tools/cleanup_temp_assets.md)
 - Open the linked tool definition before execution when exact flags, outputs, or safety boundaries matter.
@@ -95,33 +81,25 @@ scripts:
 ### `directory_tree`
 
 - Implementation: [`directory_tree.py`](directory_tree.py)
-- Best used for: Generate a directory tree with filtering, labeling, and reporting.
+- Best used for: Generate and format text-based directory tree representations with configurable filtering and statistics.
 - Category: `analysis_and_reporting`
 - Tool Definition: none
 - Open the script implementation when internal helper behavior or direct invocation details matter.
 
-### `generate_uuid`
-
-- Implementation: [`generate_uuid.py`](generate_uuid.py)
-- Best used for: Generate a UUIDv4 string for workflow and temp-path capture.
-- Category: `utility_and_infrastructure`
-- Tool Definition: [`generate_uuid.md`](../tools/generate_uuid.md)
-- Open the linked tool definition before execution when exact flags, outputs, or safety boundaries matter.
-
 ### `update_index`
 
 - Implementation: [`update_index.py`](update_index.py)
-- Best used for: Regenerate the governed root and tests script indexes.
+- Best used for: Regenerate governed root and tests script indexes in .agent/scripts/.
 - Category: `governance_and_inventory`
 - Tool Definition: none
 - Open the script implementation when internal helper behavior or direct invocation details matter.
 
 ## Category Totals
 
-- `utility_and_infrastructure`: `2`
+- `utility_and_infrastructure`: `1`
 - `analysis_and_reporting`: `1`
 - `governance_and_inventory`: `1`
-- `total`: `4`
+- `total`: `3`
 
 ## Index Boundaries
 

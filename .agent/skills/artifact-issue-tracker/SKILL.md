@@ -55,7 +55,8 @@ description: Serves as the Artifact-Centric Owner for Issues Tracker artifacts b
    - Read the canonical blank template exactly from `resources/schema/issues-tracker/template.md`.
    - Perform literal replacement only:
      - `{{SUBJECT_SYSTEM_NAME}}`
-     - `{{DOCUMENT_ID}}` -> `ITR-<UUID4>`
+     - `{{DOCUMENT_ID}}` -> `ITR-<UPPERCASE-HYPHENATED-SUBJECT-SLUG>`
+       where `SUBJECT_SYSTEM_NAME` is normalized by uppercasing alphanumeric tokens, replacing punctuation and whitespace with hyphens, collapsing repeated hyphens, and trimming leading or trailing hyphens
      - `{{YYYY-MM-DD}}` -> current ISO date
      - `{{AUTHOR_NAME}}`
      - `{{OPEN_ISSUES_COUNT}}` -> `0`

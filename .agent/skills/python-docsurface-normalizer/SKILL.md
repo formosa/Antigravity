@@ -23,7 +23,8 @@ description: "Populate or normalize semantically dense NumPy-style docstrings an
    - Treat it as the semantic contract for module docstrings, class docstrings, function/method docstrings, and meaningful code comments.
    - Use the helper scripts only for deterministic analysis, stripping, and AST-equivalence checks. Do not treat them as the documentation author.
 3. Create a temp snapshot boundary before the first edit:
-   - Create one managed temp run directory named `YYYYMMDD-HHMMSS-<uuid8>-python-docsurface-normalizer/` under `.agent/.temp/`.
+   - Create one managed temp run directory under `.agent/.temp/` using a timestamp-first task-specific name such as `YYYYMMDD-HHMMSS-python-docsurface-normalizer/`.
+   - If a same-second collision occurs, append `-01`, `-02`, and so on to the directory name.
    - Copy every target file into that run directory before editing.
    - Delete the run directory on success. Retain it only on failure and add `retained-on-failure.txt` per `.agent/rules/agent-temp-artifact-hygiene.md`.
 4. Analyze all targets first with `scripts/analyze_python_docs.py`:

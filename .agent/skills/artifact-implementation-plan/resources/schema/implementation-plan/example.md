@@ -2,8 +2,8 @@
 task: "Architect and implement the main dashboard layout for Maggie"
 model: "gemini-3.1-pro-preview"
 version: "1.0.0"
-output_path: ".agent/plans/20260401-090000-c7f3a1b2-IMPLEMENTATION_PLAN.md"
-processed_path: ".agent/plans/processed/20260401-090000-c7f3a1b2-IMPLEMENTATION_PLAN.md"
+output_path: ".agent/plans/20260401-090000-IMPLEMENTATION_PLAN.md"
+processed_path: ".agent/plans/processed/20260401-090000-IMPLEMENTATION_PLAN.md"
 # HUMAN CONTEXT: This artifact enforces split-step verification by requiring the agent
 # to blueprint the Maggie PySide6 dashboard architecture and explicitly await
 # human approval before initiating any code generation or file modifications.

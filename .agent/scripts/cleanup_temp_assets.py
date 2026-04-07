@@ -16,7 +16,6 @@ concurrency: not thread-safe; process-local
 from __future__ import annotations
 
 import argparse
-import re
 import shutil
 import sys
 from dataclasses import dataclass
@@ -27,7 +26,6 @@ from typing import Iterable
 
 DEFAULT_STALE_DAYS = 7
 RETAINED_MARKER_NAME = "retained-on-failure.txt"
-RUN_DIR_PATTERN = re.compile(r"^\d{8}-\d{6}-[0-9a-f]{8}-[a-z0-9][a-z0-9-]*$")
 TEMP_ROOT = Path(__file__).resolve().parents[1] / ".temp"
 
 
@@ -60,8 +58,6 @@ class RunDirectory:
         true if "retained-on-failure.txt" marker is present
     retention_reason : str | None
         content of the retention marker if present
-    is_valid_name : bool
-        true if directory name matches RUN_DIR_PATTERN
     """
     path: Path
     age_days: int
@@ -69,7 +65,6 @@ class RunDirectory:
     is_empty: bool
     is_retained_failure: bool
     retention_reason: str | None
-    is_valid_name: bool
 
 
 @dataclass(frozen=True)
@@ -89,18 +84,15 @@ class AuditReport:
 
     Attributes
     ----------
-    invalid_dirs : list[RunDirectory]
-        directories in temp root with invalid name patterns
     empty_run_dirs : list[RunDirectory]
-        validly named directories that are empty
+        managed temp directories that are empty
     retained_failure_dirs : list[RunDirectory]
         directories containing failure markers
     stale_run_dirs : list[RunDirectory]
-        validly named non-retained directories older than threshold
+        non-retained directories older than threshold
     active_run_dirs : list[RunDirectory]
-        validly named non-retained directories within age threshold
+        non-retained directories within age threshold
     """
-    invalid_dirs: list[RunDirectory]
     empty_run_dirs: list[RunDirectory]
     retained_failure_dirs: list[RunDirectory]
     stale_run_dirs: list[RunDirectory]
@@ -143,17 +135,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--delete-empty",
         action="store_true",
-        help="Delete empty run directories inside .agent/.temp.",
+        help="Delete empty managed temp directories inside .agent/.temp.",
     )
     parser.add_argument(
         "--delete-stale",
         action="store_true",
-        help="Delete stale non-retained run directories older than --stale-days.",
+        help="Delete stale non-retained managed temp directories older than --stale-days.",
     )
     parser.add_argument(
         "--delete-retained",
         action="store_true",
-        help="Delete retained failure run directories. Use with care.",
+        help="Delete retained failure managed temp directories. Use with care.",
     )
     return parser.parse_args()
 
@@ -378,7 +370,6 @@ def build_run_directory(path: Path, *, now: datetime) -> RunDirectory:
         is_empty=len(entries) == 0,
         is_retained_failure=(path / RETAINED_MARKER_NAME).is_file(),
         retention_reason=load_retention_reason(path),
-        is_valid_name=RUN_DIR_PATTERN.fullmatch(path.name) is not None,
     )
 
 
@@ -429,7 +420,6 @@ def classify_directories(
         raise ValueError("--stale-days must be >= 0")
 
     now = now or datetime.now(timezone.utc)
-    invalid_dirs: list[RunDirectory] = []
     empty_run_dirs: list[RunDirectory] = []
     retained_failure_dirs: list[RunDirectory] = []
     stale_run_dirs: list[RunDirectory] = []
@@ -437,9 +427,7 @@ def classify_directories(
 
     for path in iter_temp_directories(root):
         run_dir = build_run_directory(path, now=now)
-        if not run_dir.is_valid_name:
-            invalid_dirs.append(run_dir)
-        elif run_dir.is_empty:
+        if run_dir.is_empty:
             empty_run_dirs.append(run_dir)
         elif run_dir.is_retained_failure:
             retained_failure_dirs.append(run_dir)
@@ -449,7 +437,6 @@ def classify_directories(
             active_run_dirs.append(run_dir)
 
     return AuditReport(
-        invalid_dirs=invalid_dirs,
         empty_run_dirs=empty_run_dirs,
         retained_failure_dirs=retained_failure_dirs,
         stale_run_dirs=stale_run_dirs,
@@ -570,7 +557,6 @@ def main() -> int:
     print(f"Temp root: {TEMP_ROOT}")
     print(f"Mode: {'destructive' if delete_mode else 'dry-run'}")
     print(f"Stale threshold (days): {args.stale_days}")
-    print_section("Invalid directories", report.invalid_dirs)
     print_section("Empty run directories", report.empty_run_dirs)
     print_section(
         "Retained failure directories",

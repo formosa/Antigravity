@@ -37,7 +37,7 @@ description: Routes Antigravity agent-asset work to the correct dedicated execut
    - Treat `agent-artifact-router` as a reserved future route name only; do not create it or route to it unless a later contract explicitly introduces that router
 4. If the request is a direct dedicated-contract match, stop using this skill as the primary execution contract. Read the selected `SKILL.md`, hand off explicitly to that path, and do not restate or supersede the downstream execution contract.
 5. Apply the schema-first fallback matrix only when no dedicated owner skill exists yet:
-   - Route `task`, `index`, `walkthrough`, `security-policy`, `gemini`, and `uuid_registry` through `core-schema`
+   - Route `task`, `index`, `walkthrough`, `security-policy`, and `gemini` through `core-schema`
    - Treat the example artifact or existing canonical example as the required input for schema authoring
    - After the schema work is clear, determine whether a downstream dedicated owner skill is still needed; do not invent that skill unless the request actually requires one
    - Normalize legacy `dev-schema` wording to `core-schema` before handing off to the downstream contract

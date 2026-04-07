@@ -101,17 +101,14 @@ class TestCleanupTempAssets(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            stale_dir = root / "20260321-101500-feedface-stale-run"
+            stale_dir = root / "20260321-101500-stale-run"
             stale_dir.mkdir()
             (stale_dir / "debug.log").write_text("stale", encoding="utf-8")
             age_path(stale_dir, days=10)
 
-            active_dir = root / "20260331-114500-ba5eba11-active-run"
+            active_dir = root / "20260331-114500-active-run"
             active_dir.mkdir()
             (active_dir / "script.py").write_text("print('ok')", encoding="utf-8")
-
-            invalid_dir = root / "rebuild-docs"
-            invalid_dir.mkdir()
 
             report: AuditReport = classify_directories(root, stale_days=7)
 
@@ -122,7 +119,6 @@ class TestCleanupTempAssets(unittest.TestCase):
             )
             self.assertEqual([entry.path.name for entry in report.stale_run_dirs], [stale_dir.name])
             self.assertEqual([entry.path.name for entry in report.active_run_dirs], [active_dir.name])
-            self.assertEqual([entry.path.name for entry in report.invalid_dirs], [invalid_dir.name])
 
     def test_delete_run_directories_removes_valid_descendants(self) -> None:
         """
@@ -132,7 +128,7 @@ class TestCleanupTempAssets(unittest.TestCase):
         """
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
-            run_dir = root / "20260331-103500-deadbeef-empty-run"
+            run_dir = root / "20260331-103500-empty-run"
             run_dir.mkdir()
             report = classify_directories(root)
 
@@ -158,7 +154,6 @@ class TestCleanupTempAssets(unittest.TestCase):
                 is_empty=True,
                 is_retained_failure=False,
                 retention_reason=None,
-                is_valid_name=True,
             )
 
             with self.assertRaises(ValueError):

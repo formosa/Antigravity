@@ -10,7 +10,7 @@ execution_tier: "standard"
 <constraints>
 
 1. Single-Run Artifact Containment: One-off scripts, helper programs, ad hoc JSON or CSV outputs, scratch notes, logs, and transient diagnostics created for a single task MUST live only under `.agent/.temp/<run-dir>/`.
-2. Required Run-Directory Naming: Each temp run directory MUST use the format `YYYYMMDD-HHMMSS-<uuid8>-<task-slug>/` where `<uuid8>` is eight lowercase hexadecimal characters and `<task-slug>` is a short lowercase hyphenated label.
+2. Required Run-Directory Naming: Each temp run directory MUST use a timestamp-first task-specific name under `.agent/.temp/`, for example `YYYYMMDD-HHMMSS-<task-slug>/`. If a same-second collision occurs, append `-01`, `-02`, and so on to the directory name.
 3. No Scattered Scratch Files: Agents MUST NOT leave temporary artifacts in the repository root, under `.agent/assets/**`, beside durable source files, or inside any other unmanaged scratch location.
 4. Promotion Boundary: If a script becomes reusable, the agent MUST move or rewrite it into `.agent/scripts/` or a relevant skill-local `scripts/` directory before task completion and remove the temp copy.
 5. Success Cleanup Requirement: On successful completion, the agent MUST delete its own `.agent/.temp/<run-dir>/` directory before finishing.

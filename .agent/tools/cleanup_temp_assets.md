@@ -12,15 +12,15 @@ args: {}
 
 Audits the managed temp workspace under `.agent/.temp/` and reports:
 
-1. Invalid directory names that do not match the run-directory convention
-2. Empty run directories
-3. Retained failure directories marked with `retained-on-failure.txt`
-4. Stale non-retained run directories older than the configured age threshold
+1. Empty managed temp directories
+2. Retained failure directories marked with `retained-on-failure.txt`
+3. Stale non-retained managed temp directories older than the configured age threshold
 
 ## Default Behavior
 
 - The tool runs in dry-run mode by default.
 - No directories are deleted unless the underlying script is invoked with explicit destructive flags.
+- The tool audits every direct subdirectory under `.agent/.temp/`; it no longer requires an opaque generated directory token.
 
 ## Configuration
 

@@ -14,7 +14,7 @@ Do not generate generic Markdown reports. All complex workflows must end by gene
    - Each `<verification>` item must map 1:1 to the corresponding `<atomic_steps>` item by number.
    - `<atomic_steps>` must use named `####` group headers and `- [ ]` completion trackers per step.
    - Requires human approval before the executor modifies any code or file.
-   - **File naming:** `YYYYMMDD-HHMMSS-<uuid8>-IMPLEMENTATION_PLAN.md` where `<uuid8>` is the first 8 hex characters of a newly generated UUID4.
+   - **File naming:** `YYYYMMDD-HHMMSS[-NN]-IMPLEMENTATION_PLAN.md` where `-NN` is an optional two-digit collision suffix added only when the base timestamp already exists.
    - **Output path:** `.agent/plans/<filename>`
    - **Post-execution archive path:** `.agent/plans/processed/<filename>` — executor must relocate the artifact here upon full verification completion.
 
