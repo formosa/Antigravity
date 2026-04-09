@@ -108,8 +108,8 @@ The most balanced and minimally disruptive solution is **{{RECOMMENDED_OPTION}} 
 | `{{ISSUE_ID}}`                                      | User request or tracker registry                                          | RFQ                                                                       |
 | `{{ISSUE_TITLE}}`                                   | Issue heading from tracker                                                | RFQ                                                                       |
 | `{{FORMAT_VERSION}}`                                | Tracker `document.format_version` or canonical issue-report format string | `"v6.1"`                                                                  |
-| `{{TARGET_PLATFORM}}`                               | Tracker `document.target_platform`                                        | `"Google Antigravity >=1.20.3"`                                           |
-| `{{TARGET_MODEL}}`                                  | Tracker `document.target_model`                                           | `"Gemini 3.1 Pro"`                                                        |
+| `{{TARGET_PLATFORM}}`                               | Tracker `document.target_platform`                                        | `"Google Antigravity 1.21.9"`                                             |
+| `{{TARGET_MODEL}}`                                  | Tracker `document.target_model`                                           | `"Gemini 3 Pro Preview"`                                                  |
 | `{{SUBJECT_SYSTEM_NAME}}`                           | Tracker `document.subject`                                                | RFQ                                                                       |
 | `{{CREATED_DATE}}`                                  | Report generation date                                                    | —                                                                         |
 | `{{UPDATED_DATE}}`                                  | Report generation date                                                    | —                                                                         |

@@ -45,5 +45,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-04 | 3.2.1   | patch   | Tracker Owner Naming      | Recognized `artifact-issue-tracker` as the established Artifact-Centric Owner for the `issues-tracker` schema, taught the validator about the canonical singular owner name, and aligned skill-authoring guidance with that exception.                                |
 | 2026-04-04 | 3.2.2   | patch   | Issue Report Owner Naming | Recognized `artifact-issue-report` as the established Artifact-Centric Owner for the `issue` schema, taught the validator about the canonical owner-name override, and aligned the shared owner-skill pattern with the completed issue-report migration.              |
 | 2026-04-06 | 3.2.3   | patch   | Regression Coverage       | Added regression tests for skill scaffolding, malformed-skill validation, schema-mirror synchronization, and package cache exclusion so the owner tooling stays verifiable under future changes.                                                              |
+| 2026-04-07 | 3.3.0   | minor   | Skills Index Governance   | Added deterministic skills-index generation, taught validation to fail on stale `.agent/skills/index.md` output and schema-mirror content drift, and aligned the active skill-authoring contract with the generated-registry workflow.                      |
 
 </modification_history>

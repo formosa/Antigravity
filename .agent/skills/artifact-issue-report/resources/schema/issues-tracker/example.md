@@ -19,8 +19,8 @@ document:
   id:              ITR-EXAMPLE-PAYMENTS-API
   title:           "Example Payments API — Issues Tracker"
   format_version:  "IT-1.0"
-  target_platform: "Google Antigravity >=1.18"
-  target_model:    "Gemini 3.1 Pro"
+  target_platform: "Google Antigravity 1.21.9"
+  target_model:    "Gemini 3 Pro Preview"
   subject:         "Example Payments API"
   created:         "2026-03-27"
   last_modified:   "2026-03-27"
@@ -134,4 +134,4 @@ a minor variant of Option A - must represent a meaningfully different design dec
 
 *Example Payments API Issues Tracker — IT-1.0*
 *0 issues identified | 0 resolved | Last updated: 2026-03-27*
-*Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*
+*Optimized for Google Antigravity 1.21.9 · Gemini 3 Pro Preview · Progressive Disclosure Context Architecture*

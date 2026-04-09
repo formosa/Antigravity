@@ -26,6 +26,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_DIR = SCRIPT_DIR.parent
+REPO_ROOT = SCRIPT_DIR.parents[3]
 
 
 class TestCoreSchemaTooling(unittest.TestCase):
@@ -41,9 +42,15 @@ class TestCoreSchemaTooling(unittest.TestCase):
         temp_skill_dir = root / ".agent" / "skills" / "core-schema"
         temp_scripts_dir = temp_skill_dir / "scripts"
         temp_scripts_dir.mkdir(parents=True, exist_ok=True)
+        temp_shared_scripts_dir = root / ".agent" / "scripts"
+        temp_shared_scripts_dir.mkdir(parents=True, exist_ok=True)
+        temp_config_dir = root / ".agent" / "config"
+        temp_config_dir.mkdir(parents=True, exist_ok=True)
 
         for filename in ("scaffold_schema.py", "validate_schema.py", "update_index.py"):
             shutil.copy2(SCRIPT_DIR / filename, temp_scripts_dir / filename)
+        shutil.copy2(REPO_ROOT / ".agent" / "scripts" / "runtime_target.py", temp_shared_scripts_dir / "runtime_target.py")
+        shutil.copy2(REPO_ROOT / ".agent" / "config" / "runtime-target.yaml", temp_config_dir / "runtime-target.yaml")
         shutil.copy2(SKILL_DIR / "config.json", temp_skill_dir / "config.json")
         return root, temp_scripts_dir
 
@@ -140,6 +147,48 @@ class TestCoreSchemaTooling(unittest.TestCase):
             self.assertEqual(result.returncode, 0)
             self.assertTrue(index_path.exists())
             self.assertIn("| alpha | v1.2.3 | core-schema | Alpha schema purpose. |", index_path.read_text(encoding="utf-8"))
+
+    def test_validate_schema_rejects_stale_compatibility_text(self) -> None:
+        """
+        Verify compatibility validation fails when an active schema surface retains stale runtime facts.
+        """
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root, temp_scripts_dir = self._prepare_temp_repo(tmpdir)
+            schema_dir = root / ".agent" / "schemas" / "implementation-plan"
+            schema_dir.mkdir(parents=True, exist_ok=True)
+            (schema_dir / "implementation-plan.d.ts").write_text(
+                "// implementation-plan.d.ts\n"
+                "// Antigravity Agent Asset Configuration Schema (v1.21.9)\n"
+                "interface ImplementationPlanDefinition {}\n",
+                encoding="utf-8",
+            )
+            (schema_dir / "README.md").write_text(
+                "<document_purpose>\nAntigravity Implementation Plan Assets v1.21.9 with AGENTS.md.\n</document_purpose>\n",
+                encoding="utf-8",
+            )
+            (schema_dir / "example.md").write_text(
+                '---\nmodel: "gemini-3-pro-preview"\nversion: "1.0.0"\noutput_path: ".agent/plans/demo.md"\nprocessed_path: ".agent/plans/processed/demo.md"\n---\n',
+                encoding="utf-8",
+            )
+
+            tsc_dir = root / ".nodeenv" / "Scripts"
+            tsc_dir.mkdir(parents=True, exist_ok=True)
+            (tsc_dir / "tsc.cmd").write_text("@echo off\nexit /b 0\n", encoding="utf-8")
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(temp_scripts_dir / "validate_schema.py"),
+                    "--name",
+                    "implementation-plan",
+                ],
+                cwd=root,
+                capture_output=True,
+                text=True,
+            )
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("AGENTS.md", result.stdout)
 
 
 if __name__ == "__main__":

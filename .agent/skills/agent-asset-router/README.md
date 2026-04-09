@@ -43,5 +43,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-04 | 2.2.1   | patch   | Tracker Owner Migration      | Replaced the split tracker routes with `artifact-issue-tracker` as the sole direct-route Issues Tracker contract and aligned explicit tracker-maintenance wording with the new full-lifecycle owner skill.                                   |
 | 2026-04-04 | 2.3.0   | minor   | Issue Report Owner Migration | Added `artifact-issue-report` as the canonical direct-route issue-report contract, expanded direct-route wording to cover report maintenance and validation, and retired the prior compatibility alias from the router's primary path.       |
 | 2026-04-04 | 2.3.1   | patch   | Deprecated Alias Removal     | Removed the deprecated issue-report compatibility package from the router's active registry context so standalone report routing now resolves only to `artifact-issue-report`.                                                               |
+| 2026-04-07 | 2.3.2   | patch   | Generated Registry Alignment | Clarified that `.agent/skills/index.md` is a generated discovery registry and aligned router usage with deterministic skills-index regeneration before route selection.                                                                          |
 
 </modification_history>

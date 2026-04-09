@@ -43,6 +43,7 @@ INIT_SKILL = load_module("asset_skill_init_skill_test_module", "init_skill.py")
 QUICK_VALIDATE = load_module("quick_validate", "quick_validate.py")
 SYNC_MIRRORS = load_module("sync_schema_mirrors", "sync_schema_mirrors.py")
 PACKAGE_SKILL = load_module("asset_skill_package_skill_test_module", "package_skill.py")
+UPDATE_INDEX = load_module("asset_skill_update_index_test_module", "update_index.py")
 
 
 class TestAssetSkillTooling(unittest.TestCase):
@@ -127,6 +128,50 @@ class TestAssetSkillTooling(unittest.TestCase):
                 names = archive.namelist()
             self.assertTrue(all("__pycache__" not in name for name in names))
             self.assertTrue(all(not name.endswith(".pyc") for name in names))
+
+    def test_skills_index_generation_is_deterministic(self) -> None:
+        """
+        Verify the generated skills index is ordered and rendered from live skill folders.
+        """
+        with tempfile.TemporaryDirectory() as tmpdir:
+            skills_dir = Path(tmpdir)
+            alpha_dir = INIT_SKILL.init_skill("alpha-skill", skills_dir)
+            beta_dir = INIT_SKILL.init_skill("beta-skill", skills_dir)
+            assert alpha_dir is not None and beta_dir is not None
+
+            alpha_content = (alpha_dir / "SKILL.md").read_text(encoding="utf-8").replace(
+                "TODO: Describe what this skill does, when to use it, and when not to use it.",
+                "Use when the task is to classify runtime requests. Do not use when the request already maps to a dedicated contract.",
+            )
+            beta_content = (beta_dir / "SKILL.md").read_text(encoding="utf-8").replace(
+                "TODO: Describe what this skill does, when to use it, and when not to use it.",
+                "Use when the task is to normalize Markdown output. Do not use when the task requires schema authoring.",
+            )
+            (alpha_dir / "SKILL.md").write_text(alpha_content, encoding="utf-8")
+            (beta_dir / "SKILL.md").write_text(beta_content, encoding="utf-8")
+
+            records = UPDATE_INDEX.skill_records(skills_dir)
+            index_content = UPDATE_INDEX.build_index(records)
+
+            self.assertEqual([record.skill_id for record in records], ["alpha-skill", "beta-skill"])
+            self.assertIn("## Selection Map", index_content)
+            self.assertIn("alpha-skill", index_content)
+            self.assertIn("beta-skill", index_content)
+
+    def test_validate_skill_rejects_mirror_content_drift(self) -> None:
+        """
+        Verify validation fails when a vendored schema mirror diverges from the canonical source.
+        """
+        with tempfile.TemporaryDirectory() as tmpdir:
+            skill_dir = INIT_SKILL.init_skill("drifted-skill", tmpdir)
+            assert skill_dir is not None
+            mirrored_schema = skill_dir / "resources" / "schema" / "skill" / "skill.d.ts"
+            mirrored_schema.write_text("drifted\n", encoding="utf-8")
+
+            result = QUICK_VALIDATE.validate_skill(skill_dir)
+
+            self.assertFalse(result.valid)
+            self.assertTrue(any("Mirror content drift" in error for error in result.errors))
 
 
 if __name__ == "__main__":

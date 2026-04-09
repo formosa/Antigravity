@@ -2,7 +2,7 @@
 task_id: "TASK-MAGGIE-003"
 title: "Implement QThreadPool for background data fetching"
 priority: "high"
-target_model: "gemini-3-flash"
+target_model: "gemini-3-flash-preview"
 task_dependencies: ["TASK-MAGGIE-001"]
 file_dependencies: ["src/ui/main_window.py"]
 # HUMAN CONTEXT: This task artifact functions as the agent's dynamic state tracker.

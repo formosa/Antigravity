@@ -1,8 +1,6 @@
 // implementation_plan.d.ts
-// Antigravity Agent Asset Configuration Schema (v1.20.6)
-// OPTIMIZED FOR GEMINI 3.1 PRO PREVIEW
-// NOTE: gemini-3-pro-preview is DISCONTINUED as of 2026-03-26.
-//       Use 'gemini-3.1-pro-preview' for all new and existing plan generation.
+// Antigravity Agent Asset Configuration Schema (v1.21.9)
+// OPTIMIZED FOR GEMINI 3 PRO PREVIEW
 
 /** IMPLEMENTATION PLAN DEFINITION
  * File Pattern: `.agent/plans/YYYYMMDD-HHMMSS[-NN]-IMPLEMENTATION_PLAN.md`
@@ -18,10 +16,9 @@ interface ImplementationPlanDefinition {
         /** One-sentence measurable objective. Precise enough for unambiguous approval or rejection. */
         task: string;
         /** The model designated for planning. Constrained decoding.
-         *  Use 'gemini-3.1-pro-preview' (current active model string as of 2026-03-26).
-         *  'gemini-3.1-pro' remains an accepted alias in the schema contract.
+         *  Use 'gemini-3-pro-preview' for architecture and planning phases.
          */
-        model: 'gemini-3.1-pro-preview' | 'gemini-3.1-pro';
+        model: 'gemini-3-pro-preview';
         /** Schema version for tracking modifications (e.g., "1.0.0", "1.1.0"). */
         version: string;
         /** Fully resolved output path including filename.
@@ -39,8 +36,8 @@ interface ImplementationPlanDefinition {
 
         /** Phased execution roadmap for complex projects. Must be wrapped in `<phases>`.
          *  Each phase must have clear entry_criteria and exit_criteria.
-         *  Assign 'gemini-3.1-pro-preview' for architecture/high-complexity phases.
-         *  Assign 'gemini-3-flash' for high-volume, low-latency implementation phases.
+         *  Assign 'gemini-3-pro-preview' for architecture/high-complexity phases.
+         *  Assign 'gemini-3-flash-preview' for high-volume, low-latency implementation phases.
          */
         phases?: Array<{
             phase_id: string;
@@ -48,7 +45,7 @@ interface ImplementationPlanDefinition {
             task_references: string[];
             entry_criteria: string[];
             exit_criteria: string[];
-            assigned_model: 'gemini-3.1-pro-preview' | 'gemini-3.1-pro' | 'gemini-3-flash';
+            assigned_model: 'gemini-3-pro-preview' | 'gemini-3-flash-preview';
         }>;
 
         /** Grouped atomic execution steps with completion trackers.

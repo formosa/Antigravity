@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across durable script assets that live directly under the scripts root.
 >
-> Total scripts: `5`
+> Total scripts: `6`
 >
 > Parent: [`.agent/`](..)
 >
@@ -22,6 +22,7 @@
 - `directory_tree`: Generate and format text-based directory tree representations with configurable filtering and statistics.
 - `managed_temp`: Manage timestamped run directories under .agent/.temp for single-task artifacts.
 - `rebuild_docs`: Rebuild Sphinx documentation outputs with managed-temp warning capture.
+- `runtime_target`: Shared loader and validator for the repository runtime target manifest.
 - `update_index`: Regenerate governed root and tests script indexes in .agent/scripts/.
 
 ## Manifest
@@ -82,6 +83,18 @@ scripts:
   use_when:
   - Rebuild Sphinx documentation outputs with managed-temp warning capture.
   tool_definition: .agent/tools/rebuild_docs.md
+- id: runtime_target
+  definition: .agent/scripts/runtime_target.py
+  asset_structure: flat-file
+  category: general_scripts
+  implementation: .agent/scripts/runtime_target.py
+  keywords:
+  - script
+  - runtime
+  - target
+  - general_scripts
+  use_when:
+  - Shared loader and validator for the repository runtime target manifest.
 - id: update_index
   definition: .agent/scripts/update_index.py
   asset_structure: flat-file
@@ -130,6 +143,14 @@ scripts:
 - Tool Definition: [`rebuild_docs.md`](../tools/rebuild_docs.md)
 - Open the linked tool definition before execution when exact flags, outputs, or safety boundaries matter.
 
+### `runtime_target`
+
+- Implementation: [`runtime_target.py`](runtime_target.py)
+- Best used for: Shared loader and validator for the repository runtime target manifest.
+- Category: `general_scripts`
+- Tool Definition: none
+- Open the script implementation when internal helper behavior or direct invocation details matter.
+
 ### `update_index`
 
 - Implementation: [`update_index.py`](update_index.py)
@@ -143,8 +164,8 @@ scripts:
 - `utility_and_infrastructure`: `2`
 - `analysis_and_reporting`: `1`
 - `governance_and_inventory`: `1`
-- `general_scripts`: `1`
-- `total`: `5`
+- `general_scripts`: `2`
+- `total`: `6`
 
 ## Index Boundaries
 

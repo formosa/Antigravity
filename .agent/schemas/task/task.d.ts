@@ -1,6 +1,6 @@
 // task.d.ts
-// Antigravity Agent Asset Configuration Schema (v1.18.3)
-// OPTIMIZED FOR GEMINI 3.1 PRO
+// Antigravity Agent Asset Configuration Schema (v1.21.9)
+// OPTIMIZED FOR GEMINI 3 PRO PREVIEW AND GEMINI 3 FLASH PREVIEW
 
 /** TASK DEFINITION
  * File Pattern: task.md or TASK-XXXXXX.md
@@ -18,7 +18,7 @@ interface TaskDefinition {
         /** Execution priority order. */
         priority: 'low' | 'medium' | 'high' | 'critical';
         /** Model designated for execution. */
-        target_model: 'gemini-3.1-pro' | 'gemini-3-flash';
+        target_model: 'gemini-3-pro-preview' | 'gemini-3-flash-preview';
         /** Prerequisite task IDs that must complete first. */
         task_dependencies?: string[];
         /** Required files that must exist before execution. */

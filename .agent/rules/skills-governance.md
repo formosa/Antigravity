@@ -1,6 +1,6 @@
 ---
 name: "skills-governance"
-version: "2.0.0"
+version: "2.0.1"
 description: "Glob-scoped collection governance rule for the `.agent/skills/` directory, requiring root README updates, SemVer-aligned version bumps, vendored schema mirror synchronization, and lifecycle consistency across the full skills collection surface."
 trigger: "glob"
 globs: ".agent/skills/**"
@@ -17,10 +17,10 @@ execution_tier: "standard"
 5. Canonical Schema Ownership: Skill-local schema mirrors under `resources/schema/<schema-id>/` are read-only derived copies. Agents MUST NOT hand-edit these mirrors.
 6. Mirror Sync Requirement: If a skill consumes or owns a schema, agents MUST refresh the skill-local schema mirrors from `.agent/schemas/` before completing the task.
 7. Canonical Schema Change Propagation: If a canonical schema in `.agent/schemas/` changes, every dependent skill mirror MUST be re-synced and each affected skill MUST receive at least a patch version bump plus a matching README history entry.
-8. Skills Index Non-Requirement: Until the repository has a deterministic skills-index generator, this rule does not by itself require `.agent/skills/index.md` regeneration for ordinary skill-internal edits.
+8. Skills Index Regeneration Requirement: When any skill directory, skill routing description, or skill inventory changes under `.agent/skills/`, regenerate `.agent/skills/index.md` with `python .agent/skills/asset-skill/scripts/update_index.py` before completing the task.
 
 </constraints>
 
 <verification_step>
-Before finishing any task that changes files under `.agent/skills/`, silently verify: the touched skill has an updated root `README.md`; `SKILL.md` version and the latest README history version match; the README SemVer classification matches the numeric version delta; every required schema mirror exists under `resources/schema/<schema-id>/`; no vendored mirror was hand-edited instead of re-synced; and canonical schema changes were propagated to every dependent skill with at least a patch bump.
+Before finishing any task that changes files under `.agent/skills/`, silently verify: the touched skill has an updated root `README.md`; `SKILL.md` version and the latest README history version match; the README SemVer classification matches the numeric version delta; every required schema mirror exists under `resources/schema/<schema-id>/`; no vendored mirror was hand-edited instead of re-synced; `.agent/skills/index.md` matches the generated output; and canonical schema changes were propagated to every dependent skill with at least a patch bump.
 </verification_step>

@@ -46,5 +46,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-04 | 3.1.1   | patch   | Index Output Stability | Hardened schema-index regeneration to write LF-stable output across Windows environments so generated registry rows remain clean under repository diff checks.                                                                           |
 | 2026-04-06 | 3.1.2   | patch   | Ownership Reduction    | Removed the retired registry schema from the declared canonical ownership set and prepared packaged mirrors for the simplified identifier-free contract surface.                                                                           |
 | 2026-04-06 | 3.1.3   | patch   | Regression Coverage    | Synchronized the active skill contract to the current lifecycle version and added regression tests for schema scaffolding, rollback-on-validation-failure behavior, and deterministic schema-index generation.                                      |
+| 2026-04-07 | 3.1.4   | patch   | Runtime Compatibility  | Added shared runtime-target-backed compatibility validation for active schema README, example, and `.d.ts` surfaces, synchronized the core-schema contract with that manifest, and extended tooling coverage for stale compatibility drift.          |
 
 </modification_history>

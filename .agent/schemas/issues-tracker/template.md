@@ -22,8 +22,8 @@ document:
   id:              {{DOCUMENT_ID}}
   title:           "{{SUBJECT_SYSTEM_NAME}} — Issues Tracker"
   format_version:  "IT-1.0"
-  target_platform: "Google Antigravity >=1.18"
-  target_model:    "Gemini 3.1 Pro"
+  target_platform: "Google Antigravity 1.21.9"
+  target_model:    "Gemini 3 Pro Preview"
   subject:         "{{SUBJECT_SYSTEM_NAME}}"
   created:         "{{YYYY-MM-DD}}"
   last_modified:   "{{YYYY-MM-DD}}"
@@ -137,4 +137,4 @@ a minor variant of Option A - must represent a meaningfully different design dec
 
 *{{SUBJECT_SYSTEM_NAME}} Issues Tracker — IT-1.0*
 *{{TOTAL_ISSUES_COUNT}} issues identified | {{RESOLVED_ISSUES_COUNT}} resolved | Last updated: {{YYYY-MM-DD}}*
-*Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*
+*Optimized for Google Antigravity 1.21.9 · Gemini 3 Pro Preview · Progressive Disclosure Context Architecture*

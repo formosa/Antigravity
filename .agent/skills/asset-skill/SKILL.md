@@ -1,7 +1,7 @@
 ---
 name: asset-skill
-version: 3.2.3
-description: Authors or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder, including runtime-routed owner skills, artifact-centric owner skills, foundational `core-*` contracts, and routing contracts. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
+version: 3.3.0
+description: Authors or refines Antigravity-compatible skills with explicit trigger boundaries, root README lifecycle governance, vendored schema mirrors, generated skills-index maintenance, and validation-first packaging hygiene. Use when the task is to scaffold a new skill or standardize an existing skill folder, including runtime-routed owner skills, artifact-centric owner skills, foundational `core-*` contracts, and routing contracts. Do not use for creating workflows, schemas, or ordinary project features outside the skill contract.
 ---
 
 <when_to_use>
@@ -39,9 +39,10 @@ description: Authors or refines Antigravity-compatible skills with explicit trig
 5. Author the root `README.md` so it contains exactly `<document_purpose>`, `<authority_order>`, `<schema_relationships>`, and `<modification_history>`, and make the latest history row match the `SKILL.md` version.
 6. Add only the files the skill will actually use, then ensure every referenced path exists and uses repo-relative forward-slash notation.
 7. Sync vendored schema mirrors with `python .agent/skills/asset-skill/scripts/sync_schema_mirrors.py <path-to-skill>` so `resources/schema/<schema-id>/` reflects the canonical `.agent/schemas/` directories before validation or packaging.
-8. Validate with `python .agent/skills/asset-skill/scripts/quick_validate.py <path-to-skill>`. Resolve all structural errors, then address any quality warnings about weak descriptions, missing exclusions, or ambiguous resource entries.
-9. Trigger-test the finished skill with at least one prompt that should invoke it and one adjacent prompt that should not. Refine the description or exclusions until routing is predictable.
-10. Package with `python .agent/skills/asset-skill/scripts/package_skill.py <path-to-skill> [output-directory]` only after schema sync, validation, and trigger checks are clean enough for handoff.
+8. Validate with `python .agent/skills/asset-skill/scripts/quick_validate.py <path-to-skill>`. Resolve all structural errors, any schema-mirror drift, and any stale `.agent/skills/index.md` findings before proceeding.
+9. Regenerate `.agent/skills/index.md` with `python .agent/skills/asset-skill/scripts/update_index.py` whenever any skill inventory, routing description, or owned skill package changes.
+10. Trigger-test the finished skill with at least one prompt that should invoke it and one adjacent prompt that should not. Refine the description or exclusions until routing is predictable.
+11. Package with `python .agent/skills/asset-skill/scripts/package_skill.py <path-to-skill> [output-directory]` only after schema sync, skills-index regeneration, validation, and trigger checks are clean enough for handoff.
 </how_to_use>
 
 <constraints>
@@ -59,6 +60,7 @@ description: Authors or refines Antigravity-compatible skills with explicit trig
 - Run `.agent/skills/asset-skill/scripts/init_skill.py` to scaffold the minimal skill directory and optional folders.
 - Run `.agent/skills/asset-skill/scripts/sync_schema_mirrors.py` to refresh `resources/schema/<schema-id>/` from canonical `.agent/schemas/` definitions.
 - Run `.agent/skills/asset-skill/scripts/quick_validate.py` to detect structural errors and quality warnings before packaging.
+- Run `.agent/skills/asset-skill/scripts/update_index.py` to regenerate `.agent/skills/index.md` after any skill inventory or routing-contract change.
 - Run `.agent/skills/asset-skill/scripts/package_skill.py` to build a clean `.skill` archive after validation passes.
 - Read `.agent/skills/asset-skill/resources/owner-skill-pattern.md` when the target skill will own a governed asset family and must align with the shared owner-skill lifecycle.
 - Read `.agent/skills/asset-skill/resources/workflows.md` to author observable decision branches and validation loops instead of unverifiable internal reasoning instructions.

@@ -34,6 +34,7 @@
     // instead of the proprietary "Antigravity Form View" for these files.
     "workbench.editorAssociations": {
         "**/.agent/rules/**/*.md": "default",
+        "**/.agent/skills/**/*.md": "default",
         "**/.agent/tools/**/*.md": "default",
         "**/.agent/workflows/**/*.md": "default"
     },
@@ -113,6 +114,8 @@
             ]
         }
     },
+    "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+    "python.terminal.activateEnvironment": false,
     // =========================================================================
     // UTF-8: IDE Boundary Encoding Enforcement
     // =========================================================================

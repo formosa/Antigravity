@@ -1,6 +1,6 @@
 ---
 name: artifact-issue-tracker
-version: 1.0.2
+version: 1.0.3
 description: Serves as the Artifact-Centric Owner for Issues Tracker artifacts by initializing blank `IT-1.0` trackers, refreshing and migrating populated trackers to `IT-1.1`, and validating or auditing tracker integrity against the canonical `issues-tracker` contract. Use when the task is to create, maintain, validate, or audit a governed Issues Tracker. Do not use when the task is to generate a standalone issue report, rewrite the canonical tracker schema, or patch target YAML or spec files.
 ---
 

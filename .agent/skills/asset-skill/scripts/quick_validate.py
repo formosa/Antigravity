@@ -17,11 +17,18 @@ concurrency: not thread-safe; process-local
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import filecmp
 import re
 import sys
 from pathlib import Path
 
 import yaml
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+import update_index as skill_index
 
 REQUIRED_FRONTMATTER_KEYS = {"description", "version"}
 OPTIONAL_FRONTMATTER_KEYS = {"name"}
@@ -295,6 +302,87 @@ def validate_resource_entries(skill_path: Path, resources_block: str, result: Va
         lowered = entry.lower()
         if not any(hint in lowered for hint in RESOURCE_ACTION_HINTS):
             result.warnings.append(f"Resource entry should say whether the file is read or run: {entry}")
+
+
+def compare_directory_trees(expected_dir: Path, actual_dir: Path) -> list[str]:
+    """
+    Recursively compare two schema directories for file-set and content equality.
+
+    purpose: mirror fidelity validation
+    """
+    differences: list[str] = []
+    comparison = filecmp.dircmp(expected_dir, actual_dir)
+
+    for name in sorted(comparison.left_only):
+        differences.append(f"Missing mirrored entry: {actual_dir / name}")
+    for name in sorted(comparison.right_only):
+        differences.append(f"Unexpected mirrored entry: {actual_dir / name}")
+    for name in sorted(comparison.common_files):
+        if not filecmp.cmp(expected_dir / name, actual_dir / name, shallow=False):
+            differences.append(f"Mirror content drift: {actual_dir / name}")
+    for name in sorted(comparison.funny_files):
+        differences.append(f"Unreadable mirrored entry: {actual_dir / name}")
+
+    for subdir_name in sorted(comparison.common_dirs):
+        differences.extend(compare_directory_trees(expected_dir / subdir_name, actual_dir / subdir_name))
+
+    return differences
+
+
+def validate_schema_mirror_equality(skill_path: Path, readme_content: str, result: ValidationResult) -> None:
+    """
+    Verify vendored schema mirrors exactly match their canonical schema directories.
+
+    purpose: mirror fidelity validation
+    """
+    schema_relationships = parse_schema_relationships(readme_content)
+    if schema_relationships is None:
+        return
+
+    mirror_root = skill_path / "resources" / "schema"
+    repo_root = Path(__file__).resolve().parents[4]
+    canonical_root = repo_root / ".agent" / "schemas"
+    required_schema_ids: list[str] = []
+    for schema_id in [
+        schema_relationships.get("schema_of_this_skill"),
+        *(schema_relationships.get("owned_schema_ids") or []),
+        *(schema_relationships.get("consumed_schema_ids") or []),
+    ]:
+        schema_id_text = str(schema_id).strip()
+        if schema_id_text and schema_id_text not in required_schema_ids:
+            required_schema_ids.append(schema_id_text)
+
+    for schema_id in required_schema_ids:
+        canonical_dir = canonical_root / schema_id
+        mirrored_dir = mirror_root / schema_id
+        if not canonical_dir.exists() or not mirrored_dir.exists():
+            continue
+        result.errors.extend(compare_directory_trees(canonical_dir, mirrored_dir))
+
+
+def validate_skills_index_freshness(skill_path: Path, result: ValidationResult) -> None:
+    """
+    Verify the generated skills index matches the live skill inventory.
+
+    purpose: generated-index freshness validation
+    """
+    repo_skills_root = Path(__file__).resolve().parents[4] / ".agent" / "skills"
+    try:
+        skill_path.resolve().relative_to(repo_skills_root.resolve())
+    except ValueError:
+        return
+
+    index_path = repo_skills_root / "index.md"
+    if not index_path.exists():
+        result.errors.append("Missing generated skills index: `.agent/skills/index.md`.")
+        return
+
+    expected_index = skill_index.build_index(skill_index.skill_records(repo_skills_root))
+    current_index = index_path.read_text(encoding="utf-8")
+    if current_index != expected_index:
+        result.errors.append(
+            "Skills index is stale. Run `python .agent/skills/asset-skill/scripts/update_index.py`."
+        )
 
 
 def validate_root_readme(skill_path: Path, skill_version: str, result: ValidationResult) -> None:
@@ -671,6 +759,12 @@ def validate_skill(skill_path: str | Path) -> ValidationResult:
     readme_path = skill_path / "README.md"
     readme_content = readme_path.read_text(encoding="utf-8")
     validate_owned_schema_alignment(skill_path, readme_content, result)
+    if result.errors:
+        return result
+    validate_schema_mirror_equality(skill_path, readme_content, result)
+    if result.errors:
+        return result
+    validate_skills_index_freshness(skill_path, result)
     if result.errors:
         return result
     validate_owner_skill_naming(skill_path, frontmatter, readme_content, result)

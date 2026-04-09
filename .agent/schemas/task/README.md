@@ -1,22 +1,24 @@
-# DESIGN_JUSTIFICATION: Antigravity Task Assets v1.18.3
+# DESIGN_JUSTIFICATION: Antigravity Task Assets v1.21.9
 
 <document_purpose>
-This document justifies the schema architecture for Task artifacts, which function as the persistent state-tracking memory for agents operating within Antigravity v1.18.3.
+This document justifies the schema architecture for Task artifacts, which function as persistent state-tracking execution units for agents operating within Antigravity v1.21.9.
 </document_purpose>
 
 <schema_evaluation_and_justification>
 
-- **State Persistence:** By encoding dependencies and execution priorities into YAML frontmatter, the IDE routing engine can effectively queue and pause operations, preventing the agent from losing its place in a complex pipeline.
-- **Fail-Safe Mechanics:** The mandatory `<pre_check>` and `<rollback_procedure>` blocks enforce determinism. Gemini 3.1 Pro is explicitly instructed to self-correct or cleanly abort rather than leaving the workspace in a broken, half-completed state.
-- **Context Boundaries:** Limiting the scope via `<constraints>` prevents "instruction bleed," ensuring a fast model like Gemini 3 Flash completes exactly one task without hallucinating unauthorized modifications to surrounding files.
+- **State Persistence:** Dependencies and execution priority in frontmatter let the runtime queue or defer work without losing the bounded task contract.
+- **Fail-Safe Mechanics:** Mandatory `<pre_check>` and `<rollback_procedure>` blocks keep `gemini-3-pro-preview` and `gemini-3-flash-preview` tied to explicit stop/go criteria rather than implicit continuation.
+- **Context Boundaries:** `<constraints>` prevents task execution from bleeding into adjacent files or steps that belong in separate plan items.
+
 </schema_evaluation_and_justification>
 
 <authoritative_reference_repository>
 
-1. [Agentic Software Engineering with Gemini 3.1 Pro - QuantumBlack, AI by McKinsey](https://medium.com/quantumblack/agentic-software-engineering-gemini-3-1-pro-2026)
-   - Validates the absolute necessity of atomic task constraints and explicit rollback procedures to prevent compounding errors in CI/CD pipelines.
-2. [Build with Google Antigravity](https://developers.googleblog.com/build-with-google-antigravity-our-new-agentic-development-platform/)
-   - Highlights the necessity of stateful task representations for multi-agent asynchronous orchestration.
+1. [Prompt design strategies | Gemini API - Google AI for Developers](https://ai.google.dev/gemini-api/docs/prompting-strategies)
+   - Official guidance for bounded tasks, explicit constraints, and structured prompt sections.
+2. [ADK Coding with AI](https://adk.dev/tutorials/coding-with-ai/)
+   - Current Antigravity-oriented guidance for planning, execution, and verification flows inside `.agent/` workspaces.
+
 </authoritative_reference_repository>
 
 <modification_history>
@@ -25,6 +27,7 @@ This document justifies the schema architecture for Task artifacts, which functi
 | :--------- | :------ | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-03-01 | v1.1.0  | Optimization   | Enhanced `task.d.ts` with dense JSDoc annotations and schema versioning to align with the Gemini 3.1 Pro prompt optimization framework.                                                |
 | 2026-04-04 | v1.1.1  | Governance     | Updated `primary_owner_skill` from `dev-schema` to `core-schema` so canonical schema stewardship follows the new foundational `core-*` family while leaving the Task schema unchanged. |
+| 2026-04-07 | v1.21.9 | Compatibility  | Replaced stale `v1.18.3` and `gemini-3.1-*` compatibility text with the current Antigravity 1.21.9 and Gemini 3 preview task-execution contract.                                      |
 
 </modification_history>
 

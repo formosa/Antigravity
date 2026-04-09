@@ -1,16 +1,16 @@
 ---
-description: "Primary configuration for the Maggie application workspace and DDR System integration."
-models: ["gemini-3.1-pro-preview", "gemini-3.1-pro", "gemini-3-flash"]
+description: "Optional global companion configuration for the Maggie application workspace and DDR System integration."
+models: ["gemini-3-pro-preview", "gemini-3-flash-preview"]
 version: "20260223_v118"
-scope: "workspace"
+scope: "global"
 thinking_level: "medium"
 temperature: 0.1
-# HUMAN CONTEXT: This configuration acts as a workspace Gemini context surface.
-# When `AGENTS.md` is present, that file may carry the primary workspace rules
-# while this file supplies Gemini-specific configuration and cognitive controls.
+# HUMAN CONTEXT: This configuration acts as an optional global Gemini context surface.
+# Workspace-local execution and rules remain governed by `.agent/rules/`.
+# `~/.gemini/GEMINI.md` supplies only the optional global companion controls.
 # It utilizes the "heavy data first" principle by placing the Maggie PySide6
 # architecture details in the <workspace_context> before any instructions.
-# It sets the thinking_level to 'medium' to optimize Gemini 3.1 Pro's cost-to-reasoning
+# It sets the thinking_level to 'medium' to optimize Gemini 3 Pro Preview's cost-to-reasoning
 # ratio for software engineering tasks.
 ---
 

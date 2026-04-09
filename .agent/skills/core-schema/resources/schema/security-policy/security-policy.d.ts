@@ -1,6 +1,6 @@
 // security_policy.d.ts
-// Antigravity Agent Asset Configuration Schema (v1.18.3)
-// OPTIMIZED FOR GEMINI 3.1 PRO
+// Antigravity Agent Asset Configuration Schema (v1.21.9)
+// OPTIMIZED FOR GEMINI 3 PRO PREVIEW
 
 /** SECURITY POLICY DEFINITION (Implemented via Rule engine)
  * File Pattern: .agent/rules/SECURITY_GUARDRAILS.md

@@ -1,0 +1,36 @@
+target_platform:
+  product: Google Antigravity IDE
+  version: "1.21.9"
+  evidence_date: "2026-04-07"
+  source_urls:
+    - https://adk.dev/tutorials/coding-with-ai/
+    - https://ai.google.dev/api/interactions-api
+    - https://ai.google.dev/gemini-api/docs/changelog
+    - https://discuss.ai.google.dev/t/conductor-should-be-integrated-into-antigravity-to-ensure-long-term-context-retention/113384
+    - https://discuss.ai.google.dev/t/antigravity-agent-terminal-using-wrong-environment/110526
+rules_surfaces:
+  local_workspace: ".agent/rules/"
+  optional_global: "~/.gemini/GEMINI.md"
+approved_models:
+  - gemini-3-pro-preview
+  - gemini-3-flash-preview
+deprecated_models:
+  - gemini-3.1-pro-preview
+  - gemini-3.1-pro
+  - gemini-3-flash
+windows_execution:
+  preferred_shell:
+    profile_name: "PowerShell 7"
+    executable: "C:/Program Files/PowerShell/7/pwsh.exe"
+  preferred_python:
+    relative_path: ".venv/Scripts/python.exe"
+    workspace_setting: "${workspaceFolder}\\.venv\\Scripts\\python.exe"
+    prefer_explicit_path_invocation: true
+    forbid_naked_python_when_workspace_interpreter_known: true
+  utf8_env:
+    PYTHONUTF8: "1"
+    PYTHONIOENCODING: "utf-8"
+search_policy:
+  preferred_tool: "rg"
+  rg_required: false
+  first_failure_fallback: "Get-ChildItem -Recurse -File | Select-String"

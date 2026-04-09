@@ -1,5 +1,5 @@
 <document_purpose>
-This document defines how agent skills must format outputs using the Antigravity v1.20.3 Artifact System.
+This document defines how agent skills must format outputs using the Antigravity v1.21.9 artifact contract.
 </document_purpose>
 
 <artifact_generation_rules>
@@ -32,7 +32,7 @@ Do not generate generic Markdown reports. All complex workflows must end by gene
 - Do not treat richer internal planning logic as justification for adding new artifact sections.
 - Historical plans already present in `.agent/plans/processed/` remain review references only and must not be used to justify legacy frontmatter omissions or structural drift in newly generated plans.
 - If a skill requires a new frontmatter key or top-level block, update the schema and all companion documentation first.
-- `output_path` and `processed_path` are now required frontmatter fields as of schema v1.20.3. Plans missing these fields are non-compliant.
+- `output_path` and `processed_path` are required frontmatter fields in the current implementation-plan contract. Plans missing these fields are non-compliant.
 
 </contract_stability_rules>
 
@@ -61,8 +61,8 @@ Example:
 
 | Task type | Assigned model |
 | :--- | :--- |
-| Architecture, planning, high-complexity reasoning | `gemini-3.1-pro-preview` |
-| High-volume, low-latency implementation steps | `gemini-3-flash` |
-| **Deprecated — do not use** | `gemini-3-pro-preview` (discontinued 2026-03-26) |
+| Architecture, planning, high-complexity reasoning | `gemini-3-pro-preview` |
+| High-volume, low-latency implementation steps | `gemini-3-flash-preview` |
+| **Deprecated — do not use** | `gemini-3.1-pro-preview`, `gemini-3.1-pro`, `gemini-3-flash` |
 
 </model_routing_reference>

@@ -18,7 +18,7 @@
 
 ## Selection Map
 
-- `agent-asset-hygiene-review`: Reviews changed `.agent` assets, runs the correct validators and tests by asset family, and restores index and temp-workspace hygiene before handoff.
+- `agent-asset-hygiene-review`: Reviews changed `.agent` assets, runs deterministic validators and generated-index refresh steps by asset family, and restores index and temp-workspace hygiene before handoff.
 
 ## Manifest
 
@@ -33,8 +33,9 @@ workflows:
   - steps
   - verification
   use_when:
-  - Reviews changed `.agent` assets, runs the correct validators and tests by asset
-    family, and restores index and temp-workspace hygiene before handoff.
+  - Reviews changed `.agent` assets, runs deterministic validators and generated-index
+    refresh steps by asset family, and restores index and temp-workspace hygiene before
+    handoff.
 ```
 
 ## Workflow Records
@@ -42,7 +43,7 @@ workflows:
 ### `agent-asset-hygiene-review`
 
 - Definition: [`agent-asset-hygiene-review.md`](agent-asset-hygiene-review.md)
-- Best used for: Reviews changed `.agent` assets, runs the correct validators and tests by asset family, and restores index and temp-workspace hygiene before handoff.
+- Best used for: Reviews changed `.agent` assets, runs deterministic validators and generated-index refresh steps by asset family, and restores index and temp-workspace hygiene before handoff.
 - Open the linked definition when exact execution order, verification criteria, or safety boundaries matter.
 
 ## Category Totals

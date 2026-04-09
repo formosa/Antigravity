@@ -1,6 +1,6 @@
 ---
 task: "Architect and implement the main dashboard layout for Maggie"
-model: "gemini-3.1-pro-preview"
+model: "gemini-3-pro-preview"
 version: "1.0.0"
 output_path: ".agent/plans/20260401-090000-IMPLEMENTATION_PLAN.md"
 processed_path: ".agent/plans/processed/20260401-090000-IMPLEMENTATION_PLAN.md"
@@ -25,7 +25,7 @@ Construct the primary PySide6 dashboard interface for the Maggie application, es
     - "PySide6 environment verified"
   exit_criteria:
     - "Base window renders without errors"
-  assigned_model: "gemini-3.1-pro-preview"
+  assigned_model: "gemini-3-pro-preview"
 
 - phase_id: "PHASE_2_ASYNC_WORKERS"
   objectives:
@@ -36,7 +36,7 @@ Construct the primary PySide6 dashboard interface for the Maggie application, es
   - "PHASE_1_UI_SCAFFOLD complete and exit criteria verified"
   exit_criteria:
   - "Background tasks update UI without blocking the main event loop"
-  assigned_model: "gemini-3-flash"
+  assigned_model: "gemini-3-flash-preview"
 </phases>
 
 <atomic_steps>

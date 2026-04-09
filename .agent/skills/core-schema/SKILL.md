@@ -1,7 +1,7 @@
 ---
 name: core-schema
-version: 3.1.3
-description: Serves as the foundational `core-*` contract for canonical Antigravity `.d.ts` schema authoring via scaffold, strict validation, schema-governance README maintenance, and owner-aware index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index for a core-governed schema family. The package vendors the full set of canonical schemas it owns, and legacy `dev-schema` requests map to this contract. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
+version: 3.1.4
+description: Serves as the foundational `core-*` contract for canonical Antigravity `.d.ts` schema authoring via scaffold, strict validation, runtime-target compatibility checks, schema-governance README maintenance, and owner-aware index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index for a core-governed schema family. The package vendors the full set of canonical schemas it owns, and legacy `dev-schema` requests map to this contract. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
 ---
 
 <when_to_use>
@@ -27,7 +27,7 @@ description: Serves as the foundational `core-*` contract for canonical Antigrav
    - `python .agent/skills/core-schema/scripts/scaffold_schema.py --target-file <path_to_example> --name <schema-name>`
 4. Author the generated `.d.ts` schema using only local reference patterns. Do not guess TypeScript types; derive them strictly from the example.
 5. Author or update the schema `README.md` to describe purpose, authority order, schema governance, and modification history.
-6. Validate the schema:
+6. Validate the schema and its active compatibility surfaces:
    - `python .agent/skills/core-schema/scripts/validate_schema.py --name <schema-name>`
 7. **IF** validation fails, **THEN** fix all reported errors and re-run validation before proceeding.
 8. **IF** validation passes, **THEN** update the schema directory index:
@@ -40,7 +40,7 @@ description: Serves as the foundational `core-*` contract for canonical Antigrav
 3. **IF** the target schema does not exist, **THEN** switch to Mode A.
 4. Apply deterministic, minimal changes to the target `.d.ts` schema file.
 5. Append a changelog entry in the schema's `README.md` modification history table and keep `<schema_governance>` current.
-6. Validate the updated schema:
+6. Validate the updated schema and its active compatibility surfaces:
    - `python .agent/skills/core-schema/scripts/validate_schema.py --name <schema-name>`
 7. **IF** validation fails, **THEN** halt, report the failure, and fix before proceeding.
 8. Update the index:
@@ -62,6 +62,7 @@ description: Serves as the foundational `core-*` contract for canonical Antigrav
 
 - Run `.agent/skills/core-schema/scripts/scaffold_schema.py` to create the initial schema directory and copy the source example.
 - Run `.agent/skills/core-schema/scripts/validate_schema.py` to type-check the generated `.d.ts` file and roll back on failure.
+- Read `.agent/config/runtime-target.yaml` when the schema or companion docs encode Antigravity version, rules-surface, model, or runtime-environment compatibility statements that must stay current.
 - Run `.agent/skills/core-schema/scripts/update_index.py` to rebuild the `.agent/schemas/index.md` directory index after any schema change.
 - Read `.agent/skills/asset-skill/resources/owner-skill-pattern.md` when the schema change affects owner-skill governance, validation-first lifecycle wording, or canonical-versus-vendored mirror policy.
 - Read `.agent/skills/core-schema/resources/schema/index/README.md` when the task touches schema-index governance, the table-only registry exception, or the owned `index` schema surface.

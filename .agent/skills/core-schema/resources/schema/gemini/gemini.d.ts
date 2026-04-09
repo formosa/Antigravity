@@ -1,23 +1,23 @@
 // gemini.d.ts
-// Antigravity Agent Asset Configuration Schema (v1.18.3)
-// OPTIMIZED FOR GEMINI 3.1 PRO AND GEMINI 3 FLASH
+// Antigravity Agent Asset Configuration Schema (v1.21.9)
+// OPTIMIZED FOR GEMINI 3 PRO PREVIEW AND GEMINI 3 FLASH PREVIEW
 
 /** 1. GEMINI CONFIGURATION DEFINITION
- * File Pattern: ~/.gemini/GEMINI.md or .agent/GEMINI.md
- * Purpose: Replaces legacy Persona schemas. Defines the absolute constraints, operational mandates, and cognitive parameters for the Gemini 3 series global/workspace agents.
+ * File Pattern: ~/.gemini/GEMINI.md
+ * Purpose: Optional global Gemini companion configuration surface used alongside workspace-local rules in `.agent/rules/`.
  */
 interface GeminiMdConfiguration {
     /** Encoded as standard YAML frontmatter block (---) at the top of the file. */
     frontmatter: {
         /** High-level summary of the workspace purpose, scope, and objectives. Used for routing. */
         description: string;
-        /** Allowed models for this workspace. Restricts operations to specified Gemini 3 variants. Includes fallbacks. */
-        models: Array<'gemini-3.1-pro' | 'gemini-3.1-pro-preview' | 'gemini-3-pro' | 'gemini-3-flash'>;
+        /** Allowed models for this workspace. Restricts operations to currently approved Gemini 3 preview variants. */
+        models: Array<'gemini-3-pro-preview' | 'gemini-3-flash-preview'>;
         /** Schema version for compatibility checks and tracking modifications (e.g., "20260222_v118", "1.0.0"). */
         version: string;
         /** Global applies everywhere; workspace overrides global settings. */
         scope: 'global' | 'workspace';
-        /** Primary dial for trading latency against cognitive depth. 'minimal' for Flash; 'medium' for optimal 3.1 Pro software engineering. */
+        /** Primary dial for trading latency against cognitive depth. 'minimal' for Flash Preview; 'medium' for Pro Preview software engineering. */
         thinking_level?: 'minimal' | 'low' | 'medium' | 'high';
         /** Determinism slider (e.g., 0.1 for strict code generation). Range: 0.0 to 1.0 */
         temperature?: number;

@@ -3,8 +3,8 @@ document:
   id:              DDR_v6.3_Issue-001
   title:           "Resolution Report for ISSUE-001: Require an explicit webhook profile discriminator"
   format_version:  "v6.1"
-  target_platform: "Google Antigravity >=1.20.3"
-  target_model:    "Gemini 3.1 Pro"
+  target_platform: "Google Antigravity 1.21.9"
+  target_model:    "Gemini 3 Pro Preview"
   subject:         "DDR Reference Manual v6.3"
   created:         "2026-04-04"
   updated:         "2026-04-04"

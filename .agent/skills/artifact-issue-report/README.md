@@ -34,5 +34,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | :--------- | :------ | :------ | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-04-04 | 1.0.0   | initial | Owner Migration    | Created `artifact-issue-report` as the Artifact-Centric Owner for issue-report artifacts, migrated canonical validator/resources into the new package, and aligned ownership with the canonical `issue` schema.       |
 | 2026-04-04 | 1.0.1   | patch   | Sole Owner Cleanup | Removed the deprecated legacy issue-report compatibility package from the active repository contract and retained `artifact-issue-report` as the sole documented owner and validator path for issue-report artifacts. |
+| 2026-04-08 | 1.0.2   | patch   | Compatibility Refresh | Resynchronized the consumed `issues-tracker` schema mirrors after the Antigravity 1.21.9 compatibility refresh and updated the active issue-report template/example guidance to the current platform and model defaults. |
 
 </modification_history>

@@ -3,8 +3,8 @@
   =====================================
   skill:                DDR-v4-Issues-Tracker
   version:              1.0.0
-  target_agent:         Gemini 3.1 Pro
-  platform:             Google Antigravity >=1.18
+  target_agent:         Gemini 3 Pro Preview
+  platform:             Google Antigravity 1.21.9
   context_mode:         progressive_disclosure
   schema_version:       IT-1.0
   document_type:        issues_tracker
@@ -23,7 +23,7 @@
   plan_mode_hint:       Use Antigravity Plan Mode before executing resolution options.
                         Plan Mode maps the full change set (spec sections + YAML fields)
                         before any file is touched. Enables pre-flight impact review.
-  context_budget:       Gemini 3.1 Pro supports 1M token context / 64K output tokens.
+  context_budget:       Gemini 3 Pro Preview supports long-window planning and large review contexts.
                         This document uses progressive_disclosure to stay within
                         a single skill load. The ISSUE REGISTRY table is the primary
                         context gate — parse it before loading individual issue blocks.
@@ -33,7 +33,7 @@
   workflow_path:        .agent/workflows/ddr-issue-resolution.md
                         Create a numbered-step Workflow to chain: identify → add entry
                         → update registry → update header metadata.
-  gemini_md_hook:       Add to ~/.gemini/GEMINI.md or .antigravity/rules.md:
+  gemini_md_hook:       Add to ~/.gemini/GEMINI.md while keeping workspace rules in .agent/rules/:
                         "When working on DDR System issues, load the skill at
                         .agents/skills/DDR-Issues-Tracker/SKILL.md before proceeding."
   deep_think_mode:      Recommended ON for CRITICAL and MAJOR severity issues.
@@ -62,8 +62,8 @@ document:
   id:              DDR-IT-001
   title:           "DDR System v4.0 — Issues Tracker"
   format_version:  "IT-1.0"
-  target_platform: "Google Antigravity >=1.18"
-  target_model:    "Gemini 3.1 Pro"
+  target_platform: "Google Antigravity 1.21.9"
+  target_model:    "Gemini 3 Pro Preview"
   subject:         "DDR System Specification v4.0"
   created:         "2026-02-28"
   last_modified:   "2026-02-28"
@@ -1104,4 +1104,4 @@ Option A is the architecturally superior choice — it resolves the root cause (
 
 *DDR System v4.0 Issues Tracker — IT-1.0*
 *13 issues identified | 0 resolved | Last updated: 2026-02-28*
-*Optimized for Google Antigravity >=1.18 · Gemini 3.1 Pro · Progressive Disclosure Context Architecture*
+*Optimized for Google Antigravity 1.21.9 · Gemini 3 Pro Preview · Progressive Disclosure Context Architecture*

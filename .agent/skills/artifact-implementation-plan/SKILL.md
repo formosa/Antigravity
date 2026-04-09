@@ -1,6 +1,6 @@
 ---
 name: artifact-implementation-plan
-version: 6.0.0
+version: 6.0.1
 description: Serves as the Artifact-Centric Owner for Antigravity implementation-plan artifacts by creating, refining, auditing, and lifecycle-managing schema-compatible plans optimized for grounded planning, patch-bounded execution batches, task-tracker visibility, and safe executor handoff. Use when the task needs a formal plan artifact before execution begins. Do not use when the requested work is trivial enough to execute directly without a governed plan.
 ---
 
@@ -20,11 +20,11 @@ description: Serves as the Artifact-Centric Owner for Antigravity implementation
 
 ## Operating mode
 
-- **Planner model:** `gemini-3.1-pro-preview` (high reasoning).
-- **Executor model target:** `gemini-3-flash` (high-volume, low-latency implementation steps).
-- **IDE target:** Antigravity v1.20.3+.
-- **Rules file:** `AGENTS.md` (primary, v1.20.3+); `GEMINI.md` (fallback if `AGENTS.md` absent).
-- **Auto-continue:** Enabled by default in v1.20.3+. Plans must be structured to tolerate uninterrupted executor handoff.
+- **Planner model:** `gemini-3-pro-preview` (high reasoning).
+- **Executor model target:** `gemini-3-flash-preview` (high-volume, low-latency implementation steps).
+- **IDE target:** Antigravity v1.21.9.
+- **Workspace rules surface:** `.agent/rules/` (local primary) with `~/.gemini/GEMINI.md` as the optional global companion surface.
+- **Executor handoff posture:** Plans must remain safe under uninterrupted execution handoff and partial-resume scenarios.
 - **Owner subtype:** `Artifact-Centric Owner` for the implementation-plan artifact family.
 
 ## Contract preservation rules
@@ -61,7 +61,8 @@ Every new Implementation Plan artifact **must** comply with the following rules:
 Execute these steps in order. Do not skip or reorder.
 
 1. **Load and prioritize local context**
-   - Read user request, referenced files, `AGENTS.md` (or `GEMINI.md`), and `.gemini/antigravity/brain/` decision memory.
+   - Read the user request, referenced files, `.agent/rules/`, and `~/.gemini/GEMINI.md` only when that optional global surface is materially relevant.
+   - Read `.gemini/antigravity/brain/` only as optional historical context when the task explicitly references it or the local request makes that memory surface materially relevant.
    - Verify existence of all referenced and plausibly material files.
    - Do not assume a missing file is irrelevant.
    - Do not halt on missing files unless absence blocks deterministic planning.
@@ -148,7 +149,7 @@ Emit sections in this exact order:
 ```yaml
 ---
 task: "<one-sentence measurable objective>"
-model: "gemini-3.1-pro-preview"
+model: "gemini-3-pro-preview"
 version: "1.0.0"
 output_path: ".agent/plans/<filename>"
 processed_path: ".agent/plans/processed/<filename>"
@@ -168,7 +169,7 @@ processed_path: ".agent/plans/processed/<filename>"
 - Use phases to express major execution boundaries, approval boundaries, or dependency boundaries.
 - Provide clear `entry_criteria` and `exit_criteria` for each phase.
 - Avoid ceremonial over-phasing. Prefer a small number of phases with meaningful orchestration value.
-- Assign `gemini-3.1-pro-preview` to architecture and high-complexity phases; assign `gemini-3-flash` to high-volume implementation phases.
+- Assign `gemini-3-pro-preview` to architecture and high-complexity phases; assign `gemini-3-flash-preview` to high-volume implementation phases.
 
 ## Atomic step rules -> Intent -> Action -> Outcome
 
@@ -259,7 +260,7 @@ Emit this artifact and stop when blocking ambiguity is detected:
 - Do not claim side-effect freedom unless the scope boundary is explicitly defined and preserved.
 - Do not invent verification commands or execution results.
 - Do not use processed historical implementation plans to justify legacy frontmatter omissions, section order changes, or tracker omissions in newly generated plans.
-- Do not use `gemini-3-pro` or `gemini-3-pro-preview` (discontinued March 26, 2026). Use `gemini-3.1-pro-preview`.
+- Do not use deprecated runtime-target model aliases such as `gemini-3.1-pro-preview`, `gemini-3.1-pro`, or `gemini-3-flash`. Use the current runtime-target-approved model IDs.
 
 </constraints>
 
@@ -268,9 +269,10 @@ Emit this artifact and stop when blocking ambiguity is detected:
 - Read `.agent/schemas/implementation-plan/implementation-plan.d.ts` to verify the active canonical implementation-plan contract.
 - Read `.agent/schemas/implementation-plan/example.md` to mirror the canonical artifact structure and section ordering.
 - Read `resources/schema/implementation-plan/implementation-plan.d.ts` and `resources/schema/implementation-plan/example.md` only as read-only vendored mirrors for packaging/reference after consulting the canonical schema.
+- Read `.agent/config/runtime-target.yaml` when platform version, rules-surface, model, or Windows execution guidance affects the plan contract.
 - Read `.agent/skills/asset-skill/resources/output-patterns.md` to preserve local output and artifact handoff conventions.
 - Read `.agent/plans/` to inspect active plan outputs and avoid naming or placement conflicts.
 - Read `.agent/plans/processed/` as historical reference only when prior plans materially inform the new artifact.
-- Read `.gemini/antigravity/brain/` as persistent decision memory when that context materially affects the plan.
+- Read `.gemini/antigravity/brain/` only as optional historical context when that memory surface is explicitly relevant to the requested plan.
 
 </resources_reference>

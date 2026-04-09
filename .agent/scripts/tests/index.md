@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across unit tests, diagnostics, and fixture helpers that support the scripts collection.
 >
-> Total test scripts: `7`
+> Total test scripts: `8`
 >
 > Parent: [`.agent/scripts/`](..)
 >
@@ -23,6 +23,7 @@
 - `test_directory_tree`: Unit tests for directory_tree.py.
 - `test_managed_temp`: Unit tests for managed_temp.py.
 - `test_rebuild_docs`: Unit tests for rebuild_docs.py.
+- `test_runtime_target`: Regression tests for runtime-target loading and config-mode validation.
 - `test_update_index`: Unit tests for update_index.py.
 - `validate_env`: Validation gate for the Antigravity PowerShell execution baseline.
 
@@ -94,6 +95,19 @@ tests:
   - unit_tests
   use_when:
   - Unit tests for rebuild_docs.py.
+- id: test_runtime_target
+  definition: .agent/scripts/tests/test_runtime_target.py
+  asset_structure: flat-file
+  category: unit_tests
+  implementation: .agent/scripts/tests/test_runtime_target.py
+  keywords:
+  - script
+  - test
+  - runtime
+  - target
+  - unit_tests
+  use_when:
+  - Regression tests for runtime-target loading and config-mode validation.
 - id: test_update_index
   definition: .agent/scripts/tests/test_update_index.py
   asset_structure: flat-file
@@ -158,6 +172,13 @@ tests:
 - Category: `unit_tests`
 - Open the script implementation when exact assertions, fixture behavior, or validation protocol matter.
 
+### `test_runtime_target`
+
+- Implementation: [`test_runtime_target.py`](test_runtime_target.py)
+- Best used for: Regression tests for runtime-target loading and config-mode validation.
+- Category: `unit_tests`
+- Open the script implementation when exact assertions, fixture behavior, or validation protocol matter.
+
 ### `test_update_index`
 
 - Implementation: [`test_update_index.py`](test_update_index.py)
@@ -174,10 +195,10 @@ tests:
 
 ## Category Totals
 
-- `unit_tests`: `5`
+- `unit_tests`: `6`
 - `diagnostics_and_validation`: `1`
 - `fixtures_and_chaos`: `1`
-- `total`: `7`
+- `total`: `8`
 
 ## Index Boundaries
 

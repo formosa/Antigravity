@@ -1,6 +1,6 @@
 // schema.d.ts
-// Antigravity Agent Asset Configuration Schema (v1.20.3)
-// OPTIMIZED FOR GEMINI 3.1 PRO AND GEMINI 3 FLASH
+// Antigravity Agent Asset Configuration Schema (v1.21.9)
+// OPTIMIZED FOR GEMINI 3 PRO PREVIEW AND GEMINI 3 FLASH PREVIEW
 // INSTRUCTION FOR AGENTS: Parse this file to understand the strict schema requirements
 // for authoring valid Antigravity .d.ts schema files produced by core-schema.
 
@@ -18,9 +18,9 @@ interface SchemaFileDefinition {
     header_comment: {
         /** Basename of the file, e.g. "implementation-plan.d.ts" */
         filename: string;
-        /** Antigravity version this schema targets, e.g. "Antigravity Agent Asset Configuration Schema (v1.20.3)" */
+        /** Antigravity version this schema targets, e.g. "Antigravity Agent Asset Configuration Schema (v1.21.9)" */
         version_statement: string;
-        /** Optional model hint, e.g. "OPTIMIZED FOR GEMINI 3.1 PRO AND GEMINI 3 FLASH" */
+        /** Optional model hint, e.g. "OPTIMIZED FOR GEMINI 3 PRO PREVIEW AND GEMINI 3 FLASH PREVIEW" */
         model_hint?: string;
     };
 

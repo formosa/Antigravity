@@ -19,7 +19,7 @@
 ## Selection Map
 
 - `agent-temp-artifact-hygiene`: Always-on containment and cleanup policy for one-off agent scripts, diagnostics, and transient run artifacts in the Antigravity workspace.
-- `powershell-execution-guardrails`: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
+- `powershell-execution-guardrails`: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, workspace-interpreter preference, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
 - `rules-governance`: Glob-scoped collection governance rule for the `.agent/rules/` directory, covering rule frontmatter, preferred naming, XML-fenced bodies, and the generated rules index for the full rules collection surface.
 - `schemas-governance`: Glob-scoped collection governance rule for the `.agent/schemas/` directory, covering canonical `.d.ts` contracts, schema README governance blocks, example fidelity, and the table-only schemas index for the full schema collection surface.
 - `scripts-governance`: Glob-scoped collection governance rule for the `.agent/scripts/` directory, covering live script inventory accuracy, generated root and tests indexes, compiled-artifact exclusion, and alignment between script implementations and linked tool definitions.
@@ -63,7 +63,8 @@ rules:
   - guardrails
   use_when:
   - Always-on Windows PowerShell execution guardrails focused on PowerShell-native
-    syntax, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
+    syntax, workspace-interpreter preference, safe quoting, tool fallback behavior,
+    and UTF-8-safe shell I/O.
 - id: rules-governance
   definition: .agent/rules/rules-governance.md
   asset_structure: flat-file
@@ -154,7 +155,7 @@ Records are grouped by trigger order (`always_on`, `glob`, `manual`, `auto`, `@m
 ### `powershell-execution-guardrails`
 
 - Definition: [`powershell-execution-guardrails.md`](powershell-execution-guardrails.md)
-- Best used for: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
+- Best used for: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, workspace-interpreter preference, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
 - Trigger: `always_on` (always-on)
 - Priority: `critical`
 - Execution tier: `standard`

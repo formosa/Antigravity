@@ -71,7 +71,7 @@ def package_skill(skill_path: str | Path, output_dir: str | Path | None = None) 
         print(f"Schema mirror sync failed: {exc}")
         return None
 
-    print("Validating Antigravity v1.20.3 compliance...")
+    print("Validating skill contract compliance...")
     validation_result = validate_skill(skill_path)
     print_validation_result(validation_result)
     if not validation_result.valid:

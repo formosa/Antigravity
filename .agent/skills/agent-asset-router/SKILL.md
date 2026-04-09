@@ -1,6 +1,6 @@
 ---
 name: agent-asset-router
-version: 2.3.1
+version: 2.3.2
 description: Routes Antigravity agent-asset work to the correct dedicated execution contract using the local skills registry, deterministic direct-route handoff, and schema-first classification for uncovered asset families. Use when the user frames the task at the agent-asset level, when the correct direct-route skill is unclear or mixed, or when determining whether schema work must happen first. Legacy `dev-schema` requests normalize to `core-schema` during routing. Do not use when the request is already expressed in the exact vocabulary of a dedicated execution contract such as direct skill scaffolding, direct rule authoring, canonical schema authoring, workflow creation, implementation-plan generation, brainstorm artifact maintenance, explicit issues-tracker lifecycle management, or standalone issue-report generation, maintenance, or validation.
 ---
 
@@ -23,7 +23,7 @@ description: Routes Antigravity agent-asset work to the correct dedicated execut
    - Direct dedicated-contract match
    - Schema-first classification for an uncovered asset family
    - RFQ because the request is still ambiguous or asks for incompatible outcomes in one pass
-2. Read `.agent/skills/index.md` first and treat it as the discovery registry only. Use it to shortlist the most likely direct-route skill by intent, then open the linked `SKILL.md` before following any exact execution contract.
+2. Read `.agent/skills/index.md` first and treat it as the generated discovery registry only. If the task changes skill inventory or routing descriptions, regenerate it with `python .agent/skills/asset-skill/scripts/update_index.py` before relying on it. Use the refreshed index to shortlist the most likely direct-route skill by intent, then open the linked `SKILL.md` before following any exact execution contract.
 3. Apply the direct-route matrix:
    - `asset-skill` for new or existing skill folders under `.agent/skills/`
    - `asset-rule` for reusable rule assets under `.agent/rules/`
