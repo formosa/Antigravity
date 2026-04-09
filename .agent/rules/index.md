@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across reusable rule definitions.
 >
-> Total rules: `6`
+> Total rules: `9`
 >
 > Parent: [`.agent/`](..)
 >
@@ -19,11 +19,14 @@
 ## Selection Map
 
 - `agent-temp-artifact-hygiene`: Always-on containment and cleanup policy for one-off agent scripts, diagnostics, and transient run artifacts in the Antigravity workspace.
+- `config-governance`: Glob-scoped collection governance rule for the `.agent/config/` directory, covering runtime-target manifest completeness, model-ID authority, deprecated-model enforcement, and evidence-date currency across the full config surface.
+- `evals-governance`: Glob-scoped collection governance rule for the `.agent/evals/` directory, covering eval case-format consistency, case-ID uniqueness, reference validity against live rules and scripts, and prohibition of deprecated model or stale path references.
 - `powershell-execution-guardrails`: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, workspace-interpreter preference, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
 - `rules-governance`: Glob-scoped collection governance rule for the `.agent/rules/` directory, covering rule frontmatter, preferred naming, XML-fenced bodies, and the generated rules index for the full rules collection surface.
 - `schemas-governance`: Glob-scoped collection governance rule for the `.agent/schemas/` directory, covering canonical `.d.ts` contracts, schema README governance blocks, example fidelity, and the table-only schemas index for the full schema collection surface.
 - `scripts-governance`: Glob-scoped collection governance rule for the `.agent/scripts/` directory, covering live script inventory accuracy, generated root and tests indexes, compiled-artifact exclusion, and alignment between script implementations and linked tool definitions.
 - `skills-governance`: Glob-scoped collection governance rule for the `.agent/skills/` directory, requiring root README updates, SemVer-aligned version bumps, vendored schema mirror synchronization, and lifecycle consistency across the full skills collection surface.
+- `tools-governance`: Glob-scoped collection governance rule for the `.agent/tools/` directory, covering tool definition frontmatter contracts, implementation-script alignment, tools index accuracy, and prohibition of orphaned tool definitions.
 
 ## Manifest
 
@@ -47,6 +50,42 @@ rules:
   use_when:
   - Always-on containment and cleanup policy for one-off agent scripts, diagnostics,
     and transient run artifacts in the Antigravity workspace.
+- id: config-governance
+  definition: .agent/rules/config-governance.md
+  asset_structure: flat-file
+  category: glob_rules
+  trigger: glob
+  priority: critical
+  implementation: .agent/rules/config-governance.md
+  keywords:
+  - rule
+  - glob
+  - critical
+  - config
+  - governance
+  use_when:
+  - Glob-scoped collection governance rule for the `.agent/config/` directory, covering
+    runtime-target manifest completeness, model-ID authority, deprecated-model enforcement,
+    and evidence-date currency across the full config surface.
+  globs: .agent/config/**
+- id: evals-governance
+  definition: .agent/rules/evals-governance.md
+  asset_structure: flat-file
+  category: glob_rules
+  trigger: glob
+  priority: high
+  implementation: .agent/rules/evals-governance.md
+  keywords:
+  - rule
+  - glob
+  - high
+  - evals
+  - governance
+  use_when:
+  - Glob-scoped collection governance rule for the `.agent/evals/` directory, covering
+    eval case-format consistency, case-ID uniqueness, reference validity against live
+    rules and scripts, and prohibition of deprecated model or stale path references.
+  globs: .agent/evals/**
 - id: powershell-execution-guardrails
   definition: .agent/rules/powershell-execution-guardrails.md
   asset_structure: flat-file
@@ -137,6 +176,24 @@ rules:
     root README updates, SemVer-aligned version bumps, vendored schema mirror synchronization,
     and lifecycle consistency across the full skills collection surface.
   globs: .agent/skills/**
+- id: tools-governance
+  definition: .agent/rules/tools-governance.md
+  asset_structure: flat-file
+  category: glob_rules
+  trigger: glob
+  priority: critical
+  implementation: .agent/rules/tools-governance.md
+  keywords:
+  - rule
+  - glob
+  - critical
+  - tools
+  - governance
+  use_when:
+  - Glob-scoped collection governance rule for the `.agent/tools/` directory, covering
+    tool definition frontmatter contracts, implementation-script alignment, tools index
+    accuracy, and prohibition of orphaned tool definitions.
+  globs: .agent/tools/**
 ```
 
 ## Rule Records
@@ -158,6 +215,26 @@ Records are grouped by trigger order (`always_on`, `glob`, `manual`, `auto`, `@m
 - Best used for: Always-on Windows PowerShell execution guardrails focused on PowerShell-native syntax, workspace-interpreter preference, safe quoting, tool fallback behavior, and UTF-8-safe shell I/O.
 - Trigger: `always_on` (always-on)
 - Priority: `critical`
+- Execution tier: `standard`
+- Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
+
+### `config-governance`
+
+- Definition: [`config-governance.md`](config-governance.md)
+- Best used for: Glob-scoped collection governance rule for the `.agent/config/` directory, covering runtime-target manifest completeness, model-ID authority, deprecated-model enforcement, and evidence-date currency across the full config surface.
+- Trigger: `glob` (glob-scoped)
+- Priority: `critical`
+- Glob scope: `.agent/config/**`
+- Execution tier: `standard`
+- Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
+
+### `evals-governance`
+
+- Definition: [`evals-governance.md`](evals-governance.md)
+- Best used for: Glob-scoped collection governance rule for the `.agent/evals/` directory, covering eval case-format consistency, case-ID uniqueness, reference validity against live rules and scripts, and prohibition of deprecated model or stale path references.
+- Trigger: `glob` (glob-scoped)
+- Priority: `high`
+- Glob scope: `.agent/evals/**`
 - Execution tier: `standard`
 - Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
 
@@ -201,11 +278,21 @@ Records are grouped by trigger order (`always_on`, `glob`, `manual`, `auto`, `@m
 - Execution tier: `standard`
 - Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
 
+### `tools-governance`
+
+- Definition: [`tools-governance.md`](tools-governance.md)
+- Best used for: Glob-scoped collection governance rule for the `.agent/tools/` directory, covering tool definition frontmatter contracts, implementation-script alignment, tools index accuracy, and prohibition of orphaned tool definitions.
+- Trigger: `glob` (glob-scoped)
+- Priority: `critical`
+- Glob scope: `.agent/tools/**`
+- Execution tier: `standard`
+- Open the linked definition when exact constraints, verification steps, or trigger precedence matter.
+
 ## Category Totals
 
 - `always_on_rules`: `2`
-- `glob_rules`: `4`
-- `total`: `6`
+- `glob_rules`: `7`
+- `total`: `9`
 
 ## Index Boundaries
 

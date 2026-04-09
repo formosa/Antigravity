@@ -1,3 +1,11 @@
+<!-- NON-COMPLIANCE NOTICE (v1.21.9 contract)
+     This artifact predates the current implementation-plan contract and is
+     retained as a historical reference only. Known non-compliance:
+     - Model: Uses deprecated "Gemini 3.1 Pro" (current: gemini-3-pro-preview)
+     - Frontmatter: Missing required version, output_path, processed_path fields
+     - Structure: Uses non-standard §1–§7 sections instead of <objective>/<phases>/<atomic_steps>/<verification>/<risks_and_mitigations>
+     - Verification: Uses bash commands (cat | grep) incompatible with the Windows PowerShell workspace
+     Do not use this artifact as a template for new plans. -->
 ---
 task: Resolve ISL Rules Structural Logic Inaccuracy
 model: Gemini 3.1 Pro

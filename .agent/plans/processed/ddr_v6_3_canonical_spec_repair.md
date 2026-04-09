@@ -1,3 +1,11 @@
+<!-- NON-COMPLIANCE NOTICE (v1.21.9 contract)
+     This artifact predates the current implementation-plan contract and is
+     retained as a historical reference only. Known non-compliance:
+     - Model: Uses deprecated "gemini-3.1-pro" (current: gemini-3-pro-preview)
+     - Frontmatter: Missing required output_path and processed_path fields
+     - Structure: <atomic_steps> uses un-grouped numbered list without #### group headers or - [ ] completion trackers
+     - Verification: Non-1:1 mapping between atomic steps (10) and verification items (5)
+     Do not use this artifact as a template for new plans. -->
 ---
 task: Repair DDR v6.3 Canonical Specification Markdown Parity and Presentation
 model: gemini-3.1-pro
