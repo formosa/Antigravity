@@ -36,4 +36,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-04 | 1.0.1   | patch   | Sole Owner Cleanup | Removed the deprecated legacy issue-report compatibility package from the active repository contract and retained `artifact-issue-report` as the sole documented owner and validator path for issue-report artifacts. |
 | 2026-04-08 | 1.0.2   | patch   | Compatibility Refresh | Resynchronized the consumed `issues-tracker` schema mirrors after the Antigravity 1.21.9 compatibility refresh and updated the active issue-report template/example guidance to the current platform and model defaults. |
 
+| 2026-04-09 | 1.0.3   | patch   | Package Hygiene | Removed ignored vendored-schema `.bak` mirrors and transient script cache residue from the packaged skill tree so the owner package contains only live durable assets. |
+
 </modification_history>

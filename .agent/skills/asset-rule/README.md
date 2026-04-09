@@ -38,4 +38,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-04 | 2.1.0   | minor   | Collection Governance | Taught the active rule-authoring contract to use `<plural-directory>-governance` for collection-scoped directory governance rules and aligned the package with the renamed `rules-governance`, `schemas-governance`, and `skills-governance` rule family. |
 | 2026-04-06 | 2.1.1   | patch   | Regression Coverage   | Added regression tests for rule scaffolding, malformed-rule validation, and deterministic rules-index generation so the owner tooling is exercised alongside future governance changes.                                                                   |
 
+| 2026-04-09 | 2.1.2   | patch   | Package Hygiene | Removed ignored vendored-schema `.bak` mirrors and transient script cache residue from the packaged skill tree so the owner package contains only live durable assets. |
+
 </modification_history>

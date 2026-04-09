@@ -32,4 +32,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-05 | 1.1.0   | minor   | Initial Capability | Replaced scaffold placeholders with the live documentation-normalization contract, added the AONDS-C1 reference resource, created analyzer, stripping, and AST-equivalence helper scripts plus tests, and registered the skill in the skills index. |
 | 2026-04-05 | 1.1.1   | patch   | Audit Repair       | Completed a post-implementation audit, confirmed helper-script behavior with direct execution checks, and repaired the stale skills-index category and total counts introduced during the initial registration pass.                                |
 
+| 2026-04-09 | 1.1.2   | patch   | Package Hygiene | Removed ignored vendored-schema `.bak` mirrors and transient script cache residue from the packaged skill tree so the formatter package contains only live durable assets. |
+
 </modification_history>

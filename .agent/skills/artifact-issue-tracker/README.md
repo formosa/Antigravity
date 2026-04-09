@@ -35,4 +35,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-04 | 1.0.2   | patch   | Deprecated Alias Removal  | Removed the final deprecated issue-report compatibility-alias wording so tracker guidance now names only the active standalone report owner.                                                                                                              |
 | 2026-04-07 | 1.0.3   | patch   | Mirror Resynchronization  | Resynchronized the packaged `issues-tracker` schema mirrors after the runtime-target compatibility refresh so the owner package stays aligned with the active canonical examples and template.                                                              |
 
+| 2026-04-09 | 1.0.4   | patch   | Package Hygiene | Removed ignored vendored-schema `.bak` mirrors and transient script cache residue from the packaged skill tree so the owner package contains only live durable assets. |
+
 </modification_history>

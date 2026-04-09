@@ -39,4 +39,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-03 | 6.0.0   | major   | Naming Hardening      | Hardened the artifact-owner naming contract around the `artifact-*` family, updated package authority surfaces to the renamed skill path, and prepared the implementation-plan package for mirror resynchronization under the new naming regime.                |
 | 2026-04-07 | 6.0.1   | patch   | Runtime Target Refresh | Replaced stale `AGENTS.md`-first and `gemini-3.1-*` assumptions with the current runtime-target-backed `.agent/rules/` plus optional `~/.gemini/GEMINI.md` guidance, downgraded `.gemini/antigravity/brain/` to optional historical context, and synchronized the owner contract with the current implementation-plan schema surface. |
 
+| 2026-04-09 | 6.0.2   | patch   | Package Hygiene | Removed ignored vendored-schema `.bak` mirrors and any transient cache residue from the packaged skill tree so the owner package contains only live durable assets. |
+
 </modification_history>

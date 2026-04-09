@@ -1,6 +1,6 @@
 ---
 name: artifact-implementation-plan
-version: 6.0.1
+version: 6.0.2
 description: Serves as the Artifact-Centric Owner for Antigravity implementation-plan artifacts by creating, refining, auditing, and lifecycle-managing schema-compatible plans optimized for grounded planning, patch-bounded execution batches, task-tracker visibility, and safe executor handoff. Use when the task needs a formal plan artifact before execution begins. Do not use when the requested work is trivial enough to execute directly without a governed plan.
 ---
 
@@ -150,7 +150,7 @@ Emit sections in this exact order:
 ---
 task: "<one-sentence measurable objective>"
 model: "gemini-3-pro-preview"
-version: "1.0.0"
+version: 6.0.2
 output_path: ".agent/plans/<filename>"
 processed_path: ".agent/plans/processed/<filename>"
 ---
@@ -186,7 +186,7 @@ processed_path: ".agent/plans/processed/<filename>"
 **Task-group format:**
 
 ```markdown
-#### Group N — [Descriptive Group Name]
+#### Group N â€” [Descriptive Group Name]
 
 - [ ] N. <Step description using Intent -> Action -> Outcome pattern.>
 - [ ] N+1. <Step description.>
@@ -217,7 +217,7 @@ Do not downgrade high-risk work through wording.
 Emit this artifact and stop when blocking ambiguity is detected:
 
 ```markdown
-## RFQ — Request for Clarification
+## RFQ â€” Request for Clarification
 
 **Triggered by**: <phase/step + blocking condition>
 

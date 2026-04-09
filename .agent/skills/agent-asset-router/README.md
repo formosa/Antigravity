@@ -45,4 +45,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-04 | 2.3.1   | patch   | Deprecated Alias Removal     | Removed the deprecated issue-report compatibility package from the router's active registry context so standalone report routing now resolves only to `artifact-issue-report`.                                                               |
 | 2026-04-07 | 2.3.2   | patch   | Generated Registry Alignment | Clarified that `.agent/skills/index.md` is a generated discovery registry and aligned router usage with deterministic skills-index regeneration before route selection.                                                                          |
 
+| 2026-04-09 | 2.3.3   | patch   | Package Hygiene | Removed ignored vendored-schema `.bak` mirrors and any transient cache residue from the packaged skill tree so the router package contains only live durable assets. |
+
 </modification_history>

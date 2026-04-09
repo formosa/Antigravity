@@ -1,6 +1,6 @@
 ---
 name: core-schema
-version: 3.1.4
+version: 3.1.5
 description: Serves as the foundational `core-*` contract for canonical Antigravity `.d.ts` schema authoring via scaffold, strict validation, runtime-target compatibility checks, schema-governance README maintenance, and owner-aware index synchronization. Use when the task is to create a new schema from an example artifact, update an existing schema definition, or regenerate the schema directory index for a core-governed schema family. The package vendors the full set of canonical schemas it owns, and legacy `dev-schema` requests map to this contract. Do not use for creating workflows, skills, implementation plans, or project features outside the schema authoring contract.
 ---
 

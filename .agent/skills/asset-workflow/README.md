@@ -42,4 +42,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-04 | 2.0.1   | patch   | Mirror Sync      | Resynchronized the consumed index-schema mirror after the canonical `index` schema migrated its governance exception and governing workflow reference from `dev-schema` to `core-schema`.                                                                  |
 | 2026-04-06 | 2.0.2   | patch   | Regression Coverage | Added regression tests for workflow scaffolding, malformed-workflow validation, and deterministic workflow-index generation so the workflow owner tooling is exercised before new live workflows are added.                                               |
 
+| 2026-04-09 | 2.0.3   | patch   | Package Hygiene | Removed ignored vendored-schema `.bak` mirrors and transient script cache residue from the packaged skill tree so the owner package contains only live durable assets. |
+
 </modification_history>

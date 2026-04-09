@@ -33,4 +33,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-02 | 1.1.2   | patch   | Governance       | Clarified MD060 trigger boundaries, added example prompts, annotated the operational script as a run target, and synchronized the vendored skill schema mirror to the repaired canonical contract. |
 | 2026-04-03 | 1.1.3   | patch   | Naming Alignment | Resynchronized the vendored skill-schema mirror after the canonical skill-governance contract adopted the hardened `asset-*`, `artifact-*`, and `*-router` naming families.                        |
 
+| 2026-04-09 | 1.1.4   | patch   | Package Hygiene | Removed ignored vendored-schema `.bak` mirrors from the packaged skill tree so the formatter package contains only live durable assets. |
+
 </modification_history>

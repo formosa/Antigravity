@@ -1,6 +1,6 @@
 ---
 name: artifact-brainstorm
-version: 1.0.2
+version: 1.0.3
 description: Serves as the Artifact-Centric Owner for Antigravity brainstorm artifacts by creating, seeding, repairing, validating, and auditing governed `brainstorm.md` compendia against the canonical `brainstorm` schema, citation protocol, and Mermaid/visual-semantics rules. Use when the task is to create or maintain a governed brainstorm artifact or its entry content. Do not use when the task is to author the canonical brainstorm schema, finalize normative spec text, or write an implementation plan.
 ---
 
@@ -37,7 +37,7 @@ description: Serves as the Artifact-Centric Owner for Antigravity brainstorm art
 2. Load the local contract surfaces:
    - Read `.agent/schemas/brainstorm/README.md` and `.agent/schemas/brainstorm/brainstorm.d.ts` first.
    - Read `resources/schema/brainstorm/README.md` and `resources/schema/brainstorm/brainstorm.d.ts` only as packaged mirrors after consulting the canonical schema.
-   - Read `## PART I — Document Manifest` in the target artifact before changing any entry content.
+   - Read `## PART I â€” Document Manifest` in the target artifact before changing any entry content.
 3. Apply hard RFQ or halt gates before mutation:
    - If the request asks to redefine the canonical brainstorm schema and author or repair the final brainstorm artifact in the same pass, halt and route schema work through `core-schema` first.
    - If explicit initialization would overwrite an existing brainstorm artifact, require overwrite approval before replacing it.

@@ -1,6 +1,6 @@
 ---
 name: python-docsurface-normalizer
-version: 1.1.1
+version: 1.1.2
 description: "Populate or normalize semantically dense NumPy-style docstrings and meaningful code comments in one or more explicitly named Python files using deterministic analysis, grouped preservation gating, and AST-safe verification. Use when the task is to document existing Python code without changing runtime behavior. Do not use when the request is a directory sweep, non-Python edit, or general refactor."
 ---
 

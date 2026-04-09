@@ -47,4 +47,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-06 | 3.2.3   | patch   | Regression Coverage       | Added regression tests for skill scaffolding, malformed-skill validation, schema-mirror synchronization, and package cache exclusion so the owner tooling stays verifiable under future changes.                                                              |
 | 2026-04-07 | 3.3.0   | minor   | Skills Index Governance   | Added deterministic skills-index generation, taught validation to fail on stale `.agent/skills/index.md` output and schema-mirror content drift, and aligned the active skill-authoring contract with the generated-registry workflow.                      |
 
+| 2026-04-09 | 3.3.1   | patch   | Package Hygiene | Removed ignored vendored-schema `.bak` mirrors and transient script cache residue from the packaged skill tree so the owner package contains only live durable assets. |
+
 </modification_history>

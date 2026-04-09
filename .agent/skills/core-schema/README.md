@@ -48,4 +48,6 @@ mirror_policy: read-only-derived-from-.agent/schemas
 | 2026-04-06 | 3.1.3   | patch   | Regression Coverage    | Synchronized the active skill contract to the current lifecycle version and added regression tests for schema scaffolding, rollback-on-validation-failure behavior, and deterministic schema-index generation.                                      |
 | 2026-04-07 | 3.1.4   | patch   | Runtime Compatibility  | Added shared runtime-target-backed compatibility validation for active schema README, example, and `.d.ts` surfaces, synchronized the core-schema contract with that manifest, and extended tooling coverage for stale compatibility drift.          |
 
+| 2026-04-09 | 3.1.5   | patch   | Package Hygiene | Removed ignored vendored-schema `.bak` mirrors and transient script cache residue from the packaged skill tree so the foundational package contains only live durable assets. |
+
 </modification_history>
