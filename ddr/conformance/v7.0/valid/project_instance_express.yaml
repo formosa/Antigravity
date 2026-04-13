@@ -1,0 +1,44 @@
+ddr_version: "7.0"
+document_profile: project_instance_express
+project:
+  name: "Conformance Express Project"
+  created: "2026-04-13"
+  mode: express
+active_tiers:
+  - XPD
+  - SIL
+  - GPCL
+  - FCL
+  - SAL
+  - ICL
+  - CDL
+  - ISL
+express_mode:
+  groups:
+    - group_id: G1
+      tiers: [XPD, SIL, GPCL]
+      label: "Purpose, Strategy & Governance"
+    - group_id: G2
+      tiers: [FCL, CL]
+      label: "Capabilities & Constraints"
+    - group_id: G3
+      tiers: [SAL, ICL]
+      label: "Architecture & Contracts"
+    - group_id: G4
+      tiers: [CDL, ISL]
+      label: "Design & Scaffolding"
+  unbundle_determinism_rule: "Fragments must map deterministically to active constituent tiers."
+  deferred_fragment_handling: "Deferred fragments remain on the source group with explicit rationale."
+  generated_surface_policy: "Express is derived from the YAML authority pair."
+  inactive_tier_behavior: "Inactive conditional tiers reject or defer targeted fragments."
+nodes:
+  - id: XPD-0.1
+    tier: XPD
+    title: "Express Purpose"
+    content: "Deliver an express-mode deterministic tool."
+    status: ACTIVE
+    version: "7.0.0"
+    created: "2026-04-13T00:00:00Z"
+    modified: "2026-04-13T00:00:00Z"
+    parent_ids: []
+    express_mode_group: G1

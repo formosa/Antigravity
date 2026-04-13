@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick operational reference.
 >
-> Total tools: `2`
+> Total tools: `4`
 >
 > Parent: [`.agent/`](..)
 >
@@ -19,7 +19,9 @@
 ## Selection Map
 
 - `cleanup_temp_assets`: audit `.agent/.temp/`; optionally remove empty, stale, or retained-failure managed temp directories when explicit deletion flags are used.
+- `generate_ddr_release_docs`: generate the governed DDR v7.0 markdown release surfaces from the v7.0 YAML authority pair.
 - `rebuild_docs`: rebuild Sphinx documentation outputs; delete managed temp logs on success and retain them only on failure.
+- `validate_ddr_release`: run the owned DDR v7.0 release gate against the authority pair, generated markdown, and conformance corpus.
 
 ## Manifest
 
@@ -87,6 +89,64 @@ tools:
       - rebuilding documentation outputs
       - regenerating needs export and HTML documentation
       - capturing Sphinx warnings for follow-up review
+
+  - id: generate_ddr_release_docs
+    definition: .agent/tools/generate_ddr_release_docs.md
+    category: utility_and_infrastructure
+    runtime: system
+    confirmation: never
+    tool_args: none
+    direct_cli_flags:
+      - --system
+      - --schema
+      - --canonical-out
+      - --manual-out
+    output_capture_required: false
+    destructive_capability: none
+    primary_outputs:
+      - ddr/DDR System(v7.0).md
+      - ddr/ddr_ref_manual_v7.0.md
+    primary_side_effects:
+      - overwrites the governed v7.0 markdown release surfaces
+    implementation: .agent/scripts/generate_ddr_release_docs.py
+    keywords:
+      - ddr
+      - release
+      - markdown
+      - provenance
+      - generator
+    use_when:
+      - generating v7.0 release markdown from the authoritative YAML pair
+      - refreshing governed provenance headers on release docs
+
+  - id: validate_ddr_release
+    definition: .agent/tools/validate_ddr_release.md
+    category: utility_and_infrastructure
+    runtime: system
+    confirmation: never
+    tool_args: none
+    direct_cli_flags:
+      - --system
+      - --schema
+      - --canonical-doc
+      - --manual-doc
+      - --corpus-root
+    output_capture_required: false
+    destructive_capability: none
+    primary_outputs:
+      - stdout release-validation summary
+    primary_side_effects:
+      - none
+    implementation: .agent/scripts/validate_ddr_release.py
+    keywords:
+      - ddr
+      - release
+      - validator
+      - provenance
+      - conformance
+    use_when:
+      - validating the v7.0 authority pair and derived release surfaces
+      - executing the owned v7.0 conformance corpus
 ```
 
 ## Tool Records
@@ -123,10 +183,35 @@ tools:
 - Safety contract: does not expose destructive delete flags.
 - Open the linked definition before execution whenever warning counts or rebuild validation need to be reported.
 
+### `generate_ddr_release_docs`
+
+- Definition: [`generate_ddr_release_docs.md`](generate_ddr_release_docs.md)
+- Implementation: [`.agent/scripts/generate_ddr_release_docs.py`](../scripts/generate_ddr_release_docs.py)
+- Best used for: generating the governed v7.0 canonical markdown and reference manual from the YAML authority pair.
+- Inputs (tool definition): no structured args.
+- Inputs (direct script invocation): `--system`, `--schema`, `--canonical-out`, `--manual-out`.
+- Outputs: writes `ddr/DDR System(v7.0).md`.
+- Outputs: writes `ddr/ddr_ref_manual_v7.0.md`.
+- Safety contract: halts on missing or malformed YAML.
+- Safety contract: generated markdown remains explanatory only.
+- Open the linked definition before execution when custom output routing or provenance expectations matter.
+
+### `validate_ddr_release`
+
+- Definition: [`validate_ddr_release.md`](validate_ddr_release.md)
+- Implementation: [`.agent/scripts/validate_ddr_release.py`](../scripts/validate_ddr_release.py)
+- Best used for: enforcing the owned v7.0 release gate across YAML authority, markdown provenance, and corpus cases.
+- Inputs (tool definition): no structured args.
+- Inputs (direct script invocation): `--system`, `--schema`, `--canonical-doc`, `--manual-doc`, `--corpus-root`.
+- Outputs: prints a release-validation summary to stdout.
+- Safety contract: fails on any schema, provenance, or corpus mismatch.
+- Safety contract: has no destructive side effects.
+- Open the linked definition before execution whenever the release package needs a stop-go decision.
+
 ## Category Totals
 
-- `utility_and_infrastructure`: `2`
-- `total`: `2`
+- `utility_and_infrastructure`: `4`
+- `total`: `4`
 
 ## Index Boundaries
 

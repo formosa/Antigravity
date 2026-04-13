@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across durable script assets that live directly under the scripts root.
 >
-> Total scripts: `6`
+> Total scripts: `8`
 >
 > Parent: [`.agent/`](..)
 >
@@ -20,10 +20,12 @@
 
 - `cleanup_temp_assets`: Audit and optionally clean up stale agent temp run directories in .agent/.temp.
 - `directory_tree`: Generate and format text-based directory tree representations with configurable filtering and statistics.
+- `generate_ddr_release_docs`: Generate DDR v7.0 markdown release surfaces from the v7.0 YAML authority pair.
 - `managed_temp`: Manage timestamped run directories under .agent/.temp for single-task artifacts.
 - `rebuild_docs`: Rebuild Sphinx documentation outputs with managed-temp warning capture.
 - `runtime_target`: Shared loader and validator for the repository runtime target manifest.
 - `update_index`: Regenerate governed root and tests script indexes in .agent/scripts/.
+- `validate_ddr_release`: Validate the DDR v7.0 release package against the owned release boundary.
 
 ## Manifest
 
@@ -57,6 +59,22 @@ scripts:
   use_when:
   - Generate and format text-based directory tree representations with configurable
     filtering and statistics.
+- id: generate_ddr_release_docs
+  definition: .agent/scripts/generate_ddr_release_docs.py
+  asset_structure: flat-file
+  category: utility_and_infrastructure
+  implementation: .agent/scripts/generate_ddr_release_docs.py
+  keywords:
+  - script
+  - generate
+  - ddr
+  - release
+  - docs
+  - utility_and_infrastructure
+  - tool-linked
+  use_when:
+  - Generate DDR v7.0 markdown release surfaces from the v7.0 YAML authority pair.
+  tool_definition: .agent/tools/generate_ddr_release_docs.md
 - id: managed_temp
   definition: .agent/scripts/managed_temp.py
   asset_structure: flat-file
@@ -107,6 +125,21 @@ scripts:
   - governance_and_inventory
   use_when:
   - Regenerate governed root and tests script indexes in .agent/scripts/.
+- id: validate_ddr_release
+  definition: .agent/scripts/validate_ddr_release.py
+  asset_structure: flat-file
+  category: utility_and_infrastructure
+  implementation: .agent/scripts/validate_ddr_release.py
+  keywords:
+  - script
+  - validate
+  - ddr
+  - release
+  - utility_and_infrastructure
+  - tool-linked
+  use_when:
+  - Validate the DDR v7.0 release package against the owned release boundary.
+  tool_definition: .agent/tools/validate_ddr_release.md
 ```
 
 ## Script Records
@@ -126,6 +159,14 @@ scripts:
 - Category: `analysis_and_reporting`
 - Tool Definition: none
 - Open the script implementation when internal helper behavior or direct invocation details matter.
+
+### `generate_ddr_release_docs`
+
+- Implementation: [`generate_ddr_release_docs.py`](generate_ddr_release_docs.py)
+- Best used for: Generate DDR v7.0 markdown release surfaces from the v7.0 YAML authority pair.
+- Category: `utility_and_infrastructure`
+- Tool Definition: [`generate_ddr_release_docs.md`](../tools/generate_ddr_release_docs.md)
+- Open the linked tool definition before execution when exact flags, outputs, or safety boundaries matter.
 
 ### `managed_temp`
 
@@ -159,13 +200,21 @@ scripts:
 - Tool Definition: none
 - Open the script implementation when internal helper behavior or direct invocation details matter.
 
+### `validate_ddr_release`
+
+- Implementation: [`validate_ddr_release.py`](validate_ddr_release.py)
+- Best used for: Validate the DDR v7.0 release package against the owned release boundary.
+- Category: `utility_and_infrastructure`
+- Tool Definition: [`validate_ddr_release.md`](../tools/validate_ddr_release.md)
+- Open the linked tool definition before execution when exact flags, outputs, or safety boundaries matter.
+
 ## Category Totals
 
-- `utility_and_infrastructure`: `2`
+- `utility_and_infrastructure`: `4`
 - `analysis_and_reporting`: `1`
 - `governance_and_inventory`: `1`
 - `general_scripts`: `2`
-- `total`: `6`
+- `total`: `8`
 
 ## Index Boundaries
 

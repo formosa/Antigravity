@@ -1,0 +1,25 @@
+ddr_version: "7.0"
+document_profile: project_instance
+project:
+  name: "Conformance Project Instance"
+  created: "2026-04-13"
+  mode: full
+active_tiers:
+  - XPD
+  - SIL
+  - GPCL
+  - FCL
+  - SAL
+  - ICL
+  - CDL
+  - ISL
+nodes:
+  - id: XPD-0.1
+    tier: XPD
+    title: "Purpose"
+    content: "Support deterministic local tooling with explicit governance."
+    status: ACTIVE
+    version: "7.0.0"
+    created: "2026-04-13T00:00:00Z"
+    modified: "2026-04-13T00:00:00Z"
+    parent_ids: []

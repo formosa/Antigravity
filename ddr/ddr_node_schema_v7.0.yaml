@@ -1,0 +1,2123 @@
+# ddr_node_schema_v7.0.yaml — DDR System v7.0 Machine Contract
+# JSON Schema Draft 2020-12 expressed in YAML.
+# Certifies BOTH:
+#   (A) DDR system-definition files (e.g. ddr_system_v7.0.yaml) — all sections
+#   (B) DDR project-instance files — minimum: ddr_version, active_tiers, nodes
+#
+# Validate with:
+#   python -c "
+#     import yaml, jsonschema
+#     schema = yaml.safe_load(open('ddr/ddr_node_schema_v7.0.yaml'))
+#     data   = yaml.safe_load(open('your_ddr_file.yaml'))
+#     jsonschema.validate(data, schema)
+#   "
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "ddr-system-v7.0-schema"
+title: "DDR System v7.0 Machine Contract"
+description: >
+  Schema for DDR System v7.0 Machine Contract files. Uses explicit
+  document_profile branching to distinguish lean project-instance documents,
+  express project-instance documents, and the authoritative system-definition
+  artifact. System-definition files require the normative top-level surface,
+  while project-instance files remain rooted in ddr_version, document_profile,
+  active_tiers, and nodes.
+
+type: object
+required:
+  - ddr_version
+  - document_profile
+  - active_tiers
+  - nodes
+additionalProperties: false
+allOf:
+  - if:
+      properties:
+        document_profile:
+          const: project_instance
+    then:
+      not:
+        required: [system_metadata]
+  - if:
+      properties:
+        document_profile:
+          const: project_instance_express
+    then:
+      required: [express_mode]
+      properties:
+        nodes:
+          items:
+            allOf:
+              - required: [express_mode_group]
+      not:
+        required: [system_metadata]
+  - if:
+      properties:
+        document_profile:
+          const: system_definition
+    then:
+      required:
+        - authority_hierarchy
+        - governance_controls
+        - system_metadata
+        - axioms
+        - edge_type_definitions
+        - node_schema_fields
+        - node_id_format
+        - dag_invariants
+        - citation_rules
+        - consumption_modes
+        - express_mode
+        - system_class
+        - operational_maturity
+        - assurance_profile
+        - design_complete
+        - production_ready
+        - profile_matrices
+        - tier_definitions
+        - constraint_precedence
+        - operations
+        - runtime_contract
+        - extension_system
+        - extension_catalog
+        - production_contracts
+        - conformance_suite
+        - migration_contract
+        - reference_generators
+        - compliance_checklist
+        - glossary
+        - are_scoring_profiles
+        - lifecycle
+  - if:
+      properties:
+        active_tiers:
+          contains:
+            const: XPD
+    then:
+      properties:
+        nodes:
+          items:
+            allOf:
+              - if:
+                  properties:
+                    tier:
+                      const: SIL
+                then:
+                  properties:
+                    parent_ids:
+                      minItems: 1
+  - if:
+      required: [document_profile, project]
+      properties:
+        document_profile:
+          const: system_definition
+        project:
+          required: [mode]
+    then:
+      properties:
+        project:
+          required: [name, created, mode, contract_note]
+          properties:
+            mode:
+              const: full
+  - if:
+      required: [project]
+      properties:
+        project:
+          required: [mode]
+          properties:
+            mode:
+              const: express
+    then:
+      properties:
+        document_profile:
+          const: project_instance_express
+  - if:
+      required: [document_profile, project]
+      properties:
+        document_profile:
+          const: project_instance_express
+        project:
+          required: [mode]
+    then:
+      properties:
+        project:
+          properties:
+            mode:
+              const: express
+
+properties:
+
+  # ── CORE REQUIRED ──────────────────────────────────────────────────────────
+
+  ddr_version:
+    type: string
+    const: "7.0"
+    description: "Locks the definition to DDR v7.0. Must be the string '7.0'."
+
+  document_profile:
+    type: string
+    enum: [project_instance, project_instance_express, system_definition]
+    description: >
+      Explicit root document profile. project_instance is the lean full-mode
+      project artifact, project_instance_express is the express-mode project
+      artifact, and system_definition is the authoritative DDR specification
+      artifact.
+
+  active_tiers:
+    type: array
+    description: >
+      Canonical ordered list of active tier identifiers (§3.5). Legal variants
+      are the 7-tier base topology, base+XPD, base+CL, and base+XPD+CL.
+    items:
+      type: string
+      enum: [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
+    uniqueItems: true
+    oneOf:
+      - prefixItems:
+          - const: SIL
+          - const: GPCL
+          - const: FCL
+          - const: SAL
+          - const: ICL
+          - const: CDL
+          - const: ISL
+        minItems: 7
+        maxItems: 7
+      - prefixItems:
+          - const: XPD
+          - const: SIL
+          - const: GPCL
+          - const: FCL
+          - const: SAL
+          - const: ICL
+          - const: CDL
+          - const: ISL
+        minItems: 8
+        maxItems: 8
+      - prefixItems:
+          - const: SIL
+          - const: GPCL
+          - const: FCL
+          - const: CL
+          - const: SAL
+          - const: ICL
+          - const: CDL
+          - const: ISL
+        minItems: 8
+        maxItems: 8
+      - prefixItems:
+          - const: XPD
+          - const: SIL
+          - const: GPCL
+          - const: FCL
+          - const: CL
+          - const: SAL
+          - const: ICL
+          - const: CDL
+          - const: ISL
+        minItems: 9
+        maxItems: 9
+
+  nodes:
+    type: array
+    description: >
+      All DDR nodes in this definition. For project-instance files these are
+      individual requirement nodes (e.g. SIL-1.3). For system-definition files
+      these are tier-representative nodes encoding the canonical topology.
+    items:
+      $ref: "#/$defs/DdrNode"
+
+  # ── OPTIONAL: PROJECT METADATA ─────────────────────────────────────────────
+
+  project:
+    type: object
+    description: "Project-level metadata."
+    additionalProperties: false
+    required: [name]
+    properties:
+      name:
+        type: string
+      created:
+        type: string
+        format: date
+      mode:
+        type: string
+        enum: [full, express]
+        description: "Consumption mode (§4). 'full' or 'express'."
+      contract_note:
+        type: string
+
+  # ── OPTIONAL: ERRATA LOG (§1.2) ─────────────────────────────────────────────
+
+  errata_log:
+    type: array
+    description: "Post-release errata corrections (§1.2). Note: Prior errata matrices are securely archived inside legacy documentation artifacts exclusively."
+    items:
+      $ref: "#/$defs/ErrataEntry"
+
+  # ── OPTIONAL: SYSTEM METADATA (§1, §1.1) ───────────────────────────────────
+
+  system_metadata:
+    type: object
+    description: "System-level metadata for DDR specification definition files."
+    additionalProperties: false
+    required:
+      - status
+      - date
+      - scope
+      - authority
+      - lineage
+      - single_source_of_truth
+      - design_philosophy
+      - changes_from_prior
+    properties:
+      status:
+        type: string
+        enum: [Draft, Finalized, Superseded]
+      date:
+        type: string
+        format: date
+      scope:
+        type: string
+      authority:
+        type: string
+      lineage:
+        type: string
+      single_source_of_truth:
+        type: string
+      design_philosophy:
+        type: array
+        items:
+          $ref: "#/$defs/DesignPrinciple"
+      changes_from_prior:
+        type: array
+        items:
+          $ref: "#/$defs/VersionChange"
+
+  authority_hierarchy:
+    type: object
+    description: "Declares authority precedence for the v7.0 YAML pair and generated release surfaces."
+    additionalProperties: false
+    required: [semantic_authority, structural_authority, generated_surfaces]
+    properties:
+      semantic_authority:
+        $ref: "#/$defs/AuthoritySurface"
+      structural_authority:
+        $ref: "#/$defs/AuthoritySurface"
+      generated_surfaces:
+        type: array
+        minItems: 1
+        items:
+          $ref: "#/$defs/GeneratedSurface"
+
+  governance_controls:
+    type: object
+    description: "Growth-control, errata, and retirement governance for the normative authority."
+    additionalProperties: false
+    required: [complexity_budget_rule, rule_family_uniqueness_rule, errata_governance, deprecation_removal_policy]
+    properties:
+      complexity_budget_rule:
+        type: string
+      rule_family_uniqueness_rule:
+        type: string
+      errata_governance:
+        $ref: "#/$defs/ErrataGovernance"
+      deprecation_removal_policy:
+        $ref: "#/$defs/DeprecationRemovalPolicy"
+
+  # ── OPTIONAL: FOUNDATIONAL AXIOMS (§2) ─────────────────────────────────────
+
+  axioms:
+    type: array
+    description: "Foundational axioms governing the DDR system (§2)."
+    items:
+      $ref: "#/$defs/Axiom"
+
+  # ── OPTIONAL: EDGE TYPE DEFINITIONS (§3.2) ─────────────────────────────────
+
+  edge_type_definitions:
+    type: object
+    description: "Typed edge vocabulary (§3.2)."
+    additionalProperties: false
+    properties:
+      design_decision:
+        type: string
+      types:
+        type: array
+        items:
+          $ref: "#/$defs/EdgeTypeDefinition"
+
+  # ── OPTIONAL: NODE SCHEMA FIELDS (§3.1) ────────────────────────────────────
+
+  node_schema_fields:
+    type: array
+    description: "Enumeration of all node schema properties (§3.1)."
+    items:
+      $ref: "#/$defs/NodeSchemaField"
+
+  # ── OPTIONAL: NODE ID FORMAT (§3.6) ────────────────────────────────────────
+
+  node_id_format:
+    type: object
+    description: "Node ID assignment rules and patterns (§3.6)."
+    additionalProperties: false
+    properties:
+      general_pattern:
+        type: string
+      xpd_pattern:
+        type: string
+      examples:
+        type: array
+        items:
+          type: string
+      immutability_rule:
+        type: string
+
+  # ── OPTIONAL: DAG INVARIANTS (§3.5) ────────────────────────────────────────
+
+  dag_invariants:
+    type: array
+    description: "Structural invariants the Core DAG must always satisfy (§3.5)."
+    items:
+      $ref: "#/$defs/DagInvariant"
+
+  # ── OPTIONAL: CITATION RULES (§3.7) ────────────────────────────────────────
+
+  citation_rules:
+    type: array
+    description: "Rules governing parent_ids citations (§3.7)."
+    items:
+      $ref: "#/$defs/CitationRule"
+
+  # ── OPTIONAL: CONSUMPTION MODES (§4) ───────────────────────────────────────
+
+  consumption_modes:
+    type: array
+    description: "Available consumption modes: Full (all active tiers) and Express (§4)."
+    items:
+      $ref: "#/$defs/ConsumptionMode"
+
+  system_class:
+    $ref: "#/$defs/ProfileAxis"
+
+  operational_maturity:
+    $ref: "#/$defs/ProfileAxis"
+
+  assurance_profile:
+    $ref: "#/$defs/ProfileAxis"
+
+  design_complete:
+    $ref: "#/$defs/ReadinessGate"
+
+  production_ready:
+    $ref: "#/$defs/ReadinessGate"
+
+  profile_matrices:
+    type: array
+    description: "Profile-driven minimum obligations for declared target use cases."
+    items:
+      $ref: "#/$defs/ProfileMatrixEntry"
+
+  # ── OPTIONAL: EXPRESS MODE (§4) ────────────────────────────────────────────
+
+  express_mode:
+    type: object
+    description: "Express Mode group definitions and UNBUNDLE_SCAN / UNBUNDLE_EXECUTE authority (§4)."
+    additionalProperties: false
+    required: [groups, unbundle_determinism_rule, deferred_fragment_handling, generated_surface_policy, inactive_tier_behavior]
+    properties:
+      description:
+        type: string
+      groups:
+        type: array
+        minItems: 4
+        maxItems: 4
+        items:
+          $ref: "#/$defs/ExpressModeGroup"
+        allOf:
+          - contains:
+              type: object
+              required: [group_id]
+              properties:
+                group_id:
+                  const: G1
+          - contains:
+              type: object
+              required: [group_id]
+              properties:
+                group_id:
+                  const: G2
+          - contains:
+              type: object
+              required: [group_id]
+              properties:
+                group_id:
+                  const: G3
+          - contains:
+              type: object
+              required: [group_id]
+              properties:
+                group_id:
+                  const: G4
+      unbundle_determinism_rule:
+        type: string
+      deferred_fragment_handling:
+        type: string
+      generated_surface_policy:
+        type: string
+      inactive_tier_behavior:
+        type: string
+
+  # ── OPTIONAL: TIER DEFINITIONS (§5) ────────────────────────────────────────
+
+  tier_definitions:
+    type: array
+    description: >
+      Complete tier specifications with atomic inclusion and exclusion rulesets (§5).
+      Required for system-definition files; optional for project-instance files.
+    items:
+      $ref: "#/$defs/TierDefinition"
+
+  # ── OPTIONAL: CONSTRAINT PRECEDENCE (§6) ───────────────────────────────────
+
+  constraint_precedence:
+    type: object
+    description: "Inter-tier and intra-tier conflict resolution rules (§6)."
+    additionalProperties: false
+    properties:
+      tiers:
+        type: array
+        items:
+          $ref: "#/$defs/ConstraintPrecedenceTier"
+      constraint_classes:
+        type: array
+        items:
+          $ref: "#/$defs/ConstraintClass"
+      override_principle:
+        type: string
+      intra_tier_conflict_rule:
+        type: string
+      physical_constraint_rule:
+        type: string
+      physical_constraint_escalation:
+        type: string
+
+  # ── OPTIONAL: OPERATIONS (§7) ──────────────────────────────────────────────
+
+  operations:
+    type: object
+    description: "Atomic operations protocol (§7)."
+    additionalProperties: false
+    properties:
+      core_operations:
+        type: array
+        items:
+          $ref: "#/$defs/Operation"
+      design_decision_removed_ops:
+        type: string
+      dirty_flag_triggers:
+        type: array
+        items:
+          $ref: "#/$defs/DirtyFlagTrigger"
+      dirty_flag_notes:
+        type: array
+        items:
+          type: string
+      dirty_classification:
+        type: array
+        items:
+          $ref: "#/$defs/DirtyClassificationEntry"
+      supersede_dirty_behavior:
+        type: string
+      resolution_workflow:
+        type: string
+      conflict_resolution_protocol:
+        $ref: "#/$defs/ConflictResolutionProtocol"
+      semantic_consistency_rules:
+        $ref: "#/$defs/SemanticConsistencyRules"
+      reconciliation_manifest_tracks:
+        type: array
+        items:
+          type: string
+      reconciliation_manifest_schema:
+        type: object
+        description: "Formalized manifest item types for the reconciliation manifest (§7.4)."
+        additionalProperties: false
+        properties:
+          manifest_item_types:
+            type: array
+            items:
+              $ref: "#/$defs/ManifestItemType"
+          semantic_gap_classification:
+            $ref: "#/$defs/SemanticGapClassification"
+
+  runtime_contract:
+    $ref: "#/$defs/RuntimeContract"
+
+  # ── OPTIONAL: EXTENSION SYSTEM (§8) ────────────────────────────────────────
+
+  extension_system:
+    type: object
+    description: "Extension architecture, candidate pool, and integration rules (§8)."
+    additionalProperties: false
+    properties:
+      architecture_description:
+        type: string
+      permitted_actions:
+        type: array
+        items:
+          type: string
+      prohibited_actions:
+        type: array
+        items:
+          type: string
+      candidate_pool:
+        type: object
+        description: "Extension Candidate Pool definition (§8.2)."
+        additionalProperties: false
+        properties:
+          description:
+            type: string
+          candidate_status_value:
+            type: string
+          visibility_rule:
+            type: string
+          activation_states:
+            $ref: "#/$defs/AreActivationStates"
+          checkpoint_path:
+            type: string
+          effect_on_core_status:
+            type: string
+          promotion_mechanism:
+            type: string
+          discard_trigger:
+            type: string
+      integration_rules:
+        type: array
+        items:
+          $ref: "#/$defs/ExtensionIntegrationRule"
+      normative_notes:
+        type: array
+        items:
+          type: string
+
+  # ── OPTIONAL: EXTENSION CATALOG (§9) ───────────────────────────────────────
+
+  extension_catalog:
+    type: array
+    description: "Catalog of all defined Extensions with contracts and rules (§9)."
+    items:
+      $ref: "#/$defs/ExtensionEntry"
+
+  production_contracts:
+    $ref: "#/$defs/ProductionContracts"
+
+  conformance_suite:
+    $ref: "#/$defs/ConformanceSuite"
+
+  migration_contract:
+    $ref: "#/$defs/MigrationContract"
+
+  reference_generators:
+    type: array
+    description: "Owned generators for derived release surfaces."
+    items:
+      $ref: "#/$defs/ReferenceGenerator"
+
+  # ── OPTIONAL: COMPLIANCE CHECKLIST (§11) ───────────────────────────────────
+
+  compliance_checklist:
+    type: object
+    description: "Items that must all be satisfied before a project is declared CLEAN (§11)."
+    additionalProperties: false
+    properties:
+      structural_validation:
+        type: array
+        items:
+          type: string
+      atomic_rule_validation:
+        type: array
+        items:
+          type: string
+      extension_validation:
+        type: array
+        items:
+          type: string
+      profile_guidance:
+        type: array
+        items:
+          type: string
+
+  # ── OPTIONAL: GLOSSARY ─────────────────────────────────────────────────────
+
+  glossary:
+    type: array
+    description: "Normative definitions of DDR system terminology."
+    items:
+      $ref: "#/$defs/GlossaryEntry"
+
+  # ── OPTIONAL: ARE SCORING PROFILES ──────────────────────────────────────────
+
+  are_scoring_profiles:
+    type: object
+    description: >-
+      Scoring profile definitions for the ARE Extension (§9 E5). Includes
+      standard_v1, conservative_v1, and custom profile schema.
+    additionalProperties: false
+    properties:
+      standard_v1:
+        $ref: "#/$defs/ScoringProfile"
+      conservative_v1:
+        $ref: "#/$defs/ScoringProfile"
+      custom:
+        type: object
+        additionalProperties: false
+        required: [required_fields, profile_template, validation_note]
+        properties:
+          required_fields:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items:
+              type: string
+          profile_template:
+            $ref: "#/$defs/ScoringProfile"
+          validation_note:
+            type: string
+
+  # ── REQUIRED: NODE STATUS LIFECYCLE ─────────────────────────────────────────
+
+  lifecycle:
+    type: object
+    description: >-
+      Machine-parseable authority for DDR node status lifecycle semantics
+      (§3.8). Contains status_transitions and guard_definitions. Any
+      transition not enumerated in status_transitions is invalid.
+    additionalProperties: false
+    required:
+      - status_transitions
+      - delete_contract
+    properties:
+      status_transitions:
+        type: array
+        items:
+          $ref: "#/$defs/StatusTransition"
+      guard_definitions:
+        type: array
+        items:
+          $ref: "#/$defs/GuardDefinition"
+      delete_contract:
+        $ref: "#/$defs/DeleteContract"
+
+  # ── OPTIONAL: VERSION HISTORY (Appendix A) ─────────────────────────────────
+
+  version_history:
+    type: array
+    description: "DDR specification version history (Appendix A)."
+    items:
+      $ref: "#/$defs/VersionHistoryEntry"
+
+  # ── OPTIONAL: TIER MIGRATION (Appendix B) ──────────────────────────────────
+
+  tier_migration:
+    type: object
+    description: "Legacy tier and rule migration records (Appendix B)."
+    additionalProperties: false
+    properties:
+      policy:
+        type: string
+      tier_map:
+        type: array
+        items:
+          $ref: "#/$defs/TierMigrationEntry"
+      rule_map:
+        type: array
+        items:
+          $ref: "#/$defs/RuleMigrationEntry"
+
+
+# ── DEFINITIONS ──────────────────────────────────────────────────────────────
+
+$defs:
+
+  # §1 — Design Philosophy
+
+  DesignPrinciple:
+    type: object
+    required: [principle, description]
+    additionalProperties: false
+    properties:
+      principle:
+        type: string
+      description:
+        type: string
+
+  VersionChange:
+    type: object
+    required: [area, prior, current, rationale]
+    additionalProperties: false
+    properties:
+      area:
+        type: string
+      prior:
+        type: string
+      current:
+        type: string
+      rationale:
+        type: string
+
+  AuthoritySurface:
+    type: object
+    required: [surface, path, role, precedence]
+    additionalProperties: false
+    properties:
+      surface:
+        type: string
+      path:
+        type: string
+      role:
+        type: string
+      precedence:
+        type: string
+
+  GeneratedSurface:
+    type: object
+    required: [surface, path, role, generation_owner, authority_note]
+    additionalProperties: false
+    properties:
+      surface:
+        type: string
+      path:
+        type: string
+      role:
+        type: string
+      generation_owner:
+        type: string
+      authority_note:
+        type: string
+
+  ErrataGovernance:
+    type: object
+    required: [entry_required_when, release_blocking_policy, retirement_rule]
+    additionalProperties: false
+    properties:
+      entry_required_when:
+        type: string
+      release_blocking_policy:
+        type: string
+      retirement_rule:
+        type: string
+
+  DeprecationRemovalPolicy:
+    type: object
+    required: [scopes, deprecation_rule, removal_rule]
+    additionalProperties: false
+    properties:
+      scopes:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum: [rules, profiles, extensions, generated_artifacts]
+      deprecation_rule:
+        type: string
+      removal_rule:
+        type: string
+
+  ProfileLevel:
+    type: object
+    required: [id, label, description]
+    additionalProperties: false
+    properties:
+      id:
+        type: string
+      label:
+        type: string
+      description:
+        type: string
+
+  ProfileAxis:
+    type: object
+    required: [axis_name, purpose, levels]
+    additionalProperties: false
+    properties:
+      axis_name:
+        type: string
+      purpose:
+        type: string
+      levels:
+        type: array
+        minItems: 1
+        items:
+          $ref: "#/$defs/ProfileLevel"
+
+  ReadinessGate:
+    type: object
+    required: [gate, definition, evidence_requirements]
+    additionalProperties: false
+    properties:
+      gate:
+        type: string
+      definition:
+        type: string
+      evidence_requirements:
+        type: array
+        minItems: 1
+        items:
+          type: string
+
+  ProfileMatrixEntry:
+    type: object
+    required:
+      - use_case
+      - minimum_system_class
+      - minimum_operational_maturity
+      - minimum_assurance_profile
+      - minimum_active_tiers
+      - required_extensions
+      - evidence_requirements
+      - readiness_gates
+    additionalProperties: false
+    properties:
+      use_case:
+        type: string
+      minimum_system_class:
+        type: string
+      minimum_operational_maturity:
+        type: string
+      minimum_assurance_profile:
+        type: string
+      minimum_active_tiers:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          enum: [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
+      required_extensions:
+        type: array
+        items:
+          type: string
+      evidence_requirements:
+        type: array
+        items:
+          type: string
+      readiness_gates:
+        type: array
+        minItems: 1
+        items:
+          type: string
+
+  RuntimeContract:
+    type: object
+    required: [concurrency, persistence, eventing, api_shape, rollback_semantics, validation_ledger]
+    additionalProperties: false
+    properties:
+      concurrency:
+        type: string
+      persistence:
+        type: string
+      eventing:
+        type: string
+      api_shape:
+        type: string
+      rollback_semantics:
+        type: string
+      validation_ledger:
+        type: string
+
+  ConformanceSuite:
+    type: object
+    required: [validator_command, corpus_root, supported_document_profiles, round_trip_requirements]
+    additionalProperties: false
+    properties:
+      validator_command:
+        type: string
+      corpus_root:
+        type: string
+      supported_document_profiles:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          enum: [system_definition, project_instance, project_instance_express]
+      round_trip_requirements:
+        type: array
+        minItems: 1
+        items:
+          type: string
+
+  MigrationContract:
+    type: object
+    required: [source_version, target_version, scope, owner, generated_outputs]
+    additionalProperties: false
+    properties:
+      source_version:
+        type: string
+      target_version:
+        type: string
+      scope:
+        type: string
+      owner:
+        type: string
+      generated_outputs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+
+  ReferenceGenerator:
+    type: object
+    required: [generator_id, script_path, outputs, provenance_rule]
+    additionalProperties: false
+    properties:
+      generator_id:
+        type: string
+      script_path:
+        type: string
+      outputs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+      provenance_rule:
+        type: string
+
+  ProductionContractGroup:
+    type: object
+    required: [profile_gate, obligations]
+    additionalProperties: false
+    properties:
+      profile_gate:
+        type: string
+      obligations:
+        type: array
+        minItems: 1
+        items:
+          type: string
+
+  ProductionContracts:
+    type: object
+    required: [security_operations, online_runtime, data_governance, supply_chain]
+    additionalProperties: false
+    properties:
+      security_operations:
+        $ref: "#/$defs/ProductionContractGroup"
+      online_runtime:
+        $ref: "#/$defs/ProductionContractGroup"
+      data_governance:
+        $ref: "#/$defs/ProductionContractGroup"
+      supply_chain:
+        $ref: "#/$defs/ProductionContractGroup"
+
+  ContentValidationContract:
+    type: object
+    required: [rule_ids_checked, outcome]
+    additionalProperties: false
+    properties:
+      rule_ids_checked:
+        type: array
+        minItems: 1
+        items:
+          type: string
+      outcome:
+        type: string
+        enum: [pass, fail, review_required, reconciliation_required]
+      notes:
+        type: string
+
+  HardwareEnvelope:
+    type: object
+    additionalProperties: false
+    properties:
+      target_platforms:
+        type: array
+        items:
+          type: string
+          enum: [desktop, mobile, console, server, edge, specialized_compute, local_tool, game_client, game_backend]
+      cpu_budget:
+        type: string
+      memory_budget:
+        type: string
+      storage_budget:
+        type: string
+      network_budget:
+        type: string
+
+  DeleteContract:
+    type: object
+    required: [allowed_source_statuses, terminal_behavior, child_handling, manifest_effects, rollback_notes]
+    additionalProperties: false
+    properties:
+      allowed_source_statuses:
+        type: array
+        minItems: 1
+        items:
+          $ref: "#/$defs/StatusEnum"
+      terminal_behavior:
+        type: string
+      child_handling:
+        type: string
+      manifest_effects:
+        type: string
+      rollback_notes:
+        type: string
+
+  # §1.2 — Errata
+
+  ErrataEntry:
+    type: object
+    required: [issue_id, description, resolution, authority, version_introduced, version_fixed]
+    additionalProperties: false
+    properties:
+      issue_id:
+        type: string
+      description:
+        type: string
+      resolution:
+        type: string
+      authority:
+        type: string
+      version_introduced:
+        type: string
+      version_fixed:
+        type: string
+
+  # §2 — Axioms
+
+  Axiom:
+    type: object
+    required: [id, name, statement, implication]
+    additionalProperties: false
+    properties:
+      id:
+        type: string
+        pattern: "^AX-[0-9]+$"
+      name:
+        type: string
+      statement:
+        type: string
+      implication:
+        type: string
+
+  # §3.1 — Node Schema Fields
+
+  NodeSchemaField:
+    type: object
+    required: [property, type]
+    additionalProperties: false
+    properties:
+      property:
+        type: string
+      type:
+        type: string
+      description:
+        type: string
+      cardinality:
+        type: string
+        description: "Optional cardinality annotation (e.g. 'optional')."
+      semantics:
+        type: string
+        description: "Detailed semantic description of the field."
+      backward_compatibility:
+        type: string
+        description: "Backward compatibility note for the field."
+
+  # §3.2 — Edge Types
+
+  EdgeTypeDefinition:
+    type: object
+    required: [type, symbol, semantics]
+    additionalProperties: false
+    properties:
+      type:
+        type: string
+        enum: [derives, constrains, implements, extends]
+      symbol:
+        type: string
+      semantics:
+        type: string
+
+  # §3.5 — DAG Invariants
+
+  InvariantId:
+    type: string
+    pattern: "^INV-[0-9]+$"
+
+  CitationRuleId:
+    type: string
+    pattern: "^CIT-R[0-9]+$"
+
+  AtomicTierRuleId:
+    type: string
+    pattern: "^(?:XPD|SIL|GPCL|FCL|CL|SAL|ICL|CDL|ISL)-(?:R|E)[0-9]+(?:-[a-z]+)?$"
+
+  BridgeRuleId:
+    type: string
+    pattern: "^[A-Z]+-[A-Z]+-BR[0-9]+$"
+
+  AtomicRuleId:
+    anyOf:
+      - $ref: "#/$defs/AtomicTierRuleId"
+      - $ref: "#/$defs/BridgeRuleId"
+
+  ExtensionRuleId:
+    type: string
+    pattern: "^(?!(?:XPD|SIL|GPCL|FCL|SAL|ICL|CDL|ISL)-)[A-Z]{3,4}-R[0-9]+$"
+
+  DagInvariant:
+    type: object
+    required: [id, statement]
+    additionalProperties: false
+    properties:
+      id:
+        $ref: "#/$defs/InvariantId"
+      statement:
+        type: string
+
+  # §3.7 — Citation Rules
+
+  CitationRule:
+    type: object
+    required: [rule_id, statement]
+    additionalProperties: false
+    properties:
+      rule_id:
+        $ref: "#/$defs/CitationRuleId"
+      statement:
+        type: string
+
+  # §4 — Consumption Modes / Express Mode
+
+  ConsumptionMode:
+    type: object
+    required: [mode, description, best_fit]
+    additionalProperties: false
+    properties:
+      mode:
+        type: string
+      description:
+        type: string
+      best_fit:
+        type: string
+
+  ExpressModeGroup:
+    type: object
+    required: [group_id, tiers, label]
+    additionalProperties: false
+    properties:
+      group_id:
+        type: string
+        enum: [G1, G2, G3, G4]
+      tiers:
+        type: array
+        items:
+          type: string
+      label:
+        type: string
+    allOf:
+      - if:
+          properties:
+            group_id:
+              const: G1
+        then:
+          properties:
+            tiers:
+              const: [XPD, SIL, GPCL]
+      - if:
+          properties:
+            group_id:
+              const: G2
+        then:
+          properties:
+            tiers:
+              const: [FCL, CL]
+      - if:
+          properties:
+            group_id:
+              const: G3
+        then:
+          properties:
+            tiers:
+              const: [SAL, ICL]
+      - if:
+          properties:
+            group_id:
+              const: G4
+        then:
+          properties:
+            tiers:
+              const: [CDL, ISL]
+
+  # §5 — Tier Definitions
+
+  AtomicInclusionRule:
+    type: object
+    required: [rule_id, statement, violation_consequence, verification_mode]
+    additionalProperties: false
+    properties:
+      rule_id:
+        $ref: "#/$defs/AtomicRuleId"
+      statement:
+        type: string
+      violation_consequence:
+        type: string
+      verification_mode:
+        type: string
+        enum: [structural, semantic]
+        description: >
+          Classifies the rule as structural (mechanically verifiable by
+          pattern matching, schema validation, keyword detection, or
+          citation graph traversal) or semantic (requires human judgment
+          for evaluation). VALIDATE evaluates structural rules
+          automatically and emits REVIEW_REQUIRED for semantic rules.
+      applies_when:
+        type: string
+        description: >
+          Optional conditional guard for when this rule is enforced.
+          Used by tier-specific branching logic (e.g. CL-R9 vs
+          CL-R9-imposed based on constraint_origin value).
+
+  AtomicExclusionRule:
+    type: object
+    required: [rule_id, statement]
+    additionalProperties: false
+    properties:
+      rule_id:
+        $ref: "#/$defs/AtomicRuleId"
+      statement:
+        type: string
+
+  TierRelationship:
+    type: object
+    additionalProperties: false
+    properties:
+      tier:
+        type: string
+        enum: [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL, NONE]
+      edge_type:
+        type: string
+        enum: [derives, constrains, implements]
+      condition:
+        type: string
+        description: "e.g. 'always', 'if_xpd_active', 'if_cl_active', 'none_root'"
+
+  TierDefinition:
+    type: object
+    required: [tier_id, label, core_question, is_optional, parent_relationships, child_relationships, atomic_inclusion_rules, atomic_exclusion_rules]
+    additionalProperties: false
+    properties:
+      tier_id:
+        type: string
+        enum: [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
+      label:
+        type: string
+      layer_label:
+        type: string
+      core_question:
+        type: string
+      is_optional:
+        type: boolean
+      is_terminal_leaf:
+        type: boolean
+        default: false
+      is_merge_node:
+        type: boolean
+        default: false
+      activation_condition:
+        type: string
+      root_when:
+        type: string
+      design_decision:
+        type: string
+      node_schema:
+        type: object
+        description: >
+          Tier-specific node schema extensions. Used by CL to declare the
+          constraint_origin field (derived|imposed) that governs citation
+          enforcement branching between CL-R9 and CL-R9-imposed.
+        additionalProperties:
+          type: object
+          properties:
+            type:
+              type: string
+            values:
+              type: array
+              items:
+                type: string
+            default:
+              type: string
+            required:
+              type: boolean
+            description:
+              type: string
+      verify_citation_logic:
+        type: object
+        description: >
+          Tier-specific citation enforcement logic. Used by CL to define
+          branching rules that select the applicable citation rule based
+          on the constraint_origin field value.
+        additionalProperties: false
+        properties:
+          branches:
+            type: array
+            items:
+              type: object
+              required: [when, enforce]
+              properties:
+                when:
+                  type: string
+                enforce:
+                  type: string
+      parent_relationships:
+        type: array
+        items:
+          $ref: "#/$defs/TierRelationship"
+      child_relationships:
+        type: array
+        items:
+          $ref: "#/$defs/TierRelationship"
+      atomic_inclusion_rules:
+        type: array
+        items:
+          $ref: "#/$defs/AtomicInclusionRule"
+      atomic_exclusion_rules:
+        type: array
+        items:
+          $ref: "#/$defs/AtomicExclusionRule"
+      quick_start_example:
+        type: string
+
+  # §6 — Constraint Precedence
+
+  ConstraintPrecedenceTier:
+    type: object
+    required: [priority, tier, rationale]
+    additionalProperties: false
+    properties:
+      priority:
+        type: integer
+        minimum: 1
+        maximum: 9
+      tier:
+        type: string
+        enum: [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
+      rationale:
+        type: string
+
+  ConstraintClass:
+    type: object
+    required: [class, description]
+    additionalProperties: false
+    properties:
+      class:
+        type: string
+        enum: [logical, physical]
+      description:
+        type: string
+
+  DirtyClassificationEntry:
+    type: object
+    required: [type, description]
+    additionalProperties: false
+    properties:
+      type:
+        type: string
+        enum: [structural, semantic]
+      description:
+        type: string
+
+  ConflictResolutionProtocol:
+    type: object
+    required: [steps, audit_requirement]
+    additionalProperties: false
+    properties:
+      steps:
+        type: array
+        items:
+          type: string
+      audit_requirement:
+        type: string
+
+  SemanticConsistencyRules:
+    type: object
+    required: [description, enforcement]
+    additionalProperties: false
+    properties:
+      description:
+        type: string
+      enforcement:
+        type: string
+
+  SemanticGapClassification:
+    type: object
+    required: [description, allowed_types, constraints]
+    additionalProperties: false
+    properties:
+      description:
+        type: string
+      allowed_types:
+        type: array
+        items:
+          type: string
+          enum: [MISSING_MEDIATOR]
+      constraints:
+        type: array
+        items:
+          type: string
+
+  # §7 — Operations
+
+  OperationNameEnum:
+    type: string
+    enum: [INSERT, DELETE, MODIFY, SUPERSEDE, VERIFY, VALIDATE, UNBUNDLE_SCAN, UNBUNDLE_EXECUTE]
+
+  TransitionPhase:
+    type: string
+    enum: [commit, rollback]
+
+  TransitionSideEffect:
+    type: string
+    enum: [propagation]
+
+  Operation:
+    type: object
+    required: [name, description, validation_trigger]
+    additionalProperties: false
+    properties:
+      name:
+        $ref: "#/$defs/OperationNameEnum"
+      description:
+        type: string
+      validation_trigger:
+        type: string
+      preconditions:
+        type: array
+        items:
+          type: string
+      postconditions:
+        type: array
+        items:
+          type: string
+
+  ManifestItemType:
+    type: object
+    required: [item_type, description]
+    additionalProperties: false
+    properties:
+      item_type:
+        type: string
+        enum:
+          - MISSING_MEDIATOR
+          - SUPERSEDE_FAILED
+          - SUPERSEDE_PENDING_DETECTED
+          - REVIEW_REQUIRED
+          - EXTENSION_ADVISORY
+          - CONFLICT_RESOLUTION
+          - OVERRIDE_APPROVAL
+          - DEFERRED_FRAGMENT
+      description:
+        type: string
+      fields:
+        type: array
+        items:
+          type: string
+      severity:
+        type: string
+        enum: [BLOCKING, REVIEW, ADVISORY]
+
+  DirtyFlagTrigger:
+    type: object
+    required: [trigger, nodes_affected]
+    additionalProperties: false
+    properties:
+      trigger:
+        type: string
+      nodes_affected:
+        type: string
+
+  # §8 — Extension System
+
+  ExtensionIntegrationRule:
+    type: object
+    required: [rule_id, statement]
+    additionalProperties: false
+    properties:
+      rule_id:
+        type: string
+        pattern: "^EXT-R[0-9]+$"
+      statement:
+        type: string
+
+  # §9 — Extension Catalog
+
+  ExtensionRule:
+    type: object
+    required: [rule_id, statement]
+    additionalProperties: false
+    properties:
+      rule_id:
+        $ref: "#/$defs/ExtensionRuleId"
+      statement:
+        type: string
+
+  ExtensionEntry:
+    type: object
+    required: [id, name, contract, reads, annotates, rules]
+    additionalProperties: false
+    properties:
+      id:
+        type: string
+        pattern: "^E[0-9]+$"
+      name:
+        type: string
+      contract:
+        type: string
+      scoring_profile:
+        type: string
+        minLength: 1
+        description: >-
+          ARE scoring profile reference. Required for E5 (ARE). Must
+          reference a profile defined in are_scoring_profiles.
+      reads:
+        type: array
+        items:
+          type: string
+      annotates:
+        type: array
+        items:
+          type: string
+      rules:
+        type: array
+        items:
+          $ref: "#/$defs/ExtensionRule"
+      notes:
+        type: string
+    allOf:
+      - if:
+          properties:
+            id:
+              const: E5
+        then:
+          required: [scoring_profile]
+
+  # §9 — ARE Scoring Profiles
+
+  ScoringProfile:
+    type: object
+    additionalProperties: false
+    required: [input_signals, score_bands, minimum_surfacing_threshold, override_policy]
+    properties:
+      context_note:
+        type: string
+      input_signals:
+        type: array
+        items:
+          type: object
+          required: [signal_id, description, weight_category]
+          properties:
+            signal_id:
+              type: string
+            description:
+              type: string
+            weight_category:
+              type: string
+              enum: [high, medium, low]
+      score_bands:
+        type: array
+        items:
+          type: object
+          required: [band_id, range, label, promotion_guidance]
+          properties:
+            band_id:
+              type: string
+            range:
+              type: array
+              prefixItems:
+                - type: number
+                  minimum: 0
+                  maximum: 1
+                - type: number
+                  minimum: 0
+                  maximum: 1
+              minItems: 2
+              maxItems: 2
+            label:
+              type: string
+            promotion_guidance:
+              type: string
+      minimum_surfacing_threshold:
+        type: number
+        minimum: 0
+        maximum: 1
+      override_policy:
+        type: string
+
+  AreActivationState:
+    type: object
+    additionalProperties: false
+    required:
+      - inference
+      - pool_visibility
+      - pool_preserved_runtime
+      - pool_preserved_restart
+      - promotion_allowed
+      - discard_allowed
+    properties:
+      inference:
+        type: string
+        enum: [running, halted]
+      pool_visibility:
+        type: boolean
+      pool_preserved_runtime:
+        type: boolean
+      pool_preserved_restart:
+        oneOf:
+          - type: boolean
+          - const: optional
+      promotion_allowed:
+        type: boolean
+      discard_allowed:
+        type: boolean
+      checkpoint_behavior:
+        type: string
+
+  AreActivationTransition:
+    type: object
+    additionalProperties: false
+    required: [from, to]
+    properties:
+      from:
+        type: string
+        enum: [active, paused, disabled]
+      to:
+        type: string
+        enum: [active, paused, disabled]
+      effect:
+        type: string
+      permitted:
+        type: boolean
+      rationale:
+        type: string
+    allOf:
+      - if:
+          required: [permitted]
+          properties:
+            permitted:
+              const: false
+        then:
+          required: [rationale]
+          not:
+            required: [effect]
+        else:
+          required: [effect]
+
+  AreActivationStates:
+    type: object
+    additionalProperties: false
+    required: [active, paused, disabled, transitions]
+    properties:
+      active:
+        $ref: "#/$defs/AreActivationState"
+      paused:
+        $ref: "#/$defs/AreActivationState"
+      disabled:
+        $ref: "#/$defs/AreActivationState"
+      transitions:
+        type: array
+        items:
+          $ref: "#/$defs/AreActivationTransition"
+
+  # Glossary
+
+  GlossaryEntry:
+    type: object
+    required: [term, definition]
+    additionalProperties: false
+    properties:
+      term:
+        type: string
+      definition:
+        type: string
+
+  # Appendix A — Version History
+
+  VersionHistoryEntry:
+    type: object
+    required: [version, summary]
+    additionalProperties: false
+    properties:
+      version:
+        type: string
+      date:
+        type: string
+        minLength: 1
+        format: date
+      summary:
+        type: string
+
+  # Appendix B — Tier Migration
+
+  TierMigrationEntry:
+    type: object
+    required: [from_tier, to_tier]
+    additionalProperties: false
+    properties:
+      from_tier:
+        type: string
+      to_tier:
+        type: string
+      notes:
+        type: string
+
+  RuleMigrationEntry:
+    type: object
+    required: [from_rule_ids, to_rule_ids, consolidation_status]
+    additionalProperties: false
+    properties:
+      from_rule_ids:
+        type: string
+      to_rule_ids:
+        type: string
+      consolidation_status:
+        type: string
+      notes:
+        type: string
+
+  # §3.8 — Lifecycle Transitions
+
+  StatusTransition:
+    type: object
+    required: [from, operation]
+    additionalProperties: false
+    properties:
+      from:
+        $ref: "#/$defs/StatusEnum"
+      to:
+        $ref: "#/$defs/StatusEnum"
+      to_node_field:
+        type: string
+        const: prior_status
+      operation:
+        $ref: "#/$defs/OperationNameEnum"
+      phase:
+        $ref: "#/$defs/TransitionPhase"
+      side_effect:
+        $ref: "#/$defs/TransitionSideEffect"
+      prerequisite_operations:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: "#/$defs/OperationNameEnum"
+      guards:
+        type: array
+        items:
+          $ref: "#/$defs/GuardIdRef"
+      notes:
+        type: string
+    allOf:
+      - if:
+          required: [phase]
+          properties:
+            phase:
+              const: rollback
+        then:
+          required: [to_node_field]
+          not:
+            required: [to]
+        else:
+          required: [to]
+          not:
+            required: [to_node_field]
+
+  GuardDefinition:
+    type: object
+    required: [id, description, verification_mode]
+    additionalProperties: false
+    properties:
+      id:
+        $ref: "#/$defs/GuardIdRef"
+      description:
+        type: string
+      verification_mode:
+        type: string
+        enum: [structural, manual]
+
+  # ── CORE NODE TYPES (§3.1, §3.7) ───────────────────────────────────────────
+
+  DdrNode:
+    type: object
+    title: "DDR Node"
+    description: >
+      A single node in the DDR DAG (§3.1, §3.3). Represents one element of the
+      requirements hierarchy. Parent-child relationships are expressed via
+      parent_ids with explicit edge_type (§3.7).
+    required:
+      - id
+      - tier
+      - title
+      - content
+      - status
+      - version
+      - created
+      - modified
+    additionalProperties: false
+    properties:
+      id:
+        type: string
+        description: >
+          Immutable node identifier (§3.6). Format: [TIER]-[SECTION].[ITEM].
+          XPD nodes use section 0: XPD-0.N. Never mutated after assignment.
+        pattern: "^(XPD-0\\.[0-9]+|[A-Z]{2,5}-[0-9]+\\.[0-9]+)$"
+      tier:
+        type: string
+        enum: [XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]
+        description: "The DDR tier this node belongs to (§3.1)."
+      title:
+        type: string
+        minLength: 1
+        description: "Human-readable artifact label (§3.1)."
+      status:
+        type: string
+        enum: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED, SUPERSEDE_PENDING]
+        description: >
+          Node lifecycle status (§3.1). The lifecycle block (§3.8) is the
+          normative authority for all valid status transitions.
+      constraint_origin:
+        type: string
+        enum: [derived, imposed]
+        description: >
+          Causal origin of the constraint for CL-tier nodes (§5).
+          'derived' = chosen in response to functional requirements.
+          'imposed' = externally mandated authority.
+      prior_status:
+        type: string
+        enum: [ACTIVE, DEPRECATED, DIRTY]
+        description: >
+          Write-once field set when a node transitions into SUPERSEDE_PENDING,
+          recording the node's status immediately prior to the SUPERSEDE
+          operation. Cleared (set to null or omitted) when the node exits
+          SUPERSEDE_PENDING via the SUPERSEDE commit or rollback phase. Must
+          not be set on any node that is not in SUPERSEDE_PENDING status.
+          Optional; absence is semantically equivalent to null.
+      version:
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        description: "SemVer content version string. Incremented on MODIFY (§7.1)."
+      created:
+        type: string
+        format: date-time
+        description: "ISO 8601 creation timestamp (§3.1)."
+      modified:
+        type: string
+        format: date-time
+        description: "ISO 8601 last modification timestamp (§3.1)."
+      parent_ids:
+        type: array
+        description: >
+          Typed parent citations (§3.7). Empty only for root nodes (XPD when
+          active; SIL otherwise). Non-root nodes require ≥1 entry (AX-1, CIT-R1).
+        default: []
+        items:
+          $ref: "#/$defs/ParentCitation"
+      content:
+        type: string
+        description: >
+          Node body constrained by the tier's atomic ruleset (§5). Use YAML
+          block scalar (|) for multi-paragraph content. Tier-level atomic
+          inclusion/exclusion rules are enforced at runtime, not by this schema.
+      content_validation_contract:
+        $ref: "#/$defs/ContentValidationContract"
+      last_validated_by:
+        type: string
+      last_validated_at:
+        type: string
+        format: date-time
+      hardware_envelope:
+        $ref: "#/$defs/HardwareEnvelope"
+      express_mode_group:
+        type: string
+        enum: [G1, G2, G3, G4]
+        description: >
+          Express Mode group membership (§4). Required when
+          document_profile=project_instance_express. If project.mode is
+          present, it must be express. Used by the UNBUNDLE_SCAN /
+          UNBUNDLE_EXECUTE protocol to determine tier allocation.
+      extension_annotations:
+        type: object
+        description: >
+          Read-only Extension metadata (§3.1, §8.1). Keys MUST follow format:
+          EXTENSION_ID::annotation_key (EXT-R3). EXTENSION_ID must be uppercase
+          alphanumeric (e.g. 'HRE'). annotation_key must be lowercase
+          snake_case. Keys named 'content', 'parent_ids', 'status', 'tier',
+          or 'id' are never valid here (AX-6, CIT-R5). Never in parent_ids
+          or content (CIT-R5, EXT-R3).
+        propertyNames:
+          allOf:
+            - pattern: "^[A-Z][A-Z0-9_]+::[a-z][a-z0-9_]+$"
+            - not:
+                pattern: "^[A-Z][A-Z0-9_]+::(content|parent_ids|status|tier|id)$"
+        patternProperties:
+          "^[A-Z][A-Z0-9_]+::[a-z][a-z0-9_]+$":
+            description: "Valid namespaced annotation. Format: EXTENSION_ID::annotation_key"
+        additionalProperties: false
+        default: {}
+    allOf:
+      - if:
+          properties:
+            status:
+              const: SUPERSEDE_PENDING
+        then:
+          required: [prior_status]
+        else:
+          not:
+            required: [prior_status]
+      - if:
+          properties:
+            tier:
+              const: CL
+        then: {}
+        else:
+          not:
+            required: [constraint_origin]
+      - if:
+          properties:
+            tier:
+              const: XPD
+        then:
+          properties:
+            id:
+              pattern: "^XPD-0\\.[0-9]+$"
+            parent_ids:
+              minItems: 0
+      - if:
+          properties:
+            tier:
+              const: SIL
+        then:
+          properties:
+            id:
+              pattern: "^SIL-[0-9]+\\.[0-9]+$"
+            parent_ids:
+              minItems: 1
+      - if:
+          properties:
+            tier:
+              const: GPCL
+        then:
+          properties:
+            id:
+              pattern: "^GPCL-[0-9]+\\.[0-9]+$"
+            parent_ids:
+              minItems: 1
+      - if:
+          properties:
+            tier:
+              const: FCL
+        then:
+          properties:
+            id:
+              pattern: "^FCL-[0-9]+\\.[0-9]+$"
+            parent_ids:
+              minItems: 1
+      - if:
+          properties:
+            tier:
+              const: CL
+        then:
+          properties:
+            id:
+              pattern: "^CL-[0-9]+\\.[0-9]+$"
+            parent_ids:
+              minItems: 1
+      - if:
+          properties:
+            tier:
+              const: SAL
+        then:
+          properties:
+            id:
+              pattern: "^SAL-[0-9]+\\.[0-9]+$"
+            parent_ids:
+              minItems: 1
+      - if:
+          properties:
+            tier:
+              const: ICL
+        then:
+          properties:
+            id:
+              pattern: "^ICL-[0-9]+\\.[0-9]+$"
+            parent_ids:
+              minItems: 1
+      - if:
+          properties:
+            tier:
+              const: CDL
+        then:
+          properties:
+            id:
+              pattern: "^CDL-[0-9]+\\.[0-9]+$"
+            parent_ids:
+              minItems: 1
+      - if:
+          properties:
+            tier:
+              const: ISL
+        then:
+          properties:
+            id:
+              pattern: "^ISL-[0-9]+\\.[0-9]+$"
+            parent_ids:
+              minItems: 1
+
+  ParentCitation:
+    type: object
+    title: "Parent Citation"
+    description: "A single typed parent-child citation (§3.7 CIT-R1 through CIT-R6)."
+    required: [id, edge_type]
+    additionalProperties: false
+    properties:
+      id:
+        type: string
+        pattern: "^(XPD-0\\.[0-9]+|[A-Z]{2,5}-[0-9]+\\.[0-9]+)$"
+        description: "Parent node ID. Must reference an existing node. Validated at runtime."
+      validated_parent_version:
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        description: "Persisted parent SemVer checkpoint recorded at the last successful child validation."
+      edge_type:
+        type: string
+        enum: [derives, constrains, implements]
+        description: >
+          Semantic relationship type (§3.2):
+          derives    — child derived from parent requirements
+          constrains — parent sets enforceable bounds on child design
+          implements — child provides concrete realization of parent spec
+      derivation_mode:
+        type: string
+        enum: [semantic, traceability]
+        description: >
+          Optional derivation mode annotation (§3.2, CIT-R2, CIT-R6).
+          Valid only when edge_type is 'derives'. 'semantic' means child
+          content is derived from parent requirements. 'traceability' means
+          parent is cited as authoritative lineage linkage. Defaults to
+          'semantic' when omitted.
+    allOf:
+      - if:
+          properties:
+            edge_type:
+              const: derives
+        then: {}
+        else:
+          not:
+            required: [derivation_mode]
+
+  StatusEnum:
+    type: string
+    enum: [DRAFT, ACTIVE, DIRTY, DEPRECATED, SUPERSEDED, SUPERSEDE_PENDING]
+
+  GuardIdRef:
+    type: string
+    enum: [gc-001, gc-002, gc-003, gc-004, gc-005, gc-006, gc-007, gc-008, gc-009]

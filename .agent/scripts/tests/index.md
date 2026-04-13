@@ -4,7 +4,7 @@
 >
 > Scope: discovery, first-pass selection, and quick routing across unit tests, diagnostics, and fixture helpers that support the scripts collection.
 >
-> Total test scripts: `8`
+> Total test scripts: `10`
 >
 > Parent: [`.agent/scripts/`](..)
 >
@@ -21,10 +21,12 @@
 - `chaos_script`: Chaos fixture script used for adversarial or low-quality test inputs.
 - `test_cleanup_temp_assets`: Unit tests for cleanup_temp_assets.py.
 - `test_directory_tree`: Unit tests for directory_tree.py.
+- `test_generate_ddr_release_docs`: Unit tests for generate_ddr_release_docs.py.
 - `test_managed_temp`: Unit tests for managed_temp.py.
 - `test_rebuild_docs`: Unit tests for rebuild_docs.py.
 - `test_runtime_target`: Regression tests for runtime-target loading and config-mode validation.
 - `test_update_index`: Unit tests for update_index.py.
+- `test_validate_ddr_release`: Unit tests for validate_ddr_release.py.
 - `validate_env`: Validation gate for the Antigravity PowerShell execution baseline.
 
 ## Manifest
@@ -69,6 +71,21 @@ tests:
   - unit_tests
   use_when:
   - Unit tests for directory_tree.py.
+- id: test_generate_ddr_release_docs
+  definition: .agent/scripts/tests/test_generate_ddr_release_docs.py
+  asset_structure: flat-file
+  category: unit_tests
+  implementation: .agent/scripts/tests/test_generate_ddr_release_docs.py
+  keywords:
+  - script
+  - test
+  - generate
+  - ddr
+  - release
+  - docs
+  - unit_tests
+  use_when:
+  - Unit tests for generate_ddr_release_docs.py.
 - id: test_managed_temp
   definition: .agent/scripts/tests/test_managed_temp.py
   asset_structure: flat-file
@@ -121,6 +138,20 @@ tests:
   - unit_tests
   use_when:
   - Unit tests for update_index.py.
+- id: test_validate_ddr_release
+  definition: .agent/scripts/tests/test_validate_ddr_release.py
+  asset_structure: flat-file
+  category: unit_tests
+  implementation: .agent/scripts/tests/test_validate_ddr_release.py
+  keywords:
+  - script
+  - test
+  - validate
+  - ddr
+  - release
+  - unit_tests
+  use_when:
+  - Unit tests for validate_ddr_release.py.
 - id: validate_env
   definition: .agent/scripts/tests/validate_env.py
   asset_structure: flat-file
@@ -158,6 +189,13 @@ tests:
 - Category: `unit_tests`
 - Open the script implementation when exact assertions, fixture behavior, or validation protocol matter.
 
+### `test_generate_ddr_release_docs`
+
+- Implementation: [`test_generate_ddr_release_docs.py`](test_generate_ddr_release_docs.py)
+- Best used for: Unit tests for generate_ddr_release_docs.py.
+- Category: `unit_tests`
+- Open the script implementation when exact assertions, fixture behavior, or validation protocol matter.
+
 ### `test_managed_temp`
 
 - Implementation: [`test_managed_temp.py`](test_managed_temp.py)
@@ -186,6 +224,13 @@ tests:
 - Category: `unit_tests`
 - Open the script implementation when exact assertions, fixture behavior, or validation protocol matter.
 
+### `test_validate_ddr_release`
+
+- Implementation: [`test_validate_ddr_release.py`](test_validate_ddr_release.py)
+- Best used for: Unit tests for validate_ddr_release.py.
+- Category: `unit_tests`
+- Open the script implementation when exact assertions, fixture behavior, or validation protocol matter.
+
 ### `validate_env`
 
 - Implementation: [`validate_env.py`](validate_env.py)
@@ -195,10 +240,10 @@ tests:
 
 ## Category Totals
 
-- `unit_tests`: `6`
+- `unit_tests`: `8`
 - `diagnostics_and_validation`: `1`
 - `fixtures_and_chaos`: `1`
-- `total`: `8`
+- `total`: `10`
 
 ## Index Boundaries
 

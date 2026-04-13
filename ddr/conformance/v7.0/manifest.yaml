@@ -1,0 +1,29 @@
+version: "7.0"
+cases:
+  - id: valid_system_definition
+    path: valid/system_definition.yaml
+    document_profile: system_definition
+    expected: valid
+  - id: valid_project_instance
+    path: valid/project_instance.yaml
+    document_profile: project_instance
+    expected: valid
+  - id: valid_project_instance_express
+    path: valid/project_instance_express.yaml
+    document_profile: project_instance_express
+    expected: valid
+  - id: invalid_system_definition_missing_authority
+    path: invalid/system_definition_missing_authority.yaml
+    document_profile: system_definition
+    expected: invalid
+    expected_error_contains: "'authority_hierarchy' is a required property"
+  - id: invalid_project_instance_missing_content
+    path: invalid/project_instance_missing_content.yaml
+    document_profile: project_instance
+    expected: invalid
+    expected_error_contains: "'content' is a required property"
+  - id: invalid_project_instance_express_bad_mode
+    path: invalid/project_instance_express_bad_mode.yaml
+    document_profile: project_instance_express
+    expected: invalid
+    expected_error_contains: "'express' was expected"
