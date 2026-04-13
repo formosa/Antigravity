@@ -1,4 +1,4 @@
-# Review of `observations.codex.md` and `observations.opus.md`
+# Final Review of DDR v6.3 Evaluation Reports
 
 ## Scope
 
@@ -30,6 +30,7 @@ My synthesis is:
 2. DDR v6.3 is not yet production-complete as a general software application design framework.
 3. The next step should not be another structural expansion of the core.
 4. The next step should be production hardening through defect closure, generation, profiles, conformance tooling, and explicit operational contracts.
+5. Universality should be achieved through profile-driven capability governance that explicitly spans developer tools, games, enterprise platforms, hardware-aware deployments, and regulated-sector objectives without adding domain-specific core tiers.
 
 ## Feedback on `observations.codex.md`
 
@@ -116,6 +117,7 @@ The right combined recommendation is:
 4. Add profile-driven production contracts so DDR can scale from scripts to enterprise systems without flattening everything into one burden model.
 5. Back the specification with a reference validator, conformance suite, generators, and templates.
 6. Preserve the current structural/semantic bifurcation: structural rules should gate validity, while semantic rules should remain first-class but review-based rather than being stripped out of the normative model.
+7. Make domain and assurance coverage explicit through profiles, not through new core topology: developer tools, games, enterprise online systems, hardware-constrained deployments, and medical/government/banking objectives should all map onto the same kernel through profile-gated obligations.
 
 ## Impact of `review.gemini.md`
 
@@ -202,22 +204,22 @@ The list below is intentionally atomic and ordered. Items 1-18 address source-vi
 28. Add a top-level `runtime_contract` covering concurrency semantics, persistence model, eventing model, API surface, error model, and transaction/rollback expectations.
 29. Expand the reference scaffold to include a `LifecycleStateMachine`, `DirtyPropagationEngine`, typed `ReconciliationManifest`, and typed UNBUNDLE diagnostic/result structures.
 30. Record authoritative validation metadata such as `last_validated_at`, `last_validated_by`, and `last_full_validation_ts` so CLEAN claims can be tied to an actual evaluation point.
-31. Add a two-axis profile system composed of `system_class` and `operational_maturity` so DDR can scale from scripts to regulated enterprise systems without changing topology.
-32. Bind each `system_class` and `operational_maturity` combination to minimum required tiers, extensions, evidence, and delivery gates.
-33. Extend CL with a structured hardware-envelope vocabulary so hardware-aware design is machine-shaped rather than left to prose-only declarations.
+31. Add a three-axis profile system composed of `system_class`, `operational_maturity`, and `assurance_profile` so DDR can scale from `script_tool` and `developer_tool` through `game_client`, `game_backend`, `service_api`, `web_app`, `enterprise_platform`, `edge_device`, `medical_system`, `government_system`, and `banking_system` without changing topology.
+32. Bind each `system_class` + `operational_maturity` + `assurance_profile` combination to minimum required tiers, extensions, evidence, approvals, and delivery gates, including when XPD, CL, SCE, EHD, DDE, ORE, and DCP become mandatory.
+33. Extend CL with a structured hardware-envelope and target-platform vocabulary so hardware-aware design is machine-shaped rather than left to prose-only declarations, including desktop, mobile, console, server, edge, and specialized compute targets.
 34. Extend environment modeling beyond DCP's current configuration separation to cover `dev`, `test`, `staging`, `prod`, offline/local, and ephemeral review environments, including parity and drift expectations.
 
 ### D. Production Contracts
 
-35. Expand security contracts beyond the current explicit RBAC requirement on ICL contracts to cover identity, authentication, authorization, secret management, and key management.
+35. Expand security contracts beyond the current explicit RBAC requirement on ICL contracts to cover identity, authentication, authorization, secret management, key management, segregation of duties, approval workflows, and immutable audit evidence for high-assurance profiles.
 36. Add first-class multi-tenancy, tenant-isolation, and data-partitioning contracts for SaaS and enterprise systems.
-37. Add first-class rate-limit, timeout, retry, backpressure, and idempotency contracts for online and event-driven systems.
+37. Add first-class rate-limit, timeout, retry, backpressure, idempotency, and real-time session contracts for online, multiplayer, and event-driven systems, including latency class, tick-rate, and frame-budget expectations where applicable.
 38. Add first-class cache, queue, stream, and event-schema contracts, including ordering, replay, dead-letter, and durability semantics where applicable.
 39. Extend DCP beyond deployment manifests and a minimum lint/test/build/deploy pipeline to cover migration sequencing, deployment rollback, compatibility windows, feature flags, canary, and blue-green release policies.
 40. Add explicit backup, restore, failover, disaster-recovery, and degraded-operation contracts tied back to GPCL RTO/RPO targets; v6.3 names the targets but not the operational proof obligations.
-41. Expand operational-readiness contracts beyond ORE's current telemetry-point and vendor-agnostic alert rules to cover SLIs, SLOs, alert ownership, dashboards, runbooks, and on-call escalation.
+41. Expand operational-readiness contracts beyond ORE's current telemetry-point and vendor-agnostic alert rules to cover SLIs, SLOs, alert ownership, dashboards, runbooks, on-call escalation, and profile-specific readiness metrics such as game-session stability or regulated-service evidence completeness.
 42. Expand testing strategy beyond DCP's minimum pipeline skeleton to cover unit, integration, contract, end-to-end, performance, security, resilience, and migration testing with profile-based minimums.
-43. Expand data-governance contracts beyond current residency, retention, and ICL-schema consistency coverage to include classification, privacy, consent, deletion, lineage, schema evolution, and backfill/reconciliation procedures.
+43. Expand data-governance contracts beyond current residency, retention, and ICL-schema consistency coverage to include classification, privacy, consent, deletion, lineage, schema evolution, backfill/reconciliation procedures, and regulated-profile evidence obligations for medical, government, and banking data handling.
 44. Expand supply-chain contracts beyond current dependency-graph and copyleft analysis to cover SBOM generation, artifact provenance, signing, dependency update policy, vulnerability response SLA, and license gating.
 45. Expand cost and capacity contracts beyond current compute/storage/bandwidth ceilings and performance targets to cover workload model, growth expectations, concurrency envelope, storage envelope, and scaling triggers.
 
@@ -226,7 +228,7 @@ The list below is intentionally atomic and ordered. Items 1-18 address source-vi
 46. Add runtime drift-detection rules so deployed infrastructure, dependencies, and generated artifacts can be compared back to DDR declarations continuously.
 47. Add explicit extension-advisory severity semantics, disposition SLAs, and conflict-resolution rules across ORE, SCE, DDE, DCP, HRE, and ARE outputs.
 48. Add a closed-loop runtime feedback protocol so operational anomalies create deterministic reconciliation items instead of ad hoc human interpretation.
-49. Add reference generators and starter templates for the main profile combinations so small developer tools and large enterprise systems both get a realistic onboarding path.
+49. Add reference generators and starter templates for the main profile combinations so developer tools, games, enterprise platforms, hardware-aware systems, and regulated-sector projects all get a realistic onboarding path without manual tier-by-tier boilerplate.
 50. Add machine-generated release-readiness outputs such as trace matrices, contract diffs, rollout checklists, and production-gate scorecards.
 51. Separate `design_complete` from `production_ready` as distinct validation gates so the framework supports both local tools and enterprise production systems without conflating them.
 
