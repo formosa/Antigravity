@@ -1,5 +1,5 @@
 ---
-task: "Produce DDR System v7.0 by closing all source-visible v6.3 contract gaps, hardening governance authority, adding profile-driven capability scaling, completing production contracts, bridging the specification-to-implementation gap, and accelerating adoption — without expanding core topology."
+task: "Produce a review-gated DDR System v7.0 release package centered on a self-validating YAML authority pair, generated derivative surfaces, and profile-driven production contracts while preserving the frozen v6.x core topology."
 model: "gemini-3-pro-preview"
 version: "6.0.2"
 output_path: ".agent/plans/20260413-054500-IMPLEMENTATION_PLAN.md"
@@ -7,304 +7,206 @@ processed_path: ".agent/plans/processed/20260413-054500-IMPLEMENTATION_PLAN.md"
 ---
 
 <objective>
-Transform DDR System v6.3 into DDR System v7.0 — a comprehensive, complete, stable, dynamic, and production-ready software application design framework — by executing 48 atomic modifications organized across 6 phases. The modifications close all source-visible contract gaps in the v6.3 YAML pair, harden governance and SSOT authority, introduce a profile-driven capability governance system enabling use cases from custom scripts to enterprise-scale regulated applications, complete production contract coverage, bridge the gap between finalized specification and implementable runtime, and deliver adoption tooling and documentation. The core topology (9 tiers, 4 edge types, 7 axioms) remains frozen; all scaling is achieved through profiles and extension scope expansion.
+Produce DDR System v7.0 as a self-validating authority pair (`ddr/ddr_node_schema_v7.0.yaml`, `ddr/ddr_system_v7.0.yaml`) plus generated human-readable release surfaces that first resolve the source-visible v6.3 contract gaps verified in the YAML SSOT, then harden authority and conformance ownership, and only then add profile-gated runtime and production contracts for use cases spanning scripts, developer tools, games, enterprise systems, hardware-aware deployments, and regulated-sector objectives without changing the core 9-tier topology or stripping semantic review from the model.
 </objective>
 
 <phases>
-- phase_id: "PHASE_1_CONTRACT_GAP_CLOSURE"
+- phase_id: "PHASE_1_V7_BASELINE_AND_RELEASE_BLOCKERS"
   objectives:
-    - "Close all 14 source-visible contract gaps in the v6.3 YAML pair"
-    - "Achieve schema self-consistency: every rule, invariant, and lifecycle row the system YAML describes must be structurally enforceable by the node schema"
-  task_references: ["M-01", "M-02", "M-03", "M-04", "M-05", "M-06", "M-07", "M-08", "M-09", "M-10", "M-11", "M-12", "M-13", "M-14"]
+    - "Create isolated v7.0 working copies of the YAML SSOT pair"
+    - "Close the source-visible v6.3 contract defects with direct local evidence"
+    - "Keep rejected review prescriptions out of the v7.0 baseline"
+  task_references: ["source-visible-gap-closure", "release-blocking-defects"]
   entry_criteria:
-    - "v6.3 YAML pair (`ddr_system_v6.3.yaml`, `ddr_node_schema_v6.3.yaml`) available and schema-validates successfully"
-    - "All three review documents (`review.gemini.md`, `review.codex.md`, `review.opus.md`) read and synthesized"
+    - "The v6.3 YAML SSOT pair is readable and schema-validates successfully"
+    - "review.gemini.md, review.codex.md, and review.opus.md have been synthesized against the YAML pair"
   exit_criteria:
-    - "v7.0 node schema validates the v7.0 system YAML with zero errors"
-    - "All 14 modifications are individually schema-testable and pass"
-    - "No new section or property is introduced that was not identified as a source-visible gap"
+    - "The v7.0 YAML pair self-validates after all release-blocking edits"
+    - "DELETE semantics and rule-family changes are explicitly reviewed before authority hardening proceeds"
+    - "No step demotes Full mode, removes semantic review, or de-normativizes ARE contrary to the v6.3 SSOT"
   assigned_model: "gemini-3-pro-preview"
 
-- phase_id: "PHASE_2_AUTHORITY_HARDENING"
+- phase_id: "PHASE_2_AUTHORITY_AND_GENERATION_GOVERNANCE"
   objectives:
-    - "Freeze the core kernel with an enforceable complexity budget"
-    - "Establish the YAML pair as the sole normative authority with machine-generated derivative surfaces"
-    - "Add deprecation and removal governance"
-  task_references: ["M-15", "M-16", "M-17", "M-18", "M-19", "M-20", "M-21"]
+    - "Freeze the kernel around the YAML pair as the normative authority"
+    - "Formalize generated-surface ownership and governance"
+    - "Encode complexity-budget, errata, and deprecation controls before scope expansion"
+  task_references: ["authority-hardening", "generated-surfaces"]
   entry_criteria:
-    - "PHASE_1 complete: v7.0 YAML pair passes self-validation"
+    - "PHASE_1 exit criteria are satisfied"
   exit_criteria:
-    - "Authority hierarchy section present and machine-parseable"
-    - "Complexity budget principle codified in design philosophy"
-    - "Express Mode generation contract declared"
-    - "Errata governance and deprecation policy formalized"
+    - "Authority hierarchy, generated-surface precedence, and express-generation semantics are encoded in the v7.0 pair"
+    - "Governance additions validate without reopening core-topology drift"
   assigned_model: "gemini-3-pro-preview"
 
-- phase_id: "PHASE_3_PROFILE_SYSTEM"
+- phase_id: "PHASE_3_PROFILE_RUNTIME_AND_CONFORMANCE_FOUNDATION"
   objectives:
-    - "Add system_class and operational_maturity profile dimensions"
-    - "Add hardware-profile schema to CL"
-    - "Add validation gate separation (design_complete vs production_ready)"
-    - "Add optional tags field to DdrNode"
-  task_references: ["M-22", "M-23", "M-24", "M-25", "M-26"]
+    - "Add the profile model and separate design-complete from production-ready gating"
+    - "Make runtime behavior and operation contracts machine-shaped"
+    - "Define migration, conformance, and generator ownership before bulk contract expansion"
+  task_references: ["profile-model", "runtime-contract", "conformance"]
   entry_criteria:
-    - "PHASE_2 complete: authority hierarchy and complexity budget in place"
+    - "PHASE_2 exit criteria are satisfied"
   exit_criteria:
-    - "Profile taxonomy schema-validated"
-    - "At least 3 system_class × operational_maturity combinations have enumerated minimum obligations"
-    - "Hardware-profile sub-schema validates structured CL hardware declarations"
-    - "Both validation gates (design_complete, production_ready) have distinct checklist items"
+    - "Profiles, runtime contract, validation ledger semantics, and conformance surfaces validate in the v7.0 pair"
+    - "The profile model is explicitly reviewed before profile-gated production obligations are expanded"
   assigned_model: "gemini-3-pro-preview"
 
-- phase_id: "PHASE_4_PRODUCTION_CONTRACTS"
+- phase_id: "PHASE_4_PROFILE_GATED_PRODUCTION_CONTRACTS"
   objectives:
-    - "Expand extension scope to cover security, deployment, resilience, operational readiness, online systems, event/queue, data governance, and supply chain"
-    - "All contract expansions profile-gated via M-22/M-23"
-  task_references: ["M-27", "M-28", "M-29", "M-30", "M-31", "M-32", "M-33", "M-34"]
+    - "Expand production obligations through profiles and existing extension surfaces rather than new core topology"
+    - "Cover security, deployment, resilience, observability, online/event, data, and supply-chain contracts"
+    - "Bind broad use cases to explicit minimum obligations"
+  task_references: ["production-contract-expansion"]
   entry_criteria:
-    - "PHASE_3 complete: profile system schema-validated"
+    - "PHASE_3 exit criteria are satisfied"
   exit_criteria:
-    - "Each expanded extension contract passes schema validation"
-    - "Each new contract is bound to specific system_class + operational_maturity minimums"
-    - "No new Core tier, edge type, or invariant introduced"
+    - "Target use cases map to explicit tiers, extensions, evidence, and readiness gates"
+    - "No new core tiers, edge types, or operations are introduced unless required by an already-approved defect closure"
   assigned_model: "gemini-3-flash-preview"
 
-- phase_id: "PHASE_5_IMPLEMENTATION_BRIDGE"
+- phase_id: "PHASE_5_ADOPTION_AND_DERIVED_RELEASE_SURFACES"
   objectives:
-    - "Add structured preconditions/postconditions to all 8 core operations"
-    - "Add a normative runtime_contract section"
-    - "Add validation metadata fields to DdrNode"
-    - "Define reference validator and conformance corpus requirements"
-    - "Define round-trip conformance tests"
-  task_references: ["M-35", "M-36", "M-37", "M-38", "M-39"]
+    - "Complete the adoption surfaces needed to make v7.0 usable"
+    - "Stand up the generator-owned v7.0 markdown outputs"
+    - "Finish with self-hosting validation of the final v7.0 release package"
+  task_references: ["migration", "derived-release-surfaces"]
   entry_criteria:
-    - "PHASE_4 complete: production contracts schema-validated"
+    - "PHASE_4 exit criteria are satisfied"
   exit_criteria:
-    - "Every core operation has machine-parseable preconditions and postconditions"
-    - "Runtime contract covers concurrency, persistence, eventing, API, and transaction semantics"
-    - "Conformance corpus requirements are documented with exemplar counts"
-  assigned_model: "gemini-3-pro-preview"
-
-- phase_id: "PHASE_6_DOCUMENTATION_AND_ADOPTION"
-  objectives:
-    - "Expand glossary to cover all undefined terms"
-    - "Add profile-aware compliance checklist"
-    - "Add quick-start examples to tier definitions"
-    - "Add migration contract for v6.3→v7.0"
-    - "Add reference generator and starter template requirements"
-    - "Resolve meta-governance gaps (project block, mode consistency, inline commentary)"
-  task_references: ["M-40", "M-41", "M-42", "M-43", "M-44", "M-45", "M-46", "M-47", "M-48"]
-  entry_criteria:
-    - "PHASE_5 complete: implementation bridge schema-validated"
-  exit_criteria:
-    - "Glossary covers all terms used in the specification that lack definitions"
-    - "Compliance checklist maps items to profiles"
-    - "Migration contract specifies all breaking changes from v6.3 to v7.0"
-    - "No issue-specific audit commentary remains in the authority file"
-    - "v7.0 YAML pair self-validates as the final deliverable"
+    - "The generated v7.0 markdown surfaces exist with provenance headers"
+    - "The v7.0 YAML pair validates through the standard JSON Schema workflow"
   assigned_model: "gemini-3-flash-preview"
 </phases>
 
 <atomic_steps>
+#### Group 1 - V7 Baseline Copies (PHASE_1_V7_BASELINE_AND_RELEASE_BLOCKERS)
 
-#### Group 1 — SIL Parent Enforcement and Node Content Mandate (PHASE_1)
+- [ ] 1. Intent: establish an isolated structural baseline for v7.0. Action: CREATE `ddr/ddr_node_schema_v7.0.yaml` by cloning `ddr/ddr_node_schema_v6.3.yaml` and updating only the root schema identifiers needed to mark it as the v7.0 machine contract. Outcome: all later schema edits land on a new versioned file while the v6.3 SSOT remains untouched.
+- [ ] 2. Intent: establish an isolated semantic-authority baseline for v7.0. Action: CREATE `ddr/ddr_system_v7.0.yaml` by cloning `ddr/ddr_system_v6.3.yaml` and updating only the root version metadata needed to mark it as the v7.0 semantic authority. Outcome: all later system-definition edits land on a new versioned file while the v6.3 SSOT remains untouched.
 
-- [ ] 1. **SIL parent_ids per-node enforcement.** MODIFY `ddr/ddr_node_schema_v6.3.yaml` → `ddr/ddr_node_schema_v7.0.yaml`: In the `DdrNode.allOf` SIL conditional block (current lines 1548–1555), add `parent_ids: {minItems: 1}` to the `then.properties` alongside the existing `id` pattern constraint. **Intent:** Close the gap where standalone SIL node validation admits orphaned SIL nodes when XPD is contextually active. **Outcome:** Per-node SIL validation rejects nodes with empty `parent_ids`, matching the document-level enforcement already present in the root `allOf`.
+#### Group 2 - Structural Admission and Metadata Closures (PHASE_1_V7_BASELINE_AND_RELEASE_BLOCKERS)
 
-- [ ] 2. **Mandate `content` as required.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: Move `content` into the `DdrNode.required` array (current line 1420–1427), changing it from `[id, tier, title, status, version, created, modified]` to `[id, tier, title, content, status, version, created, modified]`. **Intent:** Prevent schema-valid nodes from existing as structurally hollow shells that bypass the entire 70+ atomic tier inclusion/exclusion ruleset. **Outcome:** Any `DdrNode` without a `content` field fails schema validation. Cross-reviewer consensus: Gemini recommendation 1, Opus M-05, Codex item 2.
+- [ ] 3. Intent: close the two directly observed schema admission gaps called out across the reviews. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` so `DdrNode.content` is required and the per-node `SIL` conditional enforces `parent_ids.minItems: 1` instead of relying only on the document-level `active_tiers` branch. Outcome: hollow nodes and orphan `SIL` nodes fail structural validation.
+- [ ] 4. Intent: keep the semantic authority self-consistent with the tightened schema front door. Action: MODIFY `ddr/ddr_system_v7.0.yaml` `node_schema_fields`, `ICL-6.1`, `CDL-7.1`, and any scaffold text that still describe `content` as optional or leave the `SIL` root rule under-specified. Outcome: the v7.0 semantic-authority text matches the v7.0 schema on required node content and `SIL` parent requirements.
+- [ ] 5. Intent: prevent structurally incomplete system-definition records from passing validation. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` so `system_metadata` requires the essential authority fields and `TierDefinition` requires `parent_relationships` and `child_relationships`. Outcome: empty authority metadata and topology-less tier definitions are rejected structurally.
+- [ ] 6. Intent: mirror the tightened metadata and topology expectations in the semantic authority itself. Action: MODIFY `ddr/ddr_system_v7.0.yaml` so system metadata and tier-definition narrative/scaffold surfaces explicitly assume the required authority fields and explicit parent/child topology declarations. Outcome: the v7.0 system definition remains self-hosting under the stricter schema.
+- [ ] 7. Intent: close the unresolved `project` and `mode` ambiguity on `system_definition` artifacts. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` so `system_definition` documents cannot declare `project.mode: express`, and document the intended contract for the `project` block under that profile in schema descriptions and conditionals. Outcome: profile/mode branching is structurally unambiguous for the authoritative artifact.
 
-#### Group 2 — Score Band Determinism and Edge Type Cleanup (PHASE_1)
+#### Group 3 - Semantic-Authority Release Blockers (PHASE_1_V7_BASELINE_AND_RELEASE_BLOCKERS)
 
-- [ ] 3. **ARE score band boundary determinism.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: In the `ScoringProfile.score_bands` definition (current lines 1193–1215), add schema-level constraints: (a) items must be ordered by ascending `range[0]`; (b) each item's `range[1]` must equal the next item's `range[0]` (contiguous coverage); (c) the first band must begin at `0.0` and the last must end at `1.0`; (d) boundaries follow half-open `[low, high)` convention with the final band closed at `[low, 1.0]`. Add a `boundary_convention` annotation field with const `"half_open_final_closed"` to make the convention machine-explicit. **Intent:** Resolve the AX-3 determinism violation where a score of exactly 0.4 falls in two bands. **Outcome:** Non-conformant scoring profiles fail schema validation.
+- [ ] 8. Intent: make the semantic authority explicit about the `project` block now that the schema no longer leaves it implicit. Action: MODIFY `ddr/ddr_system_v7.0.yaml` to define the role of `project` for `document_profile: system_definition` and align any profile/mode prose with the v7.0 schema branch. Outcome: the v7.0 authority no longer relies on reader inference for the `project` block.
+- [ ] 9. Intent: remove an obvious self-inconsistency from the historical authority surface. Action: MODIFY `ddr/ddr_system_v7.0.yaml` `version_history` so the v1.0 entry no longer carries an empty `date` field. Outcome: the semantic authority does not contain blank historical metadata where v7.0 expects explicit values.
+- [ ] 10. Intent: remove version-specific audit residue from the normative authority file. Action: MODIFY `ddr/ddr_system_v7.0.yaml` inline comments so issue-tracker style commentary is migrated out of the normative surface or rewritten as timeless explanatory notes. Outcome: the v7.0 authority file contains enduring semantics rather than transient audit chatter.
+- [ ] 11. Intent: close the lifecycle gaps around deprecated nodes before any forward expansion begins. Action: MODIFY `ddr/ddr_system_v7.0.yaml` `lifecycle.status_transitions` so `DEPRECATED -> ACTIVE` requires the same structural/review closure expected for re-activation and `DEPRECATED -> DIRTY` is explicitly represented for propagation-driven re-entry. Outcome: deprecated nodes can be re-validated lawfully and cannot bypass validation/review gates.
+- [ ] 12. Intent: stop treating DELETE as an implicit sink that the reviews identified as semantically incomplete. Action: MODIFY `ddr/ddr_system_v7.0.yaml` lifecycle and operation narratives to encode the approved v7.0 DELETE semantics, including allowed source states, terminal behavior, child handling, manifest effects, and rollback notes. Outcome: DELETE becomes a machine-auditable semantic contract rather than an unstated assumption.
+- [ ] 13. Intent: make the structural contract admit exactly the DELETE semantics chosen in step 12. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` lifecycle/status definitions to match the approved DELETE model from the semantic authority, adding only the transition or terminal-token support that model requires. Outcome: the schema and semantic authority agree on DELETE handling.
+- [ ] 14. Intent: make `CIT-R7` mechanically enforceable instead of baseline-free. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` `ParentCitation` to add `validated_parent_version` with write-on-validate semantics. Outcome: child freshness can be evaluated against persisted parent-version checkpoints.
+- [ ] 15. Intent: align the semantic authority with the persisted parent-version freshness model. Action: MODIFY `ddr/ddr_system_v7.0.yaml` `citation_rules`, validation prose, and related scaffold text so `CIT-R7` explicitly relies on the stored validated parent version. Outcome: parent freshness is described consistently across the v7.0 authority surfaces.
+- [ ] 16. Intent: close the under-typed reconciliation-manifest surface identified by the reviews. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` manifest-related definitions so the schema admits the additional typed item families already described in the semantic system, including `REVIEW_REQUIRED`, extension advisories, conflict-resolution records, override approvals, and deferred fragments. Outcome: the v7.0 schema can structurally represent the full manifest behavior the authority describes.
+- [ ] 17. Intent: make the semantic authority enumerate the full manifest taxonomy instead of relying on implied categories. Action: MODIFY `ddr/ddr_system_v7.0.yaml` `reconciliation_manifest_schema` and related semantic-gap language so every manifest item family admitted by step 16 is explicitly defined with fields and usage semantics. Outcome: manifest state is typed and auditably closed at the semantic-authority layer.
+- [ ] 18. Intent: separate core topology identifiers from extension-only semantics at the schema level. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` so `TierRelationship.edge_type` no longer admits `extends`, and tighten extension rule-family typing so extension rule IDs remain distinguishable from core rule families. Outcome: the schema stops allowing extension-only semantics in core topology fields and reduces rule-family ambiguity.
+- [ ] 19. Intent: make rule-family uniqueness and edge separation explicit in the semantic authority. Action: MODIFY `ddr/ddr_system_v7.0.yaml` so rule-family uniqueness is stated as an invariant or equivalent governance rule, and core-topology prose clearly reserves `extends` for extension interaction rather than tier relationships. Outcome: tooling and human review can resolve rule IDs and edge semantics without hidden assumptions.
 
-- [ ] 4. **Remove `extends` from `TierRelationship.edge_type`.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: In the `TierRelationship` definition (current line 885), change the `edge_type` enum from `[derives, constrains, implements, extends]` to `[derives, constrains, implements]`. **Intent:** Core topology fields should not express extension-only semantics; verified that all 22 tier relationships in the system YAML use only `derives`, `constrains`, or `implements`. **Outcome:** Schema rejects `extends` in `parent_relationships` and `child_relationships`.
+#### Group 4 - Authority and Generated-Surface Governance (PHASE_2_AUTHORITY_AND_GENERATION_GOVERNANCE)
 
-#### Group 3 — Lifecycle Corrections (PHASE_1)
+- [ ] 20. Intent: generalize the v6.3 lifecycle-authority precedent into a full v7.0 authority model. Action: MODIFY `ddr/ddr_system_v7.0.yaml` to add an explicit `authority_hierarchy` section that distinguishes semantic authority, structural authority, and derived human-readable surfaces. Outcome: the YAML pair becomes the formally declared normative source for v7.0.
+- [ ] 21. Intent: keep the structural contract aligned with the new authority model. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` to admit and shape the `authority_hierarchy` section introduced in step 20. Outcome: the v7.0 system-definition artifact remains self-validating with its explicit authority hierarchy.
+- [ ] 22. Intent: encode the governance controls that all three reviews treated as necessary to avoid further additive drift. Action: MODIFY `ddr/ddr_system_v7.0.yaml` to add a complexity-budget rule, formal errata governance, and a deprecation/removal policy that covers rules, profiles, extensions, and generated artifacts. Outcome: v7.0 has explicit governance pressure against uncontrolled core growth and drift.
+- [ ] 23. Intent: make the schema support the new governance fields instead of leaving them prose-only. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` to support the errata severity, deprecation, removal, and related governance structures introduced in step 22. Outcome: governance additions are structurally typed.
+- [ ] 24. Intent: keep Express Mode in the system while preventing it from becoming a rival authority surface. Action: MODIFY `ddr/ddr_system_v7.0.yaml` `express_mode` semantics so v7.0 explicitly declares generated-surface ownership for Express renderings and closes the inactive-tier `UNBUNDLE_EXECUTE` gap without promoting Express to the only authoring mode. Outcome: Express remains supported, subordinate to the full kernel, and deterministic under reduced topology.
+- [ ] 25. Intent: keep the v7.0 schema aligned with the hardened Express contract. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` to admit any new Express-generation metadata introduced in step 24 while preserving the existing project-instance express branching rules. Outcome: Express-mode authority remains structurally closed without altering the canonical consumption-mode contract.
 
-- [ ] 5. **Add guards to `DEPRECATED → ACTIVE` transition.** MODIFY `ddr/ddr_system_v6.3.yaml` → `ddr/ddr_system_v7.0.yaml`: In the `lifecycle.status_transitions` table, locate the `DEPRECATED → ACTIVE` row (current lines 2684–2687) and append `gc-001` (structural validation) and `gc-005` (review closure) to the existing guard list `[gc-002, gc-003, gc-004]`, yielding `[gc-001, gc-002, gc-003, gc-004, gc-005]`. **Intent:** Close the lifecycle safety gap where a deprecated node can be reactivated without passing structural validation or review closure. **Outcome:** Reactivation of deprecated nodes requires the same vetting as dirty-to-active transitions.
+#### Group 5 - Profiles, Runtime, and Conformance Foundations (PHASE_3_PROFILE_RUNTIME_AND_CONFORMANCE_FOUNDATION)
 
-- [ ] 6. **Add `DEPRECATED → DIRTY` transition.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add a new row to `lifecycle.status_transitions`: `{from: DEPRECATED, to: DIRTY, operation: MODIFY, side_effect: propagation, guards: []}`. **Intent:** Enable dirty propagation to reach deprecated nodes lawfully when a parent is modified, eliminating the awkward `DEPRECATED → ACTIVE → DIRTY` path. **Outcome:** Deprecated nodes can re-enter the validation workflow via standard dirty propagation.
+- [ ] 26. Intent: add scaling without reopening core topology. Action: MODIFY `ddr/ddr_system_v7.0.yaml` to introduce a profile model centered on `system_class` and `operational_maturity`, and separate `design_complete` from `production_ready` as distinct readiness gates. Outcome: v7.0 can scale obligations by profile instead of by new tiers or new core topology.
+- [ ] 27. Intent: make the profile model structurally enforceable. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` to define the profile structures, readiness-gate fields, and any profile-aware checklist branches introduced in step 26. Outcome: profile declarations and readiness gates become schema-shaped rather than prose-only.
+- [ ] 28. Intent: make hardware-aware design machine-shaped for the use cases the user explicitly named. Action: MODIFY `ddr/ddr_system_v7.0.yaml` `CL` surfaces to add a structured hardware-envelope and target-platform vocabulary that can cover local tools, games, servers, edge devices, and other hardware-aware deployments. Outcome: v7.0 expresses hardware constraints as explicit contract fields rather than prose-only declarations.
+- [ ] 29. Intent: align the structural contract with the v7.0 hardware vocabulary. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` to support the structured hardware-envelope fields introduced in step 28. Outcome: CL hardware declarations are structurally typed and machine-validated.
+- [ ] 30. Intent: stop forcing runtime implementations to infer critical behavior from prose alone. Action: MODIFY `ddr/ddr_system_v7.0.yaml` to add machine-shaped `preconditions` and `postconditions` to core operations and a top-level `runtime_contract` covering concurrency, persistence, eventing, API shape, and transaction/rollback semantics. Outcome: v7.0 expresses executable runtime behavior as structured contracts.
+- [ ] 31. Intent: keep the schema aligned with the machine-shaped operation/runtime surfaces. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` to support the operation precondition/postcondition structures and the new `runtime_contract` section introduced in step 30. Outcome: the v7.0 system definition remains self-validating after runtime-contract hardening.
+- [ ] 32. Intent: make content-rule evaluation and validation recency auditable without collapsing semantic review into pure schema checks. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` `DdrNode` to add a `content_validation_contract` plus validation metadata fields such as `last_validated_by` and `last_validated_at`. Outcome: v7.0 can persist semantic-evaluation outcomes and validation timestamps without pretending the schema alone proves semantic completeness.
+- [ ] 33. Intent: define how the new validation ledger participates in CLEAN and review-required semantics. Action: MODIFY `ddr/ddr_system_v7.0.yaml` so validation-ledger semantics explicitly describe pass/fail/review-required outcomes and their effect on reconciliation, activation, and readiness claims. Outcome: the structural/semantic split remains intact but auditable.
+- [ ] 34. Intent: back the v7.0 specification with executable proof surfaces rather than prose promises. Action: MODIFY `ddr/ddr_system_v7.0.yaml` to add a `conformance_suite` that defines the reference validator contract, golden corpus expectations, and round-trip requirements for `project_instance`, `project_instance_express`, and `system_definition` flows. Outcome: conformance ownership is part of the v7.0 semantic authority.
+- [ ] 35. Intent: make upgrading and generated-surface ownership explicit before bulk rollout. Action: MODIFY `ddr/ddr_system_v7.0.yaml` to add a `migration_contract` for v6.3 -> v7.0 and a `reference_generators` contract for derived documentation, starter outputs, and other owned generated surfaces. Outcome: migration and generated-surface ownership are first-class release surfaces rather than afterthoughts.
+- [ ] 36. Intent: keep the schema aligned with the new conformance, migration, and generator contracts. Action: MODIFY `ddr/ddr_node_schema_v7.0.yaml` to support `conformance_suite`, `migration_contract`, and `reference_generators`. Outcome: the v7.0 system-definition artifact remains structurally valid after these release-oriented additions.
 
-- [ ] 7. **Add DELETE lifecycle semantics.** MODIFY `ddr/ddr_node_schema_v7.0.yaml` and `ddr/ddr_system_v7.0.yaml`: (a) In the node schema, add `DELETED` to `StatusEnum` (current line 1667). (b) Extend `StatusTransition` to permit `to: DELETED` as a terminal state. (c) In the system YAML, add DELETE transition rows for DRAFT, ACTIVE, DIRTY, and DEPRECATED source states, each transitioning `to: DELETED` with appropriate guards (orphan-cascade acknowledgment for ACTIVE/DIRTY; deprecation-first preference for ACTIVE). **Intent:** Close the INV-8 completeness gap where DELETE is modeled as an operation sink with no lifecycle rows. **Outcome:** DELETE has explicit lifecycle semantics; INV-8 is fully satisfied.
+#### Group 6 - Profile-Gated Production Contract Expansion (PHASE_4_PROFILE_GATED_PRODUCTION_CONTRACTS)
 
-#### Group 4 — System Metadata and Guard Extensibility (PHASE_1)
+- [ ] 37. Intent: cover the operational areas the reviews identified as missing from production-ready use. Action: MODIFY `ddr/ddr_system_v7.0.yaml` to expand profile-gated contract coverage for identity, authentication, authorization, secret/key management, rollout/rollback policy, backup/restore, failover, observability, runbooks, and on-call ownership through existing core and extension surfaces rather than new tiers. Outcome: v7.0 gains explicit security, deployment, resilience, and observability obligations without reopening the kernel.
+- [ ] 38. Intent: cover the remaining production-readiness surfaces needed for online, data-heavy, and enterprise use cases. Action: MODIFY `ddr/ddr_system_v7.0.yaml` to add profile-gated contracts for rate limits, retry/backpressure, queues/events/streams, multi-tenancy, data governance, supply-chain controls, and related delivery/runtime semantics. Outcome: v7.0 explicitly models the online/event/data/supply-chain concerns the reviews identified as absent or under-modeled.
+- [ ] 39. Intent: bind the broad target use cases to concrete obligations instead of leaving them aspirational. Action: MODIFY `ddr/ddr_system_v7.0.yaml` profile matrices so developer tools, games, enterprise platforms, hardware-aware deployments, and medical/government/banking objectives each map to explicit minimum tiers, extensions, evidence, and readiness gates. Outcome: the user-requested breadth is grounded in profile obligations rather than broad marketing language.
 
-- [ ] 8. **Require `system_metadata` fields.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: Add `required: [status, date, scope, authority, lineage, single_source_of_truth]` to the `system_metadata` definition (after current line 235). **Intent:** Prevent a `system_definition` document from carrying empty `system_metadata: {}`. **Outcome:** System-definition documents must declare all essential authority descriptors.
+#### Group 7 - Adoption and Derived Release Surfaces (PHASE_5_ADOPTION_AND_DERIVED_RELEASE_SURFACES)
 
-- [ ] 9. **Convert `GuardIdRef` to pattern-based.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: Replace the `GuardIdRef` definition (current lines 1669–1671) from `enum: [gc-001, ..., gc-009]` to `type: string, pattern: "^gc-[0-9]{3}$"`. **Intent:** Eliminate schema-breaking changes when adding or retiring guard conditions; guard definitions in the system YAML remain the authoritative registry. **Outcome:** Guard IDs are format-validated, not enum-locked.
-
-#### Group 5 — Citation Freshness and Manifest Typing (PHASE_1)
-
-- [ ] 10. **Add `validated_parent_version` to `ParentCitation`.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: In the `ParentCitation` definition (current lines 1627–1663), add an optional property: `validated_parent_version: {type: string, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"}`. Add a description documenting write-once semantics: set on VALIDATE success, cleared on parent MODIFY/SUPERSEDE to trigger DIRTY propagation. **Intent:** Enable mechanical enforcement of CIT-R7 parent-version freshness. **Outcome:** VERIFY can detect stale citations by comparing `validated_parent_version` against the current parent `version`. Cross-reviewer consensus: Gemini recommendation 7, Codex item 3.
-
-- [ ] 11. **Expand reconciliation manifest types.** MODIFY `ddr/ddr_node_schema_v7.0.yaml` and `ddr/ddr_system_v7.0.yaml`: (a) In the schema, expand `ManifestItemType.item_type` enum from `[MISSING_MEDIATOR, SUPERSEDE_FAILED, SUPERSEDE_PENDING_DETECTED]` to include `REVIEW_REQUIRED`, `CONFLICT_RESOLUTION`, `OVERRIDE_APPROVAL`, `EXTENSION_ADVISORY`, `DEFERRED_FRAGMENT`. Expand `SemanticGapClassification.allowed_types` to include all applicable types. (b) In the system YAML, add corresponding `manifest_item_types` entries with typed `fields` arrays, descriptions, and appropriate `severity` levels. **Intent:** Close the gap where 5+ manifest interactions described by the specification lack typed entries. **Outcome:** The reconciliation manifest is fully typed; "zero pending items" is mechanically unambiguous.
-
-#### Group 6 — Version History, Topology Requirements, and Rule ID Uniqueness (PHASE_1)
-
-- [ ] 12. **Fix v1.0 date.** MODIFY `ddr/ddr_system_v7.0.yaml`: Change the v1.0 entry's `date` field (current line 2094) from `""` to `"unknown"`. Add a `format_note` or inline comment explaining the date is not recoverable from historical records. **Intent:** Eliminate vacant metadata from the semantic authority's own historical record. **Outcome:** No empty-string date values in `version_history`.
-
-- [ ] 13. **Require topology fields in `TierDefinition`.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: In the `TierDefinition` definition (current line 892), add `parent_relationships` and `child_relationships` to the `required` array. The requirement enforces field presence, not non-empty content (ISL legitimately has `child_relationships: []`). **Intent:** Prevent tier definitions from passing validation without declaring their position in the DAG topology. **Outcome:** All tier definitions must declare both parent and child relationships.
-
-- [ ] 14. **Enforce global rule_id uniqueness.** MODIFY `ddr/ddr_node_schema_v7.0.yaml` and `ddr/ddr_system_v7.0.yaml`: (a) In the schema, restrict `ExtensionRuleId` pattern to exclude tier-name prefixes via negative lookahead or naming convention (e.g., require extension prefixes to differ from `[XPD, SIL, GPCL, FCL, CL, SAL, ICL, CDL, ISL]`). (b) In the system YAML, add a `rule_id_uniqueness` invariant or annotation requiring global uniqueness across all rule families (`AtomicTierRuleId`, `BridgeRuleId`, `ExtensionRuleId`, `CitationRuleId`, `InvariantId`). **Intent:** Prevent ambiguous rule references in tooling and logs. **Outcome:** Rule IDs are globally resolvable without tier context.
-
-#### Group 7 — Authority Hierarchy and Complexity Budget (PHASE_2)
-
-- [ ] 15. **Add authority hierarchy section.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add a top-level `authority_hierarchy` section declaring: (1) the system YAML is the sole normative semantic authority; (2) the node schema is the sole normative structural authority; (3) all Markdown renderings, crosswalks, and reference tables are derived surfaces with no normative weight; (4) generated surfaces must carry a machine-generated provenance header citing source artifacts and generation timestamp. Add corresponding schema support in `ddr/ddr_node_schema_v7.0.yaml`. **Intent:** Generalize the lifecycle-block precedent (current lines 2623–2626) to eliminate dual-authority ambiguity. **Outcome:** Authority model is machine-explicit; derivative surfaces are formally subordinated.
-
-- [ ] 16. **Codify complexity budget rule.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add a new `DesignPrinciple` entry under `system_metadata.design_philosophy`: `{principle: "Enforce Complexity Budget", description: "Every proposed Core addition must retire existing machinery of equal or greater complexity, or demonstrate it closes a defect not addressable by an Extension, profile, or tooling."}`. **Intent:** Create auditable selection pressure against monotonic surface growth. Cross-reviewer consensus: all four review documents. **Outcome:** New Core additions are formally gated by a subtraction rule.
-
-#### Group 8 — Content Validation, Express Mode, and Governance (PHASE_2)
-
-- [ ] 17. **Add content validation contract field.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: Add an optional `content_validation_contract` property to `DdrNode` (type: object) with sub-fields: `evaluated_rules` (array of objects: `{rule_id, disposition: pass|fail|review_required}`), `evaluated_at` (ISO 8601), `evaluated_by` (string). **Intent:** Make content compliance auditable without requiring the schema to evaluate prose semantics; the 70+ atomic rules operate outside the schema boundary but their evaluation should be recorded. **Outcome:** Compliance audit trails are machine-parseable.
-
-- [ ] 18. **Declare Express Mode generation contract.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add an `express_mode_generation_contract` annotation within the `express_mode` section declaring that Express Mode group definitions, unbundle rules, and deferred fragment handling are derived from the full tier definitions and must maintain guaranteed round-trip fidelity. **Intent:** Prevent Express Mode from drifting into a parallel manually maintained surface. **Outcome:** Express Mode is formally subordinated to the full model.
-
-- [ ] 19. **Specify UNBUNDLE_EXECUTE behavior with inactive tiers.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add normative text to `unbundle_determinism_rule` specifying: when a constituent tier is inactive (e.g., CL inactive in G2=[FCL, CL]), UNBUNDLE_EXECUTE allocates all group content to remaining active tiers only; no content is invented for inactive tiers; inactive-tier annotations are treated as classification errors with confidence `none`. **Intent:** Close the indeterminate reduced-topology unbundling behavior. **Outcome:** UNBUNDLE_EXECUTE behavior is fully specified for all topology variants.
-
-- [ ] 20. **Add errata governance.** MODIFY `ddr/ddr_system_v7.0.yaml` and `ddr/ddr_node_schema_v7.0.yaml`: Add governance text specifying when errata entries are required (post-release corrections only), retirement procedure (moved to `version_history` on next version increment), and release-blocking status (unresolved errata with severity `BLOCKING` must be resolved before next version finalization). Add optional `severity` field to `ErrataEntry`. **Intent:** Give the errata log operational governance. **Outcome:** Errata lifecycle is deterministic.
-
-- [ ] 21. **Add deprecation and removal policy.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add a normative `deprecation_policy` section specifying sunset periods and migration obligations for rules, profiles, extensions, and generated artifacts. Include a `deprecated_artifacts` array tracking items scheduled for removal with their sunset version. Add corresponding schema support. **Intent:** Enable intentional simplification by formalizing the removal mechanism. **Outcome:** The subtraction rule (M-16) has an operational counterpart.
-
-#### Group 9 — Profile System (PHASE_3)
-
-- [ ] 22. **Add `system_class` taxonomy.** MODIFY `ddr/ddr_node_schema_v7.0.yaml` and `ddr/ddr_system_v7.0.yaml`: Add a top-level `profiles` section with a `system_class` taxonomy containing at minimum: `script_tool`, `library_sdk`, `batch_job`, `service_api`, `web_app`, `data_pipeline`, `edge_device`, `regulated_system`. Bind each to: minimum required tiers (e.g., `script_tool` → SIL+FCL+CDL+ISL; `regulated_system` → all 9 + XPD), minimum rules, required extensions, evidence gates, and delivery obligations. **Intent:** Enable AX-4 Universality through profile-driven scaling instead of core topology expansion. **Outcome:** Small tools are not over-burdened; enterprise systems cannot under-specify.
-
-- [ ] 23. **Add `operational_maturity` dimension.** MODIFY the `profiles` section: Add an orthogonal `operational_maturity` dimension with levels: `local`, `internal`, `internet_facing`, `high_availability`, `regulated`. Bind each level to explicit gates for observability, security, resilience, rollout, and compliance evidence. **Intent:** Separate scale from operational exposure. **Outcome:** A `script_tool` at `regulated` maturity gets different obligations than a `web_app` at `local`.
-
-- [ ] 24. **Separate validation gates.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add `design_complete` and `production_ready` as distinct validation gates with separate checklist items. `design_complete` = all tiers structurally valid per declared profile; `production_ready` = operational contracts also satisfied per `system_class` + `operational_maturity`. **Intent:** Prevent conflating "spec is finished" with "system is deployable." **Outcome:** Both local tools and enterprise production systems have appropriate completion criteria.
-
-- [ ] 25. **Add hardware-profile schema to CL.** MODIFY `ddr/ddr_node_schema_v7.0.yaml` and `ddr/ddr_system_v7.0.yaml`: Add a `hardware_profile_schema` sub-section to CL's `node_schema` defining structured hardware envelope fields: `cpu_class`, `ram_floor_gb`, `storage_class`, `gpu_requirement`, `network_bandwidth_class`, `power_envelope_watts`. **Intent:** Enable HRE (E1) to validate mechanically rather than parsing prose. Essential for edge-device and hardware-constrained use cases. **Outcome:** Hardware declarations are machine-shaped.
-
-- [ ] 26. **Add optional `tags` field to `DdrNode`.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: Add `tags: {type: array, items: {type: string}, uniqueItems: true}` as an optional property. **Intent:** Enable cross-concern traceability (e.g., "security", "performance", "accessibility") without new tiers or edges. Tags carry no normative weight and do not participate in VERIFY traversals. **Outcome:** Lightweight cross-cutting categorization is available.
-
-#### Group 10 — Production Contract Expansions (PHASE_4)
-
-- [ ] 27. **Expand security contracts (SCE).** MODIFY `ddr/ddr_system_v7.0.yaml`: Expand SCE's contract scope to cover identity, authentication, authorization, secret management, and key management — structured as profile-gated obligations. **Intent:** Current SCE covers RBAC on ICL contracts only (SCE-R3). Production systems need broader security governance. **Outcome:** SCE rules cover the full security lifecycle, gated by `system_class` + `operational_maturity`.
-
-- [ ] 28. **Expand deployment contracts (DCP).** MODIFY `ddr/ddr_system_v7.0.yaml`: Extend DCP to cover migration sequencing, deployment rollback, compatibility windows, feature flags, canary/blue-green release policies — profile-gated. **Intent:** Current DCP defines minimum pipeline stages only. **Outcome:** Enterprise deployments have explicit rollout/rollback semantics.
-
-- [ ] 29. **Add resilience contracts.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add explicit backup, restore, failover, disaster-recovery, and degraded-operation contracts tied back to GPCL RTO/RPO targets as proof obligations — profile-gated. **Intent:** v6.3 names RTO/RPO targets but does not require operational proof. **Outcome:** Resilience is a machine-checkable obligation for appropriate profiles.
-
-- [ ] 30. **Expand operational readiness (ORE).** MODIFY `ddr/ddr_system_v7.0.yaml`: Expand ORE beyond telemetry points and vendor-agnostic alerts to cover SLIs, SLOs, alert ownership, dashboards, runbooks, and on-call escalation — profile-gated. **Intent:** Current ORE-R3 requires "≥1 telemetry point." Production systems need complete observability contracts. **Outcome:** Observability contracts match production reality.
-
-- [ ] 31. **Add online system contracts.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add first-class rate-limit, timeout, retry, backpressure, and idempotency contracts for online and event-driven systems — profile-gated to `service_api`, `web_app`, and `data_pipeline`. **Intent:** Missing entirely from the current specification. **Outcome:** Online system operational semantics are formally specified.
-
-- [ ] 32. **Add event/queue contracts.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add first-class cache, queue, stream, and event-schema contracts including ordering, replay, dead-letter, and durability semantics — profile-gated. **Intent:** Missing from the current specification; essential for event-driven architectures. **Outcome:** Event infrastructure is governed by typed contracts.
-
-- [ ] 33. **Expand data governance (DDE).** MODIFY `ddr/ddr_system_v7.0.yaml`: Expand DDE beyond residency, retention, and ICL-schema consistency to include classification, privacy, consent, deletion/right-to-erasure, lineage, schema evolution, and backfill/reconciliation — profile-gated. **Intent:** Current DDE covers ER model consistency but not the full data governance lifecycle. **Outcome:** Regulated-sector data obligations are formally specified.
-
-- [ ] 34. **Expand supply chain (DGA).** MODIFY `ddr/ddr_system_v7.0.yaml`: Expand DGA to cover SBOM generation, artifact provenance and signing, dependency update policy, vulnerability response SLA, and license gating — profile-gated. **Intent:** Current DGA covers dependency graph and copyleft analysis only. **Outcome:** Supply-chain governance matches production requirements.
-
-#### Group 11 — Operation Contracts and Runtime Specification (PHASE_5)
-
-- [ ] 35. **Add structured preconditions/postconditions.** MODIFY `ddr/ddr_node_schema_v7.0.yaml` and `ddr/ddr_system_v7.0.yaml`: For each of the 8 core operations, add structured `preconditions` (array of machine-evaluable expression objects) and `postconditions` (array of state assertion objects) alongside the existing prose `description` and `validation_trigger` fields. Add corresponding schema definitions for precondition and postcondition types. **Intent:** Make operations implementable without parsing natural language. **Outcome:** Every operation has machine-shaped pre/post contracts.
-
-- [ ] 36. **Add normative `runtime_contract` section.** MODIFY `ddr/ddr_system_v7.0.yaml` and `ddr/ddr_node_schema_v7.0.yaml`: Add a top-level `runtime_contract` section specifying: concurrency model (serialized vs. concurrent operations); persistence model (in-memory, file-backed, database-backed); event/notification model (synchronous propagation vs. queued); API surface contract (function-call, CLI, REST, or language-native); and transaction/rollback semantics. **Intent:** The specification describes 8 atomic operations but provides no runtime execution contract. **Outcome:** Implementers have unambiguous runtime behavior guidance.
-
-- [ ] 37. **Add validation metadata to `DdrNode`.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: Add optional fields: `last_validated_by: {type: string, enum: [VALIDATE, VERIFY]}` and `last_validated_at: {type: string, format: date-time}`. **Intent:** Enable mechanical confirmation of graph validation state against a known timestamp. **Outcome:** CLEAN claims are tied to actual evaluation points.
-
-- [ ] 38. **Define reference validator and conformance corpus.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add a `conformance_suite` section defining: (a) reference validator requirements (language, input/output contract, error reporting format); (b) golden conformance corpus structure (valid and invalid exemplars for all three document profiles and all lifecycle transitions); (c) release-blocking status: both validator and corpus pass are required for every version increment. **Intent:** Close the gap between "the spec says X" and "a validator enforces X." **Outcome:** Conformance testing is formalized as a release gate.
-
-- [ ] 39. **Define round-trip conformance tests.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add round-trip test requirements for: `project_instance ↔ VALIDATE`, `project_instance_express ↔ UNBUNDLE_SCAN/EXECUTE ↔ project_instance`, and `system_definition ↔ schema self-validation`. **Intent:** Ensure Express Mode maintains round-trip fidelity and self-hosting is machine-verified. **Outcome:** Round-trip invariants are documented and testable.
-
-#### Group 12 — Documentation, Glossary, and Adoption (PHASE_6)
-
-- [ ] 40. **Expand glossary.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add glossary entries for at minimum: `Consumption Mode Profile`, `System Class`, `Operational Maturity`, `Manifest Item`, `Bridge Rule`, `Dirty Classification`, `Guard Condition`, `Content Validation Contract`, `Hardware Envelope`, `Scoring Profile`, `Document Profile`, `Constraint Origin`. **Intent:** Close the gap where 12+ terms used throughout the specification lack definitions. **Outcome:** All normative terms have formal definitions.
-
-- [ ] 41. **Add profile-aware compliance checklist.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add a `profile_aware_validation` sub-section to `compliance_checklist` mapping each checklist item to the `system_class` + `operational_maturity` profiles where it applies. **Intent:** Prevent false-negative CLEAN declarations for small projects and under-specification of enterprise systems. **Outcome:** Compliance is profile-calibrated.
-
-- [ ] 42. **Add quick-start examples to tier definitions.** MODIFY `ddr/ddr_system_v7.0.yaml` and `ddr/ddr_node_schema_v7.0.yaml`: Add a `quick_start_example` field (type: string) to each `TierDefinition` containing a concise example of compliant tier content for a representative use case. **Intent:** Bridge the gap between abstract rules and concrete authoring. **Outcome:** Every tier has a concrete content example.
-
-- [ ] 43. **Add v6.3→v7.0 migration contract.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add a `migration_contract` section specifying: mandatory field additions for v6.3 → v7.0 upgrades, automated migration rules (field additions, enum expansions, structural renames), manual review requirements, and breaking-change classification. **Intent:** Make version upgrades deterministic for existing DDR instances. **Outcome:** Migration is formally specified.
-
-- [ ] 44. **Add reference generator requirements.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add a `reference_generators` section defining: starter template requirements for the main `system_class` variants, generated Markdown rendering contract, and crosswalk artifact specification. **Intent:** Ensure realistic onboarding paths for all system classes. **Outcome:** Generator requirements are formally captured.
-
-- [ ] 45. **Formalize `project` block under `system_definition`.** MODIFY `ddr/ddr_node_schema_v7.0.yaml` and `ddr/ddr_system_v7.0.yaml`: Add a normative note clarifying the `project` block's role under `system_definition` — either make it explicitly required with documented normative purpose, or clarify it is metadata-only with no enforcement implications. **Intent:** Resolve the role ambiguity where the canonical system YAML uses `project` but the role is undefined. **Outcome:** The `project` block has clear semantics for all document profiles.
-
-- [ ] 46. **Enforce `system_definition` mode consistency.** MODIFY `ddr/ddr_node_schema_v7.0.yaml`: Add a schema conditional ensuring `project.mode: full` is required (or defaulted) when `document_profile: system_definition`, preventing a system-definition artifact from declaring `mode: express`. **Intent:** Close the gap where a `system_definition` with `mode: express` is technically schema-valid. **Outcome:** System-definition documents cannot declare express mode.
-
-- [ ] 47. **Add testing strategy contracts.** MODIFY `ddr/ddr_system_v7.0.yaml`: Add or extend DCP to include a `testing_contract` covering unit, integration, contract, end-to-end, performance, security, resilience, and migration testing requirements — profile-gated with minimum coverage expectations per `system_class` + `operational_maturity`. **Intent:** Current DCP includes "test" as a pipeline stage but defines no test categories or profile-based minimums. **Outcome:** Testing strategy is governed by profile obligations.
-
-- [ ] 48. **Remove issue-specific audit commentary.** MODIFY `ddr/ddr_system_v7.0.yaml`: Remove issue-specific inline comments (e.g., current lines 280–281: "ISSUE-007 Change") and migrate the historical context to `errata_log` entries or `version_history` notes. **Intent:** The authority file should contain only timeless explanatory notes, not version-specific audit residue. **Outcome:** No issue-specific commentary remains in normative comments.
-
+- [ ] 40. Intent: make v7.0 authorable and auditable by humans once the contracts are stable. Action: MODIFY `ddr/ddr_system_v7.0.yaml` to expand the glossary, add profile-aware compliance guidance, and add concise tier `quick_start_example` content where the reviews identified an adoption gap. Outcome: the v7.0 authority contains the adoption scaffolding required to use the stronger model without informal side docs.
+- [ ] 41. Intent: eliminate manual drift between the v7.0 YAML pair and its human-readable renderings. Action: CREATE the reproducible v7.0 documentation-generation workflow in the existing `ddr/` surface so one owned workflow reads the v7.0 YAML pair and emits the derived markdown artifacts with provenance headers. Outcome: v7.0 human-readable surfaces become generator-owned rather than manually co-maintained.
+- [ ] 42. Intent: ship the canonical human-readable rendering for the new release. Action: CREATE `ddr/DDR System(v7.0).md` from the workflow introduced in step 41 so it renders the finalized v7.0 YAML authority pair without claiming independent normative weight. Outcome: v7.0 has a generated canonical markdown rendering aligned to the YAML pair.
+- [ ] 43. Intent: ship the reference-manual surface needed for practical adoption and audit. Action: CREATE `ddr/ddr_ref_manual_v7.0.md` from the workflow introduced in step 41 so the final v7.0 authority pair has a generated explanatory companion with explicit provenance. Outcome: v7.0 includes a derived reference manual aligned to the finalized YAML authorities.
 </atomic_steps>
 
 <verification>
-
-1. Parse `ddr/ddr_node_schema_v7.0.yaml` SIL conditional block; confirm `parent_ids: {minItems: 1}` is present. Test: submit a `{tier: SIL, parent_ids: []}` node — must fail validation.
-2. Parse `ddr/ddr_node_schema_v7.0.yaml` `DdrNode.required`; confirm `content` is listed. Test: submit a node without `content` — must fail validation.
-3. Parse `ScoringProfile.score_bands`; confirm `boundary_convention` field exists. Test: submit overlapping bands `[0.0, 0.5]` and `[0.4, 1.0]` — must fail validation.
-4. Parse `TierRelationship.edge_type` enum; confirm `extends` is absent. Test: submit a tier relationship with `edge_type: extends` — must fail.
-5. Parse `lifecycle.status_transitions` `DEPRECATED → ACTIVE` row; confirm guards include `gc-001` and `gc-005`.
-6. Parse `lifecycle.status_transitions`; confirm a `DEPRECATED → DIRTY` row exists with `operation: MODIFY`.
-7. Parse `StatusEnum`; confirm `DELETED` is present. Parse `status_transitions`; confirm DELETE rows exist for DRAFT, ACTIVE, DIRTY, and DEPRECATED.
-8. Parse `system_metadata`; confirm `required` array contains `[status, date, scope, authority, lineage, single_source_of_truth]`.
-9. Parse `GuardIdRef`; confirm it uses `pattern: "^gc-[0-9]{3}$"` instead of a closed enum. Test: `gc-010` passes; `gc-abc` fails.
-10. Parse `ParentCitation`; confirm `validated_parent_version` optional field exists with SemVer pattern.
-11. Parse `ManifestItemType.item_type` enum; confirm `REVIEW_REQUIRED`, `CONFLICT_RESOLUTION`, `OVERRIDE_APPROVAL`, `EXTENSION_ADVISORY`, `DEFERRED_FRAGMENT` are present. Parse `SemanticGapClassification.allowed_types`; confirm expansion.
-12. Parse `version_history` v1.0 entry; confirm `date` is non-empty.
-13. Parse `TierDefinition.required`; confirm `parent_relationships` and `child_relationships` are listed.
-14. Parse `ExtensionRuleId` pattern; confirm it excludes tier-name prefixes. Parse system YAML for `rule_id_uniqueness` annotation.
-15. Parse system YAML top level; confirm `authority_hierarchy` section exists with all 4 declarations.
-16. Parse `system_metadata.design_philosophy`; confirm complexity budget principle is present.
-17. Parse `DdrNode`; confirm `content_validation_contract` optional field exists with `evaluated_rules`, `evaluated_at`, `evaluated_by` sub-fields.
-18. Parse `express_mode` section; confirm `express_mode_generation_contract` annotation is present.
-19. Parse `unbundle_determinism_rule`; confirm inactive-tier allocation behavior is specified.
-20. Parse `errata_log` schema description; confirm governance text covers creation, retirement, and release-blocking conditions. Confirm `ErrataEntry` has optional `severity` field.
-21. Parse system YAML; confirm `deprecation_policy` section exists with sunset period and `deprecated_artifacts` array definitions.
-22. Parse system YAML `profiles` section; confirm `system_class` taxonomy with ≥8 classes, each with minimum required tiers, rules, and extensions.
-23. Within `profiles`, confirm `operational_maturity` dimension with ≥5 levels, each with explicit gates.
-24. Confirm both `design_complete` and `production_ready` validation gates exist with distinct checklist items.
-25. Parse CL `node_schema`; confirm `hardware_profile_schema` with structured fields (`cpu_class`, `ram_floor_gb`, etc.).
-26. Parse `DdrNode`; confirm optional `tags` array field with `uniqueItems: true`.
-27. Parse SCE extension rules; confirm rules covering identity, authentication, authorization, secret management, key management — each with profile-gate reference.
-28. Parse DCP extension rules; confirm rollback, canary/blue-green, feature flag rules with profile-gate references.
-29. Parse system YAML; confirm resilience contracts are tied to GPCL RTO/RPO targets with proof obligation language.
-30. Parse ORE rules; confirm SLI/SLO/runbook/on-call requirements with profile-gate references.
-31. Parse system YAML; confirm online system contracts (rate-limit, timeout, retry, backpressure, idempotency) are present with profile-gate.
-32. Parse system YAML; confirm event/queue contracts with ordering, replay, dead-letter, durability semantics.
-33. Parse DDE rules; confirm classification, privacy, consent, deletion, lineage, schema evolution coverage.
-34. Parse DGA rules; confirm SBOM, provenance, signing, vulnerability response, license gating coverage.
-35. Parse `Operation` schema; confirm `preconditions` and `postconditions` array fields exist. Verify all 8 operations in system YAML have structured pre/post entries.
-36. Parse system YAML top level; confirm `runtime_contract` section covers concurrency, persistence, eventing, API surface, and transaction semantics.
-37. Parse `DdrNode`; confirm `last_validated_by` and `last_validated_at` optional fields.
-38. Parse system YAML; confirm `conformance_suite` section with validator requirements, corpus structure, and release-blocking declaration.
-39. Parse system YAML; confirm round-trip test requirements for all three document profiles.
-40. Parse `glossary`; confirm ≥26 entries (14 existing + 12 new).
-41. Parse `compliance_checklist`; confirm `profile_aware_validation` sub-section mapping items to profiles.
-42. Parse `TierDefinition` schema; confirm `quick_start_example` field. Verify all 9 tier definitions in system YAML include a non-empty example.
-43. Parse system YAML; confirm `migration_contract` section with v6.3→v7.0 field additions, breaking-change classification, and review requirements.
-44. Parse system YAML; confirm `reference_generators` section with template and rendering requirements.
-45. Parse system YAML or schema; confirm normative note or requirement for `project` under `system_definition`.
-46. Test: a `system_definition` document with `project.mode: express` — must fail schema validation.
-47. Parse DCP rules; confirm `testing_contract` with test categories and profile-based minimums.
-48. Grep `ddr/ddr_system_v7.0.yaml` for `ISSUE-` patterns in comments; confirm zero matches.
-
-**Final integration verification:** Run `jsonschema.validate(ddr_system_v7.0, ddr_node_schema_v7.0)` — must pass with zero errors.
-
+1. Confirm `ddr/ddr_node_schema_v7.0.yaml` exists and its root schema identifiers mark it as a v7.0 contract rather than a second v6.3 file.
+2. Confirm `ddr/ddr_system_v7.0.yaml` exists and its root version metadata marks it as the v7.0 semantic authority rather than a second v6.3 file.
+3. Inspect `ddr/ddr_node_schema_v7.0.yaml` and confirm `DdrNode.required` now includes `content` and the per-node `SIL` conditional enforces `parent_ids.minItems: 1`; a minimal missing-content node and a minimal orphan `SIL` node must both fail validation.
+4. Inspect `ddr/ddr_system_v7.0.yaml` `node_schema_fields`, `ICL-6.1`, `CDL-7.1`, and related scaffold text; confirm none of those surfaces still describe `content` as optional or leave the `SIL` parent rule weaker than the schema.
+5. Inspect `ddr/ddr_node_schema_v7.0.yaml` and confirm `system_metadata` requires the essential authority fields and `TierDefinition.required` includes `parent_relationships` and `child_relationships`.
+6. Inspect `ddr/ddr_system_v7.0.yaml` and confirm its system metadata and tier-definition surfaces remain populated and consistent with the stricter schema from step 5.
+7. Confirm the v7.0 schema rejects a `system_definition` artifact with `project.mode: express` and explicitly documents the intended `project` contract for that profile.
+8. Inspect `ddr/ddr_system_v7.0.yaml` and confirm the `project` block semantics for `document_profile: system_definition` are explicitly described rather than implied.
+9. Inspect the v1.0 `version_history` entry in `ddr/ddr_system_v7.0.yaml` and confirm the `date` field is no longer empty.
+10. Search `ddr/ddr_system_v7.0.yaml` for issue-tracker style inline audit markers such as `ISSUE-`; confirm the normative file no longer contains version-specific audit residue.
+11. Inspect `lifecycle.status_transitions` in `ddr/ddr_system_v7.0.yaml`; confirm `DEPRECATED -> ACTIVE` includes structural/review closure guards and `DEPRECATED -> DIRTY` exists as an explicit propagation path.
+12. Inspect DELETE semantics in `ddr/ddr_system_v7.0.yaml`; confirm allowed source states, terminal behavior, child handling, manifest impact, and rollback notes are explicitly encoded rather than implied.
+13. Inspect `ddr/ddr_node_schema_v7.0.yaml`; confirm the lifecycle/status structures admit the DELETE model chosen in step 12 and the v7.0 pair remains internally consistent after that choice.
+14. Inspect `ParentCitation` in `ddr/ddr_node_schema_v7.0.yaml`; confirm `validated_parent_version` exists with the intended v7.0 typing.
+15. Inspect `CIT-R7` and related validation text in `ddr/ddr_system_v7.0.yaml`; confirm the rule now relies on the persisted validated parent version rather than an unstated baseline.
+16. Inspect manifest-related definitions in `ddr/ddr_node_schema_v7.0.yaml`; confirm the expanded manifest item families are structurally admitted.
+17. Inspect `reconciliation_manifest_schema` in `ddr/ddr_system_v7.0.yaml`; confirm every manifest family admitted by the schema is explicitly defined semantically.
+18. Inspect `ddr/ddr_node_schema_v7.0.yaml`; confirm `TierRelationship.edge_type` no longer admits `extends` and extension rule-family typing no longer overlaps the core families implicitly.
+19. Inspect `ddr/ddr_system_v7.0.yaml`; confirm it explicitly states global rule-family uniqueness and keeps `extends` reserved for extension interaction rather than core tier relationships.
+20. Inspect `ddr/ddr_system_v7.0.yaml`; confirm an `authority_hierarchy` section explicitly distinguishes semantic authority, structural authority, and derived surfaces.
+21. Inspect `ddr/ddr_node_schema_v7.0.yaml`; confirm it supports the `authority_hierarchy` section present in the v7.0 system file.
+22. Inspect `ddr/ddr_system_v7.0.yaml`; confirm it contains a complexity-budget rule, explicit errata governance, and a deprecation/removal policy covering rules, profiles, extensions, and generated artifacts.
+23. Inspect `ddr/ddr_node_schema_v7.0.yaml`; confirm the schema supports the governance structures introduced in step 22, including any errata severity or deprecation/removal fields required by the v7.0 authority.
+24. Inspect `ddr/ddr_system_v7.0.yaml` `express_mode`; confirm it now includes generated-surface ownership and inactive-tier unbundle semantics without demoting Full mode or deleting deferred semantic review behavior.
+25. Inspect `ddr/ddr_node_schema_v7.0.yaml`; confirm it supports any new Express-generation metadata while preserving the existing express profile branching rules.
+26. Inspect `ddr/ddr_system_v7.0.yaml`; confirm the profile model includes `system_class`, `operational_maturity`, and distinct `design_complete` / `production_ready` readiness gates.
+27. Inspect `ddr/ddr_node_schema_v7.0.yaml`; confirm the profile structures and readiness-gate fields introduced in step 26 are structurally typed.
+28. Inspect the `CL` surfaces in `ddr/ddr_system_v7.0.yaml`; confirm the v7.0 hardware-envelope and target-platform vocabulary is explicit and not prose-only.
+29. Inspect `ddr/ddr_node_schema_v7.0.yaml`; confirm the hardware-envelope structure introduced in step 28 is schema-shaped.
+30. Inspect `operations` and the top-level runtime section in `ddr/ddr_system_v7.0.yaml`; confirm core operations have structured preconditions/postconditions and `runtime_contract` covers concurrency, persistence, eventing, API shape, and rollback semantics.
+31. Inspect `ddr/ddr_node_schema_v7.0.yaml`; confirm the schema supports the new operation contract structures and `runtime_contract`.
+32. Inspect `DdrNode` in `ddr/ddr_node_schema_v7.0.yaml`; confirm `content_validation_contract`, `last_validated_by`, and `last_validated_at` are present with the intended typing.
+33. Inspect `ddr/ddr_system_v7.0.yaml`; confirm validation-ledger semantics explicitly describe pass/fail/review-required outcomes and their effect on CLEAN/readiness claims.
+34. Inspect `ddr/ddr_system_v7.0.yaml`; confirm `conformance_suite` exists and names the validator contract, corpus ownership, and round-trip requirements for all supported document profiles.
+35. Inspect `ddr/ddr_system_v7.0.yaml`; confirm `migration_contract` and `reference_generators` exist and are scoped to the v6.3 -> v7.0 release path and generator-owned outputs.
+36. Inspect `ddr/ddr_node_schema_v7.0.yaml`; confirm the schema supports `conformance_suite`, `migration_contract`, and `reference_generators`.
+37. Inspect `ddr/ddr_system_v7.0.yaml`; confirm profile-gated contracts now cover identity/authn/authz, secret/key management, rollout/rollback, backup/restore, failover, observability, runbooks, and on-call ownership.
+38. Inspect `ddr/ddr_system_v7.0.yaml`; confirm profile-gated contracts now cover online runtime controls, queues/events/streams, multi-tenancy, data governance, and supply-chain controls.
+39. Inspect the profile matrices in `ddr/ddr_system_v7.0.yaml`; confirm developer tools, games, enterprise platforms, hardware-aware deployments, and medical/government/banking objectives each map to explicit minimum obligations.
+40. Inspect `ddr/ddr_system_v7.0.yaml`; confirm the glossary is expanded, compliance guidance is profile-aware, and tier quick-start examples exist for the intended adoption surfaces.
+41. Confirm the v7.0 documentation-generation workflow exists under `ddr/` and explicitly names the v7.0 YAML pair as its input and the two v7.0 markdown artifacts as its generator-owned outputs.
+42. Confirm `ddr/DDR System(v7.0).md` exists, carries a provenance header tying it back to the v7.0 YAML pair, and does not claim stronger authority than the YAML surfaces.
+43. Confirm `ddr/ddr_ref_manual_v7.0.md` exists, carries a provenance header tying it back to the v7.0 YAML pair, and run the standard YAML-against-schema validation flow already documented in the schema header using `.\.venv\Scripts\python.exe` against `ddr/ddr_system_v7.0.yaml` and `ddr/ddr_node_schema_v7.0.yaml`; require zero validation errors.
 </verification>
 
 <risks_and_mitigations>
+- **Risk:** The release-blocking v7.0 changes create breaking differences from v6.3, especially around required `content`, stronger lifecycle semantics, and validation baselines.
+  **Mitigation:** Keep v6.3 files untouched, land all breaking changes only in the v7.0 pair, and complete the explicit `migration_contract` in PHASE_3 before treating the release package as ready.
 
-- **Risk:** Phase 1 modifications change the `StatusEnum` (adding `DELETED`) and `DdrNode.required` array (adding `content`), which are breaking changes for existing v6.3 project-instance files.
-  **Mitigation:** These are captured in the v6.3→v7.0 migration contract (M-43). Phase 6 must complete before any external migration guidance is issued. Projects upgrading from v6.3 must add `content` to all nodes and handle `DELETED` status awareness.
+- **Risk:** DELETE modeling and rule-family changes can destabilize the frozen core if they are implemented without review.
+  **Mitigation:** Treat PHASE_1 exit as a hard review gate for the DELETE model and rule-family diffs before authority hardening or profile expansion continues.
 
-- **Risk:** Expanding `ManifestItemType` (M-11) and `SemanticGapClassification` (M-11) could introduce items that existing manifest implementations do not handle.
-  **Mitigation:** New manifest types are additive; existing implementations that do not recognize them will produce schema validation errors, which is the desired failure mode.
+- **Risk:** Generated-surface governance regresses into another hand-maintained authority layer.
+  **Mitigation:** Make the generation workflow a first-class owned surface, require provenance headers on both v7.0 markdown outputs, and keep the YAML pair as the only normative authority.
 
-- **Risk:** The profile system (M-22/M-23) introduces significant new schema surface area, which contradicts the subtraction-rule spirit (M-16).
-  **Mitigation:** Profiles are a scaling mechanism, not a core topology expansion. The complexity budget rule (M-16) applies to tiers, edge types, invariants, and operations — not to the classification system that gates their applicability. Profiles reduce effective complexity for small projects even as they add schema surface.
+- **Risk:** The profile model turns into hidden topology expansion.
+  **Mitigation:** Enforce the complexity-budget rule and explicitly keep scaling in `system_class`, `operational_maturity`, and profile-gated contracts rather than new tiers, edge types, or informal side systems.
 
-- **Risk:** Converting `GuardIdRef` from enum to pattern (M-09) relaxes validation strictness; any string matching `^gc-[0-9]{3}$` passes schema validation whether or not a corresponding `GuardDefinition` exists.
-  **Mitigation:** Guard definitions in the system YAML remain the authoritative registry. Runtime validators must check guard references against the resolution list. The schema validates format conformance; the system YAML validates semantic existence.
+- **Risk:** Recommendations rejected by the review synthesis creep back into implementation through convenience edits.
+  **Mitigation:** Preserve three explicit exclusions across all phases: do not make Express the only canonical authoring surface, do not remove semantic review from the normative model, and do not remove ARE normative authority unless the schema and semantic contract are revised together under explicit review.
 
-- **Risk:** Adding `DELETED` to `StatusEnum` (M-07) requires updating the `prior_status` enum, the SUPERSEDE_PENDING conditional, and potentially the lifecycle guard references.
-  **Mitigation:** `prior_status` restricts to `[ACTIVE, DEPRECATED, DIRTY]` — `DELETED` nodes cannot enter SUPERSEDE_PENDING (they are terminal), so no `prior_status` change is needed. SUPERSEDE_PENDING conditional remains unchanged because DELETED is a terminal state.
-
-- **Risk:** Phase 4 (production contracts) adds significant rule count to extensions, which could be perceived as bloat.
-  **Mitigation:** All Phase 4 rules are profile-gated. A `script_tool` at `local` maturity encounters zero additional obligations from Phase 4. The rules activate only for system classes and maturity levels where they are production-relevant.
-
-- **Risk:** Self-hosting property: the v7.0 system YAML must itself validate against the v7.0 node schema, which now has more requirements.
-  **Mitigation:** Every Phase exit criterion includes self-validation. The system YAML is updated in lockstep with every schema change to maintain self-hosting validity.
-
+- **Risk:** The conformance and generation surfaces lag behind late v7.0 YAML changes and leave the release package internally inconsistent.
+  **Mitigation:** Do not complete PHASE_5 until the generation workflow has emitted both v7.0 markdown artifacts from the finalized YAML pair and the final YAML-against-schema validation passes cleanly.
 </risks_and_mitigations>
