@@ -4,6 +4,16 @@
 
 This report summarizes observed evolution patterns across archived DDR materials in `.archive/ddr`, with emphasis on how the system moved from a documentation framework into a self-hosting formal specification system, and why that evolution now risks exploding complexity instead of producing a stable, precise application design framework.
 
+## Audit Status
+
+This report has been re-audited against the archived source set and refined in three ways:
+
+- claims that were directionally correct but overly broad have been narrowed to their actual evidentiary scope,
+- quantitative signals are now explicitly described as measurements of the archived human-readable specs and tracker snapshots rather than universal system totals,
+- the strategy section has been expanded from general recommendations into a prioritized repair program aimed at reducing framework complexity without losing DDR rigor.
+
+No major contradiction with the archive was found, but several claims benefited from tighter framing.
+
 ## Executive Summary
 
 The DDR archive shows a clear progression:
@@ -28,12 +38,14 @@ The archive therefore suggests two simultaneous truths:
 | `v3` | Gap review of implemented knowledge assets against intended DDR | Clear recognition that schema alone was not enough; exposed inconsistencies and missing operational assets | Revealed drift between intended system and actual knowledge base |
 | `v4` | Major shift to a generalized DAG core with typed nodes, edges, invariants, operations, extensions, and express/full modes | First strong machine-readable core; self-hosting logic became plausible | Introduced many new moving parts at once; audit immediately found 13 substantive issues |
 | `v5` | Lifecycle hardening, verification-mode split, bridge rules, scoring profiles, tri-state ARE lifecycle, typed manifests | Better determinism and better treatment of semantic vs structural concerns | Schema/surface expansion accelerated; correctness depended on more coordination between prose, YAML, and tooling |
-| `v6.0` | Mostly reissued `v5` concepts under a new version label | Minimal semantic movement | Version churn without comparable simplification; maintenance noise increased |
+| `v6.0` | In the archived human-readable spec, `v6.0` appears largely to relabel and carry forward `v5.0` concepts rather than introduce a comparably large new shift | Little visible architectural change in the Markdown surface | Version churn without comparable simplification; maintenance noise increased |
 | `v6.1` | Formal semantic-gap governance, dirty classifications, cross-node semantic review hooks, conflict protocol, lifecycle completeness, parent-version freshness | More honest treatment of edge cases and governance | The framework moved further into specification maintenance and exception management |
 | `v6.2` | Explicit lean vs system-definition contract, typed lifecycle endpoints, tighter root/schema closure, stricter express-mode obligations | Better machine closure and root-contract clarity | More profile branching and more schema-governed special cases |
 | `v6.3` | Explicit authority hierarchy across semantic YAML, schema YAML, and Markdown rendering; root contract and crosswalk expanded | Stronger explanation of authority boundaries and document roles | Highest documentary overhead yet; unresolved issue volume returns despite prior hardening |
 
 ## Quantitative Signals
+
+These measurements are intentionally narrow. They describe the archived human-readable specification files and issue-tracker snapshots, because those are the materials available for direct evaluation here.
 
 The archive shows steady expansion in the canonical spec surface:
 
@@ -42,6 +54,7 @@ The archive shows steady expansion in the canonical spec surface:
 | `v1` main summary doc | 408 |
 | `v4` spec | 672 |
 | `v5` spec | 800 |
+| `v6.0` spec | 801 |
 | `v6.1` spec | 825 |
 | `v6.2` spec | 897 |
 | `v6.3` spec | 1098 |
@@ -57,6 +70,8 @@ Issue-tracker volume also stays high instead of collapsing:
 | `v6.3` tracker | 17 open issues |
 
 This matters because the issue mix shifts over time. Early issues are about modeling choices. Later issues are increasingly about schema closure, authority mismatch, enum shape, lifecycle edges, required fields, and identifier typing. That is a classic sign that the framework is consuming design energy to preserve itself.
+
+One additional signal is qualitative rather than numerical: the internal audit material in `.archive/ddr/v6/DDR_System_design_framework_audit.md` explicitly frames several repairs around "No new tiers", "No new edge types", and "Minimal schema surface changes". That means the archive itself already recognizes surface-area growth as a design problem, not just as an external criticism.
 
 ## Main Observations
 
@@ -76,6 +91,8 @@ The later archive does not stabilize by reducing primitives. It stabilizes by ad
 - more authority bookkeeping.
 
 This improves correctness locally, but it does not reduce the global cognitive load.
+
+The unresolved `v6.3` issue list reinforces this. Open concerns include score-band boundary ambiguity, DELETE lifecycle semantics, required-field gaps, guard-ID rigidity, global rule-ID uniqueness, and removal of issue-commentary from normative text. Those are not "missing feature" problems in the application-design sense. They are signs of a framework spending effort on self-closure.
 
 ### 3. The dominant risk changed from under-specification to over-governance
 
@@ -165,6 +182,8 @@ Define three layers of stability:
 
 If a feature can live in a profile or extension, it should not enter the core.
 
+This direction is directly aligned with the stronger internal audit posture already visible in the archive: no new tiers, no new edge types, and minimal schema-surface growth unless a change closes a real defect.
+
 ### Use one true normative source and generate the rest
 
 The paired-authority model in `v6.3` is understandable, but it is expensive. A stable framework should have one normative semantic source and generate:
@@ -194,6 +213,79 @@ The archive repeatedly wrestles with this boundary. The stable answer is:
 
 That preserves determinism without inflating the core into a pseudo-human reviewer.
 
+## Optimized Repair Program
+
+The archive supports a more concrete repair sequence than the original report stated. If the goal is a stable, precise application design framework rather than an endlessly self-expanding specification platform, the most efficient path is:
+
+### Phase 1: Freeze the author-facing grammar
+
+Declare one authoring surface stable and normative for application work:
+
+- grouped `Express Mode` only,
+- fixed group definitions,
+- fixed citation semantics,
+- a minimal required lifecycle,
+- no new mandatory author-facing fields without a deprecation-and-removal trade.
+
+This is the highest-leverage simplification because it reduces daily cognitive load without requiring loss of internal rigor.
+
+### Phase 2: Demote the 9-tier surface to internal normalization or expert mode
+
+Keep the full tier model available for:
+
+- regulated programs,
+- migration tooling,
+- expert diagnostics,
+- generated deep traceability.
+
+But stop treating it as the default authoring contract. The archive shows that most instability accumulates in the deeper authority surfaces, not in the high-level grouped intent.
+
+### Phase 3: Collapse authority drift by generating derivative surfaces
+
+Pick one normative machine source and generate:
+
+- Markdown renderings,
+- JSON/YAML schemas,
+- crosswalks,
+- quick-reference tables.
+
+Do not maintain multiple normative surfaces by hand. The later archive repeatedly shows that synchronization overhead becomes a first-order problem.
+
+### Phase 4: Separate structural gates from semantic reviews
+
+Core gates should block only on:
+
+- topology legality,
+- citation legality,
+- lifecycle legality,
+- required-field presence,
+- identifier/type consistency.
+
+Semantic questions should emit review obligations, not expand the core state machine unless absolutely necessary.
+
+### Phase 5: Introduce a hard complexity budget for core changes
+
+Every proposed core addition should answer:
+
+1. What ambiguity does this remove?
+2. What existing rule, field, state, or branch is retired in exchange?
+3. Why can this not live in a profile, extension, or generated surface?
+
+If the proposal cannot answer all three, it should not enter the core.
+
+### Phase 6: Make tracker and metadata drift a release-blocking defect
+
+The archive suggests a recurring risk that headers, schemas, registries, and rendered explanations can drift apart. Treat the following as blocking:
+
+- mismatched issue counts,
+- inconsistent required-surface declarations,
+- authority-hierarchy conflicts,
+- version-history or errata inconsistencies.
+
+That is not administrative polish. It is essential if the framework claims determinism and single-source authority.
+
+The archive even shows at least one concrete metadata-synchronization smell: the `v5` issue tracker header reports `open_issues: 1` while the visible registry entries are resolved. Whether that is a counting defect or an archival artifact, it is exactly the kind of authority drift the framework should stop tolerating.
+
 ## Practical Target State
 
 For a stable, precise application design system framework derived from DDR, the target should be:
@@ -205,6 +297,13 @@ For a stable, precise application design system framework derived from DDR, the 
 - and **extensions that can evolve independently** without forcing new core versions.
 
 In short: DDR should keep its rigor, but move its sophistication behind a narrower front door.
+
+## Residual Uncertainty
+
+Two points are worth stating explicitly to keep the report precise:
+
+- The `v6.0` assessment is based on the archived human-readable spec diff and surface review. It is a strong indication of limited visible change, not a claim that no hidden semantic change existed anywhere outside the reviewed archive surface.
+- Issue-tracker counts are useful signals, but they are themselves part of the authority-maintenance problem. They should be read as evidence of complexity pressure, not as the sole metric of system quality.
 
 ## Bottom Line
 

@@ -83,23 +83,27 @@ graph TD
 
 ## 3. Structural Evolution: The Numbers
 
-| Metric               | v1          | v4  | v5  | v6.0 | v6.3 |
-| -------------------- | ----------- | --- | --- | ---- | ---- |
-| Tiers                | 7           | 9   | 9   | 9    | 9    |
-| Edge Types           | 6           | 4   | 4   | 4    | 4    |
-| Formal Axioms        | 0           | 7   | 7   | 7    | 7    |
-| DAG Invariants       | 0           | 6   | 6   | 8    | 8    |
-| Atomic Operations    | 0           | 7   | 8   | 8    | 8    |
-| Lifecycle Statuses   | ~3 implied  | 5   | 6   | 6    | 6    |
-| Extension Types      | 0           | 5   | 5   | 5    | 5    |
-| Document Profiles    | 0           | 0   | 0   | 0    | 3    |
-| Lifecycle Guards     | 0           | 0   | ~4  | ~6   | 9    |
-| Spec Size (approx.)  | ~80 lines   | ~800 | ~1000 | ~1200 | ~1400 |
+| Metric               | v1            | v4    | v5    | v6.0  | v6.3   |
+| -------------------- | ------------- | ----- | ----- | ----- | ------ |
+| Tiers                | 7             | 9     | 9     | 9     | 9      |
+| Edge Types           | 1             | 4     | 4     | 4     | 4      |
+| Formal Axioms        | 0             | 7     | 7     | 7     | 7      |
+| DAG Invariants       | 0             | 6     | 6     | 8     | 8      |
+| Atomic Operations    | 0             | 7     | 8     | 8     | 8      |
+| Lifecycle Statuses   | ~3 implied    | 5     | 6     | 6     | 6      |
+| Extension Types      | 0             | 9     | 9     | 9     | 9      |
+| Document Profiles    | 0             | 0     | 0     | 0     | 3      |
+| Lifecycle Guards     | 0             | 0     | ~4    | ~6    | 9      |
+| Spec Size (approx.)  | ~10K lines†   | ~100KB‡ | ~140KB‡ | ~115KB‡ | ~170KB‡ |
+
+> † v1 was a monolithic documentation manual (`documentation_system.md`, 9,929 lines per the v3 review), not a formal system definition. The modular archive decomposes it into 34 files.
+>
+> ‡ Combined size of the YAML system definition + node schema pair (the authoritative machine-readable files introduced at v4).
 
 **Key observations:**
 
-1. **Tier count stabilized at v4.** The jump from 7 to 9 tiers (adding XPD and splitting CL) was the last structural expansion. No version since has added or removed a tier.
-2. **Edge types were *reduced* at v4.** The consolidation from 6 to 4 edge types (`cites` → `derives`, `reads`+`annotates` → `extends`) is one of the few examples of genuine complexity reduction.
+1. **Tier count stabilized at v4.** v4 renamed all seven v1 tiers (BRD→SIL, NFR→GPCL, FSD→FCL, SAD→SAL, ICD→ICL, TDD→CDL, ISP→ISL), absorbed intermediate draft tiers (ORL→GPCL, HIL/TDL→CL), and added two new tiers (XPD, CL) to reach 9. No version since has added or removed a tier.
+2. **Edge types were *expanded* at v4.** v1 had a single undifferentiated `cites` edge. v4 introduced a 4-type vocabulary (`derives`, `constrains`, `implements`, `extends`), consolidating several proposed edge types (including `cites`, `reads`, `annotates`) during its design process into this minimal set. v5 further refined `derives` with `derivation_mode: semantic | traceability` to recover the audit distinction lost by the `cites` absorption.
 3. **The growth vector shifted.** Post-v4, the specification grew not by adding new structural concepts but by *constraining existing ones more precisely*. Each new invariant, guard condition, or schema constraint narrows the space of valid states.
 
 ---
@@ -108,34 +112,38 @@ graph TD
 
 ### 4.1 Phase I — The Cascade (v1)
 
-The original DDR was a **documentation hierarchy**, not a design system. Its seven tiers formed a strict linear cascade:
+The original DDR was a **documentation hierarchy** built on Sphinx-Needs reStructuredText, not a formal design system. Its seven tiers formed a strict linear cascade using traditional waterfall documentation names:
 
 ```
-SIL → GPCL → FCL → SAL → ICL → CDL → ISL
+BRD (Why?) → NFR (Within what constraints?) → FSD (What capabilities?) →
+SAD (How structured?) → ICD (What contracts?) → TDD (What components?) → ISP (What code?)
 ```
+
+The v1 specification was a substantial monolithic document (`documentation_system.md`, 9,929 lines per the v3 review) subsequently decomposed into 34 modular files covering core framework, advanced topics, and complete examples.
 
 Key characteristics:
 
-- **Unidirectional authority:** Each tier derives from exactly one parent tier.
-- **Waterfall-traceable:** The structure mirrors a classic requirements decomposition.
-- **LLM-optimized:** Explicitly designed for AI-assisted authoring with atomic traceability.
+- **Unidirectional authority:** Each tier derives from exactly one parent tier via `cites` — the only edge type.
+- **Waterfall-traceable:** The structure mirrors a classic requirements decomposition (BRD → NFR → FSD → SAD → ICD → TDD → ISP).
+- **LLM-optimized:** Explicitly designed for AI-assisted authoring with atomic traceability via inline RST tags (e.g., `|FSD-4.2| ← |BRD-5.2|`).
 - **No formal operations:** No INSERT, DELETE, MODIFY, or SUPERSEDE semantics.
 - **No lifecycle model:** Nodes had no status progression (DRAFT → ACTIVE → etc.).
 - **No extension system:** All concerns were handled within the linear cascade.
+- **No machine-readable schema:** Traceability was embedded in prose, not a typed DAG.
 
-**Complexity assessment:** Low structural complexity, but also low *precision*. The system could describe a project, but it could not *validate* one. There was no mechanism to detect orphaned nodes, cycle violations, or stale references.
+**Complexity assessment:** Substantial *documentation* complexity (~10K lines), but low *structural precision*. The system could describe a project in detail, but it could not *validate* one. There was no typed graph, no node schema, and no mechanism to detect orphaned nodes, cycle violations, or stale references.
 
 ### 4.2 Phase II — The Gap Recognition (v3)
 
-The v3 archive contains no revised specification — only a review document identifying critical gaps in the v1 architecture. This is significant because it represents the moment the system's authors recognized that a *passive documentation hierarchy* was insufficient for their goals.
+The v3 archive (dated 2026-02-13) contains no revised specification — only a review document (`ddr_system_review.md`) performing a systematic gap analysis of the knowledge base implementation against the canonical monolithic spec. It found strong coverage of the core framework (tier definitions, classification logic, traceability rules) but critical gaps in the operational layer. This is significant because it represents the moment the system's authors recognized that a *passive documentation hierarchy* was insufficient for their goals.
 
 Key gaps identified:
 
-- **No operational machinery:** The specification described *what* to document but not *how* to manipulate the documentation graph.
-- **No agentic layer:** LLM agents had no formal operations to invoke — they could only read and write unstructured tier content.
-- **No validation contract:** There was no machine-verifiable way to determine whether a DDR instance was internally consistent.
+- **No operational machinery:** The knowledge base described the DDR *schema* but omitted the *operational machinery* (agents, automation, CI/CD) required to execute it.
+- **No agentic layer:** Section 27 of the v1 spec (~3,500 lines) defined 13+ agents, 15+ rules, 12+ tools, and 8+ workflows — none of which were implemented in the knowledge base.
+- **8 factual inconsistencies:** Tier question wording, citation rule conflicts, template schema contradictions, and source provenance mismatches between the spec and knowledge files.
 
-**Complexity assessment:** The review itself added no complexity to the system. But it established the *demand* for complexity — the recognition that a documentation hierarchy needs active machinery to be useful. This is the inflection point.
+**Complexity assessment:** The review itself added no complexity to the system. But it established the *demand* for complexity — the recognition that a documentation hierarchy needs active operational machinery to be useful. The v3 review's final assessment that the knowledge base was a "passive reference" needing to become an "active operational manual" is the inflection point that drove the v4 structural overhaul.
 
 ### 4.3 Phase III — The Formalization (v4)
 
@@ -143,17 +151,18 @@ v4 was the **most structurally expansive** version transition. It transformed th
 
 | Addition                | Purpose                                              | Complexity Cost                                            |
 | ----------------------- | ---------------------------------------------------- | ---------------------------------------------------------- |
+| Tier renaming           | Generalize from project-specific to meta-system names | BRD→SIL, NFR→GPCL, FSD→FCL, SAD→SAL, ICD→ICL, TDD→CDL, ISP→ISL |
 | XPD tier (Tier 0)       | Ethical/existential grounding                        | +1 tier, +optional activation logic                        |
-| CL tier (Tier 4)        | Technology/infrastructure constraints                | +1 tier, +optional activation logic, +SAL merge semantics  |
-| DAG internal model      | Formal graph structure with typed edges              | +node schema, +edge types, +citation rules                 |
+| CL tier (Tier 4)        | Technology/infrastructure constraints (absorbed ORL, HIL, TDL) | +1 tier, +optional activation logic, +SAL merge semantics  |
+| DAG internal model      | Formal graph structure with 4 typed edges            | +node schema, +edge type definitions, +citation rules      |
 | Atomic operations       | INSERT, DELETE, MODIFY, SUPERSEDE, VERIFY, VALIDATE, UNBUNDLE | +7 operations with pre/post-conditions            |
-| Extension system        | HRE, DGA, DDE, SCE, ARE as orthogonal overlays       | +5 extension types with read-only constraint               |
+| Extension system        | 9 orthogonal read-only overlays (E1–E9: HRE, DGA, LVE, ORE, ARE, SCE, DDE, DCP, EHD) | +9 extension types with read-only constraint    |
 | Axioms AX-1–AX-7       | Formal design invariants                             | +7 normative statements                                    |
 | Invariants INV-1–INV-6  | Machine-verifiable structural rules                  | +6 invariants                                              |
 
-**The consolidation trade-off:** v4 also *reduced* edge types from 6 to 4, which was a genuine simplification. But the net complexity change was massively positive. The specification roughly 10× in size and shifted from a descriptive document to a prescriptive contract.
+**The edge type decision:** v1 had a single undifferentiated `cites` edge. During the v4 design process, multiple candidate edge types were considered (including `cites`, `reads`, `annotates`), but the final specification consolidated them into a minimal 4-type vocabulary: `derives`, `constrains`, `implements`, `extends`. The Design Decision notes in §3.2 document this consolidation explicitly (e.g., "`cites` merged into `derives`"). The net structural complexity grew substantially — the specification shifted from a ~10K-line descriptive manual to a formal meta-system contract with typed YAML schema.
 
-**The key design decision:** The extension system was the most important architectural choice in v4. By establishing that all advanced analytical capabilities (risk scoring, hardware recommendations, data dictionary extraction, etc.) live *outside* the Core DAG as read-only overlays, the architects created a **complexity firewall**. The Core DAG could remain structurally simple while arbitrarily complex analysis was handled by Extensions that could not mutate the graph.
+**The key design decision:** The extension system was the most important architectural choice in v4. By establishing that all advanced analytical capabilities (risk scoring, hardware recommendations, data dictionary extraction, ethics assessment, etc.) live *outside* the Core DAG as 9 read-only overlays, the architects created a **complexity firewall**. The Core DAG could remain structurally simple while arbitrarily complex analysis was handled by Extensions that could not mutate the graph.
 
 ### 4.4 Phase IV — The Stabilization (v5–v6.0)
 
@@ -178,6 +187,8 @@ v5 and v6.0 represent the system's transition from *what exists* to *what is gua
 ### 4.5 Phase V — The Tightening (v6.1–v6.4)
 
 The v6.x series is characterized by **schema-level enforcement** of rules that were previously prose-only:
+
+> **Note — Issue Tracker Summary (v5–v6.x):** The v5 issues tracker documented **12 issues** (11 resolved, 1 open — a v4 errata migration gap). These were overwhelmingly schema defects: the node schema lacked `SUPERSEDE_PENDING`, `derivation_mode`, `lifecycle`, `are_scoring_profiles`, `errata_log`, `reconciliation_manifest_schema`, `verification_mode`, and `applies_when` — all fields introduced by v4→v5 resolutions but never added to the machine contract. The v6.1 issues tracker documented **13 issues**, all resolved — including critical schema defects (lifecycle required despite lean project-instance contract, lifecycle machine accepting undefined states, node ID prefix unbound to declared tier) and moderate issues (constraint_origin leaking to non-CL nodes, guard references accepting undefined IDs).
 
 **v6.1:** Added INV-7 (semantic gap governance), INV-8 (lifecycle completeness), and constraint class distinction. These were invariant-level formalizations of patterns already practiced in v6.0.
 
@@ -220,7 +231,7 @@ The v6.x series is characterized by **schema-level enforcement** of rules that w
 
 ### 5.2 Where Complexity Was Reduced
 
-1. **Edge type consolidation (v4):** From 6 to 4 edge types. The merger of `cites` into `derives` (via `derivation_mode: traceability`) and `reads`+`annotates` into `extends` was a genuine vocabulary reduction with no expressiveness loss.
+1. **Edge type design consolidation (v4):** During v4's design, multiple candidate edge types (including `cites`, `reads`, `annotates`) were consolidated into a minimal 4-type vocabulary (`derives`, `constrains`, `implements`, `extends`). While this represented an *expansion* from v1's single `cites` edge, the within-version consolidation produced a compact vocabulary that avoided premature specialization. v5 later recovered the `cites` distinction via `derivation_mode: semantic | traceability` without expanding the edge type count.
 
 2. **Lifecycle authority unification (v6.3):** Removing the parallel `prohibited_transitions` blacklist and making `status_transitions` the sole authority eliminated dual-authority drift — a real complexity reduction.
 
@@ -284,17 +295,19 @@ Several indicators suggest the system is approaching a stable equilibrium:
 
 ### 7.1 Issue Character Shift
 
-| Version    | Issues Found | Structural Issues                        | Schema/Tightening Issues                  |
-| ---------- | ------------ | ---------------------------------------- | ----------------------------------------- |
-| v4 audit   | ~12          | ~8 (edge conflation, tier contradictions) | ~4                                        |
-| v6.2 tracker | 11         | 0                                        | 11 (all schema defects or lifecycle gaps) |
-| v6.3 tracker | 17         | 0                                        | 17 (all schema defects, lifecycle gaps, or design inadequacies) |
+| Version      | Issues Found | Structural Issues                        | Schema/Tightening Issues                  |
+| ------------ | ------------ | ---------------------------------------- | ----------------------------------------- |
+| v4 tracker   | 13           | 8 (edge conflation, tier contradictions, lifecycle gaps) | 5 (schema defects, migration gaps)       |
+| v5 tracker   | 12           | 0                                        | 12 (all schema defects or migration gaps) |
+| v6.1 tracker | 13           | 0                                        | 13 (all schema defects or lifecycle gaps) |
+| v6.2 tracker | 11           | 0                                        | 11 (all schema defects or lifecycle gaps) |
+| v6.3 tracker | 17           | 0                                        | 17 (all schema defects, lifecycle gaps, or design inadequacies) |
 
-**Zero structural issues** in the last two audit cycles. Every open defect is about making the existing structure *more precise*, not about missing structural concepts.
+**Zero structural issues** in the last four audit cycles (v5 through v6.3). Every open defect since v5 is about making the existing structure *more precise*, not about missing structural concepts.
 
 ### 7.2 Core Topology Stability
 
-The 9-tier DAG with 4 edge types has been stable since v4 — approximately **seven version increments** without structural change. The XPD/CL optional activation logic, SAL merge-node semantics, and tier-skipping rules (INV-2) have not required revision.
+The 9-tier DAG with 4 edge types has been stable since v4 — across **five finalized version increments** (v5, v6.0, v6.1, v6.2, v6.3) without structural change. The XPD/CL optional activation logic, SAL merge-node semantics, and tier-skipping rules (INV-2) have not required revision.
 
 ### 7.3 Axiom Stability
 
@@ -308,10 +321,12 @@ Despite the ARE extension reaching significant internal complexity (tri-state ac
 
 | Transition   | Spec Growth | Nature                |
 | ------------ | ----------- | --------------------- |
-| v1 → v4      | ~10×        | Structural expansion  |
+| v1 → v4      | ~10×*       | Structural expansion  |
 | v4 → v5      | ~25%        | Operational hardening |
 | v5 → v6.0    | ~20%        | Semantic closure      |
 | v6.0 → v6.3  | ~15%        | Schema enforcement    |
+
+> \* Not directly comparable: v1 was a prose documentation manual; v4 introduced the formal YAML system definition + node schema pair. The ~10× reflects the approximate growth in normative content surface area.
 
 The growth rate is declining monotonically, suggesting convergence toward a terminal specification size.
 
@@ -321,7 +336,7 @@ The growth rate is declining monotonically, suggesting convergence toward a term
 
 ### 8.1 Schema/Spec Alignment as Permanent Maintenance
 
-The dual-surface governance model (YAML pair + Markdown rendering) creates a *permanent* synchronization obligation. Every future change to the specification's normative content must be reflected in both surfaces. The v6.2 and v6.3 issue trackers demonstrate that this synchronization is non-trivial — 28 combined issues, predominantly from surface misalignment.
+The dual-surface governance model (YAML pair + Markdown rendering) creates a *permanent* synchronization obligation. Every future change to the specification's normative content must be reflected in both surfaces. The five completed issues tracker cycles document **66 combined issues** (13 + 12 + 13 + 11 + 17), of which the overwhelming majority since v5 are surface misalignment or schema-gap defects.
 
 **Risk:** If the issue-tracking discipline degrades, the two surfaces will drift, and "schema-valid" will cease to mean "spec-compliant."
 
@@ -349,11 +364,11 @@ The observation that v6.3 surfaced 17 issues where v6.2 surfaced 11 is concernin
 
 ### 9.1 The System Has Stabilized Architecturally
 
-The Core DAG topology (9 tiers, 4 edge types, SAL merge node, XPD/CL optional activation) has been stable for seven version increments. The axiom set is unchanged. The Extension system's complexity firewall has held. No future version should need to add tiers, edge types, or fundamental operations. **The structural design is complete.**
+The Core DAG topology (9 tiers, 4 edge types, SAL merge node, XPD/CL optional activation) has been stable for five finalized version increments (v5, v6.0, v6.1, v6.2, v6.3). The axiom set is unchanged. The Extension system's complexity firewall has held. No future version should need to add tiers, edge types, or fundamental operations. **The structural design is complete.**
 
 ### 9.2 The Complexity Cost Is Real but Bounded
 
-The specification has grown from ~80 lines to ~1400 lines. This growth is the *inherent cost* of converting an ambiguous documentation hierarchy into a deterministic, machine-verifiable design contract. The growth rate is decelerating and appears to be converging toward an asymptote somewhere in the 1500–1800 line range.
+The specification has grown from a ~10K-line monolithic documentation manual (v1) to a ~170KB formal YAML/schema contract pair (v6.3). This growth reflects the *inherent cost* of converting an ambiguous documentation hierarchy into a deterministic, machine-verifiable design contract. The growth rate is decelerating and the system has been in a tightening-only mode since v5, with no new structural concepts added — strong evidence of convergence toward an asymptote.
 
 ### 9.3 The Primary Risk Is Governance, Not Architecture
 
@@ -363,7 +378,7 @@ The system's stability depends not on architectural innovation but on discipline
 
 The original concern — that attempts to create a stable, precise design framework inherently produce exploding complexity — is partially validated and partially refuted by the DDR evidence:
 
-- **Validated:** The specification grew by an order of magnitude between v1 and v6.3. Every precision gain required new rules, new invariants, and new enforcement machinery. This is irreducible.
+- **Validated:** The specification grew by an order of magnitude between v1 and v6.3 when measured by formal contract surface area. Every precision gain required new rules, new invariants, and new enforcement machinery. This is irreducible.
 
 - **Refuted:** The growth is *bounded*. The system exhibits clear convergence behavior: structural additions stopped at v4, operational additions stopped at v5, invariant additions stopped at v6.1, and the v6.2–v6.4 cycle is exclusively about schema enforcement of rules already defined. The complexity curve is flattening, not exploding.
 
@@ -371,7 +386,7 @@ The DDR system's evolution demonstrates that **precision and simplicity are fund
 
 1. **Architectural firewalls** (Extensions cannot mutate Core)
 2. **Authority hierarchies** (YAML governs, Markdown renders)
-3. **Vocabulary reduction** (6 edge types → 4; dual lifecycle authority → single)
+3. **Vocabulary discipline** (1 undifferentiated edge → 4 typed edges with within-design consolidation; dual lifecycle authority → single)
 4. **Additive-only refinement** (post-v4: no new structural concepts)
 5. **Formal issue governance** (every defect tracked, triaged, and resolved before version increment)
 
