@@ -7,6 +7,8 @@ This review is grounded primarily in the declared v6.3 single source of truth:
 - `ddr/ddr_system_v6.3.yaml`
 - `ddr/ddr_node_schema_v6.3.yaml`
 
+This finalized version was also refined after evaluating `review.gemini.md`, but every material claim below remains anchored to the v6.3 YAML pair rather than to any secondary review document.
+
 I also directly validated `ddr/ddr_system_v6.3.yaml` against `ddr/ddr_node_schema_v6.3.yaml`; the pair validates successfully. That establishes schema conformance of the canonical v6.3 system-definition artifact against its machine contract. It does not, by itself, prove semantic completeness or production readiness. The right question is therefore whether v6.3 is operationally sufficient as a production-ready software application design framework across small tools, custom scripts, hardware-constrained systems, and enterprise-scale online applications.
 
 For precision, the repaired review below distinguishes three classes of statements:
@@ -113,6 +115,31 @@ The right combined recommendation is:
 3. Replace multi-surface hand maintenance with generated derivative surfaces.
 4. Add profile-driven production contracts so DDR can scale from scripts to enterprise systems without flattening everything into one burden model.
 5. Back the specification with a reference validator, conformance suite, generators, and templates.
+6. Preserve the current structural/semantic bifurcation: structural rules should gate validity, while semantic rules should remain first-class but review-based rather than being stripped out of the normative model.
+
+## Impact of `review.gemini.md`
+
+`review.gemini.md` contributes a few useful reinforcements, but its main prescriptions are materially less aligned with the v6.3 SSOT than the current Codex report.
+
+### What it usefully reinforces
+
+- It correctly reinforces that determinism has a real specification cost.
+- It correctly reinforces that the self-hosting loop creates a maintenance tax.
+- It correctly reinforces that derivative human-readable surfaces should be generated from the YAML authorities rather than co-maintained manually.
+- It correctly reinforces the need for a subtraction rule or complexity budget in future core evolution.
+
+### Where it conflicts with the SSOT
+
+- Promoting Express Mode to the mandatory primary authoring surface conflicts with the SSOT's explicit `consumption_modes` contract, which defines both Express and Full as first-class modes, and with the continuing normative role of independently meaningful 9-tier semantics.
+- Stripping semantic review from the Core conflicts with the SSOT's explicit `verification_mode: semantic` rules, `REVIEW_REQUIRED` outputs, semantic-gap handling, and CLEAN criteria that already incorporate typed human disposition.
+- Replacing the current UNBUNDLE ambiguity/defer model with a binary fail-only parser is not an optimization proven by the SSOT. The current design intentionally preserves atomicity without invention while allowing explicit human deferral.
+- Prohibiting any future guard or transient lifecycle additions is too rigid. The SSOT supports freezing topology and vocabulary aggressively, but governance vocabulary may still need bounded evolution to close real defects.
+- Removing ARE scoring-profile structure from the normative model would contradict the v6.3 contract, which explicitly makes `are_scoring_profiles` part of the authoritative surface for the E5 extension.
+- Hardcoding physical constraints over logical constraints and deleting escalation logic conflicts directly with `physical_constraint_escalation`, which states that precedence does not authorize silently overriding physical or externally imposed constraints.
+
+### Net effect on this report
+
+The Gemini review does not change the core direction of this report. It strengthens the case for generator-driven authority and for a subtraction rule, but it does not justify demoting the 9-tier model, stripping semantic review from the normative system, or simplifying Express Mode by removing its explicit ambiguity-handling machinery.
 
 ## Additional SSOT-Grounded Gaps Not Fully Surfaced by Either Report
 
@@ -221,4 +248,6 @@ If the goal is maximum leverage with minimum destabilization, the implementation
 
 `review.opus.md` adds several high-value corrections that should not be ignored: the content-validation gap, the under-typed reconciliation manifest, the unenforceable parent-version freshness rule, and the gap between finalized specification and deployable runtime contract.
 
-The correct next move is therefore neither "collapse DDR into Express Mode" nor "declare DDR already production-complete." The correct next move is to keep the current kernel, close the source-visible v6.3 contract gaps, make enforcement and runtime behavior machine-shaped, generate the derivative authority surfaces, and add a profile-driven production contract system that makes operational readiness explicit and scalable.
+`review.gemini.md` usefully reinforces the case for generated derivative surfaces and tighter complexity discipline, but its main structural prescriptions conflict with the current v6.3 contract and should not drive the design.
+
+The correct next move is therefore neither "collapse DDR into Express Mode" nor "declare DDR already production-complete." The correct next move is to keep the current kernel, close the source-visible v6.3 contract gaps, make enforcement and runtime behavior machine-shaped, generate the derivative authority surfaces, preserve the typed structural/semantic split already present in v6.3, and add a profile-driven production contract system that makes operational readiness explicit and scalable.
