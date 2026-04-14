@@ -37,6 +37,7 @@ This Markdown surface is generated from the v7.0 YAML authority pair. The YAML p
 
 Describes the primary shape and operating context of the target system so production obligations can scale without altering the core tier topology.
 
+
 - `developer_tool`: Local tools, scripts, CLIs, and automation-first utilities.
 - `game_system`: Interactive game clients and game-supporting online services.
 - `service_platform`: Web apps, service APIs, and enterprise online platforms.
@@ -47,6 +48,7 @@ Describes the primary shape and operating context of the target system so produc
 
 Separates design-time completeness from operational obligations needed for online, managed, and continuously operated systems.
 
+
 - `local_only`: Single-user or local-team execution with minimal operational surface.
 - `managed_release`: Repeatable builds, release gates, and controlled deployment steps exist.
 - `continuously_operated`: Production services have sustained runtime, ownership, and incident response obligations.
@@ -54,6 +56,7 @@ Separates design-time completeness from operational obligations needed for onlin
 ### `assurance_profile`
 
 Declares the minimum evidence and control posture expected for the target system's risk class.
+
 
 - `standard`: Baseline design and release assurance.
 - `elevated`: Stronger auditability, review, and operational control expectations.
@@ -64,9 +67,7 @@ Declares the minimum evidence and control posture expected for the target system
 | Gate             | Definition                                                                                                                                         |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | design_complete  | The declared design is structurally valid, semantically reviewed where required, and sufficiently complete to hand off to governed implementation. |
-|                  |                                                                                                                                                    |
 | production_ready | The declared system meets the profile-gated operational, evidence, and release-tool obligations required for live deployment or managed release.   |
-|                  |                                                                                                                                                    |
 
 ## Runtime Contract
 
@@ -82,6 +83,7 @@ Declares the minimum evidence and control posture expected for the target system
 
 - Validation ledger: Validation evidence is durable. `pass` records structural success, rewrites validated_parent_version checkpoints, and may support activation claims. `fail` blocks activation and records violating rule IDs. `review_required` records human-decision dependencies. `reconciliation_required` records graph or release-state issues needing follow-up. Readiness claims such as design_complete and production_ready are invalid unless the relevant ledger entries and dispositions remain current.
 
+
 ## Production Contracts
 
 - Security and operations: Required for service_platform, hardware_aware, and regulated_system classes at managed_release or continuously_operated maturity, with elevated or high_assurance strengthening the evidence burden.
@@ -91,6 +93,7 @@ Declares the minimum evidence and control posture expected for the target system
 - Data governance: Required for service_platform, hardware_aware, and regulated_system classes whenever governed data, residency, retention, or regulated evidence obligations exist.
 
 - Supply chain: Required for managed_release and continuously_operated maturity, with high_assurance requiring immutable evidence and tighter response windows.
+
 
 ## Release Surface Ownership
 

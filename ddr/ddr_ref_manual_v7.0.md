@@ -18,7 +18,6 @@ This manual is generated from the authoritative v7.0 YAML pair and remains expla
 | schema_title     | DDR System v7.0 Machine Contract                                                                                                     |
 | corpus_root      | ddr/conformance/v7.0                                                                                                                 |
 | migration_scope  | Migration is limited to v6.3 -> v7.0 authority uplift, generated release surfaces, conformance assets, and governed release tooling. |
-|                  |                                                                                                                                      |
 
 ## Profile Matrix
 

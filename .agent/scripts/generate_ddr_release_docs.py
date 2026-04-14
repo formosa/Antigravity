@@ -81,11 +81,14 @@ def build_provenance_header(
 
 def render_table(headers: list[str], rows: list[list[str]]) -> str:
     """Render a basic GitHub-flavored Markdown table."""
+    def clean_cell(cell: str) -> str:
+        return cell.replace("\n", " ").strip()
+
     lines = [
-        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join(clean_cell(h) for h in headers) + " |",
         "| " + " | ".join("---" for _ in headers) + " |",
     ]
-    lines.extend("| " + " | ".join(row) + " |" for row in rows)
+    lines.extend("| " + " | ".join(clean_cell(c) for c in row) + " |" for row in rows)
     return "\n".join(lines)
 
 
