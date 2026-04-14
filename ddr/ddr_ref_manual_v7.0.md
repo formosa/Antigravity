@@ -12,36 +12,36 @@ This manual is generated from the authoritative v7.0 YAML pair and remains expla
 
 ## Orientation
 
-| Field            | Value                                                                                                                                |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| document_profile | system_definition                                                                                                                    |
-| schema_title     | DDR System v7.0 Machine Contract                                                                                                     |
-| corpus_root      | ddr/conformance/v7.0                                                                                                                 |
-| migration_scope  | Migration is limited to v6.3 -> v7.0 authority uplift, generated release surfaces, conformance assets, and governed release tooling. |
+| Field | Value |
+| --- | --- |
+| document_profile | system_definition |
+| schema_title | DDR System v7.0 Machine Contract |
+| corpus_root | ddr/conformance/v7.0 |
+| migration_scope | Migration is limited to v6.3 -> v7.0 authority uplift, generated release surfaces, conformance assets, and governed release tooling. |
 
 ## Profile Matrix
 
-| Use Case                   | System Class     | Maturity              | Assurance      | Readiness Gates                   |
-| -------------------------- | ---------------- | --------------------- | -------------- | --------------------------------- |
-| developer_tools            | developer_tool   | local_only            | standard       | design_complete                   |
-| games                      | game_system      | managed_release       | standard       | design_complete, production_ready |
-| enterprise_platforms       | service_platform | continuously_operated | elevated       | design_complete, production_ready |
-| hardware_aware_deployments | hardware_aware   | managed_release       | elevated       | design_complete, production_ready |
+| Use Case | System Class | Maturity | Assurance | Readiness Gates |
+| --- | --- | --- | --- | --- |
+| developer_tools | developer_tool | local_only | standard | design_complete |
+| games | game_system | managed_release | standard | design_complete, production_ready |
+| enterprise_platforms | service_platform | continuously_operated | elevated | design_complete, production_ready |
+| hardware_aware_deployments | hardware_aware | managed_release | elevated | design_complete, production_ready |
 | medical_government_banking | regulated_system | continuously_operated | high_assurance | design_complete, production_ready |
 
 ## Tier Quick Starts
 
-| Tier | Label                              | Quick Start                                                                                                                  |
-| ---- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| XPD  | Existential Purpose Document       | Example: state the human need, harm boundaries, and success criteria without naming technology.                              |
-| SIL  | Strategic Intent Layer             | Example: define the strategic objective, stakeholder value, scope boundaries, and success metrics in plain language.         |
-| GPCL | Governance, Policy & Quality Layer | Example: declare latency, reliability, security, retention, and residency thresholds with no technology commitments.         |
-| FCL  | Functional Capability Layer        | Example: describe the user-visible behavior, state transitions, and data entities touched by the capability.                 |
-| CL   | Constraint Layer                   | Example: target_platforms [local_tool, desktop]; hardware_envelope CPU 4 cores, RAM 16 GB, storage 1 GB, network local-only. |
-| SAL  | System Architecture Layer          | Example: name the major subsystems, ownership boundaries, communication pattern, and resilience boundaries.                  |
-| ICL  | Interface & Contracts Layer        | Example: define request, response, error, versioning, and retry expectations for one machine-parseable contract.             |
-| CDL  | Component Design Layer             | Example: declare one component's responsibilities, interfaces, state, dependencies, and lifecycle hooks.                     |
-| ISL  | Implementation Scaffold Layer      | Example: generate a class or module skeleton with docstrings citing CDL parents and stubbed method bodies only.              |
+| Tier | Label | Quick Start |
+| --- | --- | --- |
+| XPD | Existential Purpose Document | Example: state the human need, harm boundaries, and success criteria without naming technology. |
+| SIL | Strategic Intent Layer | Example: define the strategic objective, stakeholder value, scope boundaries, and success metrics in plain language. |
+| GPCL | Governance, Policy & Quality Layer | Example: declare latency, reliability, security, retention, and residency thresholds with no technology commitments. |
+| FCL | Functional Capability Layer | Example: describe the user-visible behavior, state transitions, and data entities touched by the capability. |
+| CL | Constraint Layer | Example: target_platforms [local_tool, desktop]; hardware_envelope CPU 4 cores, RAM 16 GB, storage 1 GB, network local-only. |
+| SAL | System Architecture Layer | Example: name the major subsystems, ownership boundaries, communication pattern, and resilience boundaries. |
+| ICL | Interface & Contracts Layer | Example: define request, response, error, versioning, and retry expectations for one machine-parseable contract. |
+| CDL | Component Design Layer | Example: declare one component's responsibilities, interfaces, state, dependencies, and lifecycle hooks. |
+| ISL | Implementation Scaffold Layer | Example: generate a class or module skeleton with docstrings citing CDL parents and stubbed method bodies only. |
 
 ## Compliance Guidance
 
@@ -61,7 +61,7 @@ This manual is generated from the authoritative v7.0 YAML pair and remains expla
 
 ## Reference Generators
 
-| Generator          | Script                                      | Outputs                    |
-| ------------------ | ------------------------------------------- | -------------------------- |
-| canonical_markdown | .agent/scripts/generate_ddr_release_docs.py | ddr/DDR System(v7.0).md    |
-| reference_manual   | .agent/scripts/generate_ddr_release_docs.py | ddr/ddr_ref_manual_v7.0.md |
+| Generator | Script | Outputs |
+| --- | --- | --- |
+| canonical_markdown | .agent/scripts/generate_ddr_release_docs.py | ddr/DDR System(v7.0).md |
+| reference_manual | .agent/scripts/generate_ddr_release_docs.py | ddr/ddr_ref_manual_v7.0.md |

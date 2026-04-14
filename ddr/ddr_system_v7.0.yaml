@@ -1515,8 +1515,9 @@ operations:
       description: >
         Read-only pre-flight scan of an Express Mode group. Traverses
         all content fragments and emits a per-fragment diagnostic object
-        containing: fragment_id, content_preview, detected_annotation,
-        confidence (high | ambiguous | none), and ambiguity_reason when
+        containing: fragment_id, content_preview, confidence
+        (high | ambiguous | none), optional detected_annotation, and
+        ambiguity_reason when
         confidence is not high. Independently invokable without committing
         structural mutations. Enables iterative diagnose-annotate-retry
         workflows before UNBUNDLE_EXECUTE is invoked.
@@ -1548,8 +1549,9 @@ operations:
         The Express Mode group node retains its pre-attempt status for those
         deferred fragments. The rejection payload is the complete
         UNBUNDLE_SCAN result: a list of per-fragment diagnostic objects, each
-        containing fragment_id, content_preview, detected_annotation,
-        confidence (high | ambiguous | none), and ambiguity_reason (when
+        containing fragment_id, content_preview, confidence
+        (high | ambiguous | none), optional detected_annotation, and
+        ambiguity_reason (when
         confidence is not 'high').
       postconditions:
         - "Successful execution creates only active-tier outputs and preserves parent wiring deterministically."
@@ -2375,7 +2377,7 @@ are_scoring_profiles:
       contract validation under EXT-R1. Deterministic ARE conformance
       validation in `.agent/scripts/validate_ddr_release.py` is additionally
       responsible for profile-reference resolution, score-band ordering,
-      score-band non-overlap checks, and score-band bound checks.
+      non-overlap checks, and per-band bound checks within [0.0, 1.0].
 
 # ── §11 COMPLIANCE CHECKLIST ─────────────────────────────────────────────────
 
@@ -2951,8 +2953,8 @@ nodes:
       derivation_mode (DerivationModeEnum|None; applies only to derives;
       default semantic when absent).
       FragmentDiagnostic: fragment_id (str), content_preview (str),
-      detected_annotation (str|None), confidence (Literal[high|ambiguous|none]),
-      ambiguity_reason (str|None).
+      confidence (Literal[high|ambiguous|none]), detected_annotation
+      (str|None), ambiguity_reason (str|None).
       UnbundleScanResult: scanned_group_id (str), clean (bool),
       fragments (List[FragmentDiagnostic]), notes (List[str]).
       UnbundleRejectionError: message (str), scan_result (UnbundleScanResult).
@@ -3033,8 +3035,8 @@ nodes:
           # [CDL-7.1] UNBUNDLE_SCAN fragment-level diagnostic surface
           fragment_id: str
           content_preview: str
-          detected_annotation: Optional[str]
           confidence: Literal["high", "ambiguous", "none"]
+          detected_annotation: Optional[str] = None
           ambiguity_reason: Optional[str] = None
 
       @dataclass
@@ -3053,6 +3055,9 @@ nodes:
 
           def __post_init__(self) -> None:
               super().__init__(self.message)
+
+          def __reduce__(self):
+              return (self.__class__, (self.message, self.scan_result))
 
       @dataclass
       class DdrNode:
@@ -3115,11 +3120,11 @@ nodes:
           ...
 
       def unbundle_scan(group_id: str, graph) -> UnbundleScanResult:
-          """[SAL-5.1] Read-only UNBUNDLE_SCAN pre-flight; no state mutations. Returns UnbundleScanResult: a list of FragmentDiagnostic objects, each with fields fragment_id (str), content_preview (str, ≤80 chars), detected_annotation (str | None), confidence (Literal['high','ambiguous','none']), and ambiguity_reason (str | None). Confidence assignment: high → annotation present and unambiguously maps to exactly one constituent tier; ambiguous → annotation present but maps to multiple tiers or violates tier rules; none → no annotation detected."""
+          """[SAL-5.1] Read-only UNBUNDLE_SCAN pre-flight; no state mutations. Returns UnbundleScanResult: a list of FragmentDiagnostic objects, each with fields fragment_id (str), content_preview (str, ≤80 chars), confidence (Literal['high','ambiguous','none']), detected_annotation (str | None), and ambiguity_reason (str | None). Confidence assignment: high → annotation present and unambiguously maps to exactly one constituent tier; ambiguous → annotation present but maps to multiple tiers or violates tier rules; none → no annotation detected."""
           ...
 
       def unbundle_execute(group_id: str, graph) -> list[DdrNode]:
-          """[SAL-5.1] Atomic UNBUNDLE_EXECUTE commit phase; invokes unbundle_scan as precondition check and proceeds only when all fragments reach confidence 'high'. On success: allocates content to constituent tier nodes, auto-wires parent_ids, and returns list of new DdrNode objects. On failure: rejects atomically with no graph mutations, Express Mode group node retains pre-attempt status, and raises UnbundleRejectionError containing the full UnbundleScanResult as the structured error payload."""
+          """[SAL-5.1] Atomic UNBUNDLE_EXECUTE commit phase; invokes unbundle_scan as precondition check and proceeds only when all fragments reach confidence 'high'. On success: allocates content to constituent tier nodes, auto-wires parent_ids, and returns list of new DdrNode objects. On failure: rejects atomically with no graph mutations, Express Mode group node retains pre-attempt status, and raises UnbundleRejectionError containing the full UnbundleScanResult as the structured error payload. `UnbundleRejectionError` defines explicit reduction semantics so the message and scan_result reconstruct intact across pickle-based process boundaries."""
           ...
 
 # AUTHORITY: This lifecycle block is the machine-parseable authority

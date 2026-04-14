@@ -12,24 +12,24 @@ This Markdown surface is generated from the v7.0 YAML authority pair. The YAML p
 
 ## Root Contract
 
-| Property               | Value                              |
-| ---------------------- | ---------------------------------- |
-| ddr_version            | 7.0                                |
-| document_profile       | system_definition                  |
-| project.name           | DDR System v7.0 Semantic Authority |
-| project.mode           | full                               |
-| system_metadata.status | Finalized                          |
-| system_metadata.date   | 2026-04-13                         |
-| schema.$id             | ddr-system-v7.0-schema             |
+| Property | Value |
+| --- | --- |
+| ddr_version | 7.0 |
+| document_profile | system_definition |
+| project.name | DDR System v7.0 Semantic Authority |
+| project.mode | full |
+| system_metadata.status | Finalized |
+| system_metadata.date | 2026-04-13 |
+| schema.$id | ddr-system-v7.0-schema |
 
 ## Authority Hierarchy
 
-| Surface                   | Path                          | Precedence                                                               |
-| ------------------------- | ----------------------------- | ------------------------------------------------------------------------ |
-| ddr_system_v7.0.yaml      | ddr/ddr_system_v7.0.yaml      | Governs all normative semantic disputes.                                 |
-| ddr_node_schema_v7.0.yaml | ddr/ddr_node_schema_v7.0.yaml | Governs all structural validation and root-profile branching disputes.   |
-| DDR System(v7.0).md       | ddr/DDR System(v7.0).md       | Explanatory rendering only; never overrides the YAML pair.               |
-| ddr_ref_manual_v7.0.md    | ddr/ddr_ref_manual_v7.0.md    | Explanatory reference surface only; never escalates above the YAML pair. |
+| Surface | Path | Precedence |
+| --- | --- | --- |
+| ddr_system_v7.0.yaml | ddr/ddr_system_v7.0.yaml | Governs all normative semantic disputes. |
+| ddr_node_schema_v7.0.yaml | ddr/ddr_node_schema_v7.0.yaml | Governs all structural validation and root-profile branching disputes. |
+| DDR System(v7.0).md | ddr/DDR System(v7.0).md | Explanatory rendering only; never overrides the YAML pair. |
+| ddr_ref_manual_v7.0.md | ddr/ddr_ref_manual_v7.0.md | Explanatory reference surface only; never escalates above the YAML pair. |
 
 ## Profile Axes
 
@@ -64,10 +64,10 @@ Declares the minimum evidence and control posture expected for the target system
 
 ## Readiness Gates
 
-| Gate             | Definition                                                                                                                                         |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| design_complete  | The declared design is structurally valid, semantically reviewed where required, and sufficiently complete to hand off to governed implementation. |
-| production_ready | The declared system meets the profile-gated operational, evidence, and release-tool obligations required for live deployment or managed release.   |
+| Gate | Definition |
+| --- | --- |
+| design_complete | The declared design is structurally valid, semantically reviewed where required, and sufficiently complete to hand off to governed implementation. |
+| production_ready | The declared system meets the profile-gated operational, evidence, and release-tool obligations required for live deployment or managed release. |
 
 ## Runtime Contract
 
@@ -97,12 +97,12 @@ Declares the minimum evidence and control posture expected for the target system
 
 ## Release Surface Ownership
 
-| Surface            | Implementation                              | Output Scope               |
-| ------------------ | ------------------------------------------- | -------------------------- |
-| canonical_markdown | .agent/scripts/generate_ddr_release_docs.py | ddr/DDR System(v7.0).md    |
-| reference_manual   | .agent/scripts/generate_ddr_release_docs.py | ddr/ddr_ref_manual_v7.0.md |
+| Surface | Implementation | Output Scope |
+| --- | --- | --- |
+| canonical_markdown | .agent/scripts/generate_ddr_release_docs.py | ddr/DDR System(v7.0).md |
+| reference_manual | .agent/scripts/generate_ddr_release_docs.py | ddr/ddr_ref_manual_v7.0.md |
 
-| Surface   | Command / Source                              | Corpus / Target      |
-| --------- | --------------------------------------------- | -------------------- |
+| Surface | Command / Source | Corpus / Target |
+| --- | --- | --- |
 | validator | python .agent/scripts/validate_ddr_release.py | ddr/conformance/v7.0 |
-| migration | 6.3                                           | 7.0                  |
+| migration | 6.3 | 7.0 |

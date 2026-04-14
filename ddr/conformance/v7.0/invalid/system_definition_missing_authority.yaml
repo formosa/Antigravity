@@ -2344,8 +2344,9 @@ are_scoring_profiles:
     validation_note: >
       Custom profiles that omit any required_fields entry fail extension
       contract validation under EXT-R1. Deterministic ARE conformance
-      validation is additionally responsible for profile-reference resolution,
-      score-band ordering, and score-band non-overlap checks.
+      validation in `.agent/scripts/validate_ddr_release.py` is additionally
+      responsible for profile-reference resolution, score-band ordering,
+      non-overlap checks, and per-band bound checks within [0.0, 1.0].
 
 # ── §11 COMPLIANCE CHECKLIST ─────────────────────────────────────────────────
 

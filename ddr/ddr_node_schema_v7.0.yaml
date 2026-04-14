@@ -1164,7 +1164,7 @@ $defs:
 
   ExtensionRuleId:
     type: string
-    pattern: "^(?!(?:XPD|SIL|GPCL|FCL|SAL|ICL|CDL|ISL)-)[A-Z]{3,4}-R[0-9]+$"
+    pattern: "^(?!(?:XPD|SIL|GPCL|FCL|CL|SAL|ICL|CDL|ISL)-)[A-Z]{3,4}-R[0-9]+$"
 
   DagInvariant:
     type: object
