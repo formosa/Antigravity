@@ -116,23 +116,23 @@ fenced `yaml` block.
 
 #### 3.1 Common Fields (All Entry Types)
 
-| Field | Type / Format | Description |
-| --- | --- | --- |
-| `entry_id` | `BRAIN-{PART#}-{SEQ:3d}` | Immutable identifier such as `BRAIN-II-001`. |
-| `title` | `String (<=80 chars)` | Short, unambiguous label for the idea or candidate. |
-| `category` | `CategoryEnum` | Controlled classification tag from §3.4. |
-| `priority` | `HIGH \| MED \| LOW \| PARKED` | Current urgency for consideration. Not a commitment. |
-| `status` | `StatusEnum` | Lifecycle state from §3.5. |
-| `authored_by` | `String` | Initials or handle of the contributor. |
-| `authored_date` | `YYYY-MM-DD` | Date the entry was first recorded. |
-| `revised_date` | `YYYY-MM-DD` | Date of the most recent revision. |
-| `description` | `Text` | One to three sentence summary of the concept. |
-| `detail` | `Text` | Extended technical description and context. |
-| `open_questions` | `List[String]` | Questions that must be answered before promotion. |
-| `tags` | `List[String]` | Freeform search tags such as `#visualization` or `#E5-ARE`. |
-| `ddr_relevance` | `List[TierEnum \| ExtEnum]` | DDR tiers or extensions directly affected by the entry. |
-| `citation_ids` | `List[CitationId]` | Exact external citation IDs used inline by the entry. |
-| `references` | `List[String]` | ADR IDs, spec sections, local artifact paths, or related brainstorm IDs only. |
+| Field            | Type / Format                  | Description                                                                   |
+| ---------------- | ------------------------------ | ----------------------------------------------------------------------------- |
+| `entry_id`       | `BRAIN-{PART#}-{SEQ:3d}`       | Immutable identifier such as `BRAIN-II-001`.                                  |
+| `title`          | `String (<=80 chars)`          | Short, unambiguous label for the idea or candidate.                           |
+| `category`       | `CategoryEnum`                 | Controlled classification tag from §3.4.                                      |
+| `priority`       | `HIGH \| MED \| LOW \| PARKED` | Current urgency for consideration. Not a commitment.                          |
+| `status`         | `StatusEnum`                   | Lifecycle state from §3.5.                                                    |
+| `authored_by`    | `String`                       | Initials or handle of the contributor.                                        |
+| `authored_date`  | `YYYY-MM-DD`                   | Date the entry was first recorded.                                            |
+| `revised_date`   | `YYYY-MM-DD`                   | Date of the most recent revision.                                             |
+| `description`    | `Text`                         | One to three sentence summary of the concept.                                 |
+| `detail`         | `Text`                         | Extended technical description and context.                                   |
+| `open_questions` | `List[String]`                 | Questions that must be answered before promotion.                             |
+| `tags`           | `List[String]`                 | Freeform search tags such as `#visualization` or `#E5-ARE`.                   |
+| `ddr_relevance`  | `List[TierEnum \| ExtEnum]`    | DDR tiers or extensions directly affected by the entry.                       |
+| `citation_ids`   | `List[CitationId]`             | Exact external citation IDs used inline by the entry.                         |
+| `references`     | `List[String]`                 | ADR IDs, spec sections, local artifact paths, or related brainstorm IDs only. |
 
 #### 3.2 Idea Entry (TYPE: IDEA)
 
@@ -266,13 +266,13 @@ underlying Markdown authority surface.
 
 #### 6.1 Font Color Index
 
-| Class | Sample | Meaning | Allowed Use |
-| --- | --- | --- | --- |
-| `brain-governance` | <span class="brain-badge brain-governance"><strong>Governance</strong></span> | Immutable document rules, authority boundaries, and protocol statements. | Headline badges, policy labels, and manifest callouts. |
-| `brain-evidence` | <span class="brain-badge brain-evidence"><strong>Evidence</strong></span> | Citation-backed external facts, release signals, and current-source support. | Citation callouts, evidence labels, and source-quality markers. |
-| `brain-hypothesis` | <span class="brain-badge brain-hypothesis"><strong>Hypothesis</strong></span> | Exploratory concepts, design options, and unresolved technical paths. | Short option badges and hypothesis labels. |
-| `brain-recommendation` | <span class="brain-badge brain-recommendation"><strong>Recommendation</strong></span> | Endorsed next steps or preferred directions inside the brainstorm. | Recommendation badges and concise endorsement labels. |
-| `brain-risk` | <span class="brain-badge brain-risk"><strong>Risk</strong></span> | Caveats, failure modes, tradeoffs, and cautionary notes. | Risk badges and short caution labels. |
+| Class                  | Sample                                                                                | Meaning                                                                      | Allowed Use                                                     |
+| ---------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| `brain-governance`     | <span class="brain-badge brain-governance"><strong>Governance</strong></span>         | Immutable document rules, authority boundaries, and protocol statements.     | Headline badges, policy labels, and manifest callouts.          |
+| `brain-evidence`       | <span class="brain-badge brain-evidence"><strong>Evidence</strong></span>             | Citation-backed external facts, release signals, and current-source support. | Citation callouts, evidence labels, and source-quality markers. |
+| `brain-hypothesis`     | <span class="brain-badge brain-hypothesis"><strong>Hypothesis</strong></span>         | Exploratory concepts, design options, and unresolved technical paths.        | Short option badges and hypothesis labels.                      |
+| `brain-recommendation` | <span class="brain-badge brain-recommendation"><strong>Recommendation</strong></span> | Endorsed next steps or preferred directions inside the brainstorm.           | Recommendation badges and concise endorsement labels.           |
+| `brain-risk`           | <span class="brain-badge brain-risk"><strong>Risk</strong></span>                     | Caveats, failure modes, tradeoffs, and cautionary notes.                     | Risk badges and short caution labels.                           |
 
 #### 6.2 Usage Rules
 
@@ -338,13 +338,13 @@ supporting visuals rather than the authority surface. Nearby prose and tables co
 
 #### 8.1 Supported Mermaid Diagram Types
 
-| Type | Status | Notes |
-| --- | --- | --- |
-| `flowchart` | Preferred | Use for pipelines, decision funnels, and architectural flows. |
-| `sequenceDiagram` | Preferred | Use for request/response or operation choreography. |
-| `stateDiagram-v2` | Preferred | Use for lifecycle transitions and guarded state changes. |
-| `classDiagram` | Allowed | Use for bounded structural maps where type-like relationships matter. |
-| `erDiagram` | Allowed | Use for structured data shape and storage relationship sketches. |
+| Type              | Status    | Notes                                                                 |
+| ----------------- | --------- | --------------------------------------------------------------------- |
+| `flowchart`       | Preferred | Use for pipelines, decision funnels, and architectural flows.         |
+| `sequenceDiagram` | Preferred | Use for request/response or operation choreography.                   |
+| `stateDiagram-v2` | Preferred | Use for lifecycle transitions and guarded state changes.              |
+| `classDiagram`    | Allowed   | Use for bounded structural maps where type-like relationships matter. |
+| `erDiagram`       | Allowed   | Use for structured data shape and storage relationship sketches.      |
 
 #### 8.2 Accessibility and Stability Rules
 

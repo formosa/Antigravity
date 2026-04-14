@@ -12,31 +12,30 @@ This Markdown surface is generated from the v7.0 YAML authority pair. The YAML p
 
 ## Root Contract
 
-| Property | Value |
-| --- | --- |
-| ddr_version | 7.0 |
-| document_profile | system_definition |
-| project.name | DDR System v7.0 Semantic Authority |
-| project.mode | full |
-| system_metadata.status | Finalized |
-| system_metadata.date | 2026-04-13 |
-| schema.$id | ddr-system-v7.0-schema |
+| Property               | Value                              |
+| ---------------------- | ---------------------------------- |
+| ddr_version            | 7.0                                |
+| document_profile       | system_definition                  |
+| project.name           | DDR System v7.0 Semantic Authority |
+| project.mode           | full                               |
+| system_metadata.status | Finalized                          |
+| system_metadata.date   | 2026-04-13                         |
+| schema.$id             | ddr-system-v7.0-schema             |
 
 ## Authority Hierarchy
 
-| Surface | Path | Precedence |
-| --- | --- | --- |
-| ddr_system_v7.0.yaml | ddr/ddr_system_v7.0.yaml | Governs all normative semantic disputes. |
-| ddr_node_schema_v7.0.yaml | ddr/ddr_node_schema_v7.0.yaml | Governs all structural validation and root-profile branching disputes. |
-| DDR System(v7.0).md | ddr/DDR System(v7.0).md | Explanatory rendering only; never overrides the YAML pair. |
-| ddr_ref_manual_v7.0.md | ddr/ddr_ref_manual_v7.0.md | Explanatory reference surface only; never escalates above the YAML pair. |
+| Surface                   | Path                          | Precedence                                                               |
+| ------------------------- | ----------------------------- | ------------------------------------------------------------------------ |
+| ddr_system_v7.0.yaml      | ddr/ddr_system_v7.0.yaml      | Governs all normative semantic disputes.                                 |
+| ddr_node_schema_v7.0.yaml | ddr/ddr_node_schema_v7.0.yaml | Governs all structural validation and root-profile branching disputes.   |
+| DDR System(v7.0).md       | ddr/DDR System(v7.0).md       | Explanatory rendering only; never overrides the YAML pair.               |
+| ddr_ref_manual_v7.0.md    | ddr/ddr_ref_manual_v7.0.md    | Explanatory reference surface only; never escalates above the YAML pair. |
 
 ## Profile Axes
 
 ### `system_class`
 
 Describes the primary shape and operating context of the target system so production obligations can scale without altering the core tier topology.
-
 
 - `developer_tool`: Local tools, scripts, CLIs, and automation-first utilities.
 - `game_system`: Interactive game clients and game-supporting online services.
@@ -48,7 +47,6 @@ Describes the primary shape and operating context of the target system so produc
 
 Separates design-time completeness from operational obligations needed for online, managed, and continuously operated systems.
 
-
 - `local_only`: Single-user or local-team execution with minimal operational surface.
 - `managed_release`: Repeatable builds, release gates, and controlled deployment steps exist.
 - `continuously_operated`: Production services have sustained runtime, ownership, and incident response obligations.
@@ -57,19 +55,18 @@ Separates design-time completeness from operational obligations needed for onlin
 
 Declares the minimum evidence and control posture expected for the target system's risk class.
 
-
 - `standard`: Baseline design and release assurance.
 - `elevated`: Stronger auditability, review, and operational control expectations.
 - `high_assurance`: Strict evidence, immutability, and release-gate expectations.
 
 ## Readiness Gates
 
-| Gate | Definition |
-| --- | --- |
-| design_complete | The declared design is structurally valid, semantically reviewed where required, and sufficiently complete to hand off to governed implementation.
- |
-| production_ready | The declared system meets the profile-gated operational, evidence, and release-tool obligations required for live deployment or managed release.
- |
+| Gate             | Definition                                                                                                                                         |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| design_complete  | The declared design is structurally valid, semantically reviewed where required, and sufficiently complete to hand off to governed implementation. |
+|                  |                                                                                                                                                    |
+| production_ready | The declared system meets the profile-gated operational, evidence, and release-tool obligations required for live deployment or managed release.   |
+|                  |                                                                                                                                                    |
 
 ## Runtime Contract
 
@@ -85,7 +82,6 @@ Declares the minimum evidence and control posture expected for the target system
 
 - Validation ledger: Validation evidence is durable. `pass` records structural success, rewrites validated_parent_version checkpoints, and may support activation claims. `fail` blocks activation and records violating rule IDs. `review_required` records human-decision dependencies. `reconciliation_required` records graph or release-state issues needing follow-up. Readiness claims such as design_complete and production_ready are invalid unless the relevant ledger entries and dispositions remain current.
 
-
 ## Production Contracts
 
 - Security and operations: Required for service_platform, hardware_aware, and regulated_system classes at managed_release or continuously_operated maturity, with elevated or high_assurance strengthening the evidence burden.
@@ -96,15 +92,14 @@ Declares the minimum evidence and control posture expected for the target system
 
 - Supply chain: Required for managed_release and continuously_operated maturity, with high_assurance requiring immutable evidence and tighter response windows.
 
-
 ## Release Surface Ownership
 
-| Surface | Implementation | Output Scope |
-| --- | --- | --- |
-| canonical_markdown | .agent/scripts/generate_ddr_release_docs.py | ddr/DDR System(v7.0).md |
-| reference_manual | .agent/scripts/generate_ddr_release_docs.py | ddr/ddr_ref_manual_v7.0.md |
+| Surface            | Implementation                              | Output Scope               |
+| ------------------ | ------------------------------------------- | -------------------------- |
+| canonical_markdown | .agent/scripts/generate_ddr_release_docs.py | ddr/DDR System(v7.0).md    |
+| reference_manual   | .agent/scripts/generate_ddr_release_docs.py | ddr/ddr_ref_manual_v7.0.md |
 
-| Surface | Command / Source | Corpus / Target |
-| --- | --- | --- |
+| Surface   | Command / Source                              | Corpus / Target      |
+| --------- | --------------------------------------------- | -------------------- |
 | validator | python .agent/scripts/validate_ddr_release.py | ddr/conformance/v7.0 |
-| migration | 6.3 | 7.0 |
+| migration | 6.3                                           | 7.0                  |
