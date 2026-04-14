@@ -2341,7 +2341,7 @@ are_scoring_profiles:
       - minimum_surfacing_threshold
       - override_policy
     profile_template:
-      profile_id: custom_v1
+      profile_id: custom_fixture_v1
       context_note: >
         Template shape for any custom ARE scoring profile. Implementations may
         change field values and add more input_signals or score_bands, but the

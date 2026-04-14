@@ -809,7 +809,7 @@ tier_definitions:
           concurrency ceilings.
         violation_consequence: "Architecture unable to satisfy operational demands."
         verification_mode: structural
-      - rule_id: GPCL-FCL-BR1
+      - rule_id: A-B-BR1
         statement: >
           For every quantitative performance target specified under GPCL-R6,
           there must exist a corresponding FCL node whose semantic contribution

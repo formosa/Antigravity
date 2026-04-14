@@ -8,7 +8,7 @@ reads: ddr/ddr_system_v7.0.yaml; ddr/ddr_node_schema_v7.0.yaml; ddr/conformance/
 writes: stdout only
 external_io: fs
 state_model: stateless
-failure_surface: missing release artifacts; malformed YAML; schema validation failures; corpus expectation mismatches
+failure_surface: missing release artifacts; malformed YAML; schema validation failures; ARE scoring-profile runtime validation failures; corpus expectation mismatches
 coupling: coupled to DDR v7.0 release paths and generator provenance contract
 determinism: input-dependent
 concurrency: process-local
@@ -106,6 +106,93 @@ def validate_yaml_instance(schema: dict[str, Any], instance: dict[str, Any], sou
         raise SystemExit(f"[ERROR] Schema validation failed for {source}: {exc.message}") from exc
 
 
+def validate_are_scoring_profiles(instance: dict[str, Any], source: Path) -> None:
+    """Validate runtime-only ARE scoring-profile invariants."""
+    profiles = instance.get("are_scoring_profiles")
+    if profiles is None:
+        return
+    if not isinstance(profiles, dict):
+        raise SystemExit(f"[ERROR] ARE scoring profiles must be a mapping in {source}.")
+
+    for profile_name, profile in profiles.items():
+        if not isinstance(profile, dict):
+            raise SystemExit(
+                f"[ERROR] ARE scoring-profile validation failed for {source}: "
+                f"profile {profile_name!r} must be a mapping."
+            )
+
+        profile_targets = [(profile_name, profile)]
+        if profile_name == "custom" and isinstance(profile.get("profile_template"), dict):
+            profile_targets = [("custom.profile_template", profile["profile_template"])]
+
+        for resolved_name, resolved_profile in profile_targets:
+            score_bands = resolved_profile.get("score_bands")
+            if score_bands is None:
+                continue
+            if not isinstance(score_bands, list):
+                raise SystemExit(
+                    f"[ERROR] ARE scoring-profile validation failed for {source}: "
+                    f"profile {resolved_name!r} score_bands must be a list."
+                )
+
+            previous_upper: float | None = None
+            previous_band_id: str | None = None
+
+            for index, band in enumerate(score_bands):
+                if not isinstance(band, dict):
+                    raise SystemExit(
+                        f"[ERROR] ARE scoring-profile validation failed for {source}: "
+                        f"profile {resolved_name!r} band at index {index} must be a mapping."
+                    )
+
+                band_id = str(band.get("band_id", f"<index-{index}>"))
+                raw_range = band.get("range")
+                if not isinstance(raw_range, list) or len(raw_range) != 2:
+                    raise SystemExit(
+                        f"[ERROR] ARE scoring-profile validation failed for {source}: "
+                        f"profile {resolved_name!r} band {band_id!r} must declare a two-value range."
+                    )
+
+                lower, upper = raw_range
+                if not isinstance(lower, (int, float)) or not isinstance(upper, (int, float)):
+                    raise SystemExit(
+                        f"[ERROR] ARE scoring-profile validation failed for {source}: "
+                        f"profile {resolved_name!r} band {band_id!r} range bounds must be numeric."
+                    )
+
+                lower_value = float(lower)
+                upper_value = float(upper)
+                if lower_value < 0.0 or lower_value > 1.0 or upper_value < 0.0 or upper_value > 1.0:
+                    raise SystemExit(
+                        f"[ERROR] ARE scoring-profile validation failed for {source}: "
+                        f"profile {resolved_name!r} band {band_id!r} range must stay within [0.0, 1.0], "
+                        f"got {raw_range!r}."
+                    )
+
+                if lower_value >= upper_value:
+                    raise SystemExit(
+                        f"[ERROR] ARE scoring-profile validation failed for {source}: "
+                        f"profile {resolved_name!r} band {band_id!r} must have a lower bound strictly below "
+                        f"its upper bound, got {raw_range!r}."
+                    )
+
+                if previous_upper is not None and lower_value < previous_upper:
+                    raise SystemExit(
+                        f"[ERROR] ARE scoring-profile validation failed for {source}: "
+                        f"profile {resolved_name!r} band {band_id!r} overlaps or is out of order relative to "
+                        f"previous band {previous_band_id!r}."
+                    )
+
+                previous_upper = upper_value
+                previous_band_id = band_id
+
+
+def validate_release_instance(schema: dict[str, Any], instance: dict[str, Any], source: Path) -> None:
+    """Validate a release instance using schema and runtime-only release rules."""
+    validate_yaml_instance(schema, instance, source)
+    validate_are_scoring_profiles(instance, source)
+
+
 def load_manifest(path: Path) -> dict[str, Any]:
     """Load the conformance manifest."""
     manifest = load_yaml_document(path)
@@ -127,18 +214,20 @@ def validate_corpus_case(
     instance = load_yaml_document(case_path)
 
     try:
-        jsonschema.validate(instance, schema)
-        if expected != "valid":
-            raise SystemExit(f"[ERROR] Invalid corpus case passed unexpectedly: {case_id}")
-    except jsonschema.ValidationError as exc:
+        validate_release_instance(schema, instance, case_path)
+    except SystemExit as exc:
         if expected != "invalid":
-            raise SystemExit(f"[ERROR] Valid corpus case failed: {case_id}: {exc.message}") from exc
+            raise SystemExit(f"[ERROR] Valid corpus case failed: {case_id}: {exc}") from exc
         expected_snippet = case.get("expected_error_contains")
-        if expected_snippet and expected_snippet not in exc.message:
+        if expected_snippet and expected_snippet not in str(exc):
             raise SystemExit(
                 "[ERROR] Invalid corpus case failed for an unexpected reason: "
-                f"{case_id}. Expected message containing {expected_snippet!r}, got {exc.message!r}."
+                f"{case_id}. Expected message containing {expected_snippet!r}, got {str(exc)!r}."
             ) from exc
+        return case_id, True
+
+    if expected != "valid":
+        raise SystemExit(f"[ERROR] Invalid corpus case passed unexpectedly: {case_id}")
     return case_id, True
 
 
@@ -170,7 +259,7 @@ def main(argv: list[str] | None = None) -> int:
     schema = load_yaml_document(args.schema)
     system = load_yaml_document(args.system)
 
-    validate_yaml_instance(schema, system, args.system)
+    validate_release_instance(schema, system, args.system)
     validate_markdown_provenance(
         path=args.canonical_doc,
         expected_role="canonical_human_readable",

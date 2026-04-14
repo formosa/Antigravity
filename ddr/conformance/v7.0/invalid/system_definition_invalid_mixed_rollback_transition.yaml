@@ -3183,6 +3183,7 @@ lifecycle:
       guards: [gc-008]
       notes: "All SUPERSEDE steps completed successfully. prior_status cleared."
     - from: SUPERSEDE_PENDING
+      to: SUPERSEDED
       to_node_field: prior_status
       operation: SUPERSEDE
       phase: rollback

@@ -2015,8 +2015,9 @@ extension_catalog:
           the scoring_profile declared in the ARE Extension contract. The declared profile
           must be a standard profile (standard_v1 or conservative_v1) or a custom profile
           with all required_fields declared per are_scoring_profiles.custom.required_fields.
-          Deterministic ARE conformance validation resolves the scoring_profile reference,
-          confirms score-band ordering and non-overlap, and enforces reproducible scoring:
+          The owned release validator `.agent/scripts/validate_ddr_release.py`
+          resolves the scoring_profile reference, confirms score-band ordering
+          and non-overlap, and enforces reproducible scoring:
           identical source evidence inputs must produce identical scores under the same
           profile (AX-3).
       - rule_id: ARE-R3
@@ -2034,7 +2035,9 @@ extension_catalog:
           Omission of scoring_profile fails the Extension contract. Custom profiles must
           declare all fields enumerated in are_scoring_profiles.custom.required_fields and
           conform to are_scoring_profiles.custom.profile_template or the Extension contract
-          fails EXT-R1 validation.
+          fails EXT-R1 validation. Cross-band ordering and non-overlap for custom
+          score_bands are enforced by the owned release validator
+          `.agent/scripts/validate_ddr_release.py`.
       - rule_id: ARE-R6
         statement: >
           The ARE Extension MUST implement a tri-state activation lifecycle:
@@ -2338,11 +2341,14 @@ are_scoring_profiles:
       - minimum_surfacing_threshold
       - override_policy
     profile_template:
+      profile_id: custom_v1
       context_note: >
         Template shape for any custom ARE scoring profile. Implementations may
         change field values and add more input_signals or score_bands, but the
-        object structure must remain schema-conformant and all bands must remain
-        ordered, non-overlapping, and bounded within [0.0, 1.0].
+        object structure must remain schema-conformant. The owned release
+        validator `.agent/scripts/validate_ddr_release.py` additionally
+        enforces score-band ordering, non-overlap, and per-band bounds within
+        [0.0, 1.0].
       input_signals:
         - signal_id: custom_signal
           description: "Documented evidence signal used during custom-profile score computation."
@@ -2367,8 +2373,9 @@ are_scoring_profiles:
     validation_note: >
       Custom profiles that omit any required_fields entry fail extension
       contract validation under EXT-R1. Deterministic ARE conformance
-      validation is additionally responsible for profile-reference resolution,
-      score-band ordering, and score-band non-overlap checks.
+      validation in `.agent/scripts/validate_ddr_release.py` is additionally
+      responsible for profile-reference resolution, score-band ordering,
+      score-band non-overlap checks, and score-band bound checks.
 
 # ── §11 COMPLIANCE CHECKLIST ─────────────────────────────────────────────────
 
@@ -2430,11 +2437,13 @@ compliance_checklist:
     - >
       ARE scoring_profile is declared in the E5 Extension contract and references a
       valid entry in are_scoring_profiles. Deterministic ARE conformance
-      validation resolves that reference before any candidate promotion or
-      review surface is considered valid.
+      validation in `.agent/scripts/validate_ddr_release.py` resolves that
+      reference before any candidate promotion or review surface is considered
+      valid.
     - >
       Custom ARE profiles satisfy all required_fields and conform to
-      are_scoring_profiles.custom.profile_template; all score_bands are
+      are_scoring_profiles.custom.profile_template; the owned release validator
+      `.agent/scripts/validate_ddr_release.py` confirms all score_bands remain
       ordered, non-overlapping, and bounded within [0.0, 1.0].
     - >
       Candidates promoted below minimum_surfacing_threshold carry
@@ -2941,6 +2950,12 @@ nodes:
       edge_type (ParentCitationEdgeTypeEnum),
       derivation_mode (DerivationModeEnum|None; applies only to derives;
       default semantic when absent).
+      FragmentDiagnostic: fragment_id (str), content_preview (str),
+      detected_annotation (str|None), confidence (Literal[high|ambiguous|none]),
+      ambiguity_reason (str|None).
+      UnbundleScanResult: scanned_group_id (str), clean (bool),
+      fragments (List[FragmentDiagnostic]), notes (List[str]).
+      UnbundleRejectionError: message (str), scan_result (UnbundleScanResult).
       Violation: rule_id (str), node_id (str), description (str), severity (str).
       VerifyResult: clean (bool), violations (List[Violation]), node_count (int),
       tier_counts (Dict), status_counts (Dict).
@@ -2949,8 +2964,9 @@ nodes:
       active_extensions (List), annotation_counts (Dict),
       extension_advisories (List).
       Dependencies: DdrNode → ParentCitation (composition); VerifyResult →
-      Violation (composition); ReconciliationManifest → pending_items (list of
-      {node_id, rule_id, suggested_op}).
+      Violation (composition); UnbundleScanResult → FragmentDiagnostic
+      (composition); ReconciliationManifest → pending_items (list of {node_id,
+      rule_id, suggested_op}).
 
   - id: ISL-8.1
     tier: ISL
@@ -2968,7 +2984,7 @@ nodes:
       from enum import Enum
       from datetime import datetime
       from dataclasses import dataclass, field
-      from typing import Any, Optional
+      from typing import Any, Literal, Optional
 
       class TierEnum(str, Enum):
           # [GPCL-2.1] 9 canonical tiers — AX-4 universality enforced
@@ -3008,9 +3024,35 @@ nodes:
       class ParentCitation:
           # [ICL-6.1] Typed parent reference — CIT-R1 through CIT-R4
           id: str          # immutable node ID — pattern TIER-N.M
-          validated_parent_version: Optional[str] = None
           edge_type: ParentCitationEdgeTypeEnum
+          validated_parent_version: Optional[str] = None
           derivation_mode: Optional[DerivationModeEnum] = None
+
+      @dataclass
+      class FragmentDiagnostic:
+          # [CDL-7.1] UNBUNDLE_SCAN fragment-level diagnostic surface
+          fragment_id: str
+          content_preview: str
+          detected_annotation: Optional[str]
+          confidence: Literal["high", "ambiguous", "none"]
+          ambiguity_reason: Optional[str] = None
+
+      @dataclass
+      class UnbundleScanResult:
+          # [CDL-7.1] Structured UNBUNDLE_SCAN result contract
+          scanned_group_id: str
+          clean: bool
+          fragments: list[FragmentDiagnostic] = field(default_factory=list)
+          notes: list[str] = field(default_factory=list)
+
+      @dataclass
+      class UnbundleRejectionError(Exception):
+          # [CDL-7.1] Structured UNBUNDLE_EXECUTE rejection payload
+          message: str
+          scan_result: UnbundleScanResult
+
+          def __post_init__(self) -> None:
+              super().__init__(self.message)
 
       @dataclass
       class DdrNode:

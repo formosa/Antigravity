@@ -1155,7 +1155,7 @@ $defs:
 
   BridgeRuleId:
     type: string
-    pattern: "^[A-Z]+-[A-Z]+-BR[0-9]+$"
+    pattern: "^(?:XPD|SIL|GPCL|FCL|CL|SAL|ICL|CDL|ISL)-(?:XPD|SIL|GPCL|FCL|CL|SAL|ICL|CDL|ISL)-BR[0-9]+$"
 
   AtomicRuleId:
     anyOf:
@@ -1230,6 +1230,7 @@ $defs:
             group_id:
               const: G2
         then:
+          $comment: "G2 remains structurally declared as [FCL, CL] even when CL is inactive; runtime inactive_tier_behavior governs fragment handling for the inactive CL tier."
           properties:
             tiers:
               const: [FCL, CL]
@@ -1609,6 +1610,8 @@ $defs:
     additionalProperties: false
     required: [input_signals, score_bands, minimum_surfacing_threshold, override_policy]
     properties:
+      profile_id:
+        type: string
       context_note:
         type: string
       input_signals:
@@ -1625,6 +1628,7 @@ $defs:
               type: string
               enum: [high, medium, low]
       score_bands:
+        $comment: "Schema validation enforces per-band shape and scalar bounds. The owned release validator additionally enforces cross-band ordering and non-overlap for any declared ARE scoring profile."
         type: array
         items:
           type: object
@@ -1824,12 +1828,12 @@ $defs:
               const: rollback
         then:
           required: [to_node_field]
-          not:
-            required: [to]
+          properties:
+            to: false
         else:
           required: [to]
-          not:
-            required: [to_node_field]
+          properties:
+            to_node_field: false
 
   GuardDefinition:
     type: object
@@ -2120,4 +2124,5 @@ $defs:
 
   GuardIdRef:
     type: string
+    $comment: "This enum is intentionally closed. Any new guard requires coordinated updates to both lifecycle.guard_definitions in ddr_system_v7.0.yaml and this schema enum."
     enum: [gc-001, gc-002, gc-003, gc-004, gc-005, gc-006, gc-007, gc-008, gc-009]

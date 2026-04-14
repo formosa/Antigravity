@@ -2359,7 +2359,7 @@ are_scoring_profiles:
           label: speculative
           promotion_guidance: "Document the low-confidence handling path before promotion review is permitted."
         - band_id: probable
-          range: [0.4, 0.7]
+          range: [0.3, 0.7]
           label: probable
           promotion_guidance: "Document the medium-confidence review requirements and evidence thresholds."
         - band_id: high_confidence

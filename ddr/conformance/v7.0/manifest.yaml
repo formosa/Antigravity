@@ -4,6 +4,10 @@ cases:
     path: valid/system_definition.yaml
     document_profile: system_definition
     expected: valid
+  - id: valid_system_definition_custom_profile
+    path: valid/system_definition_custom_profile.yaml
+    document_profile: system_definition
+    expected: valid
   - id: valid_project_instance
     path: valid/project_instance.yaml
     document_profile: project_instance
@@ -27,3 +31,18 @@ cases:
     document_profile: project_instance_express
     expected: invalid
     expected_error_contains: "'express' was expected"
+  - id: invalid_system_definition_bridge_rule_id
+    path: invalid/system_definition_invalid_bridge_rule.yaml
+    document_profile: system_definition
+    expected: invalid
+    expected_error_contains: "not valid under any of the given schemas"
+  - id: invalid_system_definition_mixed_rollback_transition
+    path: invalid/system_definition_invalid_mixed_rollback_transition.yaml
+    document_profile: system_definition
+    expected: invalid
+    expected_error_contains: "False schema does not allow"
+  - id: invalid_system_definition_overlapping_score_bands
+    path: invalid/system_definition_invalid_overlapping_score_bands.yaml
+    document_profile: system_definition
+    expected: invalid
+    expected_error_contains: "overlaps or is out of order"
