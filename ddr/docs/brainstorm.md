@@ -37,11 +37,11 @@
 | Property         | Value                                                                                                         |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
 | Document ID      | DDR-BRAIN-001                                                                                                 |
-| Base Version     | DDR System v6.3 (2026-03-28)                                                                                  |
+| Base Version     | DDR System v7.0 (2026-04-13)                                                                                  |
 | Status           | LIVING DOCUMENT - Append-Only Until Promoted                                                                  |
 | Owner            | DDR Architecture Board                                                                                        |
 | Created          | 2026-03-30                                                                                                    |
-| Last Revised     | 2026-04-04                                                                                                    |
+| Last Revised     | 2026-04-14                                                                                                    |
 | Schema           | BRAIN-ENTRY-1.1                                                                                               |
 | Reference Source | `C:/AI/10162025/maggie/Antigravity/.agent/schemas/brainstorm/DDR_AppFramework_Brainstorm.xhtml`               |
 
@@ -61,7 +61,7 @@ for promoting ideas to formal design status. Read Part I before contributing any
 
 This Brainstorming Compendium is the singular, structured repository for nascent ideas,
 architectural directions, library candidates, and design hypotheses related to the construction of
-a standalone application framework built on top of DDR System v6.3. It is intentionally broader
+a standalone application framework built on top of the DDR System v7.0 authority pair. It is intentionally broader
 and less constrained than a formal specification so promising paths can be retained before
 premature decisions eliminate them.
 
@@ -79,7 +79,7 @@ premature decisions eliminate them.
 - Finalized engineering decisions. These belong in ADRs or the formal DDR specification.
 - Implementation code. No production code is authored inside this document.
 - Bug reports or operational issue tracking. Use the DDR Issue Tracker for those.
-- Content duplicating the normative DDR System v6.3 specification. Reference it instead.
+- Content duplicating the normative DDR System v7.0 authority pair. Reference it instead.
 
 ### §2 Document Structure and Navigation
 
@@ -373,7 +373,8 @@ stateDiagram-v2
 Part II collects architectural ideas, design pattern hypotheses, and next-step candidates for the
 DDR Application Framework: the standalone application that will serve as the primary human
 interface for creating, managing, and validating software engineering projects structured with the
-DDR System.
+DDR System. The current structure increasingly converges on a three-plane application model: user
+interface, enforcement, and coordination, all grounded in the DDR System v7.0 authority pair.
 
 ### Part II — Section Index
 
@@ -390,6 +391,7 @@ DDR System.
 | `§II.9`  | Data, Search, and Observability        | `CAT-STORE` |
 | `§II.10` | Secure Agent Operations and Tutorials  | `CAT-AI`    |
 | `§II.11` | Collaboration and Delivery Workflows   | `CAT-UX`    |
+| `§II.12` | Deterministic Studio Control Plane     | `CAT-ARCH`  |
 
 ### §II.1 Application Architecture Overview
 
@@ -436,7 +438,7 @@ citation_ids:
 - C31
 - C36
 references:
-- "DDR System v6.3 \xA77"
+- ddr/ddr_system_v7.0.yaml
 - BRAIN-II-003
 - BRAIN-III-010
 - BRAIN-III-015
@@ -447,7 +449,7 @@ prior_art: >-
   Standard layered application architecture and command/query mediation patterns. [C31][C36]
 ddr_constraints: >-
   Must preserve AX-3 determinism, AX-6 declarative integrity, and the canonical operation vocabulary
-  from DDR System v6.3. [C31][C36]
+  from the DDR System v7.0 authority pair. [C31][C36]
 risks: >-
   Adds interface-design overhead and can become over-abstracted if the service boundary is too
   heavy for a single-user tool. [C31][C36]
@@ -466,7 +468,7 @@ priority: HIGH
 status: EXPLORING
 authored_by: DDR-AB
 authored_date: 2026-03-30
-revised_date: 2026-03-30
+revised_date: 2026-04-14
 description: >-
   Treat a DDR project as a structured directory tree where each node is a YAML file, making the
   project VCS-friendly without requiring a database. [C30]
@@ -491,7 +493,7 @@ ddr_relevance:
 citation_ids:
 - C30
 references:
-- ddr_node_schema_v6.3.yaml
+- ddr/ddr_node_schema_v7.0.yaml
 - BRAIN-III-009
 motivation: >-
   Maximize auditability and version-control friendliness while keeping the default deployment
@@ -521,7 +523,7 @@ priority: HIGH
 status: EXPLORING
 authored_by: DDR-AB
 authored_date: 2026-03-30
-revised_date: 2026-03-30
+revised_date: 2026-04-14
 description: >-
   Expose all DDR mutation operations through a single strongly typed API surface mirroring the
   Operations Protocol. [C4][C6][C19]
@@ -548,7 +550,7 @@ citation_ids:
 - C6
 - C19
 references:
-- "DDR System v6.3 \xA77"
+- ddr/ddr_system_v7.0.yaml
 - BRAIN-II-001
 motivation: >-
   Keep every state change aligned with the authoritative DDR vocabulary and preserve auditability
@@ -579,7 +581,7 @@ priority: MED
 status: EXPLORING
 authored_by: DDR-AB
 authored_date: 2026-03-30
-revised_date: 2026-03-30
+revised_date: 2026-04-14
 description: >-
   Implement the DDR Extension System as a first-class plugin architecture with discrete loadable
   plugins and explicit contracts. [C4][C19][C20]
@@ -605,7 +607,7 @@ citation_ids:
 - C19
 - C20
 references:
-- "DDR System v6.3 \xA78"
+- ddr/ddr_system_v7.0.yaml
 - BRAIN-II-010
 motivation: >-
   Keep extension behavior modular and contract-driven without allowing plugins to erode core DAG
@@ -689,7 +691,7 @@ priority: MED
 status: EXPLORING
 authored_by: DDR-AB
 authored_date: 2026-03-30
-revised_date: 2026-03-30
+revised_date: 2026-04-14
 description: >-
   Implement DIRTY propagation as an explicit graph traversal pass triggered by MODIFY, SUPERSEDE,
   and DEPRECATE operations. [C22][C23][C24]
@@ -721,7 +723,7 @@ citation_ids:
 - C23
 - C24
 references:
-- DDR System v6.3 CIT-R7
+- ddr/ddr_system_v7.0.yaml
 - BRAIN-II-005
 - BRAIN-III-001
 - BRAIN-III-002
@@ -757,7 +759,7 @@ priority: HIGH
 status: EXPLORING
 authored_by: DDR-AB
 authored_date: 2026-03-30
-revised_date: 2026-03-30
+revised_date: 2026-04-14
 description: >-
   Provide a structured node editor that understands tier context and surfaces the relevant atomic
   ruleset during authoring. [C2][C21]
@@ -785,7 +787,7 @@ citation_ids:
 - C2
 - C21
 references:
-- "DDR System v6.3 \xA75"
+- ddr/ddr_system_v7.0.yaml
 - BRAIN-II-009
 motivation: >-
   Help authors stay inside tier boundaries and lifecycle rules while editing so validation failures
@@ -811,7 +813,7 @@ priority: MED
 status: EXPLORING
 authored_by: DDR-AB
 authored_date: 2026-03-30
-revised_date: 2026-03-30
+revised_date: 2026-04-14
 description: >-
   Provide a scaffolding wizard for Express Mode that generates canonical group compositions and
   the full express authority block. [C36][C37]
@@ -819,7 +821,7 @@ detail: >-
   The wizard would collect project name, active tiers, and group assignments, then produce a conforming
   project structure and starter manifest for `project_instance_express`. By validating group compositions
   before writing output, the tool would prevent users from silently redefining Express Mode in
-  ways DDR v6.3 explicitly forbids. [C36][C37]
+  ways the DDR System v7.0 authority pair explicitly forbids. [C36][C37]
 open_questions:
 - Should representative starter nodes be scaffolded automatically?
 - Is the wizard exposed via CLI, GUI, or both?
@@ -839,7 +841,7 @@ citation_ids:
 - C36
 - C37
 references:
-- "DDR System v6.3 \xA74"
+- ddr/ddr_system_v7.0.yaml
 - BRAIN-III-015
 - BRAIN-III-016
 motivation: >-
@@ -872,7 +874,7 @@ priority: HIGH
 status: EXPLORING
 authored_by: DDR-AB
 authored_date: 2026-03-30
-revised_date: 2026-03-30
+revised_date: 2026-04-14
 description: >-
   Run VALIDATE continuously in the background after file-system changes and surface findings by
   severity in a persistent panel. [C28][C33]
@@ -902,7 +904,7 @@ citation_ids:
 - C28
 - C33
 references:
-- "DDR System v6.3 \xA711"
+- ddr/ddr_system_v7.0.yaml
 - BRAIN-III-007
 - BRAIN-III-012
 motivation: >-
@@ -938,7 +940,7 @@ priority: MED
 status: EXPLORING
 authored_by: DDR-AB
 authored_date: 2026-03-30
-revised_date: 2026-03-30
+revised_date: 2026-04-14
 description: >-
   Build a dedicated UI panel for the E5 ARE Candidate Pool with scoring visualization and one-click
   promotion via INSERT. [C4][C7][C8]
@@ -966,7 +968,7 @@ citation_ids:
 - C7
 - C8
 references:
-- DDR System v6.3 E5
+- ddr/ddr_system_v7.0.yaml
 - BRAIN-II-004
 motivation: >-
   Turn the ARE extension into a visible, reviewable workflow rather than an opaque background
@@ -1787,6 +1789,214 @@ risks: >-
 dependencies:
 - BRAIN-II-019
 - BRAIN-II-020
+```
+
+### §II.12 Deterministic Studio Control Plane
+
+This section consolidates the earlier workbench, validation, observability, and agent-operation
+ideas into one product shape for DDR System v7.0: a local-first application whose authority flows
+from the v7.0 YAML pair, whose enforcement is manifest-visible, and whose AI features remain
+advisory rather than authoritative.
+
+#### [BRAIN-II-023] Command-Center Workbench for DDR 7.0 Design Sessions
+
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-023
+title: Command-Center Workbench for DDR 7.0 Design Sessions
+category: CAT-UX
+priority: HIGH
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-04-14
+revised_date: 2026-04-14
+description: >-
+  Shape the primary desktop UI as a command-center workbench with persistent editor, topology,
+  findings, and operation panes so authors can see authored text, graph consequences, and gate
+  status in one place. [C2][C21]
+detail: |-
+  The core screen should be arranged around four always-available surfaces: (1) an authoritative text/editor pane for node and project artifacts, (2) a graph or topology pane that visualizes parent-child and tier relationships, (3) an enforcement pane that shows validation findings, review_required items, and pending manifest work, and (4) a coordination pane that shows queued operations, agent proposals, and background jobs. IDE-grade workbenches and Monaco's release line support a pane-rich authoring model better than a sequence of modal dialogs because DDR authors need to compare text, structure, and gate status continuously while designing systems. [C2][C21]
+
+  Final Endorsement: endorse a command-center workbench in which the editor remains authoritative, the graph is explanatory, and every action preview clearly identifies whether it is a draft edit, a proposed operation, or a committed state change. [C2][C21]
+open_questions:
+- Which pane should own operation preview and confirmation: the inspector, a bottom console, or a dedicated right rail?
+- How should the graph pane degrade on smaller displays without hiding enforcement state?
+- Should agent proposals appear inline in the editor, in a separate review queue, or both?
+tags:
+- '#workbench'
+- '#ui'
+- '#graph'
+- '#operations'
+ddr_relevance:
+- SAL
+- ICL
+- CDL
+- ISL
+citation_ids:
+- C2
+- C21
+references:
+- ddr/DDR System(v7.0).md
+- BRAIN-II-009
+- BRAIN-II-015
+- BRAIN-II-018
+motivation: >-
+  Designing applications with DDR 7.0 is easier when the user can inspect authored artifacts,
+  structural topology, and enforcement consequences without switching mental models or losing the
+  current operation context. [C2][C21]
+prior_art: >-
+  IDE workbenches that combine authoritative text editing, structured diagnostics, and adjacent
+  inspection surfaces. [C2][C21]
+ddr_constraints: >-
+  The UI may stage edits and preview operations, but only the typed operation surface may commit
+  graph changes, and the workbench must keep authoritative text distinct from derived visualizations.
+  [C2][C21]
+risks: >-
+  A pane-dense workbench can overwhelm first-time users or make laptop layouts cramped if the
+  information hierarchy is not tuned carefully. [C2][C21]
+dependencies:
+- BRAIN-II-003
+- BRAIN-II-009
+- BRAIN-II-015
+- BRAIN-II-018
+```
+
+#### [BRAIN-II-024] Manifest-First Enforcement Spine
+
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-024
+title: Manifest-First Enforcement Spine
+category: CAT-VALID
+priority: HIGH
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-04-14
+revised_date: 2026-04-14
+description: >-
+  Treat the reconciliation manifest, validation ledger, and operation journal as a single enforcement
+  spine that computes every blocker, review gate, and readiness signal exposed by the application.
+  [C13][C16][C28][C33]
+detail: |-
+  The enforcement plane should run as a deterministic pipeline with three phases: preflight evaluation, atomic commit or rollback, and durable evidence capture. File-system events trigger incremental validation; structural and schema findings are normalized into the same manifest-visible taxonomy; and operational evidence is linked to local traces so users can see why a gate exists, what changed, and what remains unresolved. SQLite is a strong fit for the hot-path derivative store, while OpenTelemetry-style traces provide a portable envelope for operation and validation causality. [C13][C16][C28][C33]
+
+  Final Endorsement: endorse a manifest-first enforcement spine in which no UI badge, blocker, approval gate, or readiness claim is computed ad hoc in the presentation layer. Every visible state gate should derive from persisted enforcement outputs that can be replayed and audited locally. [C13][C16][C28][C33]
+open_questions:
+- Which enforcement artifacts belong inside the project tree versus a local derivative sidecar?
+- How should stale or orphaned manifest items be garbage-collected after manual file edits?
+- Should extension advisories share the same pane as core blocker findings or remain visibly separated?
+tags:
+- '#enforcement'
+- '#manifest'
+- '#validation'
+- '#ledger'
+ddr_relevance:
+- GPCL
+- SAL
+- ICL
+- ISL
+- E1
+- E9
+citation_ids:
+- C13
+- C16
+- C28
+- C33
+references:
+- ddr/ddr_system_v7.0.yaml
+- BRAIN-II-003
+- BRAIN-II-009
+- BRAIN-II-017
+- BRAIN-II-018
+motivation: >-
+  A deterministic local application is only as trustworthy as its enforcement story; users need
+  every gate and disposition to come from the same durable control plane rather than scattered
+  UI heuristics. [C13][C16][C28][C33]
+prior_art: >-
+  Embedded operational stores, watcher-driven validation pipelines, schema validators, and
+  trace-backed audit systems in local developer tooling. [C13][C16][C28][C33]
+ddr_constraints: >-
+  The enforcement plane must preserve AX-3 determinism, AX-6 declarative integrity, AX-7 acyclicity
+  enforcement, and the v7.0 requirement that failed operations roll back without partial structural
+  mutation. [C13][C16][C28][C33]
+risks: >-
+  If sidecar state or traces drift from the file-system authority, the product could show misleading
+  gate status unless rebuild and reconciliation rules are explicit. [C13][C16][C28][C33]
+dependencies:
+- BRAIN-II-003
+- BRAIN-II-009
+- BRAIN-II-017
+- BRAIN-II-018
+```
+
+#### [BRAIN-II-025] Local Coordination Kernel for AI-Assisted DDR Design
+
+```yaml
+entry_type: IDEA
+entry_id: BRAIN-II-025
+title: Local Coordination Kernel for AI-Assisted DDR Design
+category: CAT-AI
+priority: HIGH
+status: EXPLORING
+authored_by: CODX
+authored_date: 2026-04-14
+revised_date: 2026-04-14
+description: >-
+  Introduce a local coordination kernel that schedules AI inference, indexing, validation, and
+  export work as scoped jobs, while keeping all Core mutations behind explicit DDR operations and
+  human review. [C4][C5][C38][C39][C47][C49][C50]
+detail: |-
+  The coordination plane should own job queues, capability scopes, model residency, cancellation, retries, and provenance capture for AI-assisted tasks. Jobs such as candidate inference, prompt compilation, transcript generation, voice interaction, semantic retrieval refresh, and bundle preparation would run as declared units with explicit inputs, outputs, and sink permissions. On the target workstation, the coordinator should also manage model lifecycle so wake-word, speech, and local language-model tasks do not become always-on competitors for the same limited GPU envelope. [C4][C5][C38][C39][C47][C49][C50]
+
+  Final Endorsement: endorse a local coordination kernel that treats AI as an advisory subsystem, not an authority surface. AI jobs may propose text, candidates, manifests, or plans, but they may only enter the Core through the same INSERT, MODIFY, SUPERSEDE, VALIDATE, and review pathways used by human-authored changes. [C4][C5][C38][C39][C47][C49][C50]
+open_questions:
+- Which job classes can run concurrently without degrading editor responsiveness on the target workstation?
+- When should the coordinator checkpoint or evict local models to free resources for graph-heavy operations?
+- How should cloud delegation, if enabled later, prove equivalence to locally replayed review and validation steps?
+tags:
+- '#coordinator'
+- '#ai'
+- '#jobs'
+- '#local-first'
+ddr_relevance:
+- SAL
+- ICL
+- CDL
+- ISL
+- E5
+- E9
+citation_ids:
+- C4
+- C5
+- C38
+- C39
+- C47
+- C49
+- C50
+references:
+- ddr/docs/target-system.txt
+- BRAIN-II-013
+- BRAIN-II-019
+- BRAIN-II-020
+- BRAIN-II-022
+motivation: >-
+  AI assistance is useful only if it helps the operator move faster without blurring where authority,
+  responsibility, and deterministic enforcement actually live. [C4][C5][C38][C39][C47][C49][C50]
+prior_art: >-
+  Agent runtimes with scoped tools, local inference stacks, and safety-gated automation pipelines.
+  [C4][C5][C38][C39][C47][C49][C50]
+ddr_constraints: >-
+  The coordinator must never let extensions, prompts, or model outputs mutate Core state directly;
+  all proposed changes must remain subordinate to the v7.0 operation vocabulary, validation ledger,
+  and review gates. [C4][C5][C38][C39][C47][C49][C50]
+risks: >-
+  A poorly designed coordinator can hide latency, consume VRAM opportunistically, or make stochastic
+  AI output feel more authoritative than it actually is. [C4][C5][C38][C39][C47][C49][C50]
+dependencies:
+- BRAIN-II-013
+- BRAIN-II-019
+- BRAIN-II-020
+- BRAIN-II-022
 ```
 
 ## PART III — Open-Source Library Candidates
@@ -4220,6 +4430,7 @@ related_entries:
 - BRAIN-II-016
 - BRAIN-II-019
 - BRAIN-II-021
+- BRAIN-II-023
 - BRAIN-III-048
 - BRAIN-III-053
 ```
@@ -4267,6 +4478,7 @@ related_entries:
 - BRAIN-II-019
 - BRAIN-II-020
 - BRAIN-II-021
+- BRAIN-II-025
 ```
 
 #### [C5] Designing AI agents to resist prompt injection
@@ -4282,6 +4494,7 @@ recency_class: CURRENT
 support_note: OpenAI, "Designing AI agents to resist prompt injection." March 11, 2026.
 related_entries:
 - BRAIN-II-020
+- BRAIN-II-025
 ```
 
 #### [C6] GitHub Copilot CLI is now generally available
@@ -4424,6 +4637,7 @@ recency_class: CURRENT
 support_note: SQLite, "SQLite Release 3.51.3 On 2026-03-13." March 13, 2026.
 related_entries:
 - BRAIN-II-017
+- BRAIN-II-024
 - BRAIN-III-050
 ```
 
@@ -4473,6 +4687,7 @@ recency_class: CURRENT
 support_note: OpenTelemetry Blog, "Declarative configuration is now stable." March 5, 2026.
 related_entries:
 - BRAIN-II-018
+- BRAIN-II-024
 - BRAIN-III-054
 ```
 
@@ -4569,6 +4784,7 @@ related_entries:
 - BRAIN-II-007
 - BRAIN-II-007
 - BRAIN-II-015
+- BRAIN-II-023
 - BRAIN-III-048
 ```
 
@@ -4701,6 +4917,7 @@ support_note: >-
 related_entries:
 - BRAIN-II-009
 - BRAIN-II-009
+- BRAIN-II-024
 - BRAIN-III-007
 - BRAIN-III-007
 ```
@@ -4793,6 +5010,7 @@ support_note: >-
 related_entries:
 - BRAIN-II-009
 - BRAIN-II-009
+- BRAIN-II-024
 - BRAIN-III-012
 - BRAIN-III-012
 ```
@@ -4886,6 +5104,7 @@ support_note: >-
   snapshot.
 related_entries:
 - BRAIN-II-013
+- BRAIN-II-025
 - BRAIN-III-017
 ```
 
@@ -4904,6 +5123,7 @@ support_note: >-
   snapshot.
 related_entries:
 - BRAIN-II-013
+- BRAIN-II-025
 - BRAIN-III-018
 ```
 
@@ -5041,6 +5261,7 @@ support_note: >-
   snapshot.
 related_entries:
 - BRAIN-II-013
+- BRAIN-II-025
 - BRAIN-III-026
 ```
 
@@ -5076,6 +5297,7 @@ support_note: >-
   snapshot.
 related_entries:
 - BRAIN-II-013
+- BRAIN-II-025
 - BRAIN-III-028
 ```
 
@@ -5094,6 +5316,7 @@ support_note: >-
   snapshot.
 related_entries:
 - BRAIN-II-013
+- BRAIN-II-025
 - BRAIN-III-029
 ```
 
